@@ -4,541 +4,995 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#030507">
   <title>AIOS Forex - 30 Trade Paper Campaign</title>
   <style>
     :root {
       color-scheme: dark;
-      --bg: #070912;
-      --surface: rgba(17, 21, 35, 0.92);
-      --surface-2: rgba(24, 29, 47, 0.92);
-      --line: rgba(118, 136, 185, 0.22);
-      --text: #edf3ff;
-      --muted: #9aa9c5;
-      --cyan: #42d8ff;
-      --violet: #a78bfa;
-      --pink: #f472b6;
-      --gold: #fbbf24;
-      --good: #38d9a9;
-      --danger: #ff7a90;
+      --void: #030507;
+      --shell: #070a0f;
+      --surface: rgba(10, 14, 21, 0.78);
+      --surface-raised: rgba(17, 23, 34, 0.76);
+      --surface-hover: rgba(29, 38, 55, 0.78);
+      --border: rgba(148, 163, 184, 0.14);
+      --border-strong: rgba(148, 163, 184, 0.24);
+      --border-violet: rgba(155, 123, 255, 0.45);
+      --text-primary: #f5f7fa;
+      --text-secondary: #b3becc;
+      --text-muted: #758197;
+      --violet: #9b7bff;
+      --violet-dim: rgba(155, 123, 255, 0.14);
+      --cyan: #72d7ff;
+      --healthy: #49d789;
+      --wait: #f2b84b;
+      --blocked: #ff6374;
+      --panel-fallback: #0b1018;
+      --radius-large: 16px;
+      --radius-compact: 9px;
     }
+
     * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 10% 0%, rgba(66, 216, 255, 0.14), transparent 28%),
-        radial-gradient(circle at 86% 12%, rgba(167, 139, 250, 0.16), transparent 24%),
-        linear-gradient(180deg, #05070d 0%, #070912 100%);
       min-width: 320px;
+      min-height: 100vh;
+      color: var(--text-primary);
+      background:
+        radial-gradient(circle at 58% 24%, rgba(155, 123, 255, 0.11), transparent 32rem),
+        var(--void);
+      font: 14px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
-    .shell {
-      width: min(1600px, calc(100% - 28px));
-      margin: 0 auto;
-      padding: 22px 0 40px;
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      pointer-events: none;
+      opacity: 0.04;
+      background-image:
+        linear-gradient(var(--text-muted) 1px, transparent 1px),
+        linear-gradient(90deg, var(--text-muted) 1px, transparent 1px);
+      background-size: 42px 42px;
+    }
+
+    a { color: inherit; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .app-shell {
       display: grid;
-      gap: 14px;
+      grid-template-columns: 224px minmax(0, 1fr);
+      min-height: 100vh;
+      background: rgba(3, 5, 7, 0.34);
     }
-    .topHeader, .panel, .metricCard {
-      background: linear-gradient(135deg, rgba(28, 34, 53, 0.92), rgba(14, 18, 30, 0.92));
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.26);
+
+    .workspace {
+      min-width: 0;
+      padding: 18px 20px 34px;
     }
-    .topHeader {
-      padding: 18px;
+
+    .glass-panel,
+    .topbar,
+    .evidence-zone,
+    .boundary-note,
+    .command-rail {
+      background: var(--panel-fallback);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-large);
+      box-shadow:
+        0 20px 55px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+    }
+
+    @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+      .glass-panel,
+      .topbar,
+      .evidence-zone,
+      .boundary-note,
+      .command-rail {
+        background: linear-gradient(
+          145deg,
+          rgba(22, 29, 42, 0.72),
+          rgba(8, 12, 18, 0.78)
+        );
+        -webkit-backdrop-filter: blur(18px) saturate(125%);
+        backdrop-filter: blur(18px) saturate(125%);
+      }
+    }
+
+    .topbar {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      align-items: end;
+      gap: 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      position: sticky;
+      top: 10px;
+      z-index: 10;
     }
-    .eyebrow {
-      margin: 0 0 8px;
+
+    .eyebrow,
+    .metric-label,
+    .zone-kicker {
+      margin: 0;
       color: var(--cyan);
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      font-size: 0.73rem;
+      font-size: 0.72rem;
       font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
-    h1, h2, p { margin: 0; }
+
+    h1, h2, p { margin-top: 0; }
+
     h1 {
-      font-size: clamp(2.5rem, 5vw, 5rem);
-      line-height: 0.93;
-      letter-spacing: -0.06em;
+      margin-bottom: 7px;
+      font-size: clamp(1.55rem, 4vw, 2.45rem);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
     }
-    .subtitle, .muted {
-      color: var(--muted);
+
+    h2 {
+      margin-bottom: 6px;
+      font-size: 1.15rem;
     }
-    .headerStatus {
-      display: grid;
-      gap: 10px;
-      justify-items: end;
-      text-align: right;
+
+    .subtitle,
+    .zone-copy,
+    .metric-note,
+    .boundary-note p { color: var(--text-secondary); }
+
+    .subtitle,
+    .zone-copy,
+    .boundary-note p { margin-bottom: 0; }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
     }
+
     .pill {
       display: inline-flex;
       align-items: center;
+      min-height: 30px;
+      padding: 6px 10px;
+      border: 1px solid var(--border);
       border-radius: 999px;
-      border: 1px solid var(--line);
-      padding: 8px 12px;
-      font-size: 0.72rem;
+      color: var(--text-secondary);
+      background: rgba(3, 5, 7, 0.72);
+      font-size: 0.7rem;
+      font-weight: 800;
       letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .pill.safe { color: var(--healthy); border-color: rgba(73, 215, 137, 0.36); }
+    .pill.pending { color: var(--wait); border-color: rgba(242, 184, 75, 0.38); }
+    .pill.paper {
+      color: #fff;
+      border-color: var(--border-violet);
+      background: var(--violet-dim);
+      box-shadow: inset 3px 0 0 var(--violet);
+    }
+
+    .boundary-note {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 14px;
+      padding: 13px 16px;
+      box-shadow: none;
+    }
+
+    .boundary-note strong { color: var(--wait); }
+
+    .workspace-main {
+      display: grid;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .evidence-zone { padding: 19px; }
+
+    .zone-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+
+    .zone-heading { max-width: 760px; }
+    .zone-kicker { margin-bottom: 5px; }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric-card {
+      min-height: 112px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: rgba(3, 5, 7, 0.58);
+      transition: border-color 180ms ease-out, background-color 180ms ease-out, transform 180ms ease-out;
+    }
+
+    .metric-card:hover {
+      border-color: var(--border-violet);
+      background: var(--surface-hover);
+      transform: translateY(-1px);
+    }
+
+    .metric-card strong {
+      display: block;
+      margin: 11px 0 5px;
+      color: var(--wait);
+      font-size: clamp(1rem, 2.4vw, 1.35rem);
+      line-height: 1.12;
+      overflow-wrap: anywhere;
+    }
+
+    .metric-card strong.safe { color: var(--healthy); }
+
+    .metric-note {
+      display: block;
+      font-size: 0.78rem;
+    }
+
+    .forward { border-top-color: var(--cyan); }
+    .historical { border-top-color: var(--violet); }
+    .readiness { border-top-color: var(--healthy); }
+    .historical .zone-kicker { color: var(--violet); }
+    .readiness .zone-kicker { color: var(--green); }
+
+    footer {
+      padding: 18px 4px 0;
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      text-align: center;
+    }
+
+    .command-rail {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      padding: 22px 14px 16px;
+      border-width: 0 1px 0 0;
+      border-radius: 0;
+      background: rgba(7, 10, 15, 0.96);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 3px 8px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-mark {
+      display: grid;
+      flex: 0 0 36px;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border: 1px solid var(--border-violet);
+      border-radius: 10px;
+      background: var(--violet-dim);
+      font-size: 1.1rem;
+    }
+
+    .brand strong {
+      display: block;
+      color: var(--violet);
+      font-size: 1rem;
+      letter-spacing: 0.14em;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 2px;
+      color: var(--text-muted);
+      font-size: 0.67rem;
+    }
+
+    .command-nav {
+      display: grid;
+      gap: 5px;
+      margin-top: 20px;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 0 11px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-compact);
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: background-color 180ms ease-out, border-color 180ms ease-out, color 180ms ease-out;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible {
+      color: var(--text-primary);
+      border-color: var(--border-strong);
+      background: var(--surface-hover);
+    }
+
+    .nav-link[aria-current="page"] {
+      color: #fff;
+      border-color: var(--border-violet);
+      background: var(--violet-dim);
+      box-shadow: inset 3px 0 0 var(--violet);
+    }
+
+    .health-card {
+      margin-top: auto;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(3, 5, 7, 0.72);
+    }
+
+    .health-card strong,
+    .health-card span { display: block; }
+
+    .health-card span {
+      margin-top: 7px;
+      color: var(--wait);
+      font-size: 0.78rem;
+    }
+
+    .status-cluster {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-item {
+      display: grid;
+      gap: 1px;
+      min-width: 108px;
+      padding: 6px 9px;
+      border-left: 1px solid var(--border);
+    }
+
+    .status-item span {
+      color: var(--text-muted);
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
       text-transform: uppercase;
+    }
+
+    .status-item strong {
+      color: var(--text-secondary);
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .command-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.72fr);
+      gap: 16px;
+    }
+
+    .market-panel {
+      position: relative;
+      min-height: 560px;
+      padding: 18px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .market-panel::before {
+      position: absolute;
+      inset: 12% 8% 16%;
+      z-index: -1;
+      content: "";
+      background: radial-gradient(circle, rgba(155, 123, 255, 0.13), transparent 66%);
+      pointer-events: none;
+    }
+
+    .market-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .pair-identity {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .flag-pair {
+      display: inline-flex;
+      align-items: center;
+      padding-left: 7px;
+    }
+
+    .flag-badge {
+      display: grid;
+      width: 30px;
+      height: 30px;
+      place-items: center;
+      margin-left: -7px;
+      border: 1px solid var(--border-strong);
+      border-radius: 50%;
+      background: #080c12;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+      font-size: 0.92rem;
+    }
+
+    .pair-name strong {
+      display: block;
+      font-size: 1.25rem;
+      letter-spacing: 0.02em;
+    }
+
+    .pair-name small { color: var(--text-muted); }
+
+    .timeframe-group {
+      display: flex;
+      gap: 5px;
+      padding: 4px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(3, 5, 7, 0.6);
+    }
+
+    .timeframe {
+      padding: 5px 8px;
+      border-radius: 7px;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+
+    .timeframe.active {
+      color: #fff;
+      background: var(--violet-dim);
+      box-shadow: inset 0 0 0 1px var(--border-violet);
+    }
+
+    .chart-surface {
+      position: relative;
+      display: grid;
+      min-height: 400px;
+      margin-top: 18px;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background-color: rgba(3, 5, 7, 0.86);
+      background-image:
+        linear-gradient(rgba(113, 139, 170, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(113, 139, 170, 0.08) 1px, transparent 1px);
+      background-size: 52px 42px;
+    }
+
+    .chart-empty {
+      max-width: 360px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .chart-empty strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--wait);
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+    }
+
+    .chart-empty span { color: var(--text-muted); }
+
+    .chart-legend {
+      position: absolute;
+      right: 12px;
+      bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      color: var(--text-muted);
+      font-size: 0.65rem;
+    }
+
+    .legend-key::before {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      margin-right: 5px;
+      border-radius: 2px;
+      content: "";
+      background: var(--legend-color);
+    }
+
+    .system-stack {
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .system-card { padding: 15px; }
+
+    .system-card h2 {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .field-list { display: grid; gap: 8px; }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 7px 9px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-compact);
+      background: rgba(3, 5, 7, 0.48);
+    }
+
+    .field-row span { color: var(--text-muted); }
+    .field-row strong { color: var(--text-secondary); font-size: 0.78rem; text-align: right; }
+    .field-row strong.wait { color: var(--wait); }
+
+    .progress-track {
+      height: 7px;
+      margin: 11px 0 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(3, 5, 7, 0.75);
+    }
+
+    .progress-track span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: var(--violet);
+    }
+
+    .monitored-panel { padding: 17px; }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .section-head p { margin-bottom: 0; color: var(--text-muted); font-size: 0.75rem; }
+
+    .pairs-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 5px;
+    }
+
+    .pairs-table th {
+      padding: 6px 9px;
+      color: var(--text-muted);
+      font-size: 0.63rem;
+      letter-spacing: 0.07em;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    .pairs-table td {
+      padding: 8px 9px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      background: rgba(3, 5, 7, 0.54);
+      font-size: 0.75rem;
+      transition: border-color 180ms ease-out, background-color 180ms ease-out;
+    }
+
+    .pairs-table td:first-child {
+      border-left: 1px solid var(--border);
+      border-radius: 9px 0 0 9px;
+    }
+
+    .pairs-table td:last-child {
+      border-right: 1px solid var(--border);
+      border-radius: 0 9px 9px 0;
+    }
+
+    .pairs-table tr:hover td {
+      border-color: var(--border-violet);
+      background: var(--surface-hover);
+    }
+
+    .pair-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-primary);
       font-weight: 800;
       white-space: nowrap;
     }
-    .pill.good { color: var(--good); border-color: rgba(56, 217, 169, 0.38); }
-    .pill.danger { color: var(--danger); border-color: rgba(255, 122, 144, 0.38); }
-    .progressCopy {
-      display: grid;
-      gap: 2px;
+
+    .pair-cell .flag-badge {
+      width: 25px;
+      height: 25px;
+      font-size: 0.76rem;
     }
-    .progressCopy strong { font-size: 2rem; line-height: 1; }
-    .progressBar {
-      height: 14px;
-      border-radius: 999px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.07);
+
+    .status-wait { color: var(--wait); font-weight: 800; }
+
+    :focus-visible {
+      outline: 2px solid var(--violet);
+      outline-offset: 3px;
     }
-    .progressBar span {
-      display: block;
-      height: 100%;
-      background: linear-gradient(90deg, var(--cyan), var(--violet));
+
+    @media (max-width: 1120px) {
+      .app-shell { grid-template-columns: 184px minmax(0, 1fr); }
+      .command-grid { grid-template-columns: 1fr; }
+      .system-stack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .market-panel { min-height: 500px; }
     }
-    .grid8, .grid6, .grid3 {
-      display: grid;
-      gap: 12px;
+
+    @media (max-width: 920px) {
+      .app-shell { display: block; }
+      .command-rail {
+        position: static;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        height: auto;
+        gap: 12px;
+        padding: 12px;
+        border-width: 0 0 1px;
+      }
+      .brand { padding: 0 12px 0 0; border: 0; }
+      .brand small { display: none; }
+      .command-nav {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin: 0;
+        overflow-x: auto;
+      }
+      .nav-link { min-height: 34px; padding: 0 9px; white-space: nowrap; }
+      .health-card { grid-column: 1 / -1; margin: 0; padding: 9px 11px; }
+      .health-card strong, .health-card span { display: inline; }
+      .health-card span { margin-left: 8px; }
+      .workspace { padding: 12px; }
+      .topbar { position: static; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-    .grid8 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-    .grid6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .metricCard {
-      padding: 16px;
-      min-height: 128px;
+
+    @media (max-width: 640px) {
+      .command-rail { grid-template-columns: 1fr; }
+      .command-nav { padding-bottom: 3px; }
+      .topbar, .zone-head, .boundary-note, .market-head, .section-head { flex-direction: column; align-items: stretch; }
+      .status-row { justify-content: flex-start; }
+      .status-cluster { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .status-item { min-width: 0; border-left: 0; border-top: 1px solid var(--border); }
+      .command-grid { display: flex; flex-direction: column; }
+      .system-stack { order: -1; grid-template-columns: 1fr; }
+      .market-panel { min-height: 440px; }
+      .chart-surface { min-height: 300px; }
+      .pairs-table, .pairs-table tbody, .pairs-table tr, .pairs-table td { display: block; width: 100%; }
+      .pairs-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+      .pairs-table tr { margin-bottom: 9px; }
+      .pairs-table td {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        border-width: 0 1px 1px;
+        border-style: solid;
+        border-color: var(--border);
+        border-radius: 0;
+        text-align: right;
+      }
+      .pairs-table td::before {
+        content: attr(data-label);
+        color: var(--text-muted);
+        font-size: 0.64rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .pairs-table td:first-child { border-top: 1px solid var(--border); border-radius: 9px 9px 0 0; }
+      .pairs-table td:last-child { border-radius: 0 0 9px 9px; }
+      .pair-cell { justify-content: flex-end; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .metric-card { min-height: 96px; }
     }
-    .metricCard span, .statRow span, .sourceList span, .rejectionItem span {
-      color: var(--muted);
-      text-transform: uppercase;
-      font-size: 0.72rem;
-      letter-spacing: 0.05em;
-    }
-    .metricCard strong {
-      display: block;
-      margin-top: 10px;
-      font-size: clamp(1.3rem, 2.8vw, 2rem);
-    }
-    .metricCard small { display: block; color: var(--muted); margin-top: 8px; }
-    .panel {
-      padding: 16px;
-    }
-    .panelHead {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: start;
-      margin-bottom: 12px;
-    }
-    .panelHead h2 { font-size: 1.1rem; }
-    .twoCol { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .statGrid {
-      display: grid;
-      gap: 10px;
-    }
-    .statRow {
-      display: grid;
-      grid-template-columns: minmax(150px, 0.68fr) 1fr;
-      gap: 10px;
-      align-items: start;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .statRow strong { text-align: right; font-size: 0.97rem; }
-    .tableWrap {
-      overflow: auto;
-      border-radius: 14px;
-      max-height: 620px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      min-width: 1540px;
-    }
-    th, td {
-      padding: 10px 8px;
-      text-align: left;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      white-space: nowrap;
-      font-size: 0.84rem;
-    }
-    th {
-      position: sticky;
-      top: 0;
-      background: rgba(10, 13, 22, 0.96);
-      color: var(--muted);
-      z-index: 1;
-    }
-    .charts {
-      display: grid;
-      gap: 12px;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-    }
-    .chart {
-      min-height: 220px;
-    }
-    .chart svg {
-      width: 100%;
-      height: 180px;
-      display: block;
-    }
-    .chart .empty {
-      height: 180px;
-      display: grid;
-      place-items: center;
-      color: var(--muted);
-    }
-    .sourceList, .safetyGrid, .rejectionList {
-      display: grid;
-      gap: 8px;
-    }
-    .rejectionItem {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.03);
-    }
-    .tagGrid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .sourceList div {
-      display: grid;
-      gap: 4px;
-    }
-    .statusStrip {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .danger { color: var(--danger); }
-    code {
-      overflow-wrap: anywhere;
-      white-space: normal;
-    }
-    @media (max-width: 1200px) {
-      .grid8, .grid6, .grid3, .charts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .twoCol { grid-template-columns: 1fr; }
-      table { min-width: 1320px; }
-    }
-    @media (max-width: 760px) {
-      .shell { width: min(100% - 16px, 1600px); }
-      .topHeader { flex-direction: column; align-items: start; }
-      .headerStatus { justify-items: start; text-align: left; }
-      .grid8, .grid6, .grid3, .charts { grid-template-columns: 1fr; }
-      .statRow { grid-template-columns: 1fr; }
-      .statRow strong { text-align: left; }
-      .tableWrap { max-height: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
 <body>
-  <main class="shell">
-    <header class="topHeader">
-      <div>
-        <p class="eyebrow">AIOS FOREX</p>
-        <h1>30 TRADE PAPER CAMPAIGN</h1>
-        <p class="subtitle">Local, read-only, persisted evidence only.</p>
-      </div>
-      <div class="headerStatus">
-        <span id="campaignStatus" class="pill">UNKNOWN</span>
-        <div class="progressCopy">
-          <strong id="progressText">0 / 30</strong>
-          <span id="progressPct" class="muted">0.0%</span>
-          <span id="remainingText" class="muted">30 REMAINING</span>
+  <div class="app-shell">
+    <aside class="command-rail" aria-label="Forex Command Center navigation">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">&#x1F916;</span>
+        <div>
+          <strong>AIOS</strong>
+          <small>Forex Command Center</small>
         </div>
+      </div>
+      <nav class="command-nav" aria-label="Command sections">
+        <a class="nav-link" href="#overview" aria-current="page">Overview</a>
+        <a class="nav-link" href="#markets">Markets</a>
+        <a class="nav-link" href="#historical-research">&#x1F50D;&nbsp; Replay</a>
+        <a class="nav-link" href="#evidence">Evidence</a>
+        <a class="nav-link" href="#postmortem">Postmortem</a>
+        <a class="nav-link" href="#readiness-safety">System</a>
+      </nav>
+      <div class="health-card">
+        <strong>&#x1F6E1;&#xFE0F; System Health</strong>
+        <span>WAIT · Not connected</span>
+      </div>
+    </aside>
+
+    <div class="workspace">
+    <header class="topbar">
+      <h1 class="sr-only">AIOS Forex Command Center</h1>
+      <div class="status-row" aria-label="Primary operating mode">
+        <span class="pill paper">PAPER MODE</span>
+        <span class="pill">READ-ONLY CONSOLE</span>
+      </div>
+      <div class="status-cluster" aria-label="Dashboard source and timing status">
+        <div class="status-item"><span>&#x1F4E1; Source</span><strong>OANDA Practice · Not connected</strong></div>
+        <div class="status-item"><span>&#x23F1;&#xFE0F; Timeframe</span><strong>M5</strong></div>
+        <div class="status-item"><span>Last sync</span><strong>—</strong></div>
       </div>
     </header>
 
-    <section class="panel">
-      <div class="progressBar"><span id="progressBarFill" style="width: 0%"></span></div>
-    </section>
+    <aside class="boundary-note" aria-label="Dashboard data boundary">
+      <p><strong>No values are inferred.</strong> Each lane remains PENDING or NOT CONNECTED until a governed data contract supplies its evidence.</p>
+      <span class="pill">READ-ONLY SURFACE</span>
+    </aside>
 
-    <section class="grid8" id="kpiGrid"></section>
-
-    <section class="twoCol">
-      <article class="panel">
-        <div class="panelHead">
-          <div>
-            <p class="eyebrow">ACTIVE TRADE</p>
-            <h2 id="activeStatus">UNKNOWN</h2>
+    <main class="workspace-main" id="overview">
+      <section class="command-grid" aria-label="Forex market and safety command view">
+        <section class="glass-panel market-panel" id="markets" aria-labelledby="market-title">
+          <div class="market-head">
+            <div class="pair-identity">
+              <span class="flag-pair" aria-hidden="true">
+                <span class="flag-badge">&#x1F1EA;&#x1F1FA;</span>
+                <span class="flag-badge">&#x1F1FA;&#x1F1F8;</span>
+              </span>
+              <div class="pair-name">
+                <strong id="market-title">EUR / USD</strong>
+                <small>Euro / U.S. Dollar · Reference pair · Not connected</small>
+              </div>
+            </div>
+            <div class="timeframe-group" aria-label="Static timeframe reference">
+              <span class="timeframe">M1</span>
+              <span class="timeframe active">M5</span>
+              <span class="timeframe">M15</span>
+              <span class="timeframe">H1</span>
+            </div>
           </div>
-          <span class="pill danger">BROKER LOCKED</span>
-        </div>
-        <div class="statGrid" id="activeGrid"></div>
-      </article>
-      <article class="panel">
-        <div class="panelHead">
-          <div>
-            <p class="eyebrow">STRATEGY / SIGNAL</p>
-            <h2 id="strategyName">supertrend_pullback_v1</h2>
+          <div class="chart-surface" role="img" aria-label="Market chart unavailable because the data contract is not connected">
+            <div class="chart-empty">
+              <strong>MARKET DATA NOT CONNECTED</strong>
+              <span>The chart remains intentionally empty until a governed read-only data contract supplies evidence.</span>
+            </div>
+            <div class="chart-legend" aria-label="Approved chart color reference">
+              <span class="legend-key" style="--legend-color: var(--healthy)">Bull</span>
+              <span class="legend-key" style="--legend-color: var(--blocked)">Bear</span>
+              <span class="legend-key" style="--legend-color: var(--violet)">Supertrend</span>
+              <span class="legend-key" style="--legend-color: var(--cyan)">Overlay</span>
+              <span class="legend-key" style="--legend-color: var(--wait)">Review</span>
+            </div>
           </div>
-          <span class="pill">NON-QUALIFYING ANALYSIS</span>
-        </div>
-        <div class="statGrid" id="signalGrid"></div>
-        <div class="rejectionList" id="rejectionList"></div>
-      </article>
-    </section>
+        </section>
 
-    <section class="panel">
-      <div class="panelHead">
-        <div>
-          <p class="eyebrow">30-TRADE PROGRESSION</p>
-          <h2>Qualifying trade ledger</h2>
+        <aside class="system-stack" aria-label="Risk and evidence status">
+          <article class="glass-panel system-card" id="risk-control">
+            <h2>&#x1F6E1;&#xFE0F; Risk Control</h2>
+            <div class="field-list">
+              <div class="field-row"><span>R:R target</span><strong>—</strong></div>
+              <div class="field-row"><span>Daily stop</span><strong>—</strong></div>
+              <div class="field-row"><span>Kill switch</span><strong class="wait">Not connected</strong></div>
+              <div class="field-row"><span>Risk state</span><strong class="wait">WAIT</strong></div>
+            </div>
+          </article>
+
+          <article class="glass-panel system-card">
+            <h2>&#x1F4CA; Evidence Requirement</h2>
+            <div class="field-row"><span>Qualifying trades</span><strong class="wait">— / 30</strong></div>
+            <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="30" aria-valuetext="Not connected">
+              <span></span>
+            </div>
+            <div class="field-row"><span>Campaign state</span><strong class="wait">Not connected</strong></div>
+          </article>
+
+          <article class="glass-panel system-card">
+            <h2>&#x1F3AF; Strategy</h2>
+            <div class="field-list">
+              <div class="field-row"><span>Strategy name</span><strong>—</strong></div>
+              <div class="field-row"><span>Signal state</span><strong class="wait">WAIT · Not connected</strong></div>
+              <div class="field-row"><span>Gate detail</span><strong>Unavailable</strong></div>
+            </div>
+          </article>
+
+          <article class="glass-panel system-card" id="postmortem">
+            <h2>&#x1F9FE; Postmortem (Latest)</h2>
+            <div class="field-list">
+              <div class="field-row"><span>Date</span><strong>—</strong></div>
+              <div class="field-row"><span>Pair</span><strong>—</strong></div>
+              <div class="field-row"><span>Outcome / R</span><strong>— / —</strong></div>
+              <div class="field-row"><span>Observation</span><strong>Not connected</strong></div>
+            </div>
+          </article>
+        </aside>
+      </section>
+
+      <section class="glass-panel monitored-panel" id="evidence" aria-labelledby="pairs-title">
+        <div class="section-head">
+          <div>
+            <p class="zone-kicker">Market intelligence · static boundary</p>
+            <h2 id="pairs-title">Monitored Pairs</h2>
+          </div>
+          <p>All market values remain unavailable until governed data wiring is approved.</p>
         </div>
-        <span class="pill good">READ ONLY</span>
-      </div>
-      <div class="tableWrap">
-        <table>
+        <table class="pairs-table">
           <thead>
             <tr>
-              <th>Trade #</th><th>Trade ID</th><th>Date/Time</th><th>Direction</th><th>Entry</th><th>Stop</th><th>Target</th><th>Planned R:R</th><th>Exit</th><th>Exit Reason</th><th>P/L</th><th>Realized R</th><th>R Classification</th><th>MFE R</th><th>MAE R</th><th>Hold Time</th><th>Cumulative P/L</th><th>Cumulative R</th>
+              <th>Pair</th>
+              <th>Trend (HTF)</th>
+              <th>Price</th>
+              <th>Change (24H)</th>
+              <th>ATR (14)</th>
+              <th>Status</th>
+              <th>Signal</th>
+              <th>HTF Alignment</th>
             </tr>
           </thead>
-          <tbody id="tradeRows"></tbody>
+          <tbody>
+            <tr>
+              <td data-label="Pair"><span class="pair-cell"><span class="flag-pair" aria-hidden="true"><span class="flag-badge">&#x1F1EA;&#x1F1FA;</span><span class="flag-badge">&#x1F1FA;&#x1F1F8;</span></span>EUR/USD</span></td>
+              <td data-label="Trend (HTF)">—</td><td data-label="Price">—</td><td data-label="Change (24H)">—</td><td data-label="ATR (14)">—</td><td data-label="Status"><span class="status-wait">WAIT</span></td><td data-label="Signal">Not connected</td><td data-label="HTF Alignment">—</td>
+            </tr>
+            <tr>
+              <td data-label="Pair"><span class="pair-cell"><span class="flag-pair" aria-hidden="true"><span class="flag-badge">&#x1F1EC;&#x1F1E7;</span><span class="flag-badge">&#x1F1FA;&#x1F1F8;</span></span>GBP/USD</span></td>
+              <td data-label="Trend (HTF)">—</td><td data-label="Price">—</td><td data-label="Change (24H)">—</td><td data-label="ATR (14)">—</td><td data-label="Status"><span class="status-wait">WAIT</span></td><td data-label="Signal">Not connected</td><td data-label="HTF Alignment">—</td>
+            </tr>
+            <tr>
+              <td data-label="Pair"><span class="pair-cell"><span class="flag-pair" aria-hidden="true"><span class="flag-badge">&#x1F1FA;&#x1F1F8;</span><span class="flag-badge">&#x1F1EF;&#x1F1F5;</span></span>USD/JPY</span></td>
+              <td data-label="Trend (HTF)">—</td><td data-label="Price">—</td><td data-label="Change (24H)">—</td><td data-label="ATR (14)">—</td><td data-label="Status"><span class="status-wait">WAIT</span></td><td data-label="Signal">Not connected</td><td data-label="HTF Alignment">—</td>
+            </tr>
+            <tr>
+              <td data-label="Pair"><span class="pair-cell"><span class="flag-pair" aria-hidden="true"><span class="flag-badge">&#x1F1E6;&#x1F1FA;</span><span class="flag-badge">&#x1F1FA;&#x1F1F8;</span></span>AUD/USD</span></td>
+              <td data-label="Trend (HTF)">—</td><td data-label="Price">—</td><td data-label="Change (24H)">—</td><td data-label="ATR (14)">—</td><td data-label="Status"><span class="status-wait">WAIT</span></td><td data-label="Signal">Not connected</td><td data-label="HTF Alignment">—</td>
+            </tr>
+            <tr>
+              <td data-label="Pair"><span class="pair-cell"><span class="flag-pair" aria-hidden="true"><span class="flag-badge">&#x1F1FA;&#x1F1F8;</span><span class="flag-badge">&#x1F1E8;&#x1F1E6;</span></span>USD/CAD</span></td>
+              <td data-label="Trend (HTF)">—</td><td data-label="Price">—</td><td data-label="Change (24H)">—</td><td data-label="ATR (14)">—</td><td data-label="Status"><span class="status-wait">WAIT</span></td><td data-label="Signal">Not connected</td><td data-label="HTF Alignment">—</td>
+            </tr>
+            <tr>
+              <td data-label="Pair"><span class="pair-cell"><span class="flag-pair" aria-hidden="true"><span class="flag-badge">&#x1F1FA;&#x1F1F8;</span><span class="flag-badge">&#x1F1E8;&#x1F1ED;</span></span>USD/CHF</span></td>
+              <td data-label="Trend (HTF)">—</td><td data-label="Price">—</td><td data-label="Change (24H)">—</td><td data-label="ATR (14)">—</td><td data-label="Status"><span class="status-wait">WAIT</span></td><td data-label="Signal">Not connected</td><td data-label="HTF Alignment">—</td>
+            </tr>
+            <tr>
+              <td data-label="Pair"><span class="pair-cell"><span class="flag-pair" aria-hidden="true"><span class="flag-badge">&#x1F1F3;&#x1F1FF;</span><span class="flag-badge">&#x1F1FA;&#x1F1F8;</span></span>NZD/USD</span></td>
+              <td data-label="Trend (HTF)">—</td><td data-label="Price">—</td><td data-label="Change (24H)">—</td><td data-label="ATR (14)">—</td><td data-label="Status"><span class="status-wait">WAIT</span></td><td data-label="Signal">Not connected</td><td data-label="HTF Alignment">—</td>
+            </tr>
+            <tr>
+              <td data-label="Pair"><span class="pair-cell"><span class="flag-pair" aria-hidden="true"><span class="flag-badge">&#x1F1EA;&#x1F1FA;</span><span class="flag-badge">&#x1F1EC;&#x1F1E7;</span></span>EUR/GBP</span></td>
+              <td data-label="Trend (HTF)">—</td><td data-label="Price">—</td><td data-label="Change (24H)">—</td><td data-label="ATR (14)">—</td><td data-label="Status"><span class="status-wait">WAIT</span></td><td data-label="Signal">Not connected</td><td data-label="HTF Alignment">—</td>
+            </tr>
+            <tr>
+              <td data-label="Pair"><span class="pair-cell"><span class="flag-pair" aria-hidden="true"><span class="flag-badge">&#x1F1EA;&#x1F1FA;</span><span class="flag-badge">&#x1F1EF;&#x1F1F5;</span></span>EUR/JPY</span></td>
+              <td data-label="Trend (HTF)">—</td><td data-label="Price">—</td><td data-label="Change (24H)">—</td><td data-label="ATR (14)">—</td><td data-label="Status"><span class="status-wait">WAIT</span></td><td data-label="Signal">Not connected</td><td data-label="HTF Alignment">—</td>
+            </tr>
+            <tr>
+              <td data-label="Pair"><span class="pair-cell"><span class="flag-pair" aria-hidden="true"><span class="flag-badge">&#x1F1EC;&#x1F1E7;</span><span class="flag-badge">&#x1F1EF;&#x1F1F5;</span></span>GBP/JPY</span></td>
+              <td data-label="Trend (HTF)">—</td><td data-label="Price">—</td><td data-label="Change (24H)">—</td><td data-label="ATR (14)">—</td><td data-label="Status"><span class="status-wait">WAIT</span></td><td data-label="Signal">Not connected</td><td data-label="HTF Alignment">—</td>
+            </tr>
+          </tbody>
         </table>
-      </div>
-    </section>
+      </section>
 
-    <section class="grid6" id="summaryGrid"></section>
+      <section class="evidence-zone forward" id="forward-paper" aria-labelledby="forward-title">
+        <div class="zone-head">
+          <div class="zone-heading">
+            <p class="zone-kicker">Evidence class 01</p>
+            <h2 id="forward-title">Forward Paper</h2>
+            <p class="zone-copy">Genuine pretend-money campaign evidence only. Historical replay never counts toward PAPER30 progress.</p>
+          </div>
+          <span class="pill pending">NOT CONNECTED</span>
+        </div>
+        <div class="metric-grid">
+          <article class="metric-card"><span class="metric-label">PAPER30 progress</span><strong>PENDING</strong><small class="metric-note">Forward trades only</small></article>
+          <article class="metric-card"><span class="metric-label">Closed trades</span><strong>PENDING</strong><small class="metric-note">No historical credit</small></article>
+          <article class="metric-card"><span class="metric-label">Active positions</span><strong>PENDING</strong><small class="metric-note">Read-only status</small></article>
+          <article class="metric-card"><span class="metric-label">Forward expectancy</span><strong>NOT CONNECTED</strong><small class="metric-note">Realized forward R only</small></article>
+          <article class="metric-card"><span class="metric-label">Forward profit factor</span><strong>NOT CONNECTED</strong><small class="metric-note">Closed forward trades</small></article>
+          <article class="metric-card"><span class="metric-label">Forward Net R</span><strong>NOT CONNECTED</strong><small class="metric-note">Risk-unit result</small></article>
+          <article class="metric-card"><span class="metric-label">Forward drawdown</span><strong>NOT CONNECTED</strong><small class="metric-note">Peak-to-trough R</small></article>
+        </div>
+      </section>
 
-    <section class="charts">
-      <article class="panel chart"><div class="panelHead"><h2>Cumulative PAPER P/L</h2></div><div id="chartPl"></div></article>
-      <article class="panel chart"><div class="panelHead"><h2>Cumulative realized R</h2></div><div id="chartR"></div></article>
-      <article class="panel chart"><div class="panelHead"><h2>Realized R per trade</h2></div><div id="chartTradeR"></div></article>
-      <article class="panel chart"><div class="panelHead"><h2>Win / loss distribution</h2></div><div id="chartWld"></div></article>
-      <article class="panel chart"><div class="panelHead"><h2>Drawdown progression</h2></div><div id="chartDd"></div></article>
-    </section>
+      <section class="evidence-zone historical" id="historical-research" aria-labelledby="historical-title">
+        <div class="zone-head">
+          <div class="zone-heading">
+            <p class="zone-kicker">Evidence class 02</p>
+            <h2 id="historical-title">Historical / Research</h2>
+            <p class="zone-copy">Development replay and statistical evidence. These values are separate from genuine forward PAPER30 results.</p>
+          </div>
+          <span class="pill pending">PENDING</span>
+        </div>
+        <div class="metric-grid">
+          <article class="metric-card"><span class="metric-label">Unique historical trades</span><strong>PENDING</strong><small class="metric-note">Unique causal population</small></article>
+          <article class="metric-card"><span class="metric-label">Historical expectancy</span><strong>PENDING</strong><small class="metric-note">Mean realized R</small></article>
+          <article class="metric-card"><span class="metric-label">Historical profit factor</span><strong>PENDING</strong><small class="metric-note">Gross wins / losses</small></article>
+          <article class="metric-card"><span class="metric-label">Historical Net R</span><strong>PENDING</strong><small class="metric-note">Development evidence</small></article>
+          <article class="metric-card"><span class="metric-label">Expectancy 95% interval</span><strong>PENDING</strong><small class="metric-note">Bootstrap uncertainty</small></article>
+          <article class="metric-card"><span class="metric-label">P30 pass probability</span><strong>PENDING</strong><small class="metric-note">Probability, not a promise</small></article>
+          <article class="metric-card"><span class="metric-label">P100 pass probability</span><strong>PENDING</strong><small class="metric-note">Larger-sample evidence</small></article>
+          <article class="metric-card"><span class="metric-label">P250 pass probability</span><strong>PENDING</strong><small class="metric-note">Larger-sample evidence</small></article>
+          <article class="metric-card"><span class="metric-label">Edge classification</span><strong>PENDING</strong><small class="metric-note">Hard-truth classification</small></article>
+        </div>
+      </section>
 
-    <section class="threeCol">
-      <article class="panel">
-        <div class="panelHead"><h2>Data Quality</h2></div>
-        <div class="statGrid" id="dataGrid"></div>
-      </article>
-      <article class="panel">
-        <div class="panelHead"><h2>Live Readiness</h2></div>
-        <div class="statGrid" id="readinessGrid"></div>
-      </article>
-      <article class="panel">
-        <div class="panelHead"><h2>Safety</h2></div>
-        <div class="statusStrip" id="safetyStrip"></div>
-      </article>
-    </section>
+      <section class="evidence-zone readiness" id="readiness-safety" aria-labelledby="readiness-title">
+        <div class="zone-head">
+          <div class="zone-heading">
+            <p class="zone-kicker">Evidence class 03</p>
+            <h2 id="readiness-title">Readiness / Safety</h2>
+            <p class="zone-copy">Approval, risk, reconciliation, and execution-safety evidence. This page cannot place or route orders.</p>
+          </div>
+          <span class="pill safe">LIVE DISABLED</span>
+        </div>
+        <div class="metric-grid">
+          <article class="metric-card"><span class="metric-label">Gate pass count</span><strong>PENDING</strong><small class="metric-note">Governed readiness gates</small></article>
+          <article class="metric-card"><span class="metric-label">Gate pending count</span><strong>PENDING</strong><small class="metric-note">No silent PASS</small></article>
+          <article class="metric-card"><span class="metric-label">Risk configuration</span><strong>NOT CONNECTED</strong><small class="metric-note">Display-only contract</small></article>
+          <article class="metric-card"><span class="metric-label">Kill switch</span><strong>NOT CONNECTED</strong><small class="metric-note">No control on this page</small></article>
+          <article class="metric-card"><span class="metric-label">Demo reconciliation</span><strong>PENDING</strong><small class="metric-note">Broker-test evidence</small></article>
+          <article class="metric-card"><span class="metric-label">Live execution</span><strong class="safe">DISABLED</strong><small class="metric-note">No broker or order controls</small></article>
+        </div>
+      </section>
+    </main>
 
-    <section class="panel">
-      <div class="panelHead"><h2>Sources</h2></div>
-      <div class="sourceList" id="sourceList"></div>
-    </section>
-  </main>
-
-  <script>
-    const API_URL = '/api/forex/paper-campaign';
-    const REFRESH_MS = 3000;
-
-    const FALLBACK = '—';
-    const nf = new Intl.NumberFormat('en-US', { maximumFractionDigits: 5 });
-
-    function safeText(value, fallback = FALLBACK) {
-      return value === null || value === undefined || value === '' ? fallback : String(value);
-    }
-
-    function formatNumber(value, digits = 3) {
-      return typeof value === 'number' ? value.toFixed(digits) : FALLBACK;
-    }
-
-    function formatTradeValue(value) {
-      if (value === null || value === undefined || value === '') return '';
-      if (typeof value === 'number') return nf.format(value);
-      return String(value);
-    }
-
-    function metricCard(label, value, note) {
-      return `<article class="metricCard"><span>${label}</span><strong>${value}</strong><small>${note}</small></article>`;
-    }
-
-    function statRow(label, value, danger = false) {
-      return `<div class="statRow"><span>${label}</span><strong class="${danger ? 'danger' : ''}">${value}</strong></div>`;
-    }
-
-    function sparkline(values, stroke) {
-      const filtered = values.filter((value) => typeof value === 'number' && Number.isFinite(value));
-      if (filtered.length < 2) return '<div class="empty">No chartable evidence yet.</div>';
-      const min = Math.min(...filtered);
-      const max = Math.max(...filtered);
-      const range = max - min || 1;
-      const points = filtered.map((value, index) => {
-        const x = (index / (filtered.length - 1)) * 100;
-        const y = 100 - (((value - min) / range) * 100);
-        return `${x.toFixed(2)},${y.toFixed(2)}`;
-      }).join(' ');
-      return `<svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline points="${points}" fill="none" stroke="${stroke}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></polyline></svg>`;
-    }
-
-    function renderBadge(label, tone = '') {
-      return `<span class="pill ${tone}">${label}</span>`;
-    }
-
-    function render(snapshot) {
-      const campaign = snapshot.campaignState || {};
-      const summary = snapshot.summary || {};
-      const active = snapshot.activeTrade || {};
-      const signal = snapshot.signal || {};
-      const integrity = snapshot.integrity || {};
-      const readiness = snapshot.readiness || {};
-      const safety = snapshot.safety || {};
-      const progression = snapshot.progression || [];
-
-      document.getElementById('campaignStatus').textContent = safeText(campaign.campaign_status);
-      document.getElementById('progressText').textContent = `${summary.accepted ?? 0} / ${summary.target ?? 30}`;
-      document.getElementById('progressPct').textContent = typeof summary.progressPercent === 'number' ? `${summary.progressPercent.toFixed(1)}%` : FALLBACK;
-      document.getElementById('remainingText').textContent = `${summary.remaining ?? 0} REMAINING`;
-      document.getElementById('progressBarFill').style.width = `${Math.max(0, Math.min(100, summary.progressPercent || 0))}%`;
-
-      document.getElementById('kpiGrid').innerHTML = [
-        metricCard('QUALIFYING TRADES', `${summary.accepted ?? 0} / ${summary.target ?? 30}`, 'Canonical PAPER evidence only'),
-        metricCard('NET PAPER P/L', formatNumber(summary.netPl), 'Persisted campaign state'),
-        metricCard('EXPECTANCY', formatNumber(summary.expectancy), 'Per qualifying trade'),
-        metricCard('PROFIT FACTOR', safeText(summary.profitFactor), 'Trade set aggregate'),
-        metricCard('WIN RATE', typeof summary.winRate === 'number' ? `${summary.winRate.toFixed(1)}%` : FALLBACK, 'Derived from state'),
-        metricCard('MAX DRAWDOWN', formatNumber(summary.maxDrawdown), 'PAPER only'),
-        metricCard('AVERAGE R', formatNumber(summary.averageR), 'Realized R average'),
-        metricCard('TOTAL R', formatNumber(summary.totalR), 'Realized R total'),
-      ].join('');
-
-      document.getElementById('activeStatus').textContent = safeText(active.positionStatus, 'UNKNOWN');
-      document.getElementById('activeGrid').innerHTML = [
-        statRow('Instrument', safeText(active.instrument, 'EUR/USD')),
-        statRow('Direction', safeText(active.direction)),
-        statRow('Entry', formatTradeValue(active.entry)),
-        statRow('Current Price', formatTradeValue(active.currentPrice)),
-        statRow('Stop', formatTradeValue(active.stop)),
-        statRow('Target', formatTradeValue(active.target)),
-        statRow('Units', safeText(active.units)),
-        statRow('Planned R:R', formatTradeValue(active.plannedRr)),
-        statRow('Current / Realized R', `${formatTradeValue(active.currentR)} / ${formatTradeValue(active.realizedR)}`),
-        statRow('Unrealized PAPER P/L', formatTradeValue(active.unrealizedPl)),
-        statRow('MFE R', formatTradeValue(active.mfeR)),
-        statRow('MAE R', formatTradeValue(active.maeR)),
-        statRow('Hold Time', safeText(active.holdTime)),
-        statRow('Entry Time UTC', safeText(active.entryTimeUtc)),
-        statRow('Entry Time New York', safeText(active.entryTimeNy)),
-      ].join('');
-
-      document.getElementById('strategyName').textContent = safeText(summary.strategy, 'supertrend_pullback_v1');
-      document.getElementById('signalGrid').innerHTML = [
-        statRow('Current Signal', safeText(signal.currentSignal)),
-        statRow('Supertrend Direction', safeText(signal.supertrendDirection)),
-        statRow('ATR Actual / Minimum', `${formatTradeValue(signal.atrActual)} / ${formatTradeValue(signal.atrMinimum)}`),
-        statRow('Body Ratio / Minimum', `${formatTradeValue(signal.bodyRatio)} / ${formatTradeValue(signal.bodyMinimum)}`),
-        statRow('Spread', formatTradeValue(signal.spread)),
-        statRow('Latest Rejection Reason', safeText(signal.latestRejectionReason)),
-        statRow('No-signal Reason', safeText(signal.noSignalReason)),
-      ].join('');
-
-      document.getElementById('rejectionList').innerHTML = Object.entries(signal.rejectionCounts || {})
-        .slice(0, 8)
-        .map(([key, value]) => `<div class="rejectionItem"><span>${key}</span><strong>${String(value)}</strong></div>`)
-        .join('');
-
-      document.getElementById('tradeRows').innerHTML = progression.map((row) => `
-        <tr>
-          <td>${row.tradeNumber}</td><td>${row.tradeId || ''}</td><td>${row.dateTime || ''}</td><td>${row.direction || ''}</td>
-          <td>${formatTradeValue(row.entry)}</td><td>${formatTradeValue(row.stop)}</td><td>${formatTradeValue(row.target)}</td><td>${formatTradeValue(row.plannedRr)}</td>
-          <td>${formatTradeValue(row.exit)}</td><td>${row.exitReason || ''}</td><td>${formatTradeValue(row.pl)}</td><td>${formatTradeValue(row.realizedR)}</td>
-          <td>${row.rClassification || ''}</td><td>${formatTradeValue(row.mfeR)}</td><td>${formatTradeValue(row.maeR)}</td><td>${row.holdTime || ''}</td>
-          <td>${formatTradeValue(row.cumulativePl)}</td><td>${formatTradeValue(row.cumulativeR)}</td>
-        </tr>`).join('');
-
-      document.getElementById('summaryGrid').innerHTML = [
-        metricCard('Positive-R trades', safeText(summary.positiveRTrades, 0), 'R > 0'),
-        metricCard('Negative-R trades', safeText(summary.negativeRTrades, 0), 'R < 0'),
-        metricCard('Flat-R trades', safeText(summary.flatRTrades, 0), 'R = 0'),
-        metricCard('Best R', formatNumber(summary.bestR), 'Maximum realized R'),
-        metricCard('Worst R', formatNumber(summary.worstR), 'Minimum realized R'),
-        metricCard('Strategy', safeText(summary.strategy), 'Canonical campaign strategy'),
-      ].join('');
-
-      document.getElementById('chartPl').innerHTML = sparkline(progression.map((row) => row.cumulativePl).filter((value) => typeof value === 'number'), 'var(--cyan)');
-      document.getElementById('chartR').innerHTML = sparkline(progression.map((row) => row.cumulativeR).filter((value) => typeof value === 'number'), 'var(--violet)');
-      document.getElementById('chartTradeR').innerHTML = sparkline(progression.map((row) => row.realizedR).filter((value) => typeof value === 'number'), 'var(--pink)');
-      document.getElementById('chartWld').innerHTML = sparkline([summary.positiveRTrades || 0, summary.negativeRTrades || 0, summary.flatRTrades || 0], 'var(--gold)');
-      document.getElementById('chartDd').innerHTML = sparkline([summary.maxDrawdown || 0, 0], 'var(--danger)');
-
-      document.getElementById('dataGrid').innerHTML = [
-        statRow('Data freshness', safeText(integrity.dataFreshness)),
-        statRow('History freshness', safeText(integrity.historyFreshness)),
-        statRow('Snapshot freshness', safeText(integrity.snapshotFreshness)),
-        statRow('Last market data', safeText(integrity.lastMarketData)),
-        statRow('Last completed M5', safeText(integrity.lastCompletedM5)),
-        statRow('Data unavailable count', safeText(integrity.dataUnavailableCount, 0)),
-        statRow('Rejected records', safeText(integrity.rejectedRecords, 0)),
-        statRow('Duplicate guard count', safeText(integrity.duplicateGuardCount, 0)),
-        statRow('Evidence date range', safeText(integrity.evidenceDateRange)),
-        statRow('Evidence freshness', safeText(integrity.evidenceFreshness)),
-        statRow('Ledger count', safeText(integrity.ledgerCount, 0)),
-        statRow('Canonical main SHA', safeText(integrity.canonicalMainSha)),
-      ].join('');
-
-      document.getElementById('readinessGrid').innerHTML = [
-        statRow('30 trade sample', safeText(summary.accepted != null && summary.target != null ? `${summary.accepted} / ${summary.target}` : null)),
-        statRow('Expectancy', formatNumber(readiness.expectancy)),
-        statRow('Profit factor', safeText(readiness.profitFactor)),
-        statRow('Max drawdown', formatNumber(readiness.maxDrawdown)),
-        statRow('Consecutive losses', safeText(readiness.consecutiveLosses)),
-        statRow('P1 status', safeText(readiness.p1Status)),
-        statRow('Sample gate', safeText(readiness.sampleStatus)),
-        statRow('Expectancy gate', safeText(readiness.expectancyStatus)),
-        statRow('Profit factor gate', safeText(readiness.profitFactorStatus)),
-        statRow('Drawdown gate', safeText(readiness.drawdownStatus)),
-        statRow('Live authority', safeText(readiness.liveAuthority), true),
-      ].join('');
-
-      document.getElementById('safetyStrip').innerHTML = [
-        renderBadge(`BROKER WRITES: ${safeText(safety.brokerWrites)}`, 'danger'),
-        renderBadge(`PRACTICE ORDERS: ${safeText(safety.practiceOrders)}`, 'danger'),
-        renderBadge(`LIVE AUTHORITY: ${safeText(safety.liveAuthority)}`, 'danger'),
-        renderBadge(`KILL SWITCH: ${safeText(safety.killSwitch)}`),
-        renderBadge(`RISK HALT: ${safeText(safety.riskHalt)}`),
-        renderBadge(`OWNER CANCEL: ${safeText(safety.ownerCancel)}`),
-        renderBadge(`SECOND WRITER: ${safeText(safety.secondWriter)}`),
-        renderBadge(`RUNTIME ROOT MODE: ${safeText(safety.runtimeRootMode)}`),
-        renderBadge(`LOCK STATUS: ${safeText(safety.lockStatus)}`),
-      ].join('');
-
-      document.getElementById('sourceList').innerHTML = Object.entries(snapshot.sources || {})
-        .map(([key, value]) => `<div><span>${key}</span><code>${value}</code></div>`)
-        .join('');
-    }
-
-    async function poll() {
-      try {
-        const response = await fetch(API_URL, { cache: 'no-store' });
-        if (!response.ok) throw new Error(`HTTP_${response.status}`);
-        render(await response.json());
-      } catch (error) {
-        document.getElementById('campaignStatus').textContent = 'UNAVAILABLE';
-        document.getElementById('campaignStatus').className = 'pill danger';
-        document.getElementById('progressText').textContent = '—';
-        document.getElementById('progressPct').textContent = 'Unknown';
-        document.getElementById('remainingText').textContent = 'Local data unavailable';
-        document.getElementById('kpiGrid').innerHTML = metricCard('STATUS', 'UNAVAILABLE', error.message || 'Fetch failed');
-      } finally {
-        window.setTimeout(poll, REFRESH_MS);
-      }
-    }
-
-    poll();
-  </script>
+    <footer>AIOS Forex operator dashboard · Static UI boundary · No API, broker, credential, or order path</footer>
+    </div>
+  </div>
 </body>
 </html>

@@ -1,6 +1,7 @@
 import json
 import multiprocessing
 import os
+import time
 import subprocess
 import threading
 import uuid
@@ -96,10 +97,11 @@ def _process_lock_contender(
     lock_path: str,
     start_event,
     release_event,
-    result_queue,
+    result_path,
     now_text: str,
 ) -> None:
     path = Path(lock_path)
+    outcome = Path(result_path)
     pid = os.getpid()
     owner = None
     if start_event.wait(10):
@@ -116,7 +118,11 @@ def _process_lock_contender(
             boot_identity="boot-a",
             process_start_reader=lambda target: f"pid-{target}",
         )
-    result_queue.put((pid, owner is not None))
+    outcome.parent.mkdir(parents=True, exist_ok=True)
+    outcome.write_text(
+        json.dumps({"pid": pid, "won": owner is not None}),
+        encoding="utf-8",
+    )
     if owner is not None:
         release_event.wait(10)
         autostart.release_runtime_lock(path, owner)
@@ -1028,19 +1034,34 @@ def test_runtime_lock_two_process_contenders_produce_one_owner(
     context = multiprocessing.get_context("spawn")
     start_event = context.Event()
     release_event = context.Event()
-    result_queue = context.Queue()
+    results_dir = tmp_path / "results"
+    results_dir.mkdir()
     processes = [
         context.Process(
             target=_process_lock_contender,
-            args=(str(path), start_event, release_event, result_queue, LOCK_NOW.isoformat()),
+            args=(
+                str(path),
+                start_event,
+                release_event,
+                str(results_dir / f"result-{index}.json"),
+                LOCK_NOW.isoformat(),
+            ),
         )
-        for _ in range(2)
+        for index in range(2)
     ]
     for process in processes:
         process.start()
     start_event.set()
-    results = [result_queue.get(timeout=15) for _ in processes]
-    assert sum(won for _pid, won in results) == 1
+    deadline = time.monotonic() + 15
+    while time.monotonic() < deadline:
+        result_files = sorted(results_dir.glob("result-*.json"))
+        if len(result_files) == len(processes):
+            break
+        time.sleep(0.05)
+    result_files = sorted(results_dir.glob("result-*.json"))
+    assert len(result_files) == len(processes)
+    results = [json.loads(path.read_text(encoding="utf-8")) for path in result_files]
+    assert sum(bool(result["won"]) for result in results) == 1
     release_event.set()
     for process in processes:
         process.join(15)
@@ -1302,6 +1323,7 @@ def test_windows_boot_identity_timeout_is_bounded(monkeypatch) -> None:
         raise subprocess.TimeoutExpired("powershell.exe", kwargs["timeout"])
 
     monkeypatch.setattr(autostart.subprocess, "run", timeout)
+    monkeypatch.setattr(autostart, "_BOOT_IDENTITY_CACHE", None, raising=False)
     monkeypatch.setattr(autostart.os, "name", "nt")
     with pytest.raises(RuntimeError, match="RUNTIME_LOCK_BOOT_IDENTITY_UNAVAILABLE"):
         autostart._boot_identity()

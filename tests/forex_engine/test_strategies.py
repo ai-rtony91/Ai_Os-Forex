@@ -1,5 +1,8 @@
+import pytest
+
 from automation.forex_engine.daily_edge_report import deterministic_supertrend_sample
 from automation.forex_engine.models import Direction
+from automation.forex_engine.indicators import DOWN, UP
 from automation.forex_engine.strategies import (
     SupertrendPullbackConfig,
     classify_r_multiple,
@@ -75,8 +78,8 @@ def test_supertrend_pullback_minimum_boundary_accepts_when_other_gates_pass(monk
     monkeypatch.setattr(
         "automation.forex_engine.strategies.supertrend",
         lambda _candles, *_args, **_kwargs: [
-            *([{"direction": Direction.DOWN, "lower_band": 1.0990, "upper_band": 1.1010}] * (len(_candles) - 1)),
-            {"direction": Direction.UP, "lower_band": 1.0990, "upper_band": 1.1010},
+            *([{"direction": DOWN, "lower_band": 1.0990, "upper_band": 1.1010}] * (len(_candles) - 1)),
+            {"direction": UP, "lower_band": 1.0990, "upper_band": 1.1010},
         ],
     )
     monkeypatch.setattr(
@@ -84,8 +87,8 @@ def test_supertrend_pullback_minimum_boundary_accepts_when_other_gates_pass(monk
         lambda _candles, *_args, **_kwargs: [0.0006] * len(_candles),
     )
     for candle in candles:
-        candle.open = 1.1000
-        candle.close = 1.1006
+        candle.open = 1.0995
+        candle.close = 1.10045
         candle.high = 1.1010
         candle.low = 1.0990
     result = evaluate_supertrend_pullback(candles, config)

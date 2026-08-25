@@ -105,7 +105,8 @@ def _candidate(candidate: Mapping[str, Any], snapshot: Mapping[str, Any]) -> dic
     required = ("strategy_id", "candidate_id", "instrument", "direction", "units", "stop_price", "target_price", "risk_amount", "entry_rationale", "status", "sanitized", "current")
     if any(key not in candidate for key in required) or candidate.get("status") != "PAPER_ELIGIBLE" or candidate.get("sanitized") is not True or candidate.get("current") is not True or any(candidate.get(key, False) is not False for key in false_flags):
         raise ValueError("NO_PAPER_TRADE_CANDIDATE")
-    if candidate["instrument"] != snapshot["instrument"] or str(candidate["direction"]).upper() != "BUY":
+    direction = str(candidate["direction"]).upper()
+    if candidate["instrument"] != snapshot["instrument"] or direction not in {"BUY", "SELL"}:
         raise ValueError("NO_PAPER_TRADE_CANDIDATE")
     strategy_id = str(candidate["strategy_id"]).strip()
     strategy_name = str(candidate.get("strategy_name") or strategy_id).strip()
@@ -122,10 +123,16 @@ def _candidate(candidate: Mapping[str, Any], snapshot: Mapping[str, Any]) -> dic
     if isinstance(units, bool) or not isinstance(units, int) or not 0 < units <= MAX_UNITS:
         raise ValueError("NO_PAPER_TRADE_CANDIDATE")
     stop, target, risk = (_number(candidate[name], name) for name in ("stop_price", "target_price", "risk_amount"))
-    if not stop < snapshot["ask"] < target or risk <= 0:
+    entry_price = snapshot["ask"] if direction == "BUY" else snapshot["bid"]
+    if direction == "BUY":
+        geometry_valid = stop < entry_price < target
+    else:
+        geometry_valid = target < entry_price < stop
+    if not geometry_valid or risk <= 0:
         raise ValueError("NO_PAPER_TRADE_CANDIDATE")
     normalized = {
         **dict(candidate),
+        "direction": direction,
         "strategy_id": strategy_id,
         "strategy_name": strategy_name,
         "mode": "PAPER_ONLY",
@@ -170,18 +177,26 @@ def load_active_session(runtime_path: Path) -> dict[str, Any] | None:
 def open_paper_session(snapshot: Mapping[str, Any], candidate: Mapping[str, Any], reviewer_identity: str, as_of_utc: str, runtime_path: Path) -> dict[str, Any]:
     snap = validate_market_snapshot(snapshot); item = _candidate(candidate, snap); _utc(as_of_utc)
     if not reviewer_identity.strip(): raise ValueError("owner_reviewer_required")
+    direction = str(item["direction"]).upper()
+    entry_price = snap["ask"] if direction == "BUY" else snap["bid"]
+    if direction == "BUY":
+        mfe_price = snap["bid"]
+        mae_price = snap["bid"]
+    else:
+        mfe_price = snap["ask"]
+        mae_price = snap["ask"]
     session = {
         "schema": "AIOS_P1_SUPERVISED_PAPER_SESSION.v1", "status": "ACTIVE",
         "strategy_id": item["strategy_id"], "strategy_name": item["strategy_name"],
         "mode": item["mode"], "paper_only": item["paper_only"],
         "candidate_id": item["candidate_id"],
-        "instrument": snap["instrument"], "direction": "BUY", "units": item["units"],
-        "entry_timestamp": snap["observed_at_utc"], "entry_price": snap["ask"],
+        "instrument": snap["instrument"], "direction": direction, "units": item["units"],
+        "entry_timestamp": snap["observed_at_utc"], "entry_price": entry_price,
         "stop_price": item["stop_price"], "target_price": item["target_price"],
         "risk_amount": item["risk_amount"], "entry_rationale": item["entry_rationale"],
         "owner_supervision_confirmed": True, "reviewer_identity": reviewer_identity,
         "opened_as_of_utc": as_of_utc, **SAFETY_FLAGS,
-        "mfe_price": snap["bid"], "mae_price": snap["bid"],
+        "mfe_price": mfe_price, "mae_price": mae_price,
         "mfe_timestamp_utc": snap["observed_at_utc"],
         "mae_timestamp_utc": snap["observed_at_utc"],
     }
@@ -197,30 +212,43 @@ def open_paper_session(snapshot: Mapping[str, Any], candidate: Mapping[str, Any]
 
 
 def update_paper_session_extremes(snapshot: Mapping[str, Any], runtime_path: Path) -> dict[str, Any]:
-    """Persist observed BUY-side MFE/MAE inputs for the open session."""
+    """Persist observed MFE/MAE inputs for the open session."""
     active = load_active_session(runtime_path)
     if not active:
         raise ValueError("no_active_session")
     snap = validate_market_snapshot(snapshot)
     if snap["instrument"] != active["instrument"]:
         raise ValueError("active_instrument_mismatch")
-    bid = snap["bid"]
-    mfe = float(active.get("mfe_price", bid))
-    mae = float(active.get("mae_price", bid))
-    if bid > mfe:
-        active["mfe_price"] = bid
+    direction = str(active.get("direction", "BUY")).upper()
+    if direction == "BUY":
+        favorable_price = snap["bid"]
+        adverse_price = snap["bid"]
+        better_favorable = lambda current, new: new > current
+        better_adverse = lambda current, new: new < current
+    else:
+        favorable_price = snap["ask"]
+        adverse_price = snap["ask"]
+        better_favorable = lambda current, new: new < current
+        better_adverse = lambda current, new: new > current
+    mfe = float(active.get("mfe_price", favorable_price))
+    mae = float(active.get("mae_price", adverse_price))
+    if better_favorable(mfe, favorable_price):
+        active["mfe_price"] = favorable_price
         active["mfe_timestamp_utc"] = snap["observed_at_utc"]
-    if bid < mae:
-        active["mae_price"] = bid
+    if better_adverse(mae, adverse_price):
+        active["mae_price"] = adverse_price
         active["mae_timestamp_utc"] = snap["observed_at_utc"]
     runtime_path.write_text(stable_json(active), encoding="utf-8")
     return active
 
 
 def calculate_conservative_paper_result(session: Mapping[str, Any], closing_snapshot: Mapping[str, Any], fees: float = 0.0) -> dict[str, float]:
-    exit_price = _number(closing_snapshot["bid"], "exit_price"); cost = _number(fees, "fees")
+    direction = str(session.get("direction", "BUY")).upper()
+    exit_price = _number(closing_snapshot["bid"] if direction == "BUY" else closing_snapshot["ask"], "exit_price")
+    cost = _number(fees, "fees")
     if cost < 0: raise ValueError("invalid_fees")
-    gross = round((exit_price - _number(session["entry_price"], "entry_price")) * int(session["units"]), 8)
+    entry_price = _number(session["entry_price"], "entry_price")
+    gross = round(((exit_price - entry_price) if direction == "BUY" else (entry_price - exit_price)) * int(session["units"]), 8)
     return {"entry_price": float(session["entry_price"]), "exit_price": exit_price, "gross_pl": gross, "fees": cost, "net_pl": round(gross - cost, 8)}
 
 
@@ -230,13 +258,14 @@ def build_completed_trade_record(session: Mapping[str, Any], closing_snapshot: M
     if _utc(snap["observed_at_utc"]) <= _utc(session["entry_timestamp"]): raise ValueError("exit_must_follow_entry")
     if _utc(review_utc) < _utc(snap["observed_at_utc"]): raise ValueError("review_precedes_exit")
     result = calculate_conservative_paper_result(session, snap, fees)
+    direction = str(session.get("direction", "BUY")).upper()
     base = {
         "strategy_id": session["strategy_id"],
         "strategy_name": session.get("strategy_name", session["strategy_id"]),
         "mode": session.get("mode", "PAPER_ONLY"),
         "paper_only": session.get("paper_only", True),
         "candidate_id": session["candidate_id"], "evidence_type": "paper",
-        "instrument": session["instrument"], "direction": "buy", "entry_timestamp_utc": session["entry_timestamp"],
+        "instrument": session["instrument"], "direction": direction, "entry_timestamp_utc": session["entry_timestamp"],
         "exit_timestamp_utc": snap["observed_at_utc"], "entry_price": result["entry_price"], "exit_price": result["exit_price"],
         "stop_price": session["stop_price"], "target_price": session["target_price"], "quantity_or_units": session["units"],
         "realized_pl": result["net_pl"], "fees": result["fees"], "risk_amount": session["risk_amount"],
@@ -251,14 +280,20 @@ def build_completed_trade_record(session: Mapping[str, Any], closing_snapshot: M
     risk = float(session["risk_amount"])
     units = int(session["units"])
     entry = float(result["entry_price"])
-    mfe_price = max(float(session.get("mfe_price", entry)), float(result["exit_price"]))
-    mae_price = min(float(session.get("mae_price", entry)), float(result["exit_price"]))
+    if direction == "BUY":
+        mfe_price = max(float(session.get("mfe_price", entry)), float(result["exit_price"]))
+        mae_price = min(float(session.get("mae_price", entry)), float(result["exit_price"]))
+    else:
+        mfe_price = min(float(session.get("mfe_price", entry)), float(result["exit_price"]))
+        mae_price = max(float(session.get("mae_price", entry)), float(result["exit_price"]))
     mfe_timestamp = session.get("mfe_timestamp_utc", session["entry_timestamp"])
     mae_timestamp = session.get("mae_timestamp_utc", session["entry_timestamp"])
-    if float(result["exit_price"]) >= float(session.get("mfe_price", entry)):
+    if (direction == "BUY" and float(result["exit_price"]) >= float(session.get("mfe_price", entry))) or (direction == "SELL" and float(result["exit_price"]) <= float(session.get("mfe_price", entry))):
         mfe_timestamp = snap["observed_at_utc"]
-    if float(result["exit_price"]) <= float(session.get("mae_price", entry)):
+    if (direction == "BUY" and float(result["exit_price"]) <= float(session.get("mae_price", entry))) or (direction == "SELL" and float(result["exit_price"]) >= float(session.get("mae_price", entry))):
         mae_timestamp = snap["observed_at_utc"]
+    mfe_r = round(((mfe_price - entry) if direction == "BUY" else (entry - mfe_price)) * units / risk, 8) if risk else None
+    mae_r = round(((entry - mae_price) if direction == "BUY" else (mae_price - entry)) * units / risk, 8) if risk else None
     base.update({
         "holding_duration_seconds": round((exit_time - entry_time).total_seconds(), 6),
         "planned_reward_risk": planned_reward_risk(
@@ -269,8 +304,8 @@ def build_completed_trade_record(session: Mapping[str, Any], closing_snapshot: M
         "roi_class": classify_r_multiple(result["net_pl"], risk),
         "mfe_price": mfe_price,
         "mae_price": mae_price,
-        "mfe_r": round((mfe_price - entry) * units / risk, 8) if risk else None,
-        "mae_r": round((entry - mae_price) * units / risk, 8) if risk else None,
+        "mfe_r": mfe_r,
+        "mae_r": mae_r,
         "time_to_mfe_seconds": round((_utc(mfe_timestamp) - entry_time).total_seconds(), 6),
         "time_to_mae_seconds": round((_utc(mae_timestamp) - entry_time).total_seconds(), 6),
     })

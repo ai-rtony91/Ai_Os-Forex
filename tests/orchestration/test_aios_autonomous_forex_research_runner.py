@@ -17,10 +17,10 @@ def _param_block() -> str:
     return match.group(1)
 
 
-def _current_branch() -> str:
+def _current_branch(repo_root: Path = REPO_ROOT) -> str:
     result = subprocess.run(
         ["git", "branch", "--show-current"],
-        cwd=REPO_ROOT,
+        cwd=repo_root,
         text=True,
         capture_output=True,
         check=True,
@@ -28,7 +28,7 @@ def _current_branch() -> str:
     return result.stdout.strip()
 
 
-def _run_runner(*args: str) -> subprocess.CompletedProcess[str]:
+def _run_runner(*args: str, cwd: Path = REPO_ROOT) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         [
             "powershell",
@@ -39,7 +39,7 @@ def _run_runner(*args: str) -> subprocess.CompletedProcess[str]:
             str(RUNNER),
             *args,
         ],
-        cwd=REPO_ROOT,
+        cwd=cwd,
         text=True,
         capture_output=True,
         check=False,
@@ -101,14 +101,16 @@ def test_runner_output_json_branch_is_json_only_surface() -> None:
     assert "Write-ConsoleReport -Result $result" in text
 
 
-def test_runner_dry_run_executes_from_repo_root_imports_package_and_writes_no_ledger(tmp_path: Path) -> None:
+def test_runner_dry_run_executes_from_repo_root_imports_package_and_writes_no_ledger(clean_repo_root: Path, tmp_path: Path) -> None:
     output_root = tmp_path / "ledger"
     result = _run_runner(
         "-Mode",
         "DRY_RUN",
         "-OutputJson",
+        "-RepoRoot",
+        str(clean_repo_root),
         "-ExpectedBranch",
-        _current_branch(),
+        _current_branch(clean_repo_root),
         "-HumanOwnerResearchApproval",
         "APPROVED_LOCAL_FOREX_RESEARCH_ONLY",
         "-ResearchMode",
@@ -127,6 +129,7 @@ def test_runner_dry_run_executes_from_repo_root_imports_package_and_writes_no_le
         "30",
         "-OutputRoot",
         str(output_root),
+        cwd=clean_repo_root,
     )
 
     assert "ModuleNotFoundError" not in result.stderr
@@ -138,14 +141,16 @@ def test_runner_dry_run_executes_from_repo_root_imports_package_and_writes_no_le
     assert not output_root.exists()
 
 
-def test_runner_apply_writes_ledger_only_to_requested_output_root(tmp_path: Path) -> None:
+def test_runner_apply_writes_ledger_only_to_requested_output_root(clean_repo_root: Path, tmp_path: Path) -> None:
     output_root = tmp_path / "ledger"
     result = _run_runner(
         "-Mode",
         "APPLY",
         "-OutputJson",
+        "-RepoRoot",
+        str(clean_repo_root),
         "-ExpectedBranch",
-        _current_branch(),
+        _current_branch(clean_repo_root),
         "-HumanOwnerResearchApproval",
         "APPROVED_LOCAL_FOREX_RESEARCH_ONLY",
         "-ResearchMode",
@@ -164,6 +169,7 @@ def test_runner_apply_writes_ledger_only_to_requested_output_root(tmp_path: Path
         "30",
         "-OutputRoot",
         str(output_root),
+        cwd=clean_repo_root,
     )
 
     assert "ModuleNotFoundError" not in result.stderr

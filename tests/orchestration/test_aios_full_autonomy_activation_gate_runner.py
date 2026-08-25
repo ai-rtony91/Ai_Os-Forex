@@ -10,10 +10,10 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 RUNNER = REPO_ROOT / "automation/orchestration/self_development/Test-AiOsFullAutonomyActivationGate.DRY_RUN.ps1"
 
 
-def _current_branch() -> str:
+def _current_branch(repo_root: Path = REPO_ROOT) -> str:
     result = subprocess.run(
         ["git", "branch", "--show-current"],
-        cwd=REPO_ROOT,
+        cwd=repo_root,
         text=True,
         capture_output=True,
         check=True,
@@ -21,11 +21,12 @@ def _current_branch() -> str:
     return result.stdout.strip()
 
 
-def _expected_branch_args() -> tuple[str, ...]:
-    return ("-ExpectedBranch", _current_branch())
+def _expected_branch_args(repo_root: Path = REPO_ROOT) -> tuple[str, ...]:
+    return ("-ExpectedBranch", _current_branch(repo_root))
 
 
-def _run_runner(*args: str, cwd: Path = REPO_ROOT, check: bool = True) -> subprocess.CompletedProcess[str]:
+def _run_runner(*args: str, repo_root: Path = REPO_ROOT, cwd: Path | None = None, check: bool = True) -> subprocess.CompletedProcess[str]:
+    current_cwd = cwd or repo_root
     result = subprocess.run(
         [
             "powershell",
@@ -33,10 +34,10 @@ def _run_runner(*args: str, cwd: Path = REPO_ROOT, check: bool = True) -> subpro
             "-ExecutionPolicy",
             "Bypass",
             "-File",
-            str(RUNNER),
+            str(repo_root / "automation/orchestration/self_development/Test-AiOsFullAutonomyActivationGate.DRY_RUN.ps1"),
             *args,
         ],
-        cwd=str(cwd),
+        cwd=str(current_cwd),
         text=True,
         capture_output=True,
         check=False,
@@ -102,14 +103,15 @@ def test_runner_has_required_parameters_and_no_forbidden_parameters() -> None:
         assert forbidden not in param_block
 
 
-def test_runner_emits_json_only_with_output_json() -> None:
+def test_runner_emits_json_only_with_output_json(clean_repo_root: Path) -> None:
     result = _run_runner(
         "-OutputJson",
-        *_expected_branch_args(),
+        *_expected_branch_args(clean_repo_root),
         "-RequestedAutonomyLevel",
         "LEVEL_5_FULL_AUTONOMY_REQUESTED",
         "-OperatingProfile",
         "FULL_AUTONOMY_SUPERVISED",
+        repo_root=clean_repo_root,
     )
     raw = result.stdout.strip()
     parsed = json.loads(raw)
@@ -121,13 +123,14 @@ def test_runner_emits_json_only_with_output_json() -> None:
     assert parsed["safety"]["status"] == "REVIEW_REQUIRED"
 
 
-def test_runner_accepts_console_mode() -> None:
+def test_runner_accepts_console_mode(clean_repo_root: Path) -> None:
     result = _run_runner(
-        *_expected_branch_args(),
+        *_expected_branch_args(clean_repo_root),
         "-RequestedAutonomyLevel",
         "LEVEL_4_CONDITIONAL_FULL_AUTONOMY",
         "-OperatingProfile",
         "24H_SUPERVISED",
+        repo_root=clean_repo_root,
     )
     out = result.stdout
 
@@ -144,16 +147,16 @@ def test_runner_accepts_console_mode() -> None:
         assert section in out
 
 
-def test_runner_identity_status_review_required() -> None:
-    result = _run_runner("-OutputJson", *_expected_branch_args(), "-IdentitySpineStatus", "UNKNOWN")
+def test_runner_identity_status_review_required(clean_repo_root: Path) -> None:
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), "-IdentitySpineStatus", "UNKNOWN", repo_root=clean_repo_root)
     parsed = json.loads(result.stdout)
 
     assert parsed["activation_decision"]["status"] == "REVIEW_REQUIRED"
     assert "identity_spine" in parsed["missing_requirements"]
 
 
-def test_runner_sos_active_returns_blocked_without_retry() -> None:
-    result = _run_runner("-OutputJson", *_expected_branch_args(), "-ApprovalSosStatus", "SOS_ACTIVE", check=False)
+def test_runner_sos_active_returns_blocked_without_retry(clean_repo_root: Path) -> None:
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), "-ApprovalSosStatus", "SOS_ACTIVE", repo_root=clean_repo_root, check=False)
     parsed = json.loads(result.stdout)
 
     assert result.returncode != 0
@@ -179,7 +182,7 @@ def test_runner_refuses_dirty_worktree_outside_exact_allowed_files(tmp_path: Pat
     assert parsed["repo_state"]["dirty_allowed_for_full_autonomy_activation_gate_validation"] is False
 
 
-def test_runner_no_write_proof_does_not_create_forbidden_files() -> None:
+def test_runner_no_write_proof_does_not_create_forbidden_files(clean_repo_root: Path) -> None:
     protected_roots = [
         "Reports",
         "telemetry",
@@ -196,7 +199,7 @@ def test_runner_no_write_proof_does_not_create_forbidden_files() -> None:
         "control/review_bridge/codex_reports",
     ]
     before = {root: _file_set(REPO_ROOT, root) for root in protected_roots}
-    result = _run_runner("-OutputJson", *_expected_branch_args())
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), repo_root=clean_repo_root)
     after = {root: _file_set(REPO_ROOT, root) for root in protected_roots}
     parsed = json.loads(result.stdout)
 
@@ -205,8 +208,8 @@ def test_runner_no_write_proof_does_not_create_forbidden_files() -> None:
     assert before == after
 
 
-def test_runner_output_does_not_recommend_protected_or_runtime_commands() -> None:
-    result = _run_runner("-OutputJson", *_expected_branch_args())
+def test_runner_output_does_not_recommend_protected_or_runtime_commands(clean_repo_root: Path) -> None:
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), repo_root=clean_repo_root)
     parsed = json.loads(result.stdout)
     encoded = json.dumps(parsed).lower()
 

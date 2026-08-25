@@ -211,7 +211,11 @@ def test_write_reports_false_has_no_report_path(monkeypatch: Any) -> None:
     assert "report_path" not in payload
 
 
-def test_write_reports_true_returns_report_path(monkeypatch: Any) -> None:
+def test_write_reports_true_returns_report_path(
+    monkeypatch: Any,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.chdir(tmp_path)
     monkeypatch.setattr(
         bundle_module.review_chain_end_to_end_candidate_journey,
         "run_review_chain_end_to_end_candidate_journey",

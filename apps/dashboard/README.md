@@ -1,16 +1,31 @@
-# React + Vite
+# AIOS Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Canonical Forex Dashboard
 
-Currently, two official plugins are available:
+The owner-approved current Forex dashboard is:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+`apps/dashboard/aios-forex-dashboard.html`
 
-## React Compiler
+It is a focused, low-clutter operator surface for the 30-trade forward paper campaign and the evidence needed to judge Forex readiness.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Current Status
 
-## Expanding the ESLint configuration
+The page is a static, read-only UI. Its data contract is not connected, so unavailable evidence is labeled `PENDING` or `NOT CONNECTED`. It separates:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- forward paper evidence from genuine pretend-money trades;
+- historical and research evidence from development replay and statistical analysis;
+- readiness and safety evidence from governed gates and controls.
+
+Historical results must never be presented as forward PAPER30 progress.
+
+## Safety Boundary
+
+This dashboard has no broker execution, credentials, account identifiers, live-order control, backend activation, network submission, persistence, or hidden automation. `LIVE DISABLED` is a safety status, not a control.
+
+## Legacy Dashboard
+
+`apps/dashboard/AIOS_STATIC_PREVIEW.html` is the noncanonical legacy planetary dashboard. It remains in the repository only while existing build, manifest, companion UI, and validator dependencies still reference it. New Forex dashboard work must target the canonical page above.
+
+## Next Direction
+
+The next dashboard packet should define and validate a read-only data contract for the three evidence classes before wiring any values. Missing evidence must remain visibly pending; it must not be fabricated or inferred.

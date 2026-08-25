@@ -18,10 +18,10 @@ def _param_block() -> str:
     return match.group(1)
 
 
-def _current_branch() -> str:
+def _current_branch(repo_root: Path = REPO_ROOT) -> str:
     result = subprocess.run(
         ["git", "branch", "--show-current"],
-        cwd=REPO_ROOT,
+        cwd=repo_root,
         text=True,
         capture_output=True,
         check=True,
@@ -29,7 +29,7 @@ def _current_branch() -> str:
     return result.stdout.strip()
 
 
-def _run_runner(*args: str) -> subprocess.CompletedProcess[str]:
+def _run_runner(*args: str, cwd: Path = REPO_ROOT) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         [
             "powershell",
@@ -40,7 +40,7 @@ def _run_runner(*args: str) -> subprocess.CompletedProcess[str]:
             str(RUNNER),
             *args,
         ],
-        cwd=REPO_ROOT,
+        cwd=cwd,
         text=True,
         capture_output=True,
         check=False,
@@ -107,14 +107,16 @@ def test_runner_output_json_branch_is_json_only_surface() -> None:
     assert "Write-ConsoleReport -Result $result" in text
 
 
-def test_runner_executes_from_repo_root_with_output_json_and_repo_imports(tmp_path: Path) -> None:
+def test_runner_executes_from_repo_root_with_output_json_and_repo_imports(clean_repo_root: Path, tmp_path: Path) -> None:
     output_root = tmp_path / "ledger"
     result = _run_runner(
         "-Mode",
         "DRY_RUN",
         "-OutputJson",
+        "-RepoRoot",
+        str(clean_repo_root),
         "-ExpectedBranch",
-        _current_branch(),
+        _current_branch(clean_repo_root),
         "-HumanOwnerWorkerLaunchApproval",
         "APPROVED_SAFE_LOCAL_SIMULATION_WORKERS_ONLY",
         "-WorkerPosture",
@@ -141,6 +143,7 @@ def test_runner_executes_from_repo_root_with_output_json_and_repo_imports(tmp_pa
         "LAUNCH_APPROVED_FOR_FUTURE_PACKET_NOT_EXECUTED",
         "-OutputRoot",
         str(output_root),
+        cwd=clean_repo_root,
     )
 
     assert "ModuleNotFoundError" not in result.stderr

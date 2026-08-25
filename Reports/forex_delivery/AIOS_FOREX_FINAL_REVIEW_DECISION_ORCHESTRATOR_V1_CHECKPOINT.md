@@ -13,7 +13,7 @@
       "route": null,
       "stage": "initialized",
       "status": "STARTED",
-      "timestamp": "2026-07-01T23:49:15.274440+00:00"
+      "timestamp": "2026-08-25T10:30:55.900500+00:00"
     },
     {
       "blockers": [
@@ -28,7 +28,7 @@
       "route": null,
       "stage": "evidence_loader",
       "status": "SAFETY_REJECTED",
-      "timestamp": "2026-07-01T23:49:15.274440+00:00"
+      "timestamp": "2026-08-25T10:30:55.900500+00:00"
     },
     {
       "blockers": [],
@@ -41,7 +41,7 @@
       "route": "ROUTE_OWNER_EVIDENCE_REQUIRED",
       "stage": "protected_boundary_verification",
       "status": "BOUNDARY_CLEAN",
-      "timestamp": "2026-07-01T23:49:15.274440+00:00"
+      "timestamp": "2026-08-25T10:30:55.900500+00:00"
     },
     {
       "blockers": [
@@ -64,7 +64,7 @@
       "route": "ROUTE_OWNER_EVIDENCE_REQUIRED",
       "stage": "final_review_gate",
       "status": "ORCHESTRATOR_SAFETY_BLOCKED",
-      "timestamp": "2026-07-01T23:49:15.274440+00:00"
+      "timestamp": "2026-08-25T10:30:55.900500+00:00"
     },
     {
       "blockers": [],
@@ -75,7 +75,7 @@
       "route": null,
       "stage": "demo_readiness_handoff",
       "status": "DEMO_HANDOFF_SAFETY_BLOCKED",
-      "timestamp": "2026-07-01T23:49:15.274440+00:00"
+      "timestamp": "2026-08-25T10:30:55.900500+00:00"
     },
     {
       "blockers": [],
@@ -86,10 +86,10 @@
       "route": null,
       "stage": "owner_authority_gate",
       "status": "OWNER_AUTHORITY_SAFETY_BLOCKED",
-      "timestamp": "2026-07-01T23:49:15.274440+00:00"
+      "timestamp": "2026-08-25T10:30:55.900500+00:00"
     }
   ],
-  "generated_at": "2026-07-01T23:49:15.274440+00:00",
+  "generated_at": "2026-08-25T10:30:55.900500+00:00",
   "lane": "forex_final_review_decision_orchestrator_v1",
   "ledger_version": "1.0",
   "packet_id": "AIOS-FOREX-FINAL-REVIEW-DECISION-ORCHESTRATOR-V1",

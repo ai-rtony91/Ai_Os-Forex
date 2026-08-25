@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import subprocess
-import tempfile
 from pathlib import Path
 
 
@@ -66,9 +65,8 @@ def _init_relay_repo(tmp_root: Path) -> Path:
     return repo
 
 
-def test_relay_report_dry_run_does_not_write() -> None:
-    tmp_root = Path(tempfile.mkdtemp())
-    repo = _init_relay_repo(tmp_root)
+def test_relay_report_dry_run_does_not_write(tmp_path: Path) -> None:
+    repo = _init_relay_repo(tmp_path)
 
     payload = _build_report_payload("AIOS-RELAY-DRY-01", "feature/relay-test")
     result = _run_powershell_json(
@@ -93,9 +91,8 @@ def test_relay_report_dry_run_does_not_write() -> None:
     assert not (repo / "control" / "review_bridge" / "codex_reports").exists()
 
 
-def test_relay_report_apply_writes_control_report_item() -> None:
-    tmp_root = Path(tempfile.mkdtemp())
-    repo = _init_relay_repo(tmp_root)
+def test_relay_report_apply_writes_control_report_item(tmp_path: Path) -> None:
+    repo = _init_relay_repo(tmp_path)
     packet_id = "AIOS-RELAY-APPLY-02"
 
     result = _run_powershell_json(
@@ -122,9 +119,8 @@ def test_relay_report_apply_writes_control_report_item() -> None:
     assert obj["packet_id"] == packet_id
 
 
-def test_prompt_bridge_builds_required_phrase_and_fields() -> None:
-    tmp_root = Path(tempfile.mkdtemp())
-    repo = _init_relay_repo(tmp_root)
+def test_prompt_bridge_builds_required_phrase_and_fields(tmp_path: Path) -> None:
+    repo = _init_relay_repo(tmp_path)
     packet_id = "AIOS-RELAY-PROMPT-03"
 
     result = _run_powershell_json(
@@ -159,9 +155,8 @@ def test_prompt_bridge_builds_required_phrase_and_fields() -> None:
     assert relay_file.is_relative_to(repo / "control" / "review_bridge")
 
 
-def test_prompt_bridge_as_prompt_block_contains_phrase() -> None:
-    tmp_root = Path(tempfile.mkdtemp())
-    repo = _init_relay_repo(tmp_root)
+def test_prompt_bridge_as_prompt_block_contains_phrase(tmp_path: Path) -> None:
+    repo = _init_relay_repo(tmp_path)
     packet_id = "AIOS-RELAY-PROMPT-04"
 
     _run_powershell_json(
@@ -189,9 +184,8 @@ def test_prompt_bridge_as_prompt_block_contains_phrase() -> None:
     assert "ChatGPT must review this Codex report and return one PowerShell block only." in raw
 
 
-def test_prompt_bridge_next_action_from_pasteback() -> None:
-    tmp_root = Path(tempfile.mkdtemp())
-    repo = _init_relay_repo(tmp_root)
+def test_prompt_bridge_next_action_from_pasteback(tmp_path: Path) -> None:
+    repo = _init_relay_repo(tmp_path)
     packet_id = "AIOS-RELAY-NEXT-05"
 
     _run_powershell_json(
@@ -231,9 +225,8 @@ def test_prompt_bridge_next_action_from_pasteback() -> None:
     assert "powershell -NoProfile -ExecutionPolicy Bypass -File" in prompt_out["next_action"]["exact_next_command"]
 
 
-def test_pasteback_rejects_force_push() -> None:
-    tmp_root = Path(tempfile.mkdtemp())
-    repo = _init_relay_repo(tmp_root)
+def test_pasteback_rejects_force_push(tmp_path: Path) -> None:
+    repo = _init_relay_repo(tmp_path)
     result = _run_powershell_json(
         PASTEBACK_SCRIPT,
         [
@@ -251,9 +244,8 @@ def test_pasteback_rejects_force_push() -> None:
     assert any("unsafe command" in item.lower() for item in result["blocked_actions"])
 
 
-def test_pasteback_rejects_git_add_dot() -> None:
-    tmp_root = Path(tempfile.mkdtemp())
-    repo = _init_relay_repo(tmp_root)
+def test_pasteback_rejects_git_add_dot(tmp_path: Path) -> None:
+    repo = _init_relay_repo(tmp_path)
     result = _run_powershell_json(
         PASTEBACK_SCRIPT,
         [
@@ -271,9 +263,8 @@ def test_pasteback_rejects_git_add_dot() -> None:
     assert any("git add ." in item for item in result["blocked_actions"])
 
 
-def test_pasteback_rejects_secret_like_strings() -> None:
-    tmp_root = Path(tempfile.mkdtemp())
-    repo = _init_relay_repo(tmp_root)
+def test_pasteback_rejects_secret_like_strings(tmp_path: Path) -> None:
+    repo = _init_relay_repo(tmp_path)
     result = _run_powershell_json(
         PASTEBACK_SCRIPT,
         [
@@ -291,9 +282,8 @@ def test_pasteback_rejects_secret_like_strings() -> None:
     assert any("Potential secret token" in item for item in result["blocked_actions"])
 
 
-def test_pasteback_requires_manual_execution_and_no_runtime_mutation_strings() -> None:
-    tmp_root = Path(tempfile.mkdtemp())
-    repo = _init_relay_repo(tmp_root)
+def test_pasteback_requires_manual_execution_and_no_runtime_mutation_strings(tmp_path: Path) -> None:
+    repo = _init_relay_repo(tmp_path)
     result = _run_powershell_json(
         PASTEBACK_SCRIPT,
         [

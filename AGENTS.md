@@ -610,6 +610,7 @@ Ai.Os is not a separate GitHub repository.
 Current identity:
 
 - GitHub repo: `ai-rtony91/Ai_Os-Forex`
+- GitHub repository ID: `1227385337`
 - Active branch: `main`
 - Current local folder: `C:\Dev\Ai.Os`
 - Legacy inactive local folders:

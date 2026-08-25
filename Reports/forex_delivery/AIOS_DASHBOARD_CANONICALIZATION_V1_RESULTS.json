@@ -1,0 +1,110 @@
+{
+  "identity_marker": "AIOS_FOREX_CLEAN_DASHBOARD_CANONICALIZATION_V1",
+  "packet_id": "PKT-EAST-DASHBOARD-CANONICAL-CONSOLIDATION-024",
+  "source_head": "d85fce1a88e73cd9863e2b400b48bf42f52d2c27",
+  "repository_identity": "ai-rtony91/Ai_Os-Forex",
+  "repository_id": 1227385337,
+  "branch": "main",
+  "canonical_dashboard": "apps/dashboard/aios-forex-dashboard.html",
+  "canonical_dashboard_status": "OWNER_APPROVED",
+  "legacy_dashboard": "apps/dashboard/AIOS_STATIC_PREVIEW.html",
+  "legacy_dashboard_status": "NONCANONICAL_SHARED_DEPENDENCY_RETAINED",
+  "legacy_html_deleted": false,
+  "legacy_css_deleted": false,
+  "legacy_js_deleted": false,
+  "dependency_evidence": {
+    "search_method": "git grep fixed-string search over the tracked current checkout",
+    "archive_references_reported_separately": true,
+    "pre_mutation_reference_counts": {
+      "legacy_html": 127,
+      "legacy_css": 57,
+      "legacy_js": 62,
+      "clean_dashboard": 0
+    },
+    "pre_mutation_non_archive_reference_counts": {
+      "legacy_html": 67,
+      "legacy_css": 22,
+      "legacy_js": 29,
+      "clean_dashboard": 0
+    },
+    "non_archive_referencing_file_counts": {
+      "legacy_html": 43,
+      "legacy_css": 17,
+      "legacy_js": 19
+    },
+    "legacy_html_classification": "SHARED",
+    "legacy_css_classification": "SHARED",
+    "legacy_js_classification": "SHARED",
+    "classification_method": "SHARED when an active build, manifest, companion UI, validator, or readiness file references the path",
+    "representative_active_consumers": {
+      "legacy_html": [
+        ".github/workflows/azure-deploy.yml",
+        "apps/dashboard/manifest.webmanifest",
+        "apps/dashboard/src/MinimalOperatorDashboard.jsx",
+        "apps/dashboard/vite.config.js",
+        "automation/status/Test-AiOsDashboardCommandCenterReadiness.DRY_RUN.ps1"
+      ],
+      "legacy_css": [
+        "apps/dashboard/AIOS_STATIC_PREVIEW.html",
+        "apps/dashboard/PUBLISHING_READINESS.md",
+        "automation/status/Test-AiOsDashboardThemeSelector.DRY_RUN.ps1"
+      ],
+      "legacy_js": [
+        "apps/dashboard/AIOS_STATIC_PREVIEW.html",
+        "automation/trading_lab/Test-AiOsPaperBotCoreReadiness.DRY_RUN.ps1",
+        "automation/trading_lab/Test-AiOsTradingLabWindowSystem.DRY_RUN.ps1"
+      ]
+    }
+  },
+  "clean_dashboard_sha256": "F73C597338E7AD9A1CCB1D258455462A2E75188679D0B5B9BBDB129237EFAF50",
+  "dashboard_structure_sha256": "D447A0DE00276A733EE2333C71E2DE3A2A5A8A9D7BEEFD0509E425BDFD262EA4",
+  "dashboard_readme_sha256": "1555CFB742C0A0FE8EEE14458911D3D3F32E960CDB67CB596C69CAA72FD4E82F",
+  "legacy_artifact_integrity": {
+    "html_pre_sha256": "3A3DCA3A49CE5523BDA67D1876B7DCA164F653C13E262DF2D1967C0714CEF866",
+    "html_post_sha256": "3A3DCA3A49CE5523BDA67D1876B7DCA164F653C13E262DF2D1967C0714CEF866",
+    "css_pre_sha256": "EE734A9780E15A439835350E3B3B120451D18DB74BA9A29F8F04657CCDE19DC8",
+    "css_post_sha256": "EE734A9780E15A439835350E3B3B120451D18DB74BA9A29F8F04657CCDE19DC8",
+    "js_pre_sha256": "BD333719C64EA8658F73579FAB5C33438C3AA3AAE3E716F88B30C1C2972D43FE",
+    "js_post_sha256": "BD333719C64EA8658F73579FAB5C33438C3AA3AAE3E716F88B30C1C2972D43FE",
+    "unchanged": true
+  },
+  "forward_lane_ready": true,
+  "historical_lane_ready": true,
+  "readiness_lane_ready": true,
+  "live_controls_present": false,
+  "broker_calls_present": false,
+  "credential_fields_present": false,
+  "account_identifier_fields_present": false,
+  "network_submit_present": false,
+  "static_validation": {
+    "html_parser_status": "PASS",
+    "duplicate_id_count": 0,
+    "local_reference_count": 0,
+    "missing_local_reference_count": 0,
+    "responsive_viewport_present": true,
+    "script_tag_count": 0,
+    "interactive_control_tag_count": 0,
+    "api_reference_count": 0,
+    "fetch_reference_count": 0
+  },
+  "visual_intent_check": {
+    "low_clutter_direction_preserved": true,
+    "clean_panel_count": 3,
+    "clean_primary_metric_count": 22,
+    "clean_text_block_count": 9,
+    "legacy_panel_count_before": 44,
+    "legacy_text_block_count_before": 26,
+    "responsive_breakpoints_present": true,
+    "browser_render_status": "NOT_RUN_NO_BROWSER_SURFACE_AVAILABLE",
+    "assessment_basis": "static structure, semantic hierarchy, responsive CSS, and clutter diagnostics"
+  },
+  "validation_status": "PASS",
+  "success_classification": "CLEAN_FOREX_DASHBOARD_CANONICAL_LEGACY_PARTIALLY_RETAINED",
+  "network_calls": false,
+  "broker_calls": false,
+  "practice_orders": false,
+  "live_orders": false,
+  "money_movement": false,
+  "commit": false,
+  "push": false
+}

@@ -296,3 +296,128 @@ def test_active_position_pricing_failure_waits_without_closing(monkeypatch):
     assert "WAIT_FOR_DATA" in telemetry
     assert "PAPER_SESSION_CLOSE" not in telemetry
     assert state["campaign_status"] == "RUNNING"
+
+
+def test_normalized_campaign_supports_sell_session_and_records_sell_direction(monkeypatch):
+    client = FakeClient()
+    runtime_root = _runtime_root("campaign_sell")
+    base_time = datetime(2026, 8, 1, 10, 30, tzinfo=timezone.utc)
+    clock_index = {"value": 0}
+
+    def now():
+        offset = clock_index["value"]
+        clock_index["value"] += 1
+        return base_time + timedelta(minutes=offset * 5)
+
+    monkeypatch.setattr(module, "_acquire_lock", lambda *args, **kwargs: object())
+    monkeypatch.setattr(module, "_touch_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(module, "_release_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(
+        module,
+        "replay_candidate",
+        lambda instrument, candles, snapshot, strategy_config=None: (
+            {
+                "strategy_id": module.STRATEGY_ID,
+                "strategy_name": module.STRATEGY_ID,
+                "protocol_version": module.PROTOCOL_VERSION,
+                "instrument": instrument.instrument,
+                "base_currency": instrument.base_currency,
+                "quote_currency": instrument.quote_currency,
+                "direction": "SELL",
+                "timeframe": "M5",
+                "display_precision": instrument.display_precision,
+                "pip_location": instrument.pip_location,
+                "pip_size": instrument.pip_size,
+                "entry_price": 1.1002,
+                "stop_price": 1.1015,
+                "target_price": 1.0980,
+                "risk_distance": 0.0013,
+                "risk_pips": 13.0,
+                "planned_reward_risk": 1.69230769,
+                "planned_target_reward_risk": 1.69230769,
+                "units": 100,
+                "entry_rationale": "test",
+                "candidate_id": f"cand-sell-{instrument.instrument}",
+                "status": "PAPER_ELIGIBLE",
+                "sanitized": True,
+                "current": True,
+                "mode": "PAPER_ONLY",
+                "paper_only": True,
+                "quote_currency": instrument.quote_currency,
+                "realized_pl_usd": "NOT_COMPUTABLE",
+            }
+            if instrument.instrument == "EUR_USD" and snapshot["bid"] > 1.1000
+            else None
+        ),
+    )
+    pricing_calls = {"value": 0}
+
+    def sell_pricing(_instruments: tuple[str, ...]) -> dict:
+        pricing_calls["value"] += 1
+        time = "2026-08-01T10:30:00Z" if pricing_calls["value"] == 1 else "2026-08-01T10:35:00Z"
+        ask = "1.1004" if pricing_calls["value"] == 1 else "1.0974"
+        bid = "1.1002" if pricing_calls["value"] == 1 else "1.0972"
+        return {
+            "prices": [
+                {"instrument": "EUR_USD", "time": time, "bids": [{"price": bid}], "asks": [{"price": ask}]},
+                {"instrument": "USD_JPY", "time": time, "bids": [{"price": "110.02"}], "asks": [{"price": "110.05"}]},
+            ]
+        }
+
+    client.pricing = sell_pricing  # type: ignore[method-assign]
+
+    def fake_run_pipeline(input_path: Path, ledger_path: Path, state_path: Path, report_path: Path) -> dict:
+        record = json.loads(input_path.read_text(encoding="utf-8"))
+        ledger = {
+            "version": module.VERSION,
+            "records": [record],
+            "broker_write_performed": False,
+            "practice_order_performed": False,
+            "live_trade_performed": False,
+            "money_movement_performed": False,
+            "credentials_persisted": False,
+        }
+        ledger_path.write_text(json.dumps(ledger, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        state = {
+            "version": module.VERSION,
+            "pipeline_status": "COMPLETE",
+            "input_records": 1,
+            "accepted_records": 1,
+            "rejected_records": 0,
+            "duplicate_records": 0,
+            "rejections": [],
+            "qualifying_trade_count": 1,
+            "p1_status_before": "NO_EVIDENCE",
+            "p1_status_after": "READY_FOR_P1_REVIEW",
+            "profitability_proven": True,
+            "ready_for_p2_review": True,
+            "next_safe_action": "none",
+            "p1_evaluator_result": {"trade_count": 1, "win_rate": 1.0, "gross_profit": 1.0, "gross_loss": 0.0, "net_pl": 1.0, "expectancy_per_trade": 1.0, "profit_factor": None, "maximum_drawdown": 0.0, "consecutive_losses": 0},
+            "broker_write_performed": False,
+            "practice_order_performed": False,
+            "live_trade_performed": False,
+            "money_movement_performed": False,
+            "credentials_persisted": False,
+        }
+        state_path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        report_path.write_text("# ok\n", encoding="utf-8")
+        return state
+
+    monkeypatch.setattr(module, "run_pipeline", fake_run_pipeline)
+
+    state = module.run_normalized_multipair_campaign(
+        client,
+        cycles=2,
+        reviewer_identity="Human Owner Anthony",
+        runtime_root=runtime_root,
+        now=now,
+        sleep=lambda *_args, **_kwargs: None,
+    )
+
+    assert state["accepted_qualifying_trades"] == 1
+    ledger = json.loads((runtime_root / "AIOS_FOREX_MULTIPAIR_NORMALIZED_PAPER_LEDGER.json").read_text(encoding="utf-8"))
+    assert ledger["records"][0]["direction"] == "SELL"
+    assert ledger["records"][0]["realized_r"] > 0
+    tombstone = json.loads((runtime_root / "active.json").read_text(encoding="utf-8"))
+    assert tombstone["status"] == "CLOSED"
+    assert tombstone["closed_reason"] == "paper_target"

@@ -1,0 +1,100 @@
+{
+  "what_happened": "Per-symbol MACD runner executed against the frozen replay cache, but the Supertrend control baseline did not reproduce.",
+  "is_it_safe": "YES",
+  "what_do_i_do_next": "Trace the control provenance mismatch before allowing any MACD calibration or selection.",
+  "pair_count": 68,
+  "global_split_timestamp": null,
+  "control_reproduced": false,
+  "control_calibration": {
+    "closed": 631,
+    "buy": 311,
+    "sell": 320,
+    "expectancy_r": -20.1276892079125,
+    "profit_factor": 0.7256895920044754,
+    "net_r": -12700.571890192787
+  },
+  "control_validation": {
+    "closed": 912,
+    "buy": 377,
+    "sell": 535,
+    "expectancy_r": 24.010423212285566,
+    "profit_factor": 1.409299177001952,
+    "net_r": 21897.505969604437
+  },
+  "control_deltas": {
+    "calibration_expectancy_r": {
+      "reference_value": 0.0895977762,
+      "actual_value": -20.1276892079125,
+      "delta": -20.2172869841125
+    },
+    "calibration_profit_factor": {
+      "reference_value": 1.2437535189,
+      "actual_value": 0.7256895920044754,
+      "delta": -0.5180639268955247
+    },
+    "calibration_net_r": {
+      "reference_value": 56.5361968129,
+      "actual_value": -12700.571890192787,
+      "delta": -12757.108087005688
+    },
+    "validation_expectancy_r": {
+      "reference_value": -0.0005572117,
+      "actual_value": 24.010423212285566,
+      "delta": 24.010980423985565
+    },
+    "validation_profit_factor": {
+      "reference_value": 0.9985357983,
+      "actual_value": 1.409299177001952,
+      "delta": 0.41076337870195194
+    },
+    "validation_net_r": {
+      "reference_value": -0.5081770822,
+      "actual_value": 21897.505969604437,
+      "delta": 21898.014146686637
+    }
+  },
+  "filter_a": null,
+  "filter_b": null,
+  "filter_c": null,
+  "filter_d": null,
+  "selected_macd_filter": null,
+  "selection_reason": "control_baseline_not_verified",
+  "net_filter_value_r": null,
+  "macd_validation": null,
+  "macd_validation_buy": null,
+  "macd_validation_sell": null,
+  "expectancy_delta": null,
+  "pf_delta": null,
+  "net_r_delta": null,
+  "drawdown_delta": null,
+  "macd_repairs_buy": null,
+  "macd_preserves_sell_edge": null,
+  "macd_improves_sell": null,
+  "macd_holdout_pass": false,
+  "mfe_sample_count": 0,
+  "mfe_missing_count": 0,
+  "mfe_1r": null,
+  "mfe_1_5r": null,
+  "mfe_2r": null,
+  "mfe_2_5r": null,
+  "mfe_3r": null,
+  "mfe_4r": null,
+  "mfe_5r": null,
+  "lookahead_used_for_selection": false,
+  "forward_label_teacher_ready": false,
+  "reproducible_result": false,
+  "next_decision": "TRACE_CONTROL_PROVENANCE_MISMATCH",
+  "files_changed": [
+    "Reports/forex_delivery/AIOS_FOREX_MACD_CONTROL_BASELINE_V1_RESULTS.json"
+  ],
+  "safety": {
+    "network_calls": false,
+    "broker_calls": false,
+    "broker_writes": false,
+    "practice_orders": false,
+    "live_orders": false,
+    "money_movement": false,
+    "qualifying_credit_awarded": 0
+  },
+  "status": "DRY_RUN COMPLETE, NO SOURCE CHANGES"
+}

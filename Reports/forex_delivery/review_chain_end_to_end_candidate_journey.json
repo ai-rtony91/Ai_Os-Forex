@@ -79,6 +79,8 @@
     },
     "warnings": []
   },
+  "demo_validation_evidence_consumed": false,
+  "demo_validation_evidence_source": "none",
   "enriched_candidate": {
     "candidate_id": "c1-eur-buy",
     "demo_validation_proof": false,

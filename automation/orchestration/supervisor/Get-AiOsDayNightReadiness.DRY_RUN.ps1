@@ -303,6 +303,7 @@ function Invoke-JsonSurface {
     $psi.RedirectStandardOutput = $true
     $psi.RedirectStandardError = $true
     $psi.UseShellExecute = $false
+    $psi.WorkingDirectory = $Root
     $process = [System.Diagnostics.Process]::new()
     $process.StartInfo = $psi
     [void]$process.Start()
@@ -346,7 +347,7 @@ function Invoke-JsonSurface {
 }
 
 function Invoke-PythonReadinessLogic {
-    param([string]$LogicPath, [object]$Payload, [int]$TimeoutSeconds)
+    param([string]$Root, [string]$LogicPath, [object]$Payload, [int]$TimeoutSeconds)
     if (-not (Test-Path -LiteralPath $LogicPath -PathType Leaf)) {
         throw "Python day/night readiness logic module missing: $LogicPath"
     }
@@ -358,6 +359,7 @@ function Invoke-PythonReadinessLogic {
     $psi.RedirectStandardOutput = $true
     $psi.RedirectStandardError = $true
     $psi.UseShellExecute = $false
+    $psi.WorkingDirectory = $Root
     $process = [System.Diagnostics.Process]::new()
     $process.StartInfo = $psi
     [void]$process.Start()
@@ -522,7 +524,7 @@ $payload = [ordered]@{
     no_write_proof = $noWriteProof
 }
 
-$result = Invoke-PythonReadinessLogic -LogicPath $logicPath -Payload $payload -TimeoutSeconds $TimeoutSeconds
+$result = Invoke-PythonReadinessLogic -Root $resolvedRepoRoot -LogicPath $logicPath -Payload $payload -TimeoutSeconds $TimeoutSeconds
 
 if ($OutputJson) {
     $result | ConvertTo-Json -Depth 70

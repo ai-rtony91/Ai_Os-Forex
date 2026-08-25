@@ -1,7 +1,18 @@
 #!/usr/bin/env python3
 """Root command for the AI_OS master runtime."""
+from __future__ import annotations
+
 import argparse
 import json
+from pathlib import Path
+
+
+# Keep the CLI entrypoint available while allowing `import aios.modules.*`.
+_AIOS_PACKAGE_DIR = Path(__file__).with_name("aios")
+if _AIOS_PACKAGE_DIR.is_dir():
+    __path__ = [str(_AIOS_PACKAGE_DIR)]
+    if __spec__ is not None:
+        __spec__.submodule_search_locations = __path__
 
 from automation.orchestration.aios_master_runtime_v1 import ResumeRejected, run
 

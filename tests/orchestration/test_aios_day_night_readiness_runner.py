@@ -13,10 +13,10 @@ SELF_AUDIT_RUNNER = REPO_ROOT / "automation/orchestration/self_audit/Invoke-AiOs
 VALIDATOR_ROUTER_RUNNER = REPO_ROOT / "automation/orchestration/validators/Get-AiOsValidatorEvidenceRouter.DRY_RUN.ps1"
 
 
-def _current_branch() -> str:
+def _current_branch(repo_root: Path = REPO_ROOT) -> str:
     result = subprocess.run(
         ["git", "branch", "--show-current"],
-        cwd=REPO_ROOT,
+        cwd=repo_root,
         text=True,
         capture_output=True,
         check=True,
@@ -24,8 +24,8 @@ def _current_branch() -> str:
     return result.stdout.strip()
 
 
-def _expected_branch_args() -> tuple[str, ...]:
-    branch = _current_branch()
+def _expected_branch_args(repo_root: Path = REPO_ROOT) -> tuple[str, ...]:
+    branch = _current_branch(repo_root)
     if branch == "main":
         return ()
     return ("-ExpectedBranch", branch)
@@ -80,23 +80,26 @@ def test_runner_defaults_expected_branch_to_main() -> None:
     assert "feature/governed-self-development-closure-v1" not in text
 
 
-def test_runner_emits_json_only_with_output_json() -> None:
-    result = _run_runner("-OutputJson", *_expected_branch_args())
+def test_runner_emits_json_only_with_output_json(clean_repo_root: Path) -> None:
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), cwd=clean_repo_root, check=False)
     raw = result.stdout.strip()
     parsed = json.loads(raw)
 
     assert raw.startswith("{")
     assert "AIOS Day Night Readiness" not in raw
     assert parsed["schema"] == "AIOS_DAY_NIGHT_READINESS_RESULT.v1"
+    assert parsed["safety"]["status"] in {"PASS", "BLOCKED_BY_VALIDATOR_RISK"}
 
 
-def test_runner_accepts_explicit_current_expected_branch() -> None:
-    branch = _current_branch()
-    result = _run_runner("-OutputJson", "-ExpectedBranch", branch)
+def test_runner_accepts_explicit_current_expected_branch(clean_repo_root: Path) -> None:
+    branch = _current_branch(clean_repo_root)
+    result = _run_runner("-OutputJson", "-ExpectedBranch", branch, cwd=clean_repo_root, check=False)
     parsed = json.loads(result.stdout)
 
+    assert result.returncode == 0
     assert parsed["repo_state"]["expected_branch"] == branch
     assert parsed["repo_state"]["branch_matches_expected"] is True
+    assert parsed["readiness"]["classification"] == "SUPERVISED_RECOMMENDATION_ALLOWED"
 
 
 def test_runner_passes_expected_branch_to_branch_aware_upstreams() -> None:
@@ -111,8 +114,8 @@ def test_runner_passes_expected_branch_to_branch_aware_upstreams() -> None:
     assert '-ExpectedBranch "{2}"' in text
 
 
-def test_runner_console_mode_includes_expected_sections() -> None:
-    result = _run_runner(*_expected_branch_args())
+def test_runner_console_mode_includes_expected_sections(clean_repo_root: Path) -> None:
+    result = _run_runner(*_expected_branch_args(clean_repo_root), cwd=clean_repo_root, check=False)
     out = result.stdout
 
     for section in (
@@ -129,6 +132,7 @@ def test_runner_console_mode_includes_expected_sections() -> None:
         "NEXT SAFE ACTION",
     ):
         assert section in out
+    assert result.returncode == 0
 
 
 def test_runner_refuses_dirty_worktree_outside_exact_allowed_files(tmp_path: Path) -> None:
@@ -156,7 +160,7 @@ def test_runner_refuses_dirty_worktree_outside_exact_allowed_files(tmp_path: Pat
     assert parsed["repo_state"]["dirty_allowed_for_day_night_readiness_validation"] is False
 
 
-def test_runner_no_write_proof_does_not_create_forbidden_files() -> None:
+def test_runner_no_write_proof_does_not_create_forbidden_files(clean_repo_root: Path) -> None:
     protected_roots = [
         "Reports",
         "telemetry",
@@ -170,12 +174,14 @@ def test_runner_no_write_proof_does_not_create_forbidden_files() -> None:
         "automation/orchestration/workers/inbox",
     ]
     before = {root: _file_set(REPO_ROOT, root) for root in protected_roots}
-    result = _run_runner("-OutputJson", *_expected_branch_args())
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), cwd=clean_repo_root, check=False)
     after = {root: _file_set(REPO_ROOT, root) for root in protected_roots}
     parsed = json.loads(result.stdout)
 
+    assert result.returncode == 0
     assert parsed["safety"]["writes_files"] is False
     assert parsed["no_write_proof"]["changed"] is False
+    assert parsed["readiness"]["classification"] == "SUPERVISED_RECOMMENDATION_ALLOWED"
     assert before == after
 
 

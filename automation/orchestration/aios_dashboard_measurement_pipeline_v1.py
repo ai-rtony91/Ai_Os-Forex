@@ -208,11 +208,12 @@ def atomic_json(path: Path, value: Any) -> None:
         stream.flush()
         os.fsync(stream.fileno())
     os.replace(temporary, path)
-    directory = os.open(path.parent, os.O_RDONLY)
-    try:
-        os.fsync(directory)
-    finally:
-        os.close(directory)
+    if os.name != "nt":
+        directory = os.open(path.parent, os.O_RDONLY)
+        try:
+            os.fsync(directory)
+        finally:
+            os.close(directory)
 
 
 RUNTIME_ROOT = REPO_ROOT / ".aios/runtime/dashboard_measurement"

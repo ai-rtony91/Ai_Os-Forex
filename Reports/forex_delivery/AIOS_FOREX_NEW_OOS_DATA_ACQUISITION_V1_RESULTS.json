@@ -1,0 +1,679 @@
+{
+  "account_endpoint_calls": 0,
+  "broker_calls": true,
+  "broker_writes": false,
+  "credentials_persisted": false,
+  "credentials_printed": false,
+  "current_new_raw_candle_count": 844,
+  "current_new_unique_timestamp_count": 13,
+  "final_holdout_v1_end_timestamp": "2026-08-21T19:50:00.000000000Z",
+  "final_holdout_v1_status": "SPENT_CONTAMINATED",
+  "final_holdout_v2_access_count": 0,
+  "final_holdout_v2_dataset_fingerprint": null,
+  "final_holdout_v2_end_timestamp": "2026-08-21T20:55:00.000000000Z",
+  "final_holdout_v2_metrics_read": false,
+  "final_holdout_v2_per_instrument_raw_counts": {
+    "AUD_CAD": 13,
+    "AUD_CHF": 13,
+    "AUD_HKD": 13,
+    "AUD_JPY": 13,
+    "AUD_NZD": 13,
+    "AUD_SGD": 13,
+    "AUD_USD": 13,
+    "CAD_CHF": 13,
+    "CAD_HKD": 13,
+    "CAD_JPY": 13,
+    "CAD_SGD": 13,
+    "CHF_HKD": 13,
+    "CHF_JPY": 13,
+    "CHF_ZAR": 13,
+    "EUR_AUD": 13,
+    "EUR_CAD": 13,
+    "EUR_CHF": 13,
+    "EUR_CZK": 13,
+    "EUR_DKK": 12,
+    "EUR_GBP": 13,
+    "EUR_HKD": 13,
+    "EUR_HUF": 13,
+    "EUR_JPY": 13,
+    "EUR_NOK": 13,
+    "EUR_NZD": 13,
+    "EUR_PLN": 13,
+    "EUR_SEK": 13,
+    "EUR_SGD": 13,
+    "EUR_TRY": 0,
+    "EUR_USD": 13,
+    "EUR_ZAR": 13,
+    "GBP_AUD": 13,
+    "GBP_CAD": 13,
+    "GBP_CHF": 13,
+    "GBP_HKD": 13,
+    "GBP_JPY": 13,
+    "GBP_NZD": 13,
+    "GBP_PLN": 13,
+    "GBP_SGD": 13,
+    "GBP_USD": 13,
+    "GBP_ZAR": 13,
+    "HKD_JPY": 13,
+    "NZD_CAD": 13,
+    "NZD_CHF": 13,
+    "NZD_HKD": 13,
+    "NZD_JPY": 13,
+    "NZD_SGD": 13,
+    "NZD_USD": 13,
+    "SGD_CHF": 13,
+    "SGD_JPY": 13,
+    "TRY_JPY": 0,
+    "USD_CAD": 13,
+    "USD_CHF": 13,
+    "USD_CNH": 13,
+    "USD_CZK": 13,
+    "USD_DKK": 13,
+    "USD_HKD": 13,
+    "USD_HUF": 13,
+    "USD_JPY": 13,
+    "USD_MXN": 13,
+    "USD_NOK": 13,
+    "USD_PLN": 13,
+    "USD_SEK": 13,
+    "USD_SGD": 13,
+    "USD_THB": 13,
+    "USD_TRY": 0,
+    "USD_ZAR": 13,
+    "ZAR_JPY": 13
+  },
+  "final_holdout_v2_raw_sufficient": false,
+  "final_holdout_v2_reserved": false,
+  "final_holdout_v2_start_timestamp": "2026-08-21T19:55:00.000000000Z",
+  "final_holdout_v2_status": "ACCUMULATING_UNSEEN_RAW",
+  "final_holdout_v2_strategy_executed": false,
+  "final_holdout_v2_unique_timestamp_count": 13,
+  "instruments_still_short": [
+    "AUD_CAD",
+    "AUD_CHF",
+    "AUD_HKD",
+    "AUD_JPY",
+    "AUD_NZD",
+    "AUD_SGD",
+    "AUD_USD",
+    "CAD_CHF",
+    "CAD_HKD",
+    "CAD_JPY",
+    "CAD_SGD",
+    "CHF_HKD",
+    "CHF_JPY",
+    "CHF_ZAR",
+    "EUR_AUD",
+    "EUR_CAD",
+    "EUR_CHF",
+    "EUR_CZK",
+    "EUR_DKK",
+    "EUR_GBP",
+    "EUR_HKD",
+    "EUR_HUF",
+    "EUR_JPY",
+    "EUR_NOK",
+    "EUR_NZD",
+    "EUR_PLN",
+    "EUR_SEK",
+    "EUR_SGD",
+    "EUR_TRY",
+    "EUR_USD",
+    "EUR_ZAR",
+    "GBP_AUD",
+    "GBP_CAD",
+    "GBP_CHF",
+    "GBP_HKD",
+    "GBP_JPY",
+    "GBP_NZD",
+    "GBP_PLN",
+    "GBP_SGD",
+    "GBP_USD",
+    "GBP_ZAR",
+    "HKD_JPY",
+    "NZD_CAD",
+    "NZD_CHF",
+    "NZD_HKD",
+    "NZD_JPY",
+    "NZD_SGD",
+    "NZD_USD",
+    "SGD_CHF",
+    "SGD_JPY",
+    "TRY_JPY",
+    "USD_CAD",
+    "USD_CHF",
+    "USD_CNH",
+    "USD_CZK",
+    "USD_DKK",
+    "USD_HKD",
+    "USD_HUF",
+    "USD_JPY",
+    "USD_MXN",
+    "USD_NOK",
+    "USD_PLN",
+    "USD_SEK",
+    "USD_SGD",
+    "USD_THB",
+    "USD_TRY",
+    "USD_ZAR",
+    "ZAR_JPY"
+  ],
+  "live_orders": false,
+  "max_per_instrument_deficit": 193,
+  "missing_unique_timestamp_count": 193,
+  "money_movement": false,
+  "network_calls": true,
+  "new_oos_data_still_insufficient": true,
+  "next_decision": "ACCUMULATE_MORE_GENUINE_POST_V1_M5_DATA",
+  "next_packet_id": "PKT-EAST-FOREX-NEW-OOS-DATA-ACQUISITION-014",
+  "non_get_calls": 0,
+  "oanda_account_id_present": true,
+  "oanda_api_token_present": true,
+  "oanda_environment": "practice",
+  "oanda_get_call_count": 68,
+  "oanda_get_failure_count": 0,
+  "oanda_get_only": true,
+  "oanda_get_success_count": 68,
+  "original_cache_file_sha256": "c27bab8093f11735583cc0739f92ed9f47c994ab93da540bef16cf6f7d2ddc9f",
+  "packet_id": "PKT-EAST-FOREX-NEW-OOS-DATA-ACQUISITION-014",
+  "per_instrument_depth": {
+    "AUD_CAD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "AUD_CHF": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "AUD_HKD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "AUD_JPY": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "AUD_NZD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "AUD_SGD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "AUD_USD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "CAD_CHF": {
+      "missing_raw_count": 192,
+      "v1_required_raw_count": 205,
+      "v2_accumulated_raw_count": 13
+    },
+    "CAD_HKD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "CAD_JPY": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "CAD_SGD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "CHF_HKD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "CHF_JPY": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "CHF_ZAR": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_AUD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_CAD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_CHF": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_CZK": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_DKK": {
+      "missing_raw_count": 181,
+      "v1_required_raw_count": 193,
+      "v2_accumulated_raw_count": 12
+    },
+    "EUR_GBP": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_HKD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_HUF": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_JPY": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_NOK": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_NZD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_PLN": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_SEK": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_SGD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_TRY": {
+      "missing_raw_count": 109,
+      "v1_required_raw_count": 109,
+      "v2_accumulated_raw_count": 0
+    },
+    "EUR_USD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "EUR_ZAR": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "GBP_AUD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "GBP_CAD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "GBP_CHF": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "GBP_HKD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "GBP_JPY": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "GBP_NZD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "GBP_PLN": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "GBP_SGD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "GBP_USD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "GBP_ZAR": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "HKD_JPY": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "NZD_CAD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "NZD_CHF": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "NZD_HKD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "NZD_JPY": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "NZD_SGD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "NZD_USD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "SGD_CHF": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "SGD_JPY": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "TRY_JPY": {
+      "missing_raw_count": 80,
+      "v1_required_raw_count": 80,
+      "v2_accumulated_raw_count": 0
+    },
+    "USD_CAD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_CHF": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_CNH": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_CZK": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_DKK": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_HKD": {
+      "missing_raw_count": 190,
+      "v1_required_raw_count": 203,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_HUF": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_JPY": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_MXN": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_NOK": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_PLN": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_SEK": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_SGD": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_THB": {
+      "missing_raw_count": 190,
+      "v1_required_raw_count": 203,
+      "v2_accumulated_raw_count": 13
+    },
+    "USD_TRY": {
+      "missing_raw_count": 109,
+      "v1_required_raw_count": 109,
+      "v2_accumulated_raw_count": 0
+    },
+    "USD_ZAR": {
+      "missing_raw_count": 193,
+      "v1_required_raw_count": 206,
+      "v2_accumulated_raw_count": 13
+    },
+    "ZAR_JPY": {
+      "missing_raw_count": 180,
+      "v1_required_raw_count": 193,
+      "v2_accumulated_raw_count": 13
+    }
+  },
+  "practice_orders": false,
+  "raw_data_integrity_pass": true,
+  "sanitized_failure_counts": {
+    "incomplete": 0,
+    "invalid": 0,
+    "pre_v1": 33156,
+    "request": 0
+  },
+  "schema": "AIOS_FOREX_NEW_OOS_DATA_ACQUISITION_V1_RESULTS",
+  "source_head": "d85fce1a88e73cd9863e2b400b48bf42f52d2c27",
+  "status": "NEW_OOS_DATA_ACCUMULATED_STILL_INSUFFICIENT",
+  "target_5r_development_robustness_supported": true,
+  "target_5r_final_oos_proven": false,
+  "target_instrument_count": 68,
+  "target_instruments": [
+    "AUD_CAD",
+    "AUD_CHF",
+    "AUD_HKD",
+    "AUD_JPY",
+    "AUD_NZD",
+    "AUD_SGD",
+    "AUD_USD",
+    "CAD_CHF",
+    "CAD_HKD",
+    "CAD_JPY",
+    "CAD_SGD",
+    "CHF_HKD",
+    "CHF_JPY",
+    "CHF_ZAR",
+    "EUR_AUD",
+    "EUR_CAD",
+    "EUR_CHF",
+    "EUR_CZK",
+    "EUR_DKK",
+    "EUR_GBP",
+    "EUR_HKD",
+    "EUR_HUF",
+    "EUR_JPY",
+    "EUR_NOK",
+    "EUR_NZD",
+    "EUR_PLN",
+    "EUR_SEK",
+    "EUR_SGD",
+    "EUR_TRY",
+    "EUR_USD",
+    "EUR_ZAR",
+    "GBP_AUD",
+    "GBP_CAD",
+    "GBP_CHF",
+    "GBP_HKD",
+    "GBP_JPY",
+    "GBP_NZD",
+    "GBP_PLN",
+    "GBP_SGD",
+    "GBP_USD",
+    "GBP_ZAR",
+    "HKD_JPY",
+    "NZD_CAD",
+    "NZD_CHF",
+    "NZD_HKD",
+    "NZD_JPY",
+    "NZD_SGD",
+    "NZD_USD",
+    "SGD_CHF",
+    "SGD_JPY",
+    "TRY_JPY",
+    "USD_CAD",
+    "USD_CHF",
+    "USD_CNH",
+    "USD_CZK",
+    "USD_DKK",
+    "USD_HKD",
+    "USD_HUF",
+    "USD_JPY",
+    "USD_MXN",
+    "USD_NOK",
+    "USD_PLN",
+    "USD_SEK",
+    "USD_SGD",
+    "USD_THB",
+    "USD_TRY",
+    "USD_ZAR",
+    "ZAR_JPY"
+  ],
+  "target_universe_sha256": "b6abe559dcaa9faa0a1e48217f97a12dc9043eb9595d2b946bf80f93035be142",
+  "v1_instrument_count": 68,
+  "v1_per_instrument_raw_counts": {
+    "AUD_CAD": 206,
+    "AUD_CHF": 206,
+    "AUD_HKD": 206,
+    "AUD_JPY": 206,
+    "AUD_NZD": 206,
+    "AUD_SGD": 206,
+    "AUD_USD": 206,
+    "CAD_CHF": 205,
+    "CAD_HKD": 206,
+    "CAD_JPY": 206,
+    "CAD_SGD": 206,
+    "CHF_HKD": 206,
+    "CHF_JPY": 206,
+    "CHF_ZAR": 206,
+    "EUR_AUD": 206,
+    "EUR_CAD": 206,
+    "EUR_CHF": 206,
+    "EUR_CZK": 206,
+    "EUR_DKK": 193,
+    "EUR_GBP": 206,
+    "EUR_HKD": 206,
+    "EUR_HUF": 206,
+    "EUR_JPY": 206,
+    "EUR_NOK": 206,
+    "EUR_NZD": 206,
+    "EUR_PLN": 206,
+    "EUR_SEK": 206,
+    "EUR_SGD": 206,
+    "EUR_TRY": 109,
+    "EUR_USD": 206,
+    "EUR_ZAR": 206,
+    "GBP_AUD": 206,
+    "GBP_CAD": 206,
+    "GBP_CHF": 206,
+    "GBP_HKD": 206,
+    "GBP_JPY": 206,
+    "GBP_NZD": 206,
+    "GBP_PLN": 206,
+    "GBP_SGD": 206,
+    "GBP_USD": 206,
+    "GBP_ZAR": 206,
+    "HKD_JPY": 206,
+    "NZD_CAD": 206,
+    "NZD_CHF": 206,
+    "NZD_HKD": 206,
+    "NZD_JPY": 206,
+    "NZD_SGD": 206,
+    "NZD_USD": 206,
+    "SGD_CHF": 206,
+    "SGD_JPY": 206,
+    "TRY_JPY": 80,
+    "USD_CAD": 206,
+    "USD_CHF": 206,
+    "USD_CNH": 206,
+    "USD_CZK": 206,
+    "USD_DKK": 206,
+    "USD_HKD": 203,
+    "USD_HUF": 206,
+    "USD_JPY": 206,
+    "USD_MXN": 206,
+    "USD_NOK": 206,
+    "USD_PLN": 206,
+    "USD_SEK": 206,
+    "USD_SGD": 206,
+    "USD_THB": 203,
+    "USD_TRY": 109,
+    "USD_ZAR": 206,
+    "ZAR_JPY": 193
+  },
+  "v1_unique_timestamp_count": 206,
+  "v1_v2_timestamp_overlap_count": 0
+}

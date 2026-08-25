@@ -18,9 +18,23 @@ def candidate(**changes):
     value.update(changes); return value
 
 
+def sell_candidate(**changes):
+    value = {"strategy_id": "c1", "candidate_id": "candidate-sell-1", "instrument": "EUR_USD", "direction": "SELL", "units": 100, "stop_price": 1.1015, "target_price": 1.0985, "risk_amount": 0.12, "entry_rationale": "sanitized momentum review", "status": "PAPER_ELIGIBLE", "sanitized": True, "current": True, "live_execution_allowed": False, "order_submission_allowed": False}
+    value.update(changes); return value
+
+
 def open_one(path: Path):
     return module.open_paper_session(snapshot(), candidate(), "Anthony", "2026-08-06T10:01:00Z", path)
 
+
+def open_sell_one(path: Path):
+    return module.open_paper_session(
+        snapshot(bid=1.1002, ask=1.1004, mid=1.1003),
+        sell_candidate(),
+        "Anthony",
+        "2026-08-06T10:01:00Z",
+        path,
+    )
 
 def test_valid_snapshot(): assert module.validate_market_snapshot(snapshot())["ask"] == 1.1002
 
@@ -35,12 +49,51 @@ def test_invalid_snapshots(change):
 
 
 @pytest.mark.parametrize("change", [
-    {"instrument": "GBP_USD"}, {"status": "WATCH"}, {"live_execution_allowed": True}, {"direction": "SELL"},
+    {"instrument": "GBP_USD"}, {"status": "WATCH"}, {"live_execution_allowed": True},
     {"units": 0}, {"units": 1_000_001}, {"sanitized": False}, {"current": False},
 ])
 def test_invalid_candidates(tmp_path, change):
     with pytest.raises(ValueError, match="NO_PAPER_TRADE_CANDIDATE"):
         module.open_paper_session(snapshot(), candidate(**change), "Anthony", "2026-08-06T10:01:00Z", tmp_path / "active.json")
+
+
+def test_valid_sell_candidate_opens(tmp_path):
+    session = open_sell_one(tmp_path / "active.json")
+    assert session["direction"] == "SELL"
+    assert session["entry_price"] == pytest.approx(1.1002)
+    assert session["mfe_price"] == pytest.approx(1.1004)
+    assert session["mae_price"] == pytest.approx(1.1004)
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"stop_price": 1.1000, "target_price": 1.1020},
+    ],
+)
+def test_invalid_sell_candidates(tmp_path, change):
+    with pytest.raises(ValueError, match="NO_PAPER_TRADE_CANDIDATE"):
+        module.open_paper_session(
+            snapshot(bid=1.1002, ask=1.1004, mid=1.1003),
+            sell_candidate(**change),
+            "Anthony",
+            "2026-08-06T10:01:00Z",
+            tmp_path / "active.json",
+        )
+
+
+def test_valid_sell_candidate_geometry_accepts_bid_entry_between_target_and_stop(tmp_path):
+    session = module.open_paper_session(
+        snapshot(bid=1.1002, ask=1.1004, mid=1.1003),
+        sell_candidate(stop_price=1.1010, target_price=1.1000),
+        "Anthony",
+        "2026-08-06T10:01:00Z",
+        tmp_path / "active.json",
+    )
+    assert session["direction"] == "SELL"
+    assert session["entry_price"] == pytest.approx(1.1002)
+    assert session["target_price"] == pytest.approx(1.1000)
+    assert session["stop_price"] == pytest.approx(1.1010)
 
 
 def test_open_and_identical_open_are_idempotent(tmp_path):
@@ -120,6 +173,15 @@ def test_conservative_ask_to_bid_result_ignores_mid(tmp_path):
     assert result["entry_price"] == 1.1002 and result["exit_price"] == 1.101 and result["net_pl"] == pytest.approx(.08)
 
 
+def test_conservative_sell_ask_to_bid_result_uses_ask_exit(tmp_path):
+    session = open_sell_one(tmp_path/"active.json")
+    closing = snapshot(observed_at_utc="2026-08-06T11:00:00Z", bid=1.0992, ask=1.0994, mid=1.0993, spread=.0002)
+    result = module.calculate_conservative_paper_result(session, closing)
+    assert result["entry_price"] == pytest.approx(1.1002)
+    assert result["exit_price"] == pytest.approx(1.0994)
+    assert result["net_pl"] == pytest.approx(.08)
+
+
 def test_completed_trade_has_canonical_shape(tmp_path):
     session = open_one(tmp_path/"active.json"); closing = snapshot(observed_at_utc="2026-08-06T11:00:00Z")
     record = module.build_completed_trade_record(session, closing, "owner close", "Anthony", "2026-08-06T11:01:00Z")
@@ -147,6 +209,30 @@ def test_close_preserves_paper_excursion_and_holding_metrics(tmp_path):
     assert record["mae_r"] > 0
     assert record["outcome_r"] > 0
     assert record["planned_reward_risk"] == pytest.approx(1.5)
+    assert record["realized_r"] == pytest.approx(record["outcome_r"])
+    assert record["roi_class"] == "POSITIVE_R"
+
+
+def test_close_preserves_sell_excursion_and_holding_metrics(tmp_path):
+    runtime = tmp_path / "active.json"
+    open_sell_one(runtime)
+    module.update_paper_session_extremes(
+        snapshot(observed_at_utc="2026-08-06T10:30:00Z", bid=1.0998,
+                 ask=1.1000, mid=1.0999), runtime
+    )
+    record = module.build_completed_trade_record(
+        module.load_active_session(runtime),
+        snapshot(observed_at_utc="2026-08-06T11:00:00Z", bid=1.0990,
+                 ask=1.0992, mid=1.0991),
+        "target", "Anthony", "2026-08-06T11:01:00Z"
+    )
+    assert record["direction"] == "SELL"
+    assert record["mfe_price"] == 1.0992
+    assert record["mfe_r"] > 0
+    assert record["mae_price"] == 1.1004
+    assert record["mae_r"] > 0
+    assert record["outcome_r"] > 0
+    assert record["planned_reward_risk"] == pytest.approx(1.3076923076923077)
     assert record["realized_r"] == pytest.approx(record["outcome_r"])
     assert record["roi_class"] == "POSITIVE_R"
 

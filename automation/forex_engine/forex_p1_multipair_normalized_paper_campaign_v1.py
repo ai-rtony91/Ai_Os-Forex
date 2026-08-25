@@ -27,6 +27,7 @@ from automation.forex_engine.forex_p1_multipair_normalization_v1 import (
     NormalizedInstrument,
     candles_to_strategy_window,
     candidate_rank_key,
+    calibrate_candidate_to_actual_entry,
     discover_fixed_universe,
     fetch_completed_m5_history,
     normalized_trade_outcome,
@@ -253,10 +254,6 @@ def _candidate_from_replay(
         return None
     candidate = dict(candidate)
     candidate["units"] = DEFAULT_PAPER_UNITS
-    candidate["risk_amount"] = round(
-        abs(float(candidate["entry_price"]) - float(candidate["stop_price"])) * DEFAULT_PAPER_UNITS,
-        8,
-    )
     candidate["entry_rationale"] = (
         f"normalized all-pairs {STRATEGY_ID} paper signal"
     )
@@ -513,8 +510,15 @@ def run_normalized_multipair_campaign(
                         "reason": "duplicate_position_guard",
                     }
                 )
-                if float(snapshot["bid"]) >= float(active["target_price"]) or float(snapshot["bid"]) <= float(active["stop_price"]):
-                    exit_reason = "paper_target" if float(snapshot["bid"]) >= float(active["target_price"]) else "paper_stop"
+                direction = str(active.get("direction", "BUY")).upper()
+                if direction == "BUY":
+                    target_hit = float(snapshot["bid"]) >= float(active["target_price"])
+                    stop_hit = float(snapshot["bid"]) <= float(active["stop_price"])
+                else:
+                    target_hit = float(snapshot["ask"]) <= float(active["target_price"])
+                    stop_hit = float(snapshot["ask"]) >= float(active["stop_price"])
+                if target_hit or stop_hit:
+                    exit_reason = "paper_target" if target_hit else "paper_stop"
                     record = build_completed_trade_record(active, snapshot, exit_reason, reviewer_identity, _stamp(now()))
                     normalized_outcome = normalized_trade_outcome(active, snapshot, quote_mids=quote_mids)
                     record.update(normalized_outcome)
@@ -524,11 +528,17 @@ def run_normalized_multipair_campaign(
                             "strategy_name": STRATEGY_ID,
                             "strategy_id": STRATEGY_ID,
                             "protocol_version": PROTOCOL_VERSION,
-                            "direction": "buy",
+                            "direction": direction,
                             "mode": "PAPER_ONLY",
                             "paper_only": True,
                             "trade_id": record["trade_id"],
                             "realized_pl": record["realized_pl"],
+                            "actual_paper_entry": active.get("entry_price"),
+                            "signal_reference_entry": active.get("signal_reference_entry", active.get("entry_price")),
+                            "nominal_target_rr": active.get("nominal_target_rr", active.get("planned_reward_risk")),
+                            "effective_reward_risk": active.get("effective_reward_risk"),
+                            "target_price": active.get("target_price"),
+                            "stop_price": active.get("stop_price"),
                             "quote_currency": active["quote_currency"],
                             "display_precision": active.get("display_precision", 5),
                             "pip_location": active.get("pip_location", -4),
@@ -615,6 +625,12 @@ def run_normalized_multipair_campaign(
                     candles = candles_to_strategy_window(history, instrument=instrument.instrument)
                     snapshot = _pair_snapshot(pricing, instrument.instrument)
                     candidate = _candidate_from_replay(instrument, candles, snapshot)
+                    if candidate is not None:
+                        candidate = calibrate_candidate_to_actual_entry(
+                            candidate,
+                            snapshot,
+                            reward_risk=TARGET_RR,
+                        )
                 except OandaReadOnlyClientError:
                     first_failure_counts["data_unavailable"] = first_failure_counts.get("data_unavailable", 0) + 1
                     continue

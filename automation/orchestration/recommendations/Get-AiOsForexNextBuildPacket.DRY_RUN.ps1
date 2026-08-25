@@ -14,7 +14,9 @@ function Get-RepoRoot {
 }
 
 $repoRoot = Get-RepoRoot
-$gitStatusLines = @(git -C $repoRoot status --short --untracked-files=all 2>$null)
+$gitStatusLines = @(
+    git -C $repoRoot status --short --untracked-files=all -- . ':(exclude).pytest-base' ':(exclude).pytest_cache' ':(exclude).tmp/aios-short-*' 2>$null
+)
 $dirtyCount = $gitStatusLines.Count
 $branch = (git -C $repoRoot branch --show-current).Trim()
 

@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+from dataclasses import replace
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -32,6 +33,7 @@ SCHEMA = "AIOS_FOREX_MULTIPAIR_NORMALIZATION_V1"
 STRATEGY_ID = SUPERTREND_PULLBACK_V1
 TARGET_RR = 2.0
 MIN_RR = 1.5
+ATR_THRESHOLD_PIPS = 4.0
 
 
 @dataclass(frozen=True)
@@ -79,6 +81,45 @@ def _finite(value: Any, name: str) -> float:
     if not math.isfinite(result):
         raise ValueError(f"invalid_{name}")
     return result
+
+
+def _normalized_direction(value: Any) -> str:
+    return str(value or "").upper().strip()
+
+
+def _direction_entry_price(direction: str, snapshot: Mapping[str, Any]) -> float:
+    if direction == Direction.BUY:
+        return _finite(snapshot["ask"], "ask")
+    if direction == Direction.SELL:
+        return _finite(snapshot["bid"], "bid")
+    raise ValueError("unsupported_direction")
+
+
+def _candidate_geometry_valid(direction: str, entry: float, stop: float, target: float) -> bool:
+    if direction == Direction.BUY:
+        return stop < entry < target
+    if direction == Direction.SELL:
+        return target < entry < stop
+    return False
+
+
+def _candidate_id_payload(
+    *,
+    instrument: str,
+    timestamp: str,
+    direction: str,
+    entry: float,
+    stop: float,
+    target: float,
+) -> dict[str, Any]:
+    return {
+        "instrument": instrument,
+        "timestamp": timestamp,
+        "direction": direction,
+        "entry": entry,
+        "stop": stop,
+        "target": target,
+    }
 
 
 def discover_fixed_universe(client: OandaReadOnlyClient) -> dict[str, Any]:
@@ -281,6 +322,125 @@ def quote_mids_from_pricing(pricing_payload: Mapping[str, Any]) -> dict[str, flo
     return mids
 
 
+def normalized_min_atr_price(instrument: str) -> float:
+    if not isinstance(instrument, str) or "_" not in instrument:
+        raise ValueError("forex_instrument_required")
+    quote = instrument.split("_", 1)[1]
+    pip_size = 0.01 if quote == "JPY" else 0.0001
+    return round(ATR_THRESHOLD_PIPS * pip_size, 10)
+
+
+def normalized_strategy_config(instrument: str, *, base_config: SupertrendPullbackConfig | None = None) -> SupertrendPullbackConfig:
+    config = base_config or SupertrendPullbackConfig()
+    return replace(config, min_atr=normalized_min_atr_price(instrument))
+
+
+def _historical_mba_candle(
+    replay_cache: Mapping[str, Any],
+    instrument: str,
+    timestamp: str,
+) -> Mapping[str, Any] | None:
+    history = replay_cache.get("pair_histories", {}).get(instrument)
+    if not isinstance(history, Mapping):
+        return None
+    candles = history.get("sanitized_candles") or history.get("candles")
+    if not isinstance(candles, list):
+        return None
+    for item in candles:
+        if isinstance(item, Mapping) and str(item.get("timestamp")) == timestamp:
+            return item
+    return None
+
+
+def historical_normalized_usd_pl(
+    *,
+    quote_currency: str,
+    quote_pl: float,
+    conversion_timestamp: str,
+    replay_cache: Mapping[str, Any],
+) -> dict[str, Any]:
+    quote_currency = str(quote_currency).upper()
+    if quote_currency == "USD":
+        return {
+            "quote_currency": "USD",
+            "quote_currency_pl": round(quote_pl, 8),
+            "conversion_pair": "USD_USD",
+            "conversion_timestamp": conversion_timestamp,
+            "conversion_side": "NATIVE",
+            "conversion_rate": 1.0,
+            "normalized_usd_pl": round(quote_pl, 8),
+            "conversion_provenance": "GENUINE_OANDA_HISTORICAL_MBA_CONVERSION",
+            "pl_normalization_status": "AVAILABLE",
+        }
+    direct_pair = f"{quote_currency}_USD"
+    inverse_pair = f"USD_{quote_currency}"
+    direct_candle = _historical_mba_candle(replay_cache, direct_pair, conversion_timestamp)
+    if direct_candle is not None and isinstance(direct_candle.get("bid"), Mapping) and isinstance(direct_candle.get("ask"), Mapping):
+        bid = _finite(direct_candle["bid"].get("close"), "conversion_bid")
+        ask = _finite(direct_candle["ask"].get("close"), "conversion_ask")
+        if quote_pl >= 0:
+            return {
+                "quote_currency": quote_currency,
+                "quote_currency_pl": round(quote_pl, 8),
+                "conversion_pair": direct_pair,
+                "conversion_timestamp": conversion_timestamp,
+                "conversion_side": "BID",
+                "conversion_rate": bid,
+                "normalized_usd_pl": round(quote_pl * bid, 8),
+                "conversion_provenance": "GENUINE_OANDA_HISTORICAL_MBA_CONVERSION",
+                "pl_normalization_status": "AVAILABLE",
+            }
+        return {
+            "quote_currency": quote_currency,
+            "quote_currency_pl": round(quote_pl, 8),
+            "conversion_pair": direct_pair,
+            "conversion_timestamp": conversion_timestamp,
+            "conversion_side": "ASK",
+            "conversion_rate": ask,
+            "normalized_usd_pl": round(quote_pl * ask, 8),
+            "conversion_provenance": "GENUINE_OANDA_HISTORICAL_MBA_CONVERSION",
+            "pl_normalization_status": "AVAILABLE",
+        }
+    inverse_candle = _historical_mba_candle(replay_cache, inverse_pair, conversion_timestamp)
+    if inverse_candle is not None and isinstance(inverse_candle.get("bid"), Mapping) and isinstance(inverse_candle.get("ask"), Mapping):
+        bid = _finite(inverse_candle["bid"].get("close"), "conversion_bid")
+        ask = _finite(inverse_candle["ask"].get("close"), "conversion_ask")
+        if quote_pl >= 0:
+            return {
+                "quote_currency": quote_currency,
+                "quote_currency_pl": round(quote_pl, 8),
+                "conversion_pair": inverse_pair,
+                "conversion_timestamp": conversion_timestamp,
+                "conversion_side": "ASK",
+                "conversion_rate": ask,
+                "normalized_usd_pl": round(quote_pl / ask, 8),
+                "conversion_provenance": "GENUINE_OANDA_HISTORICAL_MBA_CONVERSION",
+                "pl_normalization_status": "AVAILABLE",
+            }
+        return {
+            "quote_currency": quote_currency,
+            "quote_currency_pl": round(quote_pl, 8),
+            "conversion_pair": inverse_pair,
+            "conversion_timestamp": conversion_timestamp,
+            "conversion_side": "BID",
+            "conversion_rate": bid,
+            "normalized_usd_pl": round(quote_pl / bid, 8),
+            "conversion_provenance": "GENUINE_OANDA_HISTORICAL_MBA_CONVERSION",
+            "pl_normalization_status": "AVAILABLE",
+        }
+    return {
+        "quote_currency": quote_currency,
+        "quote_currency_pl": round(quote_pl, 8),
+        "conversion_pair": None,
+        "conversion_timestamp": conversion_timestamp,
+        "conversion_side": None,
+        "conversion_rate": None,
+        "normalized_usd_pl": None,
+        "conversion_provenance": "GENUINE_OANDA_HISTORICAL_MBA_CONVERSION",
+        "pl_normalization_status": "UNAVAILABLE_FOR_TRADE",
+    }
+
+
 def replay_candidate(
     instrument: NormalizedInstrument,
     candles: Sequence[Candle],
@@ -288,24 +448,24 @@ def replay_candidate(
     *,
     strategy_config: SupertrendPullbackConfig | None = None,
 ) -> dict[str, Any] | None:
-    config = strategy_config or SupertrendPullbackConfig()
+    config = normalized_strategy_config(instrument.instrument, base_config=strategy_config)
     evaluation = evaluate_supertrend_pullback(list(candles), config)
     if evaluation.get("accepted") is not True:
         return None
     signal = evaluation.get("signal")
-    if signal is None or str(getattr(signal, "direction", "")).upper() != Direction.BUY:
+    direction = _normalized_direction(getattr(signal, "direction", ""))
+    if signal is None or direction not in (Direction.BUY, Direction.SELL):
         return None
-    ask = _finite(snapshot["ask"], "ask")
+    entry = _direction_entry_price(direction, snapshot)
     stop = _finite(signal.stop_loss, "stop_price")
     target = _finite(signal.take_profit, "target_price")
-    entry = _finite(signal.entry_price, "entry_price")
-    if not (stop < ask < target and stop < entry < target):
+    if not _candidate_geometry_valid(direction, entry, stop, target):
         return None
-    risk_distance = entry - stop
+    risk_distance = entry - stop if direction == Direction.BUY else stop - entry
     if risk_distance <= 0:
         return None
     risk_pips = risk_distance / instrument.pip_size
-    planned_rr = (target - entry) / risk_distance
+    planned_rr = (target - entry) / risk_distance if direction == Direction.BUY else (entry - target) / risk_distance
     if planned_rr < MIN_RR:
         return None
     return {
@@ -315,7 +475,7 @@ def replay_candidate(
         "instrument": instrument.instrument,
         "base_currency": instrument.base_currency,
         "quote_currency": instrument.quote_currency,
-        "direction": "BUY",
+        "direction": direction,
         "timeframe": "M5",
         "display_precision": instrument.display_precision,
         "pip_location": instrument.pip_location,
@@ -331,13 +491,14 @@ def replay_candidate(
         "entry_rationale": f"normalized multi-pair {STRATEGY_ID} paper signal",
         "candidate_id": hashlib.sha256(
             json.dumps(
-                {
-                    "instrument": instrument.instrument,
-                    "timestamp": candles[-1].timestamp,
-                    "entry": entry,
-                    "stop": stop,
-                    "target": target,
-                },
+                _candidate_id_payload(
+                    instrument=instrument.instrument,
+                    timestamp=candles[-1].timestamp,
+                    direction=direction,
+                    entry=round(entry, instrument.display_precision),
+                    stop=round(stop, instrument.display_precision),
+                    target=round(target, instrument.display_precision),
+                ),
                 sort_keys=True,
                 separators=(",", ":"),
             ).encode("utf-8")
@@ -356,6 +517,41 @@ def replay_candidate(
     }
 
 
+def calibrate_candidate_to_actual_entry(
+    candidate: Mapping[str, Any],
+    snapshot: Mapping[str, Any],
+    *,
+    reward_risk: float | None = None,
+) -> dict[str, Any]:
+    direction = _normalized_direction(candidate.get("direction"))
+    entry_side = _direction_entry_price(direction, snapshot)
+    stop = _finite(candidate["stop_price"], "stop_price")
+    planned_rr = reward_risk if reward_risk is not None else _finite(candidate.get("planned_target_reward_risk", TARGET_RR), "planned_target_reward_risk")
+    if planned_rr <= 0:
+        raise ValueError("invalid_reward_risk")
+    if direction == Direction.BUY and not stop < entry_side:
+        raise ValueError("invalid_actual_entry_geometry")
+    if direction == Direction.SELL and not entry_side < stop:
+        raise ValueError("invalid_actual_entry_geometry")
+    risk_distance = entry_side - stop if direction == Direction.BUY else stop - entry_side
+    target = entry_side + (risk_distance * planned_rr) if direction == Direction.BUY else entry_side - (risk_distance * planned_rr)
+    adjusted = dict(candidate)
+    adjusted["entry_price"] = round(entry_side, int(candidate.get("display_precision", 5)))
+    adjusted["stop_price"] = round(stop, int(candidate.get("display_precision", 5)))
+    adjusted["target_price"] = round(target, int(candidate.get("display_precision", 5)))
+    adjusted["risk_distance"] = round(risk_distance, int(candidate.get("display_precision", 5)) + 4)
+    adjusted["risk_amount"] = round(risk_distance * float(candidate.get("units", 100)), 8)
+    adjusted["planned_reward_risk"] = round(planned_rr, 8)
+    adjusted["planned_target_reward_risk"] = round(planned_rr, 8)
+    adjusted["nominal_target_rr"] = round(planned_rr, 8)
+    adjusted["effective_reward_risk"] = round((adjusted["target_price"] - adjusted["entry_price"]) / risk_distance, 8)
+    adjusted["actual_paper_entry"] = adjusted["entry_price"]
+    adjusted["signal_reference_entry"] = round(_finite(candidate.get("entry_price", entry_side), "entry_price"), int(candidate.get("display_precision", 5)))
+    if not _candidate_geometry_valid(direction, adjusted["entry_price"], adjusted["stop_price"], adjusted["target_price"]):
+        raise ValueError("invalid_actual_entry_geometry")
+    return adjusted
+
+
 def candidate_rank_key(candidate: Mapping[str, Any], snapshot: Mapping[str, Any]) -> tuple[float, float, float, str]:
     planned_rr = _finite(candidate.get("planned_reward_risk", 0.0), "planned_reward_risk")
     spread = _finite(snapshot["ask"], "ask") - _finite(snapshot["bid"], "bid")
@@ -371,7 +567,12 @@ def normalized_trade_outcome(
     quote_mids: Mapping[str, float] | None = None,
 ) -> dict[str, Any]:
     quote_mids = dict(quote_mids or {})
-    realized_pl_quote = (float(closing_snapshot["bid"]) - float(session["entry_price"])) * int(session["units"])
+    direction = _normalized_direction(session.get("direction"))
+    entry_price = float(session["entry_price"])
+    if direction == Direction.SELL:
+        realized_pl_quote = (entry_price - float(closing_snapshot["ask"])) * int(session["units"])
+    else:
+        realized_pl_quote = (float(closing_snapshot["bid"]) - entry_price) * int(session["units"])
     quote_currency = str(session["quote_currency"])
     realized_pl_usd: float | str = "NOT_COMPUTABLE"
     if quote_currency == "USD":

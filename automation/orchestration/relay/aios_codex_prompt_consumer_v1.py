@@ -8,6 +8,8 @@ import json
 import os
 import re
 import tempfile
+import uuid
+import shutil
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Mapping
@@ -92,6 +94,7 @@ def validate_prompt(path: Path) -> ValidatedPrompt:
         text = raw.decode("utf-8")
     except UnicodeDecodeError as exc:
         raise PromptValidationError("prompt must be UTF-8") from exc
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
     if not text or text.splitlines()[0] != "CODEX-ONLY PROMPT":
         raise PromptValidationError("CODEX-ONLY PROMPT must be the exact first line")
     if PLACEHOLDER.search(text):
@@ -169,7 +172,7 @@ def enqueue_prompt(
     target_state = "approvals" if approval_required else "inbox"
     target = relay_root / target_state / f"{task['id']}.task.json"
     if dry_run:
-        return {"status": "DRY_RUN", "target": str(target), "task": task}
+        return {"status": "DRY_RUN", "target": target.as_posix(), "task": task}
     target.parent.mkdir(parents=True, exist_ok=True)
     fd, temp_name = tempfile.mkstemp(prefix=target.name + ".", suffix=".tmp", dir=target.parent)
     try:
@@ -182,7 +185,7 @@ def enqueue_prompt(
     finally:
         if os.path.exists(temp_name):
             os.unlink(temp_name)
-    return {"status": "APPROVAL_REQUIRED" if approval_required else "ENQUEUED", "target": str(target), "task": task}
+    return {"status": "APPROVAL_REQUIRED" if approval_required else "ENQUEUED", "target": target.as_posix(), "task": task}
 
 
 def main() -> int:

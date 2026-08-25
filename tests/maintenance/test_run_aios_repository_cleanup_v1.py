@@ -54,9 +54,13 @@ def test_audit_and_plan_are_read_only_and_ignore_untracked(tmp_path: Path) -> No
     assert audit["tracked_file_count"] == len(cleanup.tracked_files(root))
 
 
-def test_symlink_escape_is_blocked(tmp_path: Path) -> None:
+def test_symlink_escape_is_blocked(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     root = repo(tmp_path); outside = tmp_path.parent / "outside-cleanup-test"; outside.write_text("outside", encoding="utf-8")
-    link = root / "escape.txt"; link.symlink_to(outside); command(root, "git", "add", "escape.txt"); command(root, "git", "commit", "-qm", "link")
+    link = root / "escape.txt"; link.write_text("outside", encoding="utf-8"); command(root, "git", "add", "escape.txt"); command(root, "git", "commit", "-qm", "link")
+    original_is_symlink = cleanup.Path.is_symlink
+    original_resolve = cleanup.Path.resolve
+    monkeypatch.setattr(cleanup.Path, "is_symlink", lambda self: self == link or original_is_symlink(self))
+    monkeypatch.setattr(cleanup.Path, "resolve", lambda self, *args, **kwargs: (outside.resolve(strict=False) if self == link else original_resolve(self, *args, **kwargs)))
     assert report(root)["categories"]["A"] == "BLOCKED"
 
 

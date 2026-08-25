@@ -1,0 +1,1331 @@
+{
+  "account_identifiers_accessed": false,
+  "audit_completeness": {
+    "audit_complete": false,
+    "mandatory_evidence_fields": [
+      "trade_id",
+      "strategy_config_sha256",
+      "instrument",
+      "direction",
+      "signal_timestamp",
+      "fill_timestamp",
+      "entry_price",
+      "initial_stop",
+      "initial_risk",
+      "exit_timestamp",
+      "exit_price",
+      "exit_reason",
+      "realized_r",
+      "qualification",
+      "market_data_freshness",
+      "r_parity_status",
+      "shadow_5r_outcomes"
+    ],
+    "missing_mandatory_fields": [
+      "market_data_freshness",
+      "shadow_5r_outcomes"
+    ],
+    "runtime_ledger_field_aliases": {
+      "direction": "direction",
+      "entry_price": "entry_price",
+      "exit_price": "exit_price",
+      "exit_reason": "exit_reason",
+      "exit_timestamp": "exit_timestamp_utc",
+      "fill_timestamp": "fill_timestamp_utc",
+      "initial_risk": "initial_risk_price",
+      "initial_stop": "initial_stop",
+      "instrument": "instrument",
+      "qualification": "qualifying",
+      "r_parity_status": "r_parity_valid",
+      "realized_r": "realized_r",
+      "signal_timestamp": "signal_timestamp_utc",
+      "strategy_config_sha256": "strategy_config_sha256",
+      "trade_id": "trade_id"
+    },
+    "runtime_ledger_supported_fields": [
+      "direction",
+      "entry_price",
+      "exit_price",
+      "exit_reason",
+      "exit_timestamp",
+      "fill_timestamp",
+      "initial_risk",
+      "initial_stop",
+      "instrument",
+      "qualification",
+      "r_parity_status",
+      "realized_r",
+      "signal_timestamp",
+      "strategy_config_sha256",
+      "trade_id"
+    ],
+    "secret_or_account_fields_allowed": false
+  },
+  "automatic_arming": false,
+  "broker_calls": false,
+  "broker_writes": false,
+  "credential_exclusion": {
+    "credential_exclusion_pass": true,
+    "env_files_opened": false,
+    "files_scanned": 10,
+    "suspected_credential_value_count": 0,
+    "suspected_values_printed": false
+  },
+  "credential_exclusion_pass": true,
+  "credentials_accessed": false,
+  "daily_loss_stop_status": "PENDING_CONFIGURATION",
+  "duplicate_intent_created_count": 0,
+  "duplicate_intent_proof": {
+    "canonical_intent_id": "526c63c527d63cd6a5c2fa1751c6add53022e841be37ab00b159d25411c6143f",
+    "duplicate_intent_created_count": 0,
+    "proof_pass": true,
+    "scenarios_tested": 5,
+    "unique_execution_intent_count": 1
+  },
+  "fail_closed_market_data": true,
+  "forward_paper30_count_post": 0,
+  "forward_paper30_count_pre": 0,
+  "future_micro_trade_owner_checklist": {
+    "approval_window": null,
+    "arming_step": null,
+    "broker_path": null,
+    "daily_loss_cap": null,
+    "evidence_bundle": null,
+    "instrument": null,
+    "maximum_loss": null,
+    "order_type": null,
+    "side": null,
+    "stop_loss": null,
+    "stop_point": null,
+    "units_or_notional_maximum": null
+  },
+  "kill_switch_executed_live": false,
+  "kill_switch_governance": {
+    "approved_controls": [
+      "audit logging declared",
+      "daily loss stop declared",
+      "drawdown stop declared",
+      "emergency disable declared",
+      "kill switch declared",
+      "manual stop declared",
+      "operator override declared",
+      "paper-only review enforced"
+    ],
+    "blocked_controls": [
+      "credential revoke path declared",
+      "notification path declared"
+    ],
+    "blocked_reasons": [
+      "kill_switch_control_failed:credential_revoke_path_declared",
+      "kill_switch_control_failed:notification_path_declared"
+    ],
+    "kill_switch_readiness_completed": true,
+    "kill_switch_ready": false,
+    "kill_switch_status": "KILL_SWITCH_BLOCKED",
+    "next_safe_action": "resolve_kill_switch_governance_blockers_before_live_candidate_advancement",
+    "operator_review_required": true,
+    "safety": {
+      "broker_connection_active": false,
+      "capital_allocation_modified": false,
+      "credentials_accessed": false,
+      "kill_switch_executed": false,
+      "live_trading_authorized": false,
+      "network_access": false,
+      "operator_review_required": true,
+      "order_execution_enabled": false,
+      "paper_only": true
+    }
+  },
+  "kill_switch_proof": {
+    "active_paper_positions_preserved": true,
+    "emergency_disable_blocks_actions": true,
+    "kill_switch_blocks_new_entries": true,
+    "kill_switch_executed_live": false,
+    "manual_stop_dominates_signal": true,
+    "proof_pass": true,
+    "reset_requires_explicit_separate_operator_state": true
+  },
+  "kill_switch_status": "PENDING",
+  "known_historical_evidence": {
+    "classification": "HISTORICAL_STRESS_SHOWS_MATERIAL_FRAGILITY",
+    "expectancy_r": 0.1159107662096136,
+    "max_drawdown_r": 24.237758409303048,
+    "max_loss_streak": 18,
+    "net_r": 49.95754023634346,
+    "p30_net_positive_probability": 0.5734,
+    "p30_pf_ge_1_10_probability": 0.5108,
+    "profit_factor": 1.2678250337205954,
+    "strategy_tuning_authority": false
+  },
+  "latency_1000ms_r_delta": -0.1,
+  "latency_250ms_r_delta": -0.025,
+  "latency_50ms_r_delta": -0.005000000000000001,
+  "latency_stress": [
+    {
+      "delay_ms": 0,
+      "entry_price_degradation_r": 0.0,
+      "exit_price_degradation_r": 0.0,
+      "percentage_trades_crossing_win_to_loss": 0.0,
+      "percentage_trades_still_profitable": 60.0,
+      "realized_r_delta": -0.0
+    },
+    {
+      "delay_ms": 50,
+      "entry_price_degradation_r": 0.0025000000000000005,
+      "exit_price_degradation_r": 0.0025000000000000005,
+      "percentage_trades_crossing_win_to_loss": 0.0,
+      "percentage_trades_still_profitable": 60.0,
+      "realized_r_delta": -0.005000000000000001
+    },
+    {
+      "delay_ms": 100,
+      "entry_price_degradation_r": 0.005000000000000001,
+      "exit_price_degradation_r": 0.005000000000000001,
+      "percentage_trades_crossing_win_to_loss": 0.0,
+      "percentage_trades_still_profitable": 60.0,
+      "realized_r_delta": -0.010000000000000002
+    },
+    {
+      "delay_ms": 250,
+      "entry_price_degradation_r": 0.0125,
+      "exit_price_degradation_r": 0.0125,
+      "percentage_trades_crossing_win_to_loss": 0.0,
+      "percentage_trades_still_profitable": 60.0,
+      "realized_r_delta": -0.025
+    },
+    {
+      "delay_ms": 500,
+      "entry_price_degradation_r": 0.025,
+      "exit_price_degradation_r": 0.025,
+      "percentage_trades_crossing_win_to_loss": 0.0,
+      "percentage_trades_still_profitable": 60.0,
+      "realized_r_delta": -0.05
+    },
+    {
+      "delay_ms": 1000,
+      "entry_price_degradation_r": 0.05,
+      "exit_price_degradation_r": 0.05,
+      "percentage_trades_crossing_win_to_loss": 3.3333333333333335,
+      "percentage_trades_still_profitable": 56.666666666666664,
+      "realized_r_delta": -0.1
+    },
+    {
+      "delay_ms": 2000,
+      "entry_price_degradation_r": 0.1,
+      "exit_price_degradation_r": 0.1,
+      "percentage_trades_crossing_win_to_loss": 10.0,
+      "percentage_trades_still_profitable": 50.0,
+      "realized_r_delta": -0.2
+    }
+  ],
+  "latency_stress_simulation_only": true,
+  "live_authorized": false,
+  "live_micro_trade_exception_requestable": false,
+  "live_micro_trade_execution_enabled": false,
+  "live_orders": false,
+  "live_readiness_blockers": [
+    "human_approval_missing",
+    "paper_evidence_insufficient",
+    "demo_evidence_insufficient",
+    "reconciliation_missing",
+    "risk_failures_unresolved"
+  ],
+  "live_readiness_next_safe_action": "continue_paper_demo_evidence_collection",
+  "live_readiness_review": {
+    "allowed": false,
+    "approval_required": true,
+    "blocked_reason": "human_approval_missing",
+    "blocked_reasons": [
+      "human_approval_missing",
+      "paper_evidence_insufficient",
+      "demo_evidence_insufficient",
+      "reconciliation_missing",
+      "risk_failures_unresolved"
+    ],
+    "decision": "REVIEW_ONLY",
+    "demo_evidence_ok": false,
+    "kill_switch_ok": true,
+    "live_ready": false,
+    "metadata": {
+      "drawdown_pct": 0.0,
+      "human_approval": false,
+      "limits": {
+        "maximum_drawdown_pct": 5.0
+      },
+      "paper30_forward_count": 0,
+      "review_only": true,
+      "risk_failures": [
+        "daily_loss_threshold_not_configured",
+        "loss_streak_threshold_not_configured",
+        "risk_compliance_false"
+      ]
+    },
+    "mode": "LIVE_READINESS_REVIEW_ONLY",
+    "next_safe_action": "continue_paper_demo_evidence_collection",
+    "paper_evidence_ok": false,
+    "readiness_score": 0.2,
+    "reconciliation_ok": false,
+    "risk_ok": false,
+    "safety": {
+      "broker_write": false,
+      "credentials": false,
+      "live_trading": false,
+      "network_submit": false,
+      "paper_only": true,
+      "real_orders": false,
+      "review_only": true
+    },
+    "warnings": []
+  },
+  "live_readiness_score": 0.2,
+  "lock_id": "LOCK_EAST_FOREX_LIVE_READINESS_RESEARCH_EAST_OCC_01",
+  "loss_streak_stop_status": "PENDING_CONFIGURATION",
+  "market_data_failure_proof": {
+    "fail_closed_market_data": true,
+    "interrupted_write_preserves_atomic_state": true,
+    "network_failure_preserves_active_state": true,
+    "scenarios": {
+      "missing_quote": {
+        "entry_or_fill_allowed": false,
+        "fabricated_trade_count": 0
+      },
+      "network_interruption_active_position": {
+        "entry_or_fill_allowed": false,
+        "fabricated_trade_count": 0
+      },
+      "practice_timeout": {
+        "entry_or_fill_allowed": false,
+        "fabricated_trade_count": 0
+      },
+      "stale_m5": {
+        "entry_or_fill_allowed": false,
+        "fabricated_trade_count": 0
+      }
+    }
+  },
+  "max_drawdown_stop_status": "PASS",
+  "money_movement": false,
+  "network_calls": false,
+  "order_submit_enabled": false,
+  "packet_id": "PKT-EAST-FOREX-LIVE-READINESS-HARDENING-017",
+  "paper100_continuation": {
+    "aggregate_trade_count": 30,
+    "automatic_promotion": false,
+    "first_30": [
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.012,
+        "exit_timestamp_utc": "2026-08-24T13:00:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 1.2,
+        "signal_timestamp_utc": "2026-08-24T12:00:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-000"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.99,
+        "exit_timestamp_utc": "2026-08-24T13:01:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -1.0,
+        "signal_timestamp_utc": "2026-08-24T12:01:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-001"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.008,
+        "exit_timestamp_utc": "2026-08-24T13:02:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 0.8,
+        "signal_timestamp_utc": "2026-08-24T12:02:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-002"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.994,
+        "exit_timestamp_utc": "2026-08-24T13:03:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -0.6,
+        "signal_timestamp_utc": "2026-08-24T12:03:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-003"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.004,
+        "exit_timestamp_utc": "2026-08-24T13:04:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 0.4,
+        "signal_timestamp_utc": "2026-08-24T12:04:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-004"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.015,
+        "exit_timestamp_utc": "2026-08-24T13:05:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 1.5,
+        "signal_timestamp_utc": "2026-08-24T12:05:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-005"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.991,
+        "exit_timestamp_utc": "2026-08-24T13:06:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -0.9,
+        "signal_timestamp_utc": "2026-08-24T12:06:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-006"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.002,
+        "exit_timestamp_utc": "2026-08-24T13:07:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 0.2,
+        "signal_timestamp_utc": "2026-08-24T12:07:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-007"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.02,
+        "exit_timestamp_utc": "2026-08-24T13:08:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 2.0,
+        "signal_timestamp_utc": "2026-08-24T12:08:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-008"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.995,
+        "exit_timestamp_utc": "2026-08-24T13:09:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -0.5,
+        "signal_timestamp_utc": "2026-08-24T12:09:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-009"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.007,
+        "exit_timestamp_utc": "2026-08-24T13:10:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 0.7,
+        "signal_timestamp_utc": "2026-08-24T12:10:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-010"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.992,
+        "exit_timestamp_utc": "2026-08-24T13:11:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -0.8,
+        "signal_timestamp_utc": "2026-08-24T12:11:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-011"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.011,
+        "exit_timestamp_utc": "2026-08-24T13:12:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 1.1,
+        "signal_timestamp_utc": "2026-08-24T12:12:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-012"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.996,
+        "exit_timestamp_utc": "2026-08-24T13:13:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -0.4,
+        "signal_timestamp_utc": "2026-08-24T12:13:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-013"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.003,
+        "exit_timestamp_utc": "2026-08-24T13:14:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 0.3,
+        "signal_timestamp_utc": "2026-08-24T12:14:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-014"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.018,
+        "exit_timestamp_utc": "2026-08-24T13:15:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 1.8,
+        "signal_timestamp_utc": "2026-08-24T12:15:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-015"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.99,
+        "exit_timestamp_utc": "2026-08-24T13:16:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -1.0,
+        "signal_timestamp_utc": "2026-08-24T12:16:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-016"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.001,
+        "exit_timestamp_utc": "2026-08-24T13:17:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 0.1,
+        "signal_timestamp_utc": "2026-08-24T12:17:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-017"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.014,
+        "exit_timestamp_utc": "2026-08-24T13:18:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 1.4,
+        "signal_timestamp_utc": "2026-08-24T12:18:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-018"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.993,
+        "exit_timestamp_utc": "2026-08-24T13:19:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -0.7,
+        "signal_timestamp_utc": "2026-08-24T12:19:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-019"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.009,
+        "exit_timestamp_utc": "2026-08-24T13:20:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 0.9,
+        "signal_timestamp_utc": "2026-08-24T12:20:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-020"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.994,
+        "exit_timestamp_utc": "2026-08-24T13:21:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -0.6,
+        "signal_timestamp_utc": "2026-08-24T12:21:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-021"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.006,
+        "exit_timestamp_utc": "2026-08-24T13:22:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 0.6,
+        "signal_timestamp_utc": "2026-08-24T12:22:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-022"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.991,
+        "exit_timestamp_utc": "2026-08-24T13:23:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -0.9,
+        "signal_timestamp_utc": "2026-08-24T12:23:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-023"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.01,
+        "exit_timestamp_utc": "2026-08-24T13:24:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 1.0,
+        "signal_timestamp_utc": "2026-08-24T12:24:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-024"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.013,
+        "exit_timestamp_utc": "2026-08-24T13:25:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 1.3,
+        "signal_timestamp_utc": "2026-08-24T12:25:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-025"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.995,
+        "exit_timestamp_utc": "2026-08-24T13:26:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -0.5,
+        "signal_timestamp_utc": "2026-08-24T12:26:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-026"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.002,
+        "exit_timestamp_utc": "2026-08-24T13:27:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 0.2,
+        "signal_timestamp_utc": "2026-08-24T12:27:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-027"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 1.016,
+        "exit_timestamp_utc": "2026-08-24T13:28:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": 1.6,
+        "signal_timestamp_utc": "2026-08-24T12:28:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-028"
+      },
+      {
+        "broker_order": false,
+        "direction": "BUY",
+        "entry_price": 1.0,
+        "exit_price": 0.992,
+        "exit_timestamp_utc": "2026-08-24T13:29:00Z",
+        "historical_backfill": false,
+        "initial_stop": 0.99,
+        "instrument": "EUR_USD",
+        "qualifying": true,
+        "r_parity_valid": true,
+        "realized_r": -0.8,
+        "signal_timestamp_utc": "2026-08-24T12:29:00Z",
+        "strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+        "trade_id": "SYNTH-029"
+      }
+    ],
+    "first_30_immutable": true,
+    "first_30_sha256": "ff0789269bec176827e42035d6f92e4042f5cc603cb45d5c82e89ce0474d27b0",
+    "paper100_continuation_implementation_ready": true,
+    "strategy_mutation": false,
+    "trades_31_100": []
+  },
+  "paper100_continuation_implementation_ready": true,
+  "paper30_forward_state_unchanged": true,
+  "paper30_gate": {
+    "closed": 0,
+    "expectancy_r": 0.0,
+    "net_r": 0,
+    "paper30_gate_blockers": [
+      "closed_trades_below_30",
+      "risk_gate_not_pass:daily_loss_stop",
+      "risk_gate_not_pass:kill_switch"
+    ],
+    "paper30_gate_next_action": "continue_genuine_forward_paper_evidence_without_strategy_mutation",
+    "paper30_gate_status": "FAIL",
+    "profit_factor": 0.0,
+    "r_parity_failures": 0
+  },
+  "paper30_gate_implementation_ready": true,
+  "paper30_invariant_post_sha256": {
+    "paper30_ledger": "3e50632ff433ee9b72ea5b1a23258d78197519ddb06463e33f4b4a9a5bb51297",
+    "paper30_runtime": "52daf4f540a583e3bdad66c17c729cc2d5eb21abc5d334ef8df5bad5ea8366f8",
+    "paper30_state": "e892b0b3200ec745fa2266ef9943037f6671ef2effb3ef7f1bca66467d1d819d"
+  },
+  "paper30_invariant_pre_sha256": {
+    "paper30_ledger": "3e50632ff433ee9b72ea5b1a23258d78197519ddb06463e33f4b4a9a5bb51297",
+    "paper30_runtime": "52daf4f540a583e3bdad66c17c729cc2d5eb21abc5d334ef8df5bad5ea8366f8",
+    "paper30_state": "e892b0b3200ec745fa2266ef9943037f6671ef2effb3ef7f1bca66467d1d819d"
+  },
+  "paper30_strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+  "practice_orders": false,
+  "r_parity_failures": 0,
+  "readiness_classification": "LIVE_READINESS_INFRASTRUCTURE_HAS_BLOCKERS",
+  "readiness_fail_count": 1,
+  "readiness_gate_count": 27,
+  "readiness_matrix": {
+    "ACTIVE_POSITION_RECOVERY": {
+      "blocker": null,
+      "evidence": {
+        "no_duplicate_exit": true,
+        "no_duplicate_fill": true,
+        "no_lost_ledger_record": true,
+        "no_silent_position_deletion": true,
+        "recovery_scenarios_pass": 5,
+        "recovery_scenarios_tested": 5
+      },
+      "next_safe_action": "retain_active_position_recovery_contract",
+      "status": "PASS"
+    },
+    "AUDIT_LEDGER": {
+      "blocker": [
+        "market_data_freshness",
+        "shadow_5r_outcomes"
+      ],
+      "evidence": {
+        "audit_complete": false,
+        "mandatory_evidence_fields": [
+          "trade_id",
+          "strategy_config_sha256",
+          "instrument",
+          "direction",
+          "signal_timestamp",
+          "fill_timestamp",
+          "entry_price",
+          "initial_stop",
+          "initial_risk",
+          "exit_timestamp",
+          "exit_price",
+          "exit_reason",
+          "realized_r",
+          "qualification",
+          "market_data_freshness",
+          "r_parity_status",
+          "shadow_5r_outcomes"
+        ],
+        "missing_mandatory_fields": [
+          "market_data_freshness",
+          "shadow_5r_outcomes"
+        ],
+        "runtime_ledger_field_aliases": {
+          "direction": "direction",
+          "entry_price": "entry_price",
+          "exit_price": "exit_price",
+          "exit_reason": "exit_reason",
+          "exit_timestamp": "exit_timestamp_utc",
+          "fill_timestamp": "fill_timestamp_utc",
+          "initial_risk": "initial_risk_price",
+          "initial_stop": "initial_stop",
+          "instrument": "instrument",
+          "qualification": "qualifying",
+          "r_parity_status": "r_parity_valid",
+          "realized_r": "realized_r",
+          "signal_timestamp": "signal_timestamp_utc",
+          "strategy_config_sha256": "strategy_config_sha256",
+          "trade_id": "trade_id"
+        },
+        "runtime_ledger_supported_fields": [
+          "direction",
+          "entry_price",
+          "exit_price",
+          "exit_reason",
+          "exit_timestamp",
+          "fill_timestamp",
+          "initial_risk",
+          "initial_stop",
+          "instrument",
+          "qualification",
+          "r_parity_status",
+          "realized_r",
+          "signal_timestamp",
+          "strategy_config_sha256",
+          "trade_id"
+        ],
+        "secret_or_account_fields_allowed": false
+      },
+      "next_safe_action": "add_missing_evidence_fields_in_a_separate_runtime_packet",
+      "status": "FAIL"
+    },
+    "BROKER_WRITE_DISABLED": {
+      "blocker": null,
+      "evidence": {
+        "broker_write_enabled": false
+      },
+      "next_safe_action": "keep_broker_writes_disabled",
+      "status": "PASS"
+    },
+    "CREDENTIAL_EXCLUSION": {
+      "blocker": null,
+      "evidence": {
+        "credential_exclusion_pass": true,
+        "env_files_opened": false,
+        "files_scanned": 10,
+        "suspected_credential_value_count": 0,
+        "suspected_values_printed": false
+      },
+      "next_safe_action": "retain_no_secret_evidence_boundary",
+      "status": "PASS"
+    },
+    "DAILY_LOSS_STOP": {
+      "blocker": "authoritative_numeric_daily_loss_threshold_missing",
+      "evidence": {
+        "new_entries_blocked": true,
+        "status": "PENDING_CONFIGURATION",
+        "threshold": null
+      },
+      "next_safe_action": "configure_owner_approved_daily_loss_threshold_before_live_review",
+      "status": "PENDING"
+    },
+    "DRAWDOWN": {
+      "blocker": "genuine_forward_sample_incomplete",
+      "evidence": {
+        "forward_closed": 0
+      },
+      "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+      "status": "NOT_YET_EVALUABLE"
+    },
+    "DUPLICATE_INTENT_PREVENTION": {
+      "blocker": null,
+      "evidence": {
+        "canonical_intent_id": "526c63c527d63cd6a5c2fa1751c6add53022e841be37ab00b159d25411c6143f",
+        "duplicate_intent_created_count": 0,
+        "proof_pass": true,
+        "scenarios_tested": 5,
+        "unique_execution_intent_count": 1
+      },
+      "next_safe_action": "persist_canonical_intent_ids",
+      "status": "PASS"
+    },
+    "EMERGENCY_DISABLE": {
+      "blocker": null,
+      "evidence": {
+        "active_paper_positions_preserved": true,
+        "emergency_disable_blocks_actions": true,
+        "kill_switch_blocks_new_entries": true,
+        "kill_switch_executed_live": false,
+        "manual_stop_dominates_signal": true,
+        "proof_pass": true,
+        "reset_requires_explicit_separate_operator_state": true
+      },
+      "next_safe_action": "retain_emergency_disable_latch",
+      "status": "PASS"
+    },
+    "EXPECTANCY": {
+      "blocker": "genuine_forward_sample_incomplete",
+      "evidence": {
+        "forward_closed": 0
+      },
+      "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+      "status": "NOT_YET_EVALUABLE"
+    },
+    "FORWARD_SAMPLE_SIZE": {
+      "blocker": "genuine_forward_sample_incomplete",
+      "evidence": {
+        "forward_closed": 0
+      },
+      "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+      "status": "NOT_YET_EVALUABLE"
+    },
+    "HUMAN_APPROVAL": {
+      "blocker": "human_live_approval_absent",
+      "evidence": {
+        "current_live_approval": false
+      },
+      "next_safe_action": "request_review_only_after_all_evidence_gates_pass",
+      "status": "PENDING"
+    },
+    "KILL_SWITCH": {
+      "blocker": [
+        "kill_switch_control_failed:credential_revoke_path_declared",
+        "kill_switch_control_failed:notification_path_declared"
+      ],
+      "evidence": {
+        "governance": {
+          "approved_controls": [
+            "audit logging declared",
+            "daily loss stop declared",
+            "drawdown stop declared",
+            "emergency disable declared",
+            "kill switch declared",
+            "manual stop declared",
+            "operator override declared",
+            "paper-only review enforced"
+          ],
+          "blocked_controls": [
+            "credential revoke path declared",
+            "notification path declared"
+          ],
+          "blocked_reasons": [
+            "kill_switch_control_failed:credential_revoke_path_declared",
+            "kill_switch_control_failed:notification_path_declared"
+          ],
+          "kill_switch_readiness_completed": true,
+          "kill_switch_ready": false,
+          "kill_switch_status": "KILL_SWITCH_BLOCKED",
+          "next_safe_action": "resolve_kill_switch_governance_blockers_before_live_candidate_advancement",
+          "operator_review_required": true,
+          "safety": {
+            "broker_connection_active": false,
+            "capital_allocation_modified": false,
+            "credentials_accessed": false,
+            "kill_switch_executed": false,
+            "live_trading_authorized": false,
+            "network_access": false,
+            "operator_review_required": true,
+            "order_execution_enabled": false,
+            "paper_only": true
+          }
+        },
+        "synthetic_proof": {
+          "active_paper_positions_preserved": true,
+          "emergency_disable_blocks_actions": true,
+          "kill_switch_blocks_new_entries": true,
+          "kill_switch_executed_live": false,
+          "manual_stop_dominates_signal": true,
+          "proof_pass": true,
+          "reset_requires_explicit_separate_operator_state": true
+        }
+      },
+      "next_safe_action": "resolve_kill_switch_governance_blockers_before_live_candidate_advancement",
+      "status": "PENDING"
+    },
+    "LATENCY_STRESS": {
+      "blocker": null,
+      "evidence": {
+        "simulation_only": true
+      },
+      "next_safe_action": "replace_assumptions_only_after_measured_demo_latency_exists",
+      "status": "PASS"
+    },
+    "LIVE_DISABLED": {
+      "blocker": null,
+      "evidence": {
+        "live_enabled": false
+      },
+      "next_safe_action": "keep_live_disabled",
+      "status": "PASS"
+    },
+    "LOSS_STREAK": {
+      "blocker": "genuine_forward_sample_incomplete",
+      "evidence": {
+        "forward_closed": 0
+      },
+      "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+      "status": "NOT_YET_EVALUABLE"
+    },
+    "MANUAL_STOP": {
+      "blocker": null,
+      "evidence": {
+        "active_paper_positions_preserved": true,
+        "emergency_disable_blocks_actions": true,
+        "kill_switch_blocks_new_entries": true,
+        "kill_switch_executed_live": false,
+        "manual_stop_dominates_signal": true,
+        "proof_pass": true,
+        "reset_requires_explicit_separate_operator_state": true
+      },
+      "next_safe_action": "retain_manual_stop_precedence",
+      "status": "PASS"
+    },
+    "MAX_DRAWDOWN_STOP": {
+      "blocker": null,
+      "evidence": {
+        "new_entries_blocked": true,
+        "status": "PASS",
+        "threshold": 5.0
+      },
+      "next_safe_action": "retain_5_percent_review_limit",
+      "status": "PASS"
+    },
+    "NETWORK_FAILURE_STOP": {
+      "blocker": null,
+      "evidence": {
+        "fail_closed_market_data": true,
+        "interrupted_write_preserves_atomic_state": true,
+        "network_failure_preserves_active_state": true,
+        "scenarios": {
+          "missing_quote": {
+            "entry_or_fill_allowed": false,
+            "fabricated_trade_count": 0
+          },
+          "network_interruption_active_position": {
+            "entry_or_fill_allowed": false,
+            "fabricated_trade_count": 0
+          },
+          "practice_timeout": {
+            "entry_or_fill_allowed": false,
+            "fabricated_trade_count": 0
+          },
+          "stale_m5": {
+            "entry_or_fill_allowed": false,
+            "fabricated_trade_count": 0
+          }
+        }
+      },
+      "next_safe_action": "retain_fail_closed_network_path",
+      "status": "PASS"
+    },
+    "NET_R": {
+      "blocker": "genuine_forward_sample_incomplete",
+      "evidence": {
+        "forward_closed": 0
+      },
+      "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+      "status": "NOT_YET_EVALUABLE"
+    },
+    "ORDER_SUBMIT_DISABLED": {
+      "blocker": null,
+      "evidence": {
+        "order_submit_enabled": false
+      },
+      "next_safe_action": "keep_order_submit_disabled",
+      "status": "PASS"
+    },
+    "PAPER_EVIDENCE": {
+      "blocker": "paper_evidence_insufficient",
+      "evidence": {
+        "forward_closed": 0
+      },
+      "next_safe_action": "collect_genuine_forward_paper_evidence",
+      "status": "PENDING"
+    },
+    "PROFIT_FACTOR": {
+      "blocker": "genuine_forward_sample_incomplete",
+      "evidence": {
+        "forward_closed": 0
+      },
+      "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+      "status": "NOT_YET_EVALUABLE"
+    },
+    "R_PARITY": {
+      "blocker": null,
+      "evidence": {
+        "closed_count": 0,
+        "ledger_count": 0,
+        "r_parity_failures": 0,
+        "strategy_hash_reconciled": true,
+        "synthetic_trade_count": 1,
+        "trade_identity_fields_reconciled": true
+      },
+      "next_safe_action": "retain_exact_R_reconciliation",
+      "status": "PASS"
+    },
+    "SLIPPAGE_STRESS": {
+      "blocker": null,
+      "evidence": {
+        "simulation_only": true
+      },
+      "next_safe_action": "replace_assumptions_only_after_measured_demo_slippage_exists",
+      "status": "PASS"
+    },
+    "STALE_MARKET_DATA_STOP": {
+      "blocker": null,
+      "evidence": {
+        "entry_or_fill_allowed": false,
+        "fabricated_trade_count": 0
+      },
+      "next_safe_action": "retain_stale_M5_gate",
+      "status": "PASS"
+    },
+    "STATE_RECOVERY": {
+      "blocker": null,
+      "evidence": {
+        "no_duplicate_exit": true,
+        "no_duplicate_fill": true,
+        "no_lost_ledger_record": true,
+        "no_silent_position_deletion": true,
+        "recovery_scenarios_pass": 5,
+        "recovery_scenarios_tested": 5
+      },
+      "next_safe_action": "implement_journaled_idempotent_checkpointing_before_execution",
+      "status": "PASS"
+    },
+    "TRADE_RECONCILIATION": {
+      "blocker": null,
+      "evidence": {
+        "closed_count": 0,
+        "ledger_count": 0,
+        "r_parity_failures": 0,
+        "strategy_hash_reconciled": true,
+        "synthetic_trade_count": 1,
+        "trade_identity_fields_reconciled": true
+      },
+      "next_safe_action": "retain_independent_reconciliation",
+      "status": "PASS"
+    }
+  },
+  "readiness_pass_count": 16,
+  "readiness_pending_count": 10,
+  "readiness_status_counts": {
+    "FAIL": 1,
+    "NOT_YET_EVALUABLE": 6,
+    "PASS": 16,
+    "PENDING": 4
+  },
+  "recovery_proof": {
+    "no_duplicate_exit": true,
+    "no_duplicate_fill": true,
+    "no_lost_ledger_record": true,
+    "no_silent_position_deletion": true,
+    "recovery_scenarios_pass": 5,
+    "recovery_scenarios_tested": 5
+  },
+  "recovery_scenarios_pass": 5,
+  "recovery_scenarios_tested": 5,
+  "risk_threshold_sources": {
+    "daily_loss": "NOT_CONFIGURED_IN_ALLOWED_AUTHORITATIVE_CURRENT_STATE",
+    "loss_streak": "NOT_CONFIGURED_IN_ALLOWED_AUTHORITATIVE_CURRENT_STATE",
+    "max_drawdown": "live_readiness_review.py:maximum_drawdown_pct_default_5_0"
+  },
+  "slippage_0_05r_expectancy": 0.18,
+  "slippage_0_10r_expectancy": 0.08000000000000002,
+  "slippage_0_20r_expectancy": -0.12000000000000002,
+  "slippage_stress": [
+    {
+      "expectancy_delta_r": 0.0,
+      "expectancy_r": 0.28,
+      "net_r": 8.4,
+      "net_r_delta": 0.0,
+      "percentage_trades_flipped_positive_to_negative": 0.0,
+      "profit_factor": 1.9655172413793107,
+      "profit_factor_delta": 0.0,
+      "slippage_per_leg_r": 0.0,
+      "total_adverse_slippage_r": 0.0
+    },
+    {
+      "expectancy_delta_r": -0.04000000000000006,
+      "expectancy_r": 0.23999999999999996,
+      "net_r": 7.199999999999999,
+      "net_r_delta": -1.200000000000001,
+      "percentage_trades_flipped_positive_to_negative": 0.0,
+      "profit_factor": 1.784313725490196,
+      "profit_factor_delta": -0.18120351588911476,
+      "slippage_per_leg_r": 0.02,
+      "total_adverse_slippage_r": 0.04
+    },
+    {
+      "expectancy_delta_r": -0.10000000000000003,
+      "expectancy_r": 0.18,
+      "net_r": 5.3999999999999995,
+      "net_r_delta": -3.000000000000001,
+      "percentage_trades_flipped_positive_to_negative": 3.3333333333333335,
+      "profit_factor": 1.5454545454545452,
+      "profit_factor_delta": -0.42006269592476553,
+      "slippage_per_leg_r": 0.05,
+      "total_adverse_slippage_r": 0.1
+    },
+    {
+      "expectancy_delta_r": -0.2,
+      "expectancy_r": 0.08000000000000002,
+      "net_r": 2.4000000000000004,
+      "net_r_delta": -6.0,
+      "percentage_trades_flipped_positive_to_negative": 10.0,
+      "profit_factor": 1.2142857142857144,
+      "profit_factor_delta": -0.7512315270935963,
+      "slippage_per_leg_r": 0.1,
+      "total_adverse_slippage_r": 0.2
+    },
+    {
+      "expectancy_delta_r": -0.4,
+      "expectancy_r": -0.12000000000000002,
+      "net_r": -3.6000000000000005,
+      "net_r_delta": -12.0,
+      "percentage_trades_flipped_positive_to_negative": 16.666666666666664,
+      "profit_factor": 0.7482517482517481,
+      "profit_factor_delta": -1.2172654931275626,
+      "slippage_per_leg_r": 0.2,
+      "total_adverse_slippage_r": 0.4
+    },
+    {
+      "expectancy_delta_r": -0.6000000000000001,
+      "expectancy_r": -0.32,
+      "net_r": -9.6,
+      "net_r_delta": -18.0,
+      "percentage_trades_flipped_positive_to_negative": 20.0,
+      "profit_factor": 0.4576271186440678,
+      "profit_factor_delta": -1.507890122735243,
+      "slippage_per_leg_r": 0.3,
+      "total_adverse_slippage_r": 0.6
+    }
+  ],
+  "slippage_stress_simulation_only": true,
+  "source_head": "d85fce1a88e73cd9863e2b400b48bf42f52d2c27",
+  "status": "LIVE_READINESS_INFRASTRUCTURE_HAS_BLOCKERS",
+  "trade_reconciliation": {
+    "closed_count": 0,
+    "ledger_count": 0,
+    "r_parity_failures": 0,
+    "strategy_hash_reconciled": true,
+    "synthetic_trade_count": 1,
+    "trade_identity_fields_reconciled": true
+  }
+}

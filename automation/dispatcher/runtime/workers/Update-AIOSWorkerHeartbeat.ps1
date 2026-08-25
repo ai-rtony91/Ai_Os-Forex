@@ -40,18 +40,25 @@ function Get-AIOSRepoRoot {
     return $root.Trim()
 }
 
+function Fail-AIOSReviewRequired {
+    param([string]$Message)
+
+    [Console]::Error.WriteLine($Message)
+    exit 1
+}
+
 function Read-AIOSJson {
     param([string]$Path)
 
     if (-not (Test-Path -LiteralPath $Path)) {
-        throw "REVIEW_REQUIRED: Missing required worker-state file: $Path"
+        Fail-AIOSReviewRequired "REVIEW_REQUIRED: Missing required worker-state file: $Path"
     }
 
     try {
         return Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
     }
     catch {
-        throw "REVIEW_REQUIRED: Malformed worker-state JSON: $Path. $($_.Exception.Message)"
+        Fail-AIOSReviewRequired "REVIEW_REQUIRED: Malformed worker-state JSON: $Path. $($_.Exception.Message)"
     }
 }
 
@@ -63,10 +70,10 @@ function Write-AIOSJson {
 
     $targetDir = Split-Path -Parent $Path
     if ([string]::IsNullOrWhiteSpace($targetDir)) {
-        throw "REVIEW_REQUIRED: Worker-state target directory could not be resolved for $Path"
+        Fail-AIOSReviewRequired "REVIEW_REQUIRED: Worker-state target directory could not be resolved for $Path"
     }
     if (-not (Test-Path -LiteralPath $targetDir)) {
-        throw "REVIEW_REQUIRED: Worker-state target directory is missing: $targetDir"
+        Fail-AIOSReviewRequired "REVIEW_REQUIRED: Worker-state target directory is missing: $targetDir"
     }
 
     $tmpPath = Join-Path $targetDir ("{0}.{1}.tmp" -f ([IO.Path]::GetFileName($Path)), ([guid]::NewGuid().ToString("N")))
@@ -80,7 +87,7 @@ function Write-AIOSJson {
         if (Test-Path -LiteralPath $tmpPath) {
             Remove-Item -LiteralPath $tmpPath -Force
         }
-        throw "REVIEW_REQUIRED: Atomic worker-state write failed for $Path. $($_.Exception.Message)"
+        Fail-AIOSReviewRequired "REVIEW_REQUIRED: Atomic worker-state write failed for $Path. $($_.Exception.Message)"
     }
 }
 
