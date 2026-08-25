@@ -117,7 +117,6 @@ def clean_repo_root():
     base = Path(tempfile.gettempdir()) / "aios_clean_repo_snapshots"
     base.mkdir(parents=True, exist_ok=True)
     snapshot_root = base / f"{secrets.token_hex(8)}"
-    debug_log = base / "snapshot_copy_debug.log"
     try:
         _copy_selected_paths(
             repo_root,
@@ -142,44 +141,14 @@ def clean_repo_root():
                 "__pycache__",
             },
         )
-        copied_top_level = sorted(item.name for item in snapshot_root.iterdir())
-        debug_log.write_text("\n".join(copied_top_level), encoding="utf-8")
         subprocess.run(
             ["git", "init", "-b", "main", str(snapshot_root)],
-            text=True,
-            capture_output=True,
             check=True,
         )
-        subprocess.run(
-            ["git", "-C", str(snapshot_root), "config", "user.name", "AIOS Snapshot"],
-            text=True,
-            capture_output=True,
-            check=True,
-        )
-        subprocess.run(
-            ["git", "-C", str(snapshot_root), "config", "user.email", "snapshot@aios.local"],
-            text=True,
-            capture_output=True,
-            check=True,
-        )
-        subprocess.run(
-            ["git", "-C", str(snapshot_root), "add", "-A"],
-            text=True,
-            capture_output=True,
-            check=True,
-        )
-        subprocess.run(
-            ["git", "-C", str(snapshot_root), "commit", "-m", "clean repo snapshot"],
-            text=True,
-            capture_output=True,
-            check=True,
-        )
-        subprocess.run(
-            ["git", "-C", str(snapshot_root), "status", "--short", "--branch", "--untracked-files=all"],
-            text=True,
-            capture_output=True,
-            check=True,
-        )
+        subprocess.run(["git", "-C", str(snapshot_root), "config", "user.name", "AIOS Snapshot"], check=True)
+        subprocess.run(["git", "-C", str(snapshot_root), "config", "user.email", "snapshot@aios.local"], check=True)
+        subprocess.run(["git", "-C", str(snapshot_root), "add", "-A"], check=True)
+        subprocess.run(["git", "-C", str(snapshot_root), "commit", "-m", "clean repo snapshot"], check=True)
         yield snapshot_root
     finally:
         shutil.rmtree(snapshot_root, ignore_errors=True)
