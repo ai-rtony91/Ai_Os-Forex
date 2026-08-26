@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 import sys
 import tempfile
+import secrets
+import shutil
 import unittest
 from pathlib import Path
 
@@ -265,8 +267,14 @@ def test_relay_log_state_is_historical_warning() -> None:
 
 class AutonomyBridgeGlueTests(unittest.TestCase):
     def test_operation_glue_approval_reaches_must_see(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            test_operation_glue_approval_reaches_must_see(Path(temp_dir))
+        base = Path(tempfile.gettempdir()) / "aios_pytest_workspace" / "autonomy_bridge"
+        base.mkdir(parents=True, exist_ok=True)
+        temp_dir = base / secrets.token_hex(8)
+        temp_dir.mkdir(parents=True, exist_ok=False)
+        try:
+            test_operation_glue_approval_reaches_must_see(temp_dir)
+        finally:
+            shutil.rmtree(temp_dir, ignore_errors=True)
 
     def test_glue_approval_classification_prefers_safer_status(self) -> None:
         test_glue_approval_classification_prefers_safer_status()

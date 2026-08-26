@@ -2,7 +2,7 @@
 
 Status: NO_EVIDENCE_APPLIED
 Current branch: main
-Current head: d85fce1a88e73cd9863e2b400b48bf42f52d2c27
+Current head: 9a88c795ceecfb0e76a6e54f80cb5e7e554e0d27
 Input files used: C:\Dev\Ai.Os\Reports\forex_delivery\AIOS_FOREX_AUTONOMY_COMPLETION_GOVERNOR_RERUN_AND_BUCKET_POLICY_V1_STATE.json, C:\Dev\Ai.Os\Reports\forex_delivery\AIOS_FOREX_LIVE_MICRO_EXCEPTION_GOVERNOR_INPUT_TEMPLATE_V1.json
 Evidence update file used: None
 

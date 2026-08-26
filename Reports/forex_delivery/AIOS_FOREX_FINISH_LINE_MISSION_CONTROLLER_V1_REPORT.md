@@ -2,7 +2,7 @@
 
 Status: STARTING_LINE_READY_WITH_SAFETY_BLOCKERS
 Current branch: main
-Current head: d85fce1a88e73cd9863e2b400b48bf42f52d2c27
+Current head: 9a88c795ceecfb0e76a6e54f80cb5e7e554e0d27
 Selected mode: STARTING_LINE
 Starting-line readiness: 100.0%
 Finish-line readiness: 0.0%

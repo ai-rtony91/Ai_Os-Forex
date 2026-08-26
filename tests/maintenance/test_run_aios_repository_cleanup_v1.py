@@ -98,11 +98,26 @@ def test_mixed_eol_and_markdown_spaces_are_observed_not_rewritten(tmp_path: Path
     assert path.read_bytes() == original
 
 
-def test_generated_runtime_duplicate_and_case_collision_detection(tmp_path: Path) -> None:
+def test_generated_runtime_duplicate_and_case_collision_detection(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     root = repo(tmp_path)
     for name in ("runtime/state.txt", "Same.txt", "same.TXT", "copy.txt"):
         path = root / name; path.parent.mkdir(parents=True, exist_ok=True); path.write_text("duplicate\n", encoding="utf-8")
     command(root, "git", "add", "runtime/state.txt", "Same.txt", "same.TXT", "copy.txt"); command(root, "git", "commit", "-qm", "findings")
+    monkeypatch.setattr(
+        cleanup,
+        "tracked_files",
+        lambda repo_root: [
+            "AGENTS.md",
+            "README.md",
+            "SECURITY.md",
+            "COMPLIANCE_BASELINE.md",
+            ".github/workflows/ci.yml",
+            "runtime/state.txt",
+            "Same.txt",
+            "same.TXT",
+            "copy.txt",
+        ],
+    )
     result = report(root)
     assert result["categories"]["G"] == result["categories"]["E"] == result["categories"]["N"] == "WARN"
 

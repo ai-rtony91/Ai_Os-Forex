@@ -1,5 +1,6 @@
 import json
 import subprocess
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 
@@ -9,7 +10,7 @@ SCRIPT = REPO_ROOT / "automation" / "orchestration" / "coordination_spine" / "In
 
 def run_script(*args: str) -> dict:
     completed = subprocess.run(
-        ["powershell", "-NoProfile", "-File", str(SCRIPT), *args],
+        ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(SCRIPT), *args],
         cwd=REPO_ROOT,
         check=True,
         capture_output=True,
@@ -63,7 +64,7 @@ def test_fresh_marker_produces_ready_known_status(tmp_path: Path) -> None:
         {
             "cycle_id": "cycle-1",
             "cycle_in_progress": False,
-            "updated_at_utc": "2026-06-09T18:59:00Z",
+            "updated_at_utc": (datetime.now(timezone.utc) - timedelta(minutes=5)).strftime("%Y-%m-%dT%H:%M:%SZ"),
         },
     )
     write_json(queue_index, {"packet_count": 0, "normalized_state_counts": {k: 0 for k in ["QUEUED", "RUNNING", "BLOCKED", "WAITING_APPROVAL", "COMPLETE", "FAILED", "ARCHIVED"]}})
@@ -93,7 +94,7 @@ def test_queue_missing_and_lock_collision_affect_readiness(tmp_path: Path) -> No
     lock_status = tmp_path / "UNIFIED_LOCK_STATUS.json"
     heartbeat = tmp_path / "runtime_heartbeat.json"
 
-    write_json(marker, {"cycle_id": "cycle-2", "cycle_in_progress": False, "updated_at_utc": "2026-06-09T18:59:00Z"})
+    write_json(marker, {"cycle_id": "cycle-2", "cycle_in_progress": False, "updated_at_utc": (datetime.now(timezone.utc) - timedelta(minutes=5)).strftime("%Y-%m-%dT%H:%M:%SZ")})
     write_json(lock_status, {"held_locks_count": 1, "stale_locks_count": 0, "collision_count": 1})
     write_json(heartbeat, {"status": "healthy"})
 
@@ -122,7 +123,7 @@ def test_heartbeat_unavailable_is_reported_without_crashing(tmp_path: Path) -> N
     queue_index = tmp_path / "UNIFIED_QUEUE_INDEX.json"
     lock_status = tmp_path / "UNIFIED_LOCK_STATUS.json"
 
-    write_json(marker, {"cycle_id": "cycle-3", "cycle_in_progress": False, "updated_at_utc": "2026-06-09T18:59:00Z"})
+    write_json(marker, {"cycle_id": "cycle-3", "cycle_in_progress": False, "updated_at_utc": (datetime.now(timezone.utc) - timedelta(minutes=5)).strftime("%Y-%m-%dT%H:%M:%SZ")})
     write_json(queue_index, {"packet_count": 0, "normalized_state_counts": {k: 0 for k in ["QUEUED", "RUNNING", "BLOCKED", "WAITING_APPROVAL", "COMPLETE", "FAILED", "ARCHIVED"]}})
     write_json(lock_status, {"held_locks_count": 0, "stale_locks_count": 0, "collision_count": 0})
 
