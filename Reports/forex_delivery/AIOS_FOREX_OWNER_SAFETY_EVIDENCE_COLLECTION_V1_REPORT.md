@@ -2,7 +2,7 @@
 
 Status: OWNER_EVIDENCE_REQUIRED
 Current branch: main
-Current head: 9a88c795ceecfb0e76a6e54f80cb5e7e554e0d27
+Current head: 1432fab5a0b33d8e03a076a0ef5947e9d596c9e6
 Controller status: SAFETY_CLOSURE_REQUIRED
 Controller phase: CRITICAL_SAFETY_EVIDENCE_CLOSURE
 Critical safety closure status: SAFETY_CLOSURE_OPEN
