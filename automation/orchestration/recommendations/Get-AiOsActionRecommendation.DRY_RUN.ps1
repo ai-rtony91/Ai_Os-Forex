@@ -331,7 +331,7 @@ elseif ($next.status -eq "blocked" -or $next.status -eq "failed") {
     $reason = "Packet needs blocker/failure review."
 }
 elseif ($next.status -eq "campaign_ready") {
-    $recommendedCommand = "powershell -NoProfile -ExecutionPolicy Bypass -File automation/orchestration/campaign_registry/Get-AiOsCampaignNextTask.DRY_RUN.ps1 -OutputJson"
+    $recommendedCommand = "powershell -ExecutionPolicy Bypass -File automation/orchestration/health/Test-AiOsRuntimeHealth.DRY_RUN.ps1"
     $reason = "No active packet is present; campaign registry has a READY packet candidate."
 }
 elseif ($next.status -eq "no_active_packet") {
