@@ -199,6 +199,33 @@ function Get-AutonomousSelfBuildAvailabilityState {
     }
 }
 
+function Get-WorktreeStatusPath {
+    param([Parameter(Mandatory = $true)][string]$StatusLine)
+
+    if ([string]::IsNullOrWhiteSpace($StatusLine) -or $StatusLine.Length -lt 4) {
+        return ""
+    }
+
+    $path = $StatusLine.Substring(3).Trim()
+    if ($path -like "* -> *") {
+        $path = ($path -split " -> ")[-1].Trim()
+    }
+
+    return $path.Replace("\", "/")
+}
+
+function Test-ActionableWorktreeChange {
+    param([Parameter(Mandatory = $true)][string]$StatusLine)
+
+    $path = Get-WorktreeStatusPath -StatusLine $StatusLine
+    if ([string]::IsNullOrWhiteSpace($path)) {
+        return $false
+    }
+
+    # Treat report metadata churn as evidence, not as a commit-package trigger.
+    return -not ($path -eq "Reports" -or $path.StartsWith("Reports/"))
+}
+
 $health = powershell -ExecutionPolicy Bypass -File automation/orchestration/health/Test-AiOsRuntimeHealth.DRY_RUN.ps1 -QuietJson | ConvertFrom-Json
 $next = powershell -ExecutionPolicy Bypass -File automation/orchestration/next_step/Resolve-AiOsNextStep.DRY_RUN.ps1 -QuietJson | ConvertFrom-Json
 $blocker = powershell -ExecutionPolicy Bypass -File automation/orchestration/blockers/Resolve-AiOsRuntimeBlocker.DRY_RUN.ps1 -QuietJson | ConvertFrom-Json
@@ -256,6 +283,8 @@ $routineReviewContinuationAllowed = $false
 $routineReviewContinuationReason = ""
 $routineReviewNextAction = ""
 $routineReviewResolverCommand = "powershell -NoProfile -ExecutionPolicy Bypass -File automation/orchestration/relay_bus/Resolve-AiOsRelayHumanReview.DRY_RUN.ps1 -OutputJson"
+$actionableWorktreeChanges = @($gitStatus | Where-Object { Test-ActionableWorktreeChange -StatusLine $_ })
+$hasActionableWorktreeChanges = $actionableWorktreeChanges.Count -gt 0
 
 if ($relayOperatorState -and [string]$relayOperatorState.actor_relay_bus_status -eq "NEEDS_HUMAN_REVIEW") {
     $relaySosApplies = $true
@@ -291,7 +320,7 @@ if ($relayOperatorState -and [string]$relayOperatorState.actor_relay_bus_status 
     }
 }
 $commitPackagePreview = $null
-if ($gitStatus.Count -gt 0) {
+if ($hasActionableWorktreeChanges) {
     try {
         $commitPackagePreview = powershell -NoProfile -ExecutionPolicy Bypass -File automation/orchestration/commit_packages/New-AiOsCommitPackageRecommendation.DRY_RUN.ps1 -OutputJson | ConvertFrom-Json
     }
@@ -318,7 +347,7 @@ elseif ($next.status -eq "awaiting_approval") {
     $recommendedCommand = "powershell -ExecutionPolicy Bypass -File automation/orchestration/approval_detection/Find-AiOsApprovalMatch.DRY_RUN.ps1"
     $reason = "Packet is waiting for approval."
 }
-elseif ($gitStatus.Count -gt 0 -and $commitPackagePreview -and $campaignOverallReadiness -ne "NO_READY_STAGE") {
+elseif ($hasActionableWorktreeChanges -and $commitPackagePreview -and $campaignOverallReadiness -ne "NO_READY_STAGE") {
     $recommendedCommand = "powershell -NoProfile -ExecutionPolicy Bypass -File automation/orchestration/commit_packages/New-AiOsCommitPackageRecommendation.DRY_RUN.ps1 -OutputJson"
     $reason = "Working tree has changes; prepare an exact-file Level 5 commit package preview and stop before staging."
 }
@@ -411,7 +440,7 @@ $result = [pscustomobject]@{
     autonomous_self_build = $autonomousSelfBuild
     level5_commit_package_preview = [pscustomobject]@{
         available = [bool]($null -ne $commitPackagePreview)
-        status = if ($commitPackagePreview -and $commitPackagePreview.orchestration_result_contract.status) { [string]$commitPackagePreview.orchestration_result_contract.status } elseif ($gitStatus.Count -gt 0) { "REVIEW" } else { "NOT_NEEDED" }
+        status = if ($commitPackagePreview -and $commitPackagePreview.orchestration_result_contract.status) { [string]$commitPackagePreview.orchestration_result_contract.status } elseif ($hasActionableWorktreeChanges) { "REVIEW" } else { "NOT_NEEDED" }
         command = "powershell -NoProfile -ExecutionPolicy Bypass -File automation/orchestration/commit_packages/New-AiOsCommitPackageRecommendation.DRY_RUN.ps1 -OutputJson"
         exact_changed_files = @($commitPackageChangedFiles)
         recommended_files = @($commitPackageRecommendedFiles)
@@ -421,11 +450,11 @@ $result = [pscustomobject]@{
     }
 }
 
-$approvalRequired = ($approval.matches_found -gt 0 -or $next.status -eq "awaiting_approval" -or ($commitPackagePreview -and (-not $routineReviewContinuationAllowed)))
+$approvalRequired = ($approval.matches_found -gt 0 -or $next.status -eq "awaiting_approval" -or ($hasActionableWorktreeChanges -and $commitPackagePreview -and (-not $routineReviewContinuationAllowed)))
 if ($relaySosApplies -and ($relaySosEscalationStatus -eq "SOS_ESCALATION" -or $relaySosAnthonyRequired)) {
     $approvalRequired = $true
 }
-$blockedReason = if ($gitStatus.Count -gt 0 -and $commitPackagePreview) { "none" } elseif ($health.health -ne "HEALTHY") { "Runtime health is not clean." } elseif ($next.status -eq "blocked" -or $next.status -eq "failed") { "Packet is blocked or failed." } elseif ($next.status -eq "no_active_packet") { "No active packet or READY campaign stage is available." } else { "none" }
+$blockedReason = if ($hasActionableWorktreeChanges -and $commitPackagePreview) { "none" } elseif ($health.health -ne "HEALTHY") { "Runtime health is not clean." } elseif ($next.status -eq "blocked" -or $next.status -eq "failed") { "Packet is blocked or failed." } elseif ($next.status -eq "no_active_packet") { "No active packet or READY campaign stage is available." } else { "none" }
 $status = if ($blockedReason -ne "none") { "BLOCKED" } elseif ($approvalRequired) { "REVIEW" } else { "READY" }
 $nextSafeAction = $recommendedCommand
 if ($next.status -eq "no_active_packet" -and $campaignOverallReadiness -eq "NO_READY_STAGE" -and (-not $relaySosApplies)) {
@@ -455,7 +484,7 @@ $result | Add-Member -NotePropertyName orchestration_result_contract -NoteProper
     approval_required = $approvalRequired
     blocked_reason = $blockedReason
     escalation_reason = if ($approvalRequired) { "Approval evidence requires Human Owner review." } elseif ($blockedReason -ne "none") { $blockedReason } else { "none" }
-    commit_candidate = [bool]($commitPackagePreview)
+    commit_candidate = [bool]($commitPackagePreview -and $hasActionableWorktreeChanges)
     next_safe_action = $nextSafeAction
     stop_condition = "REPORT_ONLY_NO_PACKET_ADVANCEMENT"
     runtime_notes = @(
