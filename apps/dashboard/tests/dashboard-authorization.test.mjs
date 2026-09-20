@@ -179,3 +179,104 @@ test('Turnstile adapter rejects failed, expired, and wrong-hostname siteverify r
     assert.equal(accepted, false, JSON.stringify(result))
   }
 })
+
+function decodeBase64UrlJson(value) {
+  return JSON.parse(Buffer.from(value.replace(/-/g, '+').replace(/_/g, '/'), 'base64url').toString('utf8'))
+}
+
+test('Entra code exchange uses Key Vault signed certificate client assertion without exposing private key material', async () => {
+  const calls = []
+  const env = {
+    AIOS_ENTRA_AUTHORITY: 'https://login.microsoftonline.com/tenant-id/v2.0',
+    AIOS_ENTRA_CLIENT_ASSERTION_KEY_VAULT_KEY_ID: 'https://aios-dashboard-auth-kv.vault.azure.net/keys/aios-entra-client-assertion/key-version',
+    AIOS_ENTRA_CLIENT_CERT_THUMBPRINT: '00112233445566778899aabbccddeeff00112233',
+    IDENTITY_ENDPOINT: 'https://127.0.0.1/msi/token',
+    IDENTITY_HEADER: 'managed-identity-header',
+  }
+  const fetchImpl = async (url, request = {}) => {
+    calls.push({ url: String(url), request })
+    if (String(url).startsWith('https://127.0.0.1/msi/token')) {
+      assert.equal(new URL(String(url)).searchParams.get('resource'), 'https://vault.azure.net')
+      assert.equal(request.headers['x-identity-header'], 'managed-identity-header')
+      return { ok: true, json: async () => ({ access_token: 'managed-identity-token' }) }
+    }
+    if (String(url).startsWith('https://aios-dashboard-auth-kv.vault.azure.net/keys/aios-entra-client-assertion/key-version/sign')) {
+      assert.equal(request.headers.authorization, 'Bearer managed-identity-token')
+      const body = JSON.parse(request.body)
+      assert.equal(body.alg, 'RS256')
+      assert.match(body.value, /^[A-Za-z0-9_-]+$/)
+      return { ok: true, json: async () => ({ value: 'signed-by-key-vault' }) }
+    }
+    assert.equal(String(url), 'https://login.microsoftonline.com/tenant-id/v2.0/oauth2/v2.0/token')
+    const body = request.body
+    const assertion = body.get('client_assertion')
+    assert.equal(body.get('client_assertion_type'), 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer')
+    assert.equal(body.get('client_id'), 'client-id')
+    assert.equal(body.get('code_verifier'), 'pkce-verifier')
+    assert.equal(body.get('client_secret'), null)
+    const [encodedHeader, encodedPayload, signature] = assertion.split('.')
+    assert.equal(signature, 'signed-by-key-vault')
+    const header = decodeBase64UrlJson(encodedHeader)
+    const payload = decodeBase64UrlJson(encodedPayload)
+    assert.equal(header.alg, 'RS256')
+    assert.equal(header.typ, 'JWT')
+    assert.equal(header.x5t, 'ABEiM0RVZneImaq7zN3u_wARIjM')
+    assert.equal(payload.aud, String(url))
+    assert.equal(payload.iss, 'client-id')
+    assert.equal(payload.sub, 'client-id')
+    assert.ok(payload.jti)
+    assert.ok(payload.exp > payload.iat)
+    assert.ok(payload.exp - payload.iat <= 300)
+    return { ok: true, json: async () => ({ id_token: 'id-token' }) }
+  }
+  const adapters = createDashboardAuthAdapters({ env, fetchImpl })
+  const tokens = await adapters.exchangeAuthorizationCode('auth-code', 'pkce-verifier', {
+    config: { clientId: 'client-id', redirectUri: 'https://dashboard.algobots.trade/auth/callback' },
+  })
+  assert.deepEqual(tokens, { id_token: 'id-token' })
+  assert.equal(calls.length, 3)
+  assert.doesNotMatch(JSON.stringify(calls), /PRIVATE KEY|BEGIN RSA|BEGIN PRIVATE|server-only-turnstile-secret/i)
+})
+
+test('Entra certificate assertion fails closed when certificate or Key Vault signing configuration is missing', async () => {
+  const baseEnv = {
+    AIOS_ENTRA_AUTHORITY: 'https://login.microsoftonline.com/tenant-id/v2.0',
+    IDENTITY_ENDPOINT: 'https://127.0.0.1/msi/token',
+    IDENTITY_HEADER: 'managed-identity-header',
+  }
+  const config = { clientId: 'client-id', redirectUri: 'https://dashboard.algobots.trade/auth/callback' }
+
+  const missingThumbprint = createDashboardAuthAdapters({
+    env: { ...baseEnv, AIOS_ENTRA_CLIENT_ASSERTION_KEY_VAULT_KEY_ID: 'https://vault.example.test/keys/k/v' },
+    fetchImpl: async () => { throw new Error('fetch should not be called') },
+  })
+  await assert.rejects(() => missingThumbprint.exchangeAuthorizationCode('code', 'verifier', { config }), /ENTRA_CLIENT_CERT_THUMBPRINT_REQUIRED/)
+
+  const missingManagedIdentity = createDashboardAuthAdapters({
+    env: {
+      AIOS_ENTRA_AUTHORITY: baseEnv.AIOS_ENTRA_AUTHORITY,
+      AIOS_ENTRA_CLIENT_ASSERTION_KEY_VAULT_KEY_ID: 'https://vault.example.test/keys/k/v',
+      AIOS_ENTRA_CLIENT_CERT_THUMBPRINT: '00112233445566778899aabbccddeeff00112233',
+    },
+    fetchImpl: async () => { throw new Error('fetch should not be called') },
+  })
+  await assert.rejects(() => missingManagedIdentity.exchangeAuthorizationCode('code', 'verifier', { config }), /AZURE_MANAGED_IDENTITY_CONFIG_REQUIRED/)
+})
+
+test('Entra certificate assertion fails closed when Key Vault signing fails', async () => {
+  const env = {
+    AIOS_ENTRA_AUTHORITY: 'https://login.microsoftonline.com/tenant-id/v2.0',
+    AIOS_ENTRA_CLIENT_ASSERTION_KEY_VAULT_KEY_ID: 'https://vault.example.test/keys/k/v',
+    AIOS_ENTRA_CLIENT_CERT_THUMBPRINT: '00112233445566778899aabbccddeeff00112233',
+    IDENTITY_ENDPOINT: 'https://127.0.0.1/msi/token',
+    IDENTITY_HEADER: 'managed-identity-header',
+  }
+  const fetchImpl = async (url) => {
+    if (String(url).startsWith('https://127.0.0.1/msi/token')) return { ok: true, json: async () => ({ access_token: 'token' }) }
+    return { ok: false, json: async () => ({}) }
+  }
+  const adapters = createDashboardAuthAdapters({ env, fetchImpl })
+  await assert.rejects(() => adapters.exchangeAuthorizationCode('code', 'verifier', {
+    config: { clientId: 'client-id', redirectUri: 'https://dashboard.algobots.trade/auth/callback' },
+  }), /KEY_VAULT_SIGN_FAILED/)
+})

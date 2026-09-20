@@ -21,7 +21,10 @@ This template lists required setting names and their purpose only. Do not store 
 | `AIOS_ENTRA_TOKEN_URL` | Optional | Entra token endpoint override for authorization-code exchange. | Defaults to `${AIOS_ENTRA_AUTHORITY}/oauth2/v2.0/token`. |
 | `AIOS_ENTRA_AUTHORIZE_URL` | Optional | Full authorization endpoint override. | Defaults to `${AIOS_ENTRA_AUTHORITY}/oauth2/v2.0/authorize`. |
 | `AIOS_ENTRA_CLIENT_ID` | Required | Public application client ID. | Public identifier, but keep in server app settings for one configuration path. Current value is UNKNOWN. |
-| `AIOS_ENTRA_CLIENT_SECRET` | Optional | Confidential-client secret for token exchange if the selected Entra app requires one. | Secret value must stay in Azure App Service settings only. |
+| `AIOS_ENTRA_CLIENT_SECRET` | Optional | Confidential-client secret for token exchange if the selected Entra app requires one. | Secret value must stay in Azure App Service settings only. Do not use when tenant policy blocks client secrets. |
+| `AIOS_ENTRA_CLIENT_ASSERTION_KEY_VAULT_KEY_ID` | Optional | Full Azure Key Vault key identifier used for Entra certificate client-assertion signing. | Non-secret identifier. Private key must remain non-exportable in Key Vault. |
+| `AIOS_ENTRA_CLIENT_CERT_THUMBPRINT` | Optional | Hex SHA-1 thumbprint of the public certificate uploaded to the Entra app registration. | Non-secret identifier used as the JWT `x5t` header. |
+| `AIOS_KEY_VAULT_API_VERSION` | Optional | Azure Key Vault REST API version for signing. | Defaults to `7.4`. |
 | `AIOS_ENTRA_REDIRECT_URI` | Required | OAuth callback URL. | Defaults to `${AIOS_PUBLIC_ORIGIN}/auth/callback`; must also be registered in Entra. |
 | `AIOS_ENTRA_LOGOUT_URL` | Optional | Full logout endpoint override. | Defaults to `${AIOS_ENTRA_AUTHORITY}/oauth2/v2.0/logout`. |
 | `AIOS_ENTRA_POST_LOGOUT_REDIRECT_URI` | Required | Return URL after logout. | Defaults to `${AIOS_PUBLIC_ORIGIN}/login`; must be allowed by Entra if required. |
@@ -68,7 +71,7 @@ The production startup wires these adapters through `server/dashboardAuthAdapter
 | Adapter | Purpose | Current Status |
 |---|---|---|
 | `verifyAccessAssertion` | Verify Cloudflare Access JWT assertion. | Wired locally and covered by signed-token tests. |
-| `exchangeAuthorizationCode` | Exchange Entra authorization code using PKCE. | Wired locally and covered by flow tests with synthetic exchange fixtures. |
+| `exchangeAuthorizationCode` | Exchange Entra authorization code using PKCE. | Supports client-secret when allowed, or Key Vault-backed certificate client assertions when `AIOS_ENTRA_CLIENT_ASSERTION_KEY_VAULT_KEY_ID` and `AIOS_ENTRA_CLIENT_CERT_THUMBPRINT` are configured. |
 | `verifyIdentityToken` | Verify Entra ID token and nonce. | Wired locally and covered by signed-token tests. |
 | `verifyTurnstile` | Verify Cloudflare Turnstile token server-side. | Wired locally through Cloudflare Siteverify when `AIOS_TURNSTILE_SECRET_KEY` is configured. |
 

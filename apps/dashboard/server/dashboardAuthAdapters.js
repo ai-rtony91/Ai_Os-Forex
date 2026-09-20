@@ -1,3 +1,4 @@
+import crypto from 'node:crypto'
 import { createRemoteJWKSet, jwtVerify } from 'jose'
 
 const CLOUDFLARE_CERTS_PATH = '/cdn-cgi/access/certs'
@@ -11,6 +12,57 @@ function requireUrl(value, name) {
 }
 function normalizeAudience(audience) {
   return Array.isArray(audience) ? audience : [audience]
+}
+function base64Url(input) {
+  return Buffer.from(input).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+}
+function base64UrlJson(value) { return base64Url(JSON.stringify(value)) }
+function sha256(input) { return crypto.createHash('sha256').update(input).digest() }
+function randomId() { return crypto.randomUUID ? crypto.randomUUID() : crypto.randomBytes(16).toString('hex') }
+function normalizeThumbprint(value = '') { return String(value || '').replace(/:/g, '').trim() }
+function managedIdentityEndpoint(env) { return env.IDENTITY_ENDPOINT || env.MSI_ENDPOINT || '' }
+function managedIdentityHeader(env) { return env.IDENTITY_HEADER || env.MSI_SECRET || '' }
+function keyVaultAccessTokenScope(env) { return env.AIOS_KEY_VAULT_TOKEN_RESOURCE || 'https://vault.azure.net' }
+async function fetchManagedIdentityToken(env, fetchImpl) {
+  const endpoint = managedIdentityEndpoint(env)
+  const secretHeader = managedIdentityHeader(env)
+  if (!endpoint || !secretHeader) throw new Error('AZURE_MANAGED_IDENTITY_CONFIG_REQUIRED')
+  const url = new URL(endpoint)
+  url.searchParams.set('api-version', '2019-08-01')
+  url.searchParams.set('resource', keyVaultAccessTokenScope(env))
+  const response = await fetchImpl(url, { headers: { 'x-identity-header': secretHeader, secret: secretHeader } })
+  if (!response.ok) throw new Error('AZURE_MANAGED_IDENTITY_TOKEN_FAILED')
+  const result = await response.json()
+  if (!result.access_token) throw new Error('AZURE_MANAGED_IDENTITY_TOKEN_MISSING')
+  return result.access_token
+}
+async function signWithKeyVault({ env, fetchImpl, signingInput }) {
+  const keyId = env.AIOS_ENTRA_CLIENT_ASSERTION_KEY_VAULT_KEY_ID || env.AIOS_ENTRA_KEY_VAULT_KEY_ID || ''
+  if (!keyId) throw new Error('ENTRA_CLIENT_ASSERTION_KEY_ID_REQUIRED')
+  if (!fetchImpl) throw new Error('ENTRA_CLIENT_ASSERTION_FETCH_REQUIRED')
+  const token = await fetchManagedIdentityToken(env, fetchImpl)
+  const signUrl = new URL(`${String(keyId).replace(/\/$/, '')}/sign`)
+  signUrl.searchParams.set('api-version', env.AIOS_KEY_VAULT_API_VERSION || '7.4')
+  const response = await fetchImpl(signUrl, {
+    method: 'POST',
+    headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
+    body: JSON.stringify({ alg: 'RS256', value: base64Url(sha256(signingInput)) }),
+  })
+  if (!response.ok) throw new Error('KEY_VAULT_SIGN_FAILED')
+  const result = await response.json()
+  if (!result.value) throw new Error('KEY_VAULT_SIGNATURE_MISSING')
+  return result.value
+}
+async function createCertificateClientAssertion({ env, fetchImpl, tokenUrl, clientId }) {
+  const thumbprint = normalizeThumbprint(env.AIOS_ENTRA_CLIENT_CERT_THUMBPRINT || env.AIOS_ENTRA_CLIENT_CERTIFICATE_THUMBPRINT)
+  if (!thumbprint) throw new Error('ENTRA_CLIENT_CERT_THUMBPRINT_REQUIRED')
+  if (!tokenUrl || !clientId) throw new Error('ENTRA_CLIENT_ASSERTION_CONFIG_REQUIRED')
+  const now = Math.floor(Date.now() / 1000)
+  const header = { alg: 'RS256', typ: 'JWT', x5t: base64Url(Buffer.from(thumbprint, 'hex')) }
+  const payload = { aud: tokenUrl, iss: clientId, sub: clientId, jti: randomId(), nbf: now - 60, iat: now, exp: now + 300 }
+  const signingInput = `${base64UrlJson(header)}.${base64UrlJson(payload)}`
+  const signature = await signWithKeyVault({ env, fetchImpl, signingInput })
+  return `${signingInput}.${signature}`
 }
 function containsAudience(tokenAudience, expectedAudience) {
   const tokenValues = normalizeAudience(tokenAudience)
@@ -73,6 +125,10 @@ export function createDashboardAuthAdapters({ env = process.env, fetchImpl = glo
         code_verifier: verifier,
       })
       if (env.AIOS_ENTRA_CLIENT_SECRET) body.set('client_secret', env.AIOS_ENTRA_CLIENT_SECRET)
+      else if (env.AIOS_ENTRA_CLIENT_ASSERTION_KEY_VAULT_KEY_ID || env.AIOS_ENTRA_KEY_VAULT_KEY_ID) {
+        body.set('client_assertion_type', 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer')
+        body.set('client_assertion', await createCertificateClientAssertion({ env, fetchImpl, tokenUrl, clientId: config.clientId }))
+      }
       const response = await fetchImpl(tokenUrl, {
         method: 'POST',
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
