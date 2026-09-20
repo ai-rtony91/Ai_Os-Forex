@@ -16,7 +16,7 @@ export default function AiosSymbol({
 
   return (
     <span className={classes} aria-label={accessibleLabel} role="img">
-      <img src={symbol.src} alt="" aria-hidden="true" draggable="false" />
+      {name === 'aios-core' ? <span className="aiosWordmark" aria-hidden="true"><i className="markA">A</i><i className="markI"><b /><em /></i><i className="markO"><b className="globeCore" /><b className="globeRing" /></i><i className="markS">$</i></span> : <img src={symbol.src} alt="" aria-hidden="true" draggable="false" />}
     </span>
   );
 }

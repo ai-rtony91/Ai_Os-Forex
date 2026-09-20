@@ -1,0 +1,13 @@
+{
+  "source": "demonstration",
+  "mode": "PAPER",
+  "asOf": "2026-08-31T12:00:00.000Z",
+  "freshness": "UNKNOWN",
+  "data": {
+    "label": "DEMONSTRATION DATA — NOT CURRENT NEWS",
+    "licensed_source_state": "NOT CONFIGURED",
+    "drivers": [
+      { "pair": "EUR/USD", "trade_result": "POSITIVE UNREALIZED", "currencies": ["EUR", "USD"], "event_timestamp": "DEMONSTRATION", "trade_timestamp": "DEMONSTRATION", "observed_movement": "Illustrative volatility expansion", "likely_driver": "Demonstration macro repricing scenario", "alternative_explanations": ["Technical breakout", "Position adjustment"], "confidence": "LOW", "source_links": [], "strategy_rationale": "Illustrative only", "market_context_rationale": "No licensed current source is configured" }
+    ]
+  }
+}

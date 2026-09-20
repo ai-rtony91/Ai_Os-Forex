@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="title desc">
+  <title id="title">Original geometric performance car silhouette</title>
+  <desc id="desc">A non-official angular supercar-inspired illustration in the AIOS obsidian visual language.</desc>
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#172433"/><stop offset=".52" stop-color="#0b111a"/><stop offset="1" stop-color="#202937"/></linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#38d8ff"/><stop offset=".5" stop-color="#a780ff"/><stop offset="1" stop-color="#43e6a7"/></linearGradient>
+    <radialGradient id="wheel"><stop offset="0" stop-color="#263545"/><stop offset=".42" stop-color="#0a0f16"/><stop offset=".48" stop-color="#f0b65b"/><stop offset=".54" stop-color="#080b10"/><stop offset="1" stop-color="#020305"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="1200" height="430" rx="36" fill="#05080d"/>
+  <path d="M80 344H1120" stroke="#38d8ff" stroke-opacity=".22"/>
+  <path d="M130 315 190 246 356 211 480 116 738 113 890 191 1055 232 1110 306 1044 328 895 331 828 275 690 249 442 253 330 328 170 330Z" fill="url(#body)" stroke="url(#edge)" stroke-width="4"/>
+  <path d="M369 209 493 132 718 129 846 193 673 185 502 188Z" fill="#07131c" stroke="#38d8ff" stroke-opacity=".46" stroke-width="3"/>
+  <path d="M204 246 343 223 319 269 155 292ZM880 207 1030 241 1068 285 909 267Z" fill="#152434" stroke="#a780ff" stroke-opacity=".48"/>
+  <path d="M366 229 480 210 455 277 342 300ZM739 206 856 217 899 293 767 271Z" fill="#0a111a" stroke="#43e6a7" stroke-opacity=".4"/>
+  <path d="M143 310 291 305 348 326 184 328ZM897 308 1097 302 1048 327 866 329Z" fill="#f0b65b" fill-opacity=".32"/>
+  <circle cx="310" cy="317" r="72" fill="url(#wheel)"/><circle cx="310" cy="317" r="25" fill="#152433" stroke="#38d8ff" stroke-width="3"/>
+  <circle cx="894" cy="317" r="72" fill="url(#wheel)"/><circle cx="894" cy="317" r="25" fill="#152433" stroke="#a780ff" stroke-width="3"/>
+  <path d="M180 292 120 308M1042 278 1111 291" stroke="#38d8ff" stroke-width="8" stroke-linecap="round" filter="url(#glow)"/>
+  <path d="M509 132 554 114 679 114 720 130" stroke="#f0b65b" stroke-width="3" stroke-opacity=".8"/>
+</svg>

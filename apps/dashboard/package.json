@@ -7,10 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "test": "node --test tests/*.test.mjs",
     "preview": "vite preview",
-    "start": "node server.js"
+    "start": "node dist/server.js",
+    "start:api": "node server.js"
   },
   "dependencies": {
+    "jose": "^6.2.12",
     "react": "^19.2.4",
     "react-dom": "^19.2.6"
   },
@@ -18,11 +21,19 @@
     "@eslint/js": "^9.39.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.2",
+    "@vitejs/plugin-react": "^6.1.1",
     "eslint": "^9.39.4",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
-    "vite": "^8.0.14"
+    "vite": "^8.3.0"
+  },
+  "overrides": {
+    "@babel/core": "8.0.6",
+    "@humanfs/node": "0.17.0",
+    "baseline-browser-mapping": "2.11.25",
+    "brace-expansion": "5.0.12",
+    "browserslist": "4.29.0",
+    "js-yaml": "5.4.2"
   }
 }

@@ -5,10 +5,15 @@ import process from 'node:process'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import crypto from 'node:crypto'
+import { createDashboardApi } from './server/dashboardApi.js'
+import { createDashboardAuth } from './server/dashboardAuth.js'
+import { createDashboardAuthAdapters } from './server/dashboardAuthAdapters.js'
 
 const require = createRequire(import.meta.url)
 const rootDir = path.dirname(fileURLToPath(import.meta.url))
 const port = Number(process.env.PORT || 8080)
+const host = process.env.AIOS_DASHBOARD_HOST || (process.env.WEBSITE_SITE_NAME ? '0.0.0.0' : '127.0.0.1')
+const dashboardSourceRoot = path.basename(rootDir) === 'dist' ? path.resolve(rootDir, '..') : rootDir
 const repoRootDir = path.basename(rootDir) === 'dist'
   ? path.resolve(rootDir, '..', '..', '..')
   : path.resolve(rootDir, '..', '..')
@@ -25,12 +30,20 @@ const forexLedgerPath = path.resolve(forexCampaignRuntimeRoot, 'AIOS_FOREX_P1_EX
 const forexEventsPath = path.resolve(forexCampaignRuntimeRoot, 'AIOS_FOREX_SUPERTREND_30_TRADE_EVENTS.jsonl')
 const dashboardProjectionPath = path.resolve(repoRootDir, '.aios/runtime/dashboard_measurement/AIOS_DASHBOARD_PROJECTION_V1.json')
 const projectionLimit = 250 * 1024
+const dashboardAuth = createDashboardAuth({
+  ...createDashboardAuthAdapters({ env: process.env, fetchImpl: globalThis.fetch }),
+})
+const dashboardApi = createDashboardApi({
+  dashboardRoot: dashboardSourceRoot,
+  requireDataAccess: dashboardAuth.requireDataAccess,
+})
 
 const contentTypes = new Map([
   ['.html', 'text/html; charset=utf-8'],
   ['.css', 'text/css; charset=utf-8'],
   ['.js', 'text/javascript; charset=utf-8'],
   ['.json', 'application/json; charset=utf-8'],
+  ['.md', 'text/markdown; charset=utf-8'],
   ['.svg', 'image/svg+xml'],
   ['.png', 'image/png'],
   ['.jpg', 'image/jpeg'],
@@ -49,6 +62,7 @@ function sendText(response, statusCode, message) {
 function getFilePath(requestUrl) {
   const parsedUrl = new URL(requestUrl, 'http://localhost')
   const pathname = parsedUrl.pathname === '/' ? '/index.html' : parsedUrl.pathname
+  if (isBlockedStaticPath(pathname)) return null
   const decodedPath = decodeURIComponent(pathname)
   const requestedPath = path.resolve(rootDir, `.${decodedPath}`)
 
@@ -57,6 +71,19 @@ function getFilePath(requestUrl) {
   }
 
   return requestedPath
+}
+
+function isBlockedStaticPath(pathname) {
+  return [
+    '/mock-data/',
+    '/server/',
+    '/src/',
+    '/node_modules/',
+    '/private-media/',
+    '/package.json',
+    '/server.js',
+    '/AZURE_AUTH_ENVIRONMENT.template.md',
+  ].some((blocked) => pathname === blocked || pathname.startsWith(blocked))
 }
 
 function isLiveAutonomyBridgeStateRequest(requestUrl) {
@@ -370,23 +397,29 @@ function serveRuntimeVisibility(request, response) {
   }
 }
 
-const server = http.createServer((request, response) => {
+const server = http.createServer(async (request, response) => {
+  if (await dashboardAuth(request, response)) return
+  if (await dashboardApi(request, response)) return
+
   if (request.method !== 'GET' && request.method !== 'HEAD') {
     sendText(response, 405, 'Method not allowed')
     return
   }
 
   if (isRuntimeVisibilityRequest(request.url)) {
+    if (!dashboardAuth.requireDataAccess(request, response)) return
     serveRuntimeVisibility(request, response)
     return
   }
 
   if (isForexCampaignRequest(request.url)) {
+    if (!dashboardAuth.requireDataAccess(request, response)) return
     serveForexCampaignSnapshot(request, response)
     return
   }
 
   if (isLiveAutonomyBridgeStateRequest(request.url)) {
+    if (!dashboardAuth.requireDataAccess(request, response)) return
     fs.stat(liveAutonomyBridgeStatePath, (statError, stats) => {
       if (statError || !stats.isFile()) {
         sendText(response, 404, 'Not found')
@@ -408,7 +441,20 @@ const server = http.createServer((request, response) => {
     return
   }
 
-  if (isDashboardProjectionRequest(request.url)) { serveDashboardProjection(request, response); return }
+  if (isDashboardProjectionRequest(request.url)) {
+    if (!dashboardAuth.requireDataAccess(request, response)) return
+    serveDashboardProjection(request, response)
+    return
+  }
+
+  const pageUrl = new URL(request.url, 'http://localhost')
+  const acceptsHtml = String(request.headers.accept || '').includes('text/html')
+  const isPublicPage = ['/', '/login', '/signup'].includes(pageUrl.pathname)
+  if (acceptsHtml && !isPublicPage && !dashboardAuth.hasValidSession(request)) {
+    response.writeHead(302, { location: '/login', 'cache-control': 'no-store' })
+    response.end()
+    return
+  }
 
   let filePath
 
@@ -426,6 +472,13 @@ const server = http.createServer((request, response) => {
 
   fs.stat(filePath, (statError, stats) => {
     if (statError || !stats.isFile()) {
+      const acceptsHtml = String(request.headers.accept || '').includes('text/html')
+      const indexPath = path.resolve(rootDir, 'index.html')
+      if (acceptsHtml && fs.existsSync(indexPath)) {
+        response.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' })
+        fs.createReadStream(indexPath).pipe(response)
+        return
+      }
       sendText(response, 404, 'Not found')
       return
     }
@@ -447,6 +500,6 @@ const server = http.createServer((request, response) => {
   })
 })
 
-server.listen(port, '127.0.0.1', () => {
-  console.log(`AI_OS dashboard static server listening on port ${port}`)
+server.listen(port, host, () => {
+  console.log(`AI_OS dashboard static server listening on ${host}:${port}`)
 })
