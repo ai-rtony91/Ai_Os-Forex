@@ -174,6 +174,52 @@ test('Turnstile runs after Access and callback but before server session creatio
   assert.deepEqual(calls, ['access', 'access', 'exchange', 'identity', 'access', 'access', 'access', 'turnstile'])
 })
 
+
+
+test('Turnstile fails closed when public site key is absent', async () => {
+  const env = { ...configuredEnv }
+  delete env.AIOS_TURNSTILE_SITE_KEY
+  const auth = createDashboardAuth({ env, ...adapters() })
+  const response = await invoke(auth, { path: '/auth/session', headers: { 'CF-Access-Jwt-Assertion': 'valid-access-assertion' } })
+  assert.equal(response.statusCode, 503)
+  assert.equal(response.json.code, 'AUTH_CONFIGURATION_UNAVAILABLE')
+  assert.doesNotMatch(response.body, /server-only-turnstile-secret|public-turnstile-site-key/)
+})
+
+test('invalid or missing Turnstile token is denied before session creation', async () => {
+  const auth = createDashboardAuth({ env: configuredEnv, ...adapters() })
+  const jar = new Map()
+  const access = { 'CF-Access-Jwt-Assertion': 'valid-access-assertion' }
+  const start = await invoke(auth, { path: '/auth/login', headers: access })
+  updateCookieJar(jar, start.headers['set-cookie'])
+  const state = new URL(start.headers.location).searchParams.get('state')
+  const callback = await invoke(auth, {
+    path: `/auth/callback?code=code-1&state=${encodeURIComponent(state)}`,
+    headers: { ...access, cookie: cookieHeader(jar) },
+  })
+  updateCookieJar(jar, callback.headers['set-cookie'])
+  const pending = await invoke(auth, { path: '/auth/session', headers: { ...access, cookie: cookieHeader(jar) } })
+
+  for (const body of [{}, { token: '' }, { token: 'expired-or-invalid-token' }]) {
+    const denied = await invoke(auth, {
+      path: '/auth/turnstile', method: 'POST',
+      headers: { ...access, cookie: cookieHeader(jar), 'content-type': 'application/json', 'x-aios-csrf': pending.json.csrfToken },
+      body: JSON.stringify(body),
+    })
+    assert.equal(denied.statusCode, 403)
+    assert.equal(denied.json.code, 'TURNSTILE_VERIFICATION_FAILED')
+    assert.doesNotMatch(denied.body, /server-only-turnstile-secret|public-turnstile-site-key/)
+  }
+})
+
+test('Turnstile client integration uses only public site key and never exposes server secret', () => {
+  const login = fs.readFileSync(new URL('../src/pages/LoginPortalPage.jsx', import.meta.url), 'utf8')
+  assert.match(login, /https:\/\/challenges\.cloudflare\.com\/turnstile\/v0\/api\.js\?render=explicit/)
+  assert.match(login, /authState\.turnstileSiteKey/)
+  assert.match(login, /fetch\('\/auth\/turnstile'/)
+  assert.doesNotMatch(login, /AIOS_TURNSTILE_SECRET_KEY|turnstileSecretKey|server-only-turnstile-secret|secret:/)
+})
+
 test('logout requires session CSRF and clears all authentication cookies', async () => {
   const auth = createDashboardAuth({ env: configuredEnv, ...adapters() })
   const withoutSession = await invoke(auth, { path: '/auth/logout', method: 'POST' })

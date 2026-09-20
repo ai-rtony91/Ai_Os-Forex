@@ -140,3 +140,42 @@ test('auth adapters verify Cloudflare Access and Entra JWTs with issuer, audienc
     await assert.rejects(() => adapters.verifyIdentityToken(wrongEmail, 'nonce-1'), /IDENTITY_EMAIL_NOT_ALLOWED/)
   })
 })
+
+
+test('Turnstile adapter accepts only successful siteverify responses for configured hostname', async () => {
+  const env = {
+    AIOS_TURNSTILE_ALLOWED_HOSTNAMES: 'dashboard.algobots.trade',
+  }
+  const fetchImpl = async (_url, request) => {
+    assert.equal(String(_url), 'https://challenges.cloudflare.com/turnstile/v0/siteverify')
+    assert.match(String(request.body), /secret=server-only-turnstile-secret/)
+    return { ok: true, json: async () => ({ success: true, hostname: 'dashboard.algobots.trade' }) }
+  }
+  const adapters = createDashboardAuthAdapters({ env, fetchImpl })
+  const accepted = await adapters.verifyTurnstile('valid-token', {
+    request: { headers: { 'cf-connecting-ip': '203.0.113.10' } },
+    config: { turnstileSecretKey: 'server-only-turnstile-secret' },
+  })
+  assert.equal(accepted, true)
+})
+
+test('Turnstile adapter rejects failed, expired, and wrong-hostname siteverify responses', async () => {
+  const env = {
+    AIOS_TURNSTILE_ALLOWED_HOSTNAMES: 'dashboard.algobots.trade',
+  }
+  for (const result of [
+    { success: false, hostname: 'dashboard.algobots.trade', 'error-codes': ['timeout-or-duplicate'] },
+    { success: true, hostname: 'aios-command-center.mrtonyrodriguez87.chatgpt.site' },
+    { success: true, hostname: '' },
+  ]) {
+    const adapters = createDashboardAuthAdapters({
+      env,
+      fetchImpl: async () => ({ ok: true, json: async () => result }),
+    })
+    const accepted = await adapters.verifyTurnstile('candidate-token', {
+      request: { headers: { 'cf-connecting-ip': '203.0.113.10' } },
+      config: { turnstileSecretKey: 'server-only-turnstile-secret' },
+    })
+    assert.equal(accepted, false, JSON.stringify(result))
+  }
+})
