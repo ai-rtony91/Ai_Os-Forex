@@ -42,18 +42,25 @@ jobs:
         working-directory: apps/dashboard
         run: npm run build
 
+      - name: Install production dependencies in deploy package
+        working-directory: apps/dashboard/dist
+        run: npm ci --omit=dev
+
       - name: Verify dashboard deploy artifact
         shell: bash
         run: |
           set -euo pipefail
           test -f apps/dashboard/dist/server.js
+          test -f apps/dashboard/dist/package.json
+          test -f apps/dashboard/dist/package-lock.json
           test -f apps/dashboard/dist/AIOS_STATIC_PREVIEW.html
           test -f apps/dashboard/dist/index.html
           # `index.html` is the public entry document; the static preview stays as a packaged support artifact.
           test -d apps/dashboard/dist/css
           test -d apps/dashboard/dist/js
           test -d apps/dashboard/dist/assets
-          test -d apps/dashboard/dist/mock-data
+          test -d apps/dashboard/dist/node_modules/jose
+          node -e "const pkg=require('./apps/dashboard/dist/package.json'); if (pkg.scripts.start !== 'node server.js') throw new Error('dashboard deploy package must start with node server.js')"
           find apps/dashboard/dist -maxdepth 2 -type f | sort
 
       - name: Deploy to Azure App Service

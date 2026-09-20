@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import { cpSync, existsSync, readFileSync } from 'node:fs'
+import { cpSync, existsSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 
@@ -15,7 +15,7 @@ const staticDashboardOutputs = [
   'icons',
   'assets',
   'mock-data',
-  'package.json',
+  'package-lock.json',
   'server.js',
   'server',
   'THIRD_PARTY_ATTRIBUTIONS.md',
@@ -25,15 +25,30 @@ function readJsonFile(filePath) {
   return JSON.parse(readFileSync(filePath, 'utf8'))
 }
 
+function createDeploymentPackageJson(rootDir) {
+  const sourcePackage = readJsonFile(path.resolve(rootDir, 'package.json'))
+  return {
+    name: sourcePackage.name,
+    private: true,
+    version: sourcePackage.version,
+    type: sourcePackage.type,
+    scripts: {
+      start: 'node server.js',
+    },
+    dependencies: {
+      jose: sourcePackage.dependencies.jose,
+    },
+    overrides: sourcePackage.overrides,
+  }
+}
+
 function autonomyBridgeStateLoader() {
   let rootDir = process.cwd()
-  let repoRootDir = path.resolve(rootDir, '..', '..')
 
   return {
     name: 'aios-autonomy-bridge-state-loader',
     configResolved(config) {
       rootDir = config.root
-      repoRootDir = path.resolve(rootDir, '..', '..')
     },
     resolveId(id) {
       if (id === autonomyBridgeStateModuleId) {
@@ -47,37 +62,18 @@ function autonomyBridgeStateLoader() {
         return null
       }
 
-      const configuredLivePath = process.env.AIOS_AUTONOMY_BRIDGE_STATE_PATH
-      const livePath = configuredLivePath
-        ? path.resolve(repoRootDir, configuredLivePath)
-        : path.resolve(
-            repoRootDir,
-            'telemetry/night_supervisor/AUTONOMY_BRIDGE_STATE.json',
-          )
       const samplePath = path.resolve(
         rootDir,
         'mock-data/autonomy_bridge_state.sample.json',
       )
 
-      this.addWatchFile(livePath)
       this.addWatchFile(samplePath)
 
-      let payload
-
-      try {
-        payload = {
-          sourceLabel: 'LIVE',
-          sourcePath: path.relative(repoRootDir, livePath).replaceAll('\\', '/'),
-          fallbackReason: null,
-          data: readJsonFile(livePath),
-        }
-      } catch (error) {
-        payload = {
-          sourceLabel: 'sample',
-          sourcePath: path.relative(repoRootDir, samplePath).replaceAll('\\', '/'),
-          fallbackReason: error?.message ?? 'Live autonomy bridge state unavailable.',
-          data: readJsonFile(samplePath),
-        }
+      const payload = {
+        sourceLabel: 'sample',
+        sourcePath: 'mock-data/autonomy_bridge_state.sample.json',
+        fallbackReason: 'Build-time browser bundle uses sample data only. Live runtime data is read through authenticated server routes.',
+        data: readJsonFile(samplePath),
       }
 
       return `export const autonomyBridgeStatePayload = ${JSON.stringify(payload)};`
@@ -113,6 +109,11 @@ function copyStaticDashboardRuntime() {
           force: true,
         })
       }
+
+      writeFileSync(
+        path.join(outDir, 'package.json'),
+        `${JSON.stringify(createDeploymentPackageJson(rootDir), null, 2)}\n`,
+      )
     },
   }
 }

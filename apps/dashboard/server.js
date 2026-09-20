@@ -62,8 +62,8 @@ function sendText(response, statusCode, message) {
 function getFilePath(requestUrl) {
   const parsedUrl = new URL(requestUrl, 'http://localhost')
   const pathname = parsedUrl.pathname === '/' ? '/index.html' : parsedUrl.pathname
-  if (isBlockedStaticPath(pathname)) return null
-  const decodedPath = decodeURIComponent(pathname)
+  const decodedPath = normalizeStaticPath(pathname)
+  if (!decodedPath || isBlockedStaticPath(decodedPath)) return null
   const requestedPath = path.resolve(rootDir, `.${decodedPath}`)
 
   if (!requestedPath.startsWith(rootDir + path.sep) && requestedPath !== rootDir) {
@@ -71,6 +71,16 @@ function getFilePath(requestUrl) {
   }
 
   return requestedPath
+}
+
+function normalizeStaticPath(pathname) {
+  try {
+    const decodedPath = decodeURIComponent(pathname).replaceAll('\\', '/')
+    const normalized = path.posix.normalize(decodedPath)
+    return normalized.startsWith('/') ? normalized : `/${normalized}`
+  } catch {
+    return null
+  }
 }
 
 function isBlockedStaticPath(pathname) {
