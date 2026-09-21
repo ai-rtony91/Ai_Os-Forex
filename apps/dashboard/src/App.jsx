@@ -49,7 +49,7 @@ export default function App() {
   }
 
   let content
-  if (publicRoute) content = <LoginPortalPage navigate={navigate} mode={route === '/signup' ? 'signup' : 'login'} />
+  if (publicRoute) content = <LoginPortalPage navigate={navigate} />
   else if (session.authenticated) content = <><button className="authLogout" type="button" onClick={logout}>SIGN OUT</button><AiosAppShell route={route} navigate={navigate} /></>
   else content = <main className="authChecking"><p>SECURE SESSION CHECK</p><h1 tabIndex="-1">ACCESS CLOSED</h1><span>Verifying the server-owned authentication boundary.</span></main>
 

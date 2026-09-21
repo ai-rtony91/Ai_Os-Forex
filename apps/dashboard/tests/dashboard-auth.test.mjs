@@ -229,12 +229,15 @@ test('logout requires session CSRF and clears all authentication cookies', async
   assert.ok(withoutSession.headers['set-cookie'].every((value) => /Max-Age=0; HttpOnly; Secure; SameSite=Lax/.test(value)))
 })
 
-test('portal reuses the authentic coded AIOS marks and has no localhost no-auth bypass or placeholder fallback', () => {
+test('portal uses the owner-selected complete artwork and has no localhost no-auth bypass or placeholder fallback', () => {
   const login = fs.readFileSync(new URL('../src/pages/LoginPortalPage.jsx', import.meta.url), 'utf8')
   const symbol = fs.readFileSync(new URL('../src/AiosSymbol.jsx', import.meta.url), 'utf8')
   const symbolCss = fs.readFileSync(new URL('../src/AiosSymbol.css', import.meta.url), 'utf8')
   const motion = fs.readFileSync(new URL('../src/design/aios-motion.css', import.meta.url), 'utf8')
-  assert.match(login, /<AiosSymbol name="aios-core"/)
+  assert.match(login, /newLoginBackgroundUrl/)
+  assert.match(login, /'orbitron'/)
+  assert.match(login, /className="loginArtwork"/)
+  assert.doesNotMatch(login, /AiosSymbol|MarketConstellation|Slanted partial-A|Signal tower|Orbital globe|Dollar coin/i)
   assert.doesNotMatch(login, /LOCAL PREVIEW|NO AUTH|placeholder|emoji/i)
   assert.match(symbol, /markA/)
   assert.match(symbol, /markI/)
