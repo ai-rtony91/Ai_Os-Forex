@@ -86,6 +86,65 @@ test('Cloudflare Access is required before login or sign-up begins', async () =>
   }
 })
 
+test('Cloudflare Access verifier failures emit one sanitized server-side category and keep the public 401 unchanged', async () => {
+  const cases = [
+    [{ code: 'ERR_JWT_CLAIM_VALIDATION_FAILED', claim: 'iss' }, 'ISSUER_MISMATCH'],
+    [{ code: 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED' }, 'KEY_OR_SIGNATURE_REJECTED'],
+    [{ code: 'ERR_JWT_EXPIRED', claim: 'exp' }, 'ASSERTION_TIME_INVALID'],
+    [{ code: 'CLOUDFLARE_ACCESS_TOKEN_TYPE_REJECTED' }, 'TOKEN_TYPE_REJECTED'],
+    [{ code: 'UNEXPECTED_ADAPTER_FAILURE' }, 'ADAPTER_ERROR'],
+  ]
+  const sensitiveMarker = 'sensitive-assertion-material'
+
+  for (const [errorShape, expectedCategory] of cases) {
+    const categories = []
+    const auth = createDashboardAuth({
+      env: configuredEnv,
+      ...adapters({
+        verifyAccessAssertion: async () => {
+          const error = new Error(sensitiveMarker)
+          Object.assign(error, errorShape)
+          throw error
+        },
+      }),
+      accessVerifierCategorySink: (category) => categories.push(category),
+    })
+    const response = await invoke(auth, {
+      headers: { 'CF-Access-Jwt-Assertion': sensitiveMarker },
+    })
+
+    assert.equal(response.statusCode, 401)
+    assert.deepEqual(response.json, {
+      authenticated: false,
+      code: 'CLOUDFLARE_ACCESS_REJECTED',
+      message: 'Cloudflare Access verification failed.',
+    })
+    assert.deepEqual(categories, [expectedCategory])
+    assert.doesNotMatch(JSON.stringify(categories), new RegExp(sensitiveMarker))
+    assert.doesNotMatch(response.body, new RegExp(sensitiveMarker))
+  }
+})
+
+test('a false verifier result emits ADAPTER_ERROR once and remains denied if the diagnostic sink fails', async () => {
+  let emissions = 0
+  const auth = createDashboardAuth({
+    env: configuredEnv,
+    ...adapters({ verifyAccessAssertion: async () => false }),
+    accessVerifierCategorySink: (category) => {
+      emissions += 1
+      assert.equal(category, 'ADAPTER_ERROR')
+      throw new Error('diagnostic sink unavailable')
+    },
+  })
+  const response = await invoke(auth, {
+    headers: { 'CF-Access-Jwt-Assertion': 'rejected-access-assertion' },
+  })
+
+  assert.equal(emissions, 1)
+  assert.equal(response.statusCode, 401)
+  assert.equal(response.json.code, 'CLOUDFLARE_ACCESS_REJECTED')
+})
+
 test('login and sign-up redirects use PKCE, callback state, secure cookies, and distinct prompts', async () => {
   const auth = createDashboardAuth({ env: configuredEnv, ...adapters() })
   for (const [path, prompt] of [['/auth/login', 'login'], ['/auth/signup', 'create']]) {

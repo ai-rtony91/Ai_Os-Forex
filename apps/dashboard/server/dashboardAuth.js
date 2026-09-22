@@ -24,6 +24,42 @@ const NO_STORE_HEADERS = Object.freeze({
   'referrer-policy': 'no-referrer',
 })
 
+const ACCESS_VERIFIER_CATEGORIES = Object.freeze({
+  issuerMismatch: 'ISSUER_MISMATCH',
+  keyOrSignatureRejected: 'KEY_OR_SIGNATURE_REJECTED',
+  assertionTimeInvalid: 'ASSERTION_TIME_INVALID',
+  tokenTypeRejected: 'TOKEN_TYPE_REJECTED',
+  adapterError: 'ADAPTER_ERROR',
+})
+
+const KEY_OR_SIGNATURE_ERROR_CODES = new Set([
+  'ERR_JWK_INVALID',
+  'ERR_JWKS_INVALID',
+  'ERR_JWKS_MULTIPLE_MATCHING_KEYS',
+  'ERR_JWKS_NO_MATCHING_KEY',
+  'ERR_JWS_SIGNATURE_VERIFICATION_FAILED',
+])
+
+function accessVerifierCategory(error) {
+  const code = String(error?.code || '')
+  const claim = String(error?.claim || '')
+  if (code === 'CLOUDFLARE_ACCESS_TOKEN_TYPE_REJECTED') return ACCESS_VERIFIER_CATEGORIES.tokenTypeRejected
+  if (code === 'ERR_JWT_EXPIRED' || (code === 'ERR_JWT_CLAIM_VALIDATION_FAILED' && ['exp', 'iat', 'nbf'].includes(claim))) {
+    return ACCESS_VERIFIER_CATEGORIES.assertionTimeInvalid
+  }
+  if (code === 'ERR_JWT_CLAIM_VALIDATION_FAILED' && claim === 'iss') return ACCESS_VERIFIER_CATEGORIES.issuerMismatch
+  if (KEY_OR_SIGNATURE_ERROR_CODES.has(code)) return ACCESS_VERIFIER_CATEGORIES.keyOrSignatureRejected
+  return ACCESS_VERIFIER_CATEGORIES.adapterError
+}
+
+function emitAccessVerifierCategory(sink, category) {
+  try {
+    sink(category)
+  } catch {
+    // Diagnostics must never weaken fail-closed authentication.
+  }
+}
+
 function constantTimeEqual(left, right) {
   const a = Buffer.from(String(left))
   const b = Buffer.from(String(right))
@@ -150,6 +186,9 @@ export function createDashboardAuth(options = {}) {
   const fetchImpl = options.fetchImpl || globalThis.fetch
   const now = options.now || Date.now
   const randomBytes = options.randomBytes || crypto.randomBytes
+  const accessVerifierCategorySink = typeof options.accessVerifierCategorySink === 'function'
+    ? options.accessVerifierCategorySink
+    : (category) => console.error(`[dashboard-auth] ${category}`)
   const adapters = {
     verifyAccessAssertion: options.verifyAccessAssertion,
     exchangeAuthorizationCode: options.exchangeAuthorizationCode,
@@ -185,7 +224,8 @@ export function createDashboardAuth(options = {}) {
       })
       if (!result) throw new Error('ACCESS_REJECTED')
       return true
-    } catch {
+    } catch (error) {
+      emitAccessVerifierCategory(accessVerifierCategorySink, accessVerifierCategory(error))
       sendJson(response, 401, {
         authenticated: false,
         code: 'CLOUDFLARE_ACCESS_REJECTED',

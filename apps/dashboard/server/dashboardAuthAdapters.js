@@ -96,6 +96,11 @@ function makeJwks(url, cache) {
   if (!cache.has(key)) cache.set(key, createRemoteJWKSet(url))
   return cache.get(key)
 }
+function accessVerifierError(code) {
+  const error = new Error('Cloudflare Access assertion rejected')
+  error.code = code
+  return error
+}
 
 export function createDashboardAuthAdapters({ env = process.env, fetchImpl = globalThis.fetch, jwksCache = new Map() } = {}) {
   return {
@@ -109,7 +114,7 @@ export function createDashboardAuthAdapters({ env = process.env, fetchImpl = glo
         audience,
         algorithms: ['RS256'],
       })
-      if (payload.type && payload.type !== 'app') throw new Error('CLOUDFLARE_ACCESS_TOKEN_TYPE_REJECTED')
+      if (payload.type && payload.type !== 'app') throw accessVerifierError('CLOUDFLARE_ACCESS_TOKEN_TYPE_REJECTED')
       if (!containsAudience(payload.aud, audience)) throw new Error('CLOUDFLARE_ACCESS_AUDIENCE_REJECTED')
       return payload
     },
