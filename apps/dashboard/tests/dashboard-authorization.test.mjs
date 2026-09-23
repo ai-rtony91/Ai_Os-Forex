@@ -7,6 +7,76 @@ import { generateKeyPair, exportJWK, SignJWT } from 'jose'
 import { createDashboardApi } from '../server/dashboardApi.js'
 import { createDashboardAuthAdapters } from '../server/dashboardAuthAdapters.js'
 
+const githubTestConfig = {
+  githubClientId: 'test-client-id',
+  githubRedirectUri: 'https://dashboard.example.test/auth/github/callback',
+}
+const githubTestEnv = { AIOS_GITHUB_CLIENT_SECRET: 'test-client-secret', AIOS_GITHUB_ALLOWED_USER_IDS: '12345' }
+
+test('GitHub code exchange verifies an approved immutable ID without exposing the provider token', async () => {
+  const calls = []
+  const adapters = createDashboardAuthAdapters({
+    env: githubTestEnv,
+    fetchImpl: async (url, request) => {
+      calls.push([url, request])
+      assert.equal(request.redirect, 'error')
+      assert.ok(request.signal instanceof AbortSignal)
+      if (url === 'https://github.com/login/oauth/access_token') {
+        assert.equal(request.method, 'POST')
+        assert.equal(request.body.get('code_verifier'), 'test-pkce-verifier')
+        assert.equal(request.body.get('client_secret'), 'test-client-secret')
+        assert.equal(request.body.get('redirect_uri'), githubTestConfig.githubRedirectUri)
+        return { ok: true, json: async () => ({ access_token: 'private-access-token', token_type: 'bearer', scope: 'read:user' }) }
+      }
+      assert.equal(url, 'https://api.github.com/user')
+      assert.equal(request.headers.authorization, 'Bearer private-access-token')
+      return { ok: true, json: async () => ({ id: 12345, login: 'renamed-owner', type: 'User', email: 'untrusted-link@example.test' }) }
+    },
+  })
+  const identity = await adapters.exchangeGitHubAuthorizationCode('test-code', 'test-pkce-verifier', { config: githubTestConfig })
+  assert.deepEqual(identity, { sub: 'github:12345', name: 'renamed-owner', email: '' })
+  assert.equal(calls.length, 2)
+  assert.doesNotMatch(JSON.stringify(identity), /private-access-token|test-client-secret|untrusted-link/)
+})
+
+test('GitHub rejects unexpected scopes, provider failures, and accounts outside the user-ID allow-list', async () => {
+  const validTokens = { access_token: 'test-token', token_type: 'bearer', scope: 'read:user' }
+  const validProfile = { id: 12345, login: 'owner', type: 'User' }
+  const cases = [
+    { tokens: { ...validTokens, scope: 'read:user,repo' }, expected: /GITHUB_TOKEN_REJECTED/, requests: 1 },
+    { tokens: { ...validTokens, scope: undefined }, expected: /GITHUB_TOKEN_REJECTED/, requests: 1 },
+    { tokens: { ...validTokens, token_type: 'unexpected' }, expected: /GITHUB_TOKEN_REJECTED/, requests: 1 },
+    { tokens: { error: 'bad_verification_code' }, expected: /GITHUB_TOKEN_REJECTED/, requests: 1 },
+    { tokenOk: false, expected: /GITHUB_TOKEN_EXCHANGE_FAILED/, requests: 1 },
+    { profileOk: false, expected: /GITHUB_IDENTITY_REJECTED/, requests: 2 },
+    { profile: { ...validProfile, id: 98765 }, expected: /GITHUB_IDENTITY_NOT_ALLOWED/, requests: 2 },
+    { profile: { ...validProfile, id: '12345' }, expected: /GITHUB_IDENTITY_NOT_ALLOWED/, requests: 2 },
+    { profile: { ...validProfile, type: 'Organization' }, expected: /GITHUB_IDENTITY_NOT_ALLOWED/, requests: 2 },
+    { profile: { ...validProfile, id: Number.MAX_SAFE_INTEGER + 1 }, expected: /GITHUB_IDENTITY_NOT_ALLOWED/, requests: 2 },
+  ]
+  for (const item of cases) {
+    let requests = 0
+    const adapters = createDashboardAuthAdapters({
+      env: githubTestEnv,
+      fetchImpl: async () => {
+        requests++
+        return requests === 1
+          ? { ok: item.tokenOk !== false, json: async () => item.tokens || validTokens }
+          : { ok: item.profileOk !== false, json: async () => item.profile || validProfile }
+      },
+    })
+    await assert.rejects(adapters.exchangeGitHubAuthorizationCode('test-code', 'verifier', { config: githubTestConfig }), item.expected)
+    assert.equal(requests, item.requests)
+  }
+})
+
+test('GitHub never calls the provider without a secret and explicit approved user IDs', async () => {
+  for (const env of [{}, { ...githubTestEnv, AIOS_GITHUB_ALLOWED_USER_IDS: '' }, { ...githubTestEnv, AIOS_GITHUB_ALLOWED_USER_IDS: 'owner' }, { ...githubTestEnv, AIOS_GITHUB_CLIENT_SECRET: '' }]) {
+    const adapters = createDashboardAuthAdapters({ env, fetchImpl: async () => assert.fail('provider must not be called') })
+    await assert.rejects(adapters.exchangeGitHubAuthorizationCode('code', 'verifier', { config: githubTestConfig }), /GITHUB_CONFIG_REQUIRED/)
+  }
+})
+
 function responseRecorder() {
   const result = { statusCode: null, headers: {}, body: '' }
   const response = {

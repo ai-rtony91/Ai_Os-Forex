@@ -174,3 +174,16 @@ html,body,#root{background:var(--aios-page)}
 .loginPortal .providerStack{grid-area:provider;display:grid;gap:8px;min-width:0;align-self:center}.loginPortal .providerStack button{min-height:48px;padding:10px 14px;border:0;border-radius:0;background:transparent;box-shadow:none;white-space:nowrap;font-family:var(--login-preview-font);font-size:.64rem;font-weight:400;letter-spacing:.025em;color:#fff}.loginPortal .providerStack button:hover:not(:disabled){background:transparent;border:0;box-shadow:none;color:#8fddff}.loginPortal .providerStack button:focus-visible{outline:3px solid #ffc44c;outline-offset:4px}.loginPortal .providerStack button:disabled{opacity:.76}.loginPortal .providerStack>p{grid-area:status;grid-column:1 / -1;margin:0;padding:4px 0;background:transparent;border:0;font-size:.68rem;line-height:1.3}.loginPortal .turnstilePanel{min-height:0;gap:7px;padding:10px}.loginPortal .turnstilePanel>span{font-size:.74rem;line-height:1.3}.loginPortal footer{max-width:390px;margin-top:auto;padding:18px 8px 0;color:#bdc9d6;text-shadow:0 1px 8px #000}
 @media(max-width:700px){.loginPortal{padding-inline:12px}.loginPortal .identityGate{width:min(calc(100vw - 24px),calc(100dvh * .75));grid-template-columns:1fr;grid-template-areas:"copy" "provider";gap:9px;padding:9px 14px 7px}.loginPortal .identityCopy{text-align:center}.loginPortal .identityCopy h1{font-size:clamp(1.25rem,6.5vw,1.75rem)}.loginPortal .identityCopy>span{font-size:.74rem}.loginPortal .providerStack>p{grid-column:auto}.loginPortal footer{font-size:.58rem}}
 .loginStar-medium,.loginStar-focal{--star-min:.22;--star-max:.5}@media(max-width:700px){.loginStars{opacity:.72}.loginStar:nth-child(n+17){display:none}.loginStar-focal{width:3px;height:3px}}
+
+/* Provider artwork keeps its official colors, proportions, and typography. */
+.loginPortal .providerStack{grid-template-columns:minmax(0,1fr);gap:10px}
+.loginPortal .providerOption{display:grid;justify-items:center;gap:6px}
+.loginPortal .providerStack .providerAction{display:flex;align-items:center;justify-content:center;width:215px;min-height:44px;padding:0;gap:9px;border:0;border-radius:0;background:#2f2f2f;color:#fff;font-family:'Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;letter-spacing:0;line-height:1.25;box-shadow:none;transition:none;transform:none;text-shadow:none}
+.loginPortal .providerStack .providerAction:hover:not(:disabled){background:#2f2f2f;color:#fff;border:0;outline:1px solid #b7c5d8;outline-offset:3px;box-shadow:none;transform:none}
+.loginPortal .providerStack .providerAction:focus-visible{outline:3px solid #ffc44c;outline-offset:4px}
+.loginPortal .providerStack .providerAction:disabled{opacity:1;filter:none;cursor:not-allowed}
+.loginPortal .providerStack .providerAction-github,.loginPortal .providerStack .providerAction-github:hover:not(:disabled){background:#171515;border:1px solid #89909a}
+.loginPortal .microsoftSignIn{display:block;width:215px;height:41px;max-width:none}
+.loginPortal .githubMark{display:block;width:20px;height:auto;flex-shrink:0}
+.loginPortal .providerAvailability{max-width:235px;color:#c7d3df;font-family:'Segoe UI',Arial,sans-serif;font-size:12px;line-height:1.4;text-align:center}
+.loginPortal .providerStack>.authStatus{grid-area:auto;grid-column:1 / -1;text-align:center;line-height:1.5}

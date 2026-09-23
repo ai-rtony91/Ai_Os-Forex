@@ -31,6 +31,22 @@ This template lists required setting names and their purpose only. Do not store 
 | `AIOS_ENTRA_ALLOWED_EMAILS` | Recommended | Comma-separated owner/user email allow-list enforced after token verification. | Current value is UNKNOWN. |
 | `AIOS_ENTRA_ALLOWED_TENANT_IDS` | Recommended | Comma-separated Entra tenant ID allow-list enforced after token verification. | Current value is UNKNOWN. |
 
+## Optional GitHub Sign-In
+
+| Name | Required | Purpose | Source / Notes |
+|---|---:|---|---|
+| `AIOS_GITHUB_CLIENT_ID` | For GitHub login | Public client ID of a dedicated GitHub OAuth App. | Server setting; never a repository or personal access token. |
+| `AIOS_GITHUB_CLIENT_SECRET` | For GitHub login | Confidential OAuth client secret. | Keep only in approved server secret storage. Never use a `VITE_` variable. |
+| `AIOS_GITHUB_ALLOWED_USER_IDS` | For GitHub login | Comma-separated positive numeric GitHub user IDs permitted to enter AIOS. | Uses stable account IDs, not mutable usernames or email matching. An empty or malformed list disables GitHub login. |
+
+Register the OAuth App callback as exactly `${AIOS_PUBLIC_ORIGIN}/auth/github/callback`, using the approved HTTPS public origin. The Microsoft callback remains `/auth/callback`. Use a dedicated identity-only OAuth App: this flow requests only `read:user` and rejects broader token scopes. It does not request repository access or automatically link accounts by email.
+
+GitHub stays unavailable until all three settings are present. The existing Microsoft and shared security configuration must also remain valid. GitHub uses state, PKCE S256, a server-side code exchange, an authenticated GitHub profile lookup, and the approved user-ID list. It still requires Cloudflare Access and successful Turnstile verification before an AIOS session is created. Provider tokens stay server-side and are not placed in session cookies.
+
+Signing out of an AIOS GitHub session clears the AIOS cookies and returns to `/login`; it does not sign the user out of github.com or Cloudflare. New GitHub sign-ins request account selection. MFA must be enforced through the identity provider or Cloudflare policy; the button does not configure MFA.
+
+GitHub setup, policy changes, and production deployment remain separate external changes requiring owner approval. The existing Cloudflare verifier failure is not repaired by this feature.
+
 ## Cloudflare Access
 
 | Name | Required | Purpose | Source / Notes |
@@ -73,6 +89,7 @@ The production startup wires these adapters through `server/dashboardAuthAdapter
 | `verifyAccessAssertion` | Verify Cloudflare Access JWT assertion. | Wired locally and covered by signed-token tests. |
 | `exchangeAuthorizationCode` | Exchange Entra authorization code using PKCE. | Supports client-secret when allowed, or Key Vault-backed certificate client assertions when `AIOS_ENTRA_CLIENT_ASSERTION_KEY_VAULT_KEY_ID` and `AIOS_ENTRA_CLIENT_CERT_THUMBPRINT` are configured. |
 | `verifyIdentityToken` | Verify Entra ID token and nonce. | Wired locally and covered by signed-token tests. |
+| `exchangeGitHubAuthorizationCode` | Exchange a GitHub code with PKCE and check the verified account ID against the allow-list. | Optional; fixed GitHub endpoints, minimal scopes, no browser token storage. |
 | `verifyTurnstile` | Verify Cloudflare Turnstile token server-side. | Wired locally through Cloudflare Siteverify when `AIOS_TURNSTILE_SECRET_KEY` is configured. |
 
 ## Callback And Hostname Evidence To Resolve Before Deployment

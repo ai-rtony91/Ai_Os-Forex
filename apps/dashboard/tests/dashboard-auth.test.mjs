@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import crypto from 'node:crypto'
 import fs from 'node:fs'
 import { Readable } from 'node:stream'
 import test from 'node:test'
@@ -306,4 +307,131 @@ test('portal uses the owner-selected complete artwork and has no localhost no-au
   assert.match(symbolCss, /ringCounterClockwise/)
   assert.match(motion, /rotate\(360deg\)/)
   assert.match(motion, /rotate\(-360deg\)/)
+})
+
+const githubEnv = Object.freeze({
+  ...configuredEnv,
+  AIOS_GITHUB_CLIENT_ID: 'test-github-client',
+  AIOS_GITHUB_CLIENT_SECRET: 'test-github-secret',
+  AIOS_GITHUB_ALLOWED_USER_IDS: '12345',
+})
+const githubAccess = { 'CF-Access-Jwt-Assertion': 'valid-access-assertion' }
+
+function githubAdapters(overrides = {}) {
+  return adapters({ exchangeGitHubAuthorizationCode: async () => ({ sub: 'github:12345', name: 'test-owner' }), ...overrides })
+}
+
+test('optional GitHub configuration fails closed without disabling Microsoft login', async () => {
+  for (const env of [configuredEnv, { ...githubEnv, AIOS_GITHUB_CLIENT_SECRET: '' }, { ...githubEnv, AIOS_GITHUB_ALLOWED_USER_IDS: '' }, { ...githubEnv, AIOS_GITHUB_ALLOWED_USER_IDS: 'owner-name' }, { ...githubEnv, AIOS_GITHUB_ALLOWED_USER_IDS: '12345,' }]) {
+    const auth = createDashboardAuth({ env, ...githubAdapters() })
+    const session = await invoke(auth, { headers: githubAccess })
+    assert.deepEqual(session.json.providers, ['microsoft'])
+    const denied = await invoke(auth, { path: '/auth/login?provider=github', headers: githubAccess })
+    assert.equal(denied.statusCode, 400)
+    assert.equal(denied.json.code, 'AUTH_PROVIDER_UNAVAILABLE')
+    assert.equal(denied.headers.location, undefined)
+    assert.equal((await invoke(auth, { path: '/auth/login', headers: githubAccess })).statusCode, 302)
+  }
+})
+
+test('GitHub login fixes its destination and uses state, PKCE, and minimal permissions', async () => {
+  const auth = createDashboardAuth({ env: githubEnv, ...githubAdapters() })
+  const start = await invoke(auth, { path: '/auth/login?provider=github&redirect_uri=https://untrusted.test', headers: githubAccess })
+  assert.equal(start.statusCode, 302)
+  const location = new URL(start.headers.location)
+  assert.equal(location.origin + location.pathname, 'https://github.com/login/oauth/authorize')
+  assert.equal(location.searchParams.get('redirect_uri'), `${githubEnv.AIOS_PUBLIC_ORIGIN}/auth/github/callback`)
+  assert.equal(location.searchParams.get('scope'), 'read:user')
+  assert.equal(location.searchParams.get('allow_signup'), 'false')
+  assert.equal(location.searchParams.get('prompt'), 'select_account')
+  assert.equal(location.searchParams.get('code_challenge_method'), 'S256')
+  const jar = new Map()
+  updateCookieJar(jar, start.headers['set-cookie'])
+  const state = JSON.parse(Buffer.from(jar.get('__Host-aios-auth-state').split('.')[0], 'base64url'))
+  assert.equal(state.provider, 'github')
+  assert.equal(state.state, location.searchParams.get('state'))
+  assert.equal(crypto.createHash('sha256').update(state.verifier).digest('base64url'), location.searchParams.get('code_challenge'))
+  assert.match(start.headers['set-cookie'][0], /Path=\/; Max-Age=600; HttpOnly; Secure; SameSite=Lax/)
+  assert.equal(start.headers['referrer-policy'], 'no-referrer')
+  assert.doesNotMatch(start.headers.location, /test-github-secret|code_verifier|access_token/)
+  const unknown = await invoke(auth, { path: '/auth/login?provider=https://untrusted.test', headers: githubAccess })
+  assert.equal(unknown.statusCode, 400)
+})
+
+test('GitHub callback rejects missing, tampered, mismatched, cross-provider, and expired state before exchange', async () => {
+  let clock = 1000
+  let exchanges = 0
+  const auth = createDashboardAuth({ env: githubEnv, now: () => clock, ...githubAdapters({ exchangeGitHubAuthorizationCode: async () => { exchanges++; return { sub: 'github:12345' } } }) })
+  const start = await invoke(auth, { path: '/auth/login?provider=github', headers: githubAccess })
+  const jar = new Map()
+  updateCookieJar(jar, start.headers['set-cookie'])
+  const state = new URL(start.headers.location).searchParams.get('state')
+  const path = `/auth/github/callback?code=test-code&state=${state}`
+  const headers = { ...githubAccess, cookie: cookieHeader(jar) }
+  for (const input of [
+    { path, headers: githubAccess },
+    { path, headers: { ...headers, cookie: `${headers.cookie}!` } },
+    { path: '/auth/github/callback?code=test-code&state=wrong', headers },
+    { path: `/auth/callback?code=test-code&state=${state}`, headers },
+    { path: `${path}&error=access_denied`, headers },
+  ]) {
+    const result = await invoke(auth, input)
+    assert.equal(result.statusCode, 400)
+    assert.equal(result.json.code, 'INVALID_CALLBACK_STATE')
+  }
+  clock += 600001
+  assert.equal((await invoke(auth, { path, headers })).statusCode, 400)
+  assert.equal(exchanges, 0)
+})
+
+test('GitHub session requires Access, approved identity, CSRF and Turnstile; logout clears only the app session', async () => {
+  const auth = createDashboardAuth({ env: githubEnv, ...githubAdapters() })
+  for (const path of ['/auth/login?provider=github', '/auth/github/callback?code=code&state=state']) {
+    const denied = await invoke(auth, { path })
+    assert.equal(denied.statusCode, 401)
+    assert.equal(denied.json.code, 'CLOUDFLARE_ACCESS_REQUIRED')
+  }
+  const available = await invoke(auth, { headers: githubAccess })
+  assert.deepEqual(available.json.providers, ['microsoft', 'github'])
+  const jar = new Map()
+  const start = await invoke(auth, { path: '/auth/login?provider=github', headers: githubAccess })
+  updateCookieJar(jar, start.headers['set-cookie'])
+  const state = new URL(start.headers.location).searchParams.get('state')
+  const callback = await invoke(auth, { path: `/auth/github/callback?code=test-code&state=${state}`, headers: { ...githubAccess, cookie: cookieHeader(jar) } })
+  assert.equal(callback.statusCode, 302)
+  updateCookieJar(jar, callback.headers['set-cookie'])
+  assert.equal(auth.hasValidSession({ headers: { cookie: cookieHeader(jar) } }), false)
+  const pending = await invoke(auth, { headers: { ...githubAccess, cookie: cookieHeader(jar) } })
+  assert.equal(pending.json.phase, 'turnstile_required')
+  const post = { path: '/auth/turnstile', method: 'POST', headers: { ...githubAccess, cookie: cookieHeader(jar), 'x-aios-csrf': pending.json.csrfToken } }
+  const badCsrf = await invoke(auth, { ...post, headers: { ...post.headers, 'x-aios-csrf': 'wrong' }, body: JSON.stringify({ token: 'valid-turnstile-token' }) })
+  assert.equal(badCsrf.json.code, 'INVALID_CSRF_TOKEN')
+  const badToken = await invoke(auth, { ...post, body: JSON.stringify({ token: 'invalid' }) })
+  assert.equal(badToken.json.code, 'TURNSTILE_VERIFICATION_FAILED')
+  const accepted = await invoke(auth, { ...post, body: JSON.stringify({ token: 'valid-turnstile-token' }) })
+  assert.equal(accepted.statusCode, 200)
+  updateCookieJar(jar, accepted.headers['set-cookie'])
+  const headers = { ...githubAccess, cookie: cookieHeader(jar) }
+  assert.equal(auth.hasValidSession({ headers }), true)
+  const session = await invoke(auth, { headers })
+  assert.equal(session.json.authenticated, true)
+  const deniedLogout = await invoke(auth, { path: '/auth/logout', method: 'POST', headers })
+  assert.equal(deniedLogout.statusCode, 403)
+  const logout = await invoke(auth, { path: '/auth/logout', method: 'POST', headers: { ...headers, 'x-aios-csrf': session.json.csrfToken } })
+  assert.equal(logout.json.logoutUrl, '/login')
+  updateCookieJar(jar, logout.headers['set-cookie'])
+  assert.equal(jar.size, 0)
+})
+
+test('GitHub exchange errors stay private and never create a session', async () => {
+  const auth = createDashboardAuth({ env: githubEnv, ...githubAdapters({ exchangeGitHubAuthorizationCode: async () => { throw new Error('private-provider-detail') } }) })
+  const jar = new Map()
+  const start = await invoke(auth, { path: '/auth/login?provider=github', headers: githubAccess })
+  updateCookieJar(jar, start.headers['set-cookie'])
+  const state = new URL(start.headers.location).searchParams.get('state')
+  const result = await invoke(auth, { path: `/auth/github/callback?code=test-code&state=${state}`, headers: { ...githubAccess, cookie: cookieHeader(jar) } })
+  assert.equal(result.statusCode, 401)
+  assert.deepEqual(result.json, { authenticated: false, code: 'GITHUB_CALLBACK_REJECTED' })
+  assert.doesNotMatch(JSON.stringify(result), /private-provider-detail|test-github-secret/)
+  assert.equal(auth.hasValidSession({ headers: { cookie: cookieHeader(jar) } }), false)
 })

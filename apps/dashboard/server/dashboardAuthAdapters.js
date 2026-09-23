@@ -157,6 +157,46 @@ export function createDashboardAuthAdapters({ env = process.env, fetchImpl = glo
       return payload
     },
 
+    async exchangeGitHubAuthorizationCode(code, verifier, { config } = {}) {
+      const allowedIds = splitList(env.AIOS_GITHUB_ALLOWED_USER_IDS)
+      if (!fetchImpl || !config?.githubClientId || !config?.githubRedirectUri || !env.AIOS_GITHUB_CLIENT_SECRET
+        || !allowedIds.length || allowedIds.some((id) => !/^[1-9]\d*$/.test(id))) {
+        throw new Error('GITHUB_CONFIG_REQUIRED')
+      }
+      const body = new URLSearchParams({
+        client_id: config.githubClientId,
+        client_secret: env.AIOS_GITHUB_CLIENT_SECRET,
+        code,
+        code_verifier: verifier,
+        redirect_uri: config.githubRedirectUri,
+      })
+      const response = await fetchImpl('https://github.com/login/oauth/access_token', {
+        method: 'POST', redirect: 'error', signal: AbortSignal.timeout(15000),
+        headers: { accept: 'application/json', 'content-type': 'application/x-www-form-urlencoded' },
+        body,
+      })
+      if (!response.ok) throw new Error('GITHUB_TOKEN_EXCHANGE_FAILED')
+      const tokens = await response.json()
+      if (tokens.error || typeof tokens.access_token !== 'string' || !tokens.access_token
+        || String(tokens.token_type).toLowerCase() !== 'bearer'
+        || typeof tokens.scope !== 'string'
+        || tokens.scope.split(/[ ,]+/).filter(Boolean).some((scope) => scope !== 'read:user')) {
+        throw new Error('GITHUB_TOKEN_REJECTED')
+      }
+      const profileResponse = await fetchImpl('https://api.github.com/user', {
+        redirect: 'error', signal: AbortSignal.timeout(15000),
+        headers: { accept: 'application/vnd.github+json', authorization: `Bearer ${tokens.access_token}`, 'user-agent': 'AIOS-Dashboard-Login' },
+      })
+      if (!profileResponse.ok) throw new Error('GITHUB_IDENTITY_REJECTED')
+      const profile = await profileResponse.json()
+      if (!Number.isSafeInteger(profile.id) || profile.id <= 0 || profile.type !== 'User' || !allowedIds.includes(String(profile.id))) {
+        throw new Error('GITHUB_IDENTITY_NOT_ALLOWED')
+      }
+      // The provider token is used only here. It never enters cookies or browser responses.
+      // Numeric account IDs prevent authorization from following a renamed/reclaimed login.
+      return { sub: `github:${profile.id}`, name: String(profile.login || '').slice(0, 100), email: '' }
+    },
+
     async verifyTurnstile(token, { request, config } = {}) {
       if (!fetchImpl || !config?.turnstileSecretKey) throw new Error('TURNSTILE_CONFIG_REQUIRED')
       const remoteAddress = String(request?.headers?.['cf-connecting-ip'] || request?.socket?.remoteAddress || '').split(',')[0].trim()

@@ -6,6 +6,7 @@ const AUTH_PATHS = new Set([
   '/auth/login',
   '/auth/signup',
   '/auth/callback',
+  '/auth/github/callback',
   '/auth/logout',
   '/auth/session',
   '/auth/turnstile',
@@ -115,6 +116,7 @@ function sendJson(response, statusCode, body, headers = {}) {
 function redirect(response, location, cookies = []) {
   response.writeHead(302, {
     'cache-control': 'no-store',
+    'referrer-policy': 'no-referrer',
     location,
     ...(cookies.length ? { 'set-cookie': cookies } : {}),
   })
@@ -157,7 +159,14 @@ function buildConfig(env, adapters) {
     cloudflareAudience: env.AIOS_CLOUDFLARE_ACCESS_AUD || '',
     turnstileSiteKey: env.AIOS_TURNSTILE_SITE_KEY || '',
     turnstileSecretKey: env.AIOS_TURNSTILE_SECRET_KEY || '',
+    githubClientId: env.AIOS_GITHUB_CLIENT_ID || '',
+    githubRedirectUri: publicOrigin ? `${publicOrigin}/auth/github/callback` : '',
   }
+  config.githubReady = Boolean(
+    publicOrigin.startsWith('https://') && config.githubClientId && env.AIOS_GITHUB_CLIENT_SECRET
+    && /^[1-9]\d*(\s*,\s*[1-9]\d*)*$/.test(String(env.AIOS_GITHUB_ALLOWED_USER_IDS || '').trim())
+    && typeof adapters.exchangeGitHubAuthorizationCode === 'function',
+  )
   const required = [
     'publicOrigin', 'authorizeUrl', 'clientId', 'redirectUri', 'postLogoutRedirectUri',
     'sessionSecret', 'cloudflareAudience', 'turnstileSiteKey', 'turnstileSecretKey',
@@ -194,6 +203,7 @@ export function createDashboardAuth(options = {}) {
     exchangeAuthorizationCode: options.exchangeAuthorizationCode,
     verifyIdentityToken: options.verifyIdentityToken,
     verifyTurnstile: options.verifyTurnstile,
+    exchangeGitHubAuthorizationCode: options.exchangeGitHubAuthorizationCode,
   }
   const config = buildConfig(env, adapters)
 
@@ -245,8 +255,12 @@ export function createDashboardAuth(options = {}) {
     return false
   }
 
-  async function beginAuthorization(request, response, mode) {
+  async function beginAuthorization(request, response, mode, provider = 'microsoft') {
     if (!requireConfiguration(response) || !(await requireAccess(request, response))) return
+    if (!['microsoft', 'github'].includes(provider) || (provider === 'github' && (!config.githubReady || mode !== 'login'))) {
+      sendJson(response, 400, { authenticated: false, code: 'AUTH_PROVIDER_UNAVAILABLE' })
+      return
+    }
     const state = randomToken(randomBytes)
     const nonce = randomToken(randomBytes)
     const verifier = randomToken(randomBytes, 48)
@@ -255,19 +269,26 @@ export function createDashboardAuth(options = {}) {
       nonce,
       verifier,
       mode,
+      provider,
       expiresAt: now() + 10 * 60 * 1000,
     }
-    const authorize = new URL(config.authorizeUrl)
-    authorize.searchParams.set('client_id', config.clientId)
+    const github = provider === 'github'
+    const authorize = new URL(github ? 'https://github.com/login/oauth/authorize' : config.authorizeUrl)
+    authorize.searchParams.set('client_id', github ? config.githubClientId : config.clientId)
     authorize.searchParams.set('response_type', 'code')
-    authorize.searchParams.set('redirect_uri', config.redirectUri)
-    authorize.searchParams.set('response_mode', 'query')
-    authorize.searchParams.set('scope', 'openid profile email')
+    authorize.searchParams.set('redirect_uri', github ? config.githubRedirectUri : config.redirectUri)
+    authorize.searchParams.set('scope', github ? 'read:user' : 'openid profile email')
     authorize.searchParams.set('state', state)
-    authorize.searchParams.set('nonce', nonce)
     authorize.searchParams.set('code_challenge', createPkceChallenge(verifier))
     authorize.searchParams.set('code_challenge_method', 'S256')
-    authorize.searchParams.set('prompt', mode === 'signup' ? 'create' : 'login')
+    if (github) {
+      authorize.searchParams.set('allow_signup', 'false')
+      authorize.searchParams.set('prompt', 'select_account')
+    } else {
+      authorize.searchParams.set('response_mode', 'query')
+      authorize.searchParams.set('nonce', nonce)
+      authorize.searchParams.set('prompt', mode === 'signup' ? 'create' : 'login')
+    }
     redirect(response, authorize.toString(), [
       cookie(COOKIE_NAMES.state, encodeSignedCookie(statePayload, config.sessionSecret), 600),
     ])
@@ -275,24 +296,36 @@ export function createDashboardAuth(options = {}) {
 
   async function handleCallback(request, response, url) {
     if (!requireConfiguration(response) || !(await requireAccess(request, response))) return
+    const provider = url.pathname === '/auth/github/callback' ? 'github' : 'microsoft'
+    if (provider === 'github' && !config.githubReady) {
+      sendJson(response, 503, { authenticated: false, code: 'AUTH_PROVIDER_UNAVAILABLE' }, { 'set-cookie': [cookie(COOKIE_NAMES.state, '', 0)] })
+      return
+    }
     const cookies = parseCookies(request.headers.cookie)
     const stateCookie = decodeSignedCookie(cookies[COOKIE_NAMES.state], config.sessionSecret, now)
     const state = url.searchParams.get('state')
     const code = url.searchParams.get('code')
-    if (!stateCookie || !state || !constantTimeEqual(stateCookie.state, state) || !code) {
+    if (!stateCookie || (stateCookie.provider || 'microsoft') !== provider || !state || !constantTimeEqual(stateCookie.state, state) || !code || url.searchParams.has('error')) {
       sendJson(response, 400, { authenticated: false, code: 'INVALID_CALLBACK_STATE' }, {
         'set-cookie': [cookie(COOKIE_NAMES.state, '', 0)],
       })
       return
     }
     try {
-      const tokens = await adapters.exchangeAuthorizationCode(code, stateCookie.verifier, { config })
-      if (!tokens?.id_token) throw new Error('ENTRA_ID_TOKEN_MISSING')
-      const identity = await adapters.verifyIdentityToken(tokens.id_token, stateCookie.nonce, { config })
-      if (!identity?.sub) throw new Error('ENTRA_IDENTITY_MISSING')
+      let identity
+      if (provider === 'github') {
+        identity = await adapters.exchangeGitHubAuthorizationCode(code, stateCookie.verifier, { config })
+        if (!/^github:[1-9]\d*$/.test(identity?.sub || '')) throw new Error('GITHUB_IDENTITY_MISSING')
+      } else {
+        const tokens = await adapters.exchangeAuthorizationCode(code, stateCookie.verifier, { config })
+        if (!tokens?.id_token) throw new Error('ENTRA_ID_TOKEN_MISSING')
+        identity = await adapters.verifyIdentityToken(tokens.id_token, stateCookie.nonce, { config })
+      }
+      if (!identity?.sub) throw new Error('IDENTITY_MISSING')
       const csrfToken = randomToken(randomBytes)
       const pending = encodeSignedCookie({
         sub: identity.sub,
+        provider,
         name: identity.name || '',
         email: identity.email || identity.preferred_username || '',
         csrfToken,
@@ -303,7 +336,7 @@ export function createDashboardAuth(options = {}) {
         cookie(COOKIE_NAMES.pending, pending, 600),
       ])
     } catch {
-      sendJson(response, 401, { authenticated: false, code: 'ENTRA_CALLBACK_REJECTED' }, {
+      sendJson(response, 401, { authenticated: false, code: provider === 'github' ? 'GITHUB_CALLBACK_REJECTED' : 'ENTRA_CALLBACK_REJECTED' }, {
         'set-cookie': [cookie(COOKIE_NAMES.state, '', 0), cookie(COOKIE_NAMES.pending, '', 0)],
       })
     }
@@ -324,7 +357,7 @@ export function createDashboardAuth(options = {}) {
     const pending = pendingFromRequest(request)
     sendJson(response, 200, pending
       ? { authenticated: false, phase: 'turnstile_required', turnstileSiteKey: config.turnstileSiteKey, csrfToken: pending.csrfToken }
-      : { authenticated: false, phase: 'identity_required' })
+      : { authenticated: false, phase: 'identity_required', providers: ['microsoft', ...(config.githubReady ? ['github'] : [])] })
   }
 
   async function verifyTurnstileToken(token, request) {
@@ -367,6 +400,7 @@ export function createDashboardAuth(options = {}) {
     }
     const session = encodeSignedCookie({
       sub: pending.sub,
+      provider: pending.provider || 'microsoft',
       name: pending.name,
       email: pending.email,
       csrfToken: randomToken(randomBytes),
@@ -383,7 +417,7 @@ export function createDashboardAuth(options = {}) {
       sendJson(response, 403, { authenticated: true, code: 'INVALID_CSRF_TOKEN' })
       return
     }
-    const logoutUrl = config.logoutUrl && config.postLogoutRedirectUri
+    const logoutUrl = session?.provider !== 'github' && config.logoutUrl && config.postLogoutRedirectUri
       ? `${config.logoutUrl}?${new URLSearchParams({ post_logout_redirect_uri: config.postLogoutRedirectUri })}`
       : '/login'
     sendJson(response, 200, { authenticated: false, logoutUrl }, { 'set-cookie': clearAuthCookies() })
@@ -429,9 +463,9 @@ export function createDashboardAuth(options = {}) {
       return true
     }
     if (url.pathname === '/auth/session') await handleSession(request, response)
-    else if (url.pathname === '/auth/login') await beginAuthorization(request, response, 'login')
+    else if (url.pathname === '/auth/login') await beginAuthorization(request, response, 'login', url.searchParams.get('provider') || 'microsoft')
     else if (url.pathname === '/auth/signup') await beginAuthorization(request, response, 'signup')
-    else if (url.pathname === '/auth/callback') await handleCallback(request, response, url)
+    else if (url.pathname === '/auth/callback' || url.pathname === '/auth/github/callback') await handleCallback(request, response, url)
     return true
   }
 
