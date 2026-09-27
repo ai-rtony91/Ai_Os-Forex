@@ -597,11 +597,13 @@ def test_persisted_runtime_report_redacts_order_endpoint_and_tokens(tmp_path: Pa
     state_path = tmp_path / "AIOS_FOREX_SUPERVISED_DEMO_ORDER_EXECUTION_V1_STATE.json"
     report_path = tmp_path / "AIOS_FOREX_SUPERVISED_DEMO_ORDER_EXECUTION_V1_REPORT.md"
 
+    # Synthetic fixture only; never use a real broker account identifier.
+    synthetic_account_id = "synthetic-demo-account-id"
     fake_bw_output = json.dumps(
         {
             "fields": [
                 {"name": "broker_api_token", "value": "demo-token"},
-                {"name": "broker_account_id", "value": "101-001-38382514-001"},
+                {"name": "broker_account_id", "value": synthetic_account_id},
                 {"name": "endpoint", "value": "https://api-fxpractice.oanda.com"},
                 {"name": "environment", "value": "practice_demo"},
                 {"name": "allowed_mode", "value": "read_only_until_owner_demo_approval"},
@@ -644,11 +646,11 @@ def test_persisted_runtime_report_redacts_order_endpoint_and_tokens(tmp_path: Pa
     assert payload["runtime_summary"]["order_attempt_count"] == 1
     assert payload["runtime_summary"]["order_status_code"] == 400
     assert (
-        "101-001-38382514-001"
+        synthetic_account_id
         not in json.dumps(state).replace("/", "")
     )
     assert (
-        "101-001-38382514-001"
+        synthetic_account_id
         not in report.replace("/", "")
     )
     assert payload["runtime_summary"]["order_payload"]["order"]["type"] == "MARKET"
