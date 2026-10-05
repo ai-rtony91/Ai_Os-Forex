@@ -239,3 +239,26 @@ the exact PR test commit rather than following a moving head ref. The other
 five focused modules and complete test collection remain in the Ubuntu job.
 Local platform-routing validation passed, and all 155 executable focused
 tests passed again; the 12 PowerShell tests remain pending actual Windows CI.
+
+### Laptop validation before publication
+
+Desktop Commander subsequently reconnected. The exact reviewed commit was
+transferred in a SHA-256-verified Git bundle into a separate laptop worktree at
+`C:\Dev\Ai.Os.worktrees\research-evidence-hardening-20261005`. The existing
+`C:\Dev\Ai.Os` main checkout contains unrelated unsaved work and was preserved.
+
+The default pytest scratch directory on the laptop is inaccessible. A new,
+previously absent release-specific `--basetemp` avoids that old directory without
+changing permissions or deleting existing files. Three security-test fixtures
+also required Windows symbolic-link privileges that this process does not have.
+Fixture creation now skips only Windows error 1314; other errors still fail.
+Basic temp/repository-root rejection is tested separately, and production path
+guards are unchanged. Linux still exercises all three symlink containment tests.
+
+The final focused suite passed **156 tests, 12 skipped** on Linux and **160 tests,
+8 skipped** on the laptop. Windows skips comprise unavailable Unix features and
+the three symbolic-link fixtures; they are not counted as verified Windows
+symlink behavior. The actual protected-action runner self-test script passed
+**13 of 13** on Windows without mutation. Complete Windows collection before
+the extra split guard test loaded **17,390 tests** without errors. Remote PR
+checks and main merge remain pending; no trading or unattended runtime was armed.

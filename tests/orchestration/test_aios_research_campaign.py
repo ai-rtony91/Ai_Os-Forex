@@ -938,9 +938,7 @@ def test_router_rejects_oversized_paper_evidence_before_routing() -> None:
         run_campaign_cycle(spec, [], NOW, paper_evidence=oversized)
 
 
-def test_output_root_validator_rejects_temp_root_repo_root_and_symlink_escape(
-    tmp_path: Path,
-) -> None:
+def test_output_root_validator_rejects_temp_root_and_repo_root() -> None:
     import tempfile
 
     validator = getattr(campaign_module, "validate_checkpoint_root", None)
@@ -953,8 +951,17 @@ def test_output_root_validator_rejects_temp_root_repo_root_and_symlink_escape(
         write_checkpoint(Path(__file__).resolve().parents[2], {})
     with pytest.raises(CampaignCheckpointError):
         validator(Path(__file__).resolve().parents[2])
+
+
+def test_output_root_validator_rejects_symlink_escape(tmp_path: Path) -> None:
+    validator = campaign_module.validate_checkpoint_root
     escaped = tmp_path / "escaped-output"
-    escaped.symlink_to(Path(__file__).resolve().parents[2], target_is_directory=True)
+    try:
+        escaped.symlink_to(Path(__file__).resolve().parents[2], target_is_directory=True)
+    except OSError as exc:
+        if getattr(exc, "winerror", None) == 1314:
+            pytest.skip("Windows does not grant symbolic-link creation to this test process")
+        raise
     with pytest.raises(CampaignCheckpointError):
         validator(escaped)
 

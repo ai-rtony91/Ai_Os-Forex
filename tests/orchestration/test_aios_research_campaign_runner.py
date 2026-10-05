@@ -647,7 +647,12 @@ def test_apply_rejects_symlink_escape_before_creating_checkpoint(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     symlink_root = tmp_path / "symlink-output"
-    symlink_root.symlink_to(REPO_ROOT, target_is_directory=True)
+    try:
+        symlink_root.symlink_to(REPO_ROOT, target_is_directory=True)
+    except OSError as exc:
+        if getattr(exc, "winerror", None) == 1314:
+            pytest.skip("Windows does not grant symbolic-link creation to this test process")
+        raise
 
     def unexpected_io(*args: Any, **kwargs: Any) -> Any:
         raise AssertionError("symlink escape reached checkpoint I/O")
@@ -674,7 +679,12 @@ def test_apply_rejects_checkpoint_file_symlink_before_reading(
     output_root.mkdir()
     target = tmp_path / "external-checkpoint.json"
     target.write_text("{}", encoding="utf-8")
-    (output_root / "campaign_checkpoint.json").symlink_to(target)
+    try:
+        (output_root / "campaign_checkpoint.json").symlink_to(target)
+    except OSError as exc:
+        if getattr(exc, "winerror", None) == 1314:
+            pytest.skip("Windows does not grant symbolic-link creation to this test process")
+        raise
 
     def unexpected_io(*args: Any, **kwargs: Any) -> Any:
         raise AssertionError("checkpoint symlink reached read or write")
