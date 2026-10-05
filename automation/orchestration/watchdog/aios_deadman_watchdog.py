@@ -33,9 +33,19 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Mapping, Optional
+
+if __package__ in {None, ""}:  # Preserve the existing direct-script entry point.
+    sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+
+from automation.orchestration.research_campaign.aios_research_campaign import (
+    CampaignCheckpointError,
+    CampaignValidationError,
+    read_bounded_json_file,
+    validate_checkpoint_payload,
+)
 
 # Capabilities this Tier 0 module is intentionally NOT permitted to perform.
 # Consistent with other AIOS modules that gate live actions behind explicit
@@ -51,6 +61,7 @@ SOS_WAKE_STATUSES = {"BLOCKED"}
 
 # Default staleness threshold: 10 minutes.
 DEFAULT_THRESHOLD_SECONDS = 600
+DEFAULT_CAMPAIGN_PROGRESS_THRESHOLD_SECONDS = 600
 
 # Heartbeat path is relative to repo root by default.
 DEFAULT_HEARTBEAT_REL = "telemetry/runtime/runtime_heartbeat.json"
@@ -107,17 +118,28 @@ def parse_timestamp(raw: Any) -> Optional[datetime]:
     return dt.astimezone(timezone.utc)
 
 
+def parse_campaign_utc_timestamp(raw: Any) -> Optional[datetime]:
+    """Parse a checkpoint timestamp only when it explicitly identifies UTC."""
+    if not isinstance(raw, str) or not raw.strip():
+        return None
+    text = raw.strip()
+    candidate = text[:-1] + "+00:00" if text.endswith("Z") else text
+    try:
+        parsed = datetime.fromisoformat(candidate)
+    except ValueError:
+        return None
+    if parsed.tzinfo is None or parsed.utcoffset() != timedelta(0):
+        return None
+    return parsed.astimezone(timezone.utc)
+
+
 def read_json(path: Path) -> Optional[dict[str, Any]]:
     """Read JSON, tolerating BOM. Returns None on any IO/parse failure."""
     try:
-        text = path.read_text(encoding="utf-8-sig")
-    except OSError:
+        data = read_bounded_json_file(path, "watchdog JSON")
+    except CampaignValidationError:
         return None
     except Exception:  # pragma: no cover - defensive: never crash the watchdog
-        return None
-    try:
-        data = json.loads(text)
-    except (ValueError, TypeError):
         return None
     if not isinstance(data, dict):
         return None
@@ -134,10 +156,142 @@ def extract_timestamp(data: dict[str, Any]) -> tuple[Optional[datetime], Optiona
     return None, None
 
 
+def _campaign_health_result(
+    status: str,
+    reason: str,
+    progress_threshold_seconds: int,
+    last_progress: Optional[str] = None,
+    staleness_seconds: Optional[float] = None,
+) -> dict[str, Any]:
+    sos_wake_required = status in SOS_WAKE_STATUSES
+    return {
+        "status": status,
+        "reason": reason,
+        "last_progress_utc": last_progress,
+        "staleness_seconds": (
+            round(staleness_seconds, 3) if staleness_seconds is not None else None
+        ),
+        "progress_threshold_seconds": progress_threshold_seconds,
+        "sos_wake_required": sos_wake_required,
+        "wake_class": "SOS" if sos_wake_required else "NO_WAKE",
+        "live_delivery_armed": False,
+    }
+
+
+def evaluate_campaign_health(
+    campaign_state: Mapping[str, Any],
+    now: datetime,
+    progress_threshold_seconds: int,
+) -> dict[str, Any]:
+    """Evaluate an optional campaign checkpoint without starting or repairing it.
+
+    This function is intentionally observational.  A malformed or stale active
+    checkpoint is BLOCKED. Valid terminal research decisions are informational;
+    a future progress timestamp is always suspect, including at termination.
+    """
+
+    if (
+        isinstance(progress_threshold_seconds, bool)
+        or not isinstance(progress_threshold_seconds, int)
+        or progress_threshold_seconds <= 0
+    ):
+        return _campaign_health_result(
+            "BLOCKED", "campaign_progress_threshold_invalid", 0
+        )
+    if not isinstance(campaign_state, Mapping):
+        return _campaign_health_result(
+            "BLOCKED", "campaign_state_unreadable_or_malformed", progress_threshold_seconds
+        )
+    try:
+        campaign_state = validate_checkpoint_payload(campaign_state)
+    except CampaignCheckpointError as error:
+        detail = str(error)
+        reason = "campaign_checkpoint_malformed"
+        if "digest" in detail:
+            reason = "campaign_checkpoint_digest_invalid"
+        elif "last_progress_utc" in detail:
+            reason = "campaign_progress_missing_or_unparseable"
+        elif "completed_fingerprints contains duplicates" in detail:
+            reason = "campaign_completed_fingerprints_duplicate"
+        elif "outcomes" in detail:
+            reason = "campaign_outcomes_malformed"
+        elif "last_decision" in detail:
+            reason = "campaign_decision_missing_or_malformed"
+        return _campaign_health_result(
+            "BLOCKED", reason, progress_threshold_seconds
+        )
+
+    progress_threshold_seconds = min(
+        progress_threshold_seconds, campaign_state["progress_max_age_seconds"]
+    )
+    raw_progress = campaign_state.get("last_progress_utc")
+    parsed_progress = parse_campaign_utc_timestamp(raw_progress)
+    if parsed_progress is None:
+        return _campaign_health_result(
+            "BLOCKED",
+            "campaign_progress_missing_or_unparseable",
+            progress_threshold_seconds,
+        )
+    staleness_seconds = (now - parsed_progress).total_seconds()
+    if staleness_seconds < 0:
+        return _campaign_health_result(
+            "BLOCKED",
+            "campaign_progress_future_timestamp",
+            progress_threshold_seconds,
+            str(raw_progress),
+            staleness_seconds,
+        )
+    decision = campaign_state["last_decision"]
+    decision_status = decision["status"]
+    terminal_reasons = {
+        "NO_EDGE_IN_SCOPE": "campaign_catalog_exhausted",
+        "BUDGET_EXHAUSTED": "campaign_approved_scope_exhausted",
+        "RESEARCH_COMPLETE": "campaign_research_results_require_review",
+    }
+    if decision_status in terminal_reasons:
+        return _campaign_health_result(
+            decision_status, terminal_reasons[decision_status], progress_threshold_seconds
+        )
+    if decision_status == "BLOCKED":
+        return _campaign_health_result(
+            "BLOCKED", "campaign_decision_blocked", progress_threshold_seconds
+        )
+    if decision_status not in {"ADVANCE", "REJECT"}:
+        return _campaign_health_result(
+            "BLOCKED", "campaign_decision_status_unknown", progress_threshold_seconds
+        )
+    if not campaign_state["completed_fingerprints"]:
+        return _campaign_health_result(
+            "BLOCKED", "campaign_active_empty_history", progress_threshold_seconds
+        )
+    if not isinstance(decision.get("next_experiment"), Mapping):
+        return _campaign_health_result(
+            "BLOCKED", "campaign_active_empty_queue", progress_threshold_seconds
+        )
+
+    if staleness_seconds > progress_threshold_seconds:
+        return _campaign_health_result(
+            "BLOCKED",
+            "campaign_progress_stale",
+            progress_threshold_seconds,
+            str(raw_progress),
+            staleness_seconds,
+        )
+    return _campaign_health_result(
+        "OK",
+        "campaign_progress_fresh",
+        progress_threshold_seconds,
+        str(raw_progress),
+        staleness_seconds,
+    )
+
+
 def evaluate(
     heartbeat_path: Path,
     threshold_seconds: int,
     now: datetime,
+    campaign_state_path: Optional[Path] = None,
+    campaign_progress_threshold_seconds: Optional[int] = None,
 ) -> dict[str, Any]:
     """Evaluate heartbeat staleness. Fail-closed: any read/parse failure -> BLOCKED."""
     reason: str
@@ -182,7 +336,7 @@ def evaluate(
         else "No action. Runtime heartbeat is fresh within threshold."
     )
 
-    return {
+    alert = {
         "schema": "AIOS_DEADMAN_ALERT.v1",
         "detected_at": fmt_utc(now),
         "heartbeat_path": str(heartbeat_path),
@@ -201,6 +355,44 @@ def evaluate(
         "blocked_capabilities": list(BLOCKED_CAPABILITIES),
         "live_delivery_armed": False,
     }
+    if campaign_state_path is not None:
+        campaign_threshold = (
+            DEFAULT_CAMPAIGN_PROGRESS_THRESHOLD_SECONDS
+            if campaign_progress_threshold_seconds is None
+            else campaign_progress_threshold_seconds
+        )
+        if not campaign_state_path.exists():
+            campaign_health = _campaign_health_result(
+                "BLOCKED", "campaign_state_file_missing", campaign_threshold
+            )
+        else:
+            campaign_state = read_json(campaign_state_path)
+            campaign_health = (
+                evaluate_campaign_health(campaign_state, now, campaign_threshold)
+                if campaign_state is not None
+                else _campaign_health_result(
+                    "BLOCKED",
+                    "campaign_state_unreadable_or_malformed",
+                    campaign_threshold,
+                )
+            )
+        alert["campaign_health"] = campaign_health
+        if campaign_health["status"] == "BLOCKED":
+            alert.update(
+                {
+                    "status": "BLOCKED",
+                    "severity": "BLOCKED",
+                    "reason": f"campaign_health:{campaign_health['reason']}",
+                    "sos_wake_required": True,
+                    "wake_class": "SOS",
+                    "recommended_action": (
+                        "Wake operator: campaign health is BLOCKED. Inspect the "
+                        "checkpoint and research controller; do not restart or "
+                        "repair it automatically."
+                    ),
+                }
+            )
+    return alert
 
 
 def write_alert(alert_path: Path, alert: dict[str, Any]) -> bool:
@@ -233,6 +425,14 @@ def print_summary(alert: dict[str, Any], alert_path: Path, wrote: bool, apply: b
     print(f"ALERT_FILE={alert_path}")
     print(f"ALERT_FILE_WRITTEN={'yes' if wrote else 'no'}")
     print(f"BLOCKED_CAPABILITIES={','.join(alert['blocked_capabilities'])}")
+    campaign_health = alert.get("campaign_health")
+    if isinstance(campaign_health, dict):
+        print(f"CAMPAIGN_STATUS={campaign_health['status']}")
+        print(f"CAMPAIGN_REASON={campaign_health['reason']}")
+        print(
+            "CAMPAIGN_SOS_WAKE_REQUIRED="
+            f"{str(campaign_health['sos_wake_required']).lower()}"
+        )
     print("LIVE_DELIVERY_ARMED=false")
     if apply:
         print("LIVE_DELIVERY_NOT_ARMED: wire an SOS channel first")
@@ -269,6 +469,23 @@ def main(argv: Optional[list[str]] = None) -> int:
         ),
     )
     parser.add_argument(
+        "--campaign-state-path",
+        default=None,
+        help=(
+            "Optional campaign checkpoint JSON to inspect. Without this flag, "
+            "the watchdog retains heartbeat-only behavior."
+        ),
+    )
+    parser.add_argument(
+        "--campaign-progress-threshold-seconds",
+        type=int,
+        default=DEFAULT_CAMPAIGN_PROGRESS_THRESHOLD_SECONDS,
+        help=(
+            "Max age for active campaign progress before BLOCKED "
+            f"(default {DEFAULT_CAMPAIGN_PROGRESS_THRESHOLD_SECONDS})."
+        ),
+    )
+    parser.add_argument(
         "--apply",
         action="store_true",
         help=(
@@ -295,10 +512,27 @@ def main(argv: Optional[list[str]] = None) -> int:
     else:
         alert_path = root / ALERT_OUTPUT_REL
 
+    campaign_state_path: Optional[Path] = None
+    if args.campaign_state_path:
+        campaign_state_path = Path(args.campaign_state_path).expanduser()
+        if not campaign_state_path.is_absolute():
+            campaign_state_path = (root / campaign_state_path).resolve()
+
     threshold = args.threshold_seconds if args.threshold_seconds > 0 else DEFAULT_THRESHOLD_SECONDS
+    campaign_threshold = (
+        args.campaign_progress_threshold_seconds
+        if args.campaign_progress_threshold_seconds > 0
+        else DEFAULT_CAMPAIGN_PROGRESS_THRESHOLD_SECONDS
+    )
 
     try:
-        alert = evaluate(heartbeat_path, threshold, utc_now())
+        alert = evaluate(
+            heartbeat_path,
+            threshold,
+            utc_now(),
+            campaign_state_path=campaign_state_path,
+            campaign_progress_threshold_seconds=campaign_threshold,
+        )
     except Exception as exc:  # pragma: no cover - last-resort fail-closed
         # The watchdog itself must never crash. Any unexpected error is treated
         # as BLOCKED (presume dead).
