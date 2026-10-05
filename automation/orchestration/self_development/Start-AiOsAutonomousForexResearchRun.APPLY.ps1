@@ -64,8 +64,12 @@ function Invoke-PythonJsonLogic {
     [void]$process.Start()
     $stdoutTask = $process.StandardOutput.ReadToEndAsync()
     $stderrTask = $process.StandardError.ReadToEndAsync()
-    $process.StandardInput.Write($payloadJson)
-    $process.StandardInput.Close()
+    # Windows PowerShell's inherited console encoding can add a UTF-8 BOM
+    # or replace Unicode path characters. The Python bridge accepts UTF-8.
+    $payloadBytes = [System.Text.Encoding]::UTF8.GetBytes($payloadJson)
+    $inputStream = $process.StandardInput.BaseStream
+    $inputStream.Write($payloadBytes, 0, $payloadBytes.Length)
+    $inputStream.Close()
     if (-not $process.WaitForExit($TimeoutSecondsValue * 1000)) {
         $process.Kill()
         throw "AIOS autonomous Forex research pipeline timed out."

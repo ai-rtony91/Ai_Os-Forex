@@ -262,3 +262,37 @@ symlink behavior. The actual protected-action runner self-test script passed
 **13 of 13** on Windows without mutation. Complete Windows collection before
 the extra split guard test loaded **17,390 tests** without errors. Remote PR
 checks and main merge remain pending; no trading or unattended runtime was armed.
+
+### GitHub Windows CI recovery
+
+Draft PR #1433 published the exact reviewed source on the branch and laptop.
+GitHub run `37376998585` passed Ubuntu `validate` and Governance, but its Windows
+job failed two existing research runner tests with JSON decoding at character 0.
+The same failure was reproduced on unchanged laptop source by setting UTF-8
+console input encoding in a fresh PowerShell process. The inherited stdin writer
+emitted a UTF-8 BOM while Python decoded the pipe using its local code page.
+An OEM input encoding also damaged a Unicode ledger destination in an APPLY
+fixture. No machine settings or trading connections were changed.
+
+The scoped repair writes UTF-8 payload bytes directly to the process stdin base
+stream and decodes Python's raw stdin using `utf-8-sig`. The JSON parser, approval,
+mode and trading restrictions remain unchanged. Two CLI locale cases and four
+Windows console-encoding/mode cases cover the bridge and Unicode destinations.
+The two CLI cases failed before the repair; three of four new Windows cases
+failed against unchanged source, including both hosted-CI encoding cases.
+
+The eight focused modules now pass **158 tests, 16 skipped** on Linux and
+**166 tests, 8 skipped** in the isolated laptop checkout using a new test scratch
+directory. Independent scoped review found no Critical or Important defect.
+The broad run still stops at the same ten autonomy-bridge baseline failures;
+the earlier ten other baseline failures remain unresolved. This is not a claim
+that the complete project suite passes.
+
+Publication now includes 19 reviewed files: the original 15 plus the two bridge
+source files and two corresponding regression-test files. The owner's request
+to check, repair and retry the failed GitHub check authorizes this bounded
+continuation on the same branch and PR. The commit message is
+`Fix Windows research JSON transport encoding`; normal push targets
+`origin/codex/research-evidence-hardening-20261005`. Generated test output,
+unrelated laptop work and main remain outside the write scope. Latest-head
+GitHub checks must actually pass before main integration is considered.
