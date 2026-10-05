@@ -296,3 +296,18 @@ continuation on the same branch and PR. The commit message is
 `origin/codex/research-evidence-hardening-20261005`. Generated test output,
 unrelated laptop work and main remain outside the write scope. Latest-head
 GitHub checks must actually pass before main integration is considered.
+
+The retry at `8c294a2e` cleared both original runner failures, but run
+`37377852755` exposed a regression-test capture mismatch: hosted PowerShell
+emitted Unicode JSON as UTF-8 while Python's test reader used cp1252. The two
+new APPLY tests failed with `UnicodeDecodeError` and an empty captured result;
+14 Windows tests passed. This failure was reproduced independently of the
+production fix. The encoded test helper now sets only its child process's
+output encoding to UTF-8 without a BOM and decodes capture using UTF-8.
+Input encoding remains varied, so the original regression coverage is retained.
+Production files and machine settings are unchanged by this follow-up.
+All **16 Windows runner/heartbeat tests** then passed in a new laptop test
+scratch directory. The two bridge modules passed **14 tests, 11 skipped** on
+Linux. Independent review found no Critical or Important issue. The scoped
+follow-up commit message is `Decode Windows research test output as UTF-8`,
+with the same branch, remote and PR target; hosted CI remains to be rechecked.

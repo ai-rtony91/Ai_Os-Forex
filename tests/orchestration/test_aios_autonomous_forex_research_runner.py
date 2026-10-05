@@ -42,7 +42,10 @@ def _run_runner(*args: str, console_encoding: str = "") -> subprocess.CompletedP
         )
         quote = lambda value: "'" + value.replace("'", "''") + "'"
         invocation = " ".join(arg if arg.startswith("-") else quote(arg) for arg in args)
-        script = f"[Console]::InputEncoding = {encoding}; & {quote(str(RUNNER))} {invocation}"
+        script = (
+            "[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false); "
+            f"[Console]::InputEncoding = {encoding}; & {quote(str(RUNNER))} {invocation}"
+        )
         command = [
             "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-EncodedCommand",
             base64.b64encode(script.encode("utf-16-le")).decode("ascii"),
@@ -55,6 +58,7 @@ def _run_runner(*args: str, console_encoding: str = "") -> subprocess.CompletedP
         command,
         cwd=REPO_ROOT,
         text=True,
+        encoding="utf-8" if console_encoding else None,
         capture_output=True,
         check=False,
     )
