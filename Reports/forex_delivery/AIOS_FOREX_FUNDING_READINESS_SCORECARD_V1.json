@@ -1,0 +1,70 @@
+{
+  "COST_ACCOUNTING_INTEGRITY": {
+    "evidence": "single-charge contract and regressions PASS",
+    "missing_evidence": "none",
+    "score": 98,
+    "unlock_condition": "maintain tests"
+  },
+  "EXECUTION_INTEGRITY": {
+    "evidence": "16 certified controls and deterministic replay",
+    "missing_evidence": "none",
+    "score": 98,
+    "unlock_condition": "maintain hash"
+  },
+  "EXTERNAL_INFORMATION_COVERAGE": {
+    "evidence": "CFTC plus market-derived state",
+    "missing_evidence": "policy and macro official archives unavailable",
+    "score": 55,
+    "unlock_condition": "acquire lawful point-in-time archives"
+  },
+  "FORWARD_PROOF": {
+    "evidence": "no finalist",
+    "missing_evidence": "forward evidence",
+    "score": 0,
+    "unlock_condition": "historical finalist"
+  },
+  "LIVE_AND_FUNDING_READINESS": {
+    "evidence": "LIVE false and funding false",
+    "missing_evidence": "PAPER/publication/safety gates",
+    "score": 0,
+    "unlock_condition": "complete all promotion gates"
+  },
+  "MARKET_CORPUS_COVERAGE": {
+    "evidence": "58 eligible pairs and 13.26M completed candles",
+    "missing_evidence": "10 pairs quality-ineligible",
+    "score": 95,
+    "unlock_condition": "new immutable version only"
+  },
+  "MECHANISM_RESEARCH_COVERAGE": {
+    "evidence": "all data-eligible tracks and frozen hypotheses processed",
+    "missing_evidence": "policy/macro formally untestable",
+    "score": 95,
+    "unlock_condition": "new lawful data"
+  },
+  "PAPER_PROFITABILITY": {
+    "evidence": "not started",
+    "missing_evidence": "forward PASS",
+    "score": 0,
+    "unlock_condition": "qualifying forward candidate"
+  },
+  "POINT_IN_TIME_INTEGRITY": {
+    "evidence": "CFTC lag and conservative availability enforced",
+    "missing_evidence": "unavailable sources unscored",
+    "score": 95,
+    "unlock_condition": "retain availability contract"
+  },
+  "STATISTICAL_PROOF": {
+    "evidence": "1000 registry nulls; bootstrap required for passers",
+    "missing_evidence": "no positive passer",
+    "score": 90,
+    "unlock_condition": "robust candidate"
+  },
+  "critical_parity": {
+    "cost": true,
+    "execution": true,
+    "external_coverage_or_missing_formally_untestable": true,
+    "market": true,
+    "mechanism_for_eligible": true,
+    "point_in_time": true
+  }
+}

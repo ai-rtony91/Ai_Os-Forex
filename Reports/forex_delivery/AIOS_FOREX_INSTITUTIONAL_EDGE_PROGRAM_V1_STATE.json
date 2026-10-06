@@ -1,0 +1,198 @@
+{
+  "alternate_safe_actions": [],
+  "bootstrap": {},
+  "capability_scorecard": {
+    "COST_ACCOUNTING_INTEGRITY": {
+      "evidence": "single-charge cost contract and focused regressions",
+      "missing_evidence": "none",
+      "score": 98,
+      "unlock_condition": "maintain cost tests"
+    },
+    "EXECUTION_INTEGRITY": {
+      "evidence": "prior certified controls and deterministic replay evidence",
+      "missing_evidence": "none",
+      "score": 98,
+      "unlock_condition": "maintain executor hash and regressions"
+    },
+    "EXTERNAL_INFORMATION_COVERAGE": {
+      "evidence": "Packet 016 official route attempts and usable-family count",
+      "missing_evidence": "missing public official artifacts listed in one handoff",
+      "score": 86,
+      "unlock_condition": "automatic acquisition or consolidated Human-only public official download"
+    },
+    "FORWARD_PROOF": {
+      "evidence": "no finalist",
+      "missing_evidence": "forward evidence",
+      "score": 0,
+      "unlock_condition": "Holdout finalist"
+    },
+    "LIVE_AND_FUNDING_READINESS": {
+      "evidence": "not reached; live false",
+      "missing_evidence": "publication, live-safety, credential, and funding evidence",
+      "score": 0,
+      "unlock_condition": "PAPER profitability, protected publication, LIVE-safety certification, Human-only credential status"
+    },
+    "MARKET_CORPUS_REGIME_COVERAGE": {
+      "evidence": "Corpus V3 gate records no credential-readable OANDA acquisition",
+      "missing_evidence": "H1/H4/D1/W1 multi-regime OANDA data unavailable to Codex under current credential boundary",
+      "score": 0,
+      "unlock_condition": "separately governed credential-safe market-data acquisition path"
+    },
+    "MECHANISM_RESEARCH_COVERAGE": {
+      "evidence": "Packet 016 broad registry is blocked until data capability passes",
+      "missing_evidence": "48 frozen candidates not scored",
+      "score": 0,
+      "unlock_condition": "external information >=85 and multi-regime market coverage >=90, or formal untestable classification"
+    },
+    "PAPER_PROFITABILITY": {
+      "evidence": "not started",
+      "missing_evidence": "fresh PAPER PASS",
+      "score": 0,
+      "unlock_condition": "Forward PASS"
+    },
+    "POINT_IN_TIME_INTEGRITY": {
+      "evidence": "required timestamps enforced for usable records",
+      "missing_evidence": "no score for unavailable records",
+      "score": 90,
+      "unlock_condition": "freeze External Information Corpus V3"
+    },
+    "STATISTICAL_PROOF": {
+      "evidence": "prior registry-wide null capability exists",
+      "missing_evidence": "no Packet 016 Development passer",
+      "score": 90,
+      "unlock_condition": "novel registry with passer"
+    }
+  },
+  "completed_work_units": [
+    "preflight",
+    "lock_a",
+    "source_requirement_freeze",
+    "automated_source_acquisition",
+    "external_corpus_gate",
+    "multi_regime_corpus_gate",
+    "scorecard",
+    "48_candidate_preview"
+  ],
+  "continuation_active": false,
+  "credential_readiness": {
+    "account_id_exposed": false,
+    "secret_value_exposed": false,
+    "status": "NOT_REACHED"
+  },
+  "current_action": "scorecard and 48-candidate novelty gate",
+  "current_phase": "GOVERNANCE_BLOCKED",
+  "current_workstream": "DATA_CAPABILITY_REVIEW",
+  "data_capability_review": {
+    "data_capability_pass": false,
+    "external_ready": false,
+    "market_ready": false
+  },
+  "deferred_blockers": [
+    "Packet authorizes OANDA Practice GET-only market retrieval but forbids Codex credential read; no order, LIVE, or credential bypass was attempted."
+  ],
+  "development": {},
+  "development_passers": [],
+  "external_time_dependency": false,
+  "failure_memory_count": 4,
+  "failure_memory_hash": "0559ebb44b0501a02c11c92bcc3dca1bc747f9d87ea0e0a70f015a0d6f4c8580",
+  "finalists": [],
+  "forward": {
+    "status": "NOT_STARTED"
+  },
+  "funding_readiness": {
+    "money_movement": false,
+    "status": "NOT_REACHED"
+  },
+  "live_safety": {
+    "live": false,
+    "status": "NOT_REACHED"
+  },
+  "next_action": "NONE",
+  "next_three_actions": [],
+  "overfit_diagnostics": {
+    "status": "NOT_REACHED_DATA_CAPABILITY_BLOCKED"
+  },
+  "packet_id": "PKT-EAST-FOREX-OFFICIAL-DATA-TO-FUNDING-016",
+  "paper": {
+    "status": "NOT_STARTED"
+  },
+  "pre_terminal_audit_status": "BLOCKED_BY_GOVERNANCE_AND_HUMAN_ONLY_DATA_GATES",
+  "protected_owner_action_dependency": "Credential-safe OANDA Practice market-data acquisition lane required outside Codex credential visibility",
+  "publication": {
+    "status": "NOT_REACHED"
+  },
+  "recent_regime_challenge": {
+    "status": "NOT_REACHED"
+  },
+  "recoverable_failures": [],
+  "registry_count": 48,
+  "registry_hash": "ad19ce9995ff895df1a2dee08338463930ac6b64c620c2d85949f262637f66dd",
+  "registry_wide_null": {
+    "repetitions": 0,
+    "status": "NOT_REACHED_DATA_CAPABILITY_BLOCKED"
+  },
+  "remaining_authorized_work_count": 0,
+  "remaining_data_families": [
+    "external official families below threshold"
+  ],
+  "remaining_human_download_items": [
+    {
+      "expected_content_type": "text/html",
+      "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/CENTRAL_BANK_POLICY_HISTORY_IUDERB",
+      "expected_time_period": "2005-01-01 through 2026-08-29",
+      "official_url": "https://fred.stlouisfed.org/series/IUDERB",
+      "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+      "private_account_required": false,
+      "secret_required": false,
+      "source_family_purpose": "CENTRAL_BANK_POLICY_HISTORY",
+      "source_owner": "Bank of England / FRED",
+      "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+    },
+    {
+      "expected_content_type": "text/html",
+      "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/CFTC_POSITIONING_HISTORY_CFTC_historical_compressed_futures_only_Commitments_of_Traders",
+      "expected_time_period": "2005-01-01 through 2026-08-29",
+      "official_url": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm",
+      "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+      "private_account_required": false,
+      "secret_required": false,
+      "source_family_purpose": "CFTC_POSITIONING_HISTORY",
+      "source_owner": "CFTC",
+      "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+    },
+    {
+      "expected_content_type": "text/html",
+      "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/OFFICIAL_MACRO_RELEASE_SCHEDULES_BLS_public_release_calendars_and_archive",
+      "expected_time_period": "2005-01-01 through 2026-08-29",
+      "official_url": "https://www.bls.gov/bls/news-release/home.htm",
+      "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+      "private_account_required": false,
+      "secret_required": false,
+      "source_family_purpose": "OFFICIAL_MACRO_RELEASE_SCHEDULES",
+      "source_owner": "U.S. Bureau of Labor Statistics",
+      "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+    }
+  ],
+  "remaining_hypothesis_count": 0,
+  "remaining_research_tracks": [],
+  "remaining_source_routes": [],
+  "remaining_source_series": [],
+  "remaining_work_units": [],
+  "safety": {
+    "broker_write": false,
+    "credentials": false,
+    "funding": false,
+    "live": false,
+    "money_movement": false,
+    "practice_order": false
+  },
+  "same_packet_resume_command": "Resume Packet 016 after completing the stated Human-only gate; do not paste credentials into Codex.",
+  "schema": "AIOS_FOREX_INSTITUTIONAL_EDGE_PROGRAM_V1",
+  "sealed_holdout": {},
+  "shortlist_hash": null,
+  "state_hash": "d92a906a02cb9d4189145f03da0de8fb579864543e875417c8d7735acc0d319f",
+  "status": "GOVERNANCE_BLOCKED",
+  "terminal_state_candidate": "GOVERNANCE_BLOCKED",
+  "tracks": {},
+  "validation": {}
+}

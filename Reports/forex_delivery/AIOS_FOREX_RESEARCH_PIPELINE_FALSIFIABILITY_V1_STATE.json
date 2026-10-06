@@ -1,0 +1,20 @@
+{
+  "negative_controls": [
+    "NC1_RANDOM_WALK",
+    "NC2_FUTURE_LEAKAGE",
+    "NC3_DUPLICATE_BEHAVIOR",
+    "NC4_HIGH_WIN_NEGATIVE_EXPECTANCY",
+    "NC5_ONE_WINNER_ILLUSION",
+    "NC6_MIDPOINT_FANTASY"
+  ],
+  "positive_controls": [
+    "PC1_LONG",
+    "PC2_SHORT",
+    "PC3_BIDIRECTIONAL",
+    "PC4_SPARSE",
+    "PC5_REGIME",
+    "PC6_INTERACTION"
+  ],
+  "reason": "Packet order requires official and Practice-history data blockers to close before falsifiability execution.",
+  "status": "NOT_RUN_DATA_BLOCKED"
+}

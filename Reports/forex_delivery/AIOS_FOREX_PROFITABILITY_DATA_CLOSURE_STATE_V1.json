@@ -1,0 +1,12 @@
+﻿{
+    "schema":  "AIOS_FOREX_PROFITABILITY_DATA_CLOSURE_STATE_V1",
+    "status":  "HUMAN_DATA_CLOSURE_COMMAND_COMPLETE",
+    "created_by":  "Human Owner outside Codex",
+    "official_data_ready":  true,
+    "practice_history_ready":  true,
+    "secret_value_exposed":  false,
+    "live_host_contacted":  false,
+    "order_attempted":  false,
+    "broker_mutation":  false,
+    "funding_attempted":  false
+}

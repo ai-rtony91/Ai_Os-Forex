@@ -1,0 +1,105 @@
+{
+  "schema": "AIOS_PACKET_APPROVAL_REQUEST.v1",
+  "approval_gate_id": "PKT045-MUSCLE98-RECOVERY-20260915",
+  "approval_request_id": "PKT045-MUSCLE98-RECOVERY-20260915",
+  "packet_id": "PKT-FOREX-045",
+  "packet_name": "Existing PKT-045 acquisition: Muscle98 post-shutdown recovery and activation",
+  "mission_id": "MISSION-AIOS-001",
+  "mission_name": "AIOS Governed Self-Building Operating System",
+  "program_id": "PRG-FOREX-001",
+  "program_name": "AIOS Forex Supervised Operational Validation Program V1",
+  "epic_id": "EPC-FOREX-002",
+  "epic_name": "Strategy Intelligence V1",
+  "bucket_id": "BKT-FOREX-003",
+  "bucket_name": "Strategy Validation V1",
+  "zone": "EAST",
+  "worker_identity": "EAST_OCC_84",
+  "lane": "FOREX_DUKASCOPY_PAIRED_TICK_MID_SUCCESSOR_ACQUISITION_CERTIFICATION_STAGE1",
+  "requested_action": "RECOVER_ABANDONED_OWNER_AND_ACTIVATE_MUSCLE98",
+  "operation_identity": "PKT045_MUSCLE98_ABANDONED_OWNER_RECOVERY",
+  "operation_context": {
+    "bundle_path": "C:\\Dev\\Ai.Os.worktrees\\pkt-aios-adaptive-workforce-v1\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\shutdown_recovery_20260915\\production_activation_bundle.json",
+    "bundle_sha256": "9c8345b142e926752b1a0c867cb7f0a79e6634ffb30f67fe2d44fd945b9562c3",
+    "command_fingerprints": {
+      "activate": "917a9ff6cb03b0f357d2f66c3b97766702d98b69fc70eb2ef63175bc13b6f24c",
+      "pause": "e307c0ab57880c129eb45d8991b6d3cd2a35814ca3a90f18f3b2f0f5b4664cb3",
+      "recover": "bf66293f49af2847726b0815322cb40b3354e4b7e5e823398586a6cd0455b11b",
+      "stop": "5f168710959ae27ee528ba7a616667cddc9919f8ffdfa7b644f7c240a570037c",
+      "verify": "baf1d2b6fd9133e9261139aaea9ee58902d9cdc4de54cb381c016103d39fa24e"
+    },
+    "existing_engineering_packet": "PKT-AIOS-ADAPTIVE-WORKFORCE-001",
+    "ownership": "Release exact abandoned OCC84 via supported lifecycle and acquire replacement OCC84 once bound to this request",
+    "recovery": "Stop admission, join or contain all children, preserve latest receipts/checkpoint and consumed grant, retain replacement ownership, recover same transaction; never restore stale state or restart legacy controller"
+  },
+  "operation_limits": {
+    "acceptance_objects": 40,
+    "automatic_get_attempts": 1,
+    "child_cpu_rate": 400,
+    "child_memory_bytes": 134217728,
+    "free_reserve_bytes": 10737418240,
+    "max_attempts_per_key": 4,
+    "max_cost_usd": 1.0,
+    "memory_bytes": 4294967296,
+    "output_limit_bytes": 8589934592
+  },
+  "evidence_paths": [
+    "C:\\Dev\\Ai.Os.worktrees\\pkt-aios-adaptive-workforce-v1\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\shutdown_recovery_20260915\\full-final.xml",
+    "C:\\Dev\\Ai.Os.worktrees\\pkt-aios-adaptive-workforce-v1\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\shutdown_recovery_20260915\\review.json",
+    "C:\\Dev\\Ai.Os.worktrees\\pkt-aios-adaptive-workforce-v1\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\shutdown_recovery_20260915\\recovery_evidence.json"
+  ],
+  "requested_mode": "APPLY",
+  "approved_mode": "APPLY",
+  "approval_status": "approved_for_apply",
+  "approved_by_human": true,
+  "approval_authority": "Anthony, Human Owner",
+  "created_at_utc": "2026-09-15T01:46:43.3712561Z",
+  "expires_at_utc": "2026-09-22T02:00:00Z",
+  "approval_timestamp_placeholder": "PENDING_HUMAN_OWNER_DECISION",
+  "approval_timestamp_utc": "2026-09-15T01:46:58.4956898+00:00",
+  "approval_evidence": {
+    "type": "HMAC_SHA256",
+    "status": "SIGNED_BY_HUMAN_OWNER",
+    "canonical_payload_schema": "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v1",
+    "canonical_payload_sha256": "2bad1120d556a565e8df30509ee440deb7ee3c291a5f27c11c6ae79aedba6822",
+    "approval_hmac_sha256": "a78f5e0161e1ce564e30a767aa21808957f63218dc10bf8dae18875b0aedd8f4",
+    "approval_nonce": "e507455d3a284af68fa3e8f3c127488d",
+    "key_id": "AIOS-HUMAN-OWNER-PRIMARY-V1",
+    "key_version": 1,
+    "key_fingerprint_sha256": "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786"
+  },
+  "source_packet_path": "C:\\Dev\\Ai.Os.worktrees\\pkt-aios-adaptive-workforce-v1\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\shutdown_recovery_20260915\\activation_scope.json",
+  "source_packet_sha256": "0c5316c27818a37da6859e65bff45b168bc6bfa0977c695fe53979ed36cf86fe",
+  "risk_level": "protected_runtime_recovery",
+  "allowed_paths": [
+    ".aios/staging/PKT_FOREX_045/stage1_occ84",
+    "automation/orchestration/locks/FILE_LOCK_REGISTRY.json"
+  ],
+  "blocked_paths": [
+    "broker/",
+    "oanda/",
+    "secrets/",
+    "credentials/",
+    "webhooks/",
+    "validation_holdout/",
+    "research_memory/"
+  ],
+  "validator_chain": [
+    "Existing signed human-owner verifier",
+    "Full candidate and dependency hashes",
+    "Full current receipt validation and canonical inventory",
+    "PKT045_HANDOFF_BUNDLE_SHA256=9c8345b142e926752b1a0c867cb7f0a79e6634ffb30f67fe2d44fd945b9562c3"
+  ],
+  "validator_chain_required": true,
+  "commit_package_required": true,
+  "push_blocked_until_final_review": true,
+  "stop_point": "Stop at canonical raw acquisition completion, expiry, resource/cost violation, invalid receipt, unverified writer exit, or exhausted failure; no later Forex stages",
+  "writes_performed": 1,
+  "execution_performed": false,
+  "notes": [
+    "This record is an unapproved request and cannot authorize APPLY.",
+    "Only Anthony, Human Owner, may record the decision.",
+    "Approval is bound to this packet, operation identity, paths, validators, and expiry.",
+    "No runtime operation, lock mutation, worker launch, commit, or push occurs during request creation."
+  ],
+  "approved_by": "Anthony, Human Owner"
+}

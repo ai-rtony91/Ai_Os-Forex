@@ -1,0 +1,507 @@
+{
+  "schema": "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v2",
+  "purpose": "AIOS_APPLY_APPROVAL_RUNTIME_ADMISSION",
+  "algorithm": "HMAC-SHA256",
+  "request_id": "approval-PKT-FOREX-045-SUPERTREND_GRID56_NEXT11_OCC97_20260927_V3",
+  "request_revision": "SUPERTREND_GRID56_NEXT11_OCC97_20260927_V3",
+  "gate_id": "approval-PKT-FOREX-045-SUPERTREND_GRID56_NEXT11_OCC97_20260927_V3",
+  "approval_request_id": "approval-PKT-FOREX-045-SUPERTREND_GRID56_NEXT11_OCC97_20260927_V3",
+  "approval_gate_id": "approval-PKT-FOREX-045-SUPERTREND_GRID56_NEXT11_OCC97_20260927_V3",
+  "packet_id": "PKT-FOREX-045",
+  "packet_name": "Supertrend Next11 Continue Through Runtime Law",
+  "goal_id": "01a0c9d5-0eb7-73c3-9b57-3ae7a8265a56",
+  "mission_id": "MISSION-AIOS-001",
+  "program_id": "PRG-FOREX-001",
+  "epic_id": "EPC-FOREX-002",
+  "bucket_id": "BKT-FOREX-003",
+  "requested_action": "RUN_PKT045_RESTRICTED_OFFLINE_RESEARCH_V5",
+  "requested_mode": "APPLY",
+  "approved_mode": "APPLY",
+  "approval_status": "approved_for_apply",
+  "approved_by_human": true,
+  "owner_identity": "Anthony, Human Owner",
+  "approval_authority": "Anthony, Human Owner",
+  "trust_root_id": "AIOS-HUMAN-OWNER-APPROVAL-TRUST-ROOT-V1",
+  "created_at_utc": "2026-09-27T21:03:43.8676128+00:00",
+  "approval_timestamp_utc": "2026-09-27T21:10:22.9074655+00:00",
+  "not_before_utc": "2026-09-27T21:03:43.8691145+00:00",
+  "latest_entry_utc": "2026-09-28T20:00:00+00:00",
+  "expires_at_utc": "2026-09-29T04:00:00+00:00",
+  "closure_reserve_hours": 4,
+  "worker": "EAST_OCC_97",
+  "worker_identity": "EAST_OCC_97",
+  "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+  "worktree": "C:\\Dev\\Ai.Os.worktrees\\postacq89",
+  "allowed_paths": [
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\CHECKPOINT.json",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_edge_validation_pipeline_v1\\AIOS_FOREX_GLOBAL_TRIAL_LEDGER_V1.jsonl",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_edge_validation_pipeline_v1\\AIOS_FOREX_FINGERPRINT_INDEX_V1.json"
+  ],
+  "blocked_paths": [
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045",
+    "C:\\Dev\\Ai.Os\\AGENTS.md",
+    "C:\\Dev\\Ai.Os\\RISK_POLICY.md",
+    "C:\\Dev\\Ai.Os\\docs\\governance",
+    "C:\\Dev\\Ai.Os\\data",
+    "C:\\Dev\\Ai.Os\\datasets",
+    "C:\\Dev\\Ai.Os\\broker",
+    "C:\\Dev\\Ai.Os\\oanda",
+    "C:\\Dev\\Ai.Os\\secrets",
+    "C:\\Dev\\Ai.Os\\credentials",
+    "C:\\Dev\\Ai.Os\\.git"
+  ],
+  "validator_chain": [
+    "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD_V2_STRICT",
+    "AIOS_V6_V2_PACKAGE_SHA256=98f13b78b1fad9ed59ed8ebbf1314e8bae4d7fd277ca30623249366b7544464f",
+    "PKT045_CONTINUATION_BUNDLE_SHA256=4be9775c9ea01fe6153eabad618fbadd9691c58306c90e1935b60294701eff8a",
+    "RESEARCH_SCOPE_SHA256=493dffe06fdbf8a65f7a16497ff9a6f4b130ff188d4a998526c1f74c327382f3",
+    "SOURCE_MAP_SHA256=0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+    "BUDGET_IDENTITY_SHA256=f29c778cdf9ad1788a6bf7dc9510bb434185c370fbbb65a86e461ebb04c88d3a",
+    "LATEST_ENTRY_UTC=2026-09-28T20:00:00+00:00",
+    "AIOS_V6_EXPIRY_UTC=2026-09-29T04:00:00+00:00",
+    "ZERO_HISTORICAL_SETTINGS_REUSED_CHANGED_QUARANTINE",
+    "GRID56_NEXT11_20260927_EXACT_ORDER_NO_INITIAL11_RERUN",
+    "HISTORICAL_CREDIT_ZERO_ONE_WORKER",
+    "MAXIMUM_NEW_CONFIGURATIONS_ELEVEN",
+    "NO_BROKER_NO_PAPER_NO_LIVE_NO_COMMIT_NO_PUSH_NO_MERGE"
+  ],
+  "package_sha256": "98f13b78b1fad9ed59ed8ebbf1314e8bae4d7fd277ca30623249366b7544464f",
+  "authority_bundle_sha256": "4be9775c9ea01fe6153eabad618fbadd9691c58306c90e1935b60294701eff8a",
+  "execution_contract_sha256": "8dfd6cd9a04072679ef79c32995ab5f701b1df1352b0215d20cb1039ccab493d",
+  "research_scope": {
+    "bindings": {
+      "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+      "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+      "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+      "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+      "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+      "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+      "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+      "worker": "EAST_OCC_97"
+    },
+    "schema": "AIOS_PKT045_RESEARCH_UNIT_SCOPE_V1",
+    "units": [
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "grid_total_cells": 56,
+        "kind": "GRID56_DOMAIN",
+        "parameter_domain_identity": "GRID56_FROZEN_PROTOCOL",
+        "status": "DOMAIN_BOUND_NOT_DISPATCHABLE",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_DOMAIN"
+      },
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "parameters": {
+          "atr": 6,
+          "confirm_bars": 3,
+          "multiplier": 1.5
+        },
+        "parent_unit_id": "GRID56_DOMAIN",
+        "status": "PENDING_NOT_SCORED",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_CELL_6_1_5"
+      },
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "parameters": {
+          "atr": 7,
+          "confirm_bars": 3,
+          "multiplier": 1.5
+        },
+        "parent_unit_id": "GRID56_DOMAIN",
+        "status": "PENDING_NOT_SCORED",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_CELL_7_1_5"
+      },
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "parameters": {
+          "atr": 10,
+          "confirm_bars": 3,
+          "multiplier": 1.5
+        },
+        "parent_unit_id": "GRID56_DOMAIN",
+        "status": "PENDING_NOT_SCORED",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_CELL_10_1_5"
+      },
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "parameters": {
+          "atr": 14,
+          "confirm_bars": 3,
+          "multiplier": 2.0
+        },
+        "parent_unit_id": "GRID56_DOMAIN",
+        "status": "PENDING_NOT_SCORED",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_CELL_14_2_0"
+      },
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "parameters": {
+          "atr": 5,
+          "confirm_bars": 3,
+          "multiplier": 1.5
+        },
+        "parent_unit_id": "GRID56_DOMAIN",
+        "status": "PENDING_NOT_SCORED",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_CELL_5_1_5"
+      },
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "parameters": {
+          "atr": 5,
+          "confirm_bars": 3,
+          "multiplier": 2.5
+        },
+        "parent_unit_id": "GRID56_DOMAIN",
+        "status": "PENDING_NOT_SCORED",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_CELL_5_2_5"
+      },
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "parameters": {
+          "atr": 6,
+          "confirm_bars": 3,
+          "multiplier": 3.0
+        },
+        "parent_unit_id": "GRID56_DOMAIN",
+        "status": "PENDING_NOT_SCORED",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_CELL_6_3_0"
+      },
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "parameters": {
+          "atr": 14,
+          "confirm_bars": 3,
+          "multiplier": 1.5
+        },
+        "parent_unit_id": "GRID56_DOMAIN",
+        "status": "PENDING_NOT_SCORED",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_CELL_14_1_5"
+      },
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "parameters": {
+          "atr": 20,
+          "confirm_bars": 3,
+          "multiplier": 2.0
+        },
+        "parent_unit_id": "GRID56_DOMAIN",
+        "status": "PENDING_NOT_SCORED",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_CELL_20_2_0"
+      },
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "parameters": {
+          "atr": 28,
+          "confirm_bars": 3,
+          "multiplier": 2.0
+        },
+        "parent_unit_id": "GRID56_DOMAIN",
+        "status": "PENDING_NOT_SCORED",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_CELL_28_2_0"
+      },
+      {
+        "bindings": {
+          "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "lane": "FOREX_SUPERTREND_RESTRICTED_RESEARCH_UTC_DAY",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+          "partition_sha256": "99d0eb5f16f683f8d73d3a4be36e6b450dbf875ce4b73e23bb34b0198cc7b384",
+          "quarantine_sha256": "2c3350039bf3af747360cfd9d3a1ebec4f301b7961e1f79e8fc87d1402c06b56",
+          "source_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+          "worker": "EAST_OCC_97"
+        },
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "parameters": {
+          "atr": 20,
+          "confirm_bars": 3,
+          "multiplier": 1.5
+        },
+        "parent_unit_id": "GRID56_DOMAIN",
+        "status": "PENDING_NOT_SCORED",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "unit_id": "GRID56_CELL_20_1_5"
+      }
+    ]
+  },
+  "research_scope_sha256": "493dffe06fdbf8a65f7a16497ff9a6f4b130ff188d4a998526c1f74c327382f3",
+  "source_hashes": {
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\__init__.py": "b2d739bbdec78154d09aa584c4b370419b4ff26930b53025d060bfd1427446cd",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\config.py": "08ae19b885b075e886ccfe718d0b677011088c50f494de3582e3e1ebce4c5fd1",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\batch.py": "9f20bf3ce52def440c1298a35f440e57b9a49162f5885c4e2516d5aa7bf9db9b",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\data.py": "aef5588ea36857ba21801555fc2673043a8d192e29bda0d0c15c811ba263905f",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\dukascopy_acquisition.py": "702b1ca14bb570dca133637c97dc31f1a39411b956fdb702f29a5dd94cf522c3",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\dukascopy_bi5.py": "cd39f8d517972f2959b1111bf081f3b3116479a705815f13f0b944cfa0629ef0",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\execution.py": "774ceee7fcab536f5b9e6ed74ef79afb711acb417f6e8b08cf87946aa94f636f",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\features.py": "96b50f9449bea7b7ec124308601bdee4d9478d6854690521cbac8cebbd396645",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\pkt045_continuation.py": "2dcd3689a814273865cd5c59c19a928cb7cbc1a80d54e50d69ca325d8b6be737",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\pkt045_publication.py": "de71133a5fcb1d5c76cfed750180c9d0f58133514cb64399868aa92afa30144e",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\research.py": "36c1c5df3e6f2616acbbf6d6ddeb45d95490fcc38a9f01e584d02a1e0b85ba34",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\forex_commercial_reference_strategy_library_v1.py": "ceb1aba488996bdaf5233f6ee2afba6d478696cf7014bfa5e71caed723113161",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\forex_control_baseline_rsi_filter_comparison_stage1_v1.py": "20135fe55ca8a3b07409f4dbdaa097e1c58c43f9f10694544f50dae91b8a6f9f",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\forex_edge_discovery_tournament_stage0_v1.py": "ea5635b6fa5a757baad8fc8a9e3b59293922791784ec4659bc78a6a60bad792e",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\forex_edge_discovery_tournament_stage1_v1.py": "1ce23030f3773b89d0617903c2a2495bbc9f9d29c0965fa38347ad90110efc7d",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\forex_edge_validation_pipeline_v1.py": "7e8b143d1f2c5dcbe9f246a6de8bdd8fdb19c6afc0f6bceff3df90f281d66486",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\forex_factor_common_component_momentum_stage0_v1.py": "bd48e5930fa466cb4a041b7191061a957e63f7d0d8f0c46e0172f83bcc8d1460",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\forex_high_throughput_edge_factory_v1.py": "11a66f2a3512b38ab3095aa25b46ba9fe5cc53155fd4fcd9411eedcebc85065c",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\forex_scalping_technique_inventory_v1.py": "b9d0d772ff9a311d4d08bf151c12ca9ef8663b9b4509657613080d4f30a5c361",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\forex_scalping_techniques_v1.py": "ac1cd1223eefd426bb0dc5086dc21db2a09f947faba8b73472302a009157ca1c",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\indicators.py": "69605a9eab431b71cd822130c84217ac97d5d71c962a789b7a106bc4991b34d9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\market_data.py": "ee85f1946717731ed68ac299afb8173ff5f22605aee77aa2c010c00b3975a709",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\models.py": "b5f5041e64666e6955b27954dd785ba9e72e08fe20383e70c734692ac4a40140",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\__init__.py": "3c3c0b72f98d8ecdb17c5cee95bf77fb59041c85b595ff04af6ca16b0c2e92d9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\adapters.py": "b432a01b67113342186d8210269957cc23002cefaecf22c098bb03ecac4a8a83",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\allocation.py": "a100d5f599e7c8420a391d3c234abf668ac8184a51623defe681a34621b05de9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\approval.py": "8937317b2ae698216378bff6ad47b8db5e4915830821ce9f6831dde9dab6cd11",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\cli.py": "8f40f173db0fc57a75a08890824de50bfa44bc6b5f279e46f59963a75f622592",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\errors.py": "237d90c349dcc62f77535440ae9aac18801164cdd0cfb397b22fec6b3fe806e7",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\executors.py": "c9b03bfe19f33e57b5561a98b79a8e207438057d5a2dcdea6c1a29752b0640e6",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\goal_continuation.py": "b51280a2ca13dd6889485ca77b15f376dd93a46999aa171058c5f4f9fd6b8873",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\handoff.py": "e236d075e76aacf9f91662cb6ea63d73f7d5adf65c923a1344cb0b8589a09e5a",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\lifecycle.py": "cd65f824120e2b04fa83dad1ed65b0bf37fe7a96118bd200a896e16a10b88193",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\models.py": "b747f13f568f32c4b0d431838df91a459dbb4d5685b3c6929d4a6f571bc9ddc3",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\optimizer.py": "20f27ab8b66612dca57805e49f51beb7d25379ab812f6d7fdd519b2e2586cdf8",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_continuation_authority.py": "412c80d6278c8958412cf3972c48d82cd99fc6515dafbcffbe6cfa8b4c58c3d9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_continuation_binding.py": "0aaacaf26e95bc60f7b7a6730c5d3841766628acff3092e2fd758cecb70ecb96",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_continuation_cli.py": "7a513daac091c4427049577fc8f25de43d3e4504b8f27552d31f8af9eec6ce10",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_research_consumer.py": "0ff8fed39d4e459d03ef0a017a06e037d784b6ba2127caa090aa27071b4b95b9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_research_dispatcher.py": "9fd093664fb241431f2e0d13de02691db5a76b95fa75157a01f8eebcd70fd852",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\progress.py": "931b8ca126633bb9cab5e6a1f7e167ec76150756915dec2585766747bfdf5b85",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\resource.py": "7d1ea2d8658f72a008e880d7737387c2e7de5c328e52357b2894943a0c50d50f",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\schemas.py": "be62997a4a67b6cd95b9d0ef5ce13244a213fee34cb4c39995ede819725e071d",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\source_identity.py": "c362a5c256c12a2871b31846b64a1c9f714fbcae20adc2aa31a7bca2357d0e88",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\storage.py": "543d9890abce0bb02780f110354aaeeb00921c88620f61ffcb47dd64de2a8886",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\supervisor.py": "b50dc8e62996c76742771a398b27ddcd724ae83fe7c1817e758bc55acd3b3e80",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\windows_job.py": "acec804761660d48049f463ffac4530706407a288356cc8c79f962a3e45d568e",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\approval_inbox\\Register-AiOsSupertrendSuccessorV6ApprovalRequest.APPLY.ps1": "7e3d4836a1a78d11756168b308ab53679ddf1cc6346f1492ae7f8948bd19dc98",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\scripts\\forex_delivery\\run_forex_factor_common_component_momentum_stage0_v1.py": "b2844c76bee551b72969ef8b88bc4e4605200edbb30d8334f481ada3f5704567",
+    "C:\\Dev\\Ai.Os\\automation\\validators\\aios_approval_authority_integrity_validator.py": "c1bb6664a6ba93afdad27e8bf9f09ff5be8d929229948ccaa2fa42f7205fe5b2",
+    "C:\\Dev\\Ai.Os\\automation\\validators\\aios_approval_contract_v2.py": "d110ae39d97edb63e78beebeede26bfb6a9c5716029486547944407579118dc5"
+  },
+  "source_map_sha256": "0bc1d62dc8668a2939d5c0a59c57caf2c23826fc15e52944404554f9ab049d84",
+  "data_hashes": {
+    "supertrend_manifest_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+    "supertrend_aggregate_sha256": "44bad0bb22fa88771c824c2c91551fef7116a458d5d7fee7039f5f87c76dac6a",
+    "input_hashes": {
+      "acquisition_contract": "46314788e8d9cf43168fd40695384c251c68a501dcb77a91d176858334a85e81",
+      "certification_receipt": "aa39bbb4e0342a532ca66fdac087701a95b283a9da5fcc490d49120a81ccf76d",
+      "certification_run1": "7da33d9f32806ddf23448850289b439441e474abbeca83ffeeef30b29537e830",
+      "certification_run2": "7da33d9f32806ddf23448850289b439441e474abbeca83ffeeef30b29537e830",
+      "corpus_manifest": "ae20da161ebd577bcdab382836b64a7a5bb7eba8258f4c33d3ca064620698b25",
+      "cost_gate": "df43a3420d69faec938344a4a3f90ae27bd2574ff7075a9342d4b444cbf7787d",
+      "inventory": "20794241f3ea3aa90ec2b5f83f732a66145082270ee47cbd056cbd736fa934ad",
+      "preregistration": "75b7c661ab197e5da531f0cbfedd43584176d514e67eef01ad0495f24f67dd0f",
+      "raw_manifest": "40e5110688ec1567d82b8391ccf2747a66de1d21111f0c457ec867427794f712",
+      "raw_receipt": "249b94411f28807a3b87d78babaa4496a4b4dcb4f8af8044f34ec1a721920e63"
+    }
+  },
+  "strategy_identity": {
+    "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+    "strategy_version": "V6_GRID56_NEXT11_20260927_APPROVAL_CONTRACT_V2"
+  },
+  "cost_identity": "e49aa00cfa7affa1206dfc295b891e9b31efc627bde905fc0b526b3c60dc4e9f",
+  "trial_allocation": {
+    "current_signed_new_configuration_limit": 11,
+    "admitted_chargeable_configuration_count": 11,
+    "reused_accepted_count": 0,
+    "historical_credit": 0,
+    "new_grid_cells_in_batch": 11,
+    "grid_total_cells": 56,
+    "current_identity_completed_before_batch": 11,
+    "grid_complete_after_batch_if_all_terminal": 22,
+    "grid_remaining_after_batch_if_all_terminal": 34,
+    "initial11_reruns": 0
+  },
+  "budget_identity_sha256": "f29c778cdf9ad1788a6bf7dc9510bb434185c370fbbb65a86e461ebb04c88d3a",
+  "resource_limits": {
+    "workers": 1,
+    "new_scored_specifications": 11,
+    "reproductions": 1,
+    "memory_bytes": 4294967296,
+    "output_bytes": 1610612736,
+    "free_disk_reserve_bytes": 10737418240,
+    "resource_assignment": {
+      "host_budget": {
+        "cpu_percent": 25,
+        "disk_iops": 18808,
+        "memory_mb": 4096,
+        "network_kbps": 0
+      },
+      "per_attempt": {
+        "cpu_percent": 10,
+        "disk_iops": 9404,
+        "memory_mb": 4014,
+        "network_kbps": 0
+      }
+    },
+    "observed_seconds_per_configuration": 933.8713688850403,
+    "planned_initial_compute_seconds": 12875.5,
+    "planned_compute_plus_closure_seconds": 27275.5,
+    "concurrency": 1
+  },
+  "output_roots": {
+    "research": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1",
+    "state": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1\\muscle98",
+    "allocation": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_grid56_next11_v1\\allocation"
+  },
+  "capabilities": {
+    "broker": false,
+    "paper": false,
+    "live": false,
+    "commit": false,
+    "push": false,
+    "merge": false
+  },
+  "resume_policy": {
+    "stop_point": "Exact next eleven only. Safety stop on any failed gate; after batch, review all results and prepare the next bounded request. No further cells without the next owner sign/claim gate; no PAPER or LIVE.",
+    "expiry_behavior": "STOP_NEW_ADMISSION_AND_CLOSE",
+    "preserved_state": {
+      "current_identity_completed": 11,
+      "historical_credit": 0,
+      "historical_research_exposure_preserved": true,
+      "initial11_reruns": 0,
+      "reused_comparison": 1,
+      "all_good_and_bad_results_preserved": true
+    }
+  },
+  "stop_point": "Exact next eleven only. Safety stop on any failed gate; after batch, review all results and prepare the next bounded request. No further cells without the next owner sign/claim gate; no PAPER or LIVE.",
+  "validator_chain_required": true,
+  "commit_package_required": true,
+  "push_blocked_until_final_review": true,
+  "approval_evidence": {
+    "type": "HMAC_SHA256",
+    "status": "SIGNED_BY_HUMAN_OWNER",
+    "canonical_payload_schema": "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v2",
+    "canonical_payload_sha256": "6a2ea987251c4ee27eb4b0ea87b26dbbb0b8a9969e0fbbbf1500a4c507150b3d",
+    "approval_hmac_sha256": "3f354730e38c41e9126b297bcfde15ce16131b2cb7aad59e48056c9f71cf35fc",
+    "approval_nonce": "8985c8b8bb954b6aaea3c176492a481c",
+    "key_id": "AIOS-HUMAN-OWNER-PRIMARY-V1",
+    "key_version": 1,
+    "key_fingerprint_sha256": "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786"
+  },
+  "approved_by": "Anthony, Human Owner",
+  "key_id": "AIOS-HUMAN-OWNER-PRIMARY-V1",
+  "key_version": 1,
+  "key_fingerprint_sha256": "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786",
+  "approval_nonce": "8985c8b8bb954b6aaea3c176492a481c"
+}

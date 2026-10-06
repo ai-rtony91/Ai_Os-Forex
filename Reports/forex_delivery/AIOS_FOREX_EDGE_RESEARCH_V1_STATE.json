@@ -1,0 +1,1161 @@
+{
+  "contract": {
+    "bootstrap_repetitions": 1000,
+    "candidate_cap": 36,
+    "embargo_m5_bars": 288,
+    "holdout": "SEALED_UNTIL_SHORTLIST_FREEZE",
+    "null_repetitions": 500,
+    "six_folds": 6,
+    "split": {
+      "development": [
+        "2024-01-01T00:00:00+00:00",
+        "2025-08-05T16:42:00+00:00"
+      ],
+      "sealed_holdout": [
+        "2026-02-15T22:16:00+00:00",
+        "2026-08-29T03:50:00+00:00"
+      ],
+      "validation": [
+        "2025-08-05T16:42:00+00:00",
+        "2026-02-15T22:16:00+00:00"
+      ]
+    }
+  },
+  "corpus_hash": "44bad0bb22fa88771c824c2c91551fef7116a458d5d7fee7039f5f87c76dac6a",
+  "development": {
+    "FAI-10-20-2": {
+      "LONG": {
+        "folds": [
+          {
+            "expectancy_r": -0.46683185043360675,
+            "largest_pair_share": 0.035364342831399935,
+            "max_drawdown_pct": 99.99698703481427,
+            "net_r": -4144.9999999999945,
+            "pair_count": 58,
+            "profit_factor": 0.4322695521161486,
+            "trades": 8879
+          },
+          {
+            "expectancy_r": -0.4753566044300122,
+            "largest_pair_share": 0.028296416560361824,
+            "max_drawdown_pct": 99.99661491498861,
+            "net_r": -4098.999999999995,
+            "pair_count": 58,
+            "profit_factor": 0.4238931834153202,
+            "trades": 8623
+          },
+          {
+            "expectancy_r": -0.4540105295757184,
+            "largest_pair_share": 0.026633632703623414,
+            "max_drawdown_pct": 99.9984021277679,
+            "net_r": -4397.9999999999845,
+            "pair_count": 58,
+            "profit_factor": 0.44497728419990024,
+            "trades": 9687
+          },
+          {
+            "expectancy_r": -0.46449533893428524,
+            "largest_pair_share": 0.03843940614570146,
+            "max_drawdown_pct": 99.99603989195039,
+            "net_r": -4036.0000000000045,
+            "pair_count": 58,
+            "profit_factor": 0.43457551134771627,
+            "trades": 8689
+          },
+          {
+            "expectancy_r": -0.4058117243466861,
+            "largest_pair_share": 0.03158107153667642,
+            "max_drawdown_pct": 99.99590981387017,
+            "net_r": -4022.000000000006,
+            "pair_count": 58,
+            "profit_factor": 0.4939607448414689,
+            "trades": 9911
+          },
+          {
+            "expectancy_r": -0.498788546255506,
+            "largest_pair_share": 0.03204845814977974,
+            "max_drawdown_pct": 99.998854949478,
+            "net_r": -4528.9999999999945,
+            "pair_count": 57,
+            "profit_factor": 0.40116355943408727,
+            "trades": 9080
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.4598042610581563,
+          "largest_pair_share": 0.024348903752574313,
+          "max_drawdown_pct": 100.0,
+          "net_r": -25228.999999999978,
+          "pair_count": 58,
+          "profit_factor": 0.4392184756273758,
+          "trades": 54869
+        },
+        "pass": false
+      },
+      "SHORT": {
+        "folds": [
+          {
+            "expectancy_r": -0.5032128937111573,
+            "largest_pair_share": 0.03655324976298325,
+            "max_drawdown_pct": 99.999383608314,
+            "net_r": -4777.000000000016,
+            "pair_count": 58,
+            "profit_factor": 0.39691958086100126,
+            "trades": 9493
+          },
+          {
+            "expectancy_r": -0.5234082397003725,
+            "largest_pair_share": 0.033083645443196,
+            "max_drawdown_pct": 99.99967089293432,
+            "net_r": -5030.999999999981,
+            "pair_count": 58,
+            "profit_factor": 0.3777365491651215,
+            "trades": 9612
+          },
+          {
+            "expectancy_r": -0.43640642586718464,
+            "largest_pair_share": 0.030901463214980048,
+            "max_drawdown_pct": 99.99777952842051,
+            "net_r": -4264.999999999995,
+            "pair_count": 58,
+            "profit_factor": 0.4626433161144018,
+            "trades": 9773
+          },
+          {
+            "expectancy_r": -0.4754503708936774,
+            "largest_pair_share": 0.035911927469680915,
+            "max_drawdown_pct": 99.99609388163772,
+            "net_r": -4038.0000000000023,
+            "pair_count": 58,
+            "profit_factor": 0.4238013698630134,
+            "trades": 8493
+          },
+          {
+            "expectancy_r": -0.4027231467473525,
+            "largest_pair_share": 0.03177004538577912,
+            "max_drawdown_pct": 99.99562464436646,
+            "net_r": -3993.0,
+            "pair_count": 58,
+            "profit_factor": 0.49716660370230437,
+            "trades": 9915
+          },
+          {
+            "expectancy_r": -0.4951056729699673,
+            "largest_pair_share": 0.03292547274749722,
+            "max_drawdown_pct": 99.99859059006597,
+            "net_r": -4451.000000000006,
+            "pair_count": 57,
+            "profit_factor": 0.4047077704961882,
+            "trades": 8990
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.47187077972848107,
+          "largest_pair_share": 0.025374937806524982,
+          "max_drawdown_pct": 99.99999999999999,
+          "net_r": -26555.0,
+          "pair_count": 58,
+          "profit_factor": 0.42731135025555866,
+          "trades": 56276
+        },
+        "pass": false
+      }
+    },
+    "FAI-10-40-3": {
+      "LONG": {
+        "folds": [
+          {
+            "expectancy_r": -0.34484964811260427,
+            "largest_pair_share": 0.03689486031136703,
+            "max_drawdown_pct": 98.32391100983342,
+            "net_r": -1617.0000000000014,
+            "pair_count": 58,
+            "profit_factor": 0.5876052027543993,
+            "trades": 4689
+          },
+          {
+            "expectancy_r": -0.33463966906161674,
+            "largest_pair_share": 0.03091661223601132,
+            "max_drawdown_pct": 97.94179981821725,
+            "net_r": -1537.0000000000057,
+            "pair_count": 58,
+            "profit_factor": 0.5985897101070766,
+            "trades": 4593
+          },
+          {
+            "expectancy_r": -0.3762154076290207,
+            "largest_pair_share": 0.029356768885564696,
+            "max_drawdown_pct": 99.3716937811412,
+            "net_r": -2012.0000000000027,
+            "pair_count": 58,
+            "profit_factor": 0.5542755870624718,
+            "trades": 5348
+          },
+          {
+            "expectancy_r": -0.35754431474275844,
+            "largest_pair_share": 0.03415477734543882,
+            "max_drawdown_pct": 98.45541259981738,
+            "net_r": -1654.0000000000005,
+            "pair_count": 58,
+            "profit_factor": 0.5740406901879989,
+            "trades": 4626
+          },
+          {
+            "expectancy_r": -0.3236938500096396,
+            "largest_pair_share": 0.03026797763639869,
+            "max_drawdown_pct": 98.55279232354017,
+            "net_r": -1679.0000000000007,
+            "pair_count": 58,
+            "profit_factor": 0.6104408352668212,
+            "trades": 5187
+          },
+          {
+            "expectancy_r": -0.41463414634146406,
+            "largest_pair_share": 0.03043568897227434,
+            "max_drawdown_pct": 99.35088634490438,
+            "net_r": -1989.0000000000032,
+            "pair_count": 57,
+            "profit_factor": 0.5142857142857136,
+            "trades": 4797
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.35868673050615646,
+          "largest_pair_share": 0.024042407660738715,
+          "max_drawdown_pct": 99.9999999996752,
+          "net_r": -10488.000000000015,
+          "pair_count": 58,
+          "profit_factor": 0.5728250244379274,
+          "trades": 29240
+        },
+        "pass": false
+      },
+      "SHORT": {
+        "folds": [
+          {
+            "expectancy_r": -0.4305937868659078,
+            "largest_pair_share": 0.036570979158474244,
+            "max_drawdown_pct": 99.61076457424106,
+            "net_r": -2190.0000000000073,
+            "pair_count": 58,
+            "profit_factor": 0.4979367262723515,
+            "trades": 5086
+          },
+          {
+            "expectancy_r": -0.42920847268673346,
+            "largest_pair_share": 0.03363062058714233,
+            "max_drawdown_pct": 99.70716439806802,
+            "net_r": -2309.9999999999995,
+            "pair_count": 58,
+            "profit_factor": 0.49934980494148257,
+            "trades": 5382
+          },
+          {
+            "expectancy_r": -0.3145837213633827,
+            "largest_pair_share": 0.030731979884522257,
+            "max_drawdown_pct": 98.604769369764,
+            "net_r": -1689.0000000000018,
+            "pair_count": 58,
+            "profit_factor": 0.6203641267700603,
+            "trades": 5369
+          },
+          {
+            "expectancy_r": -0.3606291926902623,
+            "largest_pair_share": 0.03516076798519547,
+            "max_drawdown_pct": 98.0899817370155,
+            "net_r": -1559.0000000000039,
+            "pair_count": 58,
+            "profit_factor": 0.5707599118942723,
+            "trades": 4323
+          },
+          {
+            "expectancy_r": -0.3052109181141449,
+            "largest_pair_share": 0.030158427180759687,
+            "max_drawdown_pct": 98.2601114268777,
+            "net_r": -1599.0000000000052,
+            "pair_count": 58,
+            "profit_factor": 0.6306306306306299,
+            "trades": 5239
+          },
+          {
+            "expectancy_r": -0.4101853824845517,
+            "largest_pair_share": 0.02834008097165992,
+            "max_drawdown_pct": 99.2142269664781,
+            "net_r": -1925.0000000000011,
+            "pair_count": 57,
+            "profit_factor": 0.5188702824293923,
+            "trades": 4693
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.37458460720457326,
+          "largest_pair_share": 0.024524790642031103,
+          "max_drawdown_pct": 99.99999999995492,
+          "net_r": -11272.000000000018,
+          "pair_count": 58,
+          "profit_factor": 0.5559932248788746,
+          "trades": 30092
+        },
+        "pass": false
+      }
+    },
+    "FAI-15-20-2": {
+      "LONG": {
+        "folds": [
+          {
+            "expectancy_r": -0.3907416625186656,
+            "largest_pair_share": 0.05027376804380289,
+            "max_drawdown_pct": 98.07486988229304,
+            "net_r": -1569.9999999999984,
+            "pair_count": 58,
+            "profit_factor": 0.5096814490943162,
+            "trades": 4018
+          },
+          {
+            "expectancy_r": -0.41902604756512135,
+            "largest_pair_share": 0.03652321630804077,
+            "max_drawdown_pct": 97.59449794772812,
+            "net_r": -1480.0000000000086,
+            "pair_count": 55,
+            "profit_factor": 0.4803370786516832,
+            "trades": 3532
+          },
+          {
+            "expectancy_r": -0.4325938566552885,
+            "largest_pair_share": 0.04863481228668942,
+            "max_drawdown_pct": 97.83329527636174,
+            "net_r": -1520.9999999999943,
+            "pair_count": 55,
+            "profit_factor": 0.46650298141003244,
+            "trades": 3516
+          },
+          {
+            "expectancy_r": -0.3810455689124972,
+            "largest_pair_share": 0.04137545429130556,
+            "max_drawdown_pct": 96.74696264101537,
+            "net_r": -1363.0000000000025,
+            "pair_count": 56,
+            "profit_factor": 0.5199013737231418,
+            "trades": 3577
+          },
+          {
+            "expectancy_r": -0.38149466192170844,
+            "largest_pair_share": 0.048398576512455514,
+            "max_drawdown_pct": 98.25562191045789,
+            "net_r": -1608.0000000000011,
+            "pair_count": 57,
+            "profit_factor": 0.5194261805140462,
+            "trades": 4215
+          },
+          {
+            "expectancy_r": -0.400560224089636,
+            "largest_pair_share": 0.04458450046685341,
+            "max_drawdown_pct": 98.66845380879568,
+            "net_r": -1716.0000000000005,
+            "pair_count": 58,
+            "profit_factor": 0.4994165694282381,
+            "trades": 4284
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.4000518537723622,
+          "largest_pair_share": 0.025149079595540576,
+          "max_drawdown_pct": 99.99999999211171,
+          "net_r": -9258.000000000005,
+          "pair_count": 58,
+          "profit_factor": 0.49994598682078395,
+          "trades": 23142
+        },
+        "pass": false
+      },
+      "SHORT": {
+        "folds": [
+          {
+            "expectancy_r": -0.43271461716937404,
+            "largest_pair_share": 0.04593967517401392,
+            "max_drawdown_pct": 99.09588798457762,
+            "net_r": -1865.000000000002,
+            "pair_count": 58,
+            "profit_factor": 0.46638054363376263,
+            "trades": 4310
+          },
+          {
+            "expectancy_r": -0.4506079027355622,
+            "largest_pair_share": 0.04711246200607903,
+            "max_drawdown_pct": 98.87966243470368,
+            "net_r": -1778.9999999999998,
+            "pair_count": 55,
+            "profit_factor": 0.448372093023256,
+            "trades": 3948
+          },
+          {
+            "expectancy_r": -0.3905566890119489,
+            "largest_pair_share": 0.050131157097056255,
+            "max_drawdown_pct": 96.62785114940118,
+            "net_r": -1339.9999999999966,
+            "pair_count": 55,
+            "profit_factor": 0.509875640087784,
+            "trades": 3431
+          },
+          {
+            "expectancy_r": -0.38371116708648156,
+            "largest_pair_share": 0.037503498460677305,
+            "max_drawdown_pct": 96.82702338281264,
+            "net_r": -1370.9999999999986,
+            "pair_count": 56,
+            "profit_factor": 0.5170834800986265,
+            "trades": 3573
+          },
+          {
+            "expectancy_r": -0.32616910722720865,
+            "largest_pair_share": 0.04605573925366084,
+            "max_drawdown_pct": 96.94089129567844,
+            "net_r": -1381.0000000000014,
+            "pair_count": 57,
+            "profit_factor": 0.5793481571733166,
+            "trades": 4234
+          },
+          {
+            "expectancy_r": -0.4161073825503359,
+            "largest_pair_share": 0.04697986577181208,
+            "max_drawdown_pct": 99.07170846128814,
+            "net_r": -1860.0000000000016,
+            "pair_count": 58,
+            "profit_factor": 0.48333333333333284,
+            "trades": 4470
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.40040056747058334,
+          "largest_pair_share": 0.026579320704331135,
+          "max_drawdown_pct": 99.99999999670023,
+          "net_r": -9596.0,
+          "pair_count": 58,
+          "profit_factor": 0.4995828118481434,
+          "trades": 23966
+        },
+        "pass": false
+      }
+    },
+    "FAI-15-40-3": {
+      "LONG": {
+        "folds": [
+          {
+            "expectancy_r": -0.22866572371523008,
+            "largest_pair_share": 0.0462046204620462,
+            "max_drawdown_pct": 70.75041687036939,
+            "net_r": -485.000000000003,
+            "pair_count": 58,
+            "profit_factor": 0.7167056074766341,
+            "trades": 2121
+          },
+          {
+            "expectancy_r": -0.2649661634565329,
+            "largest_pair_share": 0.03643935450286309,
+            "max_drawdown_pct": 72.60361070376344,
+            "net_r": -508.99999999999966,
+            "pair_count": 55,
+            "profit_factor": 0.6753826530612245,
+            "trades": 1921
+          },
+          {
+            "expectancy_r": -0.35267175572519033,
+            "largest_pair_share": 0.0539440203562341,
+            "max_drawdown_pct": 82.94597459470371,
+            "net_r": -692.999999999999,
+            "pair_count": 54,
+            "profit_factor": 0.579234972677596,
+            "trades": 1965
+          },
+          {
+            "expectancy_r": -0.24741707449700873,
+            "largest_pair_share": 0.03969548667754214,
+            "max_drawdown_pct": 68.84521366323078,
+            "net_r": -454.99999999999903,
+            "pair_count": 56,
+            "profit_factor": 0.6952444742129944,
+            "trades": 1839
+          },
+          {
+            "expectancy_r": -0.2547254725472539,
+            "largest_pair_share": 0.049054905490549056,
+            "max_drawdown_pct": 76.3005253788051,
+            "net_r": -565.9999999999982,
+            "pair_count": 57,
+            "profit_factor": 0.6869469026548684,
+            "trades": 2222
+          },
+          {
+            "expectancy_r": -0.2812641083521453,
+            "largest_pair_share": 0.04469525959367946,
+            "max_drawdown_pct": 79.5413948029914,
+            "net_r": -623.0000000000019,
+            "pair_count": 58,
+            "profit_factor": 0.6571271326362128,
+            "trades": 2215
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.2711878205650086,
+          "largest_pair_share": 0.026052267361393797,
+          "max_drawdown_pct": 99.9781022750391,
+          "net_r": -3331.000000000001,
+          "pair_count": 58,
+          "profit_factor": 0.6683922349427576,
+          "trades": 12283
+        },
+        "pass": false
+      },
+      "SHORT": {
+        "folds": [
+          {
+            "expectancy_r": -0.35167669819432623,
+            "largest_pair_share": 0.04428202923473775,
+            "max_drawdown_pct": 87.77105987659478,
+            "net_r": -818.0000000000028,
+            "pair_count": 58,
+            "profit_factor": 0.5802975885069257,
+            "trades": 2326
+          },
+          {
+            "expectancy_r": -0.39816513761467726,
+            "largest_pair_share": 0.05412844036697248,
+            "max_drawdown_pct": 88.89102889372006,
+            "net_r": -867.9999999999965,
+            "pair_count": 55,
+            "profit_factor": 0.531317494600433,
+            "trades": 2180
+          },
+          {
+            "expectancy_r": -0.33000554631170353,
+            "largest_pair_share": 0.04714364947310039,
+            "max_drawdown_pct": 78.5688840023844,
+            "net_r": -595.0000000000015,
+            "pair_count": 55,
+            "profit_factor": 0.6035976015989333,
+            "trades": 1803
+          },
+          {
+            "expectancy_r": -0.2812333864965455,
+            "largest_pair_share": 0.03987240829346093,
+            "max_drawdown_pct": 74.6916766406311,
+            "net_r": -529.000000000002,
+            "pair_count": 56,
+            "profit_factor": 0.6571613739468558,
+            "trades": 1881
+          },
+          {
+            "expectancy_r": -0.26012601260125984,
+            "largest_pair_share": 0.048604860486048604,
+            "max_drawdown_pct": 77.89640993980856,
+            "net_r": -577.9999999999993,
+            "pair_count": 57,
+            "profit_factor": 0.680839315295417,
+            "trades": 2222
+          },
+          {
+            "expectancy_r": -0.3321585903083688,
+            "largest_pair_share": 0.04933920704845815,
+            "max_drawdown_pct": 85.25058135760219,
+            "net_r": -753.9999999999972,
+            "pair_count": 55,
+            "profit_factor": 0.6012691697514552,
+            "trades": 2270
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.3266046364926667,
+          "largest_pair_share": 0.029963728118593283,
+          "max_drawdown_pct": 99.99719776330322,
+          "net_r": -4141.999999999999,
+          "pair_count": 58,
+          "profit_factor": 0.607281691476249,
+          "trades": 12682
+        },
+        "pass": false
+      }
+    },
+    "FAI-30-20-2": {
+      "LONG": {
+        "folds": [
+          {
+            "expectancy_r": -0.2519548218940064,
+            "largest_pair_share": 0.08340573414422242,
+            "max_drawdown_pct": 52.110199445327595,
+            "net_r": -290.0000000000014,
+            "pair_count": 54,
+            "profit_factor": 0.6643518518518504,
+            "trades": 1151
+          },
+          {
+            "expectancy_r": -0.3093525179856117,
+            "largest_pair_share": 0.07074340527577938,
+            "max_drawdown_pct": 49.04784753983039,
+            "net_r": -258.00000000000017,
+            "pair_count": 48,
+            "profit_factor": 0.5981308411214948,
+            "trades": 834
+          },
+          {
+            "expectancy_r": -0.31094257854820934,
+            "largest_pair_share": 0.09967497291440953,
+            "max_drawdown_pct": 52.158333998189285,
+            "net_r": -286.9999999999972,
+            "pair_count": 51,
+            "profit_factor": 0.5963431786216618,
+            "trades": 923
+          },
+          {
+            "expectancy_r": -0.16809815950920515,
+            "largest_pair_share": 0.09325153374233129,
+            "max_drawdown_pct": 30.192701736727873,
+            "net_r": -137.0000000000022,
+            "pair_count": 46,
+            "profit_factor": 0.7674023769100137,
+            "trades": 815
+          },
+          {
+            "expectancy_r": -0.25784966698382333,
+            "largest_pair_share": 0.05994291151284491,
+            "max_drawdown_pct": 49.50092716920687,
+            "net_r": -270.99999999999835,
+            "pair_count": 53,
+            "profit_factor": 0.6573957016434907,
+            "trades": 1051
+          },
+          {
+            "expectancy_r": -0.32258064516129265,
+            "largest_pair_share": 0.04540023894862605,
+            "max_drawdown_pct": 49.675921128763406,
+            "net_r": -270.00000000000193,
+            "pair_count": 51,
+            "profit_factor": 0.5833333333333314,
+            "trades": 837
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.2696489039386921,
+          "largest_pair_share": 0.04491178043129567,
+          "max_drawdown_pct": 97.79138833077937,
+          "net_r": -1513.0000000000014,
+          "pair_count": 58,
+          "profit_factor": 0.6435806831566544,
+          "trades": 5611
+        },
+        "pass": false
+      },
+      "SHORT": {
+        "folds": [
+          {
+            "expectancy_r": -0.30146491904394757,
+            "largest_pair_share": 0.08558211256746338,
+            "max_drawdown_pct": 63.64289101185509,
+            "net_r": -391.0,
+            "pair_count": 54,
+            "profit_factor": 0.6070351758793969,
+            "trades": 1297
+          },
+          {
+            "expectancy_r": -0.28169014084507277,
+            "largest_pair_share": 0.0528169014084507,
+            "max_drawdown_pct": 45.50462358729094,
+            "net_r": -240.00000000000202,
+            "pair_count": 50,
+            "profit_factor": 0.6296296296296271,
+            "trades": 852
+          },
+          {
+            "expectancy_r": -0.24919786096256635,
+            "largest_pair_share": 0.09304812834224599,
+            "max_drawdown_pct": 45.66629469289425,
+            "net_r": -232.99999999999955,
+            "pair_count": 52,
+            "profit_factor": 0.6676176890156923,
+            "trades": 935
+          },
+          {
+            "expectancy_r": -0.19820971867007545,
+            "largest_pair_share": 0.09207161125319693,
+            "max_drawdown_pct": 35.05863873933025,
+            "net_r": -154.999999999999,
+            "pair_count": 47,
+            "profit_factor": 0.729493891797558,
+            "trades": 782
+          },
+          {
+            "expectancy_r": -0.24862888482632584,
+            "largest_pair_share": 0.07952468007312614,
+            "max_drawdown_pct": 50.956698666173914,
+            "net_r": -272.00000000000045,
+            "pair_count": 54,
+            "profit_factor": 0.668292682926829,
+            "trades": 1094
+          },
+          {
+            "expectancy_r": -0.3723404255319148,
+            "largest_pair_share": 0.04609929078014184,
+            "max_drawdown_pct": 55.03266206495422,
+            "net_r": -314.99999999999994,
+            "pair_count": 52,
+            "profit_factor": 0.5291479820627799,
+            "trades": 846
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.27661040303134704,
+          "largest_pair_share": 0.04013089906992766,
+          "max_drawdown_pct": 98.28573161082267,
+          "net_r": -1606.000000000001,
+          "pair_count": 58,
+          "profit_factor": 0.6354970494779844,
+          "trades": 5806
+        },
+        "pass": false
+      }
+    },
+    "FAI-30-40-3": {
+      "LONG": {
+        "folds": [
+          {
+            "expectancy_r": -0.003412969283273856,
+            "largest_pair_share": 0.08020477815699659,
+            "max_drawdown_pct": 10.251409259461308,
+            "net_r": -1.9999999999984794,
+            "pair_count": 52,
+            "profit_factor": 0.9954545454545489,
+            "trades": 586
+          },
+          {
+            "expectancy_r": -0.15203426124197011,
+            "largest_pair_share": 0.07066381156316917,
+            "max_drawdown_pct": 20.406233703895985,
+            "net_r": -71.00000000000004,
+            "pair_count": 48,
+            "profit_factor": 0.8070652173913044,
+            "trades": 467
+          },
+          {
+            "expectancy_r": -0.19535783365570453,
+            "largest_pair_share": 0.1102514506769826,
+            "max_drawdown_pct": 24.162612438164174,
+            "net_r": -100.99999999999925,
+            "pair_count": 50,
+            "profit_factor": 0.7554479418886214,
+            "trades": 517
+          },
+          {
+            "expectancy_r": -0.1272727272727267,
+            "largest_pair_share": 0.08571428571428572,
+            "max_drawdown_pct": 16.607205804003662,
+            "net_r": -48.99999999999978,
+            "pair_count": 45,
+            "profit_factor": 0.8372093023255822,
+            "trades": 385
+          },
+          {
+            "expectancy_r": -0.1999999999999997,
+            "largest_pair_share": 0.05945945945945946,
+            "max_drawdown_pct": 24.572342640370437,
+            "net_r": -110.99999999999983,
+            "pair_count": 52,
+            "profit_factor": 0.7500000000000002,
+            "trades": 555
+          },
+          {
+            "expectancy_r": -0.27688787185354735,
+            "largest_pair_share": 0.057208237986270026,
+            "max_drawdown_pct": 32.276831877364565,
+            "net_r": -121.00000000000018,
+            "pair_count": 48,
+            "profit_factor": 0.6620111731843573,
+            "trades": 437
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.1543942992874101,
+          "largest_pair_share": 0.045469969460468274,
+          "max_drawdown_pct": 69.48925231448085,
+          "net_r": -454.99999999999756,
+          "pair_count": 58,
+          "profit_factor": 0.8042168674698805,
+          "trades": 2947
+        },
+        "pass": false
+      },
+      "SHORT": {
+        "folds": [
+          {
+            "expectancy_r": -0.23121387283236927,
+            "largest_pair_share": 0.07225433526011561,
+            "max_drawdown_pct": 37.01172231826529,
+            "net_r": -159.99999999999955,
+            "pair_count": 54,
+            "profit_factor": 0.7137745974955285,
+            "trades": 692
+          },
+          {
+            "expectancy_r": -0.10020449897750572,
+            "largest_pair_share": 0.053169734151329244,
+            "max_drawdown_pct": 15.24724210478121,
+            "net_r": -49.0000000000003,
+            "pair_count": 48,
+            "profit_factor": 0.8707124010554084,
+            "trades": 489
+          },
+          {
+            "expectancy_r": -0.26070038910506066,
+            "largest_pair_share": 0.10311284046692606,
+            "max_drawdown_pct": 30.323803807923397,
+            "net_r": -134.00000000000117,
+            "pair_count": 52,
+            "profit_factor": 0.6801909307875873,
+            "trades": 514
+          },
+          {
+            "expectancy_r": -0.08093994778067709,
+            "largest_pair_share": 0.07571801566579635,
+            "max_drawdown_pct": 10.385486081187759,
+            "net_r": -30.999999999999325,
+            "pair_count": 43,
+            "profit_factor": 0.8949152542372901,
+            "trades": 383
+          },
+          {
+            "expectancy_r": -0.24451939291737007,
+            "largest_pair_share": 0.07588532883642496,
+            "max_drawdown_pct": 37.21372998416754,
+            "net_r": -145.00000000000045,
+            "pair_count": 49,
+            "profit_factor": 0.6985446985446977,
+            "trades": 593
+          },
+          {
+            "expectancy_r": -0.2418952618453876,
+            "largest_pair_share": 0.05486284289276808,
+            "max_drawdown_pct": 23.48809645175301,
+            "net_r": -97.00000000000043,
+            "pair_count": 48,
+            "profit_factor": 0.7015384615384602,
+            "trades": 401
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.20052083333333373,
+          "largest_pair_share": 0.038736979166666664,
+          "max_drawdown_pct": 80.75876592713621,
+          "net_r": -616.0000000000013,
+          "pair_count": 58,
+          "profit_factor": 0.7493897477624081,
+          "trades": 3072
+        },
+        "pass": false
+      }
+    },
+    "FAI-5-20-2": {
+      "LONG": {
+        "folds": [
+          {
+            "expectancy_r": -0.5944628054396709,
+            "largest_pair_share": 0.020534214661104187,
+            "max_drawdown_pct": 100.0,
+            "net_r": -21944.00000000001,
+            "pair_count": 58,
+            "profit_factor": 0.3126174664828967,
+            "trades": 36914
+          },
+          {
+            "expectancy_r": -0.6054043798785785,
+            "largest_pair_share": 0.02097788378143972,
+            "max_drawdown_pct": 100.0,
+            "net_r": -22337.000000000033,
+            "pair_count": 58,
+            "profit_factor": 0.3029054707736477,
+            "trades": 36896
+          },
+          {
+            "expectancy_r": -0.5671190767707817,
+            "largest_pair_share": 0.020058874098001927,
+            "max_drawdown_pct": 100.0,
+            "net_r": -21769.999999999996,
+            "pair_count": 58,
+            "profit_factor": 0.33725036531904534,
+            "trades": 38387
+          },
+          {
+            "expectancy_r": -0.560248447204969,
+            "largest_pair_share": 0.020739940588711855,
+            "max_drawdown_pct": 100.0,
+            "net_r": -20746.000000000004,
+            "pair_count": 58,
+            "profit_factor": 0.343522561863173,
+            "trades": 37030
+          },
+          {
+            "expectancy_r": -0.501852187653809,
+            "largest_pair_share": 0.019454446545605263,
+            "max_drawdown_pct": 100.0,
+            "net_r": -19372.99999999999,
+            "pair_count": 58,
+            "profit_factor": 0.39822321622713036,
+            "trades": 38603
+          },
+          {
+            "expectancy_r": -0.5927763137498067,
+            "largest_pair_share": 0.020591122823334883,
+            "max_drawdown_pct": 100.0,
+            "net_r": -22944.000000000015,
+            "pair_count": 58,
+            "profit_factor": 0.3141217266531147,
+            "trades": 38706
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.5699491471554192,
+          "largest_pair_share": 0.019197831691210226,
+          "max_drawdown_pct": 100.0,
+          "net_r": -129114.00000000004,
+          "pair_count": 58,
+          "profit_factor": 0.33467654667065155,
+          "trades": 226536
+        },
+        "pass": false
+      },
+      "SHORT": {
+        "folds": [
+          {
+            "expectancy_r": -0.6183013274906561,
+            "largest_pair_share": 0.01948704729990978,
+            "max_drawdown_pct": 100.0,
+            "net_r": -23987.000000000004,
+            "pair_count": 58,
+            "profit_factor": 0.2915620662157774,
+            "trades": 38795
+          },
+          {
+            "expectancy_r": -0.6259493670886085,
+            "largest_pair_share": 0.020683544303797468,
+            "max_drawdown_pct": 100.0,
+            "net_r": -24725.000000000036,
+            "pair_count": 58,
+            "profit_factor": 0.2848879248011565,
+            "trades": 39500
+          },
+          {
+            "expectancy_r": -0.5560524126455898,
+            "largest_pair_share": 0.01942075707154742,
+            "max_drawdown_pct": 100.0,
+            "net_r": -21387.999999999967,
+            "pair_count": 58,
+            "profit_factor": 0.34736970584645444,
+            "trades": 38464
+          },
+          {
+            "expectancy_r": -0.5675654052324195,
+            "largest_pair_share": 0.019868256127156838,
+            "max_drawdown_pct": 100.0,
+            "net_r": -21282.000000000033,
+            "pair_count": 58,
+            "profit_factor": 0.336844073289293,
+            "trades": 37497
+          },
+          {
+            "expectancy_r": -0.5025052031141595,
+            "largest_pair_share": 0.020324263213340528,
+            "max_drawdown_pct": 100.0,
+            "net_r": -19556.999999999975,
+            "pair_count": 58,
+            "profit_factor": 0.39759741259818293,
+            "trades": 38919
+          },
+          {
+            "expectancy_r": -0.5966541324533798,
+            "largest_pair_share": 0.02092446217992991,
+            "max_drawdown_pct": 100.0,
+            "net_r": -23324.999999999978,
+            "pair_count": 58,
+            "profit_factor": 0.3106658391701394,
+            "trades": 39093
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.57805638314361,
+          "largest_pair_share": 0.018990993163070246,
+          "max_drawdown_pct": 100.0,
+          "net_r": -134264.0,
+          "pair_count": 58,
+          "profit_factor": 0.32733466933867733,
+          "trades": 232268
+        },
+        "pass": false
+      }
+    },
+    "FAI-5-40-3": {
+      "LONG": {
+        "folds": [
+          {
+            "expectancy_r": -0.482020284806885,
+            "largest_pair_share": 0.020848273742444422,
+            "max_drawdown_pct": 99.99999999467708,
+            "net_r": -9410.00000000001,
+            "pair_count": 58,
+            "profit_factor": 0.4462751559373893,
+            "trades": 19522
+          },
+          {
+            "expectancy_r": -0.5031648853377615,
+            "largest_pair_share": 0.02246549756148179,
+            "max_drawdown_pct": 99.99999999737888,
+            "net_r": -9698.000000000015,
+            "pair_count": 58,
+            "profit_factor": 0.42547393364928887,
+            "trades": 19274
+          },
+          {
+            "expectancy_r": -0.49030841210732395,
+            "largest_pair_share": 0.021627040962474937,
+            "max_drawdown_pct": 99.99999999938485,
+            "net_r": -10270.000000000007,
+            "pair_count": 58,
+            "profit_factor": 0.4380915905236087,
+            "trades": 20946
+          },
+          {
+            "expectancy_r": -0.48748569438224565,
+            "largest_pair_share": 0.02169478031546997,
+            "max_drawdown_pct": 99.99999999796799,
+            "net_r": -9796.99999999999,
+            "pair_count": 58,
+            "profit_factor": 0.4408743294144507,
+            "trades": 20097
+          },
+          {
+            "expectancy_r": -0.41878649905968596,
+            "largest_pair_share": 0.021330297931307533,
+            "max_drawdown_pct": 99.99999994403247,
+            "net_r": -8462.000000000015,
+            "pair_count": 58,
+            "profit_factor": 0.5100173711638675,
+            "trades": 20206
+          },
+          {
+            "expectancy_r": -0.5105740181268874,
+            "largest_pair_share": 0.02110083081570997,
+            "max_drawdown_pct": 99.99999999984155,
+            "net_r": -10815.999999999984,
+            "pair_count": 58,
+            "profit_factor": 0.4182444061962138,
+            "trades": 21184
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.4821701078124873,
+          "largest_pair_share": 0.02060563066592977,
+          "max_drawdown_pct": 100.0,
+          "net_r": -58453.00000000002,
+          "pair_count": 58,
+          "profit_factor": 0.4461268773392712,
+          "trades": 121229
+        },
+        "pass": false
+      },
+      "SHORT": {
+        "folds": [
+          {
+            "expectancy_r": -0.5356210546300255,
+            "largest_pair_share": 0.021073615264132137,
+            "max_drawdown_pct": 99.99999999995144,
+            "net_r": -11285.000000000007,
+            "pair_count": 58,
+            "profit_factor": 0.39402888900821537,
+            "trades": 21069
+          },
+          {
+            "expectancy_r": -0.5446322521699394,
+            "largest_pair_share": 0.021196893558702603,
+            "max_drawdown_pct": 99.99999999999018,
+            "net_r": -11921.999999999973,
+            "pair_count": 58,
+            "profit_factor": 0.3854005567584293,
+            "trades": 21890
+          },
+          {
+            "expectancy_r": -0.45054732151506316,
+            "largest_pair_share": 0.021408505279473022,
+            "max_drawdown_pct": 99.99999999313805,
+            "net_r": -9301.999999999995,
+            "pair_count": 58,
+            "profit_factor": 0.4777091521617071,
+            "trades": 20646
+          },
+          {
+            "expectancy_r": -0.48085901027077593,
+            "largest_pair_share": 0.02172096908939014,
+            "max_drawdown_pct": 99.99999999793168,
+            "net_r": -9785.00000000002,
+            "pair_count": 58,
+            "profit_factor": 0.44742489270386215,
+            "trades": 20349
+          },
+          {
+            "expectancy_r": -0.4313004441472853,
+            "largest_pair_share": 0.02282821529203878,
+            "max_drawdown_pct": 99.99999998641545,
+            "net_r": -9031.000000000007,
+            "pair_count": 58,
+            "profit_factor": 0.4972163456185279,
+            "trades": 20939
+          },
+          {
+            "expectancy_r": -0.5113189897100091,
+            "largest_pair_share": 0.02174929840972872,
+            "max_drawdown_pct": 99.9999999998836,
+            "net_r": -10931.999999999995,
+            "pair_count": 58,
+            "profit_factor": 0.417519181585678,
+            "trades": 21380
+          }
+        ],
+        "metrics": {
+          "expectancy_r": -0.49303493224996636,
+          "largest_pair_share": 0.020867485527389068,
+          "max_drawdown_pct": 100.0,
+          "net_r": -62257.0,
+          "pair_count": 58,
+          "profit_factor": 0.435407956905386,
+          "trades": 126273
+        },
+        "pass": false
+      }
+    }
+  },
+  "dominant_failure": "NO_PORTABLE_SIGNAL_EDGE",
+  "finalists": [],
+  "forward_status": "NOT_STARTED_NO_FINALIST",
+  "generated_utc": "2026-08-29T05:07:53.638173+00:00",
+  "historical_holdout_status": "NOT_APPLICABLE_NO_SHORTLIST",
+  "opportunity_surface_path": ".aios/runtime/forex_edge_research_v1/opportunity_surface.json",
+  "packet_id": "PKT-EAST-FOREX-FORENSIC-EDGE-PROGRAM-011F",
+  "production_engine_blocker": {
+    "defect": "Synthetic spread/slippage can be charged in adjusted entry and exit prices and then charged again by apply_cost_to_pnl.",
+    "owner_file": "automation/forex_engine/costs.py",
+    "research_affected": false,
+    "validator": "tests/forex_engine/test_costs.py plus a new single-charge integration assertion"
+  },
+  "registry_count": 8,
+  "registry_hash": "c66633f5b4919f02ddfcf891dbe54b017a4cc99712639705fe9bb5d3b6857085",
+  "registry_null": {
+    "best_expectancy_95pct": 0.08251648547495927,
+    "repetitions": 500
+  },
+  "safety": {
+    "broker_write": false,
+    "live": false,
+    "money_movement": false,
+    "practice_order": false
+  },
+  "schema": "AIOS_FOREX_EDGE_RESEARCH_V1",
+  "sealed_holdout": {},
+  "shortlist_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "status": "RESEARCH_EXHAUSTED_NO_ROBUST_EDGE",
+  "validation": {}
+}

@@ -8,6 +8,12 @@ This doctrine turns recoverable failures into governed work items, makes checkpo
 
 ## Scope
 
+The `AGENTS.md` **Continue Through And Through Law** is authoritative. Runtime workers prepare, run, save, check, checkpoint and select the next safe work under the same current authority. Units, batches, good or bad research results, reports, checkpoints, stages, context turns and bounded recoverable retries are progress events. They must not require an owner continuation prompt.
+
+Every real stop records one class: `OWNER_ACTION_REQUIRED`, `SAFETY_INTEGRITY_BLOCK`, `RESOURCE_TIME_BLOCK`, `UNRECOVERABLE_FAILURE` or `CAMPAIGN_COMPLETE`. Checkpoints preserve completed, failed and remaining work, current claims and locks, the next safe action and whether owner action is needed. Finish safe preparation and save the exact handoff before an owner gate. Explicit owner pauses and all signature, HMAC, claim, path, data, cost, risk and PAPER/LIVE gates remain binding.
+
+The canonical adaptive workforce Goal supervisor and PKT045 binding enforce continuation under their existing process lease and durable receipt store. The root continuation controller remains a read-only projection; it does not issue research authority. Changes to pinned runtime code require a newly signed successor before that research runtime can run. Runtime behavior tests must cover progress events, retry recovery, duplicate ownership, no repeat of accepted work and preserved safety gates.
+
 This doctrine applies to AIOS packets that explicitly authorize campaign-style local APPLY or DRY_RUN work inside a named lane, branch, worktree, allowed path boundary, validator chain, and stop point.
 
 This artifact does not authorize broker/API access. This artifact does not authorize credential access. This artifact does not authorize trading execution. This artifact does not authorize money movement. This artifact does not authorize commit/push/merge without explicit Human Owner approval. It does not authorize PR creation, scheduler activation, webhook activation, daemon activation, production activation, reset, clean, stash, deletion, or file movement unless a separate packet and approval explicitly allow the exact action.

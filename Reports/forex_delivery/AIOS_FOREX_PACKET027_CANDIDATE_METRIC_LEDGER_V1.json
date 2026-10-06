@@ -1,0 +1,2169 @@
+{
+  "candidate_count": 32,
+  "packet_id": "PKT-EAST-FOREX-RESEARCH-FIDELITY-EDGE-CLOSURE-028",
+  "rows": [
+    {
+      "accepted_trade_count": 3373,
+      "architecture_family": "A_TIME_SERIES_MOMENTUM",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.548383,
+      "average_win_r": 1.23889,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.090424,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "ae8bc5b58dd078b760a093ac6931b45fb8aabefc6829bf3c0dbfb92445ccbb24",
+      "candidate_definition_hash": "360650012638425a8caea1d24afeecda8344b5588b6ad5168546c0189eafd781",
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_LONG_TSMOM_1M_TRAIL_V1",
+      "direction": "LONG",
+      "event_count": 3373,
+      "exit_audit": {
+        "average_loss_r": -0.548383,
+        "average_win_r": 1.23889,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.163939,
+        "profit_factor": 0.618623,
+        "tail_loss_proxy_max_drawdown_r": 555.986545,
+        "trades": 3373,
+        "win_rate": 0.214646
+      },
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.163939,
+      "gross_net_r": -552.967351,
+      "gross_pf": 0.618623,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2644,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 138.996636,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.163939,
+      "net_net_r": -552.967351,
+      "net_pf": 0.618623,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.025793,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 3373,
+      "win_count": 724,
+      "win_rate": 0.214646,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 3297,
+      "architecture_family": "A_TIME_SERIES_MOMENTUM",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.530823,
+      "average_win_r": 1.171825,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.099181,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "dd798652d9c0a2b36d625f130e86e8d01e886c7c73c7ce2850c2c54bb0f3c567",
+      "candidate_definition_hash": "25048e753c5bd44ffca0e5bddf8d5f89fe83e4f0e2aef760bba48c4f8c06dc46",
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_SHORT_TSMOM_1M_TRAIL_V1",
+      "direction": "SHORT",
+      "event_count": 3297,
+      "exit_audit": {
+        "average_loss_r": -0.530823,
+        "average_win_r": 1.171825,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.14767,
+        "profit_factor": 0.640738,
+        "tail_loss_proxy_max_drawdown_r": 486.86866,
+        "trades": 3297,
+        "win_rate": 0.22475
+      },
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.14767,
+      "gross_net_r": -486.86866,
+      "gross_pf": 0.640738,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2553,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 121.717165,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.14767,
+      "net_net_r": -486.86866,
+      "net_pf": 0.640738,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.022748,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 3297,
+      "win_count": 741,
+      "win_rate": 0.22475,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 3412,
+      "architecture_family": "A_TIME_SERIES_MOMENTUM",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.995056,
+      "average_win_r": 3.723202,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.088511,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "4c4794117f752a02ad317a0cc187e02693a46dfd642dacb4fde5d065c34d933c",
+      "candidate_definition_hash": "c85a524181bae583a45feb4b90dd9a479107888db1bca4e8c57571f946898e66",
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_LONG_TSMOM_3M_TIME_V1",
+      "direction": "LONG",
+      "event_count": 3412,
+      "exit_audit": {
+        "average_loss_r": -0.995056,
+        "average_win_r": 3.723202,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.288424,
+        "profit_factor": 0.659086,
+        "tail_loss_proxy_max_drawdown_r": 1000.394455,
+        "trades": 3412,
+        "win_rate": 0.149766
+      },
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.288424,
+      "gross_net_r": -984.101277,
+      "gross_pf": 0.659086,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2901,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 250.098614,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.288424,
+      "net_net_r": -984.101277,
+      "net_pf": 0.659086,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.027843,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 3412,
+      "win_count": 511,
+      "win_rate": 0.149766,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 3315,
+      "architecture_family": "A_TIME_SERIES_MOMENTUM",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.994727,
+      "average_win_r": 3.615376,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.109804,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "f725bc32b72a27af837586a74a135e0539744336a51f35bceff0d9b49ec2a289",
+      "candidate_definition_hash": "819b17e01dc201c65f1908983ad8a24d62581dfeba103b37a0da2d64301f17a6",
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_SHORT_TSMOM_3M_TIME_V1",
+      "direction": "SHORT",
+      "event_count": 3315,
+      "exit_audit": {
+        "average_loss_r": -0.994727,
+        "average_win_r": 3.615376,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.368921,
+        "profit_factor": 0.57087,
+        "tail_loss_proxy_max_drawdown_r": 1223.104831,
+        "trades": 3315,
+        "win_rate": 0.135747
+      },
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.368921,
+      "gross_net_r": -1222.9731,
+      "gross_pf": 0.57087,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2865,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 305.776208,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.368921,
+      "net_net_r": -1222.9731,
+      "net_pf": 0.57087,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.022926,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 3315,
+      "win_count": 450,
+      "win_rate": 0.135747,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 2974,
+      "architecture_family": "B_CROSS_SECTIONAL_FACTOR",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.97505,
+      "average_win_r": 2.198253,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.092132,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "7aef6b92720fe1d3c83c1da05cec8b21ff33f9e17b1d01742bac30486cb1e47f",
+      "candidate_definition_hash": "f26d1d4c35933223a62bdac4a3037b6914aa1599a5aac950873319c8e4d83266",
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_LONG_XS_MOM_TOPBOT_V1",
+      "direction": "LONG",
+      "event_count": 2974,
+      "exit_audit": {
+        "average_loss_r": -0.97505,
+        "average_win_r": 2.198253,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.150247,
+        "profit_factor": 0.79179,
+        "tail_loss_proxy_max_drawdown_r": 457.379736,
+        "trades": 2974,
+        "win_rate": 0.259919
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 1,
+        "positive_fold_share": 0.125
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.150247,
+      "gross_net_r": -446.835194,
+      "gross_pf": 0.79179,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2201,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 114.344934,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.150247,
+      "net_net_r": -446.835194,
+      "net_pf": 0.79179,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.027236,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 2974,
+      "win_count": 773,
+      "win_rate": 0.259919,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 2833,
+      "architecture_family": "B_CROSS_SECTIONAL_FACTOR",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.969659,
+      "average_win_r": 2.162892,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.102012,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "8bfd55d4179ada1c283b79c62dd7b4fb14c2f9ac654e3e37a60aed7909a6face",
+      "candidate_definition_hash": "fa28e880bfbd0df4f3646b9f514deb37d58501f24bcbafb022ce6f27279d34f3",
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_SHORT_XS_MOM_TOPBOT_V1",
+      "direction": "SHORT",
+      "event_count": 2833,
+      "exit_audit": {
+        "average_loss_r": -0.969659,
+        "average_win_r": 2.162892,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.109396,
+        "profit_factor": 0.844469,
+        "tail_loss_proxy_max_drawdown_r": 321.761553,
+        "trades": 2833,
+        "win_rate": 0.274621
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.109396,
+      "gross_net_r": -309.918558,
+      "gross_pf": 0.844469,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2055,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 80.440388,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.109396,
+      "net_net_r": -309.918558,
+      "net_pf": 0.844469,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.025415,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 2833,
+      "win_count": 778,
+      "win_rate": 0.274621,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 3390,
+      "architecture_family": "B_CROSS_SECTIONAL_FACTOR",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.976976,
+      "average_win_r": 2.203571,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.090265,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "0cff5c7dbd48e31ebd56c36abfa2ba45e0e6c83e9b1f012f886f9b8b5a0a493f",
+      "candidate_definition_hash": "96b6efbfa480e1ab29d1fbe6a9681c79aea4c5a9ff7888e7d57679cefc3b27f1",
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_LONG_XS_SPREAD_EFFICIENT_V1",
+      "direction": "LONG",
+      "event_count": 3390,
+      "exit_audit": {
+        "average_loss_r": -0.976976,
+        "average_win_r": 2.203571,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.135398,
+        "profit_factor": 0.811546,
+        "tail_loss_proxy_max_drawdown_r": 468.542728,
+        "trades": 3390,
+        "win_rate": 0.264602
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 1,
+        "positive_fold_share": 0.125
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.135398,
+      "gross_net_r": -458.998186,
+      "gross_pf": 0.811546,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2493,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 117.135682,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.135398,
+      "net_net_r": -458.998186,
+      "net_pf": 0.811546,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.025074,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 3390,
+      "win_count": 897,
+      "win_rate": 0.264602,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 3261,
+      "architecture_family": "B_CROSS_SECTIONAL_FACTOR",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.970507,
+      "average_win_r": 2.186474,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.103036,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "4660f63c0c78fc7432116154f9be59222e9e273433c11ae4c63aaca045f311b2",
+      "candidate_definition_hash": "cae0f62c778a2a81d1378beaa345c67915072b8ab40f4265f8ae17f305004152",
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_SHORT_XS_SPREAD_EFFICIENT_V1",
+      "direction": "SHORT",
+      "event_count": 3261,
+      "exit_audit": {
+        "average_loss_r": -0.970507,
+        "average_win_r": 2.186474,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.111801,
+        "profit_factor": 0.84176,
+        "tail_loss_proxy_max_drawdown_r": 375.73887,
+        "trades": 3261,
+        "win_rate": 0.272002
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.111801,
+      "gross_net_r": -364.582645,
+      "gross_pf": 0.84176,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2374,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 93.934718,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.111801,
+      "net_net_r": -364.582645,
+      "net_pf": 0.84176,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.024532,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 3261,
+      "win_count": 887,
+      "win_rate": 0.272002,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 2147,
+      "architecture_family": "C_CARRY_VALUE_MOMENTUM",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.992071,
+      "average_win_r": 3.691665,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.085701,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "9364b6ce9f75ad9b8dfe02bc8180b2dfcda9a1c4538a521e5d2c2d6da4b07c9e",
+      "candidate_definition_hash": "7048ea8018acb37b8d91e30bdfc9b42156f008ace61772903d64980088d26710",
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_LONG_MOM_CARRY_AVAILABLE_ONLY_V1",
+      "direction": "LONG",
+      "event_count": 2147,
+      "exit_audit": {
+        "average_loss_r": -0.992071,
+        "average_win_r": 3.691665,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.272167,
+        "profit_factor": 0.675832,
+        "tail_loss_proxy_max_drawdown_r": 600.472962,
+        "trades": 2147,
+        "win_rate": 0.153703
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.272167,
+      "gross_net_r": -584.343486,
+      "gross_pf": 0.675832,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 1817,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 150.11824,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.272167,
+      "net_net_r": -584.343486,
+      "net_pf": 0.675832,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.027014,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 2147,
+      "win_count": 330,
+      "win_rate": 0.153703,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 2108,
+      "architecture_family": "C_CARRY_VALUE_MOMENTUM",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.994716,
+      "average_win_r": 3.793559,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.106736,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "35a4856475700557fd55e178cf7d777021192ca39dec9a0ea91502017edc6b62",
+      "candidate_definition_hash": "2d9ea1982f83f29abea380ca9b75037168aafae1b9cb63e66ca15c34e31c664e",
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_SHORT_MOM_CARRY_AVAILABLE_ONLY_V1",
+      "direction": "SHORT",
+      "event_count": 2108,
+      "exit_audit": {
+        "average_loss_r": -0.994716,
+        "average_win_r": 3.793559,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.331445,
+        "profit_factor": 0.613218,
+        "tail_loss_proxy_max_drawdown_r": 704.634771,
+        "trades": 2108,
+        "win_rate": 0.13852
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.331445,
+      "gross_net_r": -698.685082,
+      "gross_pf": 0.613218,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 1816,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 176.158693,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.331445,
+      "net_net_r": -698.685082,
+      "net_pf": 0.613218,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.026565,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 2108,
+      "win_count": 292,
+      "win_rate": 0.13852,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 4279,
+      "architecture_family": "C_CARRY_VALUE_MOMENTUM",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.996331,
+      "average_win_r": 3.874635,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.087637,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "9d449dd205e7ce18e6ce2d1bcb95d7c20233180fdc6608f9d94d3248d69cf7c0",
+      "candidate_definition_hash": "162fbf4d73d8fec2000da8797e223e85ee8fe3afcb96f92a33de6288a6486f64",
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_LONG_VALUE_COMPONENT_INELIGIBLE_MOM_V1",
+      "direction": "LONG",
+      "event_count": 4279,
+      "exit_audit": {
+        "average_loss_r": -0.996331,
+        "average_win_r": 3.874635,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.364551,
+        "profit_factor": 0.579576,
+        "tail_loss_proxy_max_drawdown_r": 1588.946737,
+        "trades": 4279,
+        "win_rate": 0.129703
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.364551,
+      "gross_net_r": -1559.914359,
+      "gross_pf": 0.579576,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 3724,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 397.236684,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.364551,
+      "net_net_r": -1559.914359,
+      "net_pf": 0.579576,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.025473,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 4279,
+      "win_count": 555,
+      "win_rate": 0.129703,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 4190,
+      "architecture_family": "C_CARRY_VALUE_MOMENTUM",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.994951,
+      "average_win_r": 3.912783,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.105012,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "2a6bcd3a98225e53d053fea081bf4b44ba2d8fb61b4d461588260ac5ede56832",
+      "candidate_definition_hash": "9c58f37dd1d4ea3b55953fd560d7e8b76303f4e2f8f2a1f3580d24716b59b4d8",
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_SHORT_VALUE_COMPONENT_INELIGIBLE_MOM_V1",
+      "direction": "SHORT",
+      "event_count": 4190,
+      "exit_audit": {
+        "average_loss_r": -0.994951,
+        "average_win_r": 3.912783,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.355423,
+        "profit_factor": 0.589248,
+        "tail_loss_proxy_max_drawdown_r": 1496.481622,
+        "trades": 4190,
+        "win_rate": 0.13031
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.355423,
+      "gross_net_r": -1489.222766,
+      "gross_pf": 0.589248,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 3644,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 374.120405,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.355423,
+      "net_net_r": -1489.222766,
+      "net_pf": 0.589248,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.022434,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 4190,
+      "win_count": 546,
+      "win_rate": 0.13031,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 2840,
+      "architecture_family": "D_RELATIVE_VALUE",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.546307,
+      "average_win_r": 1.187152,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.092254,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "8946adf8f4aaa110abe8f58a439c05c8c40e7419d089fe76926e88f695fec5bf",
+      "candidate_definition_hash": "5d380905790b619d6f7dbd28e962b451a621c4ccd0354f05973a54c22632a508",
+      "candidate_id": "D_RELATIVE_VALUE_LONG_ROLLING_RESIDUAL_V1",
+      "direction": "LONG",
+      "event_count": 2840,
+      "exit_audit": {
+        "average_loss_r": -0.546307,
+        "average_win_r": 1.187152,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.196371,
+        "profit_factor": 0.549496,
+        "tail_loss_proxy_max_drawdown_r": 569.281564,
+        "trades": 2840,
+        "win_rate": 0.201761
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.196371,
+      "gross_net_r": -557.692691,
+      "gross_pf": 0.549496,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2266,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 142.320391,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.196371,
+      "net_net_r": -557.692691,
+      "net_pf": 0.549496,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.022183,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 2840,
+      "win_count": 573,
+      "win_rate": 0.201761,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 2854,
+      "architecture_family": "D_RELATIVE_VALUE",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.553237,
+      "average_win_r": 1.059376,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.080238,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "3dff9620c56026740a9bfe7eecc7bc45e6a9bf4aea5316abb42eb0fa851734d9",
+      "candidate_definition_hash": "985925219a17a63ee7929d4cbc266471c190fdddb72bfcfb1fc5af62db0c4c80",
+      "candidate_id": "D_RELATIVE_VALUE_SHORT_ROLLING_RESIDUAL_V1",
+      "direction": "SHORT",
+      "event_count": 2854,
+      "exit_audit": {
+        "average_loss_r": -0.553237,
+        "average_win_r": 1.059376,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.200461,
+        "profit_factor": 0.53606,
+        "tail_loss_proxy_max_drawdown_r": 573.070804,
+        "trades": 2854,
+        "win_rate": 0.218641
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.200461,
+      "gross_net_r": -572.114538,
+      "gross_pf": 0.53606,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2229,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 143.267701,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.200461,
+      "net_net_r": -572.114538,
+      "net_pf": 0.53606,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.021023,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 2854,
+      "win_count": 624,
+      "win_rate": 0.218641,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 3518,
+      "architecture_family": "D_RELATIVE_VALUE",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.552918,
+      "average_win_r": 1.109622,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.082149,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "69664385bc566e6ca6fecc52b64770930f8161992670be7d3a703362b8c127b9",
+      "candidate_definition_hash": "967dd8a5cb6c3680b2ce78f80c689ccb44ef48bfdc881eaeaef31c31a9c27c69",
+      "candidate_id": "D_RELATIVE_VALUE_LONG_CROSS_RATE_RESIDUAL_V1",
+      "direction": "LONG",
+      "event_count": 3518,
+      "exit_audit": {
+        "average_loss_r": -0.552918,
+        "average_win_r": 1.109622,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.205729,
+        "profit_factor": 0.529485,
+        "tail_loss_proxy_max_drawdown_r": 735.692157,
+        "trades": 3518,
+        "win_rate": 0.208641
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.205729,
+      "gross_net_r": -723.75428,
+      "gross_pf": 0.529485,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2782,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 183.923039,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.205729,
+      "net_net_r": -723.75428,
+      "net_pf": 0.529485,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.021887,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 3518,
+      "win_count": 734,
+      "win_rate": 0.208641,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 3565,
+      "architecture_family": "D_RELATIVE_VALUE",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.543012,
+      "average_win_r": 1.206561,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.081627,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "02e7ad70dbcf98a20adab187b03f92ed0b81046187722c99796f892b476e078e",
+      "candidate_definition_hash": "2c4c61dd2e50097c55bff6096256eaf8f768c35977717fd0c1a74d10274293b3",
+      "candidate_id": "D_RELATIVE_VALUE_SHORT_CROSS_RATE_RESIDUAL_V1",
+      "direction": "SHORT",
+      "event_count": 3565,
+      "exit_audit": {
+        "average_loss_r": -0.543012,
+        "average_win_r": 1.206561,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.163838,
+        "profit_factor": 0.614607,
+        "tail_loss_proxy_max_drawdown_r": 589.472292,
+        "trades": 3565,
+        "win_rate": 0.21655
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.163838,
+      "gross_net_r": -584.080823,
+      "gross_pf": 0.614607,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2791,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 147.368073,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.163838,
+      "net_net_r": -584.080823,
+      "net_pf": 0.614607,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.022721,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 3565,
+      "win_count": 772,
+      "win_rate": 0.21655,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 240,
+      "architecture_family": "E_EVENT_DRIVEN",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.924509,
+      "average_win_r": 0.982023,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 1.0,
+        "year_count": 1
+      },
+      "candidate_behavior_hash": "8fe396b8865cee7b92d6674cd421554b5b661805c500cebdb5d4eee52e85659d",
+      "candidate_definition_hash": "04ab9749a805762f85aa730611223ebb99dde2532a482a4c59d148f56af67c55",
+      "candidate_id": "E_EVENT_DRIVEN_LONG_POST_BLS_CONTINUATION_V1",
+      "direction": "LONG",
+      "event_count": 240,
+      "exit_audit": {
+        "average_loss_r": -0.924509,
+        "average_win_r": 0.982023,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.281055,
+        "profit_factor": 0.541126,
+        "tail_loss_proxy_max_drawdown_r": 91.885064,
+        "trades": 240,
+        "win_rate": 0.3375
+      },
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "PAIR_OR_CURRENCY_CONCENTRATION",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.281055,
+      "gross_net_r": -67.453115,
+      "gross_pf": 0.541126,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 159,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 22.971266,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.281055,
+      "net_net_r": -67.453115,
+      "net_pf": 0.541126,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.058333,
+        "pair_count": 31
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 240,
+      "win_count": 81,
+      "win_rate": 0.3375,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 153,
+      "architecture_family": "E_EVENT_DRIVEN",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.930811,
+      "average_win_r": 1.234049,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 1.0,
+        "year_count": 1
+      },
+      "candidate_behavior_hash": "e85e0ae1a474b3076de829163033c4f706a3c1f5d30a2d7d8cf61fd18f885c5b",
+      "candidate_definition_hash": "8b9e01a15df85fe4a488a7e6a53119647dc6ea7f08d47ef77588be0d52f056b9",
+      "candidate_id": "E_EVENT_DRIVEN_SHORT_POST_BLS_CONTINUATION_V1",
+      "direction": "SHORT",
+      "event_count": 153,
+      "exit_audit": {
+        "average_loss_r": -0.930811,
+        "average_win_r": 1.234049,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.322386,
+        "profit_factor": 0.518259,
+        "tail_loss_proxy_max_drawdown_r": 51.083541,
+        "trades": 153,
+        "win_rate": 0.281046
+      },
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "PAIR_OR_CURRENCY_CONCENTRATION",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.322386,
+      "gross_net_r": -49.325089,
+      "gross_pf": 0.518259,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 110,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 12.770885,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.322386,
+      "net_net_r": -49.325089,
+      "net_pf": 0.518259,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.091503,
+        "pair_count": 25
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 153,
+      "win_count": 43,
+      "win_rate": 0.281046,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 153,
+      "architecture_family": "E_EVENT_DRIVEN",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.973681,
+      "average_win_r": 1.447994,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 1.0,
+        "year_count": 1
+      },
+      "candidate_behavior_hash": "efb7f484a5efe5bc55739cea994266bfab2a8842b1171552874c096791a6368f",
+      "candidate_definition_hash": "08395f35d45555a17b2e8b9db21e663eb5885219e88a5452ec1d11ccfb781848",
+      "candidate_id": "E_EVENT_DRIVEN_LONG_POST_EVENT_REVERSAL_V1",
+      "direction": "LONG",
+      "event_count": 153,
+      "exit_audit": {
+        "average_loss_r": -0.973681,
+        "average_win_r": 1.447994,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.308908,
+        "profit_factor": 0.562699,
+        "tail_loss_proxy_max_drawdown_r": 80.349452,
+        "trades": 153,
+        "win_rate": 0.27451
+      },
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "PAIR_OR_CURRENCY_CONCENTRATION",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.308908,
+      "gross_net_r": -47.262873,
+      "gross_pf": 0.562699,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 111,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 20.087363,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.308908,
+      "net_net_r": -47.262873,
+      "net_pf": 0.562699,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.091503,
+        "pair_count": 25
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 153,
+      "win_count": 42,
+      "win_rate": 0.27451,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 240,
+      "architecture_family": "E_EVENT_DRIVEN",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.834742,
+      "average_win_r": 2.245587,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 1.0,
+        "year_count": 1
+      },
+      "candidate_behavior_hash": "2ca92a0b64139e2691b5f9b050053e69f3b201dbfd83238558152159bcbe5e9a",
+      "candidate_definition_hash": "8abc8597f8f5425e5c7c43b661f131fa3ad9a5f37b0bb9abd0713405cd664f47",
+      "candidate_id": "E_EVENT_DRIVEN_SHORT_POST_EVENT_REVERSAL_V1",
+      "direction": "SHORT",
+      "event_count": 240,
+      "exit_audit": {
+        "average_loss_r": -0.834742,
+        "average_win_r": 2.245587,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": 0.538571,
+        "profit_factor": 2.164262,
+        "tail_loss_proxy_max_drawdown_r": 30.471974,
+        "trades": 240,
+        "win_rate": 0.445833
+      },
+      "failure_classification": [
+        "PAIR_OR_CURRENCY_CONCENTRATION"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 8,
+        "positive_fold_share": 1.0
+      },
+      "gross_expectancy_r_before_transaction_cost": 0.538571,
+      "gross_net_r": 129.257136,
+      "gross_pf": 2.164262,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 133,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 7.617993,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": 0.538571,
+      "net_net_r": 129.257136,
+      "net_pf": 2.164262,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.058333,
+        "pair_count": 31
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 240,
+      "win_count": 107,
+      "win_rate": 0.445833,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 765,
+      "architecture_family": "F_LIQUIDITY_SESSION",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.648206,
+      "average_win_r": 0.598513,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.09281,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "95e6717710f82e78a3477e296ce97a2fe9d7b84950d499108b519ab14e1f4e1f",
+      "candidate_definition_hash": "4e35ac30e626938c92e0e4b56386aa5e886f7ac09e9074d061e04c0f53f76f15",
+      "candidate_id": "F_LIQUIDITY_SESSION_LONG_LONDON_NY_TRANSITION_V1",
+      "direction": "LONG",
+      "event_count": 765,
+      "exit_audit": {
+        "average_loss_r": -0.648206,
+        "average_win_r": 0.598513,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.122596,
+        "profit_factor": 0.672658,
+        "tail_loss_proxy_max_drawdown_r": 96.029068,
+        "trades": 765,
+        "win_rate": 0.420915
+      },
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.122596,
+      "gross_net_r": -93.785915,
+      "gross_pf": 0.672658,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 442,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 24.007267,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.122596,
+      "net_net_r": -93.785915,
+      "net_pf": 0.672658,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.026144,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 765,
+      "win_count": 322,
+      "win_rate": 0.420915,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 756,
+      "architecture_family": "F_LIQUIDITY_SESSION",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.662517,
+      "average_win_r": 0.626406,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.093915,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "97abc82d218e38c72b5ce5cc5c734952a771e3d3b7235fde6e9569f4b8d73a67",
+      "candidate_definition_hash": "0c3040cab187258a72783c8d4b94d334b38b588aa28bb852c46a84edc165e874",
+      "candidate_id": "F_LIQUIDITY_SESSION_SHORT_LONDON_NY_TRANSITION_V1",
+      "direction": "SHORT",
+      "event_count": 756,
+      "exit_audit": {
+        "average_loss_r": -0.662517,
+        "average_win_r": 0.626406,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.122884,
+        "profit_factor": 0.680584,
+        "tail_loss_proxy_max_drawdown_r": 92.900585,
+        "trades": 756,
+        "win_rate": 0.417989
+      },
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 1,
+        "positive_fold_share": 0.125
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.122884,
+      "gross_net_r": -92.900585,
+      "gross_pf": 0.680584,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 439,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 23.225146,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.122884,
+      "net_net_r": -92.900585,
+      "net_pf": 0.680584,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.029101,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 756,
+      "win_count": 316,
+      "win_rate": 0.417989,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 3649,
+      "architecture_family": "F_LIQUIDITY_SESSION",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.77946,
+      "average_win_r": 0.873953,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.092628,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "db023815ed8f50587de54e5f4ed35f7ab3c5f189c835e32d1336bf1203bf6eb4",
+      "candidate_definition_hash": "be8345cccf746ca0a63ffb68c694c3579ce527cc64d291f0af4705cfab8a0c7c",
+      "candidate_id": "F_LIQUIDITY_SESSION_LONG_SPREAD_NORMALIZATION_V1",
+      "direction": "LONG",
+      "event_count": 3649,
+      "exit_audit": {
+        "average_loss_r": -0.77946,
+        "average_win_r": 0.873953,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.11157,
+        "profit_factor": 0.759858,
+        "tail_loss_proxy_max_drawdown_r": 407.915958,
+        "trades": 3649,
+        "win_rate": 0.403946
+      },
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.11157,
+      "gross_net_r": -407.118671,
+      "gross_pf": 0.759858,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2175,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 101.97899,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.11157,
+      "net_net_r": -407.118671,
+      "net_pf": 0.759858,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.024116,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 3649,
+      "win_count": 1474,
+      "win_rate": 0.403946,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 3622,
+      "architecture_family": "F_LIQUIDITY_SESSION",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.786822,
+      "average_win_r": 0.873037,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.093319,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "53d90e6846cf5dbe75b1f3887bb1b39addf667e68e520f17441cfe3b33f546a0",
+      "candidate_definition_hash": "6ddbe90e326e5c05b84e52458478d71c1cffe29c31c1e35e8cd04e6150461f10",
+      "candidate_id": "F_LIQUIDITY_SESSION_SHORT_SPREAD_NORMALIZATION_V1",
+      "direction": "SHORT",
+      "event_count": 3622,
+      "exit_audit": {
+        "average_loss_r": -0.786822,
+        "average_win_r": 0.873037,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.126453,
+        "profit_factor": 0.733102,
+        "tail_loss_proxy_max_drawdown_r": 464.909328,
+        "trades": 3622,
+        "win_rate": 0.397846
+      },
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.126453,
+      "gross_net_r": -458.012359,
+      "gross_pf": 0.733102,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2181,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 116.227332,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.126453,
+      "net_net_r": -458.012359,
+      "net_pf": 0.733102,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.023192,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 3622,
+      "win_count": 1441,
+      "win_rate": 0.397846,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 4550,
+      "architecture_family": "G_REGIME_SWITCHING",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.984844,
+      "average_win_r": 2.861003,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.081978,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "07e0f5adf1c8db6985422fa8ff8c272b9f904239c40cc76049fca5d48cf7eff9",
+      "candidate_definition_hash": "afc7b912d917d0242c7712438df050dc3e9af79ed6fd6b26d5e6baa05a869849",
+      "candidate_id": "G_REGIME_SWITCHING_LONG_TREND_VOL_STATE_V1",
+      "direction": "LONG",
+      "event_count": 4550,
+      "exit_audit": {
+        "average_loss_r": -0.984844,
+        "average_win_r": 2.861003,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.235115,
+        "profit_factor": 0.703457,
+        "tail_loss_proxy_max_drawdown_r": 1077.89063,
+        "trades": 4550,
+        "win_rate": 0.194945
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.235115,
+      "gross_net_r": -1069.772128,
+      "gross_pf": 0.703457,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 3663,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 269.472658,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.235115,
+      "net_net_r": -1069.772128,
+      "net_pf": 0.703457,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.023077,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 4550,
+      "win_count": 887,
+      "win_rate": 0.194945,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 4401,
+      "architecture_family": "G_REGIME_SWITCHING",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.987265,
+      "average_win_r": 2.777485,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.08998,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "29d7b23d120a965bc9aadbdb754e150aa5c563774b45634b16eeee06d55b84fc",
+      "candidate_definition_hash": "dedec5dc3a846cc46e9cb6595248eb675573c3eab50455e5921bb14d7fb6525d",
+      "candidate_id": "G_REGIME_SWITCHING_SHORT_TREND_VOL_STATE_V1",
+      "direction": "SHORT",
+      "event_count": 4401,
+      "exit_audit": {
+        "average_loss_r": -0.987265,
+        "average_win_r": 2.777485,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.257583,
+        "profit_factor": 0.676369,
+        "tail_loss_proxy_max_drawdown_r": 1143.88111,
+        "trades": 4401,
+        "win_rate": 0.19382
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.257583,
+      "gross_net_r": -1133.621725,
+      "gross_pf": 0.676369,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 3548,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 285.970277,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.257583,
+      "net_net_r": -1133.621725,
+      "net_pf": 0.676369,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.022722,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 4401,
+      "win_count": 853,
+      "win_rate": 0.19382,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 4830,
+      "architecture_family": "G_REGIME_SWITCHING",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.984478,
+      "average_win_r": 2.865525,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.081988,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "2af0d4ce0719b566ac2acdd8b14162a1e8e61e4ba66951c2812caaecb2372f35",
+      "candidate_definition_hash": "7638a057c8191a2d7d790eeaa7fc455387604adbfecfa2db09c2d3e70389bde4",
+      "candidate_id": "G_REGIME_SWITCHING_LONG_NO_TRADE_VOL_GATE_V1",
+      "direction": "LONG",
+      "event_count": 4830,
+      "exit_audit": {
+        "average_loss_r": -0.984478,
+        "average_win_r": 2.865525,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.237593,
+        "profit_factor": 0.700573,
+        "tail_loss_proxy_max_drawdown_r": 1152.69246,
+        "trades": 4830,
+        "win_rate": 0.193996
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.237593,
+      "gross_net_r": -1147.573958,
+      "gross_pf": 0.700573,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 3893,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 288.173115,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.237593,
+      "net_net_r": -1147.573958,
+      "net_pf": 0.700573,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.022567,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 4830,
+      "win_count": 937,
+      "win_rate": 0.193996,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 4689,
+      "architecture_family": "G_REGIME_SWITCHING",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.987405,
+      "average_win_r": 2.762079,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.087439,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "2d1f06ee467aa0d937d1d4a463d1957fe3b3881a895c459cdeb25248030cd275",
+      "candidate_definition_hash": "7b985e02b49e2c44b9873d9d926eb608725cc713e50ab103b1f970d97353d157",
+      "candidate_id": "G_REGIME_SWITCHING_SHORT_NO_TRADE_VOL_GATE_V1",
+      "direction": "SHORT",
+      "event_count": 4689,
+      "exit_audit": {
+        "average_loss_r": -0.987405,
+        "average_win_r": 2.762079,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.271732,
+        "profit_factor": 0.659883,
+        "tail_loss_proxy_max_drawdown_r": 1286.624919,
+        "trades": 4689,
+        "win_rate": 0.190872
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.271732,
+      "gross_net_r": -1274.152076,
+      "gross_pf": 0.659883,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 3794,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 321.65623,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.271732,
+      "net_net_r": -1274.152076,
+      "net_pf": 0.659883,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.022393,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 4689,
+      "win_count": 895,
+      "win_rate": 0.190872,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 2728,
+      "architecture_family": "H_META_LABEL_ROUTER",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.975599,
+      "average_win_r": 2.166474,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.092375,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "7f5891369d45e76955c39fe3d758a14dd2c3fd4aa4f7e993380c384ddb835272",
+      "candidate_definition_hash": "b7401ac1ca74a0c9e8e41533280ee72f6b8ff6b58ab3b9e226dfde05e3bc681d",
+      "candidate_id": "H_META_LABEL_ROUTER_LONG_LOW_COST_TAKE_V1",
+      "direction": "LONG",
+      "event_count": 2728,
+      "exit_audit": {
+        "average_loss_r": -0.975599,
+        "average_win_r": 2.166474,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.167045,
+        "profit_factor": 0.769449,
+        "tail_loss_proxy_max_drawdown_r": 466.242588,
+        "trades": 2728,
+        "win_rate": 0.257331
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.167045,
+      "gross_net_r": -455.698046,
+      "gross_pf": 0.769449,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 2026,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 116.560647,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.167045,
+      "net_net_r": -455.698046,
+      "net_pf": 0.769449,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.027859,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 2728,
+      "win_count": 702,
+      "win_rate": 0.257331,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 2598,
+      "architecture_family": "H_META_LABEL_ROUTER",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.969587,
+      "average_win_r": 2.162856,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.101617,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "08f5171dd30eefd27994c315706dea29d719dfd2c54905ab1f0a847fd7b0a96c",
+      "candidate_definition_hash": "19dad212ef9f4a6f37258957c1df03f4c08edeed58b9c2449c90b81923760c1d",
+      "candidate_id": "H_META_LABEL_ROUTER_SHORT_LOW_COST_TAKE_V1",
+      "direction": "SHORT",
+      "event_count": 2598,
+      "exit_audit": {
+        "average_loss_r": -0.969587,
+        "average_win_r": 2.162856,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.107502,
+        "profit_factor": 0.847025,
+        "tail_loss_proxy_max_drawdown_r": 286.30179,
+        "trades": 2598,
+        "win_rate": 0.275212
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 1,
+        "positive_fold_share": 0.125
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.107502,
+      "gross_net_r": -279.291248,
+      "gross_pf": 0.847025,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 1883,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 71.575447,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.107502,
+      "net_net_r": -279.291248,
+      "net_pf": 0.847025,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.026559,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 2598,
+      "win_count": 715,
+      "win_rate": 0.275212,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 4275,
+      "architecture_family": "H_META_LABEL_ROUTER",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.974292,
+      "average_win_r": 2.204001,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.082339,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "b5f97daba7f236aacaf810f6cc7f189f11cac832a835db40830d2da94ff13d08",
+      "candidate_definition_hash": "9cbc08f8105dd22d20554f7eaa2a7961bcc30a24e5175cd01891f7ebc8c32d98",
+      "candidate_id": "H_META_LABEL_ROUTER_LONG_VOL_CALIBRATED_TAKE_V1",
+      "direction": "LONG",
+      "event_count": 4275,
+      "exit_audit": {
+        "average_loss_r": -0.974292,
+        "average_win_r": 2.204001,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.18325,
+        "profit_factor": 0.74959,
+        "tail_loss_proxy_max_drawdown_r": 802.286056,
+        "trades": 4275,
+        "win_rate": 0.248889
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.18325,
+      "gross_net_r": -783.394081,
+      "gross_pf": 0.74959,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 3211,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 200.571514,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.18325,
+      "net_net_r": -783.394081,
+      "net_pf": 0.74959,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.023392,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 4275,
+      "win_count": 1064,
+      "win_rate": 0.248889,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    },
+    {
+      "accepted_trade_count": 4148,
+      "architecture_family": "H_META_LABEL_ROUTER",
+      "average_cost_r": 0.0,
+      "average_loss_r": -0.971386,
+      "average_win_r": 2.153817,
+      "best_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "calendar_concentration": {
+        "max_year_share": 0.092093,
+        "year_count": 14
+      },
+      "candidate_behavior_hash": "eb14d014c1737c8858aeabb1d0ad0574e1741b1827edc58c66fe95a43b02d810",
+      "candidate_definition_hash": "628cebe7330b933c1723709435e0abdbd259b68ddaf883b13fe1d9be7adf0c9e",
+      "candidate_id": "H_META_LABEL_ROUTER_SHORT_VOL_CALIBRATED_TAKE_V1",
+      "direction": "SHORT",
+      "event_count": 4148,
+      "exit_audit": {
+        "average_loss_r": -0.971386,
+        "average_win_r": 2.153817,
+        "cost_financing_note": "Bid/ask execution included; conservative per-day financing stress applied to multi-day holds.",
+        "expectancy": -0.192346,
+        "profit_factor": 0.736239,
+        "tail_loss_proxy_max_drawdown_r": 803.25942,
+        "trades": 4148,
+        "win_rate": 0.249277
+      },
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "financing_r": "conservative stress embedded for multi-day candidates where Packet 027 logic applied it; no separate financing ledger was preserved",
+      "fold_metrics": {
+        "fold_count": 8,
+        "positive_expectancy_folds": 0,
+        "positive_fold_share": 0.0
+      },
+      "gross_expectancy_r_before_transaction_cost": -0.192346,
+      "gross_net_r": -797.850601,
+      "gross_pf": 0.736239,
+      "largest_winner_contribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "loss_count": 3114,
+      "mae_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "maximum_drawdown_percent": 200.814855,
+      "mfe_distribution": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "net_expectancy_r_after_cost": -0.192346,
+      "net_net_r": -797.850601,
+      "net_pf": 0.736239,
+      "pair_currency_concentration": {
+        "max_pair_share": 0.021456,
+        "pair_count": 58
+      },
+      "reach_rates_conditional_on_actual_entries": {
+        "2R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "3R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "4R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "5R": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+        "6R": "NOT_PRESERVED_IN_PACKET027_RECEIPT"
+      },
+      "rejection_count": 0,
+      "rejection_reasons": [],
+      "signal_count": 4148,
+      "win_count": 1034,
+      "win_rate": 0.249277,
+      "worst_fold": "NOT_PRESERVED_IN_PACKET027_RECEIPT",
+      "zero_trade_status": false
+    }
+  ],
+  "schema": "AIOS_FOREX_PACKET027_CANDIDATE_METRIC_LEDGER_V1",
+  "state_hash": "fa87d486dca1358e5e2b927a4ba7d8ecbc8e6b205c618278e3fc825aefa8d8c1",
+  "status": "COMPLETE_WITH_PACKET027_RECEIPT_LIMITATIONS"
+}

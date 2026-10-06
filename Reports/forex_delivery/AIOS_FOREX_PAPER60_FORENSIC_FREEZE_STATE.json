@@ -1,0 +1,179 @@
+{
+  "canonical_sha256": {
+    "Reports/forex_delivery/AIOS_FOREX_PAPER60_CERTIFICATION_REPORT.md": "86dd8469916be03f2b618a25ace1021323c609d711a6315fb28aea7d7885aedf",
+    "Reports/forex_delivery/AIOS_FOREX_PAPER60_CERTIFICATION_STATE.json": "ffcba4b0100815ea88580c6faf8b078d61972037cc099a4da58eb7c9e321a21b",
+    "Reports/forex_delivery/AIOS_FOREX_PAPER60_EXECUTION_REPORT.md": "ba5ae242f47016f294efa6c1de696c2a66577b7bc643df0a3d1684a0b26ba957",
+    "Reports/forex_delivery/AIOS_FOREX_PAPER60_EXECUTION_STATE.json": "4a3d2134623abcc3b9d9714ad0b7dd174cc92839b2219c59b8d45d113caf6c7e"
+  },
+  "canonical_unchanged": true,
+  "long_sample_classification": "DIAGNOSTIC_APPROXIMATION_ONLY",
+  "schema": "AIOS_FOREX_PAPER60_FORENSIC_FREEZE_STATE_V1",
+  "short_sample_classification": "DIAGNOSTIC_APPROXIMATION_ONLY",
+  "snapshot": {
+    "attempt": 1,
+    "branch": "main",
+    "canonical_counts": {
+      "long": 30,
+      "short": 30
+    },
+    "created_utc": "2026-08-29T00:18:53Z",
+    "files": [
+      {
+        "byte_size": 13883,
+        "relative_path": "AIOS_FOREX_PAPER30_5R_SHADOW.jsonl",
+        "sha256": "56099481ce379cbf48481e96159ff5f90ecbbb4160e42e6405ac041b43728c45",
+        "snapshot_relative_path": "long/AIOS_FOREX_PAPER30_5R_SHADOW.jsonl",
+        "source_class": "long",
+        "source_mtime_ns": 1787925525648171600
+      },
+      {
+        "byte_size": 4285,
+        "relative_path": "AIOS_FOREX_PAPER30_ACTIVE.json",
+        "sha256": "bc6b91afd96a304fc0a963462e2045db343cf7337041cf7412cb8197b699903a",
+        "snapshot_relative_path": "long/AIOS_FOREX_PAPER30_ACTIVE.json",
+        "source_class": "long",
+        "source_mtime_ns": 1787925525644664000
+      },
+      {
+        "byte_size": 30488,
+        "relative_path": "AIOS_FOREX_PAPER30_EVENTS.jsonl",
+        "sha256": "a190828fc6b48ce27b7568316c9b4c7a766102e880afa829dd39a60988f72346",
+        "snapshot_relative_path": "long/AIOS_FOREX_PAPER30_EVENTS.jsonl",
+        "source_class": "long",
+        "source_mtime_ns": 1787925525648171600
+      },
+      {
+        "byte_size": 39717,
+        "relative_path": "AIOS_FOREX_PAPER30_LEDGER.json",
+        "sha256": "37e7dcd1e9e92af9e2c44491bc597118fee4caf7a72eaecb570d41a8afda6044",
+        "snapshot_relative_path": "long/AIOS_FOREX_PAPER30_LEDGER.json",
+        "source_class": "long",
+        "source_mtime_ns": 1787925525646659400
+      },
+      {
+        "byte_size": 295,
+        "relative_path": "AIOS_FOREX_PAPER30_LOCK.json",
+        "sha256": "a9e00ee5bd94e86a78a00088ff9a4d4587cc6d745680f890df8f28aa50d99c1c",
+        "snapshot_relative_path": "long/AIOS_FOREX_PAPER30_LOCK.json",
+        "source_class": "long",
+        "source_mtime_ns": 1787925525650171100
+      },
+      {
+        "byte_size": 63373,
+        "relative_path": "AIOS_FOREX_PAPER30_STATE.json",
+        "sha256": "fd28d467bfbaf52b9792a52fdc82a526bdc463f08b81820df2b69ba5a5e8efdb",
+        "snapshot_relative_path": "long/AIOS_FOREX_PAPER30_STATE.json",
+        "source_class": "long",
+        "source_mtime_ns": 1787925525643660200
+      },
+      {
+        "byte_size": 13483,
+        "relative_path": "AIOS_FOREX_PAPER30_5R_SHADOW.jsonl",
+        "sha256": "3d7318b009cb02ed6a0db33bac24c610a4670a424194617a0b2d74d3b3b227a7",
+        "snapshot_relative_path": "short/AIOS_FOREX_PAPER30_5R_SHADOW.jsonl",
+        "source_class": "short",
+        "source_mtime_ns": 1787928935492554000
+      },
+      {
+        "byte_size": 8373,
+        "relative_path": "AIOS_FOREX_PAPER30_ACTIVE.json",
+        "sha256": "e38ddef080e37f87a84b812fdb5fe8297b33f2ec1b734ba1b33e6f24954b29e6",
+        "snapshot_relative_path": "short/AIOS_FOREX_PAPER30_ACTIVE.json",
+        "source_class": "short",
+        "source_mtime_ns": 1787928935489469900
+      },
+      {
+        "byte_size": 31913,
+        "relative_path": "AIOS_FOREX_PAPER30_EVENTS.jsonl",
+        "sha256": "2b9c62d6b3fe8edd3a2b47224d7ca1aca4c9cc5775dd65ab3ed35124d1d1cbf2",
+        "snapshot_relative_path": "short/AIOS_FOREX_PAPER30_EVENTS.jsonl",
+        "source_class": "short",
+        "source_mtime_ns": 1787928935491475800
+      },
+      {
+        "byte_size": 38473,
+        "relative_path": "AIOS_FOREX_PAPER30_LEDGER.json",
+        "sha256": "2edfa77df0893c1c464545bb7e026eec09c879467983a524f8260a9998eecdbb",
+        "snapshot_relative_path": "short/AIOS_FOREX_PAPER30_LEDGER.json",
+        "source_class": "short",
+        "source_mtime_ns": 1787928935491475800
+      },
+      {
+        "byte_size": 295,
+        "relative_path": "AIOS_FOREX_PAPER30_LOCK.json",
+        "sha256": "3bfa8a082d181fbfefb13696d7dc07cad45ff22607a5126095e6cc792dc5d366",
+        "snapshot_relative_path": "short/AIOS_FOREX_PAPER30_LOCK.json",
+        "source_class": "short",
+        "source_mtime_ns": 1787928935493550800
+      },
+      {
+        "byte_size": 65939,
+        "relative_path": "AIOS_FOREX_PAPER30_STATE.json",
+        "sha256": "b0c5ffb9e0d661cd7d42af4534bdb9c46a1873fa19fa03fa54080991e07ba952",
+        "snapshot_relative_path": "short/AIOS_FOREX_PAPER30_STATE.json",
+        "source_class": "short",
+        "source_mtime_ns": 1787928935487965900
+      },
+      {
+        "byte_size": 1584,
+        "relative_path": "Reports/forex_delivery/AIOS_FOREX_PAPER60_EXECUTION_REPORT.md",
+        "sha256": "ba5ae242f47016f294efa6c1de696c2a66577b7bc643df0a3d1684a0b26ba957",
+        "snapshot_relative_path": "canonical_failed_reports/AIOS_FOREX_PAPER60_EXECUTION_REPORT.md",
+        "source_class": "canonical",
+        "source_mtime_ns": 1787957621022763600
+      },
+      {
+        "byte_size": 1622,
+        "relative_path": "Reports/forex_delivery/AIOS_FOREX_PAPER60_EXECUTION_STATE.json",
+        "sha256": "4a3d2134623abcc3b9d9714ad0b7dd174cc92839b2219c59b8d45d113caf6c7e",
+        "snapshot_relative_path": "canonical_failed_reports/AIOS_FOREX_PAPER60_EXECUTION_STATE.json",
+        "source_class": "canonical",
+        "source_mtime_ns": 1787957621184228600
+      },
+      {
+        "byte_size": 1112,
+        "relative_path": "Reports/forex_delivery/AIOS_FOREX_PAPER60_CERTIFICATION_REPORT.md",
+        "sha256": "86dd8469916be03f2b618a25ace1021323c609d711a6315fb28aea7d7885aedf",
+        "snapshot_relative_path": "canonical_failed_reports/AIOS_FOREX_PAPER60_CERTIFICATION_REPORT.md",
+        "source_class": "canonical",
+        "source_mtime_ns": 1787957621337921200
+      },
+      {
+        "byte_size": 1063,
+        "relative_path": "Reports/forex_delivery/AIOS_FOREX_PAPER60_CERTIFICATION_STATE.json",
+        "sha256": "ffcba4b0100815ea88580c6faf8b078d61972037cc099a4da58eb7c9e321a21b",
+        "snapshot_relative_path": "canonical_failed_reports/AIOS_FOREX_PAPER60_CERTIFICATION_STATE.json",
+        "source_class": "canonical",
+        "source_mtime_ns": 1787957621490917200
+      }
+    ],
+    "head": "b86c65140ed03d53d6c8d6c3618e50da0502f51b",
+    "lock_id": "LOCK_EAST_FOREX_PAPER60_OCC01",
+    "long_closed_count": 32,
+    "packet_id": "PKT-EAST-FOREX-PAPER60-RECOVERY-006",
+    "process_quiesce_evidence": {
+      "inspection": "Win32_Process command-line inspection",
+      "matching_runner_pids": [],
+      "no_unrelated_process_stopped": true,
+      "result": "NO_ACTIVE_V1_WRITER_FOUND",
+      "stopped_pids": []
+    },
+    "runtime_roots_are_not_canonical_certification_evidence": true,
+    "runtime_roots_drifted_after_30_30": true,
+    "schema": "AIOS_FOREX_PAPER60_POSTCERT_DRIFT_SNAPSHOT_V1",
+    "short_closed_count": 31,
+    "snapshot_identity": "POST_CERTIFICATION_DRIFT_NOT_CANONICAL_PAPER60",
+    "source_classification": "POST_CERTIFICATION_RUNTIME_DRIFT",
+    "source_paths": {
+      "canonical": [
+        "Reports/forex_delivery/AIOS_FOREX_PAPER60_EXECUTION_REPORT.md",
+        "Reports/forex_delivery/AIOS_FOREX_PAPER60_EXECUTION_STATE.json",
+        "Reports/forex_delivery/AIOS_FOREX_PAPER60_CERTIFICATION_REPORT.md",
+        "Reports/forex_delivery/AIOS_FOREX_PAPER60_CERTIFICATION_STATE.json"
+      ],
+      "long": ".aios/runtime/forex_frozen_candidate_paper30_v1",
+      "short": ".aios/runtime/forex_frozen_candidate_paper30_v1_short"
+    }
+  },
+  "status": "PASS"
+}

@@ -211,6 +211,30 @@ Tier 5 - PRODUCTION_OR_LIVE:
 
 The tier model does not weaken commit, push, merge, trading, broker/API, secret, production, destructive cleanup, protected-action, validator, or approval gates.
 
+## AIOS INSTRUCTION ORDER
+
+Apply instructions in this order:
+
+1. Safety, security, legal limits, and repository protection.
+2. The Human Owners exact request and current goal.
+3. Verified evidence, accuracy, and no guessing.
+4. Plain-English communication.
+5. Required technical templates and formatting.
+
+Plain English controls how information is explained. It does not weaken safety, accuracy, testing, evidence, or repository governance.
+
+## PLAIN-ENGLISH COMMUNICATION RULE
+
+- Use plain everyday English.
+- Use short, direct sentences and common words.
+- Avoid corporate language, academic language, jargon, metaphors, and abstract phrases.
+- Explain technical terms in simple words when they are necessary.
+- Say what happened, what it means, and what the Human Owner should do next.
+- Write so the Human Owner can understand the answer on the first read.
+- Keep technical details accurate, but translate them into normal English.
+- Do not remove required technical proof. Explain it clearly.
+- Apply this rule from the beginning of every task.
+
 ## Industrial-Standard / Professional-Grade Quality Bar
 
 AI_OS treats industrial-standard, professional-grade work as an internal operating target, not as a legal, compliance, or external certification claim.
@@ -460,6 +484,20 @@ Autonomous execution, failure recovery, campaign arbitration, checkpoint/resume,
 - `docs/workflows/AIOS_GITHUB_CI_FAILURE_RECOVERY_V1.md`
 
 This doctrine expands recovery behavior only inside approved packet scope and never overrides protected gates.
+
+## Continue Through And Through Law
+
+For approved AIOS and Forex work, the runtime must PREPARE -> RUN -> SAVE -> CHECK -> CHECKPOINT -> PICK NEXT SAFE WORK -> CONTINUE. Unit, batch, stage, report, checkpoint, context/turn completion, good or bad research results, and bounded recoverable retries are progress events, not owner gates. Do not ask the owner to type continue, go, next, or resume for ordinary approved work.
+
+Every real stop must save exactly one stop class: `OWNER_ACTION_REQUIRED`, `SAFETY_INTEGRITY_BLOCK`, `RESOURCE_TIME_BLOCK`, `UNRECOVERABLE_FAILURE`, or `CAMPAIGN_COMPLETE`. Completion means the full approved scope has verified receipts, not merely that a batch or report finished. An unclassified progress event cannot stop the worker. Unknown actual failures must fail closed; never turn missing integrity evidence into retry permission.
+
+Before an owner gate, finish every independent safe approved step, build and validate the next packet, check hashes, claim conflicts, time and resources, prepare the handoff and exact owner command, and save durable resume state. An owner receives a ready action, not a request to resume preparation. A saved checkpoint must identify completed, failed and remaining work, current claim/lock state, next safe action and whether owner action is needed. Checkpoints are evidence, never authority.
+
+Muscle98 must retain its existing single process lease while healthy, continue across admitted units and batches, wait through bounded retry backoff under current authority, and reuse verified completed receipts. It must not reset failed scientific evidence, create duplicate claims/workers, or retry integrity failures. Explicit owner stop/pause requests remain effective and require the applicable resume authority.
+
+Supertrend research retains all valid good and bad results, ranks the current data/quarantine/cost identity, updates hot/cold evidence, and prepares the next eligible Grid56 cells. It continues only through already-admitted cells. Training performance never proves an edge. The long-term sequence is Supertrend edge hunt -> Grid56/hot-cold -> robustness -> clean OOS -> prove or reject -> PAPER preparation -> separately approved PAPER -> if validated, separately approved small LIVE and compounding under risk rules.
+
+This law does not expand signed scope, change HMAC, claims, locks, paths, cost/data/risk rules, or authorize PAPER/LIVE. Runtime code changes invalidate old source pins; preserve old signed artifacts and prepare a tested successor before any further research under changed code. The existing continuation controller, Goal continuation, adaptive workforce lifecycle and PKT045 entry point enforce the same stop classes. Behavior and regression tests are required for changes to this law.
 
 ## AI_OS Operator Guardian Doctrine
 

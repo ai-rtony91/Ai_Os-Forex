@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import json
 import math
+import os
 import sys
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
@@ -15,6 +16,8 @@ import automation.forex_engine.forex_frozen_candidate_paper30_v1 as paper30_modu
 from automation.forex_engine.forex_frozen_candidate_paper30_v1 import (
     ATR_PERIOD,
     CONFIRMATION,
+    DEFAULT_SHORT_REPORT_PATH,
+    DEFAULT_SHORT_RUNTIME_ROOT,
     DIRECTION_POLICY,
     FrozenCandidatePaper30,
     GLOBAL_PAPER_POSITION_CAP,
@@ -24,18 +27,23 @@ from automation.forex_engine.forex_frozen_candidate_paper30_v1 import (
     PRACTICE_NETWORK_TIMEOUT_SECONDS,
     PRIMARY_EXIT_POLICY,
     SELL_ENABLED,
+    SHORT_DIRECTION_POLICY,
+    SHORT_TRADE_DIRECTION,
     SHADOW_5R_AUTHORITY,
     SENTINEL_INSTRUMENT,
     SUPERTREND_FACTOR,
+    TARGET_R_MULTIPLE,
     TIMEFRAME,
     market_data_fresh,
     json_safe_paper30_metrics,
     run_campaign_segment,
+    strategy_config_for_direction,
     strategy_config,
     strategy_config_sha256,
 )
 from automation.forex_engine.oanda_read_only_client import OandaReadOnlyClientError
 import scripts.forex_delivery.run_forex_frozen_candidate_paper30_v1 as launcher
+import scripts.forex_delivery.run_forex_frozen_candidate_paper30_short_v1 as short_launcher
 
 
 START = datetime(2026, 8, 22, 12, 0, tzinfo=timezone.utc)
@@ -50,6 +58,10 @@ FIXED_UNIVERSE_HASH = "b6abe559dcaa9faa0a1e48217f97a12dc9043eb9595d2b946bf80f930
 
 def engine() -> FrozenCandidatePaper30:
     return FrozenCandidatePaper30(UNIVERSE, UNIVERSE_HASH, START)
+
+
+def short_engine() -> FrozenCandidatePaper30:
+    return FrozenCandidatePaper30(UNIVERSE, UNIVERSE_HASH, START, trade_direction="SELL")
 
 
 def open_position(
@@ -67,6 +79,27 @@ def open_position(
             instrument,
             entry - Decimal("0.0002"),
             entry,
+            signal_time + timedelta(seconds=10),
+        )
+        == "FILLED"
+    )
+
+
+def open_short_position(
+    paper: FrozenCandidatePaper30,
+    instrument: str,
+    *,
+    minute: int = 1,
+    entry: Decimal = Decimal("1.1000"),
+    stop: Decimal = Decimal("1.1100"),
+) -> None:
+    signal_time = START + timedelta(minutes=minute)
+    assert paper.observe_signal(instrument, "SELL", signal_time, stop)
+    assert (
+        paper.apply_quote(
+            instrument,
+            entry,
+            entry + Decimal("0.0002"),
             signal_time + timedelta(seconds=10),
         )
         == "FILLED"
@@ -393,7 +426,7 @@ def test_later_network_failure_preserves_ledger_and_active_position(
     )
     ledger_before = copy.deepcopy(paper.ledger)
     active_before = copy.deepcopy(paper.state_payload()["active_positions"])
-    monkeypatch.setattr(paper30_module, "_load_or_arm", lambda *_args: paper)
+    monkeypatch.setattr(paper30_module, "_load_or_arm", lambda *_args, **_kwargs: paper)
     client = SyntheticPracticeClient(fail_full_instrument="PAIR_02")
 
     report_path = tmp_path / "report.json"
@@ -427,7 +460,7 @@ def test_keyboard_interrupt_creates_no_trade_and_releases_owned_lock(
     patch_campaign_universe(monkeypatch)
     paper = FrozenCandidatePaper30(CAMPAIGN_UNIVERSE, CAMPAIGN_UNIVERSE_HASH, START)
     ledger_before = copy.deepcopy(paper.ledger)
-    monkeypatch.setattr(paper30_module, "_load_or_arm", lambda *_args: paper)
+    monkeypatch.setattr(paper30_module, "_load_or_arm", lambda *_args, **_kwargs: paper)
     client = SyntheticPracticeClient(sentinel_error=KeyboardInterrupt())
     runtime_root = tmp_path / "runtime"
 
@@ -483,6 +516,96 @@ def test_launcher_constructs_practice_client_with_five_second_timeout(
     assert PRACTICE_NETWORK_TIMEOUT_SECONDS == 5
     assert observed["environment"] == "practice"
     assert observed["timeout_seconds"] == 5
+
+
+def test_short_strategy_contract_and_hash_are_direction_specific() -> None:
+    config = strategy_config_for_direction(UNIVERSE_HASH, trade_direction="SELL")
+    assert config["direction"] == SHORT_DIRECTION_POLICY
+    assert config["trade_direction"] == SHORT_TRADE_DIRECTION
+    assert strategy_config_sha256(UNIVERSE_HASH, trade_direction="SELL") != EXPECTED_STRATEGY_HASH
+
+
+def test_short_engine_accepts_sell_and_rejects_buy_signals() -> None:
+    paper = short_engine()
+    with pytest.raises(ValueError, match="BUY_DISABLED"):
+        paper.observe_signal("PAIR_00", "BUY", START + timedelta(minutes=1), "1.11")
+    assert paper.observe_signal("PAIR_00", "SELL", START + timedelta(minutes=1), "1.11") is True
+
+
+def test_short_target_and_stop_geometry_record_r_and_excursion_metrics() -> None:
+    paper = short_engine()
+    open_short_position(paper, "PAIR_00")
+    close_time = START + timedelta(minutes=3)
+    assert paper.apply_quote("PAIR_00", "1.0798", "1.0800", close_time) == "CLOSED"
+    trade = paper.ledger[0]
+    assert trade["direction"] == "SELL"
+    assert trade["exit_reason"] == "TAKE_PROFIT"
+    assert trade["realized_r"] == pytest.approx(float(TARGET_R_MULTIPLE))
+    assert trade["mfe_r"] >= trade["realized_r"]
+    assert trade["mae_r"] <= 0
+
+
+def test_short_stop_geometry_closes_on_adverse_ask_move() -> None:
+    paper = short_engine()
+    open_short_position(paper, "PAIR_00")
+    close_time = START + timedelta(minutes=3)
+    assert paper.apply_quote("PAIR_00", "1.1098", "1.1100", close_time) == "CLOSED"
+    trade = paper.ledger[0]
+    assert trade["exit_reason"] == "SUPERTREND_STOP"
+    assert trade["realized_r"] == pytest.approx(-1.0)
+
+
+def test_short_state_round_trip_preserves_direction_and_active_position() -> None:
+    paper = short_engine()
+    open_short_position(paper, "PAIR_00")
+    payload = paper.state_payload()
+    restored = FrozenCandidatePaper30.from_payload(payload, UNIVERSE, UNIVERSE_HASH)
+    assert restored.trade_direction == SHORT_TRADE_DIRECTION
+    assert restored.state_payload()["trade_direction"] == SHORT_TRADE_DIRECTION
+    assert restored.active_positions.keys() == paper.active_positions.keys()
+
+
+def test_short_launcher_defaults_to_short_runtime_paths(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    observed: dict[str, Any] = {}
+
+    def fake_run_campaign_segment(*_args: Any, **kwargs: Any) -> dict[str, Any]:
+        observed.update(kwargs)
+        return {"status": "PAPER30_FORWARD_CAMPAIGN_RUNNING"}
+
+    monkeypatch.setattr(launcher, "run_campaign_segment", fake_run_campaign_segment)
+    monkeypatch.setattr(launcher, "OandaReadOnlyClient", lambda **kwargs: kwargs)
+    monkeypatch.setenv("OANDA_API_TOKEN", "runtime-only-test-token")
+    monkeypatch.setenv("OANDA_ACCOUNT_ID", "runtime-only-test-account")
+    monkeypatch.setenv("AIOS_FOREX_PAPER30_DIRECTION", "SELL")
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "paper30-launcher",
+            "--cycles",
+            "1",
+            "--report-json",
+        ],
+    )
+
+    assert launcher.main() == 0
+    assert observed["trade_direction"] == SHORT_TRADE_DIRECTION
+    assert observed["runtime_root"] == DEFAULT_SHORT_RUNTIME_ROOT
+    assert observed["report_path"] == DEFAULT_SHORT_REPORT_PATH
+
+
+def test_short_wrapper_sets_sell_direction_before_delegating(monkeypatch: pytest.MonkeyPatch) -> None:
+    called: dict[str, str | None] = {}
+
+    def fake_main() -> int:
+        called["direction"] = os.environ.get("AIOS_FOREX_PAPER30_DIRECTION")
+        return 0
+
+    monkeypatch.setattr(launcher, "main", fake_main)
+    assert short_launcher.main() == 0
+    assert called["direction"] == "SELL"
 
 
 def test_frozen_strategy_hash_is_unchanged() -> None:

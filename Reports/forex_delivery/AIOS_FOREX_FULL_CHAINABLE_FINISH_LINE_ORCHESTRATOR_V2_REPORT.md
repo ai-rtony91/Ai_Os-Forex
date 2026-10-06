@@ -2,7 +2,7 @@
 
 Status: CHAINABLE_FOREX_ORCHESTRATOR_READY_FOR_HOURS_REPO_ONLY
 Current branch: main
-Current head: 1432fab5 Refine action recommendation worktree filtering
+Current head: b86c6514 Refresh canonical evidence reports
 Current stage: first read-only broker probe review
 Next stage: first read-only broker probe review
 Completed repo-only stages: 0

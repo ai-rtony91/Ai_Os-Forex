@@ -1,0 +1,5015 @@
+{
+  "classification_counts": {
+    "NO_POST_ENTRY_OPPORTUNITY": 4808,
+    "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE": 6114,
+    "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN": 2998
+  },
+  "event_count": 13920,
+  "oracle_is_tradable": false,
+  "packet_id": "PKT-EAST-FOREX-EDGE-EXISTENCE-CLOSURE-031",
+  "rows_sample": [
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.2247191,
+      "mfe_midpoint": 0.73707865,
+      "oracle_after_minimum_cost_upper_bound": 0.57176966,
+      "oracle_executable_upper_bound": 0.58426966,
+      "oracle_midpoint_upper_bound": 0.73707865
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.73707865,
+      "mfe_midpoint": 0.2247191,
+      "oracle_after_minimum_cost_upper_bound": 0.05042135,
+      "oracle_executable_upper_bound": 0.06292135,
+      "oracle_midpoint_upper_bound": 0.2247191
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.00404858,
+      "mfe_midpoint": 0.22672065,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.22672065
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.22672065,
+      "mfe_midpoint": 1.00404858,
+      "oracle_after_minimum_cost_upper_bound": 0.71624494,
+      "oracle_executable_upper_bound": 0.72874494,
+      "oracle_midpoint_upper_bound": 1.00404858
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.09213052,
+      "mfe_midpoint": 0.32245681,
+      "oracle_after_minimum_cost_upper_bound": 0.14872841,
+      "oracle_executable_upper_bound": 0.16122841,
+      "oracle_midpoint_upper_bound": 0.32245681
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.32245681,
+      "mfe_midpoint": 0.09213052,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.09213052
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.4159292,
+      "mfe_midpoint": 0.42477876,
+      "oracle_after_minimum_cost_upper_bound": 0.26183628,
+      "oracle_executable_upper_bound": 0.27433628,
+      "oracle_midpoint_upper_bound": 0.42477876
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.42477876,
+      "mfe_midpoint": 0.4159292,
+      "oracle_after_minimum_cost_upper_bound": 0.25298673,
+      "oracle_executable_upper_bound": 0.26548673,
+      "oracle_midpoint_upper_bound": 0.4159292
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.20512821,
+      "mfe_midpoint": 0.95726496,
+      "oracle_after_minimum_cost_upper_bound": 0.76242877,
+      "oracle_executable_upper_bound": 0.77492877,
+      "oracle_midpoint_upper_bound": 0.95726496
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.95726496,
+      "mfe_midpoint": 0.20512821,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.20512821
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.66995074,
+      "mfe_midpoint": 0.37438424,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.37438424
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.37438424,
+      "mfe_midpoint": 0.66995074,
+      "oracle_after_minimum_cost_upper_bound": 0.3421798,
+      "oracle_executable_upper_bound": 0.3546798,
+      "oracle_midpoint_upper_bound": 0.66995074
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.15625,
+      "mfe_midpoint": 0.19791667,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.19791667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.19791667,
+      "mfe_midpoint": 0.15625,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.15625
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.36871508,
+      "mfe_midpoint": 0.25698324,
+      "oracle_after_minimum_cost_upper_bound": 0.07688547,
+      "oracle_executable_upper_bound": 0.08938547,
+      "oracle_midpoint_upper_bound": 0.25698324
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.25698324,
+      "mfe_midpoint": 0.36871508,
+      "oracle_after_minimum_cost_upper_bound": 0.18861732,
+      "oracle_executable_upper_bound": 0.20111732,
+      "oracle_midpoint_upper_bound": 0.36871508
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.36681223,
+      "mfe_midpoint": 0.87336245,
+      "oracle_after_minimum_cost_upper_bound": 0.58138646,
+      "oracle_executable_upper_bound": 0.59388646,
+      "oracle_midpoint_upper_bound": 0.87336245
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.87336245,
+      "mfe_midpoint": 0.36681223,
+      "oracle_after_minimum_cost_upper_bound": 0.07483624,
+      "oracle_executable_upper_bound": 0.08733624,
+      "oracle_midpoint_upper_bound": 0.36681223
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.34042553,
+      "mfe_midpoint": 0.24113475,
+      "oracle_after_minimum_cost_upper_bound": 0.0016844,
+      "oracle_executable_upper_bound": 0.0141844,
+      "oracle_midpoint_upper_bound": 0.24113475
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.24113475,
+      "mfe_midpoint": 0.34042553,
+      "oracle_after_minimum_cost_upper_bound": 0.08679078,
+      "oracle_executable_upper_bound": 0.09929078,
+      "oracle_midpoint_upper_bound": 0.34042553
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.51666667,
+      "mfe_midpoint": 1.45,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 1.45
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.45,
+      "mfe_midpoint": 0.35,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.35
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.01333333,
+      "mfe_midpoint": 0.02133333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.02133333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.02133333,
+      "mfe_midpoint": 1.28,
+      "oracle_after_minimum_cost_upper_bound": 1.02216667,
+      "oracle_executable_upper_bound": 1.03466667,
+      "oracle_midpoint_upper_bound": 1.28
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.51908397,
+      "mfe_midpoint": 0.47328244,
+      "oracle_after_minimum_cost_upper_bound": 0.23177481,
+      "oracle_executable_upper_bound": 0.24427481,
+      "oracle_midpoint_upper_bound": 0.47328244
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.47328244,
+      "mfe_midpoint": 0.51908397,
+      "oracle_after_minimum_cost_upper_bound": 0.27757634,
+      "oracle_executable_upper_bound": 0.29007634,
+      "oracle_midpoint_upper_bound": 0.51908397
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.20841683,
+      "mfe_midpoint": 0.40881764,
+      "oracle_after_minimum_cost_upper_bound": 0.26004509,
+      "oracle_executable_upper_bound": 0.27254509,
+      "oracle_midpoint_upper_bound": 0.40881764
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.40881764,
+      "mfe_midpoint": 0.20841683,
+      "oracle_after_minimum_cost_upper_bound": 0.07567635,
+      "oracle_executable_upper_bound": 0.08817635,
+      "oracle_midpoint_upper_bound": 0.20841683
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.64444444,
+      "mfe_midpoint": 0.95555556,
+      "oracle_after_minimum_cost_upper_bound": 0.32083333,
+      "oracle_executable_upper_bound": 0.33333333,
+      "oracle_midpoint_upper_bound": 0.95555556
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.95555556,
+      "mfe_midpoint": 1.64444444,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 1.64444444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.36453202,
+      "mfe_midpoint": 0.49261084,
+      "oracle_after_minimum_cost_upper_bound": 0.31262315,
+      "oracle_executable_upper_bound": 0.32512315,
+      "oracle_midpoint_upper_bound": 0.49261084
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.49261084,
+      "mfe_midpoint": 0.36453202,
+      "oracle_after_minimum_cost_upper_bound": 0.17469212,
+      "oracle_executable_upper_bound": 0.18719212,
+      "oracle_midpoint_upper_bound": 0.36453202
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.62619808,
+      "mfe_midpoint": 0.485623,
+      "oracle_after_minimum_cost_upper_bound": 0.26865016,
+      "oracle_executable_upper_bound": 0.28115016,
+      "oracle_midpoint_upper_bound": 0.485623
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.485623,
+      "mfe_midpoint": 0.62619808,
+      "oracle_after_minimum_cost_upper_bound": 0.43478435,
+      "oracle_executable_upper_bound": 0.44728435,
+      "oracle_midpoint_upper_bound": 0.62619808
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.15384615,
+      "mfe_midpoint": 0.33333333,
+      "oracle_after_minimum_cost_upper_bound": 0.05160256,
+      "oracle_executable_upper_bound": 0.06410256,
+      "oracle_midpoint_upper_bound": 0.33333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.33333333,
+      "mfe_midpoint": 1.64102564,
+      "oracle_after_minimum_cost_upper_bound": 1.39775641,
+      "oracle_executable_upper_bound": 1.41025641,
+      "oracle_midpoint_upper_bound": 1.64102564
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.01587302,
+      "mfe_midpoint": 0.22222222,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.22222222
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.22222222,
+      "mfe_midpoint": 1.15873016,
+      "oracle_after_minimum_cost_upper_bound": 0.84464286,
+      "oracle_executable_upper_bound": 0.85714286,
+      "oracle_midpoint_upper_bound": 1.15873016
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.84285714,
+      "mfe_midpoint": 0.3,
+      "oracle_after_minimum_cost_upper_bound": 0.03035714,
+      "oracle_executable_upper_bound": 0.04285714,
+      "oracle_midpoint_upper_bound": 0.3
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.3,
+      "mfe_midpoint": 0.84285714,
+      "oracle_after_minimum_cost_upper_bound": 0.5875,
+      "oracle_executable_upper_bound": 0.6,
+      "oracle_midpoint_upper_bound": 0.84285714
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.27472527,
+      "mfe_midpoint": 0.16117216,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.16117216
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.16117216,
+      "mfe_midpoint": 1.27472527,
+      "oracle_after_minimum_cost_upper_bound": 1.02779304,
+      "oracle_executable_upper_bound": 1.04029304,
+      "oracle_midpoint_upper_bound": 1.27472527
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.45833333,
+      "mfe_midpoint": 0.70833333,
+      "oracle_after_minimum_cost_upper_bound": 0.38333333,
+      "oracle_executable_upper_bound": 0.39583333,
+      "oracle_midpoint_upper_bound": 0.70833333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.70833333,
+      "mfe_midpoint": 0.45833333,
+      "oracle_after_minimum_cost_upper_bound": 0.09166667,
+      "oracle_executable_upper_bound": 0.10416667,
+      "oracle_midpoint_upper_bound": 0.45833333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.87943262,
+      "mfe_midpoint": 0.11347518,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.11347518
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.11347518,
+      "mfe_midpoint": 0.87943262,
+      "oracle_after_minimum_cost_upper_bound": 0.59742908,
+      "oracle_executable_upper_bound": 0.60992908,
+      "oracle_midpoint_upper_bound": 0.87943262
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.24,
+      "mfe_midpoint": 0.32,
+      "oracle_after_minimum_cost_upper_bound": 0.0515,
+      "oracle_executable_upper_bound": 0.064,
+      "oracle_midpoint_upper_bound": 0.32
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.32,
+      "mfe_midpoint": 0.24,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.24
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.25339367,
+      "mfe_midpoint": 1.03167421,
+      "oracle_after_minimum_cost_upper_bound": 0.7114819,
+      "oracle_executable_upper_bound": 0.7239819,
+      "oracle_midpoint_upper_bound": 1.03167421
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.03167421,
+      "mfe_midpoint": 0.25339367,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.25339367
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.04797048,
+      "mfe_midpoint": 0.32472325,
+      "oracle_after_minimum_cost_upper_bound": 0.07606089,
+      "oracle_executable_upper_bound": 0.08856089,
+      "oracle_midpoint_upper_bound": 0.32472325
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.32472325,
+      "mfe_midpoint": 1.04797048,
+      "oracle_after_minimum_cost_upper_bound": 0.76978782,
+      "oracle_executable_upper_bound": 0.78228782,
+      "oracle_midpoint_upper_bound": 1.04797048
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.66666667,
+      "mfe_midpoint": 0.43589744,
+      "oracle_after_minimum_cost_upper_bound": 0.11570513,
+      "oracle_executable_upper_bound": 0.12820513,
+      "oracle_midpoint_upper_bound": 0.43589744
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.43589744,
+      "mfe_midpoint": 0.66666667,
+      "oracle_after_minimum_cost_upper_bound": 0.32083333,
+      "oracle_executable_upper_bound": 0.33333333,
+      "oracle_midpoint_upper_bound": 0.66666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.23348694,
+      "mfe_midpoint": 0.40552995,
+      "oracle_after_minimum_cost_upper_bound": 0.28857527,
+      "oracle_executable_upper_bound": 0.30107527,
+      "oracle_midpoint_upper_bound": 0.40552995
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.40552995,
+      "mfe_midpoint": 0.23348694,
+      "oracle_after_minimum_cost_upper_bound": 0.12267665,
+      "oracle_executable_upper_bound": 0.13517665,
+      "oracle_midpoint_upper_bound": 0.23348694
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.79012346,
+      "mfe_midpoint": 0.95473251,
+      "oracle_after_minimum_cost_upper_bound": 0.62947531,
+      "oracle_executable_upper_bound": 0.64197531,
+      "oracle_midpoint_upper_bound": 0.95473251
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.95473251,
+      "mfe_midpoint": 0.79012346,
+      "oracle_after_minimum_cost_upper_bound": 0.00396091,
+      "oracle_executable_upper_bound": 0.01646091,
+      "oracle_midpoint_upper_bound": 0.79012346
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.10714286,
+      "mfe_midpoint": 1.30357143,
+      "oracle_after_minimum_cost_upper_bound": 0.96964286,
+      "oracle_executable_upper_bound": 0.98214286,
+      "oracle_midpoint_upper_bound": 1.30357143
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.26785714,
+      "mfe_midpoint": 0.10714286,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.10714286
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.13043478,
+      "mfe_midpoint": 0.28985507,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.28985507
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.28985507,
+      "mfe_midpoint": 0.13043478,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.13043478
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.05352798,
+      "mfe_midpoint": 0.50121655,
+      "oracle_after_minimum_cost_upper_bound": 0.4011253,
+      "oracle_executable_upper_bound": 0.4136253,
+      "oracle_midpoint_upper_bound": 0.50121655
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.50121655,
+      "mfe_midpoint": 0.05352798,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.05352798
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.1509434,
+      "mfe_midpoint": 0.69433962,
+      "oracle_after_minimum_cost_upper_bound": 0.41014151,
+      "oracle_executable_upper_bound": 0.42264151,
+      "oracle_midpoint_upper_bound": 0.69433962
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.69433962,
+      "mfe_midpoint": 0.1509434,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.1509434
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.9221902,
+      "mfe_midpoint": 1.9481268,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 1.9481268
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 1.16426513,
+      "mfe_midpoint": 0.9221902,
+      "oracle_after_minimum_cost_upper_bound": 0.70219741,
+      "oracle_executable_upper_bound": 0.71469741,
+      "oracle_midpoint_upper_bound": 0.9221902
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.24561404,
+      "mfe_midpoint": 1.10526316,
+      "oracle_after_minimum_cost_upper_bound": 0.74188596,
+      "oracle_executable_upper_bound": 0.75438596,
+      "oracle_midpoint_upper_bound": 1.10526316
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.01754386,
+      "mfe_midpoint": 0.24561404,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.24561404
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.10666667,
+      "mfe_midpoint": 0.88,
+      "oracle_after_minimum_cost_upper_bound": 0.5475,
+      "oracle_executable_upper_bound": 0.56,
+      "oracle_midpoint_upper_bound": 0.88
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.88,
+      "mfe_midpoint": 0.10666667,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.10666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.56060606,
+      "mfe_midpoint": 0.51515152,
+      "oracle_after_minimum_cost_upper_bound": 0.22992424,
+      "oracle_executable_upper_bound": 0.24242424,
+      "oracle_midpoint_upper_bound": 0.51515152
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.51515152,
+      "mfe_midpoint": 0.56060606,
+      "oracle_after_minimum_cost_upper_bound": 0.2905303,
+      "oracle_executable_upper_bound": 0.3030303,
+      "oracle_midpoint_upper_bound": 0.56060606
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.1459854,
+      "mfe_midpoint": 0.81751825,
+      "oracle_after_minimum_cost_upper_bound": 0.52764599,
+      "oracle_executable_upper_bound": 0.54014599,
+      "oracle_midpoint_upper_bound": 0.81751825
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.81751825,
+      "mfe_midpoint": 0.1459854,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.1459854
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.58278146,
+      "mfe_midpoint": 0.18013245,
+      "oracle_after_minimum_cost_upper_bound": 0.04048013,
+      "oracle_executable_upper_bound": 0.05298013,
+      "oracle_midpoint_upper_bound": 0.18013245
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.18013245,
+      "mfe_midpoint": 0.58278146,
+      "oracle_after_minimum_cost_upper_bound": 0.45902318,
+      "oracle_executable_upper_bound": 0.47152318,
+      "oracle_midpoint_upper_bound": 0.58278146
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.26470588,
+      "mfe_midpoint": 0.58823529,
+      "oracle_after_minimum_cost_upper_bound": 0.31102941,
+      "oracle_executable_upper_bound": 0.32352941,
+      "oracle_midpoint_upper_bound": 0.58823529
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.58823529,
+      "mfe_midpoint": 0.26470588,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.26470588
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.33787466,
+      "mfe_midpoint": 0.65395095,
+      "oracle_after_minimum_cost_upper_bound": 0.43436649,
+      "oracle_executable_upper_bound": 0.44686649,
+      "oracle_midpoint_upper_bound": 0.65395095
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.65395095,
+      "mfe_midpoint": 0.33787466,
+      "oracle_after_minimum_cost_upper_bound": 0.10739101,
+      "oracle_executable_upper_bound": 0.11989101,
+      "oracle_midpoint_upper_bound": 0.33787466
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.3015873,
+      "mfe_midpoint": 0.87301587,
+      "oracle_after_minimum_cost_upper_bound": 0.57480159,
+      "oracle_executable_upper_bound": 0.58730159,
+      "oracle_midpoint_upper_bound": 0.87301587
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.87301587,
+      "mfe_midpoint": 0.3015873,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.3015873
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.71264368,
+      "mfe_midpoint": 0.48275862,
+      "oracle_after_minimum_cost_upper_bound": 0.2058908,
+      "oracle_executable_upper_bound": 0.2183908,
+      "oracle_midpoint_upper_bound": 0.48275862
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.48275862,
+      "mfe_midpoint": 0.71264368,
+      "oracle_after_minimum_cost_upper_bound": 0.47025862,
+      "oracle_executable_upper_bound": 0.48275862,
+      "oracle_midpoint_upper_bound": 0.71264368
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.08490566,
+      "mfe_midpoint": 0.23584906,
+      "oracle_after_minimum_cost_upper_bound": 0.00636792,
+      "oracle_executable_upper_bound": 0.01886792,
+      "oracle_midpoint_upper_bound": 0.23584906
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.23584906,
+      "mfe_midpoint": 1.08490566,
+      "oracle_after_minimum_cost_upper_bound": 0.86485849,
+      "oracle_executable_upper_bound": 0.87735849,
+      "oracle_midpoint_upper_bound": 1.08490566
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.44848485,
+      "mfe_midpoint": 0.27878788,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.01212121,
+      "oracle_midpoint_upper_bound": 0.27878788
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.27878788,
+      "mfe_midpoint": 0.44848485,
+      "oracle_after_minimum_cost_upper_bound": 0.16931818,
+      "oracle_executable_upper_bound": 0.18181818,
+      "oracle_midpoint_upper_bound": 0.44848485
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.04273504,
+      "mfe_midpoint": 0.01709402,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.01709402
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.01709402,
+      "mfe_midpoint": 1.09401709,
+      "oracle_after_minimum_cost_upper_bound": 0.81655983,
+      "oracle_executable_upper_bound": 0.82905983,
+      "oracle_midpoint_upper_bound": 1.09401709
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.37313433,
+      "mfe_midpoint": 0.20895522,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.20895522
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.20895522,
+      "mfe_midpoint": 2.04477612,
+      "oracle_after_minimum_cost_upper_bound": 1.71884328,
+      "oracle_executable_upper_bound": 1.73134328,
+      "oracle_midpoint_upper_bound": 2.04477612
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.66666667,
+      "mfe_midpoint": 0.23376623,
+      "oracle_after_minimum_cost_upper_bound": 0.03944805,
+      "oracle_executable_upper_bound": 0.05194805,
+      "oracle_midpoint_upper_bound": 0.23376623
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.23376623,
+      "mfe_midpoint": 0.66666667,
+      "oracle_after_minimum_cost_upper_bound": 0.47234848,
+      "oracle_executable_upper_bound": 0.48484848,
+      "oracle_midpoint_upper_bound": 0.66666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.12121212,
+      "mfe_midpoint": 2.0,
+      "oracle_after_minimum_cost_upper_bound": 1.69962121,
+      "oracle_executable_upper_bound": 1.71212121,
+      "oracle_midpoint_upper_bound": 2.0
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.03030303,
+      "mfe_midpoint": 0.12121212,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.12121212
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.49404762,
+      "mfe_midpoint": 0.625,
+      "oracle_after_minimum_cost_upper_bound": 0.44583333,
+      "oracle_executable_upper_bound": 0.45833333,
+      "oracle_midpoint_upper_bound": 0.625
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.625,
+      "mfe_midpoint": 0.49404762,
+      "oracle_after_minimum_cost_upper_bound": 0.33869048,
+      "oracle_executable_upper_bound": 0.35119048,
+      "oracle_midpoint_upper_bound": 0.49404762
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.50843061,
+      "mfe_midpoint": 0.15564202,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.01037613,
+      "oracle_midpoint_upper_bound": 0.15564202
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.15564202,
+      "mfe_midpoint": 0.50843061,
+      "oracle_after_minimum_cost_upper_bound": 0.34028859,
+      "oracle_executable_upper_bound": 0.35278859,
+      "oracle_midpoint_upper_bound": 0.50843061
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.70072993,
+      "mfe_midpoint": 0.05839416,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.05839416
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.05839416,
+      "mfe_midpoint": 0.70072993,
+      "oracle_after_minimum_cost_upper_bound": 0.38166058,
+      "oracle_executable_upper_bound": 0.39416058,
+      "oracle_midpoint_upper_bound": 0.70072993
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.77922078,
+      "mfe_midpoint": 0.06493506,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.06493506
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.06493506,
+      "mfe_midpoint": 0.77922078,
+      "oracle_after_minimum_cost_upper_bound": 0.50698052,
+      "oracle_executable_upper_bound": 0.51948052,
+      "oracle_midpoint_upper_bound": 0.77922078
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.0,
+      "mfe_midpoint": 0.26388889,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.26388889
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.26388889,
+      "mfe_midpoint": 1.15277778,
+      "oracle_after_minimum_cost_upper_bound": 0.79305556,
+      "oracle_executable_upper_bound": 0.80555556,
+      "oracle_midpoint_upper_bound": 1.15277778
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.37037037,
+      "mfe_midpoint": 0.17283951,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.17283951
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.17283951,
+      "mfe_midpoint": 0.37037037,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.37037037
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.59130435,
+      "mfe_midpoint": 0.8115942,
+      "oracle_after_minimum_cost_upper_bound": 0.57880435,
+      "oracle_executable_upper_bound": 0.59130435,
+      "oracle_midpoint_upper_bound": 0.8115942
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.8115942,
+      "mfe_midpoint": 0.59130435,
+      "oracle_after_minimum_cost_upper_bound": 0.3701087,
+      "oracle_executable_upper_bound": 0.3826087,
+      "oracle_midpoint_upper_bound": 0.59130435
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.72521246,
+      "mfe_midpoint": 0.3286119,
+      "oracle_after_minimum_cost_upper_bound": 0.06682011,
+      "oracle_executable_upper_bound": 0.07932011,
+      "oracle_midpoint_upper_bound": 0.3286119
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.3286119,
+      "mfe_midpoint": 0.72521246,
+      "oracle_after_minimum_cost_upper_bound": 0.45208924,
+      "oracle_executable_upper_bound": 0.46458924,
+      "oracle_midpoint_upper_bound": 0.72521246
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.29065744,
+      "mfe_midpoint": 2.8650519,
+      "oracle_after_minimum_cost_upper_bound": 2.64493945,
+      "oracle_executable_upper_bound": 2.65743945,
+      "oracle_midpoint_upper_bound": 2.8650519
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.03806228,
+      "mfe_midpoint": 0.29065744,
+      "oracle_after_minimum_cost_upper_bound": 0.08438581,
+      "oracle_executable_upper_bound": 0.09688581,
+      "oracle_midpoint_upper_bound": 0.29065744
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.552,
+      "mfe_midpoint": 0.056,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.056
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.056,
+      "mfe_midpoint": 0.552,
+      "oracle_after_minimum_cost_upper_bound": 0.18216667,
+      "oracle_executable_upper_bound": 0.19466667,
+      "oracle_midpoint_upper_bound": 0.552
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.6504065,
+      "mfe_midpoint": 0.45934959,
+      "oracle_after_minimum_cost_upper_bound": 0.3574187,
+      "oracle_executable_upper_bound": 0.3699187,
+      "oracle_midpoint_upper_bound": 0.45934959
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.45934959,
+      "mfe_midpoint": 0.6504065,
+      "oracle_after_minimum_cost_upper_bound": 0.54847561,
+      "oracle_executable_upper_bound": 0.56097561,
+      "oracle_midpoint_upper_bound": 0.6504065
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.4028777,
+      "mfe_midpoint": 0.75779376,
+      "oracle_after_minimum_cost_upper_bound": 0.53426259,
+      "oracle_executable_upper_bound": 0.54676259,
+      "oracle_midpoint_upper_bound": 0.75779376
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.75779376,
+      "mfe_midpoint": 0.4028777,
+      "oracle_after_minimum_cost_upper_bound": 0.2081235,
+      "oracle_executable_upper_bound": 0.2206235,
+      "oracle_midpoint_upper_bound": 0.4028777
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.55445545,
+      "mfe_midpoint": 0.1029703,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.1029703
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.1029703,
+      "mfe_midpoint": 0.55445545,
+      "oracle_after_minimum_cost_upper_bound": 0.37561881,
+      "oracle_executable_upper_bound": 0.38811881,
+      "oracle_midpoint_upper_bound": 0.55445545
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.10239651,
+      "mfe_midpoint": 0.15904139,
+      "oracle_after_minimum_cost_upper_bound": 0.01582244,
+      "oracle_executable_upper_bound": 0.02832244,
+      "oracle_midpoint_upper_bound": 0.15904139
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.15904139,
+      "mfe_midpoint": 0.10239651,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.10239651
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.93333333,
+      "mfe_midpoint": 0.16,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.16
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.16,
+      "mfe_midpoint": 0.93333333,
+      "oracle_after_minimum_cost_upper_bound": 0.5075,
+      "oracle_executable_upper_bound": 0.52,
+      "oracle_midpoint_upper_bound": 0.93333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.72839506,
+      "mfe_midpoint": 0.33333333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.33333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.33333333,
+      "mfe_midpoint": 0.72839506,
+      "oracle_after_minimum_cost_upper_bound": 0.33317901,
+      "oracle_executable_upper_bound": 0.34567901,
+      "oracle_midpoint_upper_bound": 0.72839506
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.23333333,
+      "mfe_midpoint": 0.42222222,
+      "oracle_after_minimum_cost_upper_bound": 0.07638889,
+      "oracle_executable_upper_bound": 0.08888889,
+      "oracle_midpoint_upper_bound": 0.42222222
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.42222222,
+      "mfe_midpoint": 0.23333333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.23333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.12244898,
+      "mfe_midpoint": 0.23809524,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.23809524
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.23809524,
+      "mfe_midpoint": 0.12244898,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.12244898
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.72413793,
+      "mfe_midpoint": 0.18390805,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.18390805
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.18390805,
+      "mfe_midpoint": 0.72413793,
+      "oracle_after_minimum_cost_upper_bound": 0.38979885,
+      "oracle_executable_upper_bound": 0.40229885,
+      "oracle_midpoint_upper_bound": 0.72413793
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.19444444,
+      "mfe_midpoint": 0.61111111,
+      "oracle_after_minimum_cost_upper_bound": 0.26527778,
+      "oracle_executable_upper_bound": 0.27777778,
+      "oracle_midpoint_upper_bound": 0.61111111
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.61111111,
+      "mfe_midpoint": 0.19444444,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.19444444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.91803279,
+      "mfe_midpoint": 0.68196721,
+      "oracle_after_minimum_cost_upper_bound": 0.35471311,
+      "oracle_executable_upper_bound": 0.36721311,
+      "oracle_midpoint_upper_bound": 0.68196721
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.68196721,
+      "mfe_midpoint": 0.91803279,
+      "oracle_after_minimum_cost_upper_bound": 0.09241803,
+      "oracle_executable_upper_bound": 0.10491803,
+      "oracle_midpoint_upper_bound": 0.91803279
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.5952381,
+      "mfe_midpoint": 0.70238095,
+      "oracle_after_minimum_cost_upper_bound": 0.38035714,
+      "oracle_executable_upper_bound": 0.39285714,
+      "oracle_midpoint_upper_bound": 0.70238095
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.70238095,
+      "mfe_midpoint": 0.5952381,
+      "oracle_after_minimum_cost_upper_bound": 0.28511905,
+      "oracle_executable_upper_bound": 0.29761905,
+      "oracle_midpoint_upper_bound": 0.5952381
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.09352518,
+      "mfe_midpoint": 0.17266187,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.17266187
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.17266187,
+      "mfe_midpoint": 1.09352518,
+      "oracle_after_minimum_cost_upper_bound": 0.7932554,
+      "oracle_executable_upper_bound": 0.8057554,
+      "oracle_midpoint_upper_bound": 1.09352518
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.28169014,
+      "mfe_midpoint": 0.73239437,
+      "oracle_after_minimum_cost_upper_bound": 0.42411972,
+      "oracle_executable_upper_bound": 0.43661972,
+      "oracle_midpoint_upper_bound": 0.73239437
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.73239437,
+      "mfe_midpoint": 0.28169014,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.28169014
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.84057971,
+      "mfe_midpoint": 0.43478261,
+      "oracle_after_minimum_cost_upper_bound": 0.05996377,
+      "oracle_executable_upper_bound": 0.07246377,
+      "oracle_midpoint_upper_bound": 0.43478261
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.43478261,
+      "mfe_midpoint": 0.84057971,
+      "oracle_after_minimum_cost_upper_bound": 0.45126812,
+      "oracle_executable_upper_bound": 0.46376812,
+      "oracle_midpoint_upper_bound": 0.84057971
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.11494253,
+      "mfe_midpoint": 0.70114943,
+      "oracle_after_minimum_cost_upper_bound": 0.4012931,
+      "oracle_executable_upper_bound": 0.4137931,
+      "oracle_midpoint_upper_bound": 0.70114943
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.70114943,
+      "mfe_midpoint": 0.11494253,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.11494253
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.38095238,
+      "mfe_midpoint": 0.33333333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.33333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.33333333,
+      "mfe_midpoint": 0.38095238,
+      "oracle_after_minimum_cost_upper_bound": 0.03511905,
+      "oracle_executable_upper_bound": 0.04761905,
+      "oracle_midpoint_upper_bound": 0.38095238
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.23809524,
+      "mfe_midpoint": 0.03174603,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.03174603
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.03174603,
+      "mfe_midpoint": 1.68253968,
+      "oracle_after_minimum_cost_upper_bound": 1.32083333,
+      "oracle_executable_upper_bound": 1.33333333,
+      "oracle_midpoint_upper_bound": 1.68253968
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.16666667,
+      "mfe_midpoint": 1.21794872,
+      "oracle_after_minimum_cost_upper_bound": 0.89775641,
+      "oracle_executable_upper_bound": 0.91025641,
+      "oracle_midpoint_upper_bound": 1.21794872
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.08974359,
+      "mfe_midpoint": 0.16666667,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.16666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.66666667,
+      "mfe_midpoint": 0.14492754,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.14492754
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.14492754,
+      "mfe_midpoint": 0.66666667,
+      "oracle_after_minimum_cost_upper_bound": 0.27735507,
+      "oracle_executable_upper_bound": 0.28985507,
+      "oracle_midpoint_upper_bound": 0.66666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.42857143,
+      "mfe_midpoint": 0.61904762,
+      "oracle_after_minimum_cost_upper_bound": 0.24146825,
+      "oracle_executable_upper_bound": 0.25396825,
+      "oracle_midpoint_upper_bound": 0.61904762
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.61904762,
+      "mfe_midpoint": 0.42857143,
+      "oracle_after_minimum_cost_upper_bound": 0.03511905,
+      "oracle_executable_upper_bound": 0.04761905,
+      "oracle_midpoint_upper_bound": 0.42857143
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.24,
+      "mfe_midpoint": 1.16,
+      "oracle_after_minimum_cost_upper_bound": 0.84083333,
+      "oracle_executable_upper_bound": 0.85333333,
+      "oracle_midpoint_upper_bound": 1.16
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.16,
+      "mfe_midpoint": 0.24,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.24
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.14689266,
+      "mfe_midpoint": 1.50282486,
+      "oracle_after_minimum_cost_upper_bound": 1.21913842,
+      "oracle_executable_upper_bound": 1.23163842,
+      "oracle_midpoint_upper_bound": 1.50282486
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.00564972,
+      "mfe_midpoint": 0.14689266,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.14689266
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.41474654,
+      "mfe_midpoint": 0.16589862,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.16589862
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.16589862,
+      "mfe_midpoint": 0.41474654,
+      "oracle_after_minimum_cost_upper_bound": 0.15339862,
+      "oracle_executable_upper_bound": 0.16589862,
+      "oracle_midpoint_upper_bound": 0.41474654
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.58947368,
+      "mfe_midpoint": 0.33684211,
+      "oracle_after_minimum_cost_upper_bound": 0.01557018,
+      "oracle_executable_upper_bound": 0.02807018,
+      "oracle_midpoint_upper_bound": 0.33684211
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.33684211,
+      "mfe_midpoint": 0.58947368,
+      "oracle_after_minimum_cost_upper_bound": 0.28223684,
+      "oracle_executable_upper_bound": 0.29473684,
+      "oracle_midpoint_upper_bound": 0.58947368
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.66666667,
+      "mfe_midpoint": 0.25757576,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.25757576
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.25757576,
+      "mfe_midpoint": 0.66666667,
+      "oracle_after_minimum_cost_upper_bound": 0.33598485,
+      "oracle_executable_upper_bound": 0.34848485,
+      "oracle_midpoint_upper_bound": 0.66666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.375,
+      "mfe_midpoint": 1.81944444,
+      "oracle_after_minimum_cost_upper_bound": 1.47361111,
+      "oracle_executable_upper_bound": 1.48611111,
+      "oracle_midpoint_upper_bound": 1.81944444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.20833333,
+      "mfe_midpoint": 0.375,
+      "oracle_after_minimum_cost_upper_bound": 0.01527778,
+      "oracle_executable_upper_bound": 0.02777778,
+      "oracle_midpoint_upper_bound": 0.375
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.13333333,
+      "mfe_midpoint": 0.62222222,
+      "oracle_after_minimum_cost_upper_bound": 0.29861111,
+      "oracle_executable_upper_bound": 0.31111111,
+      "oracle_midpoint_upper_bound": 0.62222222
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.62222222,
+      "mfe_midpoint": 0.13333333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.13333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.09722222,
+      "mfe_midpoint": 0.41666667,
+      "oracle_after_minimum_cost_upper_bound": 0.09861111,
+      "oracle_executable_upper_bound": 0.11111111,
+      "oracle_midpoint_upper_bound": 0.41666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.41666667,
+      "mfe_midpoint": 0.09722222,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.09722222
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.13333333,
+      "mfe_midpoint": 0.62666667,
+      "oracle_after_minimum_cost_upper_bound": 0.3075,
+      "oracle_executable_upper_bound": 0.32,
+      "oracle_midpoint_upper_bound": 0.62666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.62666667,
+      "mfe_midpoint": 0.13333333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.13333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.69135802,
+      "mfe_midpoint": 0.12345679,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.12345679
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.12345679,
+      "mfe_midpoint": 0.69135802,
+      "oracle_after_minimum_cost_upper_bound": 0.34552469,
+      "oracle_executable_upper_bound": 0.35802469,
+      "oracle_midpoint_upper_bound": 0.69135802
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.22222222,
+      "mfe_midpoint": 0.10526316,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.10526316
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.10526316,
+      "mfe_midpoint": 0.22222222,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.22222222
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.44012945,
+      "mfe_midpoint": 0.50485437,
+      "oracle_after_minimum_cost_upper_bound": 0.19461974,
+      "oracle_executable_upper_bound": 0.20711974,
+      "oracle_midpoint_upper_bound": 0.50485437
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.50485437,
+      "mfe_midpoint": 0.44012945,
+      "oracle_after_minimum_cost_upper_bound": 0.12989482,
+      "oracle_executable_upper_bound": 0.14239482,
+      "oracle_midpoint_upper_bound": 0.44012945
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.04545455,
+      "mfe_midpoint": 0.1969697,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.1969697
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.1969697,
+      "mfe_midpoint": 1.04545455,
+      "oracle_after_minimum_cost_upper_bound": 0.6844697,
+      "oracle_executable_upper_bound": 0.6969697,
+      "oracle_midpoint_upper_bound": 1.04545455
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.66666667,
+      "mfe_midpoint": 0.09333333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.09333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.09333333,
+      "mfe_midpoint": 0.66666667,
+      "oracle_after_minimum_cost_upper_bound": 0.32083333,
+      "oracle_executable_upper_bound": 0.33333333,
+      "oracle_midpoint_upper_bound": 0.66666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.15229885,
+      "mfe_midpoint": 0.08333333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.08333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.08333333,
+      "mfe_midpoint": 0.15229885,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.15229885
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.4283247,
+      "mfe_midpoint": 0.26252159,
+      "oracle_after_minimum_cost_upper_bound": 0.09803541,
+      "oracle_executable_upper_bound": 0.11053541,
+      "oracle_midpoint_upper_bound": 0.26252159
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.26252159,
+      "mfe_midpoint": 0.4283247,
+      "oracle_after_minimum_cost_upper_bound": 0.26383851,
+      "oracle_executable_upper_bound": 0.27633851,
+      "oracle_midpoint_upper_bound": 0.4283247
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.29333333,
+      "mfe_midpoint": 0.08,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.08
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.08,
+      "mfe_midpoint": 1.62666667,
+      "oracle_after_minimum_cost_upper_bound": 1.3075,
+      "oracle_executable_upper_bound": 1.32,
+      "oracle_midpoint_upper_bound": 1.62666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.18390805,
+      "mfe_midpoint": 0.66666667,
+      "oracle_after_minimum_cost_upper_bound": 0.29784483,
+      "oracle_executable_upper_bound": 0.31034483,
+      "oracle_midpoint_upper_bound": 0.66666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.66666667,
+      "mfe_midpoint": 0.18390805,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.18390805
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.0990099,
+      "mfe_midpoint": 0.17161716,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.17161716
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.17161716,
+      "mfe_midpoint": 0.0990099,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.0990099
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.83829237,
+      "mfe_midpoint": 0.24838292,
+      "oracle_after_minimum_cost_upper_bound": 0.12204075,
+      "oracle_executable_upper_bound": 0.13454075,
+      "oracle_midpoint_upper_bound": 0.24838292
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.24838292,
+      "mfe_midpoint": 0.83829237,
+      "oracle_after_minimum_cost_upper_bound": 0.70160091,
+      "oracle_executable_upper_bound": 0.71410091,
+      "oracle_midpoint_upper_bound": 0.83829237
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.13580247,
+      "mfe_midpoint": 0.3308642,
+      "oracle_after_minimum_cost_upper_bound": 0.19490741,
+      "oracle_executable_upper_bound": 0.20740741,
+      "oracle_midpoint_upper_bound": 0.3308642
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.3308642,
+      "mfe_midpoint": 1.33333333,
+      "oracle_after_minimum_cost_upper_bound": 1.19737654,
+      "oracle_executable_upper_bound": 1.20987654,
+      "oracle_midpoint_upper_bound": 1.33333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.76727786,
+      "mfe_midpoint": 0.13540197,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.13540197
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.13540197,
+      "mfe_midpoint": 0.76727786,
+      "oracle_after_minimum_cost_upper_bound": 0.61373413,
+      "oracle_executable_upper_bound": 0.62623413,
+      "oracle_midpoint_upper_bound": 0.76727786
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.80519481,
+      "mfe_midpoint": 0.48051948,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.48051948
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.48051948,
+      "mfe_midpoint": 0.80519481,
+      "oracle_after_minimum_cost_upper_bound": 0.16282468,
+      "oracle_executable_upper_bound": 0.17532468,
+      "oracle_midpoint_upper_bound": 0.80519481
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.38476954,
+      "mfe_midpoint": 0.33667335,
+      "oracle_after_minimum_cost_upper_bound": 0.14782064,
+      "oracle_executable_upper_bound": 0.16032064,
+      "oracle_midpoint_upper_bound": 0.33667335
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.33667335,
+      "mfe_midpoint": 0.38476954,
+      "oracle_after_minimum_cost_upper_bound": 0.17988477,
+      "oracle_executable_upper_bound": 0.19238477,
+      "oracle_midpoint_upper_bound": 0.38476954
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.96078431,
+      "mfe_midpoint": 0.25490196,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.25490196
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.25490196,
+      "mfe_midpoint": 0.96078431,
+      "oracle_after_minimum_cost_upper_bound": 0.67377451,
+      "oracle_executable_upper_bound": 0.68627451,
+      "oracle_midpoint_upper_bound": 0.96078431
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.6744186,
+      "mfe_midpoint": 0.37209302,
+      "oracle_after_minimum_cost_upper_bound": 0.04563953,
+      "oracle_executable_upper_bound": 0.05813953,
+      "oracle_midpoint_upper_bound": 0.37209302
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.37209302,
+      "mfe_midpoint": 0.6744186,
+      "oracle_after_minimum_cost_upper_bound": 0.3247093,
+      "oracle_executable_upper_bound": 0.3372093,
+      "oracle_midpoint_upper_bound": 0.6744186
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.98484848,
+      "mfe_midpoint": 0.22727273,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.22727273
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.22727273,
+      "mfe_midpoint": 0.98484848,
+      "oracle_after_minimum_cost_upper_bound": 0.4875,
+      "oracle_executable_upper_bound": 0.5,
+      "oracle_midpoint_upper_bound": 0.98484848
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 1.11568938,
+      "mfe_midpoint": 0.79873217,
+      "oracle_after_minimum_cost_upper_bound": 0.62775357,
+      "oracle_executable_upper_bound": 0.64025357,
+      "oracle_midpoint_upper_bound": 0.79873217
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.79873217,
+      "mfe_midpoint": 1.11568938,
+      "oracle_after_minimum_cost_upper_bound": 0.93837163,
+      "oracle_executable_upper_bound": 0.95087163,
+      "oracle_midpoint_upper_bound": 1.11568938
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.22672065,
+      "mfe_midpoint": 0.53441296,
+      "oracle_after_minimum_cost_upper_bound": 0.31138664,
+      "oracle_executable_upper_bound": 0.32388664,
+      "oracle_midpoint_upper_bound": 0.53441296
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.53441296,
+      "mfe_midpoint": 0.22672065,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.22672065
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.4691358,
+      "mfe_midpoint": 0.11111111,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.11111111
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.11111111,
+      "mfe_midpoint": 1.4691358,
+      "oracle_after_minimum_cost_upper_bound": 1.08626543,
+      "oracle_executable_upper_bound": 1.09876543,
+      "oracle_midpoint_upper_bound": 1.4691358
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.55248619,
+      "mfe_midpoint": 0.4198895,
+      "oracle_after_minimum_cost_upper_bound": 0.16429558,
+      "oracle_executable_upper_bound": 0.17679558,
+      "oracle_midpoint_upper_bound": 0.4198895
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.4198895,
+      "mfe_midpoint": 0.55248619,
+      "oracle_after_minimum_cost_upper_bound": 0.29689227,
+      "oracle_executable_upper_bound": 0.30939227,
+      "oracle_midpoint_upper_bound": 0.55248619
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.05240175,
+      "mfe_midpoint": 1.6069869,
+      "oracle_after_minimum_cost_upper_bound": 1.40234716,
+      "oracle_executable_upper_bound": 1.41484716,
+      "oracle_midpoint_upper_bound": 1.6069869
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.35371179,
+      "mfe_midpoint": 0.05240175,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.05240175
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.02762431,
+      "mfe_midpoint": 0.0,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.0
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.0,
+      "mfe_midpoint": 1.31491713,
+      "oracle_after_minimum_cost_upper_bound": 1.04827348,
+      "oracle_executable_upper_bound": 1.06077348,
+      "oracle_midpoint_upper_bound": 1.31491713
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.80250784,
+      "mfe_midpoint": 0.15047022,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.15047022
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.15047022,
+      "mfe_midpoint": 0.80250784,
+      "oracle_after_minimum_cost_upper_bound": 0.46398903,
+      "oracle_executable_upper_bound": 0.47648903,
+      "oracle_midpoint_upper_bound": 0.80250784
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.33333333,
+      "mfe_midpoint": 0.30555556,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.30555556
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.30555556,
+      "mfe_midpoint": 0.33333333,
+      "oracle_after_minimum_cost_upper_bound": 0.00138889,
+      "oracle_executable_upper_bound": 0.01388889,
+      "oracle_midpoint_upper_bound": 0.33333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.22429907,
+      "mfe_midpoint": 1.00934579,
+      "oracle_after_minimum_cost_upper_bound": 0.71024143,
+      "oracle_executable_upper_bound": 0.72274143,
+      "oracle_midpoint_upper_bound": 1.00934579
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.00934579,
+      "mfe_midpoint": 0.22429907,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.22429907
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.17241379,
+      "mfe_midpoint": 0.72413793,
+      "oracle_after_minimum_cost_upper_bound": 0.42428161,
+      "oracle_executable_upper_bound": 0.43678161,
+      "oracle_midpoint_upper_bound": 0.72413793
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.72413793,
+      "mfe_midpoint": 0.17241379,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.17241379
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.43678161,
+      "mfe_midpoint": 0.45977011,
+      "oracle_after_minimum_cost_upper_bound": 0.07945402,
+      "oracle_executable_upper_bound": 0.09195402,
+      "oracle_midpoint_upper_bound": 0.45977011
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.45977011,
+      "mfe_midpoint": 0.43678161,
+      "oracle_after_minimum_cost_upper_bound": 0.10244253,
+      "oracle_executable_upper_bound": 0.11494253,
+      "oracle_midpoint_upper_bound": 0.43678161
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.47222222,
+      "mfe_midpoint": 0.02777778,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.02777778
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.02777778,
+      "mfe_midpoint": 0.47222222,
+      "oracle_after_minimum_cost_upper_bound": 0.12638889,
+      "oracle_executable_upper_bound": 0.13888889,
+      "oracle_midpoint_upper_bound": 0.47222222
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.41498559,
+      "mfe_midpoint": 0.50720461,
+      "oracle_after_minimum_cost_upper_bound": 0.21804755,
+      "oracle_executable_upper_bound": 0.23054755,
+      "oracle_midpoint_upper_bound": 0.50720461
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.50720461,
+      "mfe_midpoint": 0.41498559,
+      "oracle_after_minimum_cost_upper_bound": 0.14888329,
+      "oracle_executable_upper_bound": 0.16138329,
+      "oracle_midpoint_upper_bound": 0.41498559
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.30718954,
+      "mfe_midpoint": 0.44444444,
+      "oracle_after_minimum_cost_upper_bound": 0.32083333,
+      "oracle_executable_upper_bound": 0.33333333,
+      "oracle_midpoint_upper_bound": 0.44444444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.44444444,
+      "mfe_midpoint": 0.30718954,
+      "oracle_after_minimum_cost_upper_bound": 0.19011438,
+      "oracle_executable_upper_bound": 0.20261438,
+      "oracle_midpoint_upper_bound": 0.30718954
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.81481481,
+      "mfe_midpoint": 0.48148148,
+      "oracle_after_minimum_cost_upper_bound": 0.1912037,
+      "oracle_executable_upper_bound": 0.2037037,
+      "oracle_midpoint_upper_bound": 0.48148148
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.48148148,
+      "mfe_midpoint": 0.81481481,
+      "oracle_after_minimum_cost_upper_bound": 0.52453704,
+      "oracle_executable_upper_bound": 0.53703704,
+      "oracle_midpoint_upper_bound": 0.81481481
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 3.92307692,
+      "mfe_midpoint": 0.36538462,
+      "oracle_after_minimum_cost_upper_bound": 0.08365385,
+      "oracle_executable_upper_bound": 0.09615385,
+      "oracle_midpoint_upper_bound": 0.36538462
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.36538462,
+      "mfe_midpoint": 3.92307692,
+      "oracle_after_minimum_cost_upper_bound": 3.41057692,
+      "oracle_executable_upper_bound": 3.42307692,
+      "oracle_midpoint_upper_bound": 3.92307692
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.50574713,
+      "mfe_midpoint": 0.44444444,
+      "oracle_after_minimum_cost_upper_bound": 0.21738506,
+      "oracle_executable_upper_bound": 0.22988506,
+      "oracle_midpoint_upper_bound": 0.44444444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.44444444,
+      "mfe_midpoint": 0.50574713,
+      "oracle_after_minimum_cost_upper_bound": 0.27868774,
+      "oracle_executable_upper_bound": 0.29118774,
+      "oracle_midpoint_upper_bound": 0.50574713
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.59223301,
+      "mfe_midpoint": 0.77669903,
+      "oracle_after_minimum_cost_upper_bound": 0.47293689,
+      "oracle_executable_upper_bound": 0.48543689,
+      "oracle_midpoint_upper_bound": 0.77669903
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.77669903,
+      "mfe_midpoint": 1.59223301,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 1.59223301
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.44444444,
+      "mfe_midpoint": 0.62222222,
+      "oracle_after_minimum_cost_upper_bound": 0.25416667,
+      "oracle_executable_upper_bound": 0.26666667,
+      "oracle_midpoint_upper_bound": 0.62222222
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.62222222,
+      "mfe_midpoint": 0.44444444,
+      "oracle_after_minimum_cost_upper_bound": 0.14305556,
+      "oracle_executable_upper_bound": 0.15555556,
+      "oracle_midpoint_upper_bound": 0.44444444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.26130653,
+      "mfe_midpoint": 1.30653266,
+      "oracle_after_minimum_cost_upper_bound": 0.99252513,
+      "oracle_executable_upper_bound": 1.00502513,
+      "oracle_midpoint_upper_bound": 1.30653266
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.30653266,
+      "mfe_midpoint": 0.26130653,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.26130653
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.39810427,
+      "mfe_midpoint": 0.22748815,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.22748815
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.22748815,
+      "mfe_midpoint": 0.39810427,
+      "oracle_after_minimum_cost_upper_bound": 0.10124408,
+      "oracle_executable_upper_bound": 0.11374408,
+      "oracle_midpoint_upper_bound": 0.39810427
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.26315789,
+      "mfe_midpoint": 0.32535885,
+      "oracle_after_minimum_cost_upper_bound": 0.04491627,
+      "oracle_executable_upper_bound": 0.05741627,
+      "oracle_midpoint_upper_bound": 0.32535885
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.32535885,
+      "mfe_midpoint": 1.41626794,
+      "oracle_after_minimum_cost_upper_bound": 1.02099282,
+      "oracle_executable_upper_bound": 1.03349282,
+      "oracle_midpoint_upper_bound": 1.41626794
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.52083333,
+      "mfe_midpoint": 0.75,
+      "oracle_after_minimum_cost_upper_bound": 0.40416667,
+      "oracle_executable_upper_bound": 0.41666667,
+      "oracle_midpoint_upper_bound": 0.75
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.75,
+      "mfe_midpoint": 0.52083333,
+      "oracle_after_minimum_cost_upper_bound": 0.175,
+      "oracle_executable_upper_bound": 0.1875,
+      "oracle_midpoint_upper_bound": 0.52083333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.2745098,
+      "mfe_midpoint": 0.15686275,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.15686275
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.15686275,
+      "mfe_midpoint": 0.2745098,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.2745098
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.27927928,
+      "mfe_midpoint": 0.26126126,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.26126126
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.26126126,
+      "mfe_midpoint": 0.27927928,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.27927928
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.16438356,
+      "mfe_midpoint": 1.43835616,
+      "oracle_after_minimum_cost_upper_bound": 1.20667808,
+      "oracle_executable_upper_bound": 1.21917808,
+      "oracle_midpoint_upper_bound": 1.43835616
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.1369863,
+      "mfe_midpoint": 0.16438356,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.16438356
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.02346041,
+      "mfe_midpoint": 0.93841642,
+      "oracle_after_minimum_cost_upper_bound": 0.76169355,
+      "oracle_executable_upper_bound": 0.77419355,
+      "oracle_midpoint_upper_bound": 0.93841642
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.93841642,
+      "mfe_midpoint": 0.02346041,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.02346041
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.32340426,
+      "mfe_midpoint": 4.13617021,
+      "oracle_after_minimum_cost_upper_bound": 3.59601064,
+      "oracle_executable_upper_bound": 3.60851064,
+      "oracle_midpoint_upper_bound": 4.13617021
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 4.13617021,
+      "mfe_midpoint": 0.32340426,
+      "oracle_after_minimum_cost_upper_bound": 0.05558511,
+      "oracle_executable_upper_bound": 0.06808511,
+      "oracle_midpoint_upper_bound": 0.32340426
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.64705882,
+      "mfe_midpoint": 0.07189542,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.07189542
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.07189542,
+      "mfe_midpoint": 0.64705882,
+      "oracle_after_minimum_cost_upper_bound": 0.51691176,
+      "oracle_executable_upper_bound": 0.52941176,
+      "oracle_midpoint_upper_bound": 0.64705882
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.41811847,
+      "mfe_midpoint": 0.41811847,
+      "oracle_after_minimum_cost_upper_bound": 0.18262195,
+      "oracle_executable_upper_bound": 0.19512195,
+      "oracle_midpoint_upper_bound": 0.41811847
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.41811847,
+      "mfe_midpoint": 0.41811847,
+      "oracle_after_minimum_cost_upper_bound": 0.19655923,
+      "oracle_executable_upper_bound": 0.20905923,
+      "oracle_midpoint_upper_bound": 0.41811847
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.07142857,
+      "mfe_midpoint": 0.6122449,
+      "oracle_after_minimum_cost_upper_bound": 0.45688776,
+      "oracle_executable_upper_bound": 0.46938776,
+      "oracle_midpoint_upper_bound": 0.6122449
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.6122449,
+      "mfe_midpoint": 0.07142857,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.07142857
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.56410256,
+      "mfe_midpoint": 0.82051282,
+      "oracle_after_minimum_cost_upper_bound": 0.44903846,
+      "oracle_executable_upper_bound": 0.46153846,
+      "oracle_midpoint_upper_bound": 0.82051282
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.82051282,
+      "mfe_midpoint": 0.56410256,
+      "oracle_after_minimum_cost_upper_bound": 0.19262821,
+      "oracle_executable_upper_bound": 0.20512821,
+      "oracle_midpoint_upper_bound": 0.56410256
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.24444444,
+      "mfe_midpoint": 1.2,
+      "oracle_after_minimum_cost_upper_bound": 0.85416667,
+      "oracle_executable_upper_bound": 0.86666667,
+      "oracle_midpoint_upper_bound": 1.2
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.11111111,
+      "mfe_midpoint": 0.24444444,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.24444444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.44444444,
+      "mfe_midpoint": 0.37777778,
+      "oracle_after_minimum_cost_upper_bound": 0.07638889,
+      "oracle_executable_upper_bound": 0.08888889,
+      "oracle_midpoint_upper_bound": 0.37777778
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.37777778,
+      "mfe_midpoint": 0.44444444,
+      "oracle_after_minimum_cost_upper_bound": 0.12083333,
+      "oracle_executable_upper_bound": 0.13333333,
+      "oracle_midpoint_upper_bound": 0.44444444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.65079365,
+      "mfe_midpoint": 0.50793651,
+      "oracle_after_minimum_cost_upper_bound": 0.25734127,
+      "oracle_executable_upper_bound": 0.26984127,
+      "oracle_midpoint_upper_bound": 0.50793651
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.50793651,
+      "mfe_midpoint": 0.65079365,
+      "oracle_after_minimum_cost_upper_bound": 0.43194444,
+      "oracle_executable_upper_bound": 0.44444444,
+      "oracle_midpoint_upper_bound": 0.65079365
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.37914692,
+      "mfe_midpoint": 1.17535545,
+      "oracle_after_minimum_cost_upper_bound": 0.89745261,
+      "oracle_executable_upper_bound": 0.90995261,
+      "oracle_midpoint_upper_bound": 1.17535545
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.17535545,
+      "mfe_midpoint": 0.37914692,
+      "oracle_after_minimum_cost_upper_bound": 0.10124408,
+      "oracle_executable_upper_bound": 0.11374408,
+      "oracle_midpoint_upper_bound": 0.37914692
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.47058824,
+      "mfe_midpoint": 0.30252101,
+      "oracle_after_minimum_cost_upper_bound": 0.02111345,
+      "oracle_executable_upper_bound": 0.03361345,
+      "oracle_midpoint_upper_bound": 0.30252101
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.30252101,
+      "mfe_midpoint": 0.47058824,
+      "oracle_after_minimum_cost_upper_bound": 0.22279412,
+      "oracle_executable_upper_bound": 0.23529412,
+      "oracle_midpoint_upper_bound": 0.47058824
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.23809524,
+      "mfe_midpoint": 0.35714286,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.35714286
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.35714286,
+      "mfe_midpoint": 1.23809524,
+      "oracle_after_minimum_cost_upper_bound": 0.8922619,
+      "oracle_executable_upper_bound": 0.9047619,
+      "oracle_midpoint_upper_bound": 1.23809524
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.30573248,
+      "mfe_midpoint": 0.76433121,
+      "oracle_after_minimum_cost_upper_bound": 0.57348726,
+      "oracle_executable_upper_bound": 0.58598726,
+      "oracle_midpoint_upper_bound": 0.76433121
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.76433121,
+      "mfe_midpoint": 0.30573248,
+      "oracle_after_minimum_cost_upper_bound": 0.10214968,
+      "oracle_executable_upper_bound": 0.11464968,
+      "oracle_midpoint_upper_bound": 0.30573248
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.21,
+      "mfe_midpoint": 0.08,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.08
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.08,
+      "mfe_midpoint": 1.21,
+      "oracle_after_minimum_cost_upper_bound": 1.0575,
+      "oracle_executable_upper_bound": 1.07,
+      "oracle_midpoint_upper_bound": 1.21
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.04020101,
+      "mfe_midpoint": 1.01842546,
+      "oracle_after_minimum_cost_upper_bound": 0.89202261,
+      "oracle_executable_upper_bound": 0.90452261,
+      "oracle_midpoint_upper_bound": 1.01842546
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.01842546,
+      "mfe_midpoint": 0.04020101,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.04020101
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.38095238,
+      "mfe_midpoint": 0.88888889,
+      "oracle_after_minimum_cost_upper_bound": 0.57480159,
+      "oracle_executable_upper_bound": 0.58730159,
+      "oracle_midpoint_upper_bound": 0.88888889
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.88888889,
+      "mfe_midpoint": 0.38095238,
+      "oracle_after_minimum_cost_upper_bound": 0.09861111,
+      "oracle_executable_upper_bound": 0.11111111,
+      "oracle_midpoint_upper_bound": 0.38095238
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.48148148,
+      "mfe_midpoint": 0.64814815,
+      "oracle_after_minimum_cost_upper_bound": 0.4875,
+      "oracle_executable_upper_bound": 0.5,
+      "oracle_midpoint_upper_bound": 0.64814815
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.64814815,
+      "mfe_midpoint": 0.48148148,
+      "oracle_after_minimum_cost_upper_bound": 0.34861111,
+      "oracle_executable_upper_bound": 0.36111111,
+      "oracle_midpoint_upper_bound": 0.48148148
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.39622642,
+      "mfe_midpoint": 0.49056604,
+      "oracle_after_minimum_cost_upper_bound": 0.21391509,
+      "oracle_executable_upper_bound": 0.22641509,
+      "oracle_midpoint_upper_bound": 0.49056604
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.49056604,
+      "mfe_midpoint": 0.39622642,
+      "oracle_after_minimum_cost_upper_bound": 0.11957547,
+      "oracle_executable_upper_bound": 0.13207547,
+      "oracle_midpoint_upper_bound": 0.39622642
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.33587786,
+      "mfe_midpoint": 0.76335878,
+      "oracle_after_minimum_cost_upper_bound": 0.49131679,
+      "oracle_executable_upper_bound": 0.50381679,
+      "oracle_midpoint_upper_bound": 0.76335878
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.76335878,
+      "mfe_midpoint": 0.33587786,
+      "oracle_after_minimum_cost_upper_bound": 0.0485687,
+      "oracle_executable_upper_bound": 0.0610687,
+      "oracle_midpoint_upper_bound": 0.33587786
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.25490196,
+      "mfe_midpoint": 0.62745098,
+      "oracle_after_minimum_cost_upper_bound": 0.28161765,
+      "oracle_executable_upper_bound": 0.29411765,
+      "oracle_midpoint_upper_bound": 0.62745098
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.62745098,
+      "mfe_midpoint": 0.25490196,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.25490196
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.11278195,
+      "mfe_midpoint": 0.0,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.0
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.0,
+      "mfe_midpoint": 1.14285714,
+      "oracle_after_minimum_cost_upper_bound": 0.87471805,
+      "oracle_executable_upper_bound": 0.88721805,
+      "oracle_midpoint_upper_bound": 1.14285714
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.6509636,
+      "mfe_midpoint": 0.1627409,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.1627409
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.1627409,
+      "mfe_midpoint": 0.6509636,
+      "oracle_after_minimum_cost_upper_bound": 0.4757227,
+      "oracle_executable_upper_bound": 0.4882227,
+      "oracle_midpoint_upper_bound": 0.6509636
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.03067485,
+      "mfe_midpoint": 0.17177914,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.17177914
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.17177914,
+      "mfe_midpoint": 1.47239264,
+      "oracle_after_minimum_cost_upper_bound": 1.26357362,
+      "oracle_executable_upper_bound": 1.27607362,
+      "oracle_midpoint_upper_bound": 1.47239264
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.43333333,
+      "mfe_midpoint": 0.75,
+      "oracle_after_minimum_cost_upper_bound": 0.4875,
+      "oracle_executable_upper_bound": 0.5,
+      "oracle_midpoint_upper_bound": 0.75
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.75,
+      "mfe_midpoint": 0.43333333,
+      "oracle_after_minimum_cost_upper_bound": 0.15416667,
+      "oracle_executable_upper_bound": 0.16666667,
+      "oracle_midpoint_upper_bound": 0.43333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.08985507,
+      "mfe_midpoint": 0.02318841,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.02318841
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.02318841,
+      "mfe_midpoint": 1.51884058,
+      "oracle_after_minimum_cost_upper_bound": 1.32083333,
+      "oracle_executable_upper_bound": 1.33333333,
+      "oracle_midpoint_upper_bound": 1.51884058
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.16382253,
+      "mfe_midpoint": 1.03754266,
+      "oracle_after_minimum_cost_upper_bound": 0.80661263,
+      "oracle_executable_upper_bound": 0.81911263,
+      "oracle_midpoint_upper_bound": 1.03754266
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.03754266,
+      "mfe_midpoint": 0.16382253,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.16382253
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.81516588,
+      "mfe_midpoint": 0.53080569,
+      "oracle_after_minimum_cost_upper_bound": 0.21498815,
+      "oracle_executable_upper_bound": 0.22748815,
+      "oracle_midpoint_upper_bound": 0.53080569
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.53080569,
+      "mfe_midpoint": 0.81516588,
+      "oracle_after_minimum_cost_upper_bound": 0.49934834,
+      "oracle_executable_upper_bound": 0.51184834,
+      "oracle_midpoint_upper_bound": 0.81516588
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.12227074,
+      "mfe_midpoint": 1.22270742,
+      "oracle_after_minimum_cost_upper_bound": 0.87832969,
+      "oracle_executable_upper_bound": 0.89082969,
+      "oracle_midpoint_upper_bound": 1.22270742
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.06550218,
+      "mfe_midpoint": 0.12227074,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.12227074
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.39276486,
+      "mfe_midpoint": 0.88888889,
+      "oracle_after_minimum_cost_upper_bound": 0.71101421,
+      "oracle_executable_upper_bound": 0.72351421,
+      "oracle_midpoint_upper_bound": 0.88888889
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.88888889,
+      "mfe_midpoint": 0.39276486,
+      "oracle_after_minimum_cost_upper_bound": 0.2252261,
+      "oracle_executable_upper_bound": 0.2377261,
+      "oracle_midpoint_upper_bound": 0.39276486
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.22807018,
+      "mfe_midpoint": 0.33333333,
+      "oracle_after_minimum_cost_upper_bound": 0.04013158,
+      "oracle_executable_upper_bound": 0.05263158,
+      "oracle_midpoint_upper_bound": 0.33333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.33333333,
+      "mfe_midpoint": 1.33333333,
+      "oracle_after_minimum_cost_upper_bound": 1.05767544,
+      "oracle_executable_upper_bound": 1.07017544,
+      "oracle_midpoint_upper_bound": 1.33333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.90322581,
+      "mfe_midpoint": 0.51612903,
+      "oracle_after_minimum_cost_upper_bound": 0.22713134,
+      "oracle_executable_upper_bound": 0.23963134,
+      "oracle_midpoint_upper_bound": 0.51612903
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.51612903,
+      "mfe_midpoint": 0.90322581,
+      "oracle_after_minimum_cost_upper_bound": 0.61422811,
+      "oracle_executable_upper_bound": 0.62672811,
+      "oracle_midpoint_upper_bound": 0.90322581
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.23333333,
+      "mfe_midpoint": 0.01111111,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.01111111
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.01111111,
+      "mfe_midpoint": 0.23333333,
+      "oracle_after_minimum_cost_upper_bound": 0.06305556,
+      "oracle_executable_upper_bound": 0.07555556,
+      "oracle_midpoint_upper_bound": 0.23333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.25806452,
+      "mfe_midpoint": 0.68817204,
+      "oracle_after_minimum_cost_upper_bound": 0.38893369,
+      "oracle_executable_upper_bound": 0.40143369,
+      "oracle_midpoint_upper_bound": 0.68817204
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.68817204,
+      "mfe_midpoint": 0.25806452,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.25806452
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.72030651,
+      "mfe_midpoint": 0.29118774,
+      "oracle_after_minimum_cost_upper_bound": 0.06412835,
+      "oracle_executable_upper_bound": 0.07662835,
+      "oracle_midpoint_upper_bound": 0.29118774
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.29118774,
+      "mfe_midpoint": 0.72030651,
+      "oracle_after_minimum_cost_upper_bound": 0.46259579,
+      "oracle_executable_upper_bound": 0.47509579,
+      "oracle_midpoint_upper_bound": 0.72030651
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.19672131,
+      "mfe_midpoint": 1.1147541,
+      "oracle_after_minimum_cost_upper_bound": 0.83995902,
+      "oracle_executable_upper_bound": 0.85245902,
+      "oracle_midpoint_upper_bound": 1.1147541
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.04918033,
+      "mfe_midpoint": 0.19672131,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.19672131
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.32926829,
+      "mfe_midpoint": 0.13414634,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.13414634
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.13414634,
+      "mfe_midpoint": 0.32926829,
+      "oracle_after_minimum_cost_upper_bound": 0.11351626,
+      "oracle_executable_upper_bound": 0.12601626,
+      "oracle_midpoint_upper_bound": 0.32926829
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.0574359,
+      "mfe_midpoint": 0.62769231,
+      "oracle_after_minimum_cost_upper_bound": 0.54544872,
+      "oracle_executable_upper_bound": 0.55794872,
+      "oracle_midpoint_upper_bound": 0.62769231
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.62769231,
+      "mfe_midpoint": 0.0574359,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.0574359
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.56031128,
+      "mfe_midpoint": 0.15564202,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.15564202
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.15564202,
+      "mfe_midpoint": 0.56031128,
+      "oracle_after_minimum_cost_upper_bound": 0.31434825,
+      "oracle_executable_upper_bound": 0.32684825,
+      "oracle_midpoint_upper_bound": 0.56031128
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.26950355,
+      "mfe_midpoint": 0.53900709,
+      "oracle_after_minimum_cost_upper_bound": 0.29955674,
+      "oracle_executable_upper_bound": 0.31205674,
+      "oracle_midpoint_upper_bound": 0.53900709
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.53900709,
+      "mfe_midpoint": 0.26950355,
+      "oracle_after_minimum_cost_upper_bound": 0.04423759,
+      "oracle_executable_upper_bound": 0.05673759,
+      "oracle_midpoint_upper_bound": 0.26950355
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.26277372,
+      "mfe_midpoint": 1.00729927,
+      "oracle_after_minimum_cost_upper_bound": 0.79041971,
+      "oracle_executable_upper_bound": 0.80291971,
+      "oracle_midpoint_upper_bound": 1.00729927
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.00729927,
+      "mfe_midpoint": 0.26277372,
+      "oracle_after_minimum_cost_upper_bound": 0.03129562,
+      "oracle_executable_upper_bound": 0.04379562,
+      "oracle_midpoint_upper_bound": 0.26277372
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.46575342,
+      "mfe_midpoint": 1.67123288,
+      "oracle_after_minimum_cost_upper_bound": 1.54914384,
+      "oracle_executable_upper_bound": 1.56164384,
+      "oracle_midpoint_upper_bound": 1.67123288
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.28767123,
+      "mfe_midpoint": 0.46575342,
+      "oracle_after_minimum_cost_upper_bound": 0.33681507,
+      "oracle_executable_upper_bound": 0.34931507,
+      "oracle_midpoint_upper_bound": 0.46575342
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.49042146,
+      "mfe_midpoint": 0.98084291,
+      "oracle_after_minimum_cost_upper_bound": 0.75378352,
+      "oracle_executable_upper_bound": 0.76628352,
+      "oracle_midpoint_upper_bound": 0.98084291
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.98084291,
+      "mfe_midpoint": 0.49042146,
+      "oracle_after_minimum_cost_upper_bound": 0.23271073,
+      "oracle_executable_upper_bound": 0.24521073,
+      "oracle_midpoint_upper_bound": 0.49042146
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.4738676,
+      "mfe_midpoint": 0.58536585,
+      "oracle_after_minimum_cost_upper_bound": 0.33593206,
+      "oracle_executable_upper_bound": 0.34843206,
+      "oracle_midpoint_upper_bound": 0.58536585
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.58536585,
+      "mfe_midpoint": 0.4738676,
+      "oracle_after_minimum_cost_upper_bound": 0.25230836,
+      "oracle_executable_upper_bound": 0.26480836,
+      "oracle_midpoint_upper_bound": 0.4738676
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.41666667,
+      "mfe_midpoint": 0.41666667,
+      "oracle_after_minimum_cost_upper_bound": 0.18194444,
+      "oracle_executable_upper_bound": 0.19444444,
+      "oracle_midpoint_upper_bound": 0.41666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.41666667,
+      "mfe_midpoint": 0.41666667,
+      "oracle_after_minimum_cost_upper_bound": 0.19583333,
+      "oracle_executable_upper_bound": 0.20833333,
+      "oracle_midpoint_upper_bound": 0.41666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.41835646,
+      "mfe_midpoint": 1.03735326,
+      "oracle_after_minimum_cost_upper_bound": 0.9608191,
+      "oracle_executable_upper_bound": 0.9733191,
+      "oracle_midpoint_upper_bound": 1.03735326
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.02454642,
+      "mfe_midpoint": 0.41835646,
+      "oracle_after_minimum_cost_upper_bound": 0.34182231,
+      "oracle_executable_upper_bound": 0.35432231,
+      "oracle_midpoint_upper_bound": 0.41835646
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.96124031,
+      "mfe_midpoint": 0.1124031,
+      "oracle_after_minimum_cost_upper_bound": 0.01850775,
+      "oracle_executable_upper_bound": 0.03100775,
+      "oracle_midpoint_upper_bound": 0.1124031
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.1124031,
+      "mfe_midpoint": 0.96124031,
+      "oracle_after_minimum_cost_upper_bound": 0.88284884,
+      "oracle_executable_upper_bound": 0.89534884,
+      "oracle_midpoint_upper_bound": 0.96124031
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.7721519,
+      "mfe_midpoint": 0.4556962,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.4556962
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.4556962,
+      "mfe_midpoint": 1.7721519,
+      "oracle_after_minimum_cost_upper_bound": 1.54446203,
+      "oracle_executable_upper_bound": 1.55696203,
+      "oracle_midpoint_upper_bound": 1.7721519
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.28070175,
+      "mfe_midpoint": 2.59649123,
+      "oracle_after_minimum_cost_upper_bound": 2.33837719,
+      "oracle_executable_upper_bound": 2.35087719,
+      "oracle_midpoint_upper_bound": 2.59649123
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.61403509,
+      "mfe_midpoint": 0.28070175,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.28070175
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.51666667,
+      "mfe_midpoint": 0.2,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.2
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.2,
+      "mfe_midpoint": 0.51666667,
+      "oracle_after_minimum_cost_upper_bound": 0.20416667,
+      "oracle_executable_upper_bound": 0.21666667,
+      "oracle_midpoint_upper_bound": 0.51666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.19112628,
+      "mfe_midpoint": 1.55631399,
+      "oracle_after_minimum_cost_upper_bound": 1.28442833,
+      "oracle_executable_upper_bound": 1.29692833,
+      "oracle_midpoint_upper_bound": 1.55631399
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.17406143,
+      "mfe_midpoint": 0.19112628,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.19112628
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.70671378,
+      "mfe_midpoint": 0.48056537,
+      "oracle_after_minimum_cost_upper_bound": 0.01576855,
+      "oracle_executable_upper_bound": 0.02826855,
+      "oracle_midpoint_upper_bound": 0.48056537
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.48056537,
+      "mfe_midpoint": 0.70671378,
+      "oracle_after_minimum_cost_upper_bound": 0.42566254,
+      "oracle_executable_upper_bound": 0.43816254,
+      "oracle_midpoint_upper_bound": 0.70671378
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.68115942,
+      "mfe_midpoint": 0.13043478,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.13043478
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 1.36231884,
+      "mfe_midpoint": 1.68115942,
+      "oracle_after_minimum_cost_upper_bound": 1.34981884,
+      "oracle_executable_upper_bound": 1.36231884,
+      "oracle_midpoint_upper_bound": 1.68115942
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.50731707,
+      "mfe_midpoint": 0.29268293,
+      "oracle_after_minimum_cost_upper_bound": 0.11432927,
+      "oracle_executable_upper_bound": 0.12682927,
+      "oracle_midpoint_upper_bound": 0.29268293
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.29268293,
+      "mfe_midpoint": 0.50731707,
+      "oracle_after_minimum_cost_upper_bound": 0.31920732,
+      "oracle_executable_upper_bound": 0.33170732,
+      "oracle_midpoint_upper_bound": 0.50731707
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.34316354,
+      "mfe_midpoint": 0.52546917,
+      "oracle_after_minimum_cost_upper_bound": 0.31993968,
+      "oracle_executable_upper_bound": 0.33243968,
+      "oracle_midpoint_upper_bound": 0.52546917
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.52546917,
+      "mfe_midpoint": 0.34316354,
+      "oracle_after_minimum_cost_upper_bound": 0.10546247,
+      "oracle_executable_upper_bound": 0.11796247,
+      "oracle_midpoint_upper_bound": 0.34316354
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.16304348,
+      "mfe_midpoint": 0.35869565,
+      "oracle_after_minimum_cost_upper_bound": 0.12880435,
+      "oracle_executable_upper_bound": 0.14130435,
+      "oracle_midpoint_upper_bound": 0.35869565
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.35869565,
+      "mfe_midpoint": 1.16304348,
+      "oracle_after_minimum_cost_upper_bound": 0.94402174,
+      "oracle_executable_upper_bound": 0.95652174,
+      "oracle_midpoint_upper_bound": 1.16304348
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.2829582,
+      "mfe_midpoint": 0.63022508,
+      "oracle_after_minimum_cost_upper_bound": 0.38621383,
+      "oracle_executable_upper_bound": 0.39871383,
+      "oracle_midpoint_upper_bound": 0.63022508
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.63022508,
+      "mfe_midpoint": 0.2829582,
+      "oracle_after_minimum_cost_upper_bound": 0.06467042,
+      "oracle_executable_upper_bound": 0.07717042,
+      "oracle_midpoint_upper_bound": 0.2829582
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.26666667,
+      "mfe_midpoint": 0.48888889,
+      "oracle_after_minimum_cost_upper_bound": 0.16527778,
+      "oracle_executable_upper_bound": 0.17777778,
+      "oracle_midpoint_upper_bound": 0.48888889
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.48888889,
+      "mfe_midpoint": 0.26666667,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.26666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.32801822,
+      "mfe_midpoint": 0.85649203,
+      "oracle_after_minimum_cost_upper_bound": 0.71642938,
+      "oracle_executable_upper_bound": 0.72892938,
+      "oracle_midpoint_upper_bound": 0.85649203
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.85649203,
+      "mfe_midpoint": 0.32801822,
+      "oracle_after_minimum_cost_upper_bound": 0.18795558,
+      "oracle_executable_upper_bound": 0.20045558,
+      "oracle_midpoint_upper_bound": 0.32801822
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.50485437,
+      "mfe_midpoint": 0.60194175,
+      "oracle_after_minimum_cost_upper_bound": 0.33701456,
+      "oracle_executable_upper_bound": 0.34951456,
+      "oracle_midpoint_upper_bound": 0.60194175
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.60194175,
+      "mfe_midpoint": 0.50485437,
+      "oracle_after_minimum_cost_upper_bound": 0.20109223,
+      "oracle_executable_upper_bound": 0.21359223,
+      "oracle_midpoint_upper_bound": 0.50485437
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.6255144,
+      "mfe_midpoint": 0.21399177,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.21399177
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.21399177,
+      "mfe_midpoint": 0.6255144,
+      "oracle_after_minimum_cost_upper_bound": 0.36610082,
+      "oracle_executable_upper_bound": 0.37860082,
+      "oracle_midpoint_upper_bound": 0.6255144
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.66666667,
+      "mfe_midpoint": 0.30769231,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.30769231
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.30769231,
+      "mfe_midpoint": 0.66666667,
+      "oracle_after_minimum_cost_upper_bound": 0.32083333,
+      "oracle_executable_upper_bound": 0.33333333,
+      "oracle_midpoint_upper_bound": 0.66666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.55958549,
+      "mfe_midpoint": 2.27979275,
+      "oracle_after_minimum_cost_upper_bound": 1.68698187,
+      "oracle_executable_upper_bound": 1.69948187,
+      "oracle_midpoint_upper_bound": 2.27979275
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.11917098,
+      "mfe_midpoint": 0.55958549,
+      "oracle_after_minimum_cost_upper_bound": 0.27765544,
+      "oracle_executable_upper_bound": 0.29015544,
+      "oracle_midpoint_upper_bound": 0.55958549
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.80952381,
+      "mfe_midpoint": 0.30952381,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.30952381
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.30952381,
+      "mfe_midpoint": 0.80952381,
+      "oracle_after_minimum_cost_upper_bound": 0.46369048,
+      "oracle_executable_upper_bound": 0.47619048,
+      "oracle_midpoint_upper_bound": 0.80952381
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.0,
+      "mfe_midpoint": 0.07142857,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.07142857
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.07142857,
+      "mfe_midpoint": 1.0,
+      "oracle_after_minimum_cost_upper_bound": 0.65416667,
+      "oracle_executable_upper_bound": 0.66666667,
+      "oracle_midpoint_upper_bound": 1.0
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.90810811,
+      "mfe_midpoint": 0.04324324,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.04324324
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.04324324,
+      "mfe_midpoint": 0.90810811,
+      "oracle_after_minimum_cost_upper_bound": 0.57128378,
+      "oracle_executable_upper_bound": 0.58378378,
+      "oracle_midpoint_upper_bound": 0.90810811
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.28571429,
+      "mfe_midpoint": 0.0952381,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.0952381
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.0952381,
+      "mfe_midpoint": 1.76190476,
+      "oracle_after_minimum_cost_upper_bound": 1.41607143,
+      "oracle_executable_upper_bound": 1.42857143,
+      "oracle_midpoint_upper_bound": 1.76190476
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.31111111,
+      "mfe_midpoint": 0.51111111,
+      "oracle_after_minimum_cost_upper_bound": 0.16527778,
+      "oracle_executable_upper_bound": 0.17777778,
+      "oracle_midpoint_upper_bound": 0.51111111
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.51111111,
+      "mfe_midpoint": 0.31111111,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.31111111
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.06666667,
+      "mfe_midpoint": 0.53333333,
+      "oracle_after_minimum_cost_upper_bound": 0.2375,
+      "oracle_executable_upper_bound": 0.25,
+      "oracle_midpoint_upper_bound": 0.53333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.53333333,
+      "mfe_midpoint": 0.06666667,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.06666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.15478615,
+      "mfe_midpoint": 0.44806517,
+      "oracle_after_minimum_cost_upper_bound": 0.32151222,
+      "oracle_executable_upper_bound": 0.33401222,
+      "oracle_midpoint_upper_bound": 0.44806517
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.44806517,
+      "mfe_midpoint": 0.15478615,
+      "oracle_after_minimum_cost_upper_bound": 0.0282332,
+      "oracle_executable_upper_bound": 0.0407332,
+      "oracle_midpoint_upper_bound": 0.15478615
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.17964072,
+      "mfe_midpoint": 0.61077844,
+      "oracle_after_minimum_cost_upper_bound": 0.40666168,
+      "oracle_executable_upper_bound": 0.41916168,
+      "oracle_midpoint_upper_bound": 0.61077844
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.61077844,
+      "mfe_midpoint": 0.17964072,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.17964072
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.31058824,
+      "mfe_midpoint": 0.54588235,
+      "oracle_after_minimum_cost_upper_bound": 0.39220588,
+      "oracle_executable_upper_bound": 0.40470588,
+      "oracle_midpoint_upper_bound": 0.54588235
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.54588235,
+      "mfe_midpoint": 0.31058824,
+      "oracle_after_minimum_cost_upper_bound": 0.13808824,
+      "oracle_executable_upper_bound": 0.15058824,
+      "oracle_midpoint_upper_bound": 0.31058824
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.62222222,
+      "mfe_midpoint": 1.06666667,
+      "oracle_after_minimum_cost_upper_bound": 0.25416667,
+      "oracle_executable_upper_bound": 0.26666667,
+      "oracle_midpoint_upper_bound": 1.06666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.06666667,
+      "mfe_midpoint": 0.62222222,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.62222222
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.69072165,
+      "mfe_midpoint": 0.69072165,
+      "oracle_after_minimum_cost_upper_bound": 0.53389175,
+      "oracle_executable_upper_bound": 0.54639175,
+      "oracle_midpoint_upper_bound": 0.69072165
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.69072165,
+      "mfe_midpoint": 0.69072165,
+      "oracle_after_minimum_cost_upper_bound": 0.53389175,
+      "oracle_executable_upper_bound": 0.54639175,
+      "oracle_midpoint_upper_bound": 0.69072165
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.2745098,
+      "mfe_midpoint": 0.49019608,
+      "oracle_after_minimum_cost_upper_bound": 0.20318627,
+      "oracle_executable_upper_bound": 0.21568627,
+      "oracle_midpoint_upper_bound": 0.49019608
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.49019608,
+      "mfe_midpoint": 0.2745098,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.2745098
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.17777778,
+      "mfe_midpoint": 0.64444444,
+      "oracle_after_minimum_cost_upper_bound": 0.27638889,
+      "oracle_executable_upper_bound": 0.28888889,
+      "oracle_midpoint_upper_bound": 0.64444444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.64444444,
+      "mfe_midpoint": 0.17777778,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.17777778
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.14814815,
+      "mfe_midpoint": 0.67724868,
+      "oracle_after_minimum_cost_upper_bound": 0.34728836,
+      "oracle_executable_upper_bound": 0.35978836,
+      "oracle_midpoint_upper_bound": 0.67724868
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.67724868,
+      "mfe_midpoint": 0.14814815,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.14814815
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.91666667,
+      "mfe_midpoint": 0.20833333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.20833333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.20833333,
+      "mfe_midpoint": 0.91666667,
+      "oracle_after_minimum_cost_upper_bound": 0.59166667,
+      "oracle_executable_upper_bound": 0.60416667,
+      "oracle_midpoint_upper_bound": 0.91666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.58823529,
+      "mfe_midpoint": 0.43137255,
+      "oracle_after_minimum_cost_upper_bound": 0.06593137,
+      "oracle_executable_upper_bound": 0.07843137,
+      "oracle_midpoint_upper_bound": 0.43137255
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.43137255,
+      "mfe_midpoint": 0.58823529,
+      "oracle_after_minimum_cost_upper_bound": 0.24240196,
+      "oracle_executable_upper_bound": 0.25490196,
+      "oracle_midpoint_upper_bound": 0.58823529
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.33333333,
+      "mfe_midpoint": 0.4,
+      "oracle_after_minimum_cost_upper_bound": 0.03194444,
+      "oracle_executable_upper_bound": 0.04444444,
+      "oracle_midpoint_upper_bound": 0.4
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.4,
+      "mfe_midpoint": 0.33333333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.33333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.33333333,
+      "mfe_midpoint": 1.24444444,
+      "oracle_after_minimum_cost_upper_bound": 0.89861111,
+      "oracle_executable_upper_bound": 0.91111111,
+      "oracle_midpoint_upper_bound": 1.24444444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.11111111,
+      "mfe_midpoint": 0.33333333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.33333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.39590444,
+      "mfe_midpoint": 0.9556314,
+      "oracle_after_minimum_cost_upper_bound": 0.73835324,
+      "oracle_executable_upper_bound": 0.75085324,
+      "oracle_midpoint_upper_bound": 0.9556314
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.9556314,
+      "mfe_midpoint": 0.39590444,
+      "oracle_after_minimum_cost_upper_bound": 0.19227816,
+      "oracle_executable_upper_bound": 0.20477816,
+      "oracle_midpoint_upper_bound": 0.39590444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.4370258,
+      "mfe_midpoint": 0.52807284,
+      "oracle_after_minimum_cost_upper_bound": 0.4245258,
+      "oracle_executable_upper_bound": 0.4370258,
+      "oracle_midpoint_upper_bound": 0.52807284
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.52807284,
+      "mfe_midpoint": 0.4370258,
+      "oracle_after_minimum_cost_upper_bound": 0.32740895,
+      "oracle_executable_upper_bound": 0.33990895,
+      "oracle_midpoint_upper_bound": 0.4370258
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.06060606,
+      "mfe_midpoint": 0.21212121,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.21212121
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.21212121,
+      "mfe_midpoint": 0.06060606,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.06060606
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.22325581,
+      "mfe_midpoint": 0.40930233,
+      "oracle_after_minimum_cost_upper_bound": 0.24796512,
+      "oracle_executable_upper_bound": 0.26046512,
+      "oracle_midpoint_upper_bound": 0.40930233
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.40930233,
+      "mfe_midpoint": 0.22325581,
+      "oracle_after_minimum_cost_upper_bound": 0.07122093,
+      "oracle_executable_upper_bound": 0.08372093,
+      "oracle_midpoint_upper_bound": 0.22325581
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.18604651,
+      "mfe_midpoint": 1.17829457,
+      "oracle_after_minimum_cost_upper_bound": 0.94874031,
+      "oracle_executable_upper_bound": 0.96124031,
+      "oracle_midpoint_upper_bound": 1.17829457
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.08527132,
+      "mfe_midpoint": 0.18604651,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.18604651
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.46280992,
+      "mfe_midpoint": 0.08264463,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.08264463
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.08264463,
+      "mfe_midpoint": 0.46280992,
+      "oracle_after_minimum_cost_upper_bound": 0.23543388,
+      "oracle_executable_upper_bound": 0.24793388,
+      "oracle_midpoint_upper_bound": 0.46280992
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.20524017,
+      "mfe_midpoint": 0.26200873,
+      "oracle_after_minimum_cost_upper_bound": 0.00496725,
+      "oracle_executable_upper_bound": 0.01746725,
+      "oracle_midpoint_upper_bound": 0.26200873
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.26200873,
+      "mfe_midpoint": 1.48471616,
+      "oracle_after_minimum_cost_upper_bound": 1.22767467,
+      "oracle_executable_upper_bound": 1.24017467,
+      "oracle_midpoint_upper_bound": 1.48471616
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.37545126,
+      "mfe_midpoint": 0.2599278,
+      "oracle_after_minimum_cost_upper_bound": 0.14995487,
+      "oracle_executable_upper_bound": 0.16245487,
+      "oracle_midpoint_upper_bound": 0.2599278
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.2599278,
+      "mfe_midpoint": 0.37545126,
+      "oracle_after_minimum_cost_upper_bound": 0.27630866,
+      "oracle_executable_upper_bound": 0.28880866,
+      "oracle_midpoint_upper_bound": 0.37545126
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.25,
+      "mfe_midpoint": 0.59375,
+      "oracle_after_minimum_cost_upper_bound": 0.425,
+      "oracle_executable_upper_bound": 0.4375,
+      "oracle_midpoint_upper_bound": 0.59375
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.59375,
+      "mfe_midpoint": 0.25,
+      "oracle_after_minimum_cost_upper_bound": 0.09166667,
+      "oracle_executable_upper_bound": 0.10416667,
+      "oracle_midpoint_upper_bound": 0.25
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.5993266,
+      "mfe_midpoint": 0.28282828,
+      "oracle_after_minimum_cost_upper_bound": 0.16258418,
+      "oracle_executable_upper_bound": 0.17508418,
+      "oracle_midpoint_upper_bound": 0.28282828
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.28282828,
+      "mfe_midpoint": 0.5993266,
+      "oracle_after_minimum_cost_upper_bound": 0.49255051,
+      "oracle_executable_upper_bound": 0.50505051,
+      "oracle_midpoint_upper_bound": 0.5993266
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.17777778,
+      "mfe_midpoint": 0.97777778,
+      "oracle_after_minimum_cost_upper_bound": 0.63194444,
+      "oracle_executable_upper_bound": 0.64444444,
+      "oracle_midpoint_upper_bound": 0.97777778
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.97777778,
+      "mfe_midpoint": 0.17777778,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.17777778
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.32478632,
+      "mfe_midpoint": 1.12820513,
+      "oracle_after_minimum_cost_upper_bound": 0.87638889,
+      "oracle_executable_upper_bound": 0.88888889,
+      "oracle_midpoint_upper_bound": 1.12820513
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.09401709,
+      "mfe_midpoint": 0.32478632,
+      "oracle_after_minimum_cost_upper_bound": 0.05587607,
+      "oracle_executable_upper_bound": 0.06837607,
+      "oracle_midpoint_upper_bound": 0.32478632
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.25490196,
+      "mfe_midpoint": 0.58823529,
+      "oracle_after_minimum_cost_upper_bound": 0.2620098,
+      "oracle_executable_upper_bound": 0.2745098,
+      "oracle_midpoint_upper_bound": 0.58823529
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.58823529,
+      "mfe_midpoint": 0.25490196,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.25490196
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.71111111,
+      "mfe_midpoint": 0.13333333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.13333333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.13333333,
+      "mfe_midpoint": 0.71111111,
+      "oracle_after_minimum_cost_upper_bound": 0.32083333,
+      "oracle_executable_upper_bound": 0.33333333,
+      "oracle_midpoint_upper_bound": 0.71111111
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.6,
+      "mfe_midpoint": 0.2,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.2
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.2,
+      "mfe_midpoint": 0.6,
+      "oracle_after_minimum_cost_upper_bound": 0.31477273,
+      "oracle_executable_upper_bound": 0.32727273,
+      "oracle_midpoint_upper_bound": 0.6
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.35714286,
+      "mfe_midpoint": 1.30952381,
+      "oracle_after_minimum_cost_upper_bound": 0.9875,
+      "oracle_executable_upper_bound": 1.0,
+      "oracle_midpoint_upper_bound": 1.30952381
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.02380952,
+      "mfe_midpoint": 0.35714286,
+      "oracle_after_minimum_cost_upper_bound": 0.01130952,
+      "oracle_executable_upper_bound": 0.02380952,
+      "oracle_midpoint_upper_bound": 0.35714286
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.60416667,
+      "mfe_midpoint": 0.45833333,
+      "oracle_after_minimum_cost_upper_bound": 0.1125,
+      "oracle_executable_upper_bound": 0.125,
+      "oracle_midpoint_upper_bound": 0.45833333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.45833333,
+      "mfe_midpoint": 0.60416667,
+      "oracle_after_minimum_cost_upper_bound": 0.27916667,
+      "oracle_executable_upper_bound": 0.29166667,
+      "oracle_midpoint_upper_bound": 0.60416667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.06770833,
+      "mfe_midpoint": 0.15625,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.15625
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.15625,
+      "mfe_midpoint": 0.06770833,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.06770833
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.16326531,
+      "mfe_midpoint": 0.65306122,
+      "oracle_after_minimum_cost_upper_bound": 0.43647959,
+      "oracle_executable_upper_bound": 0.44897959,
+      "oracle_midpoint_upper_bound": 0.65306122
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.65306122,
+      "mfe_midpoint": 0.16326531,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.16326531
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.20689655,
+      "mfe_midpoint": 1.14482759,
+      "oracle_after_minimum_cost_upper_bound": 0.92543103,
+      "oracle_executable_upper_bound": 0.93793103,
+      "oracle_midpoint_upper_bound": 1.14482759
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.04827586,
+      "mfe_midpoint": 0.20689655,
+      "oracle_after_minimum_cost_upper_bound": 0.0012931,
+      "oracle_executable_upper_bound": 0.0137931,
+      "oracle_midpoint_upper_bound": 0.20689655
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.27083333,
+      "mfe_midpoint": 0.20833333,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.20833333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.20833333,
+      "mfe_midpoint": 1.27083333,
+      "oracle_after_minimum_cost_upper_bound": 0.925,
+      "oracle_executable_upper_bound": 0.9375,
+      "oracle_midpoint_upper_bound": 1.27083333
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.23809524,
+      "mfe_midpoint": 0.47619048,
+      "oracle_after_minimum_cost_upper_bound": 0.03511905,
+      "oracle_executable_upper_bound": 0.04761905,
+      "oracle_midpoint_upper_bound": 0.47619048
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.47619048,
+      "mfe_midpoint": 0.23809524,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.23809524
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.80952381,
+      "mfe_midpoint": 1.0952381,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 1.0952381
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.0952381,
+      "mfe_midpoint": 0.80952381,
+      "oracle_after_minimum_cost_upper_bound": 0.41607143,
+      "oracle_executable_upper_bound": 0.42857143,
+      "oracle_midpoint_upper_bound": 0.80952381
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.73142857,
+      "mfe_midpoint": 0.68571429,
+      "oracle_after_minimum_cost_upper_bound": 0.33035714,
+      "oracle_executable_upper_bound": 0.34285714,
+      "oracle_midpoint_upper_bound": 0.68571429
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.68571429,
+      "mfe_midpoint": 0.73142857,
+      "oracle_after_minimum_cost_upper_bound": 0.3075,
+      "oracle_executable_upper_bound": 0.32,
+      "oracle_midpoint_upper_bound": 0.73142857
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.58823529,
+      "mfe_midpoint": 0.21568627,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.21568627
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.21568627,
+      "mfe_midpoint": 0.58823529,
+      "oracle_after_minimum_cost_upper_bound": 0.2620098,
+      "oracle_executable_upper_bound": 0.2745098,
+      "oracle_midpoint_upper_bound": 0.58823529
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.02222222,
+      "mfe_midpoint": 1.24444444,
+      "oracle_after_minimum_cost_upper_bound": 0.92083333,
+      "oracle_executable_upper_bound": 0.93333333,
+      "oracle_midpoint_upper_bound": 1.24444444
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 1.2,
+      "mfe_midpoint": 0.02222222,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.02222222
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.52631579,
+      "mfe_midpoint": 0.94736842,
+      "oracle_after_minimum_cost_upper_bound": 0.68925439,
+      "oracle_executable_upper_bound": 0.70175439,
+      "oracle_midpoint_upper_bound": 0.94736842
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.94736842,
+      "mfe_midpoint": 0.52631579,
+      "oracle_after_minimum_cost_upper_bound": 0.26820175,
+      "oracle_executable_upper_bound": 0.28070175,
+      "oracle_midpoint_upper_bound": 0.52631579
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.16841789,
+      "mfe_midpoint": 0.2545782,
+      "oracle_after_minimum_cost_upper_bound": 0.09677649,
+      "oracle_executable_upper_bound": 0.10927649,
+      "oracle_midpoint_upper_bound": 0.2545782
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.2545782,
+      "mfe_midpoint": 1.16841789,
+      "oracle_after_minimum_cost_upper_bound": 1.01541954,
+      "oracle_executable_upper_bound": 1.02791954,
+      "oracle_midpoint_upper_bound": 1.16841789
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.4019241,
+      "mfe_midpoint": 0.33351149,
+      "oracle_after_minimum_cost_upper_bound": 0.05163683,
+      "oracle_executable_upper_bound": 0.06413683,
+      "oracle_midpoint_upper_bound": 0.33351149
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.33351149,
+      "mfe_midpoint": 0.4019241,
+      "oracle_after_minimum_cost_upper_bound": 0.1350147,
+      "oracle_executable_upper_bound": 0.1475147,
+      "oracle_midpoint_upper_bound": 0.4019241
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.3,
+      "mfe_midpoint": 0.07666667,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.07666667
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.07666667,
+      "mfe_midpoint": 0.3,
+      "oracle_after_minimum_cost_upper_bound": 0.0675,
+      "oracle_executable_upper_bound": 0.08,
+      "oracle_midpoint_upper_bound": 0.3
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.53054393,
+      "mfe_midpoint": 0.25941423,
+      "oracle_after_minimum_cost_upper_bound": 0.12557531,
+      "oracle_executable_upper_bound": 0.13807531,
+      "oracle_midpoint_upper_bound": 0.25941423
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.25941423,
+      "mfe_midpoint": 0.53054393,
+      "oracle_after_minimum_cost_upper_bound": 0.39670502,
+      "oracle_executable_upper_bound": 0.40920502,
+      "oracle_midpoint_upper_bound": 0.53054393
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 0.27144491,
+      "mfe_midpoint": 0.33244377,
+      "oracle_after_minimum_cost_upper_bound": 0.15372188,
+      "oracle_executable_upper_bound": 0.16622188,
+      "oracle_midpoint_upper_bound": 0.33244377
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.33244377,
+      "mfe_midpoint": 0.27144491,
+      "oracle_after_minimum_cost_upper_bound": 0.08967308,
+      "oracle_executable_upper_bound": 0.10217308,
+      "oracle_midpoint_upper_bound": 0.27144491
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 1.1195863,
+      "mfe_midpoint": 0.12928248,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.12928248
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.12928248,
+      "mfe_midpoint": 1.21266968,
+      "oracle_after_minimum_cost_upper_bound": 0.91833387,
+      "oracle_executable_upper_bound": 0.93083387,
+      "oracle_midpoint_upper_bound": 1.21266968
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "LONG",
+      "mae_midpoint": 0.5308642,
+      "mfe_midpoint": 0.04012346,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.04012346
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 0.04012346,
+      "mfe_midpoint": 0.5308642,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.5308642
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.33360589,
+      "mfe_midpoint": 1.40419733,
+      "oracle_after_minimum_cost_upper_bound": 1.26523235,
+      "oracle_executable_upper_bound": 1.27773235,
+      "oracle_midpoint_upper_bound": 1.40419733
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "SHORT",
+      "mae_midpoint": 1.03134369,
+      "mfe_midpoint": 0.33360589,
+      "oracle_after_minimum_cost_upper_bound": 0.1935507,
+      "oracle_executable_upper_bound": 0.2060507,
+      "oracle_midpoint_upper_bound": 0.33360589
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "LONG",
+      "mae_midpoint": 0.11944756,
+      "mfe_midpoint": 0.90780142,
+      "oracle_after_minimum_cost_upper_bound": 0.72359556,
+      "oracle_executable_upper_bound": 0.73609556,
+      "oracle_midpoint_upper_bound": 0.90780142
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_POST_ENTRY_OPPORTUNITY",
+      "direction": "SHORT",
+      "mae_midpoint": 0.90780142,
+      "mfe_midpoint": 0.11944756,
+      "oracle_after_minimum_cost_upper_bound": 0.0,
+      "oracle_executable_upper_bound": 0.0,
+      "oracle_midpoint_upper_bound": 0.11944756
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "POST_ENTRY_OPPORTUNITY_COST_INFEASIBLE",
+      "direction": "LONG",
+      "mae_midpoint": 1.00047103,
+      "mfe_midpoint": 0.55204899,
+      "oracle_after_minimum_cost_upper_bound": 0.33041098,
+      "oracle_executable_upper_bound": 0.34291098,
+      "oracle_midpoint_upper_bound": 0.55204899
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "POST_ENTRY_OPPORTUNITY_EXISTS_PREDICTABILITY_UNKNOWN",
+      "direction": "SHORT",
+      "mae_midpoint": 0.55204899,
+      "mfe_midpoint": 1.22468205,
+      "oracle_after_minimum_cost_upper_bound": 1.00115992,
+      "oracle_executable_upper_bound": 1.01365992,
+      "oracle_midpoint_upper_bound": 1.22468205
+    }
+  ],
+  "schema": "AIOS_FOREX_ORACLE_FEASIBILITY_BOUND_V1_STATE",
+  "state_hash": "ce715c2554b3aa357152aa118308bdb3ec30dbbce8906baedc5195e1e7a72560",
+  "status": "ORACLE_FEASIBILITY_BOUND_COMPLETE"
+}

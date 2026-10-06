@@ -1,0 +1,635 @@
+{
+  "alternate_safe_actions": [],
+  "attack_to_finish": [
+    {
+      "blocker_id": "P0-001",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "data",
+      "chosen_action": "Prepared consolidated Human official download package.",
+      "direction": "BOTH",
+      "exact_blocker": "OFFICIAL_DATA_ARTIFACTS_PENDING",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": true,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "OFFICIAL_DATA_ARTIFACTS_PENDING",
+      "next_action": "Human runs official-data helper.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "DATA_GATE_CLOSURE",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "WAITING_HUMAN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P0-002",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "data",
+      "chosen_action": "Prepared Human-only Practice GET-only helper; Codex does not receive token.",
+      "direction": "BOTH",
+      "exact_blocker": "PRACTICE_HISTORY_SECRET_BOUNDARY",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": true,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "PRACTICE_HISTORY_SECRET_BOUNDARY",
+      "next_action": "Human runs Practice-history helper outside Codex.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "DATA_GATE_CLOSURE",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "WAITING_HUMAN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P0-003",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "research_or_proof",
+      "chosen_action": "Deferred until Practice artifacts unlock.",
+      "direction": "BOTH",
+      "exact_blocker": "MULTI_REGIME_CORPUS_V3_NOT_FROZEN",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": true,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "MULTI_REGIME_CORPUS_V3_NOT_FROZEN",
+      "next_action": "Run corpus freezer after Practice artifacts exist.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "PROFITABILITY_PROOF",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "OPEN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P0-004",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "research_or_proof",
+      "chosen_action": "Deferred until official artifacts unlock.",
+      "direction": "BOTH",
+      "exact_blocker": "EXTERNAL_INFORMATION_CORPUS_V3_NOT_FROZEN",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": true,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "EXTERNAL_INFORMATION_CORPUS_V3_NOT_FROZEN",
+      "next_action": "Run external corpus freezer after official artifacts exist.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "PROFITABILITY_PROOF",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "OPEN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P0-005",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "research_or_proof",
+      "chosen_action": "Blocked behind data gates.",
+      "direction": "BOTH",
+      "exact_blocker": "RESEARCH_PIPELINE_FALSIFIABILITY_NOT_PROVEN",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": false,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "RESEARCH_PIPELINE_FALSIFIABILITY_NOT_PROVEN",
+      "next_action": "Wait for P0 data gates first.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "PROFITABILITY_PROOF",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "OPEN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P1-001",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "research_or_proof",
+      "chosen_action": "Blocked behind data gates.",
+      "direction": "BOTH",
+      "exact_blocker": "SUPERTREND_FINAL_VERDICT_MISSING",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": false,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "SUPERTREND_FINAL_VERDICT_MISSING",
+      "next_action": "Wait for P0 data gates first.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "PROFITABILITY_PROOF",
+      "priority": "P1",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "OPEN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P0-006",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "research_or_proof",
+      "chosen_action": "Blocked behind data gates.",
+      "direction": "BOTH",
+      "exact_blocker": "LONG_EDGE_NOT_PROVEN",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": false,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "LONG_EDGE_NOT_PROVEN",
+      "next_action": "Wait for P0 data gates first.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "PROFITABILITY_PROOF",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "OPEN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P0-007",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "research_or_proof",
+      "chosen_action": "Blocked behind data gates.",
+      "direction": "BOTH",
+      "exact_blocker": "SHORT_EDGE_NOT_PROVEN",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": false,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "SHORT_EDGE_NOT_PROVEN",
+      "next_action": "Wait for P0 data gates first.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "PROFITABILITY_PROOF",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "OPEN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P0-008",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "research_or_proof",
+      "chosen_action": "Blocked behind data gates.",
+      "direction": "BOTH",
+      "exact_blocker": "LONG_FORWARD_NOT_PROVEN",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": false,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "LONG_FORWARD_NOT_PROVEN",
+      "next_action": "Wait for P0 data gates first.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "PROFITABILITY_PROOF",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "OPEN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P0-009",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "research_or_proof",
+      "chosen_action": "Blocked behind data gates.",
+      "direction": "BOTH",
+      "exact_blocker": "SHORT_FORWARD_NOT_PROVEN",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": false,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "SHORT_FORWARD_NOT_PROVEN",
+      "next_action": "Wait for P0 data gates first.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "PROFITABILITY_PROOF",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "OPEN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P0-010",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "research_or_proof",
+      "chosen_action": "Blocked behind data gates.",
+      "direction": "BOTH",
+      "exact_blocker": "LONG_PAPER_PROFITABILITY_NOT_PROVEN",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": false,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "LONG_PAPER_PROFITABILITY_NOT_PROVEN",
+      "next_action": "Wait for P0 data gates first.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "PROFITABILITY_PROOF",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "OPEN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P0-011",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "research_or_proof",
+      "chosen_action": "Blocked behind data gates.",
+      "direction": "BOTH",
+      "exact_blocker": "SHORT_PAPER_PROFITABILITY_NOT_PROVEN",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": false,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "SHORT_PAPER_PROFITABILITY_NOT_PROVEN",
+      "next_action": "Wait for P0 data gates first.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "PROFITABILITY_PROOF",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "OPEN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    },
+    {
+      "blocker_id": "P0-012",
+      "can_codex_resolve": false,
+      "canonical_owner_file": "Reports/forex_delivery/AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE.json",
+      "category": "research_or_proof",
+      "chosen_action": "Blocked behind data gates.",
+      "direction": "BOTH",
+      "exact_blocker": "BIDIRECTIONAL_PAPER_PROFITABILITY_NOT_PROVEN",
+      "external_time_required": false,
+      "failure_signature": "NOT_RUN_OR_WAITING",
+      "human_action_required": false,
+      "input_evidence_required": "Preceding gate evidence.",
+      "last_attempt_utc": "2026-08-30T02:20:19.281188+00:00",
+      "missing_evidence": "BIDIRECTIONAL_PAPER_PROFITABILITY_NOT_PROVEN",
+      "next_action": "Wait for P0 data gates first.",
+      "no_bloat_guard": "Do not add duplicate governance or count labels as edge.",
+      "phase": "PROFITABILITY_PROOF",
+      "priority": "P0",
+      "proof_of_unlock": "Not unlocked",
+      "repair_options": [
+        "Continue after preceding gates unlock."
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "Packet 021 controller and scoped validators.",
+      "status": "OPEN",
+      "test_file": "tests/forex_engine/test_forex_profitability_proof_program_v3.py",
+      "unlock_condition": "Required phase PASS without weakening gates.",
+      "why_it_matters": "Required gate for bidirectional Paper profitability proof."
+    }
+  ],
+  "bootstrap": {
+    "resamples_per_passer": 0,
+    "status": "NOT_RUN"
+  },
+  "candidate_registry": {
+    "candidate_count": 0,
+    "long": 0,
+    "shared_router": 0,
+    "short": 0,
+    "status": "NOT_OPENED_DATA_BLOCKED"
+  },
+  "compounding": {
+    "enabled": false
+  },
+  "continuation_active": false,
+  "credential_readiness": {
+    "secret_exposed": false,
+    "status": "NOT_REACHED"
+  },
+  "current_action": "Consolidated Human official and Practice data acquisition package prepared",
+  "current_candidate": null,
+  "current_direction": "NONE",
+  "current_phase": "DATA_GATE_CLOSURE",
+  "current_profitability_truth": {
+    "bidirectional_paper": "NOT_STARTED",
+    "long_edge": "NOT_PROVEN",
+    "long_forward": "NOT_STARTED",
+    "long_paper": "NOT_STARTED",
+    "short_edge": "NOT_PROVEN",
+    "short_forward": "NOT_STARTED",
+    "short_paper": "NOT_STARTED"
+  },
+  "current_subphase": "CONSOLIDATED_HUMAN_DATA_PACKAGE",
+  "data_gates": {
+    "commands": {
+      "official": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/forex_delivery/Download-AiOsOfficialForexResearchData.HUMAN_ONLY.ps1",
+      "practice": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/forex_delivery/Acquire-AiOsOandaPracticeHistory.HUMAN_ONLY.ps1",
+      "resume": "Resume Packet 021 after both Human-only data commands complete; do not paste any OANDA token or account value into Codex."
+    },
+    "official_missing_count": 3,
+    "official_missing_sources": [
+      "Bank of England / FRED",
+      "CFTC",
+      "U.S. Bureau of Labor Statistics"
+    ],
+    "official_script_sha256": "337a25516f09679164479e8e3b6d336edaec6a9bea2359a719c5b5961a57fafb",
+    "practice_artifacts_present": 0,
+    "practice_missing": true,
+    "practice_script_sha256": "560bdceeed147b954ac1cbfcb4dea45a99eae10e71e5e69e9eb83b8ef35be552"
+  },
+  "development": {
+    "long": "NOT_RUN",
+    "short": "NOT_RUN"
+  },
+  "external_information_corpus": {
+    "acquisition_state_hash": "5b2f509974f98cc3bd9b3ee7576a4a063f5d6eaf05d22a4527f16ea6df850e28",
+    "aggregate_hash": "93508eb12e84569ea4a14a8f382bbdbcf7d9b1932e2f3889728bce395c7d6d3e",
+    "corpus_id": "AIOS_FOREX_EXTERNAL_INFORMATION_CORPUS_V3",
+    "external_information_coverage_score": 86,
+    "frozen": false,
+    "human_inbox": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox",
+    "packet_id": "PKT-EAST-FOREX-PROFITABILITY-CLOSURE-021",
+    "pending_human_download_items": 3,
+    "quality": {
+      "duplicate_count": 0,
+      "pass": true,
+      "record_count": 35755,
+      "violations": []
+    },
+    "record_count": 35755,
+    "safety": {
+      "broker_write": false,
+      "credentials_read": false,
+      "funding": false,
+      "live": false,
+      "orders": false
+    },
+    "schema": "AIOS_FOREX_EXTERNAL_INFORMATION_CORPUS_V3_STATE",
+    "status": "HUMAN_OFFICIAL_DATA_DOWNLOAD_REQUIRED"
+  },
+  "external_time_dependency": false,
+  "finalists": {
+    "long": null,
+    "short": null
+  },
+  "forward": {
+    "long": "NOT_STARTED",
+    "resume_command": "Resume Packet 021 after both Human-only data commands complete; do not paste any OANDA token or account value into Codex.",
+    "short": "NOT_STARTED"
+  },
+  "funding_readiness": {
+    "money_movement": false,
+    "status": "NOT_REACHED"
+  },
+  "last_checkpoint_utc": "2026-08-30T02:20:19.281188+00:00",
+  "live_safety": {
+    "live": false,
+    "status": "NOT_REACHED"
+  },
+  "multi_regime_corpus": {
+    "aggregate_hash": "55351b7f68a9f071ce6568f3ba945cd5010ea4b19a4e7952ef733536659051f6",
+    "blocker": "Human-only OANDA Practice GET-only acquisition is required; Codex must not receive the Practice token or authorization header.",
+    "capability_score": 0,
+    "corpus_id": "AIOS_FOREX_MULTI_REGIME_CORPUS_V3",
+    "frozen": false,
+    "frozen_end": null,
+    "market_corpus_v2_hash": "44bad0bb22fa88771c824c2c91551fef7116a458d5d7fee7039f5f87c76dac6a",
+    "overlap_validation": {
+      "reason": "No sanitized OANDA Practice GET-only artifacts were present.",
+      "status": "NOT_RUN"
+    },
+    "packet_id": "PKT-EAST-FOREX-PROFITABILITY-CLOSURE-021",
+    "research_eligible_universe": [],
+    "safety": {
+      "broker_write": false,
+      "credentials_read": false,
+      "funding": false,
+      "live": false,
+      "practice_orders": false
+    },
+    "sanitized_artifacts": [],
+    "schema": "AIOS_FOREX_MULTI_REGIME_CORPUS_V3_STATE",
+    "status": "HUMAN_PRACTICE_DATA_ACQUISITION_REQUIRED",
+    "target_granularities": [
+      "H1",
+      "H4",
+      "D1",
+      "W1"
+    ],
+    "target_start": "2005-01-01T00:00:00Z",
+    "target_universe": [
+      "EUR_USD",
+      "GBP_USD",
+      "USD_JPY",
+      "USD_CHF",
+      "USD_CAD",
+      "AUD_USD",
+      "NZD_USD",
+      "EUR_GBP",
+      "EUR_JPY",
+      "GBP_JPY",
+      "AUD_JPY",
+      "CAD_JPY",
+      "CHF_JPY",
+      "NZD_JPY"
+    ],
+    "target_universe_count": 14
+  },
+  "multiple_testing": {
+    "null_campaigns": 0,
+    "status": "NOT_RUN"
+  },
+  "next_action": "Human Owner runs the consolidated Human-only data package outside Codex",
+  "next_three_actions": [
+    "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/forex_delivery/Download-AiOsOfficialForexResearchData.HUMAN_ONLY.ps1",
+    "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/forex_delivery/Acquire-AiOsOandaPracticeHistory.HUMAN_ONLY.ps1",
+    "Resume Packet 021 after both Human-only data commands complete; do not paste any OANDA token or account value into Codex."
+  ],
+  "packet_id": "PKT-EAST-FOREX-PROFITABILITY-CLOSURE-021",
+  "paper": {
+    "long_closed_trades": 0,
+    "long_metrics": null,
+    "short_closed_trades": 0,
+    "short_metrics": null,
+    "status": "NOT_STARTED"
+  },
+  "practice_handoff_state_hash": "be29ab4baa96ca195ca9cfc14a2dbd37992f53c7310be8bc1e3812f466c4674b",
+  "pre_terminal_audit_status": "PASS",
+  "protected_owner_action_dependency": "Human-only data acquisition",
+  "publication": {
+    "status": "NOT_REACHED"
+  },
+  "recent_challenge": {
+    "long": "NOT_RUN",
+    "short": "NOT_RUN"
+  },
+  "recoverable_failures": [],
+  "remaining_authorized_work_count": 0,
+  "remaining_data_blockers": [
+    "official_data",
+    "practice_history"
+  ],
+  "remaining_forward_candidates": 0,
+  "remaining_holdout_candidates": 0,
+  "remaining_long_candidates": 0,
+  "remaining_paper_requirements": [],
+  "remaining_recent_challenge_candidates": 0,
+  "remaining_research_controls": 6,
+  "remaining_short_candidates": 0,
+  "remaining_supertrend_candidates": 0,
+  "remaining_validation_candidates": 0,
+  "research_falsifiability": {
+    "controls": [
+      "PC_LONG_3R",
+      "PC_SHORT_3R",
+      "PC_BIDIRECTIONAL_3R",
+      "PC_SPARSE_4R",
+      "PC_REGIME_5R",
+      "PC_INTERACTION_3R",
+      "NC_RANDOM_WALK",
+      "NC_FUTURE_LEAKAGE",
+      "NC_DUPLICATE_BEHAVIOR",
+      "NC_HIGH_WINRATE_NEGATIVE_EXPECTANCY",
+      "NC_ONE_WINNER_ILLUSION",
+      "NC_MIDPOINT_FILL_FANTASY",
+      "NC_TARGET_ONLY_CURVE_FIT"
+    ],
+    "packet_id": "PKT-EAST-FOREX-PROFITABILITY-CLOSURE-021",
+    "reason": "Packet 021 requires official and Practice-history data gates to close before this phase can produce scientific evidence.",
+    "schema": "AIOS_FOREX_RESEARCH_PIPELINE_FALSIFIABILITY_V2_STATE",
+    "state_hash": "6d60cb4bf6a78b4a269a2206bff6f77e6812037f5202800490ee04160bb6faf9",
+    "status": "NOT_RUN_DATA_BLOCKED"
+  },
+  "rr_opportunity_atlas": {
+    "packet_id": "PKT-EAST-FOREX-PROFITABILITY-CLOSURE-021",
+    "reason": "Packet 021 requires official and Practice-history data gates to close before this phase can produce scientific evidence.",
+    "schema": "AIOS_FOREX_LONG_SHORT_RR_OPPORTUNITY_ATLAS_V2_STATE",
+    "state_hash": "43a658adff423b293e75df609df8717617c83a0dcbfac4fdca2073be8b54382a",
+    "status": "NOT_RUN_DATA_BLOCKED"
+  },
+  "safety": {
+    "authorization_header_output": false,
+    "commit": false,
+    "credential_read_by_codex": false,
+    "funding": false,
+    "live": false,
+    "orders": false,
+    "push": false
+  },
+  "same_packet_resume_command": "Resume Packet 021 after both Human-only data commands complete; do not paste any OANDA token or account value into Codex.",
+  "schema": "AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V3_STATE",
+  "sealed_holdout": {
+    "long": "UNOPENED",
+    "short": "UNOPENED"
+  },
+  "state_hash": "a38d9809d6a46954107aa56debd80408a2a8d8ac1375efe1ca4198898fe63133",
+  "status": "HUMAN_DATA_ACQUISITION_REQUIRED",
+  "supertrend_final_verdict": {
+    "packet_id": "PKT-EAST-FOREX-PROFITABILITY-CLOSURE-021",
+    "reason": "Packet 021 requires official and Practice-history data gates to close before this phase can produce scientific evidence.",
+    "schema": "AIOS_FOREX_SUPERTREND_FINAL_AUDIT_V2_STATE",
+    "state_hash": "a0b6d2a2f1dd24758f158cb7c631720206f99f3c9f96b779bffe0967a2d118d3",
+    "status": "NOT_RUN_DATA_BLOCKED"
+  },
+  "terminal_state_candidate": "HUMAN_DATA_ACQUISITION_REQUIRED",
+  "v6": {
+    "implementation": "NOT_REACHED",
+    "parity": "NOT_REACHED"
+  },
+  "validation": {
+    "long": "UNOPENED",
+    "short": "UNOPENED"
+  }
+}

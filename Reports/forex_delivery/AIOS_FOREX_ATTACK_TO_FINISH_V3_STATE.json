@@ -1,0 +1,76 @@
+{
+  "schema": "AIOS_FOREX_ATTACK_TO_FINISH_V3_STATE",
+  "packet_id": "PKT-EAST-FOREX-SOURCE-CONTRACT-REPAIR-025",
+  "status": "HUMAN_DATA_ACQUISITION_REQUIRED",
+  "blockers": [
+    {
+      "blocker_id": "P0-001",
+      "name": "CENTRAL_BANK_POLICY_SOURCE_CONTRACT",
+      "status": "CLOSED",
+      "exact_blocker": "Configured FRED IUDERB source did not resolve.",
+      "evidence": "FRED IUDERB returned HTTP 404; Bank of England IUDBEDR CSV returned valid CSV with DATE,IUDBEDR header.",
+      "repair": "Replaced stale FRED/IUDERB route with current official Bank of England IUDBEDR CSV route.",
+      "validator": "Exact route probe, manifest JSON parse, PowerShell parse, focused pytest.",
+      "unlock_condition": "Current official route and expected schema recorded.",
+      "next_action": "Reuse acquired BoE artifact during Human wrapper run.",
+      "human_dependency": false,
+      "external_time_dependency": false
+    },
+    {
+      "blocker_id": "P0-002",
+      "name": "CFTC_SOURCE_CONTRACT",
+      "status": "CLOSED",
+      "exact_blocker": "Configured CFTC route was an HTML index instead of exact archive artifacts.",
+      "evidence": "CFTC deacot2005.zip through deacot2026.zip returned HTTP 200/application zip and were downloaded with ZIP signatures valid.",
+      "repair": "Replaced HTML-only source contract with annual official deacot{year}.zip template.",
+      "validator": "2005-2026 HEAD probes, physical file count, ZIP signature check.",
+      "unlock_condition": "CFTC annual official artifacts are present and reusable.",
+      "next_action": "Reuse acquired CFTC artifacts during Human wrapper run.",
+      "human_dependency": false,
+      "external_time_dependency": false
+    },
+    {
+      "blocker_id": "P0-003",
+      "name": "BLS_SOURCE_CONTRACT",
+      "status": "WAITING_HUMAN",
+      "exact_blocker": "BLS official ICS route returned Access Denied/bot-policy HTML to automation.",
+      "evidence": "BLS bls.ics automated probe returned HTTP 403 text/html Access Denied; anti-bot bypass is forbidden.",
+      "repair": "Prepared official manual browser-download fallback for BLS_RELEASE_CALENDAR.ics.",
+      "validator": "Exact route probe, anti-bot/HTML misroute detection, manifest JSON parse.",
+      "unlock_condition": "Human saves the official BLS ICS file to the declared inbox path.",
+      "next_action": "Human downloads BLS ICS manually, then runs the one wrapper command.",
+      "human_dependency": true,
+      "external_time_dependency": false
+    },
+    {
+      "blocker_id": "P0-004",
+      "name": "OFFICIAL_DATA_CLOSURE",
+      "status": "WAITING_HUMAN",
+      "exact_blocker": "Official data closure is 23/24 complete; BLS ICS remains missing.",
+      "evidence": "Official inbox has 23 files; missing OFFICIAL_MACRO_RELEASE_SCHEDULES_BLS_RELEASE_CALENDAR.ics.",
+      "repair": "Official source contracts repaired; BLS manual download package written.",
+      "validator": "Physical artifact validation and no-temp-file check.",
+      "unlock_condition": "Official helper reuses 23 existing artifacts and validates the manually supplied BLS ICS.",
+      "next_action": "Human runs the consolidated data-closure session.",
+      "human_dependency": true,
+      "external_time_dependency": false
+    },
+    {
+      "blocker_id": "P0-005",
+      "name": "PRACTICE_HISTORY_CLOSURE",
+      "status": "WAITING_HUMAN",
+      "exact_blocker": "OANDA Practice history requires a token that Codex must not see.",
+      "evidence": "Practice artifact count remains 0; helper is Human-only, Practice-host, GET-only.",
+      "repair": "Preserved existing secure Human-only Practice helper and one wrapper command.",
+      "validator": "PowerShell parse and focused pytest.",
+      "unlock_condition": "Human runs the wrapper and returns status-only evidence.",
+      "next_action": "Resume Packet 025 after sanitized Practice artifacts exist.",
+      "human_dependency": true,
+      "external_time_dependency": false
+    }
+  ],
+  "remaining_codex_resolvable_p0_p1_before_human": 0,
+  "alternate_safe_actions": [],
+  "pre_terminal_audit_status": "PASS",
+  "formal_stop_state": "HUMAN_DATA_ACQUISITION_REQUIRED"
+}

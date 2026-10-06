@@ -165,3 +165,14 @@ telemetry/morning_digest/
 telemetry/human_ai_friction/
 .aios/runtime/dashboard_measurement/
 Reports/autonomy_loop/proposed/
+
+# Local generated runtime/staging and UI preview artifacts (2026-10-06 preservation)
+.aios/
+pkt045_candidate_test_tmp/
+edge-preview-*/
+preview-dashboard5-*.png
+
+automation/orchestration/dispatcher/dashboard_auth_bridge_candidate_v1/
+pkt045_candidate_test_tmp/
+.aios/
+

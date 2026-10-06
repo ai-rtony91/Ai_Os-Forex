@@ -1,0 +1,105 @@
+{
+  "BIDIRECTIONAL_PAPER": {
+    "evidence": "not started",
+    "missing_evidence": "LONG and SHORT Paper PASS",
+    "score": 0,
+    "unlock_condition": "both directions Forward PASS"
+  },
+  "EXTERNAL_INFORMATION_CORPUS": {
+    "evidence": "HUMAN_OFFICIAL_DATA_DOWNLOAD_REQUIRED",
+    "missing_evidence": 3,
+    "score": 86,
+    "unlock_condition": "freeze External Information Corpus V3"
+  },
+  "FUNDING_READINESS": {
+    "evidence": "not reached",
+    "missing_evidence": "publication/live-safety/credential/funding gates",
+    "score": 0,
+    "unlock_condition": "bidirectional Paper + publication + live safety"
+  },
+  "LONG_FORWARD": {
+    "evidence": "not started",
+    "missing_evidence": "30 trades and maturity",
+    "score": 0,
+    "unlock_condition": "LONG finalist"
+  },
+  "LONG_HISTORICAL_EDGE": {
+    "evidence": "not run",
+    "missing_evidence": "Development/Validation/Holdout/recent PASS",
+    "score": 0,
+    "unlock_condition": "data + falsifiability PASS"
+  },
+  "MULTI_REGIME_CORPUS": {
+    "evidence": "HUMAN_PRACTICE_DATA_ACQUISITION_REQUIRED",
+    "missing_evidence": "Human-only OANDA Practice GET-only acquisition is required; Codex must not receive the Practice token or authorization header.",
+    "score": 0,
+    "unlock_condition": "sanitized artifacts imported and corpus frozen"
+  },
+  "OFFICIAL_DATA_CLOSURE": {
+    "evidence": "HUMAN_OFFICIAL_DATA_DOWNLOAD_REQUIRED",
+    "missing_evidence": [
+      {
+        "expected_content_type": "text/html",
+        "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/CENTRAL_BANK_POLICY_HISTORY_IUDERB",
+        "expected_time_period": "2005-01-01 through 2026-08-29",
+        "official_url": "https://fred.stlouisfed.org/series/IUDERB",
+        "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+        "private_account_required": false,
+        "secret_required": false,
+        "source_family_purpose": "CENTRAL_BANK_POLICY_HISTORY",
+        "source_owner": "Bank of England / FRED",
+        "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+      },
+      {
+        "expected_content_type": "text/html",
+        "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/CFTC_POSITIONING_HISTORY_CFTC_historical_compressed_futures_only_Commitments_of_Traders",
+        "expected_time_period": "2005-01-01 through 2026-08-29",
+        "official_url": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm",
+        "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+        "private_account_required": false,
+        "secret_required": false,
+        "source_family_purpose": "CFTC_POSITIONING_HISTORY",
+        "source_owner": "CFTC",
+        "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+      },
+      {
+        "expected_content_type": "text/html",
+        "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/OFFICIAL_MACRO_RELEASE_SCHEDULES_BLS_public_release_calendars_and_archive",
+        "expected_time_period": "2005-01-01 through 2026-08-29",
+        "official_url": "https://www.bls.gov/bls/news-release/home.htm",
+        "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+        "private_account_required": false,
+        "secret_required": false,
+        "source_family_purpose": "OFFICIAL_MACRO_RELEASE_SCHEDULES",
+        "source_owner": "U.S. Bureau of Labor Statistics",
+        "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+      }
+    ],
+    "score": 70,
+    "unlock_condition": "complete consolidated public official download/import"
+  },
+  "PRACTICE_HISTORY_BOUNDARY": {
+    "evidence": "0e5c3081a5116ec6dd4baf8a330079644703ab3af466b8c5373db33a3246cfd7",
+    "missing_evidence": "Human-produced sanitized OANDA Practice artifacts",
+    "score": 80,
+    "unlock_condition": "run Human-only helper outside Codex"
+  },
+  "RESEARCH_PIPELINE_FALSIFIABILITY": {
+    "evidence": "not run",
+    "missing_evidence": "PC/NC controls",
+    "score": 0,
+    "unlock_condition": "data blockers closed"
+  },
+  "SHORT_FORWARD": {
+    "evidence": "not started",
+    "missing_evidence": "30 trades and maturity",
+    "score": 0,
+    "unlock_condition": "SHORT finalist"
+  },
+  "SHORT_HISTORICAL_EDGE": {
+    "evidence": "not run",
+    "missing_evidence": "Development/Validation/Holdout/recent PASS",
+    "score": 0,
+    "unlock_condition": "data + falsifiability PASS"
+  }
+}

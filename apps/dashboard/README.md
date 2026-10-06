@@ -1,14 +1,20 @@
 # AIOS Dashboard
 
-## Canonical Forex Dashboard
+## Obsidian Liquid Terminal
 
-The owner-approved current Forex dashboard is:
+The React application is the local integrated AIOS web experience. Run `npm run build` and then `npm start` for the loopback integrated preview. During Vite development, run `npm run start:api` in one terminal and `npm run dev` in another. It provides a visual identity gate, eight History API routes, deterministic demonstration data, versioned sanitized read models, Server-Sent Events, read-only broker status, local-only private gallery mapping, and draft-only strategy validation.
+
+Demonstration values are always labeled `DEMONSTRATION DATA — NOT BROKER DATA`. Authentication providers, Cloudflare, deployment, broker connectivity, credentials, trade execution, and shell execution are not configured or authorized.
+
+## Legacy Canonical Forex Dashboard
+
+The preserved focused Forex campaign dashboard is:
 
 `apps/dashboard/aios-forex-dashboard.html`
 
 It is a focused, low-clutter operator surface for the 30-trade forward paper campaign and the evidence needed to judge Forex readiness.
 
-## Current Status
+## Legacy Surface Status
 
 The page is a static, read-only UI. Its data contract is not connected, so unavailable evidence is labeled `PENDING` or `NOT CONNECTED`. It separates:
 
@@ -26,6 +32,34 @@ This dashboard has no broker execution, credentials, account identifiers, live-o
 
 `apps/dashboard/AIOS_STATIC_PREVIEW.html` is the noncanonical legacy planetary dashboard. It remains in the repository only while existing build, manifest, companion UI, and validator dependencies still reference it. New Forex dashboard work must target the canonical page above.
 
-## Next Direction
+## Validation
 
-The next dashboard packet should define and validate a read-only data contract for the three evidence classes before wiring any values. Missing evidence must remain visibly pending; it must not be fabricated or inferred.
+Run `npm run lint`, `npm run test`, and `npm run build`. No deployment follows automatically.
+
+## Saved Forex research progress
+
+The existing System Status page now includes a read-only research panel from
+`GET /api/v1/research/status`. It reads only the fixed S6 checkpoint and receipt
+ledger. Reads are bounded, handles are promptly closed, and paths/commands/raw
+checkpoint data are not sent to the browser. The view separates accepted market
+jobs, recorded configuration exposures, cost checks, and campaign budget bounds.
+
+The existing S6 launcher now publishes a narrow market-owner observation under
+its next matching source-pinned grant. The endpoint checks four fixed code pins,
+separates heartbeat, useful progress, accepted-result and metadata clocks, and
+labels fresh activity `ACTIVE_OWNER_REPORTED`. It does not probe processes.
+Absent observations, stale progress and changed code never imply running work.
+Goal and builder observations remain UNKNOWN until their existing owners connect.
+Saved states are labelled as saved states; fetching an old record does not make it fresh.
+Missing counts are UNKNOWN, not zero. A finished batch or HOT label cannot mark
+a verified edge. Receipt structure/deduplication checks are not independent
+revalidation of the scientific outputs. This change cannot launch, sign, trade,
+restart a worker, access market-price files, or publish a deployment.
+
+`GET /api/v1/research/history` joins the existing acceptance, post-mortem and
+Hot/Cold records with bounded reads. Optional `fingerprint` (64 lowercase hex)
+and `family` (safe identity) filters cannot choose files. The Post-Mortem page
+reuses these links. Research SSE events refresh this view; UI stream heartbeats
+are never research progress. The existing authentication and routes remain.
+There is no research MCP server or market queue action in this build. Monthly
+admission, real scout counts and independent proof remain blocked/unconnected.

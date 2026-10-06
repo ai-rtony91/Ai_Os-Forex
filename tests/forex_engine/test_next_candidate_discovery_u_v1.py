@@ -57,8 +57,11 @@ def test_anchor_meets_canonical_sample_depth():
     payload = _run()
     anchor = payload["leaderboard"]["anchor_candidate"]
     assert anchor["candidate_id"] == "c1-eur-buy"
-    assert anchor["closed_trade_count"] >= 30
-    assert "insufficient_sample" not in anchor["blocker_reasons"]
+    assert payload["genuine_campaign_evidence"] is False
+    assert payload["campaign_state"]["accepted_qualifying_trades"] == 0
+    assert anchor["closed_trade_count"] == 0
+    assert anchor["promotion_status"] == "REJECT_INSUFFICIENT_SAMPLE"
+    assert "insufficient_sample" in anchor["blocker_reasons"]
 
 
 def test_no_forbidden_execution_surfaces():

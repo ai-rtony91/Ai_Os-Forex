@@ -1,0 +1,19 @@
+{
+  "h1_context": "Available from Multi-Regime Corpus V3.",
+  "h1_execution": {
+    "candidate_count": 32,
+    "fit": "PARTIAL_DAY_TRADING_FIT"
+  },
+  "m5_execution": {
+    "available": true,
+    "fit": "REQUIRED_FOR_TARGETED_DAY_TRADING_BRANCH_IF_DIAGNOSTIC_SUPPORT_EXISTS",
+    "state_status": "FROZEN_VALID"
+  },
+  "operational_fit": "Packet 027 did not fully test the Human Owner day-trading objective because it used H1 decision/execution for most candidates.",
+  "packet027_dominant_mode": "H1_DECISION_AND_EXECUTION",
+  "packet_id": "PKT-EAST-FOREX-RESEARCH-FIDELITY-EDGE-CLOSURE-028",
+  "schema": "AIOS_FOREX_DAY_TRADING_ALIGNMENT_AUDIT_V1_STATE",
+  "state_hash": "1c97372d2d9751da8615dc14aadbdc374b071b393619458af354cd6744702d84",
+  "status": "COMPLETE",
+  "verdict": "H1_ONLY_DAY_TRADING_MISALIGNMENT_RESOLVED_BY_TARGETED_BRANCH_REQUIREMENT"
+}

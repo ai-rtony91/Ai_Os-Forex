@@ -1,0 +1,7 @@
+{
+  "packet_id": "PKT-EAST-FOREX-PROFITABILITY-CLOSURE-021",
+  "reason": "Packet 021 requires official and Practice-history data gates to close before this phase can produce scientific evidence.",
+  "schema": "AIOS_FOREX_SUPERTREND_FINAL_AUDIT_V2_STATE",
+  "state_hash": "a0b6d2a2f1dd24758f158cb7c631720206f99f3c9f96b779bffe0967a2d118d3",
+  "status": "NOT_RUN_DATA_BLOCKED"
+}

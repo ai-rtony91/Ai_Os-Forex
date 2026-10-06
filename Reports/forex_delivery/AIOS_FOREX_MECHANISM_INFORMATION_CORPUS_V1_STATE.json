@@ -1,0 +1,216 @@
+{
+  "aggregate_hash": "3a5b336e2c5d23a9e1e2b9eda69eaa08af2504dd7a7d4a73e6987a4cc446c645",
+  "corpus_id": "AIOS_FOREX_MECHANISM_INFORMATION_CORPUS_V1",
+  "current_phase": "MECHANISM_CORPUS_FREEZE",
+  "failures": [
+    {
+      "attempts": [
+        {
+          "error_class": "TimeoutError",
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "error_class": "TimeoutError",
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "source_id": "FRED_DFF"
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "TimeoutError",
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "error_class": "TimeoutError",
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "source_id": "FRED_DGS10"
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "TimeoutError",
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "error_class": "TimeoutError",
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "source_id": "FRED_DGS2"
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "TimeoutError",
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "error_class": "TimeoutError",
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "source_id": "FRED_ECBDFR"
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "TimeoutError",
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "error_class": "TimeoutError",
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "source_id": "FRED_IRSTCI01AUM156N"
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "TimeoutError",
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "error_class": "TimeoutError",
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "source_id": "FRED_IRSTCI01CAM156N"
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "TimeoutError",
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "error_class": "TimeoutError",
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "source_id": "FRED_IRSTCI01CHM156N"
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "TimeoutError",
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "error_class": "TimeoutError",
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "source_id": "FRED_IRSTCI01JPM156N"
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "TimeoutError",
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "error_class": "TimeoutError",
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "source_id": "FRED_IRSTCI01NZM156N"
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "TimeoutError",
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "error_class": "TimeoutError",
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "source_id": "FRED_IUDERB"
+    },
+    {
+      "attempts": [
+        {
+          "error_class": "TimeoutError",
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "error_class": "TimeoutError",
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "source_id": "FRED_VIXCLS"
+    }
+  ],
+  "freeze": {
+    "aggregate_hash": "3a5b336e2c5d23a9e1e2b9eda69eaa08af2504dd7a7d4a73e6987a4cc446c645",
+    "corpus_id": "AIOS_FOREX_MECHANISM_INFORMATION_CORPUS_V1",
+    "manifest_hash": "9b71ac57a0cce39d7517ef41162745190db6564320318ff6ad8db51657424cb7",
+    "status": "FROZEN_VALID"
+  },
+  "inherited_point_in_time_sources": [
+    {
+      "aggregate_hash": "57da729226ebd675d7c79f182510f0612fc2f93cd0f20a05abed64243163d854",
+      "mode": "READ_ONLY_REFERENCE",
+      "point_in_time_rule": "Tuesday observation available Friday 21:30 UTC",
+      "records": 9808,
+      "source_id": "PACKET013_CFTC_2024_2026"
+    }
+  ],
+  "lock_id": "AIOS-LOCK-6af0248af6484987a503d6c6026f211e",
+  "market_corpus_hash": "44bad0bb22fa88771c824c2c91551fef7116a458d5d7fee7039f5f87c76dac6a",
+  "next_action": "HYPOTHESIS_PROTOCOL_FREEZE",
+  "packet013_information_hash": "57da729226ebd675d7c79f182510f0612fc2f93cd0f20a05abed64243163d854",
+  "packet_id": "PKT-EAST-FOREX-EARNED-FUNDING-READINESS-014",
+  "period": [
+    "2024-01-01",
+    "2026-08-29"
+  ],
+  "safety": {
+    "broker_write": false,
+    "credentials": false,
+    "live": false,
+    "money_movement": false
+  },
+  "schema": "AIOS_FOREX_MECHANISM_INFORMATION_CORPUS_V1",
+  "source_recovery_plan_hash": "38406b03f5b923f9d0399ac51b13195b055407a0e8dd5dcfb08ca6f6e8af9676",
+  "successes": []
+}

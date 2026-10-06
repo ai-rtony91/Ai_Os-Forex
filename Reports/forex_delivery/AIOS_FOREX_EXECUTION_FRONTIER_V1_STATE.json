@@ -1,0 +1,128 @@
+{
+  "candidate_count": 2,
+  "candidate_rows": [
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "NO_GROSS_EDGE",
+      "metrics": {
+        "layer_0": {
+          "expectancy": -0.00307258,
+          "max_drawdown_r": 57.79171427,
+          "net_r": -21.38516129,
+          "profit_factor": 0.98701817,
+          "trades": 6960,
+          "win_rate": 0.48678161
+        },
+        "layer_1": {
+          "expectancy": -0.27210213,
+          "max_drawdown_r": 1894.40778056,
+          "net_r": -1893.83082809,
+          "profit_factor": 0.33139155,
+          "trades": 6960,
+          "win_rate": 0.28505747
+        },
+        "layer_2": {
+          "expectancy": -0.27967972,
+          "max_drawdown_r": 1947.10778056,
+          "net_r": -1946.57082809,
+          "profit_factor": 0.32079687,
+          "trades": 6960,
+          "win_rate": 0.2816092
+        },
+        "layer_3": {
+          "expectancy": -0.27967972,
+          "max_drawdown_r": 1947.10778056,
+          "net_r": -1946.57082809,
+          "profit_factor": 0.32079687,
+          "trades": 6960,
+          "win_rate": 0.2816092
+        },
+        "layer_4": {
+          "expectancy": -0.28157411,
+          "max_drawdown_r": 1960.28278056,
+          "net_r": -1959.75582809,
+          "profit_factor": 0.31819907,
+          "trades": 6960,
+          "win_rate": 0.28045977
+        }
+      }
+    },
+    {
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "NO_GROSS_EDGE",
+      "metrics": {
+        "layer_0": {
+          "expectancy": -0.01430088,
+          "max_drawdown_r": 123.90915774,
+          "net_r": -99.53410047,
+          "profit_factor": 0.94051161,
+          "trades": 6960,
+          "win_rate": 0.4887931
+        },
+        "layer_1": {
+          "expectancy": -0.28341026,
+          "max_drawdown_r": 1972.87925332,
+          "net_r": -1972.5353876,
+          "profit_factor": 0.30638019,
+          "trades": 6960,
+          "win_rate": 0.27672414
+        },
+        "layer_2": {
+          "expectancy": -0.290916,
+          "max_drawdown_r": 2025.09925332,
+          "net_r": -2024.7753876,
+          "profit_factor": 0.29635013,
+          "trades": 6960,
+          "win_rate": 0.27298851
+        },
+        "layer_3": {
+          "expectancy": -0.290916,
+          "max_drawdown_r": 2025.09925332,
+          "net_r": -2024.7753876,
+          "profit_factor": 0.29635013,
+          "trades": 6960,
+          "win_rate": 0.27298851
+        },
+        "layer_4": {
+          "expectancy": -0.29279244,
+          "max_drawdown_r": 2038.15425332,
+          "net_r": -2037.8353876,
+          "profit_factor": 0.293893,
+          "trades": 6960,
+          "win_rate": 0.27140805
+        }
+      }
+    }
+  ],
+  "classification_counts": {
+    "NO_GROSS_EDGE": 2
+  },
+  "cost_frontier": {
+    "cost_branch_supported": false,
+    "rows": [
+      {
+        "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+        "cost_branch_supported": false,
+        "full_cost_expectancy": -0.28157411,
+        "maximum_tolerable_cost_r": 0.0,
+        "observed_cost_r": 0.27850153,
+        "raw_expectancy": -0.00307258
+      },
+      {
+        "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+        "cost_branch_supported": false,
+        "full_cost_expectancy": -0.29279244,
+        "maximum_tolerable_cost_r": 0.0,
+        "observed_cost_r": 0.27849156,
+        "raw_expectancy": -0.01430088
+      }
+    ],
+    "status": "COST_FRONTIER_COMPLETE"
+  },
+  "event_count": 13920,
+  "midpoint_promotable": false,
+  "packet_id": "PKT-EAST-FOREX-EDGE-EXISTENCE-CLOSURE-031",
+  "schema": "AIOS_FOREX_EXECUTION_FRONTIER_V1_STATE",
+  "state_hash": "90164ccf30d3eca03d23ef16c066f4d0833c87acbac04dff573d1f46d2449b86",
+  "status": "EXECUTION_LAYER_DECOMPOSITION_COMPLETE"
+}

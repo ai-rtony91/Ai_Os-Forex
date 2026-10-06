@@ -1,8 +1,9 @@
 """Paper-only deterministic next-candidate discovery and replacement ranking."""
 from __future__ import annotations
 
+import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 from automation.forex_engine import failure_regime_analysis_s_v1
 from automation.forex_engine import profit_objective_accelerator_l_v1 as accelerator
@@ -17,6 +18,10 @@ REPORT_REPLACEMENT = "AIOS_FOREX_CANDIDATE_REPLACEMENT_ANALYSIS_V1.md"
 ANCHOR_CANDIDATE_ID = "c1-eur-buy"
 ANCHOR_STRATEGY_ID = "paper_long_run_supervisor_v2"
 ANCHOR_DIRECTION = "LONG"
+CAMPAIGN_STATE_PATHS = (
+    REPORTS_DIR / "AIOS_FOREX_P1_30_TRADE_CAMPAIGN_V1_STATE.json",
+    REPORTS_DIR / "AIOS_FOREX_SUPERTREND_30_TRADE_CAMPAIGN_STATE.json",
+)
 
 
 def _safety() -> dict[str, bool]:
@@ -42,8 +47,27 @@ def _safe_float(value: Any, default: float = 0.0) -> float:
     return num
 
 
-def _deterministic_candidate_profiles() -> list[dict[str, Any]]:
-    return [
+def _load_campaign_state() -> dict[str, Any]:
+    for path in CAMPAIGN_STATE_PATHS:
+        if not path.exists():
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if isinstance(payload, dict):
+            return payload
+    return {}
+
+
+def _campaign_has_genuine_evidence(state: Mapping[str, Any]) -> bool:
+    accepted = _safe_float(state.get("accepted_qualifying_trades"), 0.0)
+    trade_results = state.get("trade_results")
+    return bool(accepted > 0.0 or (isinstance(trade_results, list) and len(trade_results) > 0))
+
+
+def _deterministic_candidate_profiles(*, evidence_available: bool) -> list[dict[str, Any]]:
+    profiles = [
         {
             "candidate_id": ANCHOR_CANDIDATE_ID,
             "strategy_id": ANCHOR_STRATEGY_ID,
@@ -80,10 +104,21 @@ def _deterministic_candidate_profiles() -> list[dict[str, Any]]:
             "candidate_label": "new_candidate_long_c",
         },
     ]
+    if evidence_available:
+        return [dict(item) for item in profiles]
+    return [
+        {
+            **item,
+            "trade_pnl_list": [],
+        }
+        for item in profiles
+    ]
 
 
 def build_candidate_profiles() -> list[dict[str, Any]]:
-    profiles = _deterministic_candidate_profiles()
+    campaign_state = _load_campaign_state()
+    evidence_available = _campaign_has_genuine_evidence(campaign_state)
+    profiles = _deterministic_candidate_profiles(evidence_available=evidence_available)
     return [dict(item) for item in profiles]
 
 
@@ -198,6 +233,8 @@ def build_replacement_analysis(
 
 
 def run_next_candidate_discovery(*, write_reports: bool = True) -> dict[str, Any]:
+    campaign_state = _load_campaign_state()
+    evidence_available = _campaign_has_genuine_evidence(campaign_state)
     profile_candidates = build_candidate_profiles()
     scored_candidates = score_candidates(profile_candidates)
     leaderboard = build_leaderboard(scored_candidates)
@@ -213,6 +250,13 @@ def run_next_candidate_discovery(*, write_reports: bool = True) -> dict[str, Any
         "champion": leaderboard.get("champion", {}),
         "runner_up": leaderboard.get("runner_up", {}),
         "candidate_count": len(scored_candidates),
+        "campaign_state": {
+            "accepted_qualifying_trades": int(_safe_float(campaign_state.get("accepted_qualifying_trades"), 0.0)),
+            "campaign_status": str(campaign_state.get("campaign_status", "")),
+            "p1_status": str(campaign_state.get("p1_status", "")),
+            "target_qualifying_trades": int(_safe_float(campaign_state.get("target_qualifying_trades"), 0.0)),
+        },
+        "genuine_campaign_evidence": evidence_available,
         "accelerator_mode": accelerator.MODE,
         "failure_context": {
             "last_packet": failure_payload.get("packet_id"),

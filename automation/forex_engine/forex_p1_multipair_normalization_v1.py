@@ -34,6 +34,7 @@ STRATEGY_ID = SUPERTREND_PULLBACK_V1
 TARGET_RR = 2.0
 MIN_RR = 1.5
 ATR_THRESHOLD_PIPS = 4.0
+MAX_OBSERVATION_CANDLE_COUNT = 501
 
 
 @dataclass(frozen=True)
@@ -252,18 +253,32 @@ def fetch_completed_m5_history(
     *,
     candle_count: int = DEFAULT_CANDLE_COUNT,
 ) -> dict[str, Any]:
+    requested_raw_count = min(max(int(candle_count) + 1, 5), MAX_OBSERVATION_CANDLE_COUNT)
     payload = _as_mapping(
-        client.observation_candles(instrument, granularity=M5_GRANULARITY, count=candle_count)
+        client.observation_candles(instrument, granularity=M5_GRANULARITY, count=requested_raw_count)
     )
-    candles = completed_candles(payload, instrument=instrument, granularity=M5_GRANULARITY)
-    if len(candles) < candle_count:
+    raw_candles = payload.get("candles")
+    if not isinstance(raw_candles, list):
+        raise ValueError("candles_list_required")
+    completed = completed_candles(payload, instrument=instrument, granularity=M5_GRANULARITY)
+    completed_available_count = len(completed)
+    if completed_available_count < candle_count:
         raise ValueError("insufficient_completed_m5_history")
+    selected = completed[-candle_count:]
+    incomplete_filtered_count = sum(1 for item in raw_candles if isinstance(item, Mapping) and item.get("complete") is not True)
+    malformed_filtered_count = len(raw_candles) - completed_available_count - incomplete_filtered_count
     return {
         "instrument": instrument,
         "granularity": M5_GRANULARITY,
         "requested_count": candle_count,
-        "returned_count": len(candles),
-        "candles": [item.__dict__ for item in candles],
+        "requested_raw_count": requested_raw_count,
+        "raw_returned_count": len(raw_candles),
+        "completed_available_count": completed_available_count,
+        "incomplete_filtered_count": incomplete_filtered_count,
+        "malformed_filtered_count": malformed_filtered_count,
+        "selected_count": len(selected),
+        "returned_count": len(selected),
+        "candles": [item.__dict__ for item in selected],
         "complete": True,
         "sanitized": True,
         "raw_payload_included": False,

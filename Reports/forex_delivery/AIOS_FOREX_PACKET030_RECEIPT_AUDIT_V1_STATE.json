@@ -1,0 +1,180 @@
+{
+  "affected_packet027_candidate_count": 32,
+  "code_hashes": {
+    "packet030_m5_adapter": "ec53cef95010c6e0e970e846ed1c7842a693d40f9f20d5f62387bc711664b995",
+    "packet030_targeted_program": "fd35fb4855633b88316270b63b3cfe5611cbf0e88f3461551c67be01879a7bc0"
+  },
+  "family_controls_status": "TRACE_BACKED_FAMILY_CONTROLS_CERTIFIED",
+  "m5_bridge_status": "M5_DAY_TRADING_BRIDGE_CERTIFIED",
+  "packet030_status": "TARGETED_RESEARCH_EXHAUSTED_NO_EDGE",
+  "packet_id": "PKT-EAST-FOREX-EDGE-EXISTENCE-CLOSURE-031",
+  "rows": [
+    {
+      "candidate_definition_hash": "5b4cc93e15e2b23b960dc4a65d2a8112d0e66144c84d61bbf17968bb7137f796",
+      "candidate_id": "M5_MTF_LONG_01_V1",
+      "direction": "LONG",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "fec7fd82f58193cbc8aef386cdd9372f7d6696e5422d03278ab6477ee9e72488",
+      "candidate_id": "M5_MTF_LONG_02_V1",
+      "direction": "LONG",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "be66fde5980e89b20e3dc82143dab49d76986e7a1b751f3a5681a467a578009b",
+      "candidate_id": "M5_MTF_LONG_03_V1",
+      "direction": "LONG",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "103579432a5ebf46d839847663ef85c3b8a01660f3822d45e48d65f081bd9074",
+      "candidate_id": "M5_MTF_LONG_04_V1",
+      "direction": "LONG",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "4678c64bc79e5b0a4d0b627865dac1ef60464d8501d7b51759087643889c8e35",
+      "candidate_id": "M5_MTF_LONG_05_V1",
+      "direction": "LONG",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "8e46834a0c9f8c28899cdd182c7a663e850a9a13d3aa4a30389dd4315a9158d6",
+      "candidate_id": "M5_MTF_LONG_06_V1",
+      "direction": "LONG",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "11cf8a2fc08f533a190746bd7a702e0ef288d77244b0601b1da3165be663b3af",
+      "candidate_id": "M5_MTF_LONG_07_V1",
+      "direction": "LONG",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "adc1eea32855284c20c5596229975e82bcee8e2340a106b3495e96d9c50bf0d0",
+      "candidate_id": "M5_MTF_LONG_08_V1",
+      "direction": "LONG",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "eb996d638131f9c1f968f3c5e03780b9dfc4b46c465ee01e0c3ad03b009bedad",
+      "candidate_id": "M5_MTF_LONG_09_V1",
+      "direction": "LONG",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "ed53e178e549a48a12307a1cefcf146176d9a11a266ae8071aa7e27cf4f2ff91",
+      "candidate_id": "M5_MTF_LONG_10_V1",
+      "direction": "LONG",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "9ddc2a4fbfedbfb0c03574e4922f31e4a8d35b1ec4dc1352f2fdb6704f34f14c",
+      "candidate_id": "M5_MTF_SHORT_01_V1",
+      "direction": "SHORT",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "643c8207eacfd9ce2b593b80f5b4801954a3b0daa320107073aa1192b6c6a6e4",
+      "candidate_id": "M5_MTF_SHORT_02_V1",
+      "direction": "SHORT",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "7dbc5149ab9aad86c5edc1e4162be2cccbeb3a0b6264ce6f879124442fec9e37",
+      "candidate_id": "M5_MTF_SHORT_03_V1",
+      "direction": "SHORT",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "8ce826b6962af0a127920fcb0ec9087f4f51cbb099e6ee627797c37981e19318",
+      "candidate_id": "M5_MTF_SHORT_04_V1",
+      "direction": "SHORT",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "62054de9b689e090d34bfc448b6bdf3c195ecba16f8aca6de72790609b250969",
+      "candidate_id": "M5_MTF_SHORT_05_V1",
+      "direction": "SHORT",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "5c90cb83ef06b8fb9b2fa6e00cf10ea14f378af2a06658ab4e69815a5c859df7",
+      "candidate_id": "M5_MTF_SHORT_06_V1",
+      "direction": "SHORT",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "9a19811c394923f50f145ecb34bc3f9de0f97c904d382454662c4da5e32dd905",
+      "candidate_id": "M5_MTF_SHORT_07_V1",
+      "direction": "SHORT",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "4b6b64ae1951ef6106fceac38ed93e8b760f97283887f79e3928fbe84c1fe6ba",
+      "candidate_id": "M5_MTF_SHORT_08_V1",
+      "direction": "SHORT",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "40cccdc908fb6000e984241a80cb9e11016c27619a399d09cd252cf59b49e14d",
+      "candidate_id": "M5_MTF_SHORT_09_V1",
+      "direction": "SHORT",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    },
+    {
+      "candidate_definition_hash": "feea14cf3d4f4e28726d5aa902226fb8069b1f1578a2013350b1497ae78c695b",
+      "candidate_id": "M5_MTF_SHORT_10_V1",
+      "direction": "SHORT",
+      "family_or_branch": "M5_DAY_TRADING_MTF",
+      "reason": "Packet 030 preserved summary metrics, but targeted M5 per-trade receipts were not available as durable artifacts; Packet 031 freezes a separate eligible-event ledger for edge-existence diagnostics.",
+      "receipt_classification": "PARTIAL_RECONSTRUCTABLE"
+    }
+  ],
+  "schema": "AIOS_FOREX_PACKET030_RECEIPT_AUDIT_V1_STATE",
+  "state_hash": "e15e0ef81679e4434b872a9c6d12a2b9ceb87a98bb919e3f7839395f96c83a9a",
+  "status": "PACKET030_RECEIPTS_RECONCILED_WITH_M5_RECEIPT_LIMITATION",
+  "targeted_candidate_count": 20,
+  "targeted_candidate_receipt_classes": {
+    "PARTIAL_RECONSTRUCTABLE": 20
+  }
+}

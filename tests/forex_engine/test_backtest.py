@@ -171,3 +171,16 @@ def test_supertrend_edge_backtest_cost_model_reduces_result():
     zero_cost = run_supertrend_edge_backtest(candles, cost_assumptions=TradeCostAssumptions(0, 0, 0))
     costed = run_supertrend_edge_backtest(candles)
     assert costed["metrics"]["net_pnl_usd"] <= zero_cost["metrics"]["net_pnl_usd"]
+
+
+def test_supertrend_edge_backtest_charges_the_explicit_round_trip_cost_once():
+    candles = deterministic_supertrend_sample(count=48)
+    assumptions = TradeCostAssumptions(spread=0.0001, slippage=0.00005, commission_per_trade_usd=0.5)
+    zero_cost = run_supertrend_edge_backtest(candles, cost_assumptions=TradeCostAssumptions(0, 0, 0))
+    costed = run_supertrend_edge_backtest(candles, cost_assumptions=assumptions)
+    assert len(costed["trades"]) == len(zero_cost["trades"])
+    for raw_trade, costed_trade in zip(zero_cost["trades"], costed["trades"], strict=True):
+        assert costed_trade["entry_price"] == raw_trade["entry_price"]
+        units = abs(raw_trade["position_size_units"])
+        expected_cost = round(units * (assumptions.spread + 2 * assumptions.slippage) + 0.5, 2)
+        assert costed_trade["pnl_usd"] == round(raw_trade["pnl_usd"] - expected_cost, 2)

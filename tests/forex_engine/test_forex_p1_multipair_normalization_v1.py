@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from types import SimpleNamespace
+from datetime import datetime, timedelta, timezone
 
 import pytest
 
@@ -55,6 +56,48 @@ class FakeClient(OandaReadOnlyClient):
         }
 
 
+def _history_candle(index: int, *, instrument: str, complete: bool) -> dict:
+    timestamp = (datetime(2026, 8, 1, 10, 0, tzinfo=timezone.utc) + timedelta(minutes=index)).isoformat().replace("+00:00", "Z")
+    if instrument == "EUR_USD":
+        open_ = 1.1000 + index * 0.0001
+        high = 1.1004 + index * 0.0001
+        low = 1.0996 + index * 0.0001
+        close = 1.1001 + index * 0.0001
+    else:
+        open_ = 110.0 + index * 0.01
+        high = 110.04 + index * 0.01
+        low = 109.96 + index * 0.01
+        close = 110.01 + index * 0.01
+    return {
+        "time": timestamp,
+        "complete": complete,
+        "volume": 10,
+        "open": open_,
+        "high": high,
+        "low": low,
+        "close": close,
+        "mid": {"o": open_, "h": high, "l": low, "c": close},
+        "observed_at_utc": timestamp,
+    }
+
+
+def _history_payload(*, instrument: str, completed_count: int, incomplete_count: int) -> list[dict]:
+    raw = [_history_candle(index, instrument=instrument, complete=True) for index in range(completed_count)]
+    raw.extend(_history_candle(completed_count + index, instrument=instrument, complete=False) for index in range(incomplete_count))
+    return raw
+
+
+class StaticHistoryClient(FakeClient):
+    def __init__(self, payloads: dict[str, list[dict]]) -> None:
+        super().__init__()
+        self.payloads = payloads
+        self.requested_counts: list[int] = []
+
+    def observation_candles(self, instrument: str, *, granularity: str, count: int, price: str = "M") -> dict:
+        self.requested_counts.append(count)
+        return {"instrument": instrument, "granularity": granularity, "candles": list(self.payloads[instrument])}
+
+
 def test_discover_universe_is_deterministic():
     client = FakeClient()
     universe = module.discover_fixed_universe(client)
@@ -91,6 +134,59 @@ def test_snapshot_and_candidate_normalization():
     if candidate is not None:
         assert candidate["direction"] == "BUY"
         assert candidate["planned_reward_risk"] >= module.MIN_RR
+
+
+def test_fetch_completed_history_overfetches_one_extra_raw_candle_and_selects_exact_window():
+    client = StaticHistoryClient({"EUR_USD": _history_payload(instrument="EUR_USD", completed_count=50, incomplete_count=1)})
+    history = module.fetch_completed_m5_history(client, "EUR_USD", candle_count=50)
+    assert client.requested_counts == [51]
+    assert history["requested_count"] == 50
+    assert history["requested_raw_count"] == 51
+    assert history["raw_returned_count"] == 51
+    assert history["completed_available_count"] == 50
+    assert history["incomplete_filtered_count"] == 1
+    assert history["selected_count"] == 50
+    assert history["returned_count"] == 50
+    assert history["candles"][0]["timestamp"] == "2026-08-01T10:00:00Z"
+    assert history["candles"][-1]["timestamp"] == "2026-08-01T10:49:00Z"
+    window = module.candles_to_strategy_window(history, instrument="EUR_USD")
+    assert len(window) == 50
+    assert window[0].timestamp == "2026-08-01T10:00:00Z"
+    assert window[-1].timestamp == "2026-08-01T10:49:00Z"
+    result = module.evaluate_supertrend_pullback(window, module.normalized_strategy_config("EUR_USD"))
+    assert isinstance(result, dict)
+    assert result["strategy_name"] == module.STRATEGY_ID
+    assert "accepted" in result
+
+
+def test_fetch_completed_history_selects_newest_exact_window_when_more_completed_candles_exist():
+    client = StaticHistoryClient({"EUR_USD": _history_payload(instrument="EUR_USD", completed_count=51, incomplete_count=1)})
+    history = module.fetch_completed_m5_history(client, "EUR_USD", candle_count=50)
+    assert client.requested_counts == [51]
+    assert history["completed_available_count"] == 51
+    assert history["selected_count"] == 50
+    assert history["candles"][0]["timestamp"] == "2026-08-01T10:01:00Z"
+    assert history["candles"][-1]["timestamp"] == "2026-08-01T10:50:00Z"
+    window = module.candles_to_strategy_window(history, instrument="EUR_USD")
+    assert window[0].timestamp == "2026-08-01T10:01:00Z"
+    assert window[-1].timestamp == "2026-08-01T10:50:00Z"
+    assert all(window[index].timestamp <= window[index + 1].timestamp for index in range(len(window) - 1))
+
+
+def test_fetch_completed_history_raises_when_fewer_than_required_completed_candles_remain():
+    client = StaticHistoryClient({"EUR_USD": _history_payload(instrument="EUR_USD", completed_count=49, incomplete_count=1)})
+    with pytest.raises(ValueError, match="insufficient_completed_m5_history"):
+        module.fetch_completed_m5_history(client, "EUR_USD", candle_count=50)
+    assert client.requested_counts == [51]
+
+
+def test_fetch_completed_history_respects_client_boundary_for_large_requests():
+    client = StaticHistoryClient({"EUR_USD": _history_payload(instrument="EUR_USD", completed_count=500, incomplete_count=1)})
+    history = module.fetch_completed_m5_history(client, "EUR_USD", candle_count=500)
+    assert client.requested_counts == [501]
+    assert history["requested_raw_count"] == 501
+    assert history["completed_available_count"] == 500
+    assert history["selected_count"] == 500
 
 
 def test_replay_candidate_accepts_buy_and_sell_with_direction_safe_identity():

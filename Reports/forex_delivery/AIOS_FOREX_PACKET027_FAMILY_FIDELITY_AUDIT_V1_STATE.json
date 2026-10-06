@@ -1,0 +1,56 @@
+{
+  "packet_id": "PKT-EAST-FOREX-RESEARCH-FIDELITY-EDGE-CLOSURE-028",
+  "rows": [
+    {
+      "candidate_count": 4,
+      "family": "A_TIME_SERIES_MOMENTUM",
+      "reason": "Multiple horizons and non-fixed exits exist, but implementation remains H1-only and shallow.",
+      "verdict": "PARTIALLY_FAITHFUL"
+    },
+    {
+      "candidate_count": 4,
+      "family": "B_CROSS_SECTIONAL_FACTOR",
+      "reason": "Uses same-instrument momentum/spread proxies, not same-time currency-level ranking or portfolio rebalance semantics.",
+      "verdict": "UNFAITHFUL_IMPLEMENTATION"
+    },
+    {
+      "candidate_count": 4,
+      "family": "C_CARRY_VALUE_MOMENTUM",
+      "reason": "No point-in-time policy/yield/carry input is consumed; price-only proxy is mislabeled as carry/value.",
+      "verdict": "UNFAITHFUL_IMPLEMENTATION"
+    },
+    {
+      "candidate_count": 4,
+      "family": "D_RELATIVE_VALUE",
+      "reason": "Uses single-instrument residual-style signals, not synchronized multi-leg residuals with leg-level executable costs.",
+      "verdict": "UNFAITHFUL_IMPLEMENTATION"
+    },
+    {
+      "candidate_count": 4,
+      "family": "E_EVENT_DRIVEN",
+      "reason": "Uses official calendar dates and post-date filtering, but lacks event identity depth, release-time granularity, and event-specific expectations.",
+      "verdict": "PARTIALLY_FAITHFUL"
+    },
+    {
+      "candidate_count": 4,
+      "family": "F_LIQUIDITY_SESSION",
+      "reason": "Uses hour/spread features, but does not implement a full UTC/DST session calendar or rollover exclusion.",
+      "verdict": "PARTIALLY_FAITHFUL"
+    },
+    {
+      "candidate_count": 4,
+      "family": "G_REGIME_SWITCHING",
+      "reason": "Uses static volatility filters, not causal state transitions or frozen expert routing.",
+      "verdict": "UNFAITHFUL_IMPLEMENTATION"
+    },
+    {
+      "candidate_count": 4,
+      "family": "H_META_LABEL_ROUTER",
+      "reason": "Uses static filters, not chronological second-stage TAKE/DO_NOT_TAKE calibration.",
+      "verdict": "UNFAITHFUL_IMPLEMENTATION"
+    }
+  ],
+  "schema": "AIOS_FOREX_PACKET027_FAMILY_FIDELITY_AUDIT_V1_STATE",
+  "state_hash": "98c2236369e65e4e566a75e41d7822f2788c38f52762d27ff7692bcd19a166b1",
+  "status": "COMPLETE"
+}

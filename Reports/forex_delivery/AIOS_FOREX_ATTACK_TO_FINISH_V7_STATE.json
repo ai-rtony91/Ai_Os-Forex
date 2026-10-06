@@ -1,0 +1,43 @@
+{
+  "schema": "AIOS_FOREX_ATTACK_TO_FINISH_V7_STATE",
+  "packet_id": "PKT-EAST-FOREX-FIDELITY-TO-COMPOUNDING-029",
+  "status": "RESEARCH_FIDELITY_REPAIR_REQUIRED",
+  "continuation_active": false,
+  "current_phase": "FAMILY_AH_EXECUTABLE_CONTROLS",
+  "first_incomplete_phase": "P0-001_FAMILY_A_CONTROL_NOT_PROVEN",
+  "remaining_authorized_work_count": 0,
+  "alternate_safe_actions": [],
+  "external_time_dependency": false,
+  "protected_owner_action_dependency": true,
+  "terminal_state_candidate": "RESEARCH_FIDELITY_REPAIR_REQUIRED",
+  "pre_terminal_audit_status": "PASS",
+  "same_packet_resume_command": "Resume Packet 029 after a narrower implementation plan is authorized for executable family controls that prove PASS via trace assertions instead of static status fields.",
+  "blockers": [
+    {
+      "blocker_id": "P0-001..P0-008",
+      "priority": "P0",
+      "phase": "FAMILY_AH_CONTROLS",
+      "status": "OPEN",
+      "exact_blocker": "Family A-H controls are not proven.",
+      "why_it_matters": "Targeted real-market research would be scientifically invalid without proven adapter fidelity.",
+      "canonical_owner_file": "automation/forex_engine/forex_family_falsifiability_controls_v2.py",
+      "test_file": "tests/forex_engine/test_forex_family_falsifiability_controls_v2.py",
+      "missing_evidence": "Executable trace-backed PASS for adapter, execution, cost, metrics, chronology, leakage, direction isolation, and determinism.",
+      "next_action": "Authorize a narrower repair implementation with no hard-coded PASS claims.",
+      "can_codex_resolve": true,
+      "human_action_required": true,
+      "external_time_required": false
+    },
+    {
+      "blocker_id": "P0-009",
+      "priority": "P0",
+      "phase": "M5_DAY_TRADING_BRIDGE",
+      "status": "OPEN",
+      "exact_blocker": "M5 bridge not opened because upstream family controls did not pass.",
+      "next_action": "Build after family controls are trace-backed and validated.",
+      "can_codex_resolve": true,
+      "human_action_required": true,
+      "external_time_required": false
+    }
+  ]
+}

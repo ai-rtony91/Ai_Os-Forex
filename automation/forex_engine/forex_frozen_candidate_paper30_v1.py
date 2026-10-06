@@ -35,6 +35,9 @@ UNIVERSE_EVIDENCE_PATH = Path(
 
 TIMEFRAME = "M5"
 DIRECTION_POLICY = "BUY_ONLY"
+SHORT_DIRECTION_POLICY = "SELL_ONLY"
+DEFAULT_TRADE_DIRECTION = "BUY"
+SHORT_TRADE_DIRECTION = "SELL"
 ATR_PERIOD = 5
 SUPERTREND_FACTOR = 2.0
 CONFIRMATION = "TRUE_2_CLOSE"
@@ -46,9 +49,16 @@ SELL_ENABLED = False
 MAX_ACTIVE_POSITIONS_PER_INSTRUMENT = 1
 GLOBAL_PAPER_POSITION_CAP = 68
 PAPER30_TARGET = 30
+BUY_TARGET_R_MULTIPLE = Decimal("10")
+SELL_TARGET_R_MULTIPLE = Decimal("2")
+TARGET_R_MULTIPLE = SELL_TARGET_R_MULTIPLE
 FRESHNESS_SECONDS = 15 * 60
 PRACTICE_NETWORK_TIMEOUT_SECONDS = 5
 SENTINEL_INSTRUMENT = "EUR_USD"
+DEFAULT_SHORT_RUNTIME_ROOT = Path(".aios/runtime/forex_frozen_candidate_paper30_v1_short")
+DEFAULT_SHORT_REPORT_PATH = Path(
+    "Reports/forex_delivery/AIOS_FOREX_PAPER30_SHORT_FAST_NETWORK_GATE_V1_RESULTS.json"
+)
 
 
 def _canonical_sha256(value: Any) -> str:
@@ -111,10 +121,31 @@ def load_fixed_universe(path: Path = UNIVERSE_EVIDENCE_PATH) -> tuple[tuple[str,
 
 
 def strategy_config(universe_sha256: str) -> dict[str, Any]:
-    return {
+    return strategy_config_for_direction(universe_sha256, DEFAULT_TRADE_DIRECTION)
+
+
+def _normalize_trade_direction(value: str) -> str:
+    normalized = str(value or DEFAULT_TRADE_DIRECTION).strip().upper()
+    if normalized in {"BUY", "LONG"}:
+        return DEFAULT_TRADE_DIRECTION
+    if normalized in {"SELL", "SHORT"}:
+        return SHORT_TRADE_DIRECTION
+    raise ValueError("TRADE_DIRECTION_MUST_BE_BUY_OR_SELL")
+
+
+def _direction_policy_for_trade_direction(trade_direction: str) -> str:
+    normalized = _normalize_trade_direction(trade_direction)
+    return DIRECTION_POLICY if normalized == DEFAULT_TRADE_DIRECTION else SHORT_DIRECTION_POLICY
+
+
+def strategy_config_for_direction(
+    universe_sha256: str, trade_direction: str = DEFAULT_TRADE_DIRECTION
+) -> dict[str, Any]:
+    normalized = _normalize_trade_direction(trade_direction)
+    config = {
         "atr_period": ATR_PERIOD,
         "confirmation": CONFIRMATION,
-        "direction": DIRECTION_POLICY,
+        "direction": _direction_policy_for_trade_direction(normalized),
         "exit_policy": PRIMARY_EXIT_POLICY,
         "macd_filter": MACD_FILTER,
         "pair_universe_sha256": universe_sha256,
@@ -122,10 +153,52 @@ def strategy_config(universe_sha256: str) -> dict[str, Any]:
         "supertrend_factor": SUPERTREND_FACTOR,
         "timeframe": TIMEFRAME,
     }
+    if normalized == SHORT_TRADE_DIRECTION:
+        config["trade_direction"] = SHORT_TRADE_DIRECTION
+    return config
 
 
-def strategy_config_sha256(universe_sha256: str) -> str:
-    return _canonical_sha256(strategy_config(universe_sha256))
+def strategy_config_sha256(
+    universe_sha256: str, trade_direction: str = DEFAULT_TRADE_DIRECTION
+) -> str:
+    return _canonical_sha256(strategy_config_for_direction(universe_sha256, trade_direction))
+
+
+def _opposite_trade_direction(trade_direction: str) -> str:
+    normalized = _normalize_trade_direction(trade_direction)
+    return SHORT_TRADE_DIRECTION if normalized == DEFAULT_TRADE_DIRECTION else DEFAULT_TRADE_DIRECTION
+
+
+def _entry_price_for_direction(trade_direction: str, bid: Decimal, ask: Decimal) -> Decimal:
+    return ask if _normalize_trade_direction(trade_direction) == DEFAULT_TRADE_DIRECTION else bid
+
+
+def _exit_price_for_direction(trade_direction: str, bid: Decimal, ask: Decimal) -> Decimal:
+    return bid if _normalize_trade_direction(trade_direction) == DEFAULT_TRADE_DIRECTION else ask
+
+
+def _target_price_for_direction(
+    trade_direction: str, entry: Decimal, risk: Decimal
+) -> Decimal:
+    if _normalize_trade_direction(trade_direction) == DEFAULT_TRADE_DIRECTION:
+        return entry + BUY_TARGET_R_MULTIPLE * risk
+    return entry - SELL_TARGET_R_MULTIPLE * risk
+
+
+def _realized_r_for_direction(
+    trade_direction: str, entry: Decimal, exit_price: Decimal, risk: Decimal
+) -> Decimal:
+    if _normalize_trade_direction(trade_direction) == DEFAULT_TRADE_DIRECTION:
+        return (exit_price - entry) / risk
+    return (entry - exit_price) / risk
+
+
+def _mfe_mae_for_direction(
+    trade_direction: str, entry: Decimal, price: Decimal, risk: Decimal
+) -> Decimal:
+    if _normalize_trade_direction(trade_direction) == DEFAULT_TRADE_DIRECTION:
+        return (price - entry) / risk
+    return (entry - price) / risk
 
 
 def _nonfinite_float_count(value: Any) -> int:
@@ -167,6 +240,7 @@ class PendingEntry:
     signal_timestamp_utc: str
     initial_stop: str
     strategy_config_sha256: str
+    trade_direction: str = DEFAULT_TRADE_DIRECTION
 
 
 @dataclass
@@ -180,8 +254,15 @@ class PaperPosition:
     active_stop: str
     initial_risk_price: str
     strategy_config_sha256: str
+    trade_direction: str = DEFAULT_TRADE_DIRECTION
+    target_price: str = ""
+    target_first_touch_utc: str = ""
     shadow_reached: dict[str, bool] = field(default_factory=dict)
     shadow_first_touch_utc: dict[str, str] = field(default_factory=dict)
+    mfe_price: str = ""
+    mfe_timestamp_utc: str = ""
+    mae_price: str = ""
+    mae_timestamp_utc: str = ""
 
 
 class FrozenCandidatePaper30:
@@ -192,12 +273,14 @@ class FrozenCandidatePaper30:
         universe: Sequence[str],
         universe_sha256: str,
         campaign_start_utc: str | datetime,
+        trade_direction: str = DEFAULT_TRADE_DIRECTION,
     ) -> None:
         self.universe = tuple(sorted(set(universe)))
         if not self.universe or len(self.universe) > GLOBAL_PAPER_POSITION_CAP:
             raise ValueError("INVALID_FIXED_UNIVERSE")
         self.universe_sha256 = universe_sha256
-        self.strategy_hash = strategy_config_sha256(universe_sha256)
+        self.trade_direction = _normalize_trade_direction(trade_direction)
+        self.strategy_hash = strategy_config_sha256(universe_sha256, self.trade_direction)
         self.campaign_start_utc = _iso_utc(campaign_start_utc)
         self.pending_entries: dict[str, PendingEntry] = {}
         self.active_positions: dict[str, PaperPosition] = {}
@@ -213,7 +296,17 @@ class FrozenCandidatePaper30:
     def from_payload(
         cls, payload: Mapping[str, Any], universe: Sequence[str], universe_sha256: str
     ) -> "FrozenCandidatePaper30":
-        engine = cls(universe, universe_sha256, payload["campaign_start_utc"])
+        payload_direction = _normalize_trade_direction(
+            payload.get("trade_direction")
+            or (payload.get("strategy_config") or {}).get("trade_direction")
+            or DEFAULT_TRADE_DIRECTION
+        )
+        engine = cls(
+            universe,
+            universe_sha256,
+            payload["campaign_start_utc"],
+            trade_direction=payload_direction,
+        )
         if payload.get("strategy_config_sha256") != engine.strategy_hash:
             raise ValueError("PAPER30_STRATEGY_HASH_MISMATCH")
         engine.pending_entries = {
@@ -236,7 +329,10 @@ class FrozenCandidatePaper30:
         return {
             "schema": RUNTIME_ID,
             "campaign_start_utc": self.campaign_start_utc,
-            "strategy_config": strategy_config(self.universe_sha256),
+            "trade_direction": self.trade_direction,
+            "strategy_config": strategy_config_for_direction(
+                self.universe_sha256, self.trade_direction
+            ),
             "strategy_config_sha256": self.strategy_hash,
             "pending_entries": {
                 key: asdict(value) for key, value in sorted(self.pending_entries.items())
@@ -256,6 +352,7 @@ class FrozenCandidatePaper30:
             "live_orders": False,
             "money_movement": False,
             "credentials_persisted": False,
+            "direction_policy": _direction_policy_for_trade_direction(self.trade_direction),
         }
 
     def _event(self, kind: str, **fields: Any) -> None:
@@ -274,8 +371,9 @@ class FrozenCandidatePaper30:
         signal_timestamp_utc: str | datetime,
         initial_stop: Decimal | float | str,
     ) -> bool:
-        if direction != "BUY":
-            raise ValueError("SELL_DISABLED")
+        normalized_direction = _normalize_trade_direction(direction)
+        if normalized_direction != self.trade_direction:
+            raise ValueError("SELL_DISABLED" if normalized_direction == "SELL" else "BUY_DISABLED")
         if instrument not in self.universe:
             raise ValueError("INSTRUMENT_OUTSIDE_FIXED_UNIVERSE")
         signal_time = _iso_utc(signal_timestamp_utc)
@@ -285,7 +383,7 @@ class FrozenCandidatePaper30:
             return False
         if instrument in self.pending_entries:
             return False
-        signal_key = f"{instrument}|{signal_time}|BUY"
+        signal_key = f"{instrument}|{signal_time}|{normalized_direction}"
         if signal_key in self.consumed_signals:
             return False
         stop = _finite_decimal(initial_stop)
@@ -294,12 +392,14 @@ class FrozenCandidatePaper30:
             signal_timestamp_utc=signal_time,
             initial_stop=str(stop),
             strategy_config_sha256=self.strategy_hash,
+            trade_direction=normalized_direction,
         )
         self.consumed_signals.add(signal_key)
         self._event(
             "PENDING_ENTRY_CREATED",
             instrument=instrument,
             signal_timestamp_utc=signal_time,
+            trade_direction=normalized_direction,
         )
         return True
 
@@ -325,13 +425,15 @@ class FrozenCandidatePaper30:
         if pending is not None:
             if _parse_utc(quote_time) <= _parse_utc(pending.signal_timestamp_utc):
                 return "PENDING"
-            entry = ask_price
+            direction = _normalize_trade_direction(pending.trade_direction)
+            entry = _entry_price_for_direction(direction, bid_price, ask_price)
             stop = _finite_decimal(pending.initial_stop)
-            risk = entry - stop
+            risk = entry - stop if direction == DEFAULT_TRADE_DIRECTION else stop - entry
             if risk <= 0:
                 del self.pending_entries[instrument]
                 self._event("PENDING_ENTRY_REJECTED_INVALID_R", instrument=instrument)
                 return "REJECTED_INVALID_R"
+            target = _target_price_for_direction(direction, entry, risk)
             trade_id = hashlib.sha256(
                 f"{self.strategy_hash}|{instrument}|{pending.signal_timestamp_utc}|{quote_time}".encode(
                     "utf-8"
@@ -348,6 +450,12 @@ class FrozenCandidatePaper30:
                 active_stop=str(stop),
                 initial_risk_price=str(risk),
                 strategy_config_sha256=self.strategy_hash,
+                trade_direction=direction,
+                target_price=str(target),
+                mfe_price=str(entry),
+                mfe_timestamp_utc=quote_time,
+                mae_price=str(entry),
+                mae_timestamp_utc=quote_time,
                 shadow_reached=flags,
             )
             del self.pending_entries[instrument]
@@ -359,6 +467,7 @@ class FrozenCandidatePaper30:
                 trade_id=trade_id,
                 instrument=instrument,
                 fill_timestamp_utc=quote_time,
+                trade_direction=direction,
             )
             return "FILLED"
 
@@ -370,6 +479,8 @@ class FrozenCandidatePaper30:
 
         entry = _finite_decimal(position.entry_price)
         risk = _finite_decimal(position.initial_risk_price)
+        direction = _normalize_trade_direction(position.trade_direction)
+        target_price = _finite_decimal(position.target_price)
         thresholds = {
             "1R": Decimal("1"),
             "1_5R": Decimal("1.5"),
@@ -379,49 +490,100 @@ class FrozenCandidatePaper30:
             "5R": Decimal("5"),
         }
         for label, multiple in thresholds.items():
-            if not position.shadow_reached[label] and bid_price >= entry + multiple * risk:
+            if direction == DEFAULT_TRADE_DIRECTION:
+                reached = bid_price >= entry + multiple * risk
+                favorable_price = bid_price
+                adverse_price = bid_price
+            else:
+                reached = ask_price <= entry - multiple * risk
+                favorable_price = ask_price
+                adverse_price = ask_price
+            if not position.shadow_reached[label] and reached:
                 position.shadow_reached[label] = True
                 position.shadow_first_touch_utc[label] = quote_time
+        current_mfe = _finite_decimal(position.mfe_price or str(entry))
+        current_mae = _finite_decimal(position.mae_price or str(entry))
+        if direction == DEFAULT_TRADE_DIRECTION:
+            if bid_price > current_mfe:
+                position.mfe_price = str(bid_price)
+                position.mfe_timestamp_utc = quote_time
+            if bid_price < current_mae:
+                position.mae_price = str(bid_price)
+                position.mae_timestamp_utc = quote_time
+        else:
+            if ask_price < current_mfe:
+                position.mfe_price = str(ask_price)
+                position.mfe_timestamp_utc = quote_time
+            if ask_price > current_mae:
+                position.mae_price = str(ask_price)
+                position.mae_timestamp_utc = quote_time
 
         active_stop = _finite_decimal(position.active_stop)
         if active_stop_candidate is not None:
             candidate = _finite_decimal(active_stop_candidate)
-            if candidate < entry and candidate > active_stop:
+            if direction == DEFAULT_TRADE_DIRECTION:
+                should_update = candidate > active_stop and candidate < bid_price
+            else:
+                should_update = candidate < active_stop and candidate > ask_price
+            if should_update:
                 active_stop = candidate
                 position.active_stop = str(active_stop)
 
-        if bid_price > active_stop and not opposite_confirmed:
-            return "ACTIVE"
-        reason = "OPPOSITE_TRUE_2_CLOSE" if opposite_confirmed else "SUPERTREND_STOP"
-        return self._close_position(position, bid_price, quote_time, reason)
+        if direction == DEFAULT_TRADE_DIRECTION:
+            target_hit = bid_price >= target_price
+            stop_hit = bid_price <= active_stop
+            close_price = bid_price
+        else:
+            target_hit = ask_price <= target_price
+            stop_hit = ask_price >= active_stop
+            close_price = ask_price
+
+        if target_hit and stop_hit:
+            return self._close_position(position, close_price, quote_time, "AMBIGUOUS_SAME_QUOTE")
+        if target_hit:
+            return self._close_position(position, close_price, quote_time, "TAKE_PROFIT")
+        if stop_hit:
+            return self._close_position(position, close_price, quote_time, "SUPERTREND_STOP")
+        if opposite_confirmed:
+            return self._close_position(position, close_price, quote_time, "OPPOSITE_TRUE_2_CLOSE")
+        return "ACTIVE"
 
     def _close_position(
         self, position: PaperPosition, exit_price: Decimal, exit_time: str, reason: str
     ) -> str:
         entry = _finite_decimal(position.entry_price)
         risk = _finite_decimal(position.initial_risk_price)
-        realized_r = (exit_price - entry) / risk
-        cash_r = ((exit_price - entry) * Decimal("1")) / (risk * Decimal("1"))
+        direction = _normalize_trade_direction(position.trade_direction)
+        realized_r = _realized_r_for_direction(direction, entry, exit_price, risk)
+        cash_r = realized_r
+        mfe_r = _mfe_mae_for_direction(direction, entry, _finite_decimal(position.mfe_price or str(entry)), risk)
+        mae_r = _mfe_mae_for_direction(direction, entry, _finite_decimal(position.mae_price or str(entry)), risk)
         parity_valid = abs(realized_r - cash_r) <= Decimal("0.000000001")
         if not parity_valid:
             self.r_parity_failures += 1
         trade = {
             "trade_id": position.trade_id,
             "instrument": position.instrument,
-            "direction": "BUY",
+            "direction": direction,
             "signal_timestamp_utc": position.signal_timestamp_utc,
             "fill_timestamp_utc": position.fill_timestamp_utc,
             "exit_timestamp_utc": exit_time,
             "entry_price": position.entry_price,
             "initial_stop": position.initial_stop,
+            "target_price": position.target_price,
             "initial_risk_price": position.initial_risk_price,
             "exit_price": str(exit_price),
             "exit_reason": reason,
             "realized_r": float(realized_r),
+            "mfe_r": float(mfe_r),
+            "mae_r": float(mae_r),
+            "mfe_price": position.mfe_price or position.entry_price,
+            "mae_price": position.mae_price or position.entry_price,
+            "trade_direction": direction,
             "r_parity_valid": parity_valid,
             "strategy_config_sha256": self.strategy_hash,
             "timeframe": TIMEFRAME,
-            "direction_policy": DIRECTION_POLICY,
+            "direction_policy": _direction_policy_for_trade_direction(direction),
             "atr_period": ATR_PERIOD,
             "supertrend_factor": SUPERTREND_FACTOR,
             "confirmation": CONFIRMATION,
@@ -429,7 +591,7 @@ class FrozenCandidatePaper30:
             "primary_exit_policy": PRIMARY_EXIT_POLICY,
             "broker_order": False,
             "historical_backfill": False,
-            "qualifying": True,
+            "qualifying": reason != "AMBIGUOUS_SAME_QUOTE",
         }
         self.ledger.append(trade)
         shadow = {
@@ -439,6 +601,7 @@ class FrozenCandidatePaper30:
             **{f"reached_{key.lower()}": value for key, value in position.shadow_reached.items()},
             "first_5r_timestamp": position.shadow_first_touch_utc.get("5R"),
             "primary_realized_r": float(realized_r),
+            "trade_direction": direction,
         }
         self.shadow_closed.append(shadow)
         del self.active_positions[position.instrument]
@@ -448,6 +611,7 @@ class FrozenCandidatePaper30:
             instrument=position.instrument,
             exit_timestamp_utc=exit_time,
             qualifying=True,
+            trade_direction=direction,
         )
         return "CLOSED"
 
@@ -468,6 +632,8 @@ class FrozenCandidatePaper30:
     def metrics(self) -> dict[str, Any]:
         trades = self.formal_trades
         values = [float(trade["realized_r"]) for trade in trades]
+        mfe_values = [float(trade.get("mfe_r", 0.0)) for trade in trades]
+        mae_values = [float(trade.get("mae_r", 0.0)) for trade in trades]
         wins = [value for value in values if value > 0]
         losses = [value for value in values if value < 0]
         flats = len(values) - len(wins) - len(losses)
@@ -521,6 +687,7 @@ class FrozenCandidatePaper30:
             "max_drawdown_r": max_drawdown,
             "max_loss_streak": max_loss_streak,
             "buy_count": closed,
+            "sell_count": closed if self.trade_direction == SHORT_TRADE_DIRECTION else 0,
             "instrument_count": len({trade["instrument"] for trade in trades}),
             "peak_active_paper_positions": self.peak_active_positions,
             "reached_1r_count": reached["1R"],
@@ -529,6 +696,13 @@ class FrozenCandidatePaper30:
             "reached_4r_count": reached["4R"],
             "reached_5r_count": reached["5R"],
             "reached_5r_percent": reached["5R"] / closed if closed else 0.0,
+            "average_mfe_r": sum(mfe_values) / closed if closed else 0.0,
+            "average_mae_r": sum(mae_values) / closed if closed else 0.0,
+            "trade_direction": self.trade_direction,
+            "direction_policy": _direction_policy_for_trade_direction(self.trade_direction),
+            "target_r_multiple": float(
+                BUY_TARGET_R_MULTIPLE if self.trade_direction == DEFAULT_TRADE_DIRECTION else SELL_TARGET_R_MULTIPLE
+            ),
             "paper30_target_reached": closed >= PAPER30_TARGET,
             "paper30_decision": "PASS" if paper30_pass else (
                 "FAIL" if paper30_pass is False else "PENDING"
@@ -599,6 +773,7 @@ def latest_true_2_close_state(candles: Sequence[Candle]) -> dict[str, Any] | Non
         "confirmed_direction": "BUY" if (confirmed or 0) > 0 else "SELL",
         "latest_event": latest_event,
         "active_support": latest.get("lower_band"),
+        "active_stop_candidate": latest.get("lower_band") if (confirmed or 0) > 0 else latest.get("upper_band"),
         "latest_timestamp_utc": _iso_utc(candles[-1].timestamp),
     }
 
@@ -737,13 +912,22 @@ def _persist_runtime_status(
     _atomic_json(_runtime_paths(root)["state"], state)
 
 
-def _load_or_arm(root: Path, universe: Sequence[str], universe_hash: str) -> FrozenCandidatePaper30:
+def _load_or_arm(
+    root: Path,
+    universe: Sequence[str],
+    universe_hash: str,
+    *,
+    trade_direction: str = DEFAULT_TRADE_DIRECTION,
+) -> FrozenCandidatePaper30:
     state_path = _runtime_paths(root)["state"]
     if state_path.exists():
-        return FrozenCandidatePaper30.from_payload(
+        engine = FrozenCandidatePaper30.from_payload(
             json.loads(state_path.read_text(encoding="utf-8")), universe, universe_hash
         )
-    return FrozenCandidatePaper30(universe, universe_hash, _utc_now())
+        if engine.trade_direction != _normalize_trade_direction(trade_direction):
+            raise ValueError("PAPER30_STRATEGY_DIRECTION_MISMATCH")
+        return engine
+    return FrozenCandidatePaper30(universe, universe_hash, _utc_now(), trade_direction=trade_direction)
 
 
 def _build_result(
@@ -798,9 +982,12 @@ def _build_result(
         "lane": LANE,
         "bootstrap_result": "PASS",
         "v2_holdout_blocks_paper30": False,
-        "strategy_config": strategy_config(engine.universe_sha256),
+        "strategy_config": strategy_config_for_direction(
+            engine.universe_sha256, engine.trade_direction
+        ),
         "paper30_strategy_config_sha256": engine.strategy_hash,
         "paper30_campaign_start_utc": engine.campaign_start_utc,
+        "trade_direction": engine.trade_direction,
         "pair_universe_count": len(engine.universe),
         "paper30_runtime_status": runtime_status,
         "market_data_fresh": market_fresh,
@@ -827,7 +1014,7 @@ def _build_result(
         "paper30_metrics": serialized_metrics,
         "json_nonfinite_float_count": _nonfinite_float_count(serialized_metrics),
         "paper_only": True,
-        "sell_enabled": False,
+        "sell_enabled": engine.trade_direction == SHORT_TRADE_DIRECTION,
         "broker_writes": False,
         "practice_orders": False,
         "live_orders": False,
@@ -846,6 +1033,7 @@ def run_campaign_segment(
     *,
     cycles: int = 288,
     runtime_root: Path = DEFAULT_RUNTIME_ROOT,
+    trade_direction: str = DEFAULT_TRADE_DIRECTION,
     reviewer: str = "Human Owner Anthony",
     report_path: Path = DEFAULT_REPORT_PATH,
     sleep_seconds: float = 300.0,
@@ -853,6 +1041,7 @@ def run_campaign_segment(
     now_fn: Callable[[], datetime] = _utc_now,
 ) -> dict[str, Any]:
     del reviewer  # Reviewer identity is intentionally not an execution authority.
+    trade_direction = _normalize_trade_direction(trade_direction)
     if client.environment != "practice":
         raise ValueError("PRACTICE_ENVIRONMENT_REQUIRED")
     if int(getattr(client, "timeout_seconds", PRACTICE_NETWORK_TIMEOUT_SECONDS)) != (
@@ -862,7 +1051,7 @@ def run_campaign_segment(
     if cycles < 1:
         raise ValueError("CYCLES_MUST_BE_POSITIVE")
     universe, universe_hash = load_fixed_universe()
-    engine = _load_or_arm(runtime_root, universe, universe_hash)
+    engine = _load_or_arm(runtime_root, universe, universe_hash, trade_direction=trade_direction)
     pre_qualifying_closed_trades = len(engine.formal_trades)
     pre_ledger_snapshot = json.loads(json.dumps(engine.ledger))
     network_calls = 0
@@ -1066,13 +1255,13 @@ def run_campaign_segment(
                 event = state.get("latest_event")
                 if (
                     event
-                    and event["direction"] == "BUY"
+                    and event["direction"] == trade_direction
                     and event["confirmation_timestamp_utc"] == state["latest_timestamp_utc"]
                     and event.get("support_band") is not None
                 ):
                     engine.observe_signal(
                         instrument,
-                        "BUY",
+                        trade_direction,
                         event["confirmation_timestamp_utc"],
                         event["support_band"],
                     )
@@ -1086,9 +1275,10 @@ def run_campaign_segment(
                     bid,
                     ask,
                     quote_time,
-                    active_stop_candidate=state.get("active_support"),
+                    active_stop_candidate=state.get("active_stop_candidate")
+                    or state.get("active_support"),
                     opposite_confirmed=(
-                        latest_event.get("direction") == "SELL"
+                        latest_event.get("direction") == _opposite_trade_direction(trade_direction)
                         and latest_event.get("confirmation_timestamp_utc")
                         == state.get("latest_timestamp_utc")
                     ),
@@ -1124,6 +1314,9 @@ __all__ = [
     "ATR_PERIOD",
     "CONFIRMATION",
     "DIRECTION_POLICY",
+    "DEFAULT_SHORT_REPORT_PATH",
+    "DEFAULT_SHORT_RUNTIME_ROOT",
+    "DEFAULT_TRADE_DIRECTION",
     "FrozenCandidatePaper30",
     "GLOBAL_PAPER_POSITION_CAP",
     "MACD_FILTER",
@@ -1132,8 +1325,11 @@ __all__ = [
     "PRACTICE_NETWORK_TIMEOUT_SECONDS",
     "PRIMARY_EXIT_POLICY",
     "SELL_ENABLED",
+    "SHORT_DIRECTION_POLICY",
+    "SHORT_TRADE_DIRECTION",
     "SHADOW_5R_AUTHORITY",
     "SENTINEL_INSTRUMENT",
+    "TARGET_R_MULTIPLE",
     "SUPERTREND_FACTOR",
     "TIMEFRAME",
     "load_fixed_universe",
@@ -1143,5 +1339,6 @@ __all__ = [
     "sanitize_completed_m5",
     "sanitize_pricing",
     "strategy_config",
+    "strategy_config_for_direction",
     "strategy_config_sha256",
 ]

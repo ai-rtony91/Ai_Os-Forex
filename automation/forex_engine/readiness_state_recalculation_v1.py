@@ -57,6 +57,19 @@ def _choose_next_safe_action(review_state: str, blockers: list[str], safety: dic
     return "collect_missing_readiness_artifacts"
 
 
+def _live_readiness_components(
+    *,
+    demo_contract_present: bool,
+    one_shot_package_present: bool,
+    readiness_certificate_present: bool,
+) -> dict[str, bool]:
+    return {
+        "demo_contract": bool(demo_contract_present),
+        "one_shot_package": bool(one_shot_package_present),
+        "readiness_certificate": bool(readiness_certificate_present),
+    }
+
+
 def run_readiness_state_recalculation_v1(
     candidate_id: str = "c1-eur-buy",
     *,
@@ -95,12 +108,22 @@ def run_readiness_state_recalculation_v1(
     proof_bundle_consumed = (
         bridge_payload.get("proof_bundle_ready_for_candidate_bridge", False)
         and bridge_payload.get("source_proof_bundle_status") == "PROOF_BUNDLE_COMPLETE"
+        and bridge_payload.get("candidate_bridge_verdict") == "DEMO_REVIEW_READY"
     )
     demo_contract_present = bool(demo_contract.get("demo_validation_contract_completed", False))
     one_shot_package_present = bool(one_shot.get("exception_package_completed", False))
     readiness_certificate_present = bool(
         readiness_certificate.get("certificate_completed", False)
     )
+    live_readiness_components = _live_readiness_components(
+        demo_contract_present=demo_contract_present,
+        one_shot_package_present=one_shot_package_present,
+        readiness_certificate_present=readiness_certificate_present,
+    )
+    live_readiness_components_complete = sum(
+        int(value) for value in live_readiness_components.values()
+    )
+    live_readiness_components_total = len(live_readiness_components)
 
     blockers_before = _dedupe(
         _to_list(bridge_payload.get("remaining_blockers"))
@@ -192,6 +215,9 @@ def run_readiness_state_recalculation_v1(
         "demo_contract_present": bool(demo_contract_present),
         "one_shot_package_present": bool(one_shot_package_present),
         "readiness_certificate_present": bool(readiness_certificate_present),
+        "live_readiness_components": live_readiness_components,
+        "live_readiness_components_complete": live_readiness_components_complete,
+        "live_readiness_components_total": live_readiness_components_total,
         "review_chain_ready": bool(review_chain_ready),
         "next_safe_action": str(next_safe_action),
         "safety": safety,

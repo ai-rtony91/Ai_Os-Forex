@@ -1,0 +1,25 @@
+{
+  "cost_core_id": "aios.cost.single_charge.spread_slippage_financing.v1",
+  "execution_core_id": "aios.execution.bidask.next_interval.stop_first.v1",
+  "hash_chain": "event_hash covers ordered event content and previous_event_hash",
+  "metric_core_id": "aios.metric.recompute.r_expectancy_pf_dd.v1",
+  "packet_id": "PKT-EAST-FOREX-TRACE-BACKED-FIDELITY-030",
+  "producer_forbidden_keys": [
+    "certified",
+    "chronology_pass",
+    "cost_path_pass",
+    "deterministic_pass",
+    "direction_isolation_pass",
+    "leakage_pass",
+    "metric_path_pass",
+    "pass",
+    "passed",
+    "path_identity_pass",
+    "verdict"
+  ],
+  "producer_writes_verdict": false,
+  "schema": "AIOS_FOREX_TRACE_EVIDENCE_CONTRACT_V1_STATE",
+  "state_hash": "6a480c22d687b9ace68f6f540dde0a39f414d6ea07c97c538b10f79310d9ed3f",
+  "status": "TRACE_CONTRACT_DEFINED",
+  "trace_schema": "AIOS_FOREX_TRACE_EVIDENCE_CONTRACT_V1"
+}
