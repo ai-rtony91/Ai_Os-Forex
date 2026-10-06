@@ -16,4 +16,3 @@ export default function SettingsPage({ settings, updateSetting }) {
     <GlassPanel family="critical"><strong>NO CREDENTIALS · NO BROKER SETTINGS · NO MONEY MOVEMENT</strong></GlassPanel>
   </section>
 }
-

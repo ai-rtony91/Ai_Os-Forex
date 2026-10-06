@@ -77,4 +77,3 @@ provider is authorized.
 - `PRACTICE_ORDERS=false`
 - `LIVE_ORDERS=false`
 - `MONEY_MOVEMENT=false`
-

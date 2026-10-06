@@ -140,4 +140,3 @@ def test_live_environment_is_rejected_before_any_call():
             result_path=root/'live_result.json', source_head='TEST'
         )
     assert client.calls == []
-

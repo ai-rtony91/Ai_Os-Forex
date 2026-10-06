@@ -16,4 +16,3 @@ export default function RiskPage({ state }) {
     <div className="twoPane"><GlassPanel><div className="windowTitle"><span>⚙</span><b>RESEARCH DISPLAY CONTROLS</b><small>DISABLED FOR TRADING</small></div><label className="displayControl">Risk view<input disabled type="range" min="0" max="100" defaultValue="0" /><output>DISPLAY ONLY</output></label><label className="displayControl">Cost stress view<input disabled type="number" value="0" readOnly /><output>DISPLAY ONLY</output></label></GlassPanel><GlassPanel family="critical"><div className="windowTitle"><span>🛡</span><b>RISK-EVENT HISTORY</b></div><div className="windowEmpty"><b>NO EVIDENCE</b><small>NO VERIFIED RISK EVENT FEED</small></div></GlassPanel></div>
   </section>
 }
-

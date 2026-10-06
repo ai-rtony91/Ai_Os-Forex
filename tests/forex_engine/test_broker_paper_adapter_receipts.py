@@ -133,4 +133,3 @@ def test_rejection_receipt_is_emitted_when_live_boundary_is_detected() -> None:
     assert result["final_receipt"]["previous_receipt_id"] == result["rejection_receipt"]["receipt_id"]
     assert result["evidence_bundle"]["receipt_chain"][2]["receipt_type"] == "rejection"
     assert result["evidence_bundle"]["receipt_chain"][-1]["final_state"] == "PAPER_DEMO_FINAL_BLOCKED"
-

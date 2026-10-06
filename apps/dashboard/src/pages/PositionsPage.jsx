@@ -13,4 +13,3 @@ export default function PositionsPage({ state }) {
     <GlassPanel><div className="windowTitle"><span>▤</span><b>POSITION HISTORY</b><small>{positions.length ? `${positions.length} RECORDS` : 'NO EVIDENCE'}</small></div>{positions.length ? <div className="tableScroll"><table><thead><tr><th>Pair</th><th>Direction</th><th>State</th><th>R</th></tr></thead><tbody>{positions.map((item, index) => <tr key={item.id ?? index}><td>{safe(item.pair)}</td><td>{safe(item.direction)}</td><td>{safe(item.state)}</td><td>{safe(item.current_r)}</td></tr>)}</tbody></table></div> : <div className="windowEmpty"><b>NO EVIDENCE</b><small>POSITION HISTORY IS UNAVAILABLE</small></div>}</GlassPanel></div>
   </section>
 }
-

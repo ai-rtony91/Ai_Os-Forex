@@ -8,4 +8,3 @@ export default function ReportsPage() {
     <GlassPanel className="reportPreview"><div className="windowTitle"><span>⌕</span><b>READ-ONLY REPORT PREVIEW</b><small>NOT SELECTED</small></div><div className="windowEmpty"><b>NO REPORT SELECTED</b><small>SAFE EXPORT APPEARS ONLY WHEN SUPPORTED</small></div></GlassPanel>
   </section>
 }
-

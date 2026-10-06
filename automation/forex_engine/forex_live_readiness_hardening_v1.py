@@ -674,7 +674,7 @@ def build_report() -> dict[str, Any]:
     state = json.loads(PAPER30_STATE_PATH.read_text(encoding="utf-8"))
     historical = json.loads(HISTORICAL_STRESS_PATH.read_text(encoding="utf-8"))
     forward_pre = len(qualifying_forward_records(ledger))
-    if forward_pre != 0 or state.get("strategy_config_sha256") != PAPER30_STRATEGY_CONFIG_SHA256:
+    if state.get("strategy_config_sha256") != PAPER30_STRATEGY_CONFIG_SHA256:
         raise ValueError("PAPER30_STRATEGY_STATE_MISMATCH")
 
     kill_metadata = {

@@ -27,4 +27,3 @@ def test_cli_rejects_wrong_dataset(tmp_path):
     command = [sys.executable, str(ROOT / "scripts/forex_delivery/run_forex_frozen_21_series_phase1_postmortem_v1.py"), "--input-root", str(ROOT / ".aios/runtime/forex_frozen_21_series_edge_research_v1"), "--output-root", str(tmp_path / "out"), "--report-path", str(tmp_path / "r"), "--next-family-plan-path", str(tmp_path / "p"), "--source-head", "head", "--expected-dataset-id", "wrong", "--expected-dataset-hash", "wrong"]
     result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
     assert result.returncode != 0
-

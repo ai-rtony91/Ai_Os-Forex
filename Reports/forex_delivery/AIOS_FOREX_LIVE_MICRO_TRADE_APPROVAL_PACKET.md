@@ -34,4 +34,3 @@
 - No live order is submitted by this packet.
 - The packet is structural only and does not override `RISK_POLICY.md`.
 - The missing decision is the owner's live authorization plus the exact risk parameters for the canary trade.
-

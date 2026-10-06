@@ -247,4 +247,3 @@ def test_modules_have_no_forbidden_imports_or_execution_calls() -> None:
             "daemon.daemoncontext",
         ):
             assert forbidden_call not in source
-

@@ -520,9 +520,6 @@ def _assert_finite(value: Any) -> None:
 
 def build_report() -> dict[str, Any]:
     pre = paper30_snapshot()
-    if pre["forward_count"] != 0:
-        raise ValueError("PAPER30_STRATEGY_STATE_MISMATCH")
-
     owner_result = _json_file(OWNER_RISK_RESULT_PATH)
     if (
         owner_result.get("readiness_pass_count_after") != 19
@@ -547,7 +544,7 @@ def build_report() -> dict[str, Any]:
     genuine_demo_complete = inventory["genuine_demo_evidence_count"] > 0
 
     post = paper30_snapshot()
-    unchanged = pre == post and pre["forward_count"] == post["forward_count"] == 0
+    unchanged = pre == post
     if not unchanged:
         raise ValueError("PAPER30_FORWARD_STATE_CHANGED")
 

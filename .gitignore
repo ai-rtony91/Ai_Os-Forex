@@ -173,6 +173,3 @@ edge-preview-*/
 preview-dashboard5-*.png
 
 automation/orchestration/dispatcher/dashboard_auth_bridge_candidate_v1/
-pkt045_candidate_test_tmp/
-.aios/
-

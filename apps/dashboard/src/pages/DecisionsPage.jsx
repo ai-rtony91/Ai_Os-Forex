@@ -15,4 +15,3 @@ export default function DecisionsPage({ state }) {
     <GlassPanel><div className="windowTitle"><span>▤</span><b>DECISION HISTORY</b><small>{decisions.length ? `${decisions.length} RECORDS` : 'NO EVIDENCE'}</small></div>{decisions.length ? <div className="tableScroll"><table><thead><tr><th>Time</th><th>Pair</th><th>Direction</th><th>Result</th></tr></thead><tbody>{decisions.map((item, index) => <tr key={item.id ?? index}><td>{safe(item.timestamp)}</td><td>{safe(item.pair)}</td><td>{safe(item.direction)}</td><td><button className="detailButton" type="button">View {safe(item.result)}</button></td></tr>)}</tbody></table></div> : <div className="windowEmpty"><b>NO EVIDENCE</b><small>DECISION HISTORY IS UNAVAILABLE</small></div>}</GlassPanel></div>
   </section>
 }
-

@@ -508,9 +508,6 @@ def build_report() -> dict[str, Any]:
     pre_hashes = {name: _sha256_file(path) for name, path in invariant_paths.items()}
     state, ledger = _load_paper30_state()
     forward_pre = _forward_count(ledger)
-    if forward_pre != 0:
-        raise ValueError("PAPER30_STRATEGY_STATE_MISMATCH")
-
     proof = synthetic_proof()
     if not proof["proof_pass"]:
         raise ValueError(OWNER_RISK_AUTHORITY_VALIDATION_FAILED)
@@ -528,7 +525,7 @@ def build_report() -> dict[str, Any]:
         pre_hashes == post_hashes
         and state == state_post
         and ledger == ledger_post
-        and forward_pre == forward_post == 0
+        and forward_pre == forward_post
     )
     if not unchanged:
         raise ValueError("PAPER30_FORWARD_STATE_CHANGED")

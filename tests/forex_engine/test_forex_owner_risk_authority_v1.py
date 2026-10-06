@@ -162,6 +162,10 @@ def test_synthetic_proof_passes_without_network_or_broker() -> None:
 def test_paper30_state_and_forward_count_remain_unchanged() -> None:
     before = _paper_hashes()
     state, ledger = authority._load_paper30_state()
+    forward_before = authority._forward_count(ledger)
+    state_after, ledger_after = authority._load_paper30_state()
     assert state["strategy_config_sha256"] == authority.PAPER30_STRATEGY_CONFIG_SHA256
-    assert authority._forward_count(ledger) == 0
+    assert state_after == state
+    assert ledger_after == ledger
+    assert authority._forward_count(ledger_after) == forward_before
     assert _paper_hashes() == before

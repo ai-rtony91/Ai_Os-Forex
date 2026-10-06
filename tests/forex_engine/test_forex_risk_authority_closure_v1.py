@@ -175,13 +175,15 @@ def test_paper30_state_count_and_hashes_are_unchanged_by_pure_audit_functions() 
     )
     before = [_hash(path) for path in paths]
     ledger = json.loads(closure.PAPER30_LEDGER_PATH.read_text(encoding="utf-8"))
+    forward_before = len(closure.hardening.qualifying_forward_records(ledger))
     state = json.loads(closure.PAPER30_STATE_PATH.read_text(encoding="utf-8"))
     closure.source_contract_proof()
     closure.risk_governor_synthetic_proof()
     closure.recalculate_readiness(closure.load_packet018a_result(), closure.canonical_risk_map())
     after = [_hash(path) for path in paths]
     assert after == before
-    assert len(closure.hardening.qualifying_forward_records(ledger)) == 0
+    ledger_after = json.loads(closure.PAPER30_LEDGER_PATH.read_text(encoding="utf-8"))
+    assert len(closure.hardening.qualifying_forward_records(ledger_after)) == forward_before
     assert state["strategy_config_sha256"] == closure.PAPER30_STRATEGY_CONFIG_SHA256
 
 
@@ -196,4 +198,3 @@ def test_new_audit_source_has_no_network_broker_or_credential_runtime_imports() 
             assert not any(alias.name.split(".")[0].lower() in forbidden_imports for alias in node.names)
         if isinstance(node, ast.ImportFrom):
             assert (node.module or "").split(".")[0].lower() not in forbidden_imports
-

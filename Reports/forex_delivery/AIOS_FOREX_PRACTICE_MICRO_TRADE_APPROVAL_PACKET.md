@@ -34,4 +34,3 @@
 - No practice order is submitted by this packet.
 - The packet is structurally complete only for handoff and review.
 - The missing decision is the owner's approval of the demo order parameters and execution window.
-

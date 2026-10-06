@@ -27,4 +27,3 @@
 - This package does not claim a deployment happened.
 - It only records the preconditions and rollback shape needed for a later protected deployment.
 - The missing decision is the owner-approved deployment activation.
-

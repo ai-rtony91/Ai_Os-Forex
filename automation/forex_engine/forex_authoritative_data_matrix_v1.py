@@ -408,4 +408,3 @@ def write_outputs(repo_root: Path, output_root: Path) -> dict[str, Any]:
     receipt_path = output_root / "AIOS_FOREX_AUTHORITATIVE_DATA_MATRIX_RECEIPT_V1.json"
     receipt_path.write_bytes(pretty_bytes(receipt))
     return receipt
-

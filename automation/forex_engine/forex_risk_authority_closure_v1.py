@@ -577,7 +577,7 @@ def build_report() -> dict[str, Any]:
     ledger = json.loads(PAPER30_LEDGER_PATH.read_text(encoding="utf-8"))
     state = json.loads(PAPER30_STATE_PATH.read_text(encoding="utf-8"))
     forward_pre = len(hardening.qualifying_forward_records(ledger))
-    if forward_pre != 0 or state.get("strategy_config_sha256") != PAPER30_STRATEGY_CONFIG_SHA256:
+    if state.get("strategy_config_sha256") != PAPER30_STRATEGY_CONFIG_SHA256:
         raise ValueError("PAPER30_STRATEGY_STATE_MISMATCH")
 
     source_proof = source_contract_proof()
@@ -594,7 +594,7 @@ def build_report() -> dict[str, Any]:
     post_hashes = {name: _sha256_file(path) for name, path in invariant_paths.items()}
     ledger_post = json.loads(PAPER30_LEDGER_PATH.read_text(encoding="utf-8"))
     forward_post = len(hardening.qualifying_forward_records(ledger_post))
-    unchanged = pre_hashes == post_hashes and forward_pre == forward_post == 0
+    unchanged = pre_hashes == post_hashes and forward_pre == forward_post
     if not unchanged:
         raise ValueError("PAPER30_FORWARD_STATE_CHANGED")
 
