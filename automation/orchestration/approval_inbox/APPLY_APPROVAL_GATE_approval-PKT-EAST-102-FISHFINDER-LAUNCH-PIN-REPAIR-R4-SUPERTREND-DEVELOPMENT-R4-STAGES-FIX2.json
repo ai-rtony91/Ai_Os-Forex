@@ -1,0 +1,1213 @@
+{
+  "algorithm": "HMAC-SHA256",
+  "allowed_paths": [
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6"
+  ],
+  "approval_authority": "Anthony, Human Owner",
+  "approval_evidence": {
+    "type": "HMAC_SHA256",
+    "status": "SIGNED_BY_HUMAN_OWNER",
+    "canonical_payload_schema": "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v2",
+    "canonical_payload_sha256": "2e669422114560c3088907e9b8988cf29ec64c9e6ea653880c9c791474a46039",
+    "approval_hmac_sha256": "872cb15bddafde943493d1778b19c5e590e194ba1d8d3b5a42e0f46b1fe9a99b",
+    "approval_nonce": "f28f9a533ed14fb29d42b7265af9618f",
+    "key_id": "AIOS-HUMAN-OWNER-PRIMARY-V1",
+    "key_version": 1,
+    "key_fingerprint_sha256": "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786"
+  },
+  "approval_gate_id": "approval-PKT-EAST-102-FISHFINDER-LAUNCH-PIN-REPAIR-R4-SUPERTREND-DEVELOPMENT-R4-STAGES-FIX2",
+  "approval_request_id": "approval-PKT-EAST-102-FISHFINDER-LAUNCH-PIN-REPAIR-R4-SUPERTREND-DEVELOPMENT-R4-STAGES-FIX2",
+  "approval_status": "approved_for_apply",
+  "approval_timestamp_utc": "2026-10-03T06:13:04.6773606+00:00",
+  "approved_by_human": true,
+  "approved_mode": "APPLY",
+  "authority_bundle_sha256": "78f756974e5032423d8a1f88993d5c0bfe3d17119ff77ef873dc70862f6cfd1d",
+  "blocked_paths": [
+    "C:\\Dev\\Ai.Os\\.git",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89"
+  ],
+  "budget_identity_sha256": "cc4cd7d722c199571523515f8effd960e74654e516032604e70872d3e3bd27d5",
+  "capabilities": {
+    "broker": false,
+    "commit": false,
+    "live": false,
+    "merge": false,
+    "paper": false,
+    "push": false
+  },
+  "closure_reserve_hours": 4,
+  "commit_package_required": true,
+  "cost_identity": {
+    "S6_ST_ADAPTIVE_CLUSTER_DEVELOPMENT_R2_2140": "57552fbe6fe3b1b7394c08e349a956e0119f7745ae3af3bee426ee73a93046fd"
+  },
+  "created_at_utc": "2026-10-03T02:40:05.027769+00:00",
+  "data_hashes": {
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-01.jsonl.gz": "e9349c4c6b95ec39c6d9150b8607310713ea8ed7ca8ffe3a8ef9985c4b846583",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-02.jsonl.gz": "0d08a1de0d52233ed568de1a6c53a2103cd7d8348fd8bb66cf96ba7101b8a8ba",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-03.jsonl.gz": "ca77acbf64647e8a375137be7812eaa75f52eff2b049aa258bf67066ae8e91c0",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-04.jsonl.gz": "d808487c6e1aff3002766111c27cafba5800e43862cdaa23e8523615fc57ec9e",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-05.jsonl.gz": "e8bc27ec90e60445f9607a47617ae959a5b6227a720e4c2e84c7fa15b88f8e13",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-06.jsonl.gz": "2a2f329599861689c9ba942ef8b02aa8822a5370aee9f3625a79ab3f51931580",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-07.jsonl.gz": "73962749427c08697ce8bb04fbf8a16201d6043aeae4a282a283f1a04d334126",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-08.jsonl.gz": "62453ecd3f74c52e074fa75e6e03688c984cba6bbb3a0f2655e9911563aa43d5",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-09.jsonl.gz": "598d7b03690f3ed2aa9949ccac71b40bb84cc868f293e2ce71e5c23469cedd91",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-10.jsonl.gz": "ff81d55dc5441b9db2050c6cc62d50b3f339ef1a8f7c261dbbfe35ff34156cdf",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-11.jsonl.gz": "6403549ec23b54b066ba2293ae54653d8a11a03f2dfb06e374f32755d13e0fa2",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-12.jsonl.gz": "863530244f6dac251a7479e5238e3fced8c27faea7a269313c517c2f91f73f31",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-01.jsonl.gz": "c2468108b091d155b1259dda040ba66df9a7d39f1560ff80d07e1c8d644e04ac",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-02.jsonl.gz": "284fa2843403ce44a84603a021a87a5e0e24407a29b282f3bed2d153b20fca61",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-03.jsonl.gz": "3ad7334757fbf5a490f392104037c0533fe11eabd9f4d05c8572eb994c3563ca",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-04.jsonl.gz": "50b694fc1de0707b053132d23b75f5dbb71474085744c83e3a539b438194dde6",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-05.jsonl.gz": "26537b9ff52212d0f23b1c0acc67aa81ed021ab6f9dedffc2caf346f9c716f2d",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-06.jsonl.gz": "a0e0f4ce43272787584988a4e88c5d3135696df619fc11d6f81f191ed563a408",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-07.jsonl.gz": "4be2d8dabd32eba36dd0ba0a93257b62f00ea04170bfdc4120504c85309bead6",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-08.jsonl.gz": "f97f354aa836b83de642808973e0fff4f540af36059e7d27ddb5e9f28e033717",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-09.jsonl.gz": "c729d6ca56e77d779c883cdad655c995c63cdd5f757f19090f2aaa5a9c28c5b9",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-10.jsonl.gz": "f1ea55bb87cb30306eef9ed54cd64da23e9f31971fcf5b00d92f907f50f13c33",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-11.jsonl.gz": "31d056e502a1f74010b6bc9c242a35dc6b74447c2f1cf34d254e401d7d52eed4",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-12.jsonl.gz": "1ddf44703d6cc74dc7b194bc111ef673a221fac6f7ec36ffe4c6451968d4cf9e",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\fde53b7ac4314543a77471b6b33f30e6\\METADATA_CENSUS.json": "233e6dca4a9ce3eb376b9300fd207546c7e9be73d4fc30f61e93893886b701e7",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_pin_repair_r4\\FROZEN_BATCH_INPUT.json": "6cfefac4c6e11f145f97abc75cb15683846c304d78c4e0763eed1ff6ebb1ff31",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_pin_repair_r4\\SOURCE_BINDING.json": "69e5666eba55d5a3d354c1c822d6bacc12521f5bc1fcb15abc613004a7cd133c",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\LOCAL_HISTORY_PROJECTION.json": "b02fd3e08e73d33386df471d4367cac833f25a639abfa1ca5f1d8dfec4e15935",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66"
+  },
+  "execution_contract_sha256": "985f2710c0457829fc9013d2562a3e88521f838e5fe3de31732292bec2608220",
+  "expires_at_utc": "2026-10-03T18:38:26.339270Z",
+  "gate_id": "approval-PKT-EAST-102-FISHFINDER-LAUNCH-PIN-REPAIR-R4-SUPERTREND-DEVELOPMENT-R4-STAGES-FIX2",
+  "goal_id": "OUTCOME_CAMPAIGN_V3",
+  "lane": "FOREX_STRATEGY_INTELLIGENCE_EXPLORATORY_RESEARCH",
+  "latest_entry_utc": "2026-10-03T14:38:26.339270Z",
+  "not_before_utc": "2026-10-03T02:40:05.027769+00:00",
+  "output_roots": {
+    "run": "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6"
+  },
+  "owner_identity": "Anthony, Human Owner",
+  "package_sha256": "8552badf10a4f0221955436808cb89f3592dd5c13d8f7bef5f24ee657f301a57",
+  "packet_id": "PKT-EAST-102-FISHFINDER-LAUNCH-PIN-REPAIR-R4",
+  "purpose": "AIOS_APPLY_APPROVAL_RUNTIME_ADMISSION",
+  "push_blocked_until_final_review": true,
+  "request_id": "approval-PKT-EAST-102-FISHFINDER-LAUNCH-PIN-REPAIR-R4-SUPERTREND-DEVELOPMENT-R4-STAGES-FIX2",
+  "request_revision": "S6_SUPERTREND_ADAPTIVE_DEVELOPMENT_R4",
+  "requested_action": "RUN_OUTCOME_V3_ADMITTED_OFFLINE_RESEARCH_S6",
+  "requested_mode": "APPLY",
+  "research_scope": {
+    "bindings": {
+      "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6"
+    },
+    "experiment_list_sha256": "985f2710c0457829fc9013d2562a3e88521f838e5fe3de31732292bec2608220",
+    "jobs": [
+      {
+        "baselines": [
+          "NO_TRADE",
+          "SAME_EVENTS_OPPOSITE_DIRECTION"
+        ],
+        "candidate_id": "S6_ST_ADAPTIVE_CLUSTER_DEVELOPMENT_R2_2140",
+        "catalog_index": 2140,
+        "configuration_count": 12,
+        "contracts": {
+          "costs": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66"
+            },
+            "scope": "Frozen certified development scope and reviewed distinct adaptive policy; engineering admission only, no accepted edge or independent proof.",
+            "verified": true
+          },
+          "dependence_uncertainty": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66"
+            },
+            "scope": "Frozen certified development scope and reviewed distinct adaptive policy; engineering admission only, no accepted edge or independent proof.",
+            "verified": true
+          },
+          "execution_paths": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66"
+            },
+            "scope": "Frozen certified development scope and reviewed distinct adaptive policy; engineering admission only, no accepted edge or independent proof.",
+            "verified": true
+          },
+          "pair_conversion": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66"
+            },
+            "scope": "Frozen certified development scope and reviewed distinct adaptive policy; engineering admission only, no accepted edge or independent proof.",
+            "verified": true
+          },
+          "price_signal_design": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66"
+            },
+            "scope": "Frozen certified development scope and reviewed distinct adaptive policy; engineering admission only, no accepted edge or independent proof.",
+            "verified": true
+          },
+          "quarantine": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66"
+            },
+            "scope": "Frozen certified development scope and reviewed distinct adaptive policy; engineering admission only, no accepted edge or independent proof.",
+            "verified": true
+          },
+          "risk_units": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66"
+            },
+            "scope": "Frozen certified development scope and reviewed distinct adaptive policy; engineering admission only, no accepted edge or independent proof.",
+            "verified": true
+          },
+          "rollover": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66"
+            },
+            "scope": "Frozen certified development scope and reviewed distinct adaptive policy; engineering admission only, no accepted edge or independent proof.",
+            "verified": true
+          },
+          "selection_history": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66"
+            },
+            "scope": "Frozen certified development scope and reviewed distinct adaptive policy; engineering admission only, no accepted edge or independent proof.",
+            "verified": true
+          },
+          "stage2_gates": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66"
+            },
+            "scope": "Frozen certified development scope and reviewed distinct adaptive policy; engineering admission only, no accepted edge or independent proof.",
+            "verified": true
+          }
+        },
+        "cost_risk_hash": "57552fbe6fe3b1b7394c08e349a956e0119f7745ae3af3bee426ee73a93046fd",
+        "costs": {
+          "BASE": {
+            "commission_usd_per_million_per_side": 35.0,
+            "label": "DECLARED_RESEARCH_SCENARIO",
+            "slippage_pips_per_side": 0.1
+          },
+          "SEVERE_BUT_PLAUSIBLE": {
+            "commission_usd_per_million_per_side": 70.0,
+            "label": "DECLARED_RESEARCH_SCENARIO",
+            "slippage_pips_per_side": 1.0
+          },
+          "STRESSED": {
+            "commission_usd_per_million_per_side": 52.5,
+            "label": "DECLARED_RESEARCH_SCENARIO",
+            "slippage_pips_per_side": 0.5
+          }
+        },
+        "daily_pair_trade_limit": 1,
+        "data_hash": "f7c800a8acceb39802268fd63222f1d0a243b165cda8e4f9fdb974f9dc0060cf",
+        "dependence_protocol": "ALL_PAIRS_SHARED_UTC_WEEK_BOOTSTRAP_NO_BAR_INDEPENDENCE_CLAIM",
+        "development_manifest_sha256": "ab40a9fc6c2abb1c9dfe1065afb072b8483d00ada693a708d0ea92c6aa901313",
+        "execution_policy": "CONTIGUOUS_M5_STOP_FIRST_NO_ROLLOVER_NO_INTERPOLATION",
+        "feature_source_pins": {
+          "forex_high_throughput_edge_factory_v1": "2c9c6309a61eff52e50ac3aeb9ea253c8fdd8731f155b536d019459b43eb9944",
+          "indicators": "60ab71caa6783ac61b1e7eba0838a561650f1792bc7912a70c7b6c350001893f",
+          "strategies": "96767dbdadcf70ed60cbce573b4298cb6980abb7d857e314bbc3de6fd47f94e1"
+        },
+        "gap_audit_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_repair_r2\\GAP_AUDIT.json",
+        "gap_audit_sha256": "f0b7463f3f31829bed853ba49e10bda1c7588117d26ce384a6d6f3d26ac75b66",
+        "gates": {
+          "beat_opposite_control": true,
+          "maximum_dd": 0.1,
+          "minimum_positive_blocks": 3,
+          "minimum_trades": 200,
+          "positive_all_costs": true,
+          "positive_largest_block_removed": true,
+          "positive_november_removed": true,
+          "positive_top5_removed": true,
+          "stressed_pf": 1.1,
+          "unknown_outcomes": 0
+        },
+        "handler": "supertrend_development_v1",
+        "history": {
+          "admission_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json",
+          "covered": {
+            "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\fde53b7ac4314543a77471b6b33f30e6\\METADATA_CENSUS.json": "233e6dca4a9ce3eb376b9300fd207546c7e9be73d4fc30f61e93893886b701e7",
+            "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\HISTORY_ADMISSION.json": "e340b221d152003f362ddc243e69d5d0eedb3df58880e135dce793a4bac46ece",
+            "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\launch_readiness_continuation_r3\\LOCAL_HISTORY_PROJECTION.json": "b02fd3e08e73d33386df471d4367cac833f25a639abfa1ca5f1d8dfec4e15935"
+          },
+          "material_difference": "New lagged performance-score three-cluster multiplier policy; retained fixed/pullback/reversal/post-exit/compression settings are not reopened. Reused development data is not independent confirmation.",
+          "status": "NEW_WITHIN_CHECKED_HISTORY"
+        },
+        "implementation_fingerprint": "7837163fb612634fc3db857a6da60ad8b31f5dc34134e2ac1c8f0bfa28d172d9",
+        "internal_configuration_exposure": 12,
+        "maximum_positions": 1,
+        "mechanism_fingerprint": "4d2a01f2553fcb42bfa9c8605c68fece078ad9aef1b065aeddcdb8970d6cc144",
+        "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\outputs\\launch_pin_repair_r4\\ST_ADAPTIVE_2140",
+        "pairs": [
+          "EUR_USD"
+        ],
+        "period": {
+          "end_exclusive": "2026-01-01T00:00:00Z",
+          "start": "2024-01-01T00:00:00Z",
+          "warmup": "2024-01-01T00:00:00Z"
+        },
+        "physical_call_reservation": 6,
+        "pip_size": 0.0001,
+        "price_shards": [
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-01.jsonl.gz",
+            "sha256": "e9349c4c6b95ec39c6d9150b8607310713ea8ed7ca8ffe3a8ef9985c4b846583"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-02.jsonl.gz",
+            "sha256": "0d08a1de0d52233ed568de1a6c53a2103cd7d8348fd8bb66cf96ba7101b8a8ba"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-03.jsonl.gz",
+            "sha256": "ca77acbf64647e8a375137be7812eaa75f52eff2b049aa258bf67066ae8e91c0"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-04.jsonl.gz",
+            "sha256": "d808487c6e1aff3002766111c27cafba5800e43862cdaa23e8523615fc57ec9e"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-05.jsonl.gz",
+            "sha256": "e8bc27ec90e60445f9607a47617ae959a5b6227a720e4c2e84c7fa15b88f8e13"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-06.jsonl.gz",
+            "sha256": "2a2f329599861689c9ba942ef8b02aa8822a5370aee9f3625a79ab3f51931580"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-07.jsonl.gz",
+            "sha256": "73962749427c08697ce8bb04fbf8a16201d6043aeae4a282a283f1a04d334126"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-08.jsonl.gz",
+            "sha256": "62453ecd3f74c52e074fa75e6e03688c984cba6bbb3a0f2655e9911563aa43d5"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-09.jsonl.gz",
+            "sha256": "598d7b03690f3ed2aa9949ccac71b40bb84cc868f293e2ce71e5c23469cedd91"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-10.jsonl.gz",
+            "sha256": "ff81d55dc5441b9db2050c6cc62d50b3f339ef1a8f7c261dbbfe35ff34156cdf"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-11.jsonl.gz",
+            "sha256": "6403549ec23b54b066ba2293ae54653d8a11a03f2dfb06e374f32755d13e0fa2"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-12.jsonl.gz",
+            "sha256": "863530244f6dac251a7479e5238e3fced8c27faea7a269313c517c2f91f73f31"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-01.jsonl.gz",
+            "sha256": "c2468108b091d155b1259dda040ba66df9a7d39f1560ff80d07e1c8d644e04ac"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-02.jsonl.gz",
+            "sha256": "284fa2843403ce44a84603a021a87a5e0e24407a29b282f3bed2d153b20fca61"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-03.jsonl.gz",
+            "sha256": "3ad7334757fbf5a490f392104037c0533fe11eabd9f4d05c8572eb994c3563ca"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-04.jsonl.gz",
+            "sha256": "50b694fc1de0707b053132d23b75f5dbb71474085744c83e3a539b438194dde6"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-05.jsonl.gz",
+            "sha256": "26537b9ff52212d0f23b1c0acc67aa81ed021ab6f9dedffc2caf346f9c716f2d"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-06.jsonl.gz",
+            "sha256": "a0e0f4ce43272787584988a4e88c5d3135696df619fc11d6f81f191ed563a408"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-07.jsonl.gz",
+            "sha256": "4be2d8dabd32eba36dd0ba0a93257b62f00ea04170bfdc4120504c85309bead6"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-08.jsonl.gz",
+            "sha256": "f97f354aa836b83de642808973e0fff4f540af36059e7d27ddb5e9f28e033717"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-09.jsonl.gz",
+            "sha256": "c729d6ca56e77d779c883cdad655c995c63cdd5f757f19090f2aaa5a9c28c5b9"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-10.jsonl.gz",
+            "sha256": "f1ea55bb87cb30306eef9ed54cd64da23e9f31971fcf5b00d92f907f50f13c33"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-11.jsonl.gz",
+            "sha256": "31d056e502a1f74010b6bc9c242a35dc6b74447c2f1cf34d254e401d7d52eed4"
+          },
+          {
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-12.jsonl.gz",
+            "sha256": "1ddf44703d6cc74dc7b194bc111ef673a221fac6f7ec36ffe4c6451968d4cf9e"
+          }
+        ],
+        "quarantine_intervals": [
+          {
+            "end_exclusive": "2024-01-07T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-01-05T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-01-10T22:40:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-01-10T22:35:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-01-14T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-01-12T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-01-21T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-01-19T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-01-28T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-01-26T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-02-04T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-02-02T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-02-11T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-02-09T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-02-12T22:45:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-02-12T22:40:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-02-18T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-02-16T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-02-25T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-02-23T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-03-03T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-03-01T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-03-10T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-03-08T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-03-17T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-03-15T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-03-24T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-03-22T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-03-31T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-03-29T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-04-01T20:45:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-04-01T20:40:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-04-07T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-04-05T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-04-14T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-04-12T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-04-21T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-04-19T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-04-28T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-04-26T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-05-05T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-05-03T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-05-12T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-05-10T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-05-12T21:15:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-05-12T21:10:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-05-19T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-05-17T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-05-26T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-05-24T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-06-02T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-05-31T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-06-09T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-06-07T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-06-10T21:40:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-06-10T21:35:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-06-16T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-06-14T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-06-16T21:45:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-06-16T21:40:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-06-23T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-06-21T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-06-30T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-06-28T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-07-07T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-07-05T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-07-14T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-07-12T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-07-21T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-07-19T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-07-28T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-07-26T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-07-28T21:20:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-07-28T21:15:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-08-04T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-08-02T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-08-11T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-08-09T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-08-18T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-08-16T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-08-25T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-08-23T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-08-27T21:45:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-08-27T21:40:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-09-01T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-08-30T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-09-08T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-09-06T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-09-15T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-09-13T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-09-22T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-09-20T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-09-29T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-09-27T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-10-06T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-10-04T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-10-13T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-10-11T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-10-15T21:40:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-10-15T21:35:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-10-20T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-10-18T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-10-27T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-10-25T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-11-03T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-11-01T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-11-10T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-11-08T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-11-17T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-11-15T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-11-24T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-11-22T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-11-26T22:30:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-11-26T22:25:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-12-01T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-11-29T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-12-08T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-12-06T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-12-15T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-12-13T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-12-22T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-12-20T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-12-25T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-12-24T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-12-29T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-12-27T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2024-12-29T22:30:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-12-29T22:25:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-01-01T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2024-12-31T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-01-05T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-01-03T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-01-12T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-01-10T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-01-19T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-01-17T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-01-26T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-01-24T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-02-02T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-01-31T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-02-09T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-02-07T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-02-16T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-02-14T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-02-23T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-02-21T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-02-24T22:25:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-02-24T22:20:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-03-02T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-02-28T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-03-09T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-03-07T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-03-16T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-03-14T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-03-23T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-03-21T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-03-30T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-03-28T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-04-06T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-04-04T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-04-07T21:10:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-04-07T21:05:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-04-13T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-04-11T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-04-16T21:20:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-04-16T21:15:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-04-20T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-04-18T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-04-27T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-04-25T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-05-04T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-05-02T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-05-11T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-05-09T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-05-14T21:30:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-05-14T21:25:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-05-18T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-05-16T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-05-25T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-05-23T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-05-26T19:45:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-05-26T19:40:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-06-01T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-05-30T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-06-08T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-06-06T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-06-09T21:25:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-06-09T21:20:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-06-15T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-06-13T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-06-22T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-06-20T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-06-29T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-06-27T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-07-06T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-07-04T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-07-13T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-07-11T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-07-20T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-07-18T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-07-27T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-07-25T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-08-03T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-08-01T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-08-10T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-08-08T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-08-17T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-08-15T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-08-24T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-08-22T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-08-24T21:15:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-08-24T21:10:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-08-31T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-08-29T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-09-07T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-09-05T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-09-14T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-09-12T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-09-21T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-09-19T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-09-25T21:20:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-09-25T21:15:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-09-28T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-09-26T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-10-05T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-10-03T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-10-12T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-10-10T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-10-19T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-10-17T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-10-26T21:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-10-24T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-11-02T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-10-31T21:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-11-09T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-11-07T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-11-16T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-11-14T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-11-23T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-11-21T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-11-30T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-11-28T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-12-07T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-12-05T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-12-14T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-12-12T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-12-21T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-12-19T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-12-25T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-12-24T22:00:00+00:00"
+          },
+          {
+            "end_exclusive": "2025-12-28T22:00:00+00:00",
+            "pair": "EUR_USD",
+            "start": "2025-12-26T22:00:00+00:00"
+          }
+        ],
+        "question": "Does the frozen lagged three-cluster member policy survive canonical after-cost development gates?",
+        "risk": {
+          "account_currency": "USD",
+          "basket_fraction": 0.0025,
+          "fraction": 0.0005,
+          "initial_equity_usd": 100000.0,
+          "minimum_units": 1,
+          "notional_multiple": 2.0,
+          "sizing": "FIXED_INITIAL_EQUITY"
+        },
+        "rules": {
+          "entry_rule": "NEXT_M5_OPEN_AFTER_SIGNAL_CLOSE",
+          "gap_policy": "RESET_ANY_GAP_NO_PLANNED_PATH_CROSSING",
+          "hold_bars": 6,
+          "stop_atr": 1.0,
+          "target": null,
+          "warmup_bars": 46
+        },
+        "rules_hash": "ea0c9336def58a10a8874a5aa0323c39cdc756f17317d3163e8f363265faef28",
+        "selection_adjustment": "Predeclared FAMILY_WISE_MAX_T_SHARED_UTC_WEEK_BLOCK_BOOTSTRAP; existing shared_block_selection_check; independent proof remains separate.",
+        "source_hash": "c9a09e2fed57566c72cfb4ef0b3e7ffb3d86216ee64b784b83407d7b13d6d3f5",
+        "source_provenance": "Retained independently implemented public Supertrend math; lagged three-cluster actual-member selection differs from fixed/pullback references. Material novelty review is not yet admitted.",
+        "spread_limit_pips": 2.0,
+        "stage": "DEVELOPMENT_SCREEN",
+        "status": "READY",
+        "time_blocks": [
+          {
+            "end_exclusive": "2024-04-01T00:00:00Z",
+            "id": "2024Q1",
+            "start": "2024-01-01T00:00:00Z"
+          },
+          {
+            "end_exclusive": "2024-07-01T00:00:00Z",
+            "id": "2024Q2",
+            "start": "2024-04-01T00:00:00Z"
+          },
+          {
+            "end_exclusive": "2024-10-01T00:00:00Z",
+            "id": "2024Q3",
+            "start": "2024-07-01T00:00:00Z"
+          },
+          {
+            "end_exclusive": "2025-01-01T00:00:00Z",
+            "id": "2024Q4",
+            "start": "2024-10-01T00:00:00Z"
+          },
+          {
+            "end_exclusive": "2025-04-01T00:00:00Z",
+            "id": "2025Q1",
+            "start": "2025-01-01T00:00:00Z"
+          },
+          {
+            "end_exclusive": "2025-07-01T00:00:00Z",
+            "id": "2025Q2",
+            "start": "2025-04-01T00:00:00Z"
+          },
+          {
+            "end_exclusive": "2025-10-01T00:00:00Z",
+            "id": "2025Q3",
+            "start": "2025-07-01T00:00:00Z"
+          },
+          {
+            "end_exclusive": "2026-01-01T00:00:00Z",
+            "id": "2025Q4",
+            "start": "2025-10-01T00:00:00Z"
+          }
+        ],
+        "timeout_seconds": 3600,
+        "uncertainty": {
+          "lower_95_above_zero": true,
+          "method": "PERCENTILE_CLUSTER_BOOTSTRAP",
+          "minimum_events": 30,
+          "samples": 1000,
+          "seed": 97,
+          "unit": "SHARED_UTC_WEEK"
+        }
+      }
+    ],
+    "manifest_sha256": "8daee0d600d77fe52c3e47a7d6527421dd9de5d58c3c364a5c7a41b50ec1a27b",
+    "revision": "S6_SUPERTREND_ADAPTIVE_DEVELOPMENT_R4"
+  },
+  "research_scope_sha256": "78f756974e5032423d8a1f88993d5c0bfe3d17119ff77ef873dc70862f6cfd1d",
+  "resource_limits": {
+    "ac_required": true,
+    "closure_deadline_epoch": 1791052706.3392699,
+    "free_disk_bytes": 10737418240,
+    "output_bytes": 5368709120,
+    "ram_bytes": 4294967296,
+    "research_deadline_epoch": 1791038306.3392699,
+    "workers": 1
+  },
+  "resume_policy": {
+    "same_deadline": true,
+    "same_pins": true,
+    "uncertain_attempt_retry": false
+  },
+  "schema": "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v2",
+  "source_hashes": {
+    "C:\\Dev\\Ai.Os.worktrees\\pkt-gov-001-human-owner-approval-trust-root-v1\\automation\\orchestration\\approval_inbox\\Set-AiOsHumanApprovalDecision.HUMAN_ONLY.ps1": "7049c8d5a95e96a6a10c680d872e180dc3305cbd7c5af41dbaf3b643b616b49d",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\__init__.py": "b2d739bbdec78154d09aa584c4b370419b4ff26930b53025d060bfd1427446cd",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\config.py": "08ae19b885b075e886ccfe718d0b677011088c50f494de3582e3e1ebce4c5fd1",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\indicators.py": "69605a9eab431b71cd822130c84217ac97d5d71c962a789b7a106bc4991b34d9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\market_data.py": "ee85f1946717731ed68ac299afb8173ff5f22605aee77aa2c010c00b3975a709",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\models.py": "b5f5041e64666e6955b27954dd785ba9e72e08fe20383e70c734692ac4a40140",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\__init__.py": "3c3c0b72f98d8ecdb17c5cee95bf77fb59041c85b595ff04af6ca16b0c2e92d9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\adapters.py": "b432a01b67113342186d8210269957cc23002cefaecf22c098bb03ecac4a8a83",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\allocation.py": "a100d5f599e7c8420a391d3c234abf668ac8184a51623defe681a34621b05de9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\approval.py": "8937317b2ae698216378bff6ad47b8db5e4915830821ce9f6831dde9dab6cd11",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\errors.py": "237d90c349dcc62f77535440ae9aac18801164cdd0cfb397b22fec6b3fe806e7",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\executors.py": "c9b03bfe19f33e57b5561a98b79a8e207438057d5a2dcdea6c1a29752b0640e6",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\goal_continuation.py": "c52965ab0ba720d54efb51401176b27cb2cfa4b0dcf378ce0f2db59aa8002a6c",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\handoff.py": "e236d075e76aacf9f91662cb6ea63d73f7d5adf65c923a1344cb0b8589a09e5a",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\lifecycle.py": "cd65f824120e2b04fa83dad1ed65b0bf37fe7a96118bd200a896e16a10b88193",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\models.py": "b747f13f568f32c4b0d431838df91a459dbb4d5685b3c6929d4a6f571bc9ddc3",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\optimizer.py": "20f27ab8b66612dca57805e49f51beb7d25379ab812f6d7fdd519b2e2586cdf8",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_binding.py": "238123b31ec8b99546cffb32d6d03eff4c5b6eaf88ea6cd6e687b1f986ada7d9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_continuation_cli.py": "333b34a78d54be8f41173891c0fdaeb72055c4e1143b564dbb40920bdbd4c0b6",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_research_consumer.py": "89b02c90648ee4ae457de8a862691a6f31f09bae9f0da28eda5a92773afa123f",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\progress.py": "931b8ca126633bb9cab5e6a1f7e167ec76150756915dec2585766747bfdf5b85",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\resource.py": "7d1ea2d8658f72a008e880d7737387c2e7de5c328e52357b2894943a0c50d50f",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\schemas.py": "be62997a4a67b6cd95b9d0ef5ce13244a213fee34cb4c39995ede819725e071d",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\source_identity.py": "c362a5c256c12a2871b31846b64a1c9f714fbcae20adc2aa31a7bca2357d0e88",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\storage.py": "543d9890abce0bb02780f110354aaeeb00921c88620f61ffcb47dd64de2a8886",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\supervisor.py": "b50dc8e62996c76742771a398b27ddcd724ae83fe7c1817e758bc55acd3b3e80",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_030\\PKT_FOREX_030_COMPLETION.json": "164c50032ada25a4220d0ca23e5d30d95fca536fe6d7fb345084b6000949d601",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_035\\revision2\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_PREREGISTRATION.json": "f7c5f709dc11fa74ee69de8526051e889cbfb237ecd6ba2a3a97c39b21fea595",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\PKT_FOREX_036_COMPLETION.json": "c641f3d1b255f8f6a01e2a2e7739c780c78da6e9f09876b0dbacd3e365e31c50",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\PKT_FOREX_036_EXPANSION58_COMPLETION.json": "8bdb2b2e23e7fdc7812ba07f39d7183e9c4a5e603403e96491f95a9a09187dcc",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_ACCEPTANCE.json": "3d8ce4e698910dcbca6dbd1eb36ce98e4ad10bf80f7a1fa575fd9229e5dff456",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_BASELINE_AUDIT.json": "57028817b6bc7dab296c1194c2359808dd2b0d2610767a4637d3325f99d41241",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_CAPACITY.json": "ebefe5766a13d6420b5a5fa1f7dc9c1a544f0505e0863704091e4dacee360444",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_CHECKPOINT.json": "6504ed34801364567ee09c1018ef23cb6f9448f4e48a2d601ca6836fa6ae4b7d",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_MANIFEST.json": "5b4f19783648704d8c902d930c670baf9e4cfd21d88a2b6c1f73f443113bf5f6",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_POSTMORTEM.json": "07fc4d14894c1e2fd705f163f873840caf1d491b9c1410629a3fb524b253253c",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_RECEIPT.json": "a91276d5d4c5a4c3d5bdad97d1b106cbb62d3e5045258bca6c011314f23a08fd",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_RESULTS.json": "7e677e40b67e8881d641a0c685d659f9cc31d63d9b616666a2892d7005f3ae24",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_REVERSE_AUDIT.json": "e71d67c654b32556c1267d0b600a953d994967a74b480cd51d0bb79bb85d5711",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_TRADE_JOURNAL.jsonl": "ac516c3de21cc7942261f23c787889620f8d294ae79c5933baef80ddbefbc61f",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_037\\PKT_FOREX_037_COMPLETION.json": "642e779d61e7820fec0b3aa4222db2ebb553ea99c7fb5eaf6587549a812efc70",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\EXISTING_PROVISIONAL_LEADS.json": "b1ea91f68418f33e85a226b5160afdef4e6d0378e4ccb9e8507aa27bb41c86d3",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\FINAL_OUTPUT_HASHES.json": "f8892121d5dd72c8d6c1753f57b150338268378b64319503486a5a7bf179c364",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\FINAL_REPORT.md": "8de4e238c8b061ec834b1d38de7eee5a218f090e9fcdd9da0a741b2d9e72a419",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\HISTORY_CHECK.json": "f628e313be0f6aef64383499504cc9a37db5c666c4c5c9409f16d086190a75a7",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\POSTMORTEM.json": "b216e20ce65cd928d2834bd0a06fde3936ac95683b692c575627df1b84315e24",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\PROTECTED_HANDOFF.json": "ce64d0a2ec64bb0c98ca31230df2c2f9ff96ff6d07871cf06bba950d51f79181",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\SOURCE_ADMISSION_DECISIONS.json": "acd345f415543dc5db59cd153db56a97a8a8aeeae4c18faa079ecf12f0d93755",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\SOURCE_REGISTRY.json": "5b7a7b38994005fb9082f66e958522458f1a96590b1a05d73ebf0d6d0e436ab3",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\STATUS_CHECKPOINT.json": "a27d82e6867861cd0256b25665de0049ce356aeb0e19ad12b9fd2ed2fdb6027a",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\continuation_adapter.py": "2883bcf411ada951811439f8b8800f6661c9323a74354d91f5f34c3ceb0a7d3a",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\publish_and_seal.py": "5b2be7dabed1fb36f5b6416a5fc087c07603ab722f6fb604bc4a26af109e7027",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\acquire_policy_sources.ps1": "6a66749e40a327f23c45fc570a7280def3e372cfdb3521126b8d1a6b1f9149a6",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\finalize_evidence.py": "eb733735c9c6b6977a9e4b58bf99e0d916caad050ae6e46cf93e69b19961d97b",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\research_binding.py": "dfb2f03974ea41a7cb638594a0e8d12b0215c881ca3e8618a83b27616bc63416",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\research_consumer.py": "c9a09e2fed57566c72cfb4ef0b3e7ffb3d86216ee64b784b83407d7b13d6d3f5",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\run_research.py": "63546629c173de022555b91a2e4911484d3a9fff1bf4699be326413e4954652d",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\test_research_binding.py": "41db9db848205d8bcdac0bb57e5303d127fd946ae1f3621c1aedf2ee7a83b527",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_ops_v1\\ops_state.py": "3cc8e3a9ddc180d61beccf33d9408604a1fb582c08c774a0418c89a0fd2ab6d7",
+    "C:\\Dev\\Ai.Os\\automation\\forex_engine\\edge_research\\features.py": "f2dd6949977ba6d8d9c483eb16e7c084e076c160b94659b8c87f84eb3d8a667a",
+    "C:\\Dev\\Ai.Os\\automation\\forex_engine\\forex_cftc_asset_manager_weekly_change_stage1_v1.py": "2ad9789896d337b0581f5fdc8a1f9dcf784339a39a3b9d13df296fc0e189d3e9",
+    "C:\\Dev\\Ai.Os\\automation\\forex_engine\\forex_high_throughput_edge_factory_v1.py": "2c9c6309a61eff52e50ac3aeb9ea253c8fdd8731f155b536d019459b43eb9944",
+    "C:\\Dev\\Ai.Os\\automation\\forex_engine\\indicators.py": "60ab71caa6783ac61b1e7eba0838a561650f1792bc7912a70c7b6c350001893f",
+    "C:\\Dev\\Ai.Os\\automation\\forex_engine\\paper_position_sizing.py": "2fd4822839e92ffd1676a7356c5ecc606f9001b467ee6cc1c6eb2857533039f8",
+    "C:\\Dev\\Ai.Os\\automation\\forex_engine\\strategies.py": "96767dbdadcf70ed60cbce573b4298cb6980abb7d857e314bbc3de6fd47f94e1",
+    "C:\\Dev\\Ai.Os\\automation\\orchestration\\continuation\\aios_autonomous_job_continuation.py": "0937a90b11638bfc08c5da83e1bcf92c23d6da8c679889aecb21118f2d7157de",
+    "C:\\Dev\\Ai.Os\\automation\\validators\\aios_approval_authority_integrity_validator.py": "c1bb6664a6ba93afdad27e8bf9f09ff5be8d929229948ccaa2fa42f7205fe5b2",
+    "C:\\Dev\\Ai.Os\\automation\\validators\\aios_approval_contract_v2.py": "d110ae39d97edb63e78beebeede26bfb6a9c5716029486547944407579118dc5"
+  },
+  "source_map_sha256": "cc6d880a26155c48727eb19c8d36f566e9d0eaba73d8ed6dcc7d7de57d74b9b5",
+  "stop_point": "Frozen batch settled or genuine stop gate",
+  "strategy_identity": {
+    "strategy_id": "S6_SUPERTREND_ADAPTIVE_DEVELOPMENT_R4",
+    "strategy_version": "S6_SUPERTREND_ADAPTIVE_DEVELOPMENT_R4"
+  },
+  "trial_allocation": {
+    "new_configurations_reserved": 12,
+    "physical_calls_reserved": 6,
+    "prior_configuration_exposures": 2118,
+    "prior_physical_call_upper_bound": 6582,
+    "prior_reported_physical_call_lower_bound": 6133
+  },
+  "trust_root_id": "AIOS-HUMAN-OWNER-APPROVAL-TRUST-ROOT-V1",
+  "validator_chain": [
+    "history",
+    "inputs",
+    "genuine_signature",
+    "row_identity",
+    "causal_replay",
+    "receipt",
+    "postmortem"
+  ],
+  "validator_chain_required": true,
+  "worker": "EAST_OCC_97",
+  "worker_identity": "EAST_OCC_97",
+  "worktree": "C:\\Dev\\Ai.Os",
+  "approved_by": "Anthony, Human Owner",
+  "key_id": "AIOS-HUMAN-OWNER-PRIMARY-V1",
+  "key_version": 1,
+  "key_fingerprint_sha256": "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786",
+  "approval_nonce": "f28f9a533ed14fb29d42b7265af9618f"
+}

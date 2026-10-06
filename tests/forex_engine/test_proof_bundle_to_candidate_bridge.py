@@ -195,6 +195,12 @@ def test_safety_gap_causes_blocked_payload(monkeypatch):
     assert result["safety_gaps"]
 
 
+def test_blocked_bridge_does_not_mark_proof_bundle_ready():
+    result = module.run_proof_bundle_to_candidate_bridge(write_reports=False)
+    assert result["candidate_bridge_verdict"] != module.DEMO_REVIEW_READY
+    assert result["proof_bundle_ready_for_candidate_bridge"] is False
+
+
 def test_write_reports_false_returns_no_report_path(monkeypatch):
     _install_payload(monkeypatch)
     payload = module.run_proof_bundle_to_candidate_bridge(write_reports=False)

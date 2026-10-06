@@ -1,0 +1,26 @@
+{
+  "closed_blockers": {
+    "P0-001": "TIMEFRAME_DATA_COVERAGE_AUDITED",
+    "P0-002": "INDICATOR_FIDELITY_IMPLEMENTED",
+    "P0-003": "PARAMETER_FAMILIES_FROZEN",
+    "P0-004": "GROSS_EDGE_SURFACE_COMPLETE",
+    "P0-005": "HYPOTHESIS_LEDGER_COMPLETE"
+  },
+  "highest_priority_blocker": {
+    "blocker_id": "P0-006",
+    "can_codex_resolve": false,
+    "exact_blocker": "No robust bidirectional gross-edge survivor earned cost/exit/Validation/PAPER continuation.",
+    "external_time_required": false,
+    "human_action_required": false,
+    "next_action": "Preserve evidence; do not open downstream gates without a materially new authorized hypothesis.",
+    "phase": "GROSS_EDGE_GATE",
+    "priority": "P0",
+    "status": "TERMINAL_UNRESOLVABLE"
+  },
+  "packet_id": "PKT-EAST-FOREX-MTF-GROSS-EDGE-DISCOVERY-032",
+  "pre_terminal_audit_status": "PASS",
+  "remaining_authorized_work_count": 0,
+  "same_packet_resume_command": "Re-run Packet 032-PRO from C:\\Dev\\Ai.Os after new authorized evidence or compute gate.",
+  "schema": "AIOS_FOREX_ATTACK_TO_FINISH.v10",
+  "status": "NO_INDICATOR_GROSS_EDGE"
+}

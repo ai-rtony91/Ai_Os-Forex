@@ -1,16 +1,65 @@
-# React + Vite
+# AIOS Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Obsidian Liquid Terminal
 
-Currently, two official plugins are available:
+The React application is the local integrated AIOS web experience. Run `npm run build` and then `npm start` for the loopback integrated preview. During Vite development, run `npm run start:api` in one terminal and `npm run dev` in another. It provides a visual identity gate, eight History API routes, deterministic demonstration data, versioned sanitized read models, Server-Sent Events, read-only broker status, local-only private gallery mapping, and draft-only strategy validation.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Demonstration values are always labeled `DEMONSTRATION DATA — NOT BROKER DATA`. Authentication providers, Cloudflare, deployment, broker connectivity, credentials, trade execution, and shell execution are not configured or authorized.
 
-## React Compiler
+## Legacy Canonical Forex Dashboard
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The preserved focused Forex campaign dashboard is:
 
-## Expanding the ESLint configuration
+`apps/dashboard/aios-forex-dashboard.html`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+It is a focused, low-clutter operator surface for the 30-trade forward paper campaign and the evidence needed to judge Forex readiness.
+
+## Legacy Surface Status
+
+The page is a static, read-only UI. Its data contract is not connected, so unavailable evidence is labeled `PENDING` or `NOT CONNECTED`. It separates:
+
+- forward paper evidence from genuine pretend-money trades;
+- historical and research evidence from development replay and statistical analysis;
+- readiness and safety evidence from governed gates and controls.
+
+Historical results must never be presented as forward PAPER30 progress.
+
+## Safety Boundary
+
+This dashboard has no broker execution, credentials, account identifiers, live-order control, backend activation, network submission, persistence, or hidden automation. `LIVE DISABLED` is a safety status, not a control.
+
+## Legacy Dashboard
+
+`apps/dashboard/AIOS_STATIC_PREVIEW.html` is the noncanonical legacy planetary dashboard. It remains in the repository only while existing build, manifest, companion UI, and validator dependencies still reference it. New Forex dashboard work must target the canonical page above.
+
+## Validation
+
+Run `npm run lint`, `npm run test`, and `npm run build`. No deployment follows automatically.
+
+## Saved Forex research progress
+
+The existing System Status page now includes a read-only research panel from
+`GET /api/v1/research/status`. It reads only the fixed S6 checkpoint and receipt
+ledger. Reads are bounded, handles are promptly closed, and paths/commands/raw
+checkpoint data are not sent to the browser. The view separates accepted market
+jobs, recorded configuration exposures, cost checks, and campaign budget bounds.
+
+The existing S6 launcher now publishes a narrow market-owner observation under
+its next matching source-pinned grant. The endpoint checks four fixed code pins,
+separates heartbeat, useful progress, accepted-result and metadata clocks, and
+labels fresh activity `ACTIVE_OWNER_REPORTED`. It does not probe processes.
+Absent observations, stale progress and changed code never imply running work.
+Goal and builder observations remain UNKNOWN until their existing owners connect.
+Saved states are labelled as saved states; fetching an old record does not make it fresh.
+Missing counts are UNKNOWN, not zero. A finished batch or HOT label cannot mark
+a verified edge. Receipt structure/deduplication checks are not independent
+revalidation of the scientific outputs. This change cannot launch, sign, trade,
+restart a worker, access market-price files, or publish a deployment.
+
+`GET /api/v1/research/history` joins the existing acceptance, post-mortem and
+Hot/Cold records with bounded reads. Optional `fingerprint` (64 lowercase hex)
+and `family` (safe identity) filters cannot choose files. The Post-Mortem page
+reuses these links. Research SSE events refresh this view; UI stream heartbeats
+are never research progress. The existing authentication and routes remain.
+There is no research MCP server or market queue action in this build. Monthly
+admission, real scout counts and independent proof remain blocked/unconnected.

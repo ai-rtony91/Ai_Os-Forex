@@ -1,0 +1,1105 @@
+{
+  "aggregate_hash": "4357f24113ba54b9a6f8d6a3d87860109ca7429dbbd627b20c3d5a30540c6b32",
+  "blocker": null,
+  "capability_score": 85,
+  "corpus_id": "AIOS_FOREX_MULTI_REGIME_CORPUS_V3",
+  "frozen": true,
+  "frozen_end": "2026-08-28T20:00:00+00:00",
+  "market_corpus_v2_hash": "44bad0bb22fa88771c824c2c91551fef7116a458d5d7fee7039f5f87c76dac6a",
+  "overlap_validation": {
+    "failed_pair_count": 0,
+    "failed_pairs": [],
+    "pair_count": 58,
+    "rows": [
+      {
+        "instrument": "AUD_CAD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16555,
+        "status": "PASS"
+      },
+      {
+        "instrument": "AUD_CHF",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16536,
+        "status": "PASS"
+      },
+      {
+        "instrument": "AUD_HKD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16531,
+        "status": "PASS"
+      },
+      {
+        "instrument": "AUD_JPY",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16555,
+        "status": "PASS"
+      },
+      {
+        "instrument": "AUD_NZD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16553,
+        "status": "PASS"
+      },
+      {
+        "instrument": "AUD_SGD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16416,
+        "status": "PASS"
+      },
+      {
+        "instrument": "AUD_USD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16556,
+        "status": "PASS"
+      },
+      {
+        "instrument": "CAD_CHF",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16525,
+        "status": "PASS"
+      },
+      {
+        "instrument": "CAD_HKD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16544,
+        "status": "PASS"
+      },
+      {
+        "instrument": "CAD_JPY",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16556,
+        "status": "PASS"
+      },
+      {
+        "instrument": "CAD_SGD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16398,
+        "status": "PASS"
+      },
+      {
+        "instrument": "CHF_HKD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16446,
+        "status": "PASS"
+      },
+      {
+        "instrument": "CHF_JPY",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16502,
+        "status": "PASS"
+      },
+      {
+        "instrument": "CHF_ZAR",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16456,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_AUD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16555,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_CAD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16556,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_CHF",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16552,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_CZK",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16513,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_GBP",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16556,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_HKD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16556,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_HUF",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16532,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_JPY",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16555,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_NZD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16552,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_PLN",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16544,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_SEK",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16441,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_SGD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16461,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_USD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16559,
+        "status": "PASS"
+      },
+      {
+        "instrument": "EUR_ZAR",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16476,
+        "status": "PASS"
+      },
+      {
+        "instrument": "GBP_AUD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16553,
+        "status": "PASS"
+      },
+      {
+        "instrument": "GBP_CAD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16555,
+        "status": "PASS"
+      },
+      {
+        "instrument": "GBP_CHF",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16537,
+        "status": "PASS"
+      },
+      {
+        "instrument": "GBP_HKD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16549,
+        "status": "PASS"
+      },
+      {
+        "instrument": "GBP_JPY",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16555,
+        "status": "PASS"
+      },
+      {
+        "instrument": "GBP_NZD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16530,
+        "status": "PASS"
+      },
+      {
+        "instrument": "GBP_PLN",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16493,
+        "status": "PASS"
+      },
+      {
+        "instrument": "GBP_SGD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16321,
+        "status": "PASS"
+      },
+      {
+        "instrument": "GBP_USD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16556,
+        "status": "PASS"
+      },
+      {
+        "instrument": "GBP_ZAR",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16420,
+        "status": "PASS"
+      },
+      {
+        "instrument": "HKD_JPY",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16495,
+        "status": "PASS"
+      },
+      {
+        "instrument": "NZD_CAD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16550,
+        "status": "PASS"
+      },
+      {
+        "instrument": "NZD_CHF",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16489,
+        "status": "PASS"
+      },
+      {
+        "instrument": "NZD_JPY",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16550,
+        "status": "PASS"
+      },
+      {
+        "instrument": "NZD_USD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16553,
+        "status": "PASS"
+      },
+      {
+        "instrument": "SGD_CHF",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16495,
+        "status": "PASS"
+      },
+      {
+        "instrument": "SGD_JPY",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16379,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_CAD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16556,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_CHF",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16555,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_CNH",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16554,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_CZK",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16530,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_DKK",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16556,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_HUF",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16547,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_JPY",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16556,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_MXN",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16503,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_NOK",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16411,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_PLN",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16555,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_SEK",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16472,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_SGD",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16545,
+        "status": "PASS"
+      },
+      {
+        "instrument": "USD_ZAR",
+        "max_abs_difference": 0.0,
+        "mismatch_count": 0,
+        "overlap_hours": 16461,
+        "status": "PASS"
+      }
+    ],
+    "status": "PASS",
+    "tolerance": 0.0002,
+    "total_mismatches": 0,
+    "total_overlap_hours": 957918
+  },
+  "packet_id": "PKT-EAST-FOREX-POST-HUMAN-DATA-CONTINUATION-026",
+  "pair_coverage_counts": {
+    "available": 58,
+    "eligible": 58,
+    "excluded": 10,
+    "intended": 68
+  },
+  "pair_coverage_state_hash": "e1caa8489d7586d4ad827be863440f4ccb809a633d887dfb9fa3682493775eee",
+  "research_eligible_universe": [
+    "AUD_CAD",
+    "AUD_CHF",
+    "AUD_HKD",
+    "AUD_JPY",
+    "AUD_NZD",
+    "AUD_SGD",
+    "AUD_USD",
+    "CAD_CHF",
+    "CAD_HKD",
+    "CAD_JPY",
+    "CAD_SGD",
+    "CHF_HKD",
+    "CHF_JPY",
+    "CHF_ZAR",
+    "EUR_AUD",
+    "EUR_CAD",
+    "EUR_CHF",
+    "EUR_CZK",
+    "EUR_GBP",
+    "EUR_HKD",
+    "EUR_HUF",
+    "EUR_JPY",
+    "EUR_NZD",
+    "EUR_PLN",
+    "EUR_SEK",
+    "EUR_SGD",
+    "EUR_USD",
+    "EUR_ZAR",
+    "GBP_AUD",
+    "GBP_CAD",
+    "GBP_CHF",
+    "GBP_HKD",
+    "GBP_JPY",
+    "GBP_NZD",
+    "GBP_PLN",
+    "GBP_SGD",
+    "GBP_USD",
+    "GBP_ZAR",
+    "HKD_JPY",
+    "NZD_CAD",
+    "NZD_CHF",
+    "NZD_JPY",
+    "NZD_USD",
+    "SGD_CHF",
+    "SGD_JPY",
+    "USD_CAD",
+    "USD_CHF",
+    "USD_CNH",
+    "USD_CZK",
+    "USD_DKK",
+    "USD_HUF",
+    "USD_JPY",
+    "USD_MXN",
+    "USD_NOK",
+    "USD_PLN",
+    "USD_SEK",
+    "USD_SGD",
+    "USD_ZAR"
+  ],
+  "safety": {
+    "broker_write": false,
+    "credentials_read": false,
+    "funding": false,
+    "live": false,
+    "practice_orders": false
+  },
+  "sanitized_artifacts": [
+    {
+      "candle_count": 137169,
+      "complete_count": 137169,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "AUD_CAD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/AUD_CAD.H1.json",
+      "sha256": "5d526b40605220d840fb30e310def1aca31445cde22b62c8f3aee7758cf797ed"
+    },
+    {
+      "candle_count": 137398,
+      "complete_count": 137398,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "AUD_CHF",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/AUD_CHF.H1.json",
+      "sha256": "b32eead38347d15d703de5a3ba825282feade2ebc44bed4f8b15aadff48a0168"
+    },
+    {
+      "candle_count": 137270,
+      "complete_count": 137270,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "AUD_HKD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/AUD_HKD.H1.json",
+      "sha256": "82459d7e451d8f6fc7203d0d0a212412a52e2ac8662460fe7fbe7b74192d79e2"
+    },
+    {
+      "candle_count": 137261,
+      "complete_count": 137261,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "AUD_JPY",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/AUD_JPY.H1.json",
+      "sha256": "db8ae09bd5e17f08a3965cc1bcdee9326824eebaa6e83521f61a86dddc92fbd6"
+    },
+    {
+      "candle_count": 137152,
+      "complete_count": 137152,
+      "first_time": "2005-01-01T08:00:00.000000000Z",
+      "instrument": "AUD_NZD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/AUD_NZD.H1.json",
+      "sha256": "b417fe82cdbfdb82604cc833d80eef0879eaaa24db76e2d9143587c64d79aca5"
+    },
+    {
+      "candle_count": 137299,
+      "complete_count": 137299,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "AUD_SGD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/AUD_SGD.H1.json",
+      "sha256": "13321d71324bea2c3e0d2f2906e525e5a15fbc5a672e34cded1d43797a39d429"
+    },
+    {
+      "candle_count": 137244,
+      "complete_count": 137244,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "AUD_USD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/AUD_USD.H1.json",
+      "sha256": "578382fc4c81202e49c86b14507675919eee9945f979b25f04d1e3db533deaa8"
+    },
+    {
+      "candle_count": 137308,
+      "complete_count": 137308,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "CAD_CHF",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/CAD_CHF.H1.json",
+      "sha256": "bf9e7677a0b926c7921f0745e82afbc1bc8214cd52fa095ab2d8dbe7e8b69288"
+    },
+    {
+      "candle_count": 137092,
+      "complete_count": 137092,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "CAD_HKD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/CAD_HKD.H1.json",
+      "sha256": "3412f31e33c49471bd55b1095896085bb61443359bdffc898c63550b81d9fa11"
+    },
+    {
+      "candle_count": 137319,
+      "complete_count": 137319,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "CAD_JPY",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/CAD_JPY.H1.json",
+      "sha256": "f246a99ae4c51938a2dc1e308b364cf0af3ccb39ed57d64082a7dec4a7dc4c9b"
+    },
+    {
+      "candle_count": 137155,
+      "complete_count": 137155,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "CAD_SGD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/CAD_SGD.H1.json",
+      "sha256": "5c0b6e6b330add4769c84659403962e8e5d2e5b775c68e76f74d5564cf7bed58"
+    },
+    {
+      "candle_count": 137229,
+      "complete_count": 137229,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "CHF_HKD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/CHF_HKD.H1.json",
+      "sha256": "03b7105760bd307687685297bb8d0d383b38be663598c99e24bdcfccd9c449c7"
+    },
+    {
+      "candle_count": 137224,
+      "complete_count": 137224,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "CHF_JPY",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/CHF_JPY.H1.json",
+      "sha256": "43c492219c4e6578be43c6296259c23140ccb9c65e55d2b626f4326d839170cd"
+    },
+    {
+      "candle_count": 137276,
+      "complete_count": 137276,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "CHF_ZAR",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/CHF_ZAR.H1.json",
+      "sha256": "770ba0f118b8dfbe0f0acb64066f9e53bc5502cadc85ba64dce400dcda3e00ef"
+    },
+    {
+      "candle_count": 137219,
+      "complete_count": 137219,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_AUD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_AUD.H1.json",
+      "sha256": "fd30aeae06f289bc75fe30942fadc2387a51d8e6f3981a2cc6a0309a2f5655b0"
+    },
+    {
+      "candle_count": 137332,
+      "complete_count": 137332,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_CAD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_CAD.H1.json",
+      "sha256": "16fc4ead26d69a80f3aafa4f2a003bb81d78dc6957704aba7201b3fc532eb754"
+    },
+    {
+      "candle_count": 137204,
+      "complete_count": 137204,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_CHF",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_CHF.H1.json",
+      "sha256": "1a162781b3034063948a7ed34d29ffc57919cd7777ab1adae7619a8ab8ec9867"
+    },
+    {
+      "candle_count": 134149,
+      "complete_count": 134149,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_CZK",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_CZK.H1.json",
+      "sha256": "0c7e6744c69b5372184f9ee9d6be745b20217422e28922b2b70b490510aad2f2"
+    },
+    {
+      "candle_count": 137276,
+      "complete_count": 137276,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_GBP",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_GBP.H1.json",
+      "sha256": "108ea924b0ce38bc35dba06de4df4bfaa1b138ce2db75e3d546ba3928b3c3c1a"
+    },
+    {
+      "candle_count": 137447,
+      "complete_count": 137447,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_HKD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_HKD.H1.json",
+      "sha256": "aa252ec7270219d6c4cd5a3bd22b26e98239d073e89c6397b705b292cac10bc6"
+    },
+    {
+      "candle_count": 134578,
+      "complete_count": 134578,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_HUF",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_HUF.H1.json",
+      "sha256": "ba4330b8a86b86b785512714b908433e70aa36e41cb453188aa3d50fa3a24c59"
+    },
+    {
+      "candle_count": 137329,
+      "complete_count": 137329,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_JPY",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_JPY.H1.json",
+      "sha256": "7a0ef0d8de0920b012a3a4d52b9649bc02438c99520973c5abd065fccbda5427"
+    },
+    {
+      "candle_count": 137256,
+      "complete_count": 137256,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_NZD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_NZD.H1.json",
+      "sha256": "31022e163b514824de55e7dda8a664db17033439e51d4eea97758959ccb8d934"
+    },
+    {
+      "candle_count": 135753,
+      "complete_count": 135753,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_PLN",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_PLN.H1.json",
+      "sha256": "c2e6396406c52e4fdf49d79b652a9408f81259dc74056fafd10e81d0d2763ce8"
+    },
+    {
+      "candle_count": 136826,
+      "complete_count": 136826,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_SEK",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_SEK.H1.json",
+      "sha256": "786e82417803eabc140c7f9aa667462e42ea812218ee0affcc5247e7a5f91e21"
+    },
+    {
+      "candle_count": 137475,
+      "complete_count": 137475,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_SGD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_SGD.H1.json",
+      "sha256": "96b7e8d8be6b4d0cd732a06e44c23fd06e094aa7617d91a6dcc96c86515d10d4"
+    },
+    {
+      "candle_count": 137413,
+      "complete_count": 137413,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_USD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_USD.H1.json",
+      "sha256": "6b49e4d10cfbb4998e0d8c278ec500f4e00bc9ef743282c3d045b73839992c56"
+    },
+    {
+      "candle_count": 137485,
+      "complete_count": 137485,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "EUR_ZAR",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/EUR_ZAR.H1.json",
+      "sha256": "6d46dd1d09d29f2de9983a733967a833b0ec42d1898130e497df7eeb39816eb9"
+    },
+    {
+      "candle_count": 137410,
+      "complete_count": 137410,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "GBP_AUD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/GBP_AUD.H1.json",
+      "sha256": "0b21618a90fb124657384131b6f3138c1461cb83763293a77669c787893f772f"
+    },
+    {
+      "candle_count": 137182,
+      "complete_count": 137182,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "GBP_CAD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/GBP_CAD.H1.json",
+      "sha256": "1352600fd987ce0167f4b38154460199299398835afde68eb9163810f9422a9f"
+    },
+    {
+      "candle_count": 137238,
+      "complete_count": 137238,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "GBP_CHF",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/GBP_CHF.H1.json",
+      "sha256": "4523c2a9d23017af99e561c9cb7eba0e32d2a56c3540ec7d84729327c86a3f35"
+    },
+    {
+      "candle_count": 137235,
+      "complete_count": 137235,
+      "first_time": "2005-01-02T19:00:00.000000000Z",
+      "instrument": "GBP_HKD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/GBP_HKD.H1.json",
+      "sha256": "22fff7a2d58fd004eafa1d87865d9ead1eef29d59a7bf397318b92b920165468"
+    },
+    {
+      "candle_count": 137288,
+      "complete_count": 137288,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "GBP_JPY",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/GBP_JPY.H1.json",
+      "sha256": "09b5a55551d5c9442e42d22f140cd80a6ebeeeb67a552d7e1765c5c3d61e25a9"
+    },
+    {
+      "candle_count": 137307,
+      "complete_count": 137307,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "GBP_NZD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/GBP_NZD.H1.json",
+      "sha256": "aa94810f7303c3b79a3d877242feff75b6206c65743512eedd0850b395a5b7a2"
+    },
+    {
+      "candle_count": 137284,
+      "complete_count": 137284,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "GBP_PLN",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/GBP_PLN.H1.json",
+      "sha256": "d2a7e3d2216ca2084afd2c7cc5030c1571f84bfb81e88b9107b5afc58fab91a7"
+    },
+    {
+      "candle_count": 137253,
+      "complete_count": 137253,
+      "first_time": "2005-01-02T19:00:00.000000000Z",
+      "instrument": "GBP_SGD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/GBP_SGD.H1.json",
+      "sha256": "8435e142a834819f54fda12d1229a789152458028b33c6d4e0e11af6d8efe2ca"
+    },
+    {
+      "candle_count": 137216,
+      "complete_count": 137216,
+      "first_time": "2005-01-02T19:00:00.000000000Z",
+      "instrument": "GBP_USD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/GBP_USD.H1.json",
+      "sha256": "48103b3c559c3841d15ceb7b58d5070e5904c97d5adf79a14f3ba2591aa81fb7"
+    },
+    {
+      "candle_count": 137268,
+      "complete_count": 137268,
+      "first_time": "2005-01-02T19:00:00.000000000Z",
+      "instrument": "GBP_ZAR",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/GBP_ZAR.H1.json",
+      "sha256": "0905ae4c81fe3cd139a2482f830050491bee21b49155bfb8892b90608502bfed"
+    },
+    {
+      "candle_count": 137253,
+      "complete_count": 137253,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "HKD_JPY",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/HKD_JPY.H1.json",
+      "sha256": "7214cd2010465ea026e2ce5457fe60f720bae5c507e1e0dec40eb942d3539d42"
+    },
+    {
+      "candle_count": 137121,
+      "complete_count": 137121,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "NZD_CAD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/NZD_CAD.H1.json",
+      "sha256": "ecc21bd0b94c123e6d2bfd791114e530ab933b8c99a50c81658d23de19039b10"
+    },
+    {
+      "candle_count": 137311,
+      "complete_count": 137311,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "NZD_CHF",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/NZD_CHF.H1.json",
+      "sha256": "436e769a380f70744b381e64556422e1aad90a6bac024e62ed7a44f3accfb904"
+    },
+    {
+      "candle_count": 137247,
+      "complete_count": 137247,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "NZD_JPY",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/NZD_JPY.H1.json",
+      "sha256": "3d1c23af67d906f22d8f54f9ff4b9f89cf26a4a8a7aa93baedcd6853cb91c074"
+    },
+    {
+      "candle_count": 137104,
+      "complete_count": 137104,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "NZD_USD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/NZD_USD.H1.json",
+      "sha256": "b81936880290bf2b141aea0adfad17433b20c320ddddb9215a4a7138eec57647"
+    },
+    {
+      "candle_count": 137281,
+      "complete_count": 137281,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "SGD_CHF",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/SGD_CHF.H1.json",
+      "sha256": "4c20d294657d91af63b28f8d4aa37a3ad12ff700a3a48bfdecae0a5095979519"
+    },
+    {
+      "candle_count": 137348,
+      "complete_count": 137348,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "SGD_JPY",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/SGD_JPY.H1.json",
+      "sha256": "4fd9235998d81017cc762de01fb64c5157381f4c1ed5713374f060e569509cc3"
+    },
+    {
+      "candle_count": 137126,
+      "complete_count": 137126,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "USD_CAD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_CAD.H1.json",
+      "sha256": "6d5e28fc2cdc871e39c6a71f64b5212b170d1a20d0c5874a733c539df44ee7e1"
+    },
+    {
+      "candle_count": 137232,
+      "complete_count": 137232,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "USD_CHF",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_CHF.H1.json",
+      "sha256": "1b616dc942efe769ce4bc7398eae0050ff38dc6c1c99574e23ade85c066b8245"
+    },
+    {
+      "candle_count": 90586,
+      "complete_count": 90586,
+      "first_time": "2011-02-06T16:00:00.000000000Z",
+      "instrument": "USD_CNH",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_CNH.H1.json",
+      "sha256": "63e9d0a3c4f35e6ab072f9c7ac38e8c87c225ce680f5dfa1fe22220f78b411d3"
+    },
+    {
+      "candle_count": 137016,
+      "complete_count": 137016,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "USD_CZK",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_CZK.H1.json",
+      "sha256": "39a811bc2991aee87df9bf15e6956c483167360dbed4680973fbe83e687d82f7"
+    },
+    {
+      "candle_count": 137146,
+      "complete_count": 137146,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "USD_DKK",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_DKK.H1.json",
+      "sha256": "b1d2290fa81a835d614928f56dec2d224b37dcf132fd3c30edfa1e03107086ee"
+    },
+    {
+      "candle_count": 137001,
+      "complete_count": 137001,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "USD_HUF",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_HUF.H1.json",
+      "sha256": "4e5b38fb39cdcc17e90438fcda35ff0ef2ec29d823c177a094097562cd70dda0"
+    },
+    {
+      "candle_count": 137322,
+      "complete_count": 137322,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "USD_JPY",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_JPY.H1.json",
+      "sha256": "74ce308b487134218e0a77d801ad8fa930432261a42765e5af1a8dd1c167db45"
+    },
+    {
+      "candle_count": 133190,
+      "complete_count": 133190,
+      "first_time": "2005-01-02T21:00:00.000000000Z",
+      "instrument": "USD_MXN",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_MXN.H1.json",
+      "sha256": "8c11064a76397c9191308e8377004c003a97ee164a11c8f7a8a2fbf1a88e1dbc"
+    },
+    {
+      "candle_count": 136977,
+      "complete_count": 136977,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "USD_NOK",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_NOK.H1.json",
+      "sha256": "d763c2017677c1b1a3a35510430ada8f6d67e4bd80fb22db7f6bb8c65571555a"
+    },
+    {
+      "candle_count": 137241,
+      "complete_count": 137241,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "USD_PLN",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_PLN.H1.json",
+      "sha256": "8b767df6a4fa8fa28c56d2ca490944b0e7f1958971e2978c9672b5498b2e6c58"
+    },
+    {
+      "candle_count": 137087,
+      "complete_count": 137087,
+      "first_time": "2005-01-02T18:00:00.000000000Z",
+      "instrument": "USD_SEK",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_SEK.H1.json",
+      "sha256": "63b36faef147cd2d0bab3f4ae385af94a2a996102c9c3640257865c212592e0e"
+    },
+    {
+      "candle_count": 136606,
+      "complete_count": 136606,
+      "first_time": "2005-01-02T21:00:00.000000000Z",
+      "instrument": "USD_SGD",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_SGD.H1.json",
+      "sha256": "84a43d81eaa776fa989ed9018ff69291c5b92f39e3e572b16e0f425a46e67728"
+    },
+    {
+      "candle_count": 136241,
+      "complete_count": 136241,
+      "first_time": "2005-01-02T20:00:00.000000000Z",
+      "instrument": "USD_ZAR",
+      "last_time": "2026-08-28T20:00:00.000000000Z",
+      "path": ".aios/runtime/forex_practice_history_human_inbox/USD_ZAR.H1.json",
+      "sha256": "278a52aa615e1fa4cb313601bfd0a27aac5f4d3be0f0f6648e9af927edc5c150"
+    }
+  ],
+  "schema": "AIOS_FOREX_MULTI_REGIME_CORPUS_V3_STATE",
+  "status": "FROZEN_VALID",
+  "target_granularities": [
+    "H1",
+    "H4",
+    "D1",
+    "W1"
+  ],
+  "target_start": "2005-01-01T00:00:00Z",
+  "target_universe": [
+    "AUD_CAD",
+    "AUD_CHF",
+    "AUD_HKD",
+    "AUD_JPY",
+    "AUD_NZD",
+    "AUD_SGD",
+    "AUD_USD",
+    "CAD_CHF",
+    "CAD_HKD",
+    "CAD_JPY",
+    "CAD_SGD",
+    "CHF_HKD",
+    "CHF_JPY",
+    "CHF_ZAR",
+    "EUR_AUD",
+    "EUR_CAD",
+    "EUR_CHF",
+    "EUR_CZK",
+    "EUR_DKK",
+    "EUR_GBP",
+    "EUR_HKD",
+    "EUR_HUF",
+    "EUR_JPY",
+    "EUR_NOK",
+    "EUR_NZD",
+    "EUR_PLN",
+    "EUR_SEK",
+    "EUR_SGD",
+    "EUR_TRY",
+    "EUR_USD",
+    "EUR_ZAR",
+    "GBP_AUD",
+    "GBP_CAD",
+    "GBP_CHF",
+    "GBP_HKD",
+    "GBP_JPY",
+    "GBP_NZD",
+    "GBP_PLN",
+    "GBP_SGD",
+    "GBP_USD",
+    "GBP_ZAR",
+    "HKD_JPY",
+    "NZD_CAD",
+    "NZD_CHF",
+    "NZD_HKD",
+    "NZD_JPY",
+    "NZD_SGD",
+    "NZD_USD",
+    "SGD_CHF",
+    "SGD_JPY",
+    "TRY_JPY",
+    "USD_CAD",
+    "USD_CHF",
+    "USD_CNH",
+    "USD_CZK",
+    "USD_DKK",
+    "USD_HKD",
+    "USD_HUF",
+    "USD_JPY",
+    "USD_MXN",
+    "USD_NOK",
+    "USD_PLN",
+    "USD_SEK",
+    "USD_SGD",
+    "USD_THB",
+    "USD_TRY",
+    "USD_ZAR",
+    "ZAR_JPY"
+  ],
+  "target_universe_count": 68
+}

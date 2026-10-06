@@ -1,0 +1,121 @@
+{
+  "family_count": 8,
+  "packet_id": "PKT-EAST-FOREX-TRACE-BACKED-FIDELITY-030",
+  "rows": [
+    {
+      "adapter_code_hash": "af62f1d03d7d5312c4770597b941457e558998d97e9ffac66e26bfd7bc6e6d72",
+      "adapter_id": "slow_momentum_trailing_exit_adapter",
+      "declared_parameters_affect_trace": [
+        "family_id",
+        "control_id",
+        "direction",
+        "adapter_id",
+        "expected_outcome"
+      ],
+      "family_id": "A_TIME_SERIES_MOMENTUM",
+      "positive_trace_chain_hash": "c64c841bdc79afe1348c61896edc7151af588fc8394774b12e732ecfc8444cda",
+      "public_entrypoint": "automation.forex_engine.forex_family_adapter_repair_v3.run_family_adapter"
+    },
+    {
+      "adapter_code_hash": "af62f1d03d7d5312c4770597b941457e558998d97e9ffac66e26bfd7bc6e6d72",
+      "adapter_id": "currency_rank_portfolio_adapter",
+      "declared_parameters_affect_trace": [
+        "family_id",
+        "control_id",
+        "direction",
+        "adapter_id",
+        "expected_outcome"
+      ],
+      "family_id": "B_CROSS_SECTIONAL_FACTOR",
+      "positive_trace_chain_hash": "fb6aa53fe5023183b7e118973e1ce329aa67f8091e8744dcff6ca87f933493f5",
+      "public_entrypoint": "automation.forex_engine.forex_family_adapter_repair_v3.run_family_adapter"
+    },
+    {
+      "adapter_code_hash": "af62f1d03d7d5312c4770597b941457e558998d97e9ffac66e26bfd7bc6e6d72",
+      "adapter_id": "point_in_time_carry_momentum_adapter",
+      "declared_parameters_affect_trace": [
+        "family_id",
+        "control_id",
+        "direction",
+        "adapter_id",
+        "expected_outcome"
+      ],
+      "family_id": "C_CARRY_VALUE_MOMENTUM",
+      "positive_trace_chain_hash": "c04f4297b71c0feaaea4df4f6b72dd481f64c93f67e55d836e33f9948d30f2fc",
+      "public_entrypoint": "automation.forex_engine.forex_family_adapter_repair_v3.run_family_adapter"
+    },
+    {
+      "adapter_code_hash": "af62f1d03d7d5312c4770597b941457e558998d97e9ffac66e26bfd7bc6e6d72",
+      "adapter_id": "rolling_multileg_residual_adapter",
+      "declared_parameters_affect_trace": [
+        "family_id",
+        "control_id",
+        "direction",
+        "adapter_id",
+        "expected_outcome"
+      ],
+      "family_id": "D_RELATIVE_VALUE",
+      "positive_trace_chain_hash": "a9b556cb96a0723c89523cb38241e340feddb459764d8184848a2c9f6f65a6f1",
+      "public_entrypoint": "automation.forex_engine.forex_family_adapter_repair_v3.run_family_adapter"
+    },
+    {
+      "adapter_code_hash": "af62f1d03d7d5312c4770597b941457e558998d97e9ffac66e26bfd7bc6e6d72",
+      "adapter_id": "post_release_event_adapter",
+      "declared_parameters_affect_trace": [
+        "family_id",
+        "control_id",
+        "direction",
+        "adapter_id",
+        "expected_outcome"
+      ],
+      "family_id": "E_EVENT_DRIVEN",
+      "positive_trace_chain_hash": "c6089b596036e506c1afb5489954f5da23db85919759d8634bc535fc3fc0e4c8",
+      "public_entrypoint": "automation.forex_engine.forex_family_adapter_repair_v3.run_family_adapter"
+    },
+    {
+      "adapter_code_hash": "af62f1d03d7d5312c4770597b941457e558998d97e9ffac66e26bfd7bc6e6d72",
+      "adapter_id": "session_spread_normalization_adapter",
+      "declared_parameters_affect_trace": [
+        "family_id",
+        "control_id",
+        "direction",
+        "adapter_id",
+        "expected_outcome"
+      ],
+      "family_id": "F_LIQUIDITY_SESSION",
+      "positive_trace_chain_hash": "58e643c79a4b80663f045726ed7fdeaccf6204b7f6dc44f10fa14941935d1744",
+      "public_entrypoint": "automation.forex_engine.forex_family_adapter_repair_v3.run_family_adapter"
+    },
+    {
+      "adapter_code_hash": "af62f1d03d7d5312c4770597b941457e558998d97e9ffac66e26bfd7bc6e6d72",
+      "adapter_id": "causal_state_router_adapter",
+      "declared_parameters_affect_trace": [
+        "family_id",
+        "control_id",
+        "direction",
+        "adapter_id",
+        "expected_outcome"
+      ],
+      "family_id": "G_REGIME_SWITCHING",
+      "positive_trace_chain_hash": "b2d0741d0ee876fee8dba89bd8698d97ca8912c7528af3ec3bf8bb8e39ae7da1",
+      "public_entrypoint": "automation.forex_engine.forex_family_adapter_repair_v3.run_family_adapter"
+    },
+    {
+      "adapter_code_hash": "af62f1d03d7d5312c4770597b941457e558998d97e9ffac66e26bfd7bc6e6d72",
+      "adapter_id": "take_do_not_take_router_adapter",
+      "declared_parameters_affect_trace": [
+        "family_id",
+        "control_id",
+        "direction",
+        "adapter_id",
+        "expected_outcome"
+      ],
+      "family_id": "H_META_LABEL_ROUTER",
+      "positive_trace_chain_hash": "02a8250b9914597872ac7c75c5370886fc01b1690844a1e06692f4b90d5ba126",
+      "public_entrypoint": "automation.forex_engine.forex_family_adapter_repair_v3.run_family_adapter"
+    }
+  ],
+  "schema": "AIOS_FOREX_FAMILY_ADAPTER_REPAIR_V3_STATE",
+  "state_hash": "7e71eb16600c2d03aaa844d6083a55d8f2a05cfdac2331d04d28e783638202a4",
+  "status": "FAMILY_ADAPTER_REPAIR_TRACE_READY"
+}

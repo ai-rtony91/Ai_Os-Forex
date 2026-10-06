@@ -22,6 +22,54 @@ EVIDENCE_SCHEMA = "AIOS_AUTONOMOUS_JOB_CONTINUATION_EVIDENCE.v1"
 COMPONENT = "autonomous_job_continuation"
 MODE = "DRY_RUN_READ_ONLY"
 
+
+def project_research_observation(observation: dict | None, *, now: float) -> dict:
+    """Narrow owner-reported observation, never dispatch or proof authority.
+
+    A recent heartbeat cannot extend a phase with no useful progress. The
+    publishing lifecycle owner must pin this module in its next exact grant.
+    """
+    import math
+    phases = {"READING": 120, "SCORING": 300, "SAVING": 60, "CHECKING": 60,
+              "ROUTING": 60, "WAITING_FOR_OWNER": 0, "STOPPED": 0}
+    output = {"state": "UNKNOWN", "active_workers": None, "phase": "UNKNOWN",
+              "job": None, "worker_identity": None, "heartbeat_at": None,
+              "useful_progress_at": None, "metadata_saved_at": None,
+              "last_accepted_at": None, "queue_size": None,
+              "observation_kind": "OWNER_REPORTED_NOT_PROCESS_PROBE"}
+    if not isinstance(observation, dict) or not math.isfinite(now):
+        return output
+    if (observation.get("schema") != "S6_RESEARCH_OWNER_OBSERVATION.v1" or
+            observation.get("owner") != "EXISTING_GOAL_MUSCLE98" or
+            observation.get("source_pins_checked") is not True or
+            observation.get("role") != "MARKET" or
+            observation.get("phase") not in phases):
+        return output
+    import re
+    def identity(value):
+        return value if isinstance(value, str) and re.fullmatch(r"[A-Za-z0-9_.:-]{1,128}", value) else None
+    def stamp(value):
+        return value if type(value) in (float, int) and math.isfinite(value) and 0 <= value <= now else None
+    def count(value):
+        return value if type(value) is int and value >= 0 else None
+    phase = observation["phase"]
+    for field in ("heartbeat_at", "useful_progress_at", "metadata_saved_at", "last_accepted_at"):
+        output[field] = stamp(observation.get(field))
+    output.update(phase=phase, job=identity(observation.get("job")),
+                  worker_identity=identity(observation.get("worker_identity")),
+                  queue_size=count(observation.get("queue_size")))
+    fresh = output["heartbeat_at"] is not None and now-output["heartbeat_at"] <= 30
+    useful = output["useful_progress_at"] is not None and now-output["useful_progress_at"] <= phases[phase]
+    if not fresh:
+        output["state"] = "STALE"
+    elif phase in ("STOPPED", "WAITING_FOR_OWNER"):
+        output.update(state=phase, active_workers=0)
+    elif not useful:
+        output["state"] = "STALLED"
+    elif output["worker_identity"] and output["job"] and count(observation.get("active_workers")) == 1:
+        output.update(state="ACTIVE_OWNER_REPORTED", active_workers=1)
+    return output
+
 CONTINUATION_STATES = (
     "BOOT",
     "RECON",
@@ -461,6 +509,10 @@ def _new_state(
         },
         "safe_to_continue_without_human": state == "CONTINUE",
         "stop_reason": stop_reason,
+        "stop_reason_class": (None if state == 'CONTINUE' else
+            'OWNER_ACTION_REQUIRED' if stop_reason in {'approval_required','non_dry_run_task'} else
+            'UNRECOVERABLE_FAILURE' if stop_reason == 'validator_exhaustion' else 'SAFETY_INTEGRITY_BLOCK'),
+        "normal_continue_prompt_required": False,
         "next_safe_action": next_safe_action,
         "safety": evidence.get("safety"),
     }

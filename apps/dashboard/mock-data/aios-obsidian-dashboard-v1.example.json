@@ -1,0 +1,36 @@
+{
+  "source": "demonstration",
+  "mode": "PAPER",
+  "asOf": "2026-08-31T12:00:00.000Z",
+  "freshness": "FRESH",
+  "data": {
+    "label": "DEMONSTRATION DATA — NOT BROKER DATA",
+    "market_status": "OPEN — DEMONSTRATION",
+    "risk_status": "TRADING PAUSE",
+    "broker_status": "NOT CONNECTED",
+    "emergency_halt": "AVAILABLE — NOT ACTIVE",
+    "reporting_currency": "USD",
+    "metrics": {
+      "account_equity": 25000,
+      "realized_pnl_today": 186.4,
+      "unrealized_pnl": -42.15,
+      "open_risk": 0.62,
+      "current_drawdown": 1.8,
+      "active_positions": 2,
+      "win_rate_today": 60,
+      "system_mode": "PAPER"
+    },
+    "periods": [
+      { "period": "TODAY", "value": 186.4, "percent": 0.75, "classification": "REALIZED" },
+      { "period": "WEEK", "value": 412.8, "percent": 1.66, "classification": "REALIZED" },
+      { "period": "MONTH", "value": 920.1, "percent": 3.82, "classification": "REALIZED" },
+      { "period": "YEAR TO DATE", "value": 2140.6, "percent": 9.36, "classification": "REALIZED" },
+      { "period": "ALL TIME", "value": 2684.9, "percent": 12.03, "classification": "REALIZED" }
+    ],
+    "pairs": [
+      { "pair": "EUR/USD", "state": "POSITIVE UNREALIZED", "open_pnl": 34.2, "day_pnl": 88.4, "week_pnl": 161.3, "trades": 8, "wins": 5, "losses": 3, "win_rate": 62.5, "net_r": 2.1, "profit_factor": 1.54, "last_signal": "Research candidate", "freshness": "FRESH" },
+      { "pair": "GBP/USD", "state": "NEGATIVE UNREALIZED", "open_pnl": -76.35, "day_pnl": 22.1, "week_pnl": 94.2, "trades": 6, "wins": 3, "losses": 3, "win_rate": 50, "net_r": 0.8, "profit_factor": 1.18, "last_signal": "Risk review", "freshness": "FRESH" },
+      { "pair": "USD/JPY", "state": "FLAT", "open_pnl": "UNKNOWN", "day_pnl": 75.9, "week_pnl": 157.3, "trades": 7, "wins": 4, "losses": 3, "win_rate": 57.1, "net_r": 1.4, "profit_factor": 1.31, "last_signal": "No active signal", "freshness": "FRESH" }
+    ]
+  }
+}

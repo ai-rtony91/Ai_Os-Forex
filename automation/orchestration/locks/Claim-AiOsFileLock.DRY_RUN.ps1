@@ -1,10 +1,13 @@
 param(
     [string]$WorkerId = "AIOS-WORKER-DRY-RUN",
+    [string]$Zone = "",
+    [string]$AssignedWorker = "",
     [string]$PacketId = "PACKET-DRY-RUN",
     [string]$Lane = "UNKNOWN",
     [string[]]$Paths = @("automation/orchestration/locks/FILE_LOCK_REGISTRY.json"),
     [string]$RegistryPath = (Join-Path $PSScriptRoot "FILE_LOCK_REGISTRY.json"),
     [string]$ApprovalPacketId = "",
+    [string]$ApprovalAuthority = "",
     [string]$ReleaseCondition = "Release at packet stop point or by explicit operator approval.",
     [int]$TtlMinutes = 240,
     [switch]$Apply,
@@ -80,6 +83,64 @@ function ConvertTo-AiOsPathKey {
     return $key.TrimEnd("/")
 }
 
+function ConvertTo-AiOsLockSegment {
+    param([AllowNull()][string]$Value)
+
+    if ([string]::IsNullOrWhiteSpace($Value)) {
+        return ""
+    }
+
+    $segment = $Value.Trim().ToUpperInvariant() -replace "[^A-Z0-9]+", "_"
+    return $segment.Trim("_")
+}
+
+function Get-AiOsCanonicalLockIdentity {
+    param(
+        [AllowNull()][string]$RequestedZone,
+        [Parameter(Mandatory = $true)][string]$RequestedLane,
+        [Parameter(Mandatory = $true)][string]$RequestedWorkerId
+    )
+
+    $derivedZone = ""
+    $workerSegment = ""
+
+    if ($RequestedWorkerId -match "^(EAST|WEST)_OCC_([0-9]+)$") {
+        $derivedZone = $Matches[1]
+        $workerSegment = "OCC$($Matches[2])"
+    }
+    elseif ($RequestedWorkerId -match "^VALIDATOR_([0-9]+)$") {
+        $derivedZone = "VALIDATOR"
+        $workerSegment = $Matches[1]
+    }
+    else {
+        $workerSegment = ConvertTo-AiOsLockSegment -Value $RequestedWorkerId
+    }
+
+    $zoneSegment = ConvertTo-AiOsLockSegment -Value $RequestedZone
+    if ([string]::IsNullOrWhiteSpace($zoneSegment)) {
+        $zoneSegment = $(if ([string]::IsNullOrWhiteSpace($derivedZone)) { "UNKNOWN" } else { $derivedZone })
+    }
+
+    $laneSegment = ConvertTo-AiOsLockSegment -Value $RequestedLane
+    $zoneMismatch = (-not [string]::IsNullOrWhiteSpace($derivedZone) -and $zoneSegment -ne $derivedZone)
+    $isValid = (
+        -not [string]::IsNullOrWhiteSpace($zoneSegment) -and
+        -not [string]::IsNullOrWhiteSpace($laneSegment) -and
+        -not [string]::IsNullOrWhiteSpace($workerSegment) -and
+        -not $zoneMismatch
+    )
+
+    return [pscustomobject]@{
+        lock_id = "LOCK_${zoneSegment}_${laneSegment}_${workerSegment}"
+        zone = $zoneSegment
+        lane = $laneSegment
+        worker = $workerSegment
+        worker_zone = $derivedZone
+        zone_mismatch = $zoneMismatch
+        valid = $isValid
+    }
+}
+
 function Test-AiOsPathOverlap {
     param(
         [string]$LeftPath,
@@ -119,11 +180,35 @@ $policyBlocks = @()
 $reviewRequired = @()
 $now = Get-AiOsUtcNow
 $normalizedPaths = @($Paths | ForEach-Object { ConvertTo-AiOsPathKey -Path $_ } | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) } | Sort-Object -Unique)
+$canonicalIdentity = Get-AiOsCanonicalLockIdentity -RequestedZone $Zone -RequestedLane $Lane -RequestedWorkerId $WorkerId
+
+$sameCanonicalActive = @($activeLocks | Where-Object { $_.lock_id -eq $canonicalIdentity.lock_id })
+if ($sameCanonicalActive.Count -gt 0) {
+    $reviewRequired += [pscustomobject]@{
+        existing_lock_id = $canonicalIdentity.lock_id
+        risk_type = "CANONICAL_LOCK_ALREADY_ACTIVE"
+        recommendation = "Do not create a second ACTIVE record for the same canonical lock identity."
+    }
+}
 
 if ($normalizedPaths.Count -eq 0) {
     $reviewRequired += [pscustomobject]@{
         risk_type = "EMPTY_CLAIM_PATHS"
         recommendation = "Provide at least one non-empty path before claiming a lock."
+    }
+}
+
+if (-not $canonicalIdentity.valid) {
+    $reviewRequired += [pscustomobject]@{
+        risk_type = "INVALID_CANONICAL_LOCK_IDENTITY"
+        recommendation = "Provide a valid zone, lane, and worker identity whose zone assignments agree."
+    }
+}
+
+if ($Apply -and [string]::IsNullOrWhiteSpace($ApprovalPacketId)) {
+    $reviewRequired += [pscustomobject]@{
+        risk_type = "MISSING_APPLY_APPROVAL_PACKET"
+        recommendation = "An explicit approval packet ID is required before registry mutation."
     }
 }
 
@@ -191,14 +276,16 @@ elseif ($collisions.Count -gt 0 -or $reviewRequired.Count -gt 0) {
     $claimStatus = "REVIEW_REQUIRED"
 }
 
-$lockId = "AIOS-LOCK-{0}" -f ([Guid]::NewGuid().ToString("N"))
+$lockId = $canonicalIdentity.lock_id
 $createdAt = ConvertTo-AiOsUtcString -Value $now
 $expiresAt = ConvertTo-AiOsUtcString -Value $now.AddMinutes($TtlMinutes)
 $lock = [pscustomobject]@{
     schema = "AIOS_PACKET_LOCK.v1"
     schema_version = "1.0.0"
     lock_id = $lockId
+    zone = $canonicalIdentity.zone
     worker_id = $WorkerId
+    assigned_worker = $AssignedWorker
     packet_id = $PacketId
     lane = $Lane
     status = "ACTIVE"
@@ -208,7 +295,9 @@ $lock = [pscustomobject]@{
     expires_at_utc = $expiresAt
     release_condition = $ReleaseCondition
     approval_packet_id = $ApprovalPacketId
-    notes = "Persisted only when -Apply is supplied. No worker launch behavior is included."
+    approval_authority = $ApprovalAuthority
+    path_count = $normalizedPaths.Count
+    notes = "Default invocation is non-mutating. Persisted only when -Apply is explicitly supplied under an approved packet. No worker launch behavior is included."
 }
 
 $writesPerformed = 0

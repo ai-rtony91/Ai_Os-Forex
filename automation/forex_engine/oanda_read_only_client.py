@@ -143,9 +143,9 @@ class OandaReadOnlyClient:
             raise ValueError("unsupported_observation_instrument")
         if granularity not in {"M1", "M2", "M5"}:
             raise ValueError("unsupported_observation_granularity")
-        if isinstance(count, bool) or not isinstance(count, int) or not 5 <= count <= 500:
+        if isinstance(count, bool) or not isinstance(count, int) or not 5 <= count <= 501:
             raise ValueError("observation_candle_count_out_of_bounds")
-        if price != "M":
+        if price not in {"M", "MBA"}:
             raise ValueError("unsupported_observation_candle_price")
         return self.request_json(
             "GET",

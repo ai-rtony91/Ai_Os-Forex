@@ -1,0 +1,24 @@
+{
+  "adx": {
+    "completed_candles_only": true,
+    "plus_dm_minus_dm": true,
+    "true_range": true,
+    "wilder_smoothed_di_dx_adx": true
+  },
+  "broker_or_live_api_work": "NO",
+  "indicator_code_hash": "aa2ef8e9a605477f0ae707a5de882bbfe4c04f8fe94f2c07b8e1a188dc87b74c",
+  "macd": {
+    "completed_candles_only": true,
+    "ema_method": "deterministic seeded SMA then EMA recursion",
+    "line_signal_histogram": true
+  },
+  "packet_id": "PKT-EAST-FOREX-MTF-GROSS-EDGE-DISCOVERY-032",
+  "schema": "AIOS_FOREX_SUPERTREND_MACD_ADX.v1",
+  "status": "INDICATOR_FIDELITY_IMPLEMENTED",
+  "supertrend": {
+    "atr_method": "Wilder true range smoothing",
+    "band_carry_forward": true,
+    "completed_candles_only": true,
+    "trend_state_transition": true
+  }
+}

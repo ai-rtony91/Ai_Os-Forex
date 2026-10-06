@@ -155,6 +155,11 @@ def build_continuation_controller(
     handoff_status = str(handoff.get("handoff_status", "blocked"))
     safety = _collect_safety(resume, control, handoff, ready)
     autonomous = _autonomous_job_summary(autonomous_job_state)
+    # This projection never grants signed execution authority.
+    progress_event = str(resume.get('progress_event', '')) in {
+        'unit_finished', 'batch_finished', 'candidate_dead', 'candidate_rejected',
+        'candidate_passed', 'report_written', 'checkpoint_saved', 'stage_finished',
+        'context_turn_ended', 'recoverable_retry', 'next_safe_work_ready'}
 
     if autonomous["state"] == "SOS":
         action_type = "sos_stop"
@@ -196,6 +201,14 @@ def build_continuation_controller(
         productive_available = False
         next_action = "Stop for human review."
         next_safe_action = "Ask Anthony to approve or define the requested AIOS mode before continuing."
+    elif progress_event and autonomous['allowed']:
+        action_type = 'continue_safe_preparation'
+        continuation_status = 'ready_to_prepare_packet'
+        reason_code = 'normal_progress_is_not_a_stop'
+        codex_packet_required = False
+        productive_available = False
+        next_action = 'prepare next currently allowed work'
+        next_safe_action = autonomous['next_safe_action']
     elif handoff_status == "stopped" or next_component == "none":
         action_type = "human_review"
         continuation_status = "human_review_required"
@@ -232,8 +245,17 @@ def build_continuation_controller(
         next_action = "Stop for human review."
         next_safe_action = "Repair bounded executor readiness before continuing."
 
+    stop_class = None
+    if action_type == 'sos_stop':
+        stop_class = 'SAFETY_INTEGRITY_BLOCK'
+    elif action_type == 'human_review':
+        stop_class = 'SAFETY_INTEGRITY_BLOCK' if continuation_status == 'blocked' else 'OWNER_ACTION_REQUIRED'
     return {
         "schema": SCHEMA,
+        'stop_reason_class': stop_class,
+        'safe_preparation_required': stop_class == 'OWNER_ACTION_REQUIRED',
+        'normal_continue_prompt_required': False,
+        'execution_authority_granted': False,
         "continuation_status": continuation_status,
         "current_mode": current_mode,
         "current_goal": current_goal,

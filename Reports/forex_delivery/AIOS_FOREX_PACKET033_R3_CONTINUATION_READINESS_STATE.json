@@ -1,0 +1,38 @@
+{
+  "schema": "AIOS_FOREX_PACKET033_R3_CONTINUATION_READINESS.v1",
+  "packet_id": "PKT-EAST-FOREX-PACKET033-FULL-ATTACK-CONTINUATION-R3",
+  "parent_packet": "PKT-EAST-FOREX-ALL-TIMEFRAME-SCALPING-EDGE-033",
+  "status": "HUMAN_SCALPING_TIMEFRAME_DATA_ACQUISITION_REQUIRED",
+  "updated_utc": "2026-08-31T04:02:35Z",
+  "packet032_hypotheses": 912,
+  "packet032_raw_positive_diagnostics": 263,
+  "packet033_replication_queue": 263,
+  "macd_m30_long_queued": 2,
+  "macd_m30_short_queued": 1,
+  "technique_inventory_count": 82,
+  "human_artifact_root_exists": false,
+  "required_human_artifact_root": ".aios/runtime/forex_scalping_history_human_inbox_v1",
+  "required_instruments": ["EUR_USD", "GBP_USD", "USD_JPY"],
+  "required_granularities": ["S5", "S10", "S15", "S30", "M1", "M2", "M4"],
+  "required_from_utc": "2024-01-01T00:00:00Z",
+  "required_to_utc_exclusive": "2026-08-30T00:00:00Z",
+  "r2_to_r3_scope_mismatch_reconciled": true,
+  "r2_handoff_scope": {
+    "instrument_count": 58,
+    "overall_to_utc": "2026-08-29T03:50:00Z"
+  },
+  "r3_controlling_handoff_scope": {
+    "instrument_count": 3,
+    "overall_to_utc": "2026-08-30T00:00:00Z"
+  },
+  "return_readiness_audit": {
+    "manifest_expected": "AIOS_FOREX_SCALPING_HISTORY_MANIFEST.json",
+    "secret_value_exposed_must_equal": false,
+    "live_host_contacted_must_equal": false,
+    "order_attempted_must_equal": false,
+    "preserve_valid_batches": true,
+    "repair_only_missing_or_corrupt_shards": true,
+    "reload_original_packet033_write_authority_before_research_mutation": true
+  },
+  "same_packet_resume_state": "WAIT_FOR_PHYSICAL_HUMAN_ARTIFACTS_THEN_RESUME_PACKET_033"
+}

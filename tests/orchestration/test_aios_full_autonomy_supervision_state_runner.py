@@ -10,10 +10,10 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 RUNNER = REPO_ROOT / "automation/orchestration/self_development/Get-AiOsFullAutonomySupervisionState.DRY_RUN.ps1"
 
 
-def _current_branch() -> str:
+def _current_branch(repo_root: Path = REPO_ROOT) -> str:
     result = subprocess.run(
         ["git", "branch", "--show-current"],
-        cwd=REPO_ROOT,
+        cwd=repo_root,
         text=True,
         capture_output=True,
         check=True,
@@ -21,8 +21,8 @@ def _current_branch() -> str:
     return result.stdout.strip()
 
 
-def _expected_branch_args() -> tuple[str, ...]:
-    branch = _current_branch()
+def _expected_branch_args(repo_root: Path = REPO_ROOT) -> tuple[str, ...]:
+    branch = _current_branch(repo_root)
     if branch == "main":
         return ()
     return ("-ExpectedBranch", branch)
@@ -97,8 +97,8 @@ def test_runner_defaults_expected_branch_autonomy_level_and_profile() -> None:
     assert '[string]$OperatingProfile = "12H_SUPERVISED"' in text
 
 
-def test_runner_emits_json_only_with_output_json() -> None:
-    result = _run_runner("-OutputJson", *_expected_branch_args(), "-RequestedAutonomyLevel", "LEVEL_5_FULL_AUTONOMY_REQUESTED", "-OperatingProfile", "FULL_AUTONOMY_SUPERVISED")
+def test_runner_emits_json_only_with_output_json(clean_repo_root: Path) -> None:
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), "-RequestedAutonomyLevel", "LEVEL_5_FULL_AUTONOMY_REQUESTED", "-OperatingProfile", "FULL_AUTONOMY_SUPERVISED", cwd=clean_repo_root)
     raw = result.stdout.strip()
     parsed = json.loads(raw)
 
@@ -109,9 +109,9 @@ def test_runner_emits_json_only_with_output_json() -> None:
     assert parsed["safety"]["status"] in {"PASS", "REVIEW_REQUIRED"}
 
 
-def test_runner_accepts_explicit_current_expected_branch() -> None:
-    branch = _current_branch()
-    result = _run_runner("-OutputJson", "-ExpectedBranch", branch, "-RecentValidatorStatus", "PASS")
+def test_runner_accepts_explicit_current_expected_branch(clean_repo_root: Path) -> None:
+    branch = _current_branch(clean_repo_root)
+    result = _run_runner("-OutputJson", "-ExpectedBranch", branch, "-RecentValidatorStatus", "PASS", cwd=clean_repo_root)
     parsed = json.loads(result.stdout)
 
     assert parsed["repo_state"]["expected_branch"] == branch
@@ -119,8 +119,8 @@ def test_runner_accepts_explicit_current_expected_branch() -> None:
     assert parsed["safety"]["status"] in {"PASS", "REVIEW_REQUIRED"}
 
 
-def test_runner_console_mode_includes_expected_sections() -> None:
-    result = _run_runner(*_expected_branch_args(), "-RequestedAutonomyLevel", "LEVEL_4_CONDITIONAL_FULL_AUTONOMY", "-OperatingProfile", "24H_SUPERVISED")
+def test_runner_console_mode_includes_expected_sections(clean_repo_root: Path) -> None:
+    result = _run_runner(*_expected_branch_args(clean_repo_root), "-RequestedAutonomyLevel", "LEVEL_4_CONDITIONAL_FULL_AUTONOMY", "-OperatingProfile", "24H_SUPERVISED", cwd=clean_repo_root)
     out = result.stdout
 
     for section in (
@@ -162,7 +162,7 @@ def test_runner_refuses_dirty_worktree_outside_exact_allowed_files(tmp_path: Pat
     assert parsed["repo_state"]["dirty_allowed_for_full_autonomy_supervision_state_validation"] is False
 
 
-def test_runner_no_write_proof_does_not_create_forbidden_files() -> None:
+def test_runner_no_write_proof_does_not_create_forbidden_files(clean_repo_root: Path) -> None:
     protected_roots = [
         "Reports",
         "telemetry",
@@ -179,7 +179,7 @@ def test_runner_no_write_proof_does_not_create_forbidden_files() -> None:
         "control/review_bridge/codex_reports",
     ]
     before = {root: _file_set(REPO_ROOT, root) for root in protected_roots}
-    result = _run_runner("-OutputJson", *_expected_branch_args())
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), cwd=clean_repo_root)
     after = {root: _file_set(REPO_ROOT, root) for root in protected_roots}
     parsed = json.loads(result.stdout)
 
@@ -198,8 +198,8 @@ def test_runner_no_write_proof_contains_forbidden_delta_detection() -> None:
     assert "automation/orchestration/approval_inbox" in text
 
 
-def test_runner_blocks_runtime_worker_scheduler_daemon_and_mutation_flags() -> None:
-    result = _run_runner("-OutputJson", *_expected_branch_args(), "-RecentValidatorStatus", "PASS")
+def test_runner_blocks_runtime_worker_scheduler_daemon_and_mutation_flags(clean_repo_root: Path) -> None:
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), "-RecentValidatorStatus", "PASS", cwd=clean_repo_root)
     parsed = json.loads(result.stdout)
     blocked = {item["action_id"] for item in parsed["protected_actions"]}
 
@@ -211,8 +211,8 @@ def test_runner_blocks_runtime_worker_scheduler_daemon_and_mutation_flags() -> N
     assert parsed["safety"]["starts_daemon"] is False
 
 
-def test_runner_output_does_not_recommend_protected_or_runtime_commands() -> None:
-    result = _run_runner("-OutputJson", *_expected_branch_args())
+def test_runner_output_does_not_recommend_protected_or_runtime_commands(clean_repo_root: Path) -> None:
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), cwd=clean_repo_root)
     parsed = json.loads(result.stdout)
     encoded = json.dumps(parsed).lower()
 
@@ -220,9 +220,9 @@ def test_runner_output_does_not_recommend_protected_or_runtime_commands() -> Non
         assert blocked not in encoded
 
 
-def test_runner_expected_approval_and_commit_warns_are_review_required_not_fail() -> None:
-    approval = _run_runner("-OutputJson", *_expected_branch_args(), "-RecentValidatorStatus", "APPROVAL_GATE_WARN")
-    commit = _run_runner("-OutputJson", *_expected_branch_args(), "-RecentValidatorStatus", "COMMIT_PACKAGE_WARN")
+def test_runner_expected_approval_and_commit_warns_are_review_required_not_fail(clean_repo_root: Path) -> None:
+    approval = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), "-RecentValidatorStatus", "APPROVAL_GATE_WARN", cwd=clean_repo_root)
+    commit = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), "-RecentValidatorStatus", "COMMIT_PACKAGE_WARN", cwd=clean_repo_root)
 
     for raw in (approval.stdout, commit.stdout):
         parsed = json.loads(raw)
@@ -230,8 +230,8 @@ def test_runner_expected_approval_and_commit_warns_are_review_required_not_fail(
         assert parsed["safety"]["status"] != "FAIL"
 
 
-def test_runner_sos_hard_stop_returns_blocked_without_retry() -> None:
-    result = _run_runner("-OutputJson", *_expected_branch_args(), "-RecentSosStatus", "SOS_HARD_STOP", check=False)
+def test_runner_sos_hard_stop_returns_blocked_without_retry(clean_repo_root: Path) -> None:
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), "-RecentSosStatus", "SOS_HARD_STOP", cwd=clean_repo_root, check=False)
     parsed = json.loads(result.stdout)
 
     assert result.returncode != 0

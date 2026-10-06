@@ -1,0 +1,7 @@
+{
+  "packet_id": "PKT-EAST-FOREX-PROFITABILITY-CLOSURE-021",
+  "reason": "Packet 021 requires official and Practice-history data gates to close before this phase can produce scientific evidence.",
+  "schema": "AIOS_FOREX_LONG_SHORT_RR_OPPORTUNITY_ATLAS_V2_STATE",
+  "state_hash": "43a658adff423b293e75df609df8717617c83a0dcbfac4fdca2073be8b54382a",
+  "status": "NOT_RUN_DATA_BLOCKED"
+}

@@ -150,9 +150,9 @@ STALE_REVIEW_PATH_TERMS = (
 )
 EVIDENCE_DATE_PATTERN = re.compile(r"(20\d{2})[-_]?(\d{2})[-_]?(\d{2})")
 ACTIVE_CLASSIFICATIONS = {
-    "ACTIVE_CURRENT",
-    "ACTIVE_APPROVAL_REQUIRED",
-    "ACTIVE_BLOCKER",
+    "active_current",
+    "active_approval_required",
+    "active_blocker",
 }
 SAMPLE_OR_EXAMPLE_TERMS = (
     "sample",
@@ -160,16 +160,6 @@ SAMPLE_OR_EXAMPLE_TERMS = (
     ".example.",
     "_example",
     "sample_resume_proof",
-)
-COMPLETED_TERMS = (
-    "/done/",
-    "/processed/",
-    "/approved/",
-    "status: approved",
-    "status\": \"approved",
-    "status\": \"completed",
-    "approval_status\": \"completed",
-    "approved_sample_only",
 )
 
 
@@ -248,16 +238,16 @@ def _iter_explicit_values(item: dict[str, Any]) -> list[str]:
 
 def _status_category(status: str, path: str, text: str) -> str:
     if status == "BLOCKED":
-        return "NOISE"
+        return "noise"
     if status == "NEEDS_APPROVAL":
-        return "NOISE"
+        return "noise"
     if status == "WARN":
-        return "NOISE"
+        return "noise"
     if status == "PASS":
-        return "COMPLETED_RECORD"
+        return "completed_record"
     if path.startswith("relay/"):
-        return "HISTORICAL_EVIDENCE"
-    return "NOISE"
+        return "historical_evidence"
+    return "noise"
 
 
 def _extract_evidence_dates(path: str, text: str) -> list[datetime.date]:
@@ -286,11 +276,6 @@ def _is_projection_evidence(path: str) -> bool:
 def _is_sample_or_example(path: str, text: str) -> bool:
     haystack = f"{path} {text}"
     return any(term in haystack for term in SAMPLE_OR_EXAMPLE_TERMS)
-
-
-def _is_completed_record(path: str, text: str) -> bool:
-    haystack = f"{path} {text}"
-    return any(term in haystack for term in COMPLETED_TERMS)
 
 
 def _has_current_unsafe_terms(path: str, text: str) -> bool:
@@ -350,15 +335,13 @@ def classify_item(item: dict[str, Any]) -> dict[str, str]:
     raw_status = str(item.get("status") or item.get("state") or item.get("supervisor_status") or "").upper()
 
     if _is_sample_or_example(path, text):
-        return {"status": "WARN", "category": "SAMPLE_OR_EXAMPLE"}
-    if _is_completed_record(path, text):
-        return {"status": "PASS", "category": "COMPLETED_RECORD"}
+        return {"status": "WARN", "category": "reference_evidence"}
     if _is_projection_evidence(path):
-        return {"status": "WARN", "category": "NOISE"}
+        return {"status": "WARN", "category": "reference_evidence"}
     if _is_reference_evidence(path):
-        return {"status": "WARN", "category": "NOISE"}
+        return {"status": "WARN", "category": "reference_evidence"}
     if _is_historical_evidence(path, text):
-        return {"status": "WARN", "category": "HISTORICAL_EVIDENCE"}
+        return {"status": "WARN", "category": "historical_evidence"}
 
     explicit = _explicit_status(item)
     fallback = _fallback_status(path, text, _normalize_token(raw_status))
@@ -366,9 +349,9 @@ def classify_item(item: dict[str, Any]) -> dict[str, str]:
     category = _status_category(status, path, text)
 
     if "morning" in path:
-        category = "NOISE"
+        category = "noise"
     if "validator" in path:
-        category = "NOISE"
+        category = "noise"
 
     return {"status": status, "category": category}
 
@@ -390,6 +373,28 @@ def _item_from_path(path: Path, repo_root: Path) -> dict[str, Any]:
         "summary": str(summary)[:220],
         "source_path": rel,
         "next_safe_action": str(payload.get("next_safe_action") or "Review this evidence before protected action."),
+    }
+
+
+def _glue_approval_card_from_item(item: dict[str, Any]) -> dict[str, Any] | None:
+    source_path = str(item.get("source_path") or "")
+    if not source_path.startswith("control/operation_glue/"):
+        return None
+    if item.get("status") not in {"NEEDS_APPROVAL", "BLOCKED"}:
+        return None
+    recommended_action = str(item.get("next_safe_action") or "Review Glue approval before execution.")
+    title = str(item.get("title") or "Operation Glue Approval")
+    return {
+        "title": title,
+        "file": source_path,
+        "packet_id": str(item.get("id") or source_path or "UNKNOWN"),
+        "requested_action": title,
+        "status": str(item.get("status") or "NEEDS_APPROVAL"),
+        "risk": str(item.get("risk_level") or "UNKNOWN"),
+        "classification": "active_approval_required",
+        "why_it_matters": "Human review is required before mutation or protected action.",
+        "recommended_action": recommended_action,
+        "source_path": source_path,
     }
 
 
@@ -593,21 +598,30 @@ def build_bridge_state(repo_root: str | Path, branch: str = "UNKNOWN", git_statu
     previous_bridge = load_json_safely(root / OUTPUTS["bridge_state"])
     latest_report, latest_report_path = load_latest_night_report(root)
 
-    completed = [item for item in items if item["category"] == "COMPLETED_RECORD" or item["status"] == "PASS"]
-    historical = [item for item in items if item["category"] == "HISTORICAL_EVIDENCE"]
-    samples = [item for item in items if item["category"] == "SAMPLE_OR_EXAMPLE"]
-    noise = [item for item in items if item["category"] == "NOISE"]
+    completed = [item for item in items if item["status"] == "PASS"]
+    historical = [item for item in items if item["category"] == "historical_evidence"]
+    samples = [item for item in items if item["category"] == "reference_evidence"]
+    noise = [item for item in items if item["category"] == "noise"]
     worker_notes = [item for item in items if item["category"] in {"worker_output", "validator_output", "relay_input"}]
     repo_state = build_repo_state(branch, git_status)
     active_current = [_active_current_from_report(latest_report, latest_report_path)] if latest_report else []
     active_decision_cards, approval_noise = _canonical_approval_cards(root, latest_report or {})
+    operation_glue_cards = [
+        card
+        for card in (_glue_approval_card_from_item(item) for item in items)
+        if card is not None
+    ]
+    approval_cards_by_path: dict[str, dict[str, Any]] = {}
+    for card in [*active_decision_cards, *operation_glue_cards]:
+        approval_cards_by_path[str(card.get("source_path") or card.get("file") or "")] = card
+    approval_cards = list(approval_cards_by_path.values())
     current_blockers = _current_blockers_from_report(latest_report or {}, latest_report_path) if latest_report else []
     noise_cards = [*approval_noise, *samples[:8], *noise[:8]]
     detail_only_blocked = [item for item in items if item["status"] == "BLOCKED" and item["category"] not in ACTIVE_CLASSIFICATIONS]
 
     if current_blockers:
         status = "BLOCKED"
-    elif active_decision_cards:
+    elif approval_cards:
         status = "NEEDS_APPROVAL"
     elif latest_report and _normalize_token(latest_report.get("supervisor_status")) == "READY":
         status = "READY"
@@ -622,7 +636,7 @@ def build_bridge_state(repo_root: str | Path, branch: str = "UNKNOWN", git_statu
     )
     must_see: list[str] = []
     must_see.extend(item["summary"] for item in current_blockers[:3])
-    must_see.extend(card["recommended_action"] for card in active_decision_cards[:3])
+    must_see.extend(card["recommended_action"] for card in approval_cards[:3])
     if not must_see:
         must_see.append("No current blockers found; review active decisions before APPLY.")
 
@@ -647,9 +661,9 @@ def build_bridge_state(repo_root: str | Path, branch: str = "UNKNOWN", git_statu
         "relay_items_seen": [item for item in items if item["source_path"].startswith("relay/")],
         "items_completed": completed,
         "items_blocked": current_blockers,
-        "items_needing_approval": active_decision_cards,
+        "items_needing_approval": approval_cards,
         "active_current": active_current,
-        "active_decision_cards": active_decision_cards,
+        "active_decision_cards": approval_cards,
         "current_blockers": current_blockers,
         "historical_evidence": historical,
         "sample_or_example": samples,
@@ -660,7 +674,7 @@ def build_bridge_state(repo_root: str | Path, branch: str = "UNKNOWN", git_statu
         "repo_state": repo_state,
         "wins_count": len(completed),
         "blocked_count": len(current_blockers),
-        "approval_needed_count": len(active_decision_cards),
+        "approval_needed_count": len(approval_cards),
         "worker_notes_count": len(worker_notes),
         "next_safe_action": (
             "Resolve current blockers before continuation."

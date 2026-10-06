@@ -1,0 +1,17 @@
+{
+  "compounding": "DISABLED",
+  "execution_status": "EXECUTION_LAYER_DECOMPOSITION_COMPLETE",
+  "exit_status": "EXIT_CAPTURE_FRONTIER_COMPLETE",
+  "information_status": "PREDICTIVE_INFORMATION_SURFACE_COMPLETE",
+  "ledger_status": "FROZEN_EVENT_LEDGER_BUILT",
+  "live_profitability": "NOT_REACHED",
+  "m5_data_sufficiency": "CURRENT_M5_HISTORY_INSUFFICIENT_BUT_NO_POSITIVE_INFORMATION",
+  "oracle_status": "ORACLE_FEASIBILITY_BOUND_COMPLETE",
+  "packet_id": "PKT-EAST-FOREX-EDGE-EXISTENCE-CLOSURE-031",
+  "paper_profitability": "NOT_REACHED",
+  "pre_terminal_audit_status": "PASS",
+  "receipt_status": "PACKET030_RECEIPTS_RECONCILED_WITH_M5_RECEIPT_LIMITATION",
+  "schema": "AIOS_FOREX_EDGE_EXISTENCE_CONTROLLER_V1_STATE",
+  "state_hash": "51ccbfcd300f84004195bb86f402fe4beaa22877453f345e947863fe45b43d83",
+  "status": "NO_CAUSAL_EDGE_BRANCH_JUSTIFIED"
+}

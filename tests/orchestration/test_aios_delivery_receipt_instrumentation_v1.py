@@ -84,15 +84,15 @@ def load_runner():
     spec=importlib.util.spec_from_file_location("receipt_runner",path); module=importlib.util.module_from_spec(spec)
     assert spec.loader; spec.loader.exec_module(module); return module
 
-def test_cli_loader_rejects_duplicate_keys_symlink_oversize_and_outside(tmp_path):
+def test_cli_loader_rejects_duplicate_keys_symlink_oversize_and_outside(tmp_path, monkeypatch):
     runner=load_runner(); inside=runner.ROOT/".aios/runtime/loader-tests"; inside.mkdir(parents=True,exist_ok=True)
     duplicate=inside/"duplicate.json"; duplicate.write_text('{"x":1,"x":2}')
     with pytest.raises(ValueError,match="duplicate"): runner.load_json(duplicate)
     oversized=inside/"oversized.json"; oversized.write_bytes(b" "*(runner.MAX_BYTES+1))
     with pytest.raises(ValueError,match="oversized"): runner.load_json(oversized)
-    target=inside/"target.json"; target.write_text('{}'); link=inside/"link.json"
-    if link.exists() or link.is_symlink(): link.unlink()
-    link.symlink_to(target)
+    target=inside/"target.json"; target.write_text('{}'); link=inside/"link.json"; link.write_text("{}")
+    original_is_symlink = Path.is_symlink
+    monkeypatch.setattr(Path, "is_symlink", lambda self: self == link or original_is_symlink(self))
     with pytest.raises(ValueError,match="symlink"): runner.load_json(link)
     outside=tmp_path/"outside.json"; outside.write_text('{}')
     with pytest.raises(ValueError,match="outside"): runner.load_json(outside)

@@ -1,0 +1,2732 @@
+{
+  "causal_completed_bar_only": true,
+  "centralized_volume_claims": false,
+  "code_fingerprint": "14ab6761460090335e7eac6ef0a5e6ddd17598d46be4c1f4a5493c2df1ef7df6",
+  "contract_only_count": 76,
+  "contract_registry_hash": "336c66146a17abab2c3c073638f39b64e853b7c3dbea8d3488aaebde41554f09",
+  "data_ineligible_contract_count": 14,
+  "implemented_primitive_count": 6,
+  "implemented_primitives": [
+    "ema_pullback",
+    "opening_range_breakout",
+    "bollinger_reversion",
+    "rsi_reversion",
+    "session_vwap_proxy",
+    "spread_percentile_filter"
+  ],
+  "inventory_contract_count": 82,
+  "mechanical": true,
+  "order_book_claims": false,
+  "packet_id": "PKT-EAST-FOREX-ALL-TIMEFRAME-SCALPING-EDGE-033",
+  "schema": "AIOS_FOREX_SCALPING_TECHNIQUE_FIDELITY.v1",
+  "status": "SCALPING_TECHNIQUE_CONTRACTS_COMPLETE_PRE_DATA",
+  "subjective_chart_drawing": false,
+  "technique_contracts": [
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "trend-strength floor",
+        "spread ceiling",
+        "no entry before indicator warmup",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "A",
+      "family_name": "TREND_PULLBACK_CONTINUATION",
+      "fingerprint": "c44fe9904717760235d7a5d7b40d2f86e1396456a6c067706d9d48acd86d3dcf",
+      "implementation_status": "IMPLEMENTED_PRIMITIVE",
+      "objective_entry_rules": [
+        "signal definition: A1_EMA_PULLBACK",
+        "completed-bar trend state matches direction",
+        "completed-bar pullback returns to the frozen trend zone"
+      ],
+      "objective_exit_rules": [
+        "opposite completed-bar trend state",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "A1_EMA_PULLBACK"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "trend-strength floor",
+        "spread ceiling",
+        "no entry before indicator warmup",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "A",
+      "family_name": "TREND_PULLBACK_CONTINUATION",
+      "fingerprint": "2e85b997944f77e165291eaab418d0afb40dc228441564ef518a6a94ce081fe3",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: A2_EMA_RIBBON_PULLBACK",
+        "completed-bar trend state matches direction",
+        "completed-bar pullback returns to the frozen trend zone"
+      ],
+      "objective_exit_rules": [
+        "opposite completed-bar trend state",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "A2_EMA_RIBBON_PULLBACK"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "trend-strength floor",
+        "spread ceiling",
+        "no entry before indicator warmup",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "A",
+      "family_name": "TREND_PULLBACK_CONTINUATION",
+      "fingerprint": "80b23cf803cd6eda0da96a336dedc25f55dacd2e9063039c8e258ecc969362fa",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: A3_SUPERTREND_PULLBACK",
+        "completed-bar trend state matches direction",
+        "completed-bar pullback returns to the frozen trend zone"
+      ],
+      "objective_exit_rules": [
+        "opposite completed-bar trend state",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "A3_SUPERTREND_PULLBACK"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "trend-strength floor",
+        "spread ceiling",
+        "no entry before indicator warmup",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "A",
+      "family_name": "TREND_PULLBACK_CONTINUATION",
+      "fingerprint": "21b59123837175db6b3ac416e9315e5ab64302967952c37f0aa018fe906c4c51",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: A4_MACD_CONTINUATION",
+        "completed-bar trend state matches direction",
+        "completed-bar pullback returns to the frozen trend zone"
+      ],
+      "objective_exit_rules": [
+        "opposite completed-bar trend state",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "A4_MACD_CONTINUATION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "trend-strength floor",
+        "spread ceiling",
+        "no entry before indicator warmup",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "A",
+      "family_name": "TREND_PULLBACK_CONTINUATION",
+      "fingerprint": "b92bda2a44937d232518ab9b65c7e49c38910b92e5c8313061eb223a9a74c0a6",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: A5_ADX_DMI_CONTINUATION",
+        "completed-bar trend state matches direction",
+        "completed-bar pullback returns to the frozen trend zone"
+      ],
+      "objective_exit_rules": [
+        "opposite completed-bar trend state",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "A5_ADX_DMI_CONTINUATION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "trend-strength floor",
+        "spread ceiling",
+        "no entry before indicator warmup",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "A",
+      "family_name": "TREND_PULLBACK_CONTINUATION",
+      "fingerprint": "0e7382e1ac5b5a91c4e7fe4470eb4fcb8e62b654dbe972517d147f7436eab2ae",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: A6_HTF_LTF_PULLBACK",
+        "completed-bar trend state matches direction",
+        "completed-bar pullback returns to the frozen trend zone"
+      ],
+      "objective_exit_rules": [
+        "opposite completed-bar trend state",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "A6_HTF_LTF_PULLBACK"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "minimum range observations",
+        "spread ceiling",
+        "no same-bar lookahead",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "B",
+      "family_name": "MOMENTUM_BREAKOUT",
+      "fingerprint": "7052e2dcc9ffd676f48379a01417e0eee9459bd110640d406bbf9ec23bf1977d",
+      "implementation_status": "IMPLEMENTED_PRIMITIVE",
+      "objective_entry_rules": [
+        "signal definition: B1_OPENING_RANGE_BREAKOUT",
+        "completed bar closes beyond the frozen causal range",
+        "breakout direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar returns inside the frozen range",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "B1_OPENING_RANGE_BREAKOUT"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "minimum range observations",
+        "spread ceiling",
+        "no same-bar lookahead",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "B",
+      "family_name": "MOMENTUM_BREAKOUT",
+      "fingerprint": "57261de909b14c97ebff979e60bb482c20ad5f0f7dc7b987503aa4784ddb5e4f",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: B2_SESSION_RANGE_BREAKOUT",
+        "completed bar closes beyond the frozen causal range",
+        "breakout direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar returns inside the frozen range",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "B2_SESSION_RANGE_BREAKOUT"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "minimum range observations",
+        "spread ceiling",
+        "no same-bar lookahead",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "B",
+      "family_name": "MOMENTUM_BREAKOUT",
+      "fingerprint": "e27480359667f6a733ca8dbb386b73c429bfffca3ca8ed1240b18f1e9ed9522b",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: B3_DONCHIAN_BREAKOUT",
+        "completed bar closes beyond the frozen causal range",
+        "breakout direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar returns inside the frozen range",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "B3_DONCHIAN_BREAKOUT"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "minimum range observations",
+        "spread ceiling",
+        "no same-bar lookahead",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "B",
+      "family_name": "MOMENTUM_BREAKOUT",
+      "fingerprint": "5e05ff109c989002f53aa3ae7fe7f4167d45fc1cb0675b60216626d2398bd170",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: B4_INSIDE_BAR_BREAKOUT",
+        "completed bar closes beyond the frozen causal range",
+        "breakout direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar returns inside the frozen range",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "B4_INSIDE_BAR_BREAKOUT"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "minimum range observations",
+        "spread ceiling",
+        "no same-bar lookahead",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "B",
+      "family_name": "MOMENTUM_BREAKOUT",
+      "fingerprint": "411b64df1f262b2c51e88338691901d97b864e5db129ecd14caa0b8ec5d4a42a",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: B5_SQUEEZE_EXPANSION",
+        "completed bar closes beyond the frozen causal range",
+        "breakout direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar returns inside the frozen range",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "B5_SQUEEZE_EXPANSION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "minimum range observations",
+        "spread ceiling",
+        "no same-bar lookahead",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "B",
+      "family_name": "MOMENTUM_BREAKOUT",
+      "fingerprint": "260082745703a57243e74817e03bbedf4c398a0c925f938ad19832d6c812421d",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: B6_MACD_ACCELERATION",
+        "completed bar closes beyond the frozen causal range",
+        "breakout direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar returns inside the frozen range",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "B6_MACD_ACCELERATION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "minimum range observations",
+        "spread ceiling",
+        "no same-bar lookahead",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "B",
+      "family_name": "MOMENTUM_BREAKOUT",
+      "fingerprint": "16388ac27481d4017959a9d9d8a7aff42bd037c969da439a0e680dae38e3170e",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: B7_SUPERTREND_FLIP",
+        "completed bar closes beyond the frozen causal range",
+        "breakout direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar returns inside the frozen range",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "B7_SUPERTREND_FLIP"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "minimum range observations",
+        "spread ceiling",
+        "no same-bar lookahead",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "B",
+      "family_name": "MOMENTUM_BREAKOUT",
+      "fingerprint": "4a22d9c1b6d294ecd0a2d92545aef8505ee1a0019c91d361a26f433023032c96",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: B8_ADX_EXPANSION",
+        "completed bar closes beyond the frozen causal range",
+        "breakout direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar returns inside the frozen range",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "B8_ADX_EXPANSION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "range-regime gate",
+        "spread ceiling",
+        "trend-regime exclusion",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_RANGE_GATE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "C",
+      "family_name": "RANGE_MEAN_REVERSION",
+      "fingerprint": "0addc5f2f991b82f3bf3ee92c60c86b7af27f4d5271577459735e0d6fa983204",
+      "implementation_status": "IMPLEMENTED_PRIMITIVE",
+      "objective_entry_rules": [
+        "signal definition: C1_BOLLINGER_REVERSION",
+        "completed bar reaches the frozen range extreme",
+        "reversion state confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen center or opposite band",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "C1_BOLLINGER_REVERSION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "range-regime gate",
+        "spread ceiling",
+        "trend-regime exclusion",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_RANGE_GATE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "C",
+      "family_name": "RANGE_MEAN_REVERSION",
+      "fingerprint": "863f74573e47b14bfcedb632a23ff6359886ca7a1a785c134fb6218799bcabdd",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: C2_KELTNER_REVERSION",
+        "completed bar reaches the frozen range extreme",
+        "reversion state confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen center or opposite band",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "C2_KELTNER_REVERSION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "range-regime gate",
+        "spread ceiling",
+        "trend-regime exclusion",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_RANGE_GATE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "C",
+      "family_name": "RANGE_MEAN_REVERSION",
+      "fingerprint": "0a06f46405b8f75c3d59e67d9d6dc695bb5a6bde6b1774ff6c913f6712a7f492",
+      "implementation_status": "IMPLEMENTED_PRIMITIVE",
+      "objective_entry_rules": [
+        "signal definition: C3_RSI_REVERSION",
+        "completed bar reaches the frozen range extreme",
+        "reversion state confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen center or opposite band",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "C3_RSI_REVERSION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "range-regime gate",
+        "spread ceiling",
+        "trend-regime exclusion",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_RANGE_GATE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "C",
+      "family_name": "RANGE_MEAN_REVERSION",
+      "fingerprint": "18e3864fa7e36d8fbcf719a91f3778b859e5107ab0ae2390125e0c42fbbe9861",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: C4_STOCHASTIC_REVERSION",
+        "completed bar reaches the frozen range extreme",
+        "reversion state confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen center or opposite band",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "C4_STOCHASTIC_REVERSION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "range-regime gate",
+        "spread ceiling",
+        "trend-regime exclusion",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_RANGE_GATE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "C",
+      "family_name": "RANGE_MEAN_REVERSION",
+      "fingerprint": "d46614febca7ecc4290302a9931bd65de002eb944d038aa62e61b03b0fe08b68",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: C5_RSI_STOCHASTIC_CONFIRMATION",
+        "completed bar reaches the frozen range extreme",
+        "reversion state confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen center or opposite band",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "C5_RSI_STOCHASTIC_CONFIRMATION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "range-regime gate",
+        "spread ceiling",
+        "trend-regime exclusion",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_RANGE_GATE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "C",
+      "family_name": "RANGE_MEAN_REVERSION",
+      "fingerprint": "e20eb15b58af07365b6665d6d14f2ef1568a21d799a7840d807b4f9fbe1105b6",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: C6_SESSION_VWAP_REVERSION",
+        "completed bar reaches the frozen range extreme",
+        "reversion state confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen center or opposite band",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "C6_SESSION_VWAP_REVERSION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "range-regime gate",
+        "spread ceiling",
+        "trend-regime exclusion",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_RANGE_GATE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "C",
+      "family_name": "RANGE_MEAN_REVERSION",
+      "fingerprint": "48e57e501635ad672418f77ddac4f620d5768fb753ea097379ac9c688eb535a8",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: C7_CAUSAL_RANGE_BOUNDARY_REVERSION",
+        "completed bar reaches the frozen range extreme",
+        "reversion state confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen center or opposite band",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "C7_CAUSAL_RANGE_BOUNDARY_REVERSION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "range-regime gate",
+        "spread ceiling",
+        "trend-regime exclusion",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_RANGE_GATE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "C",
+      "family_name": "RANGE_MEAN_REVERSION",
+      "fingerprint": "d70fe074f7263c9402eba2f5e6c11eac696713b765e16081d625584bb6b7e2d0",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: C8_SHORT_HORIZON_REVERSAL",
+        "completed bar reaches the frozen range extreme",
+        "reversion state confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen center or opposite band",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "C8_SHORT_HORIZON_REVERSAL"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native order-book or trade-tape data required",
+        "venue identity required",
+        "no OHLC volume substitution",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "ORDER_BOOK_OR_TRADE_TAPE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "L",
+      "family_name": "ORDER_FLOW_DOM_FOOTPRINT",
+      "fingerprint": "7c14f1627665871b559a0d94b8a992e0df69b93f7b0f9b27ed6b11a1d7808e8b",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: CVD",
+        "completed order-book or trade-tape snapshot satisfies the frozen imbalance rule",
+        "flow direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed flow state normalizes or reverses",
+        "frozen stop, target, or maximum holding interval"
+      ],
+      "technique_id": "CVD"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal session reset",
+        "price-count proxy only",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_PRICE_COUNT_PROXY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "D",
+      "family_name": "VWAP_AVERAGE_PRICE_SCALPING",
+      "fingerprint": "fe1ebf898619376a0550479886bca96decac06d3ea025664073bf1a8b47d5011",
+      "implementation_status": "IMPLEMENTED_PRIMITIVE",
+      "objective_entry_rules": [
+        "signal definition: D1_SESSION_VWAP_PULLBACK_CONTINUATION",
+        "completed bar crosses or rejects the causal session average",
+        "distance threshold matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen average-price objective",
+        "frozen stop or session boundary"
+      ],
+      "technique_id": "D1_SESSION_VWAP_PULLBACK_CONTINUATION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal session reset",
+        "price-count proxy only",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_PRICE_COUNT_PROXY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "D",
+      "family_name": "VWAP_AVERAGE_PRICE_SCALPING",
+      "fingerprint": "40a8fc7f24565ae393d60ecd85128a67c2ddc6b67b29298533b9683b3036cc37",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: D2_SESSION_VWAP_MEAN_REVERSION",
+        "completed bar crosses or rejects the causal session average",
+        "distance threshold matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen average-price objective",
+        "frozen stop or session boundary"
+      ],
+      "technique_id": "D2_SESSION_VWAP_MEAN_REVERSION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal session reset",
+        "price-count proxy only",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_PRICE_COUNT_PROXY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "D",
+      "family_name": "VWAP_AVERAGE_PRICE_SCALPING",
+      "fingerprint": "457ab78be2c22ad200b7f034d3a01bdf7ba51a86715ff8ce29cf0b7ae538601d",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: D3_ANCHORED_VWAP_CAUSAL",
+        "completed bar crosses or rejects the causal session average",
+        "distance threshold matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen average-price objective",
+        "frozen stop or session boundary"
+      ],
+      "technique_id": "D3_ANCHORED_VWAP_CAUSAL"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal session reset",
+        "price-count proxy only",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_PRICE_COUNT_PROXY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "D",
+      "family_name": "VWAP_AVERAGE_PRICE_SCALPING",
+      "fingerprint": "64e1e69882f45410d2cedc5d2dd05d891dd7e015434f996cb34d73929364d8a5",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: D4_VWAP_MACD_ADX_CONFIRMATION",
+        "completed bar crosses or rejects the causal session average",
+        "distance threshold matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar reaches the frozen average-price objective",
+        "frozen stop or session boundary"
+      ],
+      "technique_id": "D4_VWAP_MACD_ADX_CONFIRMATION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native order-book or trade-tape data required",
+        "venue identity required",
+        "no OHLC volume substitution",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "ORDER_BOOK_OR_TRADE_TAPE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "L",
+      "family_name": "ORDER_FLOW_DOM_FOOTPRINT",
+      "fingerprint": "3c2dc1e924e8cd125aea63e93189e9c2c0bc46dacdd46eab07c336d2873e57da",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: DEPTH_OF_MARKET_SCALPING",
+        "completed order-book or trade-tape snapshot satisfies the frozen imbalance rule",
+        "flow direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed flow state normalizes or reverses",
+        "frozen stop, target, or maximum holding interval"
+      ],
+      "technique_id": "DEPTH_OF_MARKET_SCALPING"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "objective pivot window",
+        "minimum range threshold",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "E",
+      "family_name": "PRICE_ACTION_MARKET_STRUCTURE",
+      "fingerprint": "d28a718390a59f6ce77c2879eaac1eae0c9a8490329a83a2ce7734a65a1ec005",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: E1_SWING_BREAK_RETEST",
+        "completed bars satisfy the frozen swing or candle-pattern definition",
+        "level confirmation matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar invalidates the frozen structure",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "E1_SWING_BREAK_RETEST"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "objective pivot window",
+        "minimum range threshold",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "E",
+      "family_name": "PRICE_ACTION_MARKET_STRUCTURE",
+      "fingerprint": "0d6ec9ec6f011c58b7cce1b11c763569c32c212b8d04721fe7b05cd00390f7a0",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: E2_PRIOR_LEVEL_BOUNCE",
+        "completed bars satisfy the frozen swing or candle-pattern definition",
+        "level confirmation matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar invalidates the frozen structure",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "E2_PRIOR_LEVEL_BOUNCE"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "objective pivot window",
+        "minimum range threshold",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "E",
+      "family_name": "PRICE_ACTION_MARKET_STRUCTURE",
+      "fingerprint": "286b9b15d6f0b8c3c0589d782277fce330eb8454c3fe2de85473e5c11c7e25cb",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: E3_PIVOT_REACTION",
+        "completed bars satisfy the frozen swing or candle-pattern definition",
+        "level confirmation matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar invalidates the frozen structure",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "E3_PIVOT_REACTION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "objective pivot window",
+        "minimum range threshold",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "E",
+      "family_name": "PRICE_ACTION_MARKET_STRUCTURE",
+      "fingerprint": "5d751f5c5141558c1dad666dbdb608d86b05763428762fe8f2c642efc83998f6",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: E4_FALSE_BREAKOUT_REVERSAL",
+        "completed bars satisfy the frozen swing or candle-pattern definition",
+        "level confirmation matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar invalidates the frozen structure",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "E4_FALSE_BREAKOUT_REVERSAL"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "objective pivot window",
+        "minimum range threshold",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "E",
+      "family_name": "PRICE_ACTION_MARKET_STRUCTURE",
+      "fingerprint": "d8d0aad3c662690f2ce98667cee78006f77836c1f94424a94397375d859dedf5",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: E5_LIQUIDITY_SWEEP_PROXY",
+        "completed bars satisfy the frozen swing or candle-pattern definition",
+        "level confirmation matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar invalidates the frozen structure",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "E5_LIQUIDITY_SWEEP_PROXY"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "objective pivot window",
+        "minimum range threshold",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "E",
+      "family_name": "PRICE_ACTION_MARKET_STRUCTURE",
+      "fingerprint": "405eb120c9a0751de920ba1ee0556e1d684dcd98934d9452317e346af04a0b5f",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: E6_INSIDE_BAR",
+        "completed bars satisfy the frozen swing or candle-pattern definition",
+        "level confirmation matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar invalidates the frozen structure",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "E6_INSIDE_BAR"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "objective pivot window",
+        "minimum range threshold",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "E",
+      "family_name": "PRICE_ACTION_MARKET_STRUCTURE",
+      "fingerprint": "ed74a95e7598bdceae3bc63eed89adefc7308cae51a87387f417aa4ac1223dd4",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: E7_ENGULFING_BAR",
+        "completed bars satisfy the frozen swing or candle-pattern definition",
+        "level confirmation matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar invalidates the frozen structure",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "E7_ENGULFING_BAR"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "objective pivot window",
+        "minimum range threshold",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "E",
+      "family_name": "PRICE_ACTION_MARKET_STRUCTURE",
+      "fingerprint": "dd32849fc8c49eadc750617145e5bc33e0cebe6023b44e150040ccc50ba0a1f2",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: E8_PIN_BAR_PROXY",
+        "completed bars satisfy the frozen swing or candle-pattern definition",
+        "level confirmation matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar invalidates the frozen structure",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "E8_PIN_BAR_PROXY"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "objective pivot window",
+        "minimum range threshold",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "E",
+      "family_name": "PRICE_ACTION_MARKET_STRUCTURE",
+      "fingerprint": "de0b3f82d795316238f27d632d860d2a202bc6acc6c910419e1fec259b48e380",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: E9_IMBALANCE_FVG_PROXY",
+        "completed bars satisfy the frozen swing or candle-pattern definition",
+        "level confirmation matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed bar invalidates the frozen structure",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "E9_IMBALANCE_FVG_PROXY"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "UTC calendar only",
+        "rollover exclusion",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_UTC_CALENDAR",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "F",
+      "family_name": "SESSION_TIME_OF_DAY",
+      "fingerprint": "2457d12bde7b8bb8de923f3b31f14debac294df0ffc6fe3d3329b773ab3b7673",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: F1_ASIA_RANGE",
+        "completed bar falls inside the frozen UTC session window",
+        "session rule confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen session window closes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "F1_ASIA_RANGE"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "UTC calendar only",
+        "rollover exclusion",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_UTC_CALENDAR",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "F",
+      "family_name": "SESSION_TIME_OF_DAY",
+      "fingerprint": "7b5204a5fb7e27bba86c5a6c83cfa3d831594d9e1f597518ea941900e13e8a00",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: F2_LONDON_OPEN",
+        "completed bar falls inside the frozen UTC session window",
+        "session rule confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen session window closes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "F2_LONDON_OPEN"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "UTC calendar only",
+        "rollover exclusion",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_UTC_CALENDAR",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "F",
+      "family_name": "SESSION_TIME_OF_DAY",
+      "fingerprint": "91634fb80fb3526850552e88ea0a8c1c58140747cc3f03e96631ee27ee1616cd",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: F3_NEW_YORK_OPEN",
+        "completed bar falls inside the frozen UTC session window",
+        "session rule confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen session window closes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "F3_NEW_YORK_OPEN"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "UTC calendar only",
+        "rollover exclusion",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_UTC_CALENDAR",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "F",
+      "family_name": "SESSION_TIME_OF_DAY",
+      "fingerprint": "e282d00fbdaa174efcdafed83327833a7cd1fb78f910874ee701c5d3b18fa512",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: F4_LONDON_NY_OVERLAP",
+        "completed bar falls inside the frozen UTC session window",
+        "session rule confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen session window closes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "F4_LONDON_NY_OVERLAP"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "UTC calendar only",
+        "rollover exclusion",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_UTC_CALENDAR",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "F",
+      "family_name": "SESSION_TIME_OF_DAY",
+      "fingerprint": "4068f95b06cc8e2d20a8c0df8845d412aa1c105c330d611be7df450a44f1f44f",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: F5_OPENING_RANGE_30_60_90",
+        "completed bar falls inside the frozen UTC session window",
+        "session rule confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen session window closes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "F5_OPENING_RANGE_30_60_90"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "UTC calendar only",
+        "rollover exclusion",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_UTC_CALENDAR",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "F",
+      "family_name": "SESSION_TIME_OF_DAY",
+      "fingerprint": "d96d2dd67f43a1e9ffad803abc319fe6f9e943f3ea7869a62366e19129e9f547",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: F6_SESSION_TRANSITION",
+        "completed bar falls inside the frozen UTC session window",
+        "session rule confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen session window closes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "F6_SESSION_TRANSITION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "UTC calendar only",
+        "rollover exclusion",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_UTC_CALENDAR",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "F",
+      "family_name": "SESSION_TIME_OF_DAY",
+      "fingerprint": "e3fbdbb0a0fdfba17f4646c32769ed9e1732fee40ba113bc7eb78585c8fca27f",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: F7_DAY_OF_WEEK",
+        "completed bar falls inside the frozen UTC session window",
+        "session rule confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen session window closes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "F7_DAY_OF_WEEK"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "UTC calendar only",
+        "rollover exclusion",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_UTC_CALENDAR",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "F",
+      "family_name": "SESSION_TIME_OF_DAY",
+      "fingerprint": "8a3329e8bee4bc984afc289faf9df8f5f621ca0e1240ea4c52c51491bef36e68",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: F8_MONTH_QUARTER_END",
+        "completed bar falls inside the frozen UTC session window",
+        "session rule confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen session window closes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "F8_MONTH_QUARTER_END"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "UTC calendar only",
+        "rollover exclusion",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_UTC_CALENDAR",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "F",
+      "family_name": "SESSION_TIME_OF_DAY",
+      "fingerprint": "b798eb1414d10cef82affcd5c311e4d92b511ef846fe9472586a6d7d8e4593bf",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: F9_ROLLOVER_AVOIDANCE",
+        "completed bar falls inside the frozen UTC session window",
+        "session rule confirms the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen session window closes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "F9_ROLLOVER_AVOIDANCE"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native order-book or trade-tape data required",
+        "venue identity required",
+        "no OHLC volume substitution",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "ORDER_BOOK_OR_TRADE_TAPE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "L",
+      "family_name": "ORDER_FLOW_DOM_FOOTPRINT",
+      "fingerprint": "cf8e31af3bc0eb2e245ad203f5d73f173363075dd07867bd2fb23b99cd4c8839",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: FOOTPRINT_IMBALANCE",
+        "completed order-book or trade-tape snapshot satisfies the frozen imbalance rule",
+        "flow direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed flow state normalizes or reverses",
+        "frozen stop, target, or maximum holding interval"
+      ],
+      "technique_id": "FOOTPRINT_IMBALANCE"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal rolling percentile",
+        "spread ceiling",
+        "abnormal-gap abstention",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_SPREAD",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "G",
+      "family_name": "VOLATILITY_LIQUIDITY",
+      "fingerprint": "a19534725afb68dc7b66b67ec355725117e94b27ad423735ee931f3ade7acdda",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: G1_ATR_PERCENTILE",
+        "completed-bar volatility or spread statistic crosses the frozen threshold",
+        "state transition matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed-bar volatility state normalizes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "G1_ATR_PERCENTILE"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal rolling percentile",
+        "spread ceiling",
+        "abnormal-gap abstention",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_SPREAD",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "G",
+      "family_name": "VOLATILITY_LIQUIDITY",
+      "fingerprint": "699eed67d692765b2256608ea1254f2bcb4c2fd33880f7ec8a497ca3039a4655",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: G2_RV_COMPRESSION_EXPANSION",
+        "completed-bar volatility or spread statistic crosses the frozen threshold",
+        "state transition matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed-bar volatility state normalizes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "G2_RV_COMPRESSION_EXPANSION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal rolling percentile",
+        "spread ceiling",
+        "abnormal-gap abstention",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_SPREAD",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "G",
+      "family_name": "VOLATILITY_LIQUIDITY",
+      "fingerprint": "c2a0e350b429f55853ebaeb650b048ca97b48ca02e7353392dd8f1f32190a633",
+      "implementation_status": "IMPLEMENTED_PRIMITIVE",
+      "objective_entry_rules": [
+        "signal definition: G3_SPREAD_PERCENTILE",
+        "completed-bar volatility or spread statistic crosses the frozen threshold",
+        "state transition matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed-bar volatility state normalizes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "G3_SPREAD_PERCENTILE"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal rolling percentile",
+        "spread ceiling",
+        "abnormal-gap abstention",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_SPREAD",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "G",
+      "family_name": "VOLATILITY_LIQUIDITY",
+      "fingerprint": "95926ab0b4c55b4bf1472074b03a9b121125354744efd37de277172dcf54917d",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: G4_SPREAD_COMPRESSION_IMPULSE",
+        "completed-bar volatility or spread statistic crosses the frozen threshold",
+        "state transition matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed-bar volatility state normalizes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "G4_SPREAD_COMPRESSION_IMPULSE"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal rolling percentile",
+        "spread ceiling",
+        "abnormal-gap abstention",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_SPREAD",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "G",
+      "family_name": "VOLATILITY_LIQUIDITY",
+      "fingerprint": "b65faa4543328f46ddb324b97b6a8f898fbbc8ce4893923ced00aed609ff2084",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: G5_PRICE_COUNT_ACCELERATION_PROXY",
+        "completed-bar volatility or spread statistic crosses the frozen threshold",
+        "state transition matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed-bar volatility state normalizes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "G5_PRICE_COUNT_ACCELERATION_PROXY"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal rolling percentile",
+        "spread ceiling",
+        "abnormal-gap abstention",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_SPREAD",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "G",
+      "family_name": "VOLATILITY_LIQUIDITY",
+      "fingerprint": "3bc69b1c9c334b41e9d48d0bfeb196d253b25f40c48b717a92f281b3ddf873db",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: G6_VOL_NORMALIZED_BREAKOUT",
+        "completed-bar volatility or spread statistic crosses the frozen threshold",
+        "state transition matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed-bar volatility state normalizes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "G6_VOL_NORMALIZED_BREAKOUT"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal rolling percentile",
+        "spread ceiling",
+        "abnormal-gap abstention",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_SPREAD",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "G",
+      "family_name": "VOLATILITY_LIQUIDITY",
+      "fingerprint": "af8f12492cac63bf79de81b68a851da919fa1dba217e2ba95393d03e2fd103d5",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: G7_VOL_NORMALIZED_PULLBACK",
+        "completed-bar volatility or spread statistic crosses the frozen threshold",
+        "state transition matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed-bar volatility state normalizes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "G7_VOL_NORMALIZED_PULLBACK"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "causal rolling percentile",
+        "spread ceiling",
+        "abnormal-gap abstention",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OHLC_BID_ASK_SPREAD",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "G",
+      "family_name": "VOLATILITY_LIQUIDITY",
+      "fingerprint": "9106c30ebe3580372ca7e856a1eb66f9b976a7dd2dc5841912b537d81b9fac63",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: G8_ABNORMAL_SPREAD_GAP_NO_TRADE",
+        "completed-bar volatility or spread statistic crosses the frozen threshold",
+        "state transition matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed-bar volatility state normalizes",
+        "frozen stop, target, or maximum holding bars"
+      ],
+      "technique_id": "G8_ABNORMAL_SPREAD_GAP_NO_TRADE"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "official timestamps only",
+        "pre-event abstention",
+        "spread normalization gate",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OFFICIAL_EVENT_TIMESTAMPS",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "H",
+      "family_name": "EVENT_DRIVEN_SCALPING",
+      "fingerprint": "7e290db829db5e6960fab2da16c935295966904a2a4ab51ebd7933f87a0aaccc",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: H1_CB_CONTINUATION",
+        "completed bar follows a frozen official-event timestamp window",
+        "post-event state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen post-event window closes",
+        "frozen stop, target, or spread-abstention gate"
+      ],
+      "technique_id": "H1_CB_CONTINUATION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "official timestamps only",
+        "pre-event abstention",
+        "spread normalization gate",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OFFICIAL_EVENT_TIMESTAMPS",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "H",
+      "family_name": "EVENT_DRIVEN_SCALPING",
+      "fingerprint": "e981f6f0c218b3c14ae77bbf76cb6e6b3877b1fb20431e287089c3f5c59e7335",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: H2_CB_REVERSAL",
+        "completed bar follows a frozen official-event timestamp window",
+        "post-event state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen post-event window closes",
+        "frozen stop, target, or spread-abstention gate"
+      ],
+      "technique_id": "H2_CB_REVERSAL"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "official timestamps only",
+        "pre-event abstention",
+        "spread normalization gate",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OFFICIAL_EVENT_TIMESTAMPS",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "H",
+      "family_name": "EVENT_DRIVEN_SCALPING",
+      "fingerprint": "370754452308a2318e7b43b9053ae23fc8cb1dbe7dc98da198c3fe384f89592c",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: H3_BLS_BREAKOUT",
+        "completed bar follows a frozen official-event timestamp window",
+        "post-event state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen post-event window closes",
+        "frozen stop, target, or spread-abstention gate"
+      ],
+      "technique_id": "H3_BLS_BREAKOUT"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "official timestamps only",
+        "pre-event abstention",
+        "spread normalization gate",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OFFICIAL_EVENT_TIMESTAMPS",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "H",
+      "family_name": "EVENT_DRIVEN_SCALPING",
+      "fingerprint": "4cca947ece5145259aa2aee18598286a90394b759c72127e4c12b0e7c1198c6c",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: H4_BLS_FAILED_BREAKOUT",
+        "completed bar follows a frozen official-event timestamp window",
+        "post-event state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen post-event window closes",
+        "frozen stop, target, or spread-abstention gate"
+      ],
+      "technique_id": "H4_BLS_FAILED_BREAKOUT"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "official timestamps only",
+        "pre-event abstention",
+        "spread normalization gate",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OFFICIAL_EVENT_TIMESTAMPS",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "H",
+      "family_name": "EVENT_DRIVEN_SCALPING",
+      "fingerprint": "381a7c1822e16df6271bd5e315a5ac50f73d2d2efdecd868d9a203bfbab034fc",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: H5_POST_RELEASE_SPREAD_NORMALIZATION",
+        "completed bar follows a frozen official-event timestamp window",
+        "post-event state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen post-event window closes",
+        "frozen stop, target, or spread-abstention gate"
+      ],
+      "technique_id": "H5_POST_RELEASE_SPREAD_NORMALIZATION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "official timestamps only",
+        "pre-event abstention",
+        "spread normalization gate",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "OFFICIAL_EVENT_TIMESTAMPS",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "H",
+      "family_name": "EVENT_DRIVEN_SCALPING",
+      "fingerprint": "ceed5d43ad199d82cff8139d52c3778db593292c31ba361c5af60adfa990408b",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: H6_EVENT_RISK_ABSTENTION",
+        "completed bar follows a frozen official-event timestamp window",
+        "post-event state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "frozen post-event window closes",
+        "frozen stop, target, or spread-abstention gate"
+      ],
+      "technique_id": "H6_EVENT_RISK_ABSTENTION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "synchronized pair timestamp",
+        "currency concentration cap",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "MULTIPAIR_SYNCHRONIZED_OHLC",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "I",
+      "family_name": "RELATIVE_STRENGTH_CROSS_SECTIONAL",
+      "fingerprint": "cbc598748d6699eaf32d31c78e1af44e7de1594d655a9f4de8d1b42e88f39e26",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: I1_CURRENCY_STRENGTH_RANK",
+        "completed synchronized bars produce the frozen currency rank",
+        "selected pair matches the isolated strong/weak side"
+      ],
+      "objective_exit_rules": [
+        "completed synchronized rank reverses or converges",
+        "frozen stop, target, or rebalance boundary"
+      ],
+      "technique_id": "I1_CURRENCY_STRENGTH_RANK"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "synchronized pair timestamp",
+        "currency concentration cap",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "MULTIPAIR_SYNCHRONIZED_OHLC",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "I",
+      "family_name": "RELATIVE_STRENGTH_CROSS_SECTIONAL",
+      "fingerprint": "4366f26d1574cd433dcba1ef6473c1d8210ad99a90b8560b1632c048d4904a52",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: I2_STRONGEST_WEAKEST_PAIR",
+        "completed synchronized bars produce the frozen currency rank",
+        "selected pair matches the isolated strong/weak side"
+      ],
+      "objective_exit_rules": [
+        "completed synchronized rank reverses or converges",
+        "frozen stop, target, or rebalance boundary"
+      ],
+      "technique_id": "I2_STRONGEST_WEAKEST_PAIR"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "synchronized pair timestamp",
+        "currency concentration cap",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "MULTIPAIR_SYNCHRONIZED_OHLC",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "I",
+      "family_name": "RELATIVE_STRENGTH_CROSS_SECTIONAL",
+      "fingerprint": "6506b73b2f9d379055d3f2c6f98dcc41581b98330754d29004cfdae82dc6fcaf",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: I3_MOMENTUM_RANK",
+        "completed synchronized bars produce the frozen currency rank",
+        "selected pair matches the isolated strong/weak side"
+      ],
+      "objective_exit_rules": [
+        "completed synchronized rank reverses or converges",
+        "frozen stop, target, or rebalance boundary"
+      ],
+      "technique_id": "I3_MOMENTUM_RANK"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "synchronized pair timestamp",
+        "currency concentration cap",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "MULTIPAIR_SYNCHRONIZED_OHLC",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "I",
+      "family_name": "RELATIVE_STRENGTH_CROSS_SECTIONAL",
+      "fingerprint": "b0145d7d6c600270df357cf35e7d18da1e7580dc430da4e6b70714d35367438e",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: I4_CARRY_POLICY_RANK",
+        "completed synchronized bars produce the frozen currency rank",
+        "selected pair matches the isolated strong/weak side"
+      ],
+      "objective_exit_rules": [
+        "completed synchronized rank reverses or converges",
+        "frozen stop, target, or rebalance boundary"
+      ],
+      "technique_id": "I4_CARRY_POLICY_RANK"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "synchronized pair timestamp",
+        "currency concentration cap",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "MULTIPAIR_SYNCHRONIZED_OHLC",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "I",
+      "family_name": "RELATIVE_STRENGTH_CROSS_SECTIONAL",
+      "fingerprint": "ffbbec6d87057ed13ea47aaeac81022b89e7d32f5f3ab6d16eebe1716e886190",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: I5_SHORT_HORIZON_CROSS_SECTIONAL_REVERSAL",
+        "completed synchronized bars produce the frozen currency rank",
+        "selected pair matches the isolated strong/weak side"
+      ],
+      "objective_exit_rules": [
+        "completed synchronized rank reverses or converges",
+        "frozen stop, target, or rebalance boundary"
+      ],
+      "technique_id": "I5_SHORT_HORIZON_CROSS_SECTIONAL_REVERSAL"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "synchronized multi-leg bars",
+        "leg concentration cap",
+        "combined spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "SYNCHRONIZED_MULTI_LEG_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "J",
+      "family_name": "RELATIVE_VALUE_PAIR_SPREAD",
+      "fingerprint": "c85c1f31df1060d8c8607eca0e98f4ad9291590eba0b7eaef133a6ab093235ab",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: J1_ROLLING_RESIDUAL_REVERSION",
+        "completed synchronized legs produce a residual beyond the frozen threshold",
+        "residual direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed residual reaches the frozen convergence level",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "J1_ROLLING_RESIDUAL_REVERSION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "synchronized multi-leg bars",
+        "leg concentration cap",
+        "combined spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "SYNCHRONIZED_MULTI_LEG_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "J",
+      "family_name": "RELATIVE_VALUE_PAIR_SPREAD",
+      "fingerprint": "1d3340c4b9633e534b41b96a13a7c6340e02a4b10d5514496bb97659a7a00732",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: J2_CROSS_RATE_RESIDUAL",
+        "completed synchronized legs produce a residual beyond the frozen threshold",
+        "residual direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed residual reaches the frozen convergence level",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "J2_CROSS_RATE_RESIDUAL"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "synchronized multi-leg bars",
+        "leg concentration cap",
+        "combined spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "SYNCHRONIZED_MULTI_LEG_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "J",
+      "family_name": "RELATIVE_VALUE_PAIR_SPREAD",
+      "fingerprint": "5267df3cbebdd5a306d6489a5199483497c1f6a355ffd9a7c3c5964670e8495c",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: J3_CURRENCY_FACTOR_RESIDUAL",
+        "completed synchronized legs produce a residual beyond the frozen threshold",
+        "residual direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed residual reaches the frozen convergence level",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "J3_CURRENCY_FACTOR_RESIDUAL"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "synchronized multi-leg bars",
+        "leg concentration cap",
+        "combined spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "SYNCHRONIZED_MULTI_LEG_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "J",
+      "family_name": "RELATIVE_VALUE_PAIR_SPREAD",
+      "fingerprint": "5b1c18e5dd9b701cd0c37fb2f0bb77b70ece8a17dc291bca2c12ff3b4eba8ed0",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: J4_TRIANGULAR_CONSISTENCY_RESIDUAL",
+        "completed synchronized legs produce a residual beyond the frozen threshold",
+        "residual direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed residual reaches the frozen convergence level",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "J4_TRIANGULAR_CONSISTENCY_RESIDUAL"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "synchronized multi-leg bars",
+        "leg concentration cap",
+        "combined spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": true,
+      "data_requirement": "SYNCHRONIZED_MULTI_LEG_BID_ASK",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "PRE_DATA_CONTRACT_READY",
+      "family_id": "J",
+      "family_name": "RELATIVE_VALUE_PAIR_SPREAD",
+      "fingerprint": "1b6f126e17452edfc4b9fe8ea67d375c8764107dfe6fdfd892044003f1e6dfec",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: J5_CORRELATED_PAIR_DIVERGENCE",
+        "completed synchronized legs produce a residual beyond the frozen threshold",
+        "residual direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed residual reaches the frozen convergence level",
+        "frozen stop or maximum holding bars"
+      ],
+      "technique_id": "J5_CORRELATED_PAIR_DIVERGENCE"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native second-or-subminute data required",
+        "latency sensitivity gate",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "SECOND_OR_SUBMINUTE_HISTORY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "K",
+      "family_name": "MICROSTRUCTURE_PROXIES",
+      "fingerprint": "229f4cb3fc0fa67a853aacf61ea738baa39821481c44a9d898e8d43b00828542",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: K1_MICRO_MOMENTUM_BURST",
+        "completed granular bars satisfy the frozen microstructure-proxy rule",
+        "proxy state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed granular proxy decays beyond the frozen half-life",
+        "frozen stop, target, or latency boundary"
+      ],
+      "technique_id": "K1_MICRO_MOMENTUM_BURST"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native second-or-subminute data required",
+        "latency sensitivity gate",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "SECOND_OR_SUBMINUTE_HISTORY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "K",
+      "family_name": "MICROSTRUCTURE_PROXIES",
+      "fingerprint": "205ce85ad14e7dadd44b39cdf58a36aceae989aa6afdfebbea0b4fb9ec0c2e2e",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: K2_MICRO_REVERSAL",
+        "completed granular bars satisfy the frozen microstructure-proxy rule",
+        "proxy state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed granular proxy decays beyond the frozen half-life",
+        "frozen stop, target, or latency boundary"
+      ],
+      "technique_id": "K2_MICRO_REVERSAL"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native second-or-subminute data required",
+        "latency sensitivity gate",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "SECOND_OR_SUBMINUTE_HISTORY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "K",
+      "family_name": "MICROSTRUCTURE_PROXIES",
+      "fingerprint": "ed489304b4dc1776e78f35b59a2fa16c63fee2f662b3b506735278ed1cd43937",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: K3_SPREAD_EXPECTED_MOVE_RATIO",
+        "completed granular bars satisfy the frozen microstructure-proxy rule",
+        "proxy state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed granular proxy decays beyond the frozen half-life",
+        "frozen stop, target, or latency boundary"
+      ],
+      "technique_id": "K3_SPREAD_EXPECTED_MOVE_RATIO"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native second-or-subminute data required",
+        "latency sensitivity gate",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "SECOND_OR_SUBMINUTE_HISTORY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "K",
+      "family_name": "MICROSTRUCTURE_PROXIES",
+      "fingerprint": "b000f7bf70f6a6aa912d8197e3625fa75c4383c81628e66bc75919713313c406",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: K4_PRICE_COUNT_ACCELERATION",
+        "completed granular bars satisfy the frozen microstructure-proxy rule",
+        "proxy state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed granular proxy decays beyond the frozen half-life",
+        "frozen stop, target, or latency boundary"
+      ],
+      "technique_id": "K4_PRICE_COUNT_ACCELERATION"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native second-or-subminute data required",
+        "latency sensitivity gate",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "SECOND_OR_SUBMINUTE_HISTORY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "K",
+      "family_name": "MICROSTRUCTURE_PROXIES",
+      "fingerprint": "1f7c944fb177f363de0c01238dbf80a95326723d1abb82592220fc3905e6e892",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: K5_MICRO_RANGE_BREAKOUT",
+        "completed granular bars satisfy the frozen microstructure-proxy rule",
+        "proxy state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed granular proxy decays beyond the frozen half-life",
+        "frozen stop, target, or latency boundary"
+      ],
+      "technique_id": "K5_MICRO_RANGE_BREAKOUT"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native second-or-subminute data required",
+        "latency sensitivity gate",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "SECOND_OR_SUBMINUTE_HISTORY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "K",
+      "family_name": "MICROSTRUCTURE_PROXIES",
+      "fingerprint": "f26e8b1455ba2e407095cb82ee5a430ad53a82755822ebfad07b3d7747562c3a",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: K6_MICRO_FALSE_BREAKOUT",
+        "completed granular bars satisfy the frozen microstructure-proxy rule",
+        "proxy state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed granular proxy decays beyond the frozen half-life",
+        "frozen stop, target, or latency boundary"
+      ],
+      "technique_id": "K6_MICRO_FALSE_BREAKOUT"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native second-or-subminute data required",
+        "latency sensitivity gate",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "SECOND_OR_SUBMINUTE_HISTORY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "K",
+      "family_name": "MICROSTRUCTURE_PROXIES",
+      "fingerprint": "c5f934775092556558fee303a7b9508d87cdfc7dcc96bebb9e2cc53203f9b619",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: K7_SIGNAL_HALF_LIFE",
+        "completed granular bars satisfy the frozen microstructure-proxy rule",
+        "proxy state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed granular proxy decays beyond the frozen half-life",
+        "frozen stop, target, or latency boundary"
+      ],
+      "technique_id": "K7_SIGNAL_HALF_LIFE"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native second-or-subminute data required",
+        "latency sensitivity gate",
+        "spread ceiling",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "SECOND_OR_SUBMINUTE_HISTORY",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "K",
+      "family_name": "MICROSTRUCTURE_PROXIES",
+      "fingerprint": "bc38cc950a3f10fdf15f340086e17a2d26c779aa7784d0fd8ea236ad5c28a8ed",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: K8_LATENCY_SENSITIVITY",
+        "completed granular bars satisfy the frozen microstructure-proxy rule",
+        "proxy state matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed granular proxy decays beyond the frozen half-life",
+        "frozen stop, target, or latency boundary"
+      ],
+      "technique_id": "K8_LATENCY_SENSITIVITY"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native order-book or trade-tape data required",
+        "venue identity required",
+        "no OHLC volume substitution",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "ORDER_BOOK_OR_TRADE_TAPE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "L",
+      "family_name": "ORDER_FLOW_DOM_FOOTPRINT",
+      "fingerprint": "020126906b4970a2d4509acb3911e4896b495cd0e4912b93a4ef6072f4ac1018",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: ORDER_BOOK_IMBALANCE",
+        "completed order-book or trade-tape snapshot satisfies the frozen imbalance rule",
+        "flow direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed flow state normalizes or reverses",
+        "frozen stop, target, or maximum holding interval"
+      ],
+      "technique_id": "ORDER_BOOK_IMBALANCE"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native order-book or trade-tape data required",
+        "venue identity required",
+        "no OHLC volume substitution",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "ORDER_BOOK_OR_TRADE_TAPE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "L",
+      "family_name": "ORDER_FLOW_DOM_FOOTPRINT",
+      "fingerprint": "92d1e8f94bb32656a2d2cc5ee76e7f2a7c63da5a3a99e3e2b468233d6b4c5817",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: TAPE_FLOW",
+        "completed order-book or trade-tape snapshot satisfies the frozen imbalance rule",
+        "flow direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed flow state normalizes or reverses",
+        "frozen stop, target, or maximum holding interval"
+      ],
+      "technique_id": "TAPE_FLOW"
+    },
+    {
+      "completed_bar_only": true,
+      "contract_version": "1.0.0",
+      "controls": [
+        "native order-book or trade-tape data required",
+        "venue identity required",
+        "no OHLC volume substitution",
+        "frozen parameter registry",
+        "negative results preserved"
+      ],
+      "data_eligible": false,
+      "data_requirement": "ORDER_BOOK_OR_TRADE_TAPE",
+      "direction_isolation_required": true,
+      "directions": [
+        "LONG",
+        "SHORT"
+      ],
+      "eligibility_status": "INELIGIBLE_REQUIRED_DATA_NOT_FROZEN",
+      "family_id": "L",
+      "family_name": "ORDER_FLOW_DOM_FOOTPRINT",
+      "fingerprint": "c208c09e1558fc5342c2c49251737811d54d8090bdacf5be9ddb168106f753a5",
+      "implementation_status": "CONTRACT_ONLY_NOT_IMPLEMENTED",
+      "objective_entry_rules": [
+        "signal definition: VOLUME_PROFILE",
+        "completed order-book or trade-tape snapshot satisfies the frozen imbalance rule",
+        "flow direction matches the isolated side"
+      ],
+      "objective_exit_rules": [
+        "completed flow state normalizes or reverses",
+        "frozen stop, target, or maximum holding interval"
+      ],
+      "technique_id": "VOLUME_PROFILE"
+    }
+  ]
+}

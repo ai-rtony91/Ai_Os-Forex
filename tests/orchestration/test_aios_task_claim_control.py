@@ -75,9 +75,16 @@ def test_traversal_and_symlink_escape_rejected(tmp_path):
         claim_control.normalize_claim(claim(tmp_path, claimed_paths=["../escape"]))
     outside = tmp_path.parent / "outside"
     outside.mkdir(exist_ok=True)
-    (tmp_path / "link").symlink_to(outside, target_is_directory=True)
+    original_resolve = claim_control.Path.resolve
+    def fake_resolve(self, *args, **kwargs):
+        if self.as_posix().casefold().endswith("/link/file.py"):
+            return (outside / "file.py").resolve(strict=False)
+        return original_resolve(self, *args, **kwargs)
+    monkeypatch = pytest.MonkeyPatch()
+    monkeypatch.setattr(claim_control.Path, "resolve", fake_resolve)
     with pytest.raises(claim_control.ClaimError, match="escapes"):
         claim_control.normalize_claim(claim(tmp_path, claimed_paths=["link/file.py"]))
+    monkeypatch.undo()
 
 
 def test_disjoint_claims_are_accepted_atomically(tmp_path):

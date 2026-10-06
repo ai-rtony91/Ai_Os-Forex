@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 
 import automation.forex_engine.forex_p1_multipair_normalized_paper_campaign_v1 as module
 from automation.forex_engine.oanda_read_only_client import OandaReadOnlyClient
+from scripts.forex_delivery import run_forex_p1_multipair_normalized_paper_campaign_v1 as script
 
 
 def _candle(time: str, open_: float, high: float, low: float, close: float) -> dict:
@@ -90,6 +91,14 @@ class TransientPricingClient(FakeClient):
         return super().pricing(instruments)
 
 
+def _accepted_evaluation(*_args, **_kwargs) -> dict:
+    return {"accepted": True, "no_trade_reasons": [], "candidate": object(), "signal": object()}
+
+
+def _blocked_evaluation(*reasons: str) -> dict:
+    return {"accepted": False, "no_trade_reasons": list(reasons), "candidate": object(), "signal": None}
+
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -112,6 +121,7 @@ def test_normalized_campaign_opens_then_closes_and_records_trade(monkeypatch):
     monkeypatch.setattr(module, "_acquire_lock", lambda *args, **kwargs: object())
     monkeypatch.setattr(module, "_touch_lock", lambda *args, **kwargs: True)
     monkeypatch.setattr(module, "_release_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(module, "evaluate_supertrend_pullback", lambda *args, **kwargs: _accepted_evaluation())
     monkeypatch.setattr(
         module,
         "replay_candidate",
@@ -235,6 +245,289 @@ def test_startup_backoff_sequence_is_bounded():
     assert [module._data_unavailable_backoff_seconds(i) for i in range(1, 7)] == [30, 60, 120, 240, 300, 300]
 
 
+def test_zero_signal_segment_completes_and_emits_markdown_report(monkeypatch):
+    client = FakeClient()
+    runtime_root = _runtime_root("zero_signal_complete")
+    monkeypatch.setattr(module, "_acquire_lock", lambda *args, **kwargs: object())
+    monkeypatch.setattr(module, "_touch_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(module, "_release_lock", lambda *args, **kwargs: True)
+
+    def evaluate(candles, strategy_config=None):
+        symbol = candles[-1].symbol
+        if symbol == "EURUSD":
+            return _blocked_evaluation("NO_TRADE: volatility_below_atr_threshold")
+        return _blocked_evaluation("NO_TRADE: weak_candle_body", "NO_TRADE: close_confirmation_missing")
+
+    monkeypatch.setattr(module, "evaluate_supertrend_pullback", evaluate)
+
+    state = module.run_normalized_multipair_campaign(
+        client,
+        cycles=1,
+        reviewer_identity="Human Owner Anthony",
+        runtime_root=runtime_root,
+        now=lambda: datetime(2026, 8, 1, 10, 30, tzinfo=timezone.utc),
+        sleep=lambda *_args, **_kwargs: None,
+    )
+
+    report = (runtime_root / "AIOS_FOREX_MULTIPAIR_NORMALIZED_PAPER_CAMPAIGN_REPORT.md").read_text(encoding="utf-8")
+    assert state["campaign_status"] == "RUNNING"
+    assert state["segment_status"] == "COMPLETE"
+    assert state["segment_stop_reason"] == "BOUNDED_CYCLE_LIMIT"
+    assert state["segment_cycles_requested"] == 1
+    assert state["segment_cycles_completed"] == 1
+    assert state["latest_cycle_summary_reason"] == "NO_QUALIFYING_CANDIDATE"
+    assert state["latest_rejection_reason"] == "volatility_filter_failed"
+    assert state["segment_rejection_reason_counts"] == {"pullback_not_confirmed": 1, "volatility_filter_failed": 1}
+    assert "SEGMENT_STATUS: COMPLETE" in report
+    assert "SEGMENT_STOP_REASON: BOUNDED_CYCLE_LIMIT" in report
+    assert "SEGMENT_REJECTION_REASON_COUNTS" in report
+    assert "unknown_no_signal" not in report
+
+
+def test_unsupported_instrument_candidate_is_skipped_and_segment_completes(monkeypatch, tmp_path):
+    client = FakeClient()
+    runtime_root = tmp_path / "unsupported_instrument_skip"
+    runtime_root.mkdir(parents=True, exist_ok=True)
+    monkeypatch.setattr(module, "_acquire_lock", lambda *args, **kwargs: object())
+    monkeypatch.setattr(module, "_touch_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(module, "_release_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(module, "evaluate_supertrend_pullback", lambda *args, **kwargs: _accepted_evaluation())
+    from automation.forex_engine import forex_p1_supervised_paper_session_v1 as session_module
+
+    monkeypatch.setattr(
+        module,
+        "replay_candidate",
+        lambda instrument, candles, snapshot, strategy_config=None: (
+            {
+                "strategy_id": module.STRATEGY_ID,
+                "strategy_name": module.STRATEGY_ID,
+                "protocol_version": module.PROTOCOL_VERSION,
+                "instrument": instrument.instrument,
+                "base_currency": instrument.base_currency,
+                "quote_currency": instrument.quote_currency,
+                "direction": "BUY",
+                "timeframe": "M5",
+                "display_precision": instrument.display_precision,
+                "pip_location": instrument.pip_location,
+                "pip_size": instrument.pip_size,
+                "entry_price": 1.1000,
+                "stop_price": 1.0990,
+                "target_price": 1.1020,
+                "risk_distance": 0.0010,
+                "risk_pips": 10.0,
+                "planned_reward_risk": 2.0,
+                "planned_target_reward_risk": 2.0,
+                "units": 100,
+                "entry_rationale": "test",
+                "candidate_id": f"cand-{instrument.instrument}",
+                "status": "PAPER_ELIGIBLE",
+                "sanitized": True,
+                "current": True,
+                "mode": "PAPER_ONLY",
+                "paper_only": True,
+                "quote_currency": instrument.quote_currency,
+                "realized_pl_usd": "NOT_COMPUTABLE",
+            }
+        ),
+    )
+
+    call_state = {"count": 0}
+
+    real_open_paper_session = session_module.open_paper_session
+
+    def fake_open_paper_session(snapshot, candidate, reviewer_identity, as_of_utc, runtime_path):
+        call_state["count"] += 1
+        if call_state["count"] == 1:
+            raise ValueError("unsupported_instrument")
+        return real_open_paper_session(snapshot, candidate, reviewer_identity, as_of_utc, runtime_path)
+
+    def fake_run_pipeline(input_path: Path, ledger_path: Path, state_path: Path, report_path: Path) -> dict:
+        record = json.loads(input_path.read_text(encoding="utf-8"))
+        ledger = {
+            "version": module.VERSION,
+            "records": [record],
+            "broker_write_performed": False,
+            "practice_order_performed": False,
+            "live_trade_performed": False,
+            "money_movement_performed": False,
+            "credentials_persisted": False,
+        }
+        ledger_path.write_text(json.dumps(ledger, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        state = {
+            "version": module.VERSION,
+            "pipeline_status": "COMPLETE",
+            "input_records": 1,
+            "accepted_records": 1,
+            "rejected_records": 0,
+            "duplicate_records": 0,
+            "rejections": [],
+            "qualifying_trade_count": 1,
+            "p1_status_before": "NO_EVIDENCE",
+            "p1_status_after": "READY_FOR_P1_REVIEW",
+            "profitability_proven": True,
+            "ready_for_p2_review": True,
+            "next_safe_action": "none",
+            "p1_evaluator_result": {"trade_count": 1, "win_rate": 1.0, "gross_profit": 1.0, "gross_loss": 0.0, "net_pl": 1.0, "expectancy_per_trade": 1.0, "profit_factor": None, "maximum_drawdown": 0.0, "consecutive_losses": 0},
+            "broker_write_performed": False,
+            "practice_order_performed": False,
+            "live_trade_performed": False,
+            "money_movement_performed": False,
+            "credentials_persisted": False,
+        }
+        state_path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        report_path.write_text("# ok\n", encoding="utf-8")
+        return state
+
+    monkeypatch.setattr(module, "open_paper_session", fake_open_paper_session)
+    monkeypatch.setattr(module, "run_pipeline", fake_run_pipeline)
+    base_time = datetime(2026, 8, 1, 10, 30, tzinfo=timezone.utc)
+    clock_index = {"value": 0}
+
+    def now():
+        offset = clock_index["value"]
+        clock_index["value"] += 1
+        return base_time + timedelta(minutes=offset * 5)
+
+    state = module.run_normalized_multipair_campaign(
+        client,
+        cycles=2,
+        reviewer_identity="Human Owner Anthony",
+        runtime_root=runtime_root,
+        now=now,
+        sleep=lambda *_args, **_kwargs: None,
+    )
+
+    report = (runtime_root / "AIOS_FOREX_MULTIPAIR_NORMALIZED_PAPER_CAMPAIGN_REPORT.md").read_text(encoding="utf-8")
+    assert call_state["count"] >= 2
+    assert state["accepted_qualifying_trades"] == 1
+    assert state["segment_status"] == "COMPLETE"
+    assert state["segment_stop_reason"] == "BOUNDED_CYCLE_LIMIT"
+    assert state["segment_rejection_reason_counts"]["unsupported_instrument"] == 1
+    assert any(
+        result.get("first_canonical_failure_reason") == "unsupported_instrument"
+        for result in state.get("pair_results", [])
+    )
+    assert "SEGMENT_STATUS: COMPLETE" in report
+    assert "SEGMENT_STOP_REASON: BOUNDED_CYCLE_LIMIT" in report
+
+
+def test_mixed_reason_cycle_retains_precise_counts(monkeypatch):
+    client = FakeClient()
+    runtime_root = _runtime_root("mixed_reasons")
+    monkeypatch.setattr(module, "_acquire_lock", lambda *args, **kwargs: object())
+    monkeypatch.setattr(module, "_touch_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(module, "_release_lock", lambda *args, **kwargs: True)
+
+    def evaluate(candles, strategy_config=None):
+        symbol = candles[-1].symbol
+        if symbol == "EURUSD":
+            return _blocked_evaluation("NO_TRADE: volatility_below_atr_threshold")
+        return _blocked_evaluation("NO_TRADE: weak_candle_body")
+
+    monkeypatch.setattr(module, "evaluate_supertrend_pullback", evaluate)
+
+    state = module.run_normalized_multipair_campaign(
+        client,
+        cycles=1,
+        reviewer_identity="Human Owner Anthony",
+        runtime_root=runtime_root,
+        now=lambda: datetime(2026, 8, 1, 10, 30, tzinfo=timezone.utc),
+        sleep=lambda *_args, **_kwargs: None,
+    )
+
+    assert state["segment_status"] == "COMPLETE"
+    assert state["latest_cycle_reason_counts"] == {"pullback_not_confirmed": 1, "volatility_filter_failed": 1}
+    assert state["segment_rejection_reason_counts"] == {"pullback_not_confirmed": 1, "volatility_filter_failed": 1}
+
+
+def test_incomplete_history_is_counted_as_data_gap_not_internal_error(monkeypatch):
+    client = FakeClient()
+    runtime_root = _runtime_root("incomplete_history")
+    monkeypatch.setattr(module, "_acquire_lock", lambda *args, **kwargs: object())
+    monkeypatch.setattr(module, "_touch_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(module, "_release_lock", lambda *args, **kwargs: True)
+    original_fetch = module.fetch_completed_m5_history
+
+    def fetch_completed_m5_history(client, instrument, *, candle_count=module.DEFAULT_CANDLE_COUNT):
+        if instrument == "EUR_USD":
+            raise ValueError("insufficient_completed_m5_history")
+        return original_fetch(client, instrument, candle_count=candle_count)
+
+    monkeypatch.setattr(module, "fetch_completed_m5_history", fetch_completed_m5_history)
+    monkeypatch.setattr(module, "evaluate_supertrend_pullback", lambda *args, **kwargs: _blocked_evaluation("NO_TRADE: pullback_not_confirmed"))
+
+    state = module.run_normalized_multipair_campaign(
+        client,
+        cycles=1,
+        reviewer_identity="Human Owner Anthony",
+        runtime_root=runtime_root,
+        now=lambda: datetime(2026, 8, 1, 10, 30, tzinfo=timezone.utc),
+        sleep=lambda *_args, **_kwargs: None,
+    )
+
+    report = (runtime_root / "AIOS_FOREX_MULTIPAIR_NORMALIZED_PAPER_CAMPAIGN_REPORT.md").read_text(encoding="utf-8")
+    assert state["segment_status"] == "COMPLETE"
+    assert state["segment_stop_reason"] == "BOUNDED_CYCLE_LIMIT"
+    assert state["segment_internal_evaluation_errors"] == 0
+    assert state["latest_cycle_summary_reason"] == "NO_QUALIFYING_CANDIDATE"
+    assert state["latest_cycle_reason_counts"]["incomplete_history"] == 1
+    assert state["segment_rejection_reason_counts"]["incomplete_history"] == 1
+    assert "incomplete_history" in report
+    assert "SEGMENT_INTERNAL_EVALUATION_ERRORS: 0" in report
+
+
+def test_internal_evaluation_error_marks_failed_segment_and_writes_report(monkeypatch):
+    client = FakeClient()
+    runtime_root = _runtime_root("internal_error")
+    monkeypatch.setattr(module, "_acquire_lock", lambda *args, **kwargs: object())
+    monkeypatch.setattr(module, "_touch_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(module, "_release_lock", lambda *args, **kwargs: True)
+    seen = {"count": 0}
+
+    def evaluate(candles, strategy_config=None):
+        seen["count"] += 1
+        if seen["count"] == 1:
+            raise RuntimeError("boom")
+        return _blocked_evaluation("NO_TRADE: pullback_not_confirmed")
+
+    monkeypatch.setattr(module, "evaluate_supertrend_pullback", evaluate)
+
+    state = module.run_normalized_multipair_campaign(
+        client,
+        cycles=1,
+        reviewer_identity="Human Owner Anthony",
+        runtime_root=runtime_root,
+        now=lambda: datetime(2026, 8, 1, 10, 30, tzinfo=timezone.utc),
+        sleep=lambda *_args, **_kwargs: None,
+    )
+
+    report = (runtime_root / "AIOS_FOREX_MULTIPAIR_NORMALIZED_PAPER_CAMPAIGN_REPORT.md").read_text(encoding="utf-8")
+    assert state["segment_status"] == "FAILED"
+    assert state["segment_stop_reason"] == "INTERNAL_EVALUATION_ERROR"
+    assert state["segment_internal_evaluation_errors"] == 1
+    assert state["latest_cycle_summary_reason"] == "INTERNAL_EVALUATION_ERROR"
+    assert state["segment_rejection_reason_counts"]["internal_evaluation_error"] == 1
+    assert "internal_error=RuntimeError" in report or "internal_error=boom" not in report
+
+
+def test_cli_returns_nonzero_for_failed_segment(monkeypatch):
+    monkeypatch.setattr(
+        script,
+        "run_normalized_multipair_campaign",
+        lambda *args, **kwargs: {
+            "segment_status": "FAILED",
+            "segment_internal_evaluation_errors": 1,
+            "accepted_qualifying_trades": 0,
+            "schema": module.CAMPAIGN_SCHEMA,
+            "campaign_status": "RUNNING",
+        },
+    )
+    monkeypatch.setattr(script, "summarize_campaign_state", lambda state: state)
+    monkeypatch.setenv("OANDA_API_TOKEN", "token")
+    monkeypatch.setenv("OANDA_ACCOUNT_ID", "account")
+    assert script.main(["--cycles", "1", "--report-json"]) == 1
+
+
 def test_pricing_transient_failure_records_wait_for_data(monkeypatch):
     client = TransientPricingClient(failures=1)
     runtime_root = _runtime_root("pricing_wait")
@@ -296,3 +589,216 @@ def test_active_position_pricing_failure_waits_without_closing(monkeypatch):
     assert "WAIT_FOR_DATA" in telemetry
     assert "PAPER_SESSION_CLOSE" not in telemetry
     assert state["campaign_status"] == "RUNNING"
+
+
+def test_valid_active_session_without_lock_is_resumable_and_held(monkeypatch):
+    client = FakeClient()
+    runtime_root = _runtime_root("active_resume")
+    active_path = runtime_root / "active.json"
+    active_path.write_text(
+        json.dumps(
+            {
+                "schema": "AIOS_P1_SUPERVISED_PAPER_SESSION.v1",
+                "status": "ACTIVE",
+                "candidate_id": "p1-runtime-active-session",
+                "strategy_id": module.STRATEGY_ID,
+                "strategy_name": module.STRATEGY_ID,
+                "mode": "PAPER_ONLY",
+                "paper_only": True,
+                "instrument": "EUR_USD",
+                "direction": "BUY",
+                "entry_timestamp": "2026-08-01T10:30:00Z",
+                "entry_price": 1.1002,
+                "stop_price": 1.0990,
+                "target_price": 1.1020,
+                "units": 100,
+                "risk_amount": 0.12,
+                "owner_supervision_confirmed": True,
+                "reviewer_identity": "Human Owner Anthony",
+                "broker_write_performed": False,
+                "practice_order_performed": False,
+                "live_trade_performed": False,
+                "money_movement_performed": False,
+                "credentials_persisted": False,
+            },
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(module, "_acquire_lock", lambda *args, **kwargs: object())
+    monkeypatch.setattr(module, "_touch_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(module, "_release_lock", lambda *args, **kwargs: True)
+
+    state = module.run_normalized_multipair_campaign(
+        client,
+        cycles=1,
+        reviewer_identity="Human Owner Anthony",
+        runtime_root=runtime_root,
+        now=lambda: datetime(2026, 8, 1, 10, 30, tzinfo=timezone.utc),
+        sleep=lambda *_args, **_kwargs: None,
+    )
+
+    report = (runtime_root / "AIOS_FOREX_MULTIPAIR_NORMALIZED_PAPER_CAMPAIGN_REPORT.md").read_text(encoding="utf-8")
+    telemetry = (runtime_root / "AIOS_FOREX_MULTIPAIR_NORMALIZED_CYCLE_PROVENANCE.jsonl").read_text(encoding="utf-8")
+    assert state["active_position_status"] == "ACTIVE"
+    assert state["accepted_qualifying_trades"] == 0
+    assert state["p1_status"] == "NO_EVIDENCE"
+    assert state["profitability_proven"] is False
+    assert state["ready_for_p2_review"] is False
+    assert state["segment_status"] == "COMPLETE"
+    assert state["segment_stop_reason"] == "BOUNDED_CYCLE_LIMIT"
+    assert state["last_action"] == "PAPER_SESSION_HELD"
+    assert state["latest_cycle_summary_reason"] == "NO_QUALIFYING_CANDIDATE"
+    assert "PAPER_SESSION_HELD" in telemetry
+    assert "ACTIVE_POSITION_STATUS: ACTIVE" in report
+    assert "P1_STATUS: NO_EVIDENCE" in report
+    assert json.loads(active_path.read_text(encoding="utf-8"))["status"] == "ACTIVE"
+
+
+def test_normalized_campaign_supports_sell_session_and_records_sell_direction(monkeypatch):
+    client = FakeClient()
+    runtime_root = _runtime_root("campaign_sell")
+    base_time = datetime(2026, 8, 1, 10, 30, tzinfo=timezone.utc)
+    clock_index = {"value": 0}
+
+    def now():
+        offset = clock_index["value"]
+        clock_index["value"] += 1
+        return base_time + timedelta(minutes=offset * 5)
+
+    monkeypatch.setattr(module, "_acquire_lock", lambda *args, **kwargs: object())
+    monkeypatch.setattr(module, "_touch_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(module, "_release_lock", lambda *args, **kwargs: True)
+    monkeypatch.setattr(module, "evaluate_supertrend_pullback", lambda *args, **kwargs: _accepted_evaluation())
+    monkeypatch.setattr(
+        module,
+        "replay_candidate",
+        lambda instrument, candles, snapshot, strategy_config=None: (
+            {
+                "strategy_id": module.STRATEGY_ID,
+                "strategy_name": module.STRATEGY_ID,
+                "protocol_version": module.PROTOCOL_VERSION,
+                "instrument": instrument.instrument,
+                "base_currency": instrument.base_currency,
+                "quote_currency": instrument.quote_currency,
+                "direction": "SELL",
+                "timeframe": "M5",
+                "display_precision": instrument.display_precision,
+                "pip_location": instrument.pip_location,
+                "pip_size": instrument.pip_size,
+                "entry_price": 1.1002,
+                "stop_price": 1.1015,
+                "target_price": 1.0980,
+                "risk_distance": 0.0013,
+                "risk_pips": 13.0,
+                "planned_reward_risk": 1.69230769,
+                "planned_target_reward_risk": 1.69230769,
+                "units": 100,
+                "entry_rationale": "test",
+                "candidate_id": f"cand-sell-{instrument.instrument}",
+                "status": "PAPER_ELIGIBLE",
+                "sanitized": True,
+                "current": True,
+                "mode": "PAPER_ONLY",
+                "paper_only": True,
+                "quote_currency": instrument.quote_currency,
+                "realized_pl_usd": "NOT_COMPUTABLE",
+            }
+            if instrument.instrument == "EUR_USD" and snapshot["bid"] > 1.1000
+            else None
+        ),
+    )
+    pricing_calls = {"value": 0}
+
+    def sell_pricing(_instruments: tuple[str, ...]) -> dict:
+        pricing_calls["value"] += 1
+        time = "2026-08-01T10:30:00Z" if pricing_calls["value"] == 1 else "2026-08-01T10:35:00Z"
+        ask = "1.1004" if pricing_calls["value"] == 1 else "1.0974"
+        bid = "1.1002" if pricing_calls["value"] == 1 else "1.0972"
+        return {
+            "prices": [
+                {"instrument": "EUR_USD", "time": time, "bids": [{"price": bid}], "asks": [{"price": ask}]},
+                {"instrument": "USD_JPY", "time": time, "bids": [{"price": "110.02"}], "asks": [{"price": "110.05"}]},
+            ]
+        }
+
+    client.pricing = sell_pricing  # type: ignore[method-assign]
+
+    def fake_run_pipeline(input_path: Path, ledger_path: Path, state_path: Path, report_path: Path) -> dict:
+        record = json.loads(input_path.read_text(encoding="utf-8"))
+        ledger = {
+            "version": module.VERSION,
+            "records": [record],
+            "broker_write_performed": False,
+            "practice_order_performed": False,
+            "live_trade_performed": False,
+            "money_movement_performed": False,
+            "credentials_persisted": False,
+        }
+        ledger_path.write_text(json.dumps(ledger, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        state = {
+            "version": module.VERSION,
+            "pipeline_status": "COMPLETE",
+            "input_records": 1,
+            "accepted_records": 1,
+            "rejected_records": 0,
+            "duplicate_records": 0,
+            "rejections": [],
+            "qualifying_trade_count": 1,
+            "p1_status_before": "NO_EVIDENCE",
+            "p1_status_after": "READY_FOR_P1_REVIEW",
+            "profitability_proven": True,
+            "ready_for_p2_review": True,
+            "next_safe_action": "none",
+            "p1_evaluator_result": {"trade_count": 1, "win_rate": 1.0, "gross_profit": 1.0, "gross_loss": 0.0, "net_pl": 1.0, "expectancy_per_trade": 1.0, "profit_factor": None, "maximum_drawdown": 0.0, "consecutive_losses": 0},
+            "broker_write_performed": False,
+            "practice_order_performed": False,
+            "live_trade_performed": False,
+            "money_movement_performed": False,
+            "credentials_persisted": False,
+        }
+        state_path.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        report_path.write_text("# ok\n", encoding="utf-8")
+        return state
+
+    monkeypatch.setattr(module, "run_pipeline", fake_run_pipeline)
+
+    state = module.run_normalized_multipair_campaign(
+        client,
+        cycles=2,
+        reviewer_identity="Human Owner Anthony",
+        runtime_root=runtime_root,
+        now=now,
+        sleep=lambda *_args, **_kwargs: None,
+    )
+
+    assert state["accepted_qualifying_trades"] == 1
+    ledger = json.loads((runtime_root / "AIOS_FOREX_MULTIPAIR_NORMALIZED_PAPER_LEDGER.json").read_text(encoding="utf-8"))
+    assert ledger["records"][0]["direction"] == "SELL"
+    assert ledger["records"][0]["realized_r"] > 0
+    tombstone = json.loads((runtime_root / "active.json").read_text(encoding="utf-8"))
+    assert tombstone["status"] == "CLOSED"
+    assert tombstone["closed_reason"] == "paper_target"
+
+
+def test_multipair_launcher_targets_multipair_runner_and_does_not_block_running_state() -> None:
+    launcher = (REPO_ROOT / "scripts/forex_delivery/Start-AiOsForexP1MultiPairPaperCampaignV1.ps1").read_text(encoding="utf-8")
+
+    assert "PreflightOnly" in launcher
+    assert "run_forex_p1_multipair_normalized_paper_campaign_v1.py" in launcher
+    assert "NORMALIZED_MULTIPAIR_RUNNER_MISSING" in launcher
+    assert "CAMPAIGN_ALREADY_ACTIVE" not in launcher
+    assert "WAITING_FOR_NEXT_RUN" not in launcher
+    assert "SEGMENT_EXIT_CODE" in launcher
+
+
+def test_multipair_autostart_registrar_targets_multipair_launcher() -> None:
+    registrar = (REPO_ROOT / "scripts/forex_delivery/Register-AiOsForexP1MultiPairPaperAutostartV1.ps1").read_text(encoding="utf-8")
+
+    assert "AIOS-Forex-P1-MultiPair-Paper-Autostart-V1" in registrar
+    assert "Start-AiOsForexP1MultiPairPaperCampaignV1.ps1" in registrar
+    assert "-PreflightOnly" in registrar
+    assert "powershell.exe" in registrar
+    assert "Supertrend" not in registrar

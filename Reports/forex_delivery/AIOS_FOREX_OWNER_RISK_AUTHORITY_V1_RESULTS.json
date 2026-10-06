@@ -1,0 +1,858 @@
+{
+  "account_identifiers_persisted": false,
+  "audit_execution_count": 1,
+  "broker_calls": false,
+  "broker_writes": false,
+  "canonical_risk_map": {
+    "COOLDOWN_AFTER_LOSS": {
+      "authority_source": "PREEXISTING_PROVEN_AUTHORITY",
+      "implementation_source": "automation/forex_engine/risk_governor.py",
+      "status": "NOT_APPLICABLE",
+      "synthetic_test_available": false,
+      "unit": "SECONDS",
+      "value": null
+    },
+    "KILL_SWITCH": {
+      "authority_source": "docs/trading_lab/forex/AIOS_FOREX_OWNER_RISK_AUTHORITY_V1.md",
+      "implementation_source": "automation/forex_engine/live_kill_switch_readiness_engine.py",
+      "status": "PROVEN",
+      "synthetic_test_available": true,
+      "unit": "BOOLEAN_CONTROL_SET",
+      "value": "PROCEDURAL_DECLARATIONS_COMPLETE"
+    },
+    "LOSS_STREAK_LIMIT": {
+      "authority_source": "PREEXISTING_PROVEN_AUTHORITY",
+      "implementation_source": "automation/forex_engine/risk_management.py",
+      "status": "NOT_APPLICABLE",
+      "synthetic_test_available": false,
+      "unit": "CONSECUTIVE_LOSSES",
+      "value": null
+    },
+    "MAX_DAILY_LOSS": {
+      "authority_source": "docs/trading_lab/forex/AIOS_FOREX_OWNER_RISK_AUTHORITY_V1.md",
+      "implementation_source": "automation/forex_engine/risk_governor.py",
+      "status": "PROVEN",
+      "synthetic_test_available": true,
+      "unit": "PERCENT_ACCOUNT_EQUITY",
+      "value": 2.0
+    },
+    "MAX_DRAWDOWN": {
+      "authority_source": "PREEXISTING_PROVEN_AUTHORITY",
+      "implementation_source": "automation/forex_engine/risk_management.py",
+      "status": "PROVEN",
+      "synthetic_test_available": true,
+      "unit": "PERCENT",
+      "value": 5.0
+    },
+    "MAX_OPEN_RISK": {
+      "authority_source": "docs/trading_lab/forex/AIOS_FOREX_OWNER_RISK_AUTHORITY_V1.md",
+      "implementation_source": "automation/forex_engine/risk_governor.py",
+      "status": "PROVEN",
+      "synthetic_test_available": true,
+      "unit": "PERCENT_ACCOUNT_EQUITY",
+      "value": 1.0
+    },
+    "MAX_OPEN_TRADES": {
+      "authority_source": "PREEXISTING_PROVEN_AUTHORITY",
+      "implementation_source": "automation/forex_engine/risk_governor.py",
+      "status": "PROVEN",
+      "synthetic_test_available": true,
+      "unit": "COUNT",
+      "value": 1
+    },
+    "MAX_PAIR_EXPOSURE": {
+      "authority_source": "docs/trading_lab/forex/AIOS_FOREX_OWNER_RISK_AUTHORITY_V1.md",
+      "implementation_source": "C:\\Dev\\Ai.Os\\automation\\forex_engine\\forex_owner_risk_authority_v1.py",
+      "status": "PROVEN_POLICY",
+      "synthetic_test_available": true,
+      "unit": "RISK_DERIVED",
+      "value": "RISK_DERIVED_FROM_1_PERCENT_ACCOUNT_EQUITY_AND_INITIAL_STOP_DISTANCE"
+    },
+    "MAX_RISK_PER_TRADE": {
+      "authority_source": "PREEXISTING_PROVEN_AUTHORITY",
+      "implementation_source": "automation/forex_engine/risk_governor.py",
+      "status": "PROVEN",
+      "synthetic_test_available": true,
+      "unit": "PERCENT_ACCOUNT_EQUITY",
+      "value": 1.0
+    },
+    "MAX_SPREAD": {
+      "authority_source": "docs/trading_lab/forex/AIOS_FOREX_OWNER_RISK_AUTHORITY_V1.md",
+      "implementation_source": "C:\\Dev\\Ai.Os\\automation\\forex_engine\\forex_owner_risk_authority_v1.py",
+      "status": "PROVEN",
+      "synthetic_test_available": true,
+      "unit": "PIPS_INSTRUMENT_NORMALIZED",
+      "value": 3.0
+    }
+  },
+  "credentials_accessed": false,
+  "credentials_persisted": false,
+  "forward_paper30_count_post": 0,
+  "forward_paper30_count_pre": 0,
+  "human_live_approval": false,
+  "kill_switch_credential_revoke_path_status": "PROCEDURE_AUTHORITY_PROVEN",
+  "kill_switch_notification_path_status": "LOCAL_SANITIZED_ALERT_AUTHORITY_PROVEN",
+  "kill_switch_status": "KILL_SWITCH_READY",
+  "live_execution_enabled": false,
+  "live_orders": false,
+  "live_readiness_blockers_after": [
+    "human_approval_missing",
+    "paper_evidence_insufficient",
+    "demo_evidence_insufficient"
+  ],
+  "live_readiness_score_after": 0.6,
+  "live_readiness_score_before": 0.4,
+  "lock_id": "LOCK_EAST_FOREX_LIVE_READINESS_RESEARCH_EAST_OCC_01",
+  "max_pair_exposure_policy": "RISK_DERIVED_FROM_1_PERCENT_ACCOUNT_EQUITY_AND_INITIAL_STOP_DISTANCE",
+  "max_spread_pips": 3.0,
+  "money_movement": false,
+  "network_calls": false,
+  "owner_risk_authority": {
+    "broker_writes": false,
+    "live_enabled": false,
+    "max_daily_loss_percent": 2.0,
+    "max_drawdown_percent": 5.0,
+    "max_open_risk_percent": 1.0,
+    "max_open_trades": 1,
+    "max_pair_exposure_policy": "RISK_DERIVED_FROM_1_PERCENT_ACCOUNT_EQUITY_AND_INITIAL_STOP_DISTANCE",
+    "max_risk_per_trade_percent": 1.0,
+    "max_spread_pips": 3.0,
+    "paper_only": true,
+    "spread_price_normalization_required": true
+  },
+  "packet_id": "PKT-EAST-FOREX-OWNER-RISK-AUTHORITY-020",
+  "paper30_forward_state_unchanged": true,
+  "paper30_invariant_post_sha256": {
+    "paper30_ledger": "3e50632ff433ee9b72ea5b1a23258d78197519ddb06463e33f4b4a9a5bb51297",
+    "paper30_runtime": "52daf4f540a583e3bdad66c17c729cc2d5eb21abc5d334ef8df5bad5ea8366f8",
+    "paper30_state": "e892b0b3200ec745fa2266ef9943037f6671ef2effb3ef7f1bca66467d1d819d"
+  },
+  "paper30_invariant_pre_sha256": {
+    "paper30_ledger": "3e50632ff433ee9b72ea5b1a23258d78197519ddb06463e33f4b4a9a5bb51297",
+    "paper30_runtime": "52daf4f540a583e3bdad66c17c729cc2d5eb21abc5d334ef8df5bad5ea8366f8",
+    "paper30_state": "e892b0b3200ec745fa2266ef9943037f6671ef2effb3ef7f1bca66467d1d819d"
+  },
+  "paper30_strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+  "practice_orders": false,
+  "readiness_fail_count_after": 0,
+  "readiness_pass_count_after": 19,
+  "readiness_pass_count_before": 17,
+  "readiness_pending_count_after": 8,
+  "readiness_recalculation": {
+    "live_readiness_blockers_after": [
+      "human_approval_missing",
+      "paper_evidence_insufficient",
+      "demo_evidence_insufficient"
+    ],
+    "live_readiness_review": {
+      "allowed": false,
+      "approval_required": true,
+      "blocked_reason": "human_approval_missing",
+      "blocked_reasons": [
+        "human_approval_missing",
+        "paper_evidence_insufficient",
+        "demo_evidence_insufficient"
+      ],
+      "decision": "REVIEW_ONLY",
+      "demo_evidence_ok": false,
+      "kill_switch_ok": true,
+      "live_ready": false,
+      "metadata": {
+        "drawdown_pct": 0.0,
+        "human_approval": false,
+        "limits": {
+          "maximum_drawdown_pct": 5.0
+        },
+        "owner_risk_authority": "PKT-EAST-FOREX-OWNER-RISK-AUTHORITY-020",
+        "risk_failures": []
+      },
+      "mode": "LIVE_READINESS_REVIEW_ONLY",
+      "next_safe_action": "continue_paper_demo_evidence_collection",
+      "paper_evidence_ok": false,
+      "readiness_score": 0.6,
+      "reconciliation_ok": true,
+      "risk_ok": true,
+      "safety": {
+        "broker_write": false,
+        "credentials": false,
+        "live_trading": false,
+        "network_submit": false,
+        "paper_only": true,
+        "real_orders": false,
+        "review_only": true
+      },
+      "warnings": []
+    },
+    "live_readiness_score_after": 0.6,
+    "live_readiness_score_before": 0.4,
+    "matrix": {
+      "ACTIVE_POSITION_RECOVERY": {
+        "blocker": null,
+        "evidence": {
+          "no_duplicate_exit": true,
+          "no_duplicate_fill": true,
+          "no_lost_ledger_record": true,
+          "no_silent_position_deletion": true,
+          "recovery_scenarios_pass": 5,
+          "recovery_scenarios_tested": 5
+        },
+        "next_safe_action": "retain_active_position_recovery_contract",
+        "status": "PASS"
+      },
+      "AUDIT_LEDGER": {
+        "blocker": null,
+        "evidence": {
+          "current_ledger_already_contains_extension": false,
+          "current_runtime_missing_fields": [
+            "market_data_freshness",
+            "shadow_5r_outcomes"
+          ],
+          "ledger_modified": false,
+          "paper30_ledger_schema_extension_ready": true,
+          "projected_schema_fields": {
+            "direction": {
+              "source": "direction",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "entry_price": {
+              "source": "entry_price",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "exit_price": {
+              "source": "exit_price",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "exit_reason": {
+              "source": "exit_reason",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "exit_timestamp": {
+              "source": "exit_timestamp_utc",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "fill_timestamp": {
+              "source": "fill_timestamp_utc",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "initial_risk": {
+              "source": "initial_risk_price",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "initial_stop": {
+              "source": "initial_stop",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "instrument": {
+              "source": "instrument",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "market_data_freshness": {
+              "source": "sentinel/latest_completed_M5_timestamp_and_runtime_freshness_status",
+              "type": "FUTURE_EVIDENCE_PROJECTION"
+            },
+            "qualification": {
+              "source": "qualifying",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "r_parity_status": {
+              "source": "r_parity_valid",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "realized_r": {
+              "source": "realized_r",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "shadow_5r_outcomes": {
+              "source": "AIOS_FOREX_PAPER30_5R_SHADOW.jsonl joined by trade_id",
+              "type": "FUTURE_EVIDENCE_PROJECTION"
+            },
+            "signal_timestamp": {
+              "source": "signal_timestamp_utc",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "strategy_config_sha256": {
+              "source": "strategy_config_sha256",
+              "type": "CURRENT_TRADE_FIELD"
+            },
+            "trade_id": {
+              "source": "trade_id",
+              "type": "CURRENT_TRADE_FIELD"
+            }
+          },
+          "projection_missing_fields": [],
+          "required_fields": [
+            "market_data_freshness",
+            "shadow_5r_outcomes",
+            "trade_id",
+            "strategy_config_sha256",
+            "instrument",
+            "direction",
+            "signal_timestamp",
+            "fill_timestamp",
+            "entry_price",
+            "initial_stop",
+            "initial_risk",
+            "exit_timestamp",
+            "exit_price",
+            "exit_reason",
+            "realized_r",
+            "qualification",
+            "r_parity_status"
+          ],
+          "runtime_modified": false,
+          "shadow_5r_authority": "OBSERVATION_ONLY",
+          "strategy_semantics_changed": false
+        },
+        "next_safe_action": "integrate_projected_fields_only_in_a_separate_owner_approved_runtime_packet",
+        "status": "PASS"
+      },
+      "BROKER_WRITE_DISABLED": {
+        "blocker": null,
+        "evidence": {
+          "broker_write_enabled": false
+        },
+        "next_safe_action": "keep_broker_writes_disabled",
+        "status": "PASS"
+      },
+      "CREDENTIAL_EXCLUSION": {
+        "blocker": null,
+        "evidence": {
+          "credential_exclusion_pass": true,
+          "env_files_opened": false,
+          "files_scanned": 10,
+          "suspected_credential_value_count": 0,
+          "suspected_values_printed": false
+        },
+        "next_safe_action": "retain_no_secret_evidence_boundary",
+        "status": "PASS"
+      },
+      "DAILY_LOSS_STOP": {
+        "blocker": null,
+        "evidence": {
+          "authority_source": "docs/trading_lab/forex/AIOS_FOREX_OWNER_RISK_AUTHORITY_V1.md",
+          "implementation_source": "automation/forex_engine/risk_governor.py",
+          "status": "PROVEN",
+          "synthetic_test_available": true,
+          "unit": "PERCENT_ACCOUNT_EQUITY",
+          "value": 2.0
+        },
+        "next_safe_action": "retain_owner_approved_two_percent_daily_entry_stop",
+        "status": "PASS"
+      },
+      "DRAWDOWN": {
+        "blocker": "genuine_forward_sample_incomplete",
+        "evidence": {
+          "forward_closed": 0
+        },
+        "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+        "status": "NOT_YET_EVALUABLE"
+      },
+      "DUPLICATE_INTENT_PREVENTION": {
+        "blocker": null,
+        "evidence": {
+          "canonical_intent_id": "526c63c527d63cd6a5c2fa1751c6add53022e841be37ab00b159d25411c6143f",
+          "duplicate_intent_created_count": 0,
+          "proof_pass": true,
+          "scenarios_tested": 5,
+          "unique_execution_intent_count": 1
+        },
+        "next_safe_action": "persist_canonical_intent_ids",
+        "status": "PASS"
+      },
+      "EMERGENCY_DISABLE": {
+        "blocker": null,
+        "evidence": {
+          "active_paper_positions_preserved": true,
+          "emergency_disable_blocks_actions": true,
+          "kill_switch_blocks_new_entries": true,
+          "kill_switch_executed_live": false,
+          "manual_stop_dominates_signal": true,
+          "proof_pass": true,
+          "reset_requires_explicit_separate_operator_state": true
+        },
+        "next_safe_action": "retain_emergency_disable_latch",
+        "status": "PASS"
+      },
+      "EXPECTANCY": {
+        "blocker": "genuine_forward_sample_incomplete",
+        "evidence": {
+          "forward_closed": 0
+        },
+        "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+        "status": "NOT_YET_EVALUABLE"
+      },
+      "FORWARD_SAMPLE_SIZE": {
+        "blocker": "genuine_forward_sample_incomplete",
+        "evidence": {
+          "forward_closed": 0
+        },
+        "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+        "status": "NOT_YET_EVALUABLE"
+      },
+      "HUMAN_APPROVAL": {
+        "blocker": "human_live_approval_absent",
+        "evidence": {
+          "current_live_approval": false
+        },
+        "next_safe_action": "request_review_only_after_all_evidence_gates_pass",
+        "status": "PENDING"
+      },
+      "KILL_SWITCH": {
+        "blocker": null,
+        "evidence": {
+          "actual_credential_revoked": false,
+          "credential_revoke_path": "GOVERNED_OPERATOR_BROKER_TOKEN_REVOCATION_PROCEDURE",
+          "credential_revoke_path_declared": true,
+          "external_notification_sent": false,
+          "notification_path": "SANITIZED_LOCAL_AIOS_HUMAN_OWNER_ALERT",
+          "notification_path_declared": true,
+          "proof_pass": true,
+          "result": {
+            "approved_controls": [
+              "audit logging declared",
+              "credential revoke path declared",
+              "daily loss stop declared",
+              "drawdown stop declared",
+              "emergency disable declared",
+              "kill switch declared",
+              "manual stop declared",
+              "notification path declared",
+              "operator override declared",
+              "paper-only review enforced"
+            ],
+            "blocked_controls": [],
+            "blocked_reasons": [],
+            "kill_switch_readiness_completed": true,
+            "kill_switch_ready": true,
+            "kill_switch_status": "KILL_SWITCH_READY",
+            "next_safe_action": "operator_review_kill_switch_policy_before_future_live_candidate_advancement",
+            "operator_review_required": true,
+            "safety": {
+              "broker_connection_active": false,
+              "capital_allocation_modified": false,
+              "credentials_accessed": false,
+              "kill_switch_executed": false,
+              "live_trading_authorized": false,
+              "network_access": false,
+              "operator_review_required": true,
+              "order_execution_enabled": false,
+              "paper_only": true
+            }
+          }
+        },
+        "next_safe_action": "retain_procedural_kill_switch_readiness_and_human_control",
+        "status": "PASS"
+      },
+      "LATENCY_STRESS": {
+        "blocker": null,
+        "evidence": {
+          "simulation_only": true
+        },
+        "next_safe_action": "replace_assumptions_only_after_measured_demo_latency_exists",
+        "status": "PASS"
+      },
+      "LIVE_DISABLED": {
+        "blocker": null,
+        "evidence": {
+          "live_enabled": false
+        },
+        "next_safe_action": "keep_live_disabled",
+        "status": "PASS"
+      },
+      "LOSS_STREAK": {
+        "blocker": "genuine_forward_sample_incomplete",
+        "evidence": {
+          "forward_closed": 0
+        },
+        "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+        "status": "NOT_YET_EVALUABLE"
+      },
+      "MANUAL_STOP": {
+        "blocker": null,
+        "evidence": {
+          "active_paper_positions_preserved": true,
+          "emergency_disable_blocks_actions": true,
+          "kill_switch_blocks_new_entries": true,
+          "kill_switch_executed_live": false,
+          "manual_stop_dominates_signal": true,
+          "proof_pass": true,
+          "reset_requires_explicit_separate_operator_state": true
+        },
+        "next_safe_action": "retain_manual_stop_precedence",
+        "status": "PASS"
+      },
+      "MAX_DRAWDOWN_STOP": {
+        "blocker": null,
+        "evidence": {
+          "new_entries_blocked": true,
+          "status": "PASS",
+          "threshold": 5.0
+        },
+        "next_safe_action": "retain_5_percent_review_limit",
+        "status": "PASS"
+      },
+      "NETWORK_FAILURE_STOP": {
+        "blocker": null,
+        "evidence": {
+          "fail_closed_market_data": true,
+          "interrupted_write_preserves_atomic_state": true,
+          "network_failure_preserves_active_state": true,
+          "scenarios": {
+            "missing_quote": {
+              "entry_or_fill_allowed": false,
+              "fabricated_trade_count": 0
+            },
+            "network_interruption_active_position": {
+              "entry_or_fill_allowed": false,
+              "fabricated_trade_count": 0
+            },
+            "practice_timeout": {
+              "entry_or_fill_allowed": false,
+              "fabricated_trade_count": 0
+            },
+            "stale_m5": {
+              "entry_or_fill_allowed": false,
+              "fabricated_trade_count": 0
+            }
+          }
+        },
+        "next_safe_action": "retain_fail_closed_network_path",
+        "status": "PASS"
+      },
+      "NET_R": {
+        "blocker": "genuine_forward_sample_incomplete",
+        "evidence": {
+          "forward_closed": 0
+        },
+        "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+        "status": "NOT_YET_EVALUABLE"
+      },
+      "ORDER_SUBMIT_DISABLED": {
+        "blocker": null,
+        "evidence": {
+          "order_submit_enabled": false
+        },
+        "next_safe_action": "keep_order_submit_disabled",
+        "status": "PASS"
+      },
+      "PAPER_EVIDENCE": {
+        "blocker": "paper_evidence_insufficient",
+        "evidence": {
+          "forward_closed": 0
+        },
+        "next_safe_action": "collect_genuine_forward_paper_evidence",
+        "status": "PENDING"
+      },
+      "PROFIT_FACTOR": {
+        "blocker": "genuine_forward_sample_incomplete",
+        "evidence": {
+          "forward_closed": 0
+        },
+        "next_safe_action": "continue_frozen_forward_PAPER30_only_after_owner_decision",
+        "status": "NOT_YET_EVALUABLE"
+      },
+      "R_PARITY": {
+        "blocker": null,
+        "evidence": {
+          "closed_count": 0,
+          "ledger_count": 0,
+          "r_parity_failures": 0,
+          "strategy_hash_reconciled": true,
+          "synthetic_trade_count": 1,
+          "trade_identity_fields_reconciled": true
+        },
+        "next_safe_action": "retain_exact_R_reconciliation",
+        "status": "PASS"
+      },
+      "SLIPPAGE_STRESS": {
+        "blocker": null,
+        "evidence": {
+          "simulation_only": true
+        },
+        "next_safe_action": "replace_assumptions_only_after_measured_demo_slippage_exists",
+        "status": "PASS"
+      },
+      "STALE_MARKET_DATA_STOP": {
+        "blocker": null,
+        "evidence": {
+          "entry_or_fill_allowed": false,
+          "fabricated_trade_count": 0
+        },
+        "next_safe_action": "retain_stale_M5_gate",
+        "status": "PASS"
+      },
+      "STATE_RECOVERY": {
+        "blocker": null,
+        "evidence": {
+          "no_duplicate_exit": true,
+          "no_duplicate_fill": true,
+          "no_lost_ledger_record": true,
+          "no_silent_position_deletion": true,
+          "recovery_scenarios_pass": 5,
+          "recovery_scenarios_tested": 5
+        },
+        "next_safe_action": "implement_journaled_idempotent_checkpointing_before_execution",
+        "status": "PASS"
+      },
+      "TRADE_RECONCILIATION": {
+        "blocker": null,
+        "evidence": {
+          "broker_calls": false,
+          "engine_ready": true,
+          "network_calls": false,
+          "real_demo_evidence_complete": false,
+          "result": {
+            "allowed": true,
+            "blocked_reason": "none",
+            "blocked_reasons": [],
+            "decision": "allowed",
+            "demo_readonly": true,
+            "evidence": {
+              "intent_entry_price": 1.1,
+              "intent_pair": "EUR_USD",
+              "intent_side": "BUY",
+              "intent_units": 1000.0,
+              "lifecycle_present": false,
+              "observed_price": 1.1,
+              "observed_side": "BUY",
+              "observed_stop_loss": 1.095,
+              "observed_take_profit": 1.11,
+              "observed_units": 1000.0,
+              "paper_fill_present": false,
+              "snapshot_mode": "DEMO_READONLY"
+            },
+            "match_score": 1.0,
+            "matched": true,
+            "metadata": {},
+            "mismatches": [],
+            "mode": "DEMO_RECONCILIATION_ONLY",
+            "next_safe_action": "record_reconciliation_evidence",
+            "order_seen": true,
+            "pair_match": true,
+            "paper_only": true,
+            "position_seen": true,
+            "price_within_tolerance": true,
+            "safety": {
+              "broker_write": false,
+              "credentials": false,
+              "demo_readonly": true,
+              "live_trading": false,
+              "network_submit": false,
+              "paper_only": true,
+              "real_orders": false
+            },
+            "side_match": true,
+            "stale_data": false,
+            "stop_loss_match": true,
+            "take_profit_match": true,
+            "units_match": true,
+            "warnings": []
+          },
+          "stale_rejected": false,
+          "synthetic": true,
+          "synthetic_match_pass": true
+        },
+        "next_safe_action": "collect_real_sanitized_demo_reconciliation_evidence_later",
+        "status": "PASS"
+      }
+    },
+    "readiness_fail_count_after": 0,
+    "readiness_gate_count": 27,
+    "readiness_pass_count_after": 19,
+    "readiness_pass_count_before": 17,
+    "readiness_pending_count_after": 8,
+    "status_counts": {
+      "FAIL": 0,
+      "NOT_YET_EVALUABLE": 6,
+      "PASS": 19,
+      "PENDING": 2
+    }
+  },
+  "risk_configuration_complete": true,
+  "source_head": "d85fce1a88e73cd9863e2b400b48bf42f52d2c27",
+  "status": "OWNER_RISK_AUTHORITY_ESTABLISHED_FORWARD_EVIDENCE_PENDING",
+  "synthetic_proof": {
+    "daily_loss": {
+      "equity_10000_above": {
+        "allowed_by_daily_loss_gate": false,
+        "blocked": true,
+        "blocked_reason": "max_daily_loss_hit",
+        "budget": 200.0,
+        "loss_after": 201.0,
+        "trading_day_reset": "EXPLICIT_AUTHORITATIVE_NEXT_TRADING_DAY_BOUNDARY_ONLY"
+      },
+      "equity_10000_at": {
+        "allowed_by_daily_loss_gate": false,
+        "blocked": true,
+        "blocked_reason": "max_daily_loss_hit",
+        "budget": 200.0,
+        "loss_after": 200.0,
+        "trading_day_reset": "EXPLICIT_AUTHORITATIVE_NEXT_TRADING_DAY_BOUNDARY_ONLY"
+      },
+      "equity_10000_below": {
+        "allowed_by_daily_loss_gate": true,
+        "blocked": false,
+        "blocked_reason": "none",
+        "budget": 200.0,
+        "loss_after": 199.99,
+        "trading_day_reset": "EXPLICIT_AUTHORITATIVE_NEXT_TRADING_DAY_BOUNDARY_ONLY"
+      },
+      "equity_25000_at": {
+        "allowed_by_daily_loss_gate": false,
+        "blocked": true,
+        "blocked_reason": "max_daily_loss_hit",
+        "budget": 500.0,
+        "loss_after": 500.0,
+        "trading_day_reset": "EXPLICIT_AUTHORITATIVE_NEXT_TRADING_DAY_BOUNDARY_ONLY"
+      }
+    },
+    "kill_switch": {
+      "actual_credential_revoked": false,
+      "credential_revoke_path": "GOVERNED_OPERATOR_BROKER_TOKEN_REVOCATION_PROCEDURE",
+      "credential_revoke_path_declared": true,
+      "external_notification_sent": false,
+      "notification_path": "SANITIZED_LOCAL_AIOS_HUMAN_OWNER_ALERT",
+      "notification_path_declared": true,
+      "proof_pass": true,
+      "result": {
+        "approved_controls": [
+          "audit logging declared",
+          "credential revoke path declared",
+          "daily loss stop declared",
+          "drawdown stop declared",
+          "emergency disable declared",
+          "kill switch declared",
+          "manual stop declared",
+          "notification path declared",
+          "operator override declared",
+          "paper-only review enforced"
+        ],
+        "blocked_controls": [],
+        "blocked_reasons": [],
+        "kill_switch_readiness_completed": true,
+        "kill_switch_ready": true,
+        "kill_switch_status": "KILL_SWITCH_READY",
+        "next_safe_action": "operator_review_kill_switch_policy_before_future_live_candidate_advancement",
+        "operator_review_required": true,
+        "safety": {
+          "broker_connection_active": false,
+          "capital_allocation_modified": false,
+          "credentials_accessed": false,
+          "kill_switch_executed": false,
+          "live_trading_authorized": false,
+          "network_access": false,
+          "operator_review_required": true,
+          "order_execution_enabled": false,
+          "paper_only": true
+        }
+      }
+    },
+    "open_risk": {
+      "above": {
+        "allowed_by_open_risk_gates": false,
+        "blocked": true,
+        "blocked_reasons": [
+          "max_open_risk_hit"
+        ],
+        "budget": 100.0,
+        "max_open_trades": 1,
+        "open_risk_after": 101.01,
+        "remaining_capacity_before": 0.0
+      },
+      "at": {
+        "allowed_by_open_risk_gates": false,
+        "blocked": true,
+        "blocked_reasons": [
+          "max_open_risk_hit"
+        ],
+        "budget": 100.0,
+        "max_open_trades": 1,
+        "open_risk_after": 100.01,
+        "remaining_capacity_before": 0.0
+      },
+      "half": {
+        "allowed_by_open_risk_gates": true,
+        "blocked": false,
+        "blocked_reasons": [],
+        "budget": 100.0,
+        "max_open_trades": 1,
+        "open_risk_after": 99.99,
+        "remaining_capacity_before": 50.0
+      },
+      "second_trade": {
+        "allowed_by_open_risk_gates": false,
+        "blocked": true,
+        "blocked_reasons": [
+          "max_open_trades_hit"
+        ],
+        "budget": 100.0,
+        "max_open_trades": 1,
+        "open_risk_after": 75.0,
+        "remaining_capacity_before": 50.0
+      },
+      "zero": {
+        "allowed_by_open_risk_gates": true,
+        "blocked": false,
+        "blocked_reasons": [],
+        "budget": 100.0,
+        "max_open_trades": 1,
+        "open_risk_after": 50.0,
+        "remaining_capacity_before": 100.0
+      }
+    },
+    "position_exposure": {
+      "account_equity": 10000.0,
+      "broker_leverage_used": false,
+      "calculated_initial_risk": 100.0,
+      "entry_price": 1.1,
+      "initial_stop": 1.095,
+      "instrument": "EUR_USD",
+      "policy": "RISK_DERIVED_FROM_1_PERCENT_ACCOUNT_EQUITY_AND_INITIAL_STOP_DISTANCE",
+      "risk_budget": 100.0,
+      "risk_budget_percent": 1.0,
+      "risk_derived_notional": 21999.9999999995,
+      "stop_distance_pips": 50.0,
+      "stop_distance_price": 0.005,
+      "units": 19999.9999999995
+    },
+    "proof_pass": true,
+    "spread": {
+      "jpy_above": {
+        "blocked": true,
+        "blocked_reason": "spread_too_high",
+        "instrument": "USD_JPY",
+        "max_spread_pips": 3.0,
+        "pip_size": 0.01,
+        "spread_pips": 3.1,
+        "spread_price_distance": 0.031
+      },
+      "jpy_at": {
+        "blocked": false,
+        "blocked_reason": "none",
+        "instrument": "USD_JPY",
+        "max_spread_pips": 3.0,
+        "pip_size": 0.01,
+        "spread_pips": 3.0,
+        "spread_price_distance": 0.03
+      },
+      "non_jpy_above": {
+        "blocked": true,
+        "blocked_reason": "spread_too_high",
+        "instrument": "EUR_USD",
+        "max_spread_pips": 3.0,
+        "pip_size": 0.0001,
+        "spread_pips": 3.1,
+        "spread_price_distance": 0.00031
+      },
+      "non_jpy_at": {
+        "blocked": false,
+        "blocked_reason": "none",
+        "instrument": "EUR_USD",
+        "max_spread_pips": 3.0,
+        "pip_size": 0.0001,
+        "spread_pips": 3.0,
+        "spread_price_distance": 0.0003
+      }
+    }
+  }
+}

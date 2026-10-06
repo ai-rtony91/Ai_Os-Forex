@@ -25,6 +25,9 @@ def test_readiness_state_recalculation_v1_top_level_keys_stable():
         "demo_contract_present",
         "one_shot_package_present",
         "readiness_certificate_present",
+        "live_readiness_components",
+        "live_readiness_components_complete",
+        "live_readiness_components_total",
         "review_chain_ready",
         "next_safe_action",
         "safety",
@@ -41,10 +44,19 @@ def test_readiness_state_recalculation_v1_targets_c1_eur_buy():
 
 def test_readiness_state_recalculation_v1_artifact_presence():
     payload = readiness_v1.run_readiness_state_recalculation_v1(write_reports=False)
-    assert payload["proof_bundle_consumed"] is True
+    assert payload["proof_bundle_consumed"] is False
     assert isinstance(payload["demo_contract_present"], bool)
     assert isinstance(payload["one_shot_package_present"], bool)
     assert isinstance(payload["readiness_certificate_present"], bool)
+    assert payload["live_readiness_components"] == {
+        "demo_contract": payload["demo_contract_present"],
+        "one_shot_package": payload["one_shot_package_present"],
+        "readiness_certificate": payload["readiness_certificate_present"],
+    }
+    assert payload["live_readiness_components_complete"] == sum(
+        int(value) for value in payload["live_readiness_components"].values()
+    )
+    assert payload["live_readiness_components_total"] == 3
 
 
 def test_readiness_state_recalculation_v1_live_auth_false():
@@ -73,6 +85,15 @@ def test_readiness_state_recalculation_v1_next_safe_action_exists():
     payload = readiness_v1.run_readiness_state_recalculation_v1(write_reports=False)
     assert isinstance(payload["next_safe_action"], str)
     assert payload["next_safe_action"] != ""
+
+
+def test_readiness_state_recalculation_v1_does_not_credit_blocked_bridge_as_demo_ready():
+    payload = readiness_v1.run_readiness_state_recalculation_v1(write_reports=False)
+    assert payload["bridge_payload"]["candidate_bridge_verdict"] != "DEMO_REVIEW_READY"
+    assert payload["proof_bundle_consumed"] is False
+    assert payload["demo_readiness_pct"] == 0.0
+    assert payload["live_readiness_components_total"] == 3
+    assert payload["live_readiness_components_complete"] <= payload["live_readiness_components_total"]
 
 
 def test_readiness_state_recalculation_v1_write_report_path_under_reports(tmp_path, monkeypatch):

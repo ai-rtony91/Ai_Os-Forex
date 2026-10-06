@@ -7,8 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "test": "node --test tests/*.test.mjs",
     "preview": "vite preview",
-    "start": "node server.js"
+    "start": "node dist/server.js",
+    "start:api": "node server.js"
   },
   "dependencies": {
     "react": "^19.2.4",

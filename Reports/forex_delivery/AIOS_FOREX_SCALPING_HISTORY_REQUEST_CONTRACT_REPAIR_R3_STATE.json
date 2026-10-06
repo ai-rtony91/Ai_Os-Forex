@@ -1,0 +1,97 @@
+{
+  "schema": "AIOS_FOREX_SCALPING_HISTORY_REQUEST_CONTRACT_REPAIR_R3.v1",
+  "packet_id": "PKT-EAST-FOREX-PACKET033-FULL-ATTACK-CONTINUATION-R3",
+  "parent_packet": "PKT-EAST-FOREX-ALL-TIMEFRAME-SCALPING-EDGE-033",
+  "worker": "EAST_OCC_01",
+  "lane": "FOREX_PACKET033_FULL_ATTACK_CONTINUATION",
+  "mode": "APPLY",
+  "status": "SCALPING_HISTORY_REQUEST_CONTRACT_REPAIRED_WAITING_HUMAN",
+  "updated_utc": "2026-08-31T04:02:35Z",
+  "packet_completion_sentinel_present": true,
+  "root_cause": "REMOTE_REQUEST_MIXED_PAGINATION_AND_RANGE_CONTRACT",
+  "classification": "OANDA_PRACTICE_CANDLE_REQUEST_CONTRACT_BUG",
+  "request_contract_before": "FROM_PLUS_TO_PLUS_COUNT_INVALID",
+  "request_contract_after": "FROM_PLUS_COUNT",
+  "pagination": {
+    "candles_per_request": 5000,
+    "to_sent_on_each_request": false,
+    "include_first_strategy": "FIRST_REQUEST_TRUE_THEN_FROM_LAST_ACCEPTED_WITH_INCLUDE_FIRST_FALSE",
+    "from_utc_semantics": "inclusive",
+    "to_utc_semantics": "exclusive",
+    "fixed_interval_remote_cursor": false
+  },
+  "checkpoint_resume": {
+    "checkpoint_enabled": true,
+    "resume_enabled": true,
+    "completed_series_redownload_block": true,
+    "partial_series_resume_from_first_missing_request": true,
+    "artifact_hash_verification": true,
+    "legacy_checkpoint_artifact_count_verification": true,
+    "price_scope_mismatch_fail_closed": true,
+    "legacy_r2_partial_checkpoint_migration": true
+  },
+  "atomicity": {
+    "temp_json_validation_before_promotion": true,
+    "stream_flush_before_move": true,
+    "atomic_move_promotion": true,
+    "checkpoint_written_after_validated_batch": true
+  },
+  "retry_classification": {
+    "retryable": [408, 425, 429, 500, 502, 503, 504, "timeout", "temporary_transport", "connection_reset"],
+    "maximum_attempts_per_request": 5,
+    "retry_after_honored": true,
+    "credential_or_authorization_fail_closed": [401, 403],
+    "request_contract_4xx_fail_closed": true
+  },
+  "safety": {
+    "practice_host_only": true,
+    "method": "GET_ONLY",
+    "order_endpoint_allowed": false,
+    "live_host_allowed": false,
+    "token_output_allowed": false,
+    "token_persistence_allowed": false,
+    "authorization_header_output_allowed": false,
+    "broker_mutation_allowed": false
+  },
+  "what_if": {
+    "credential_required": false,
+    "http_request_made": false,
+    "pagination_contract": "FROM_PLUS_COUNT",
+    "to_sent_on_each_request": false,
+    "candles_per_request": 5000,
+    "scope_fingerprint_reported": true
+  },
+  "data_volume_request_estimate": {
+    "estimate_only": true,
+    "series_count": 21,
+    "calendar_days": 972,
+    "total_calendar_bar_upper_bound": 108125280,
+    "estimated_request_count_at_5000": 21630,
+    "largest_series": {
+      "granularity": "S5",
+      "bars_per_pair_calendar_upper_bound": 16796160,
+      "requests_per_pair": 3360
+    },
+    "disk_space_warning_threshold_gb": 25
+  },
+  "validation": {
+    "powershell_parser": "PASS",
+    "focused_pytest": "PASS",
+    "focused_pytest_command": "python -m pytest -q tests/forex_engine/test_oanda_practice_scalping_history_human_only_v1.py",
+    "focused_pytest_result": "19 passed",
+    "json_parse": "PASS",
+    "git_diff_check": "PASS_WITH_UNRELATED_LINE_ENDING_WARNINGS",
+    "secret_scan": "PASS_FAKE_TEST_FIXTURE_ONLY",
+    "live_order_scan": "PASS_BLOCKED_HOST_GUARD_ONLY"
+  },
+  "human_handoff": {
+    "output_root": ".aios/runtime/forex_scalping_history_human_inbox_v1",
+    "instruments": ["EUR_USD", "GBP_USD", "USD_JPY"],
+    "granularities": ["S5", "S10", "S15", "S30", "M1", "M2", "M4"],
+    "overall_from_utc": "2024-01-01T00:00:00Z",
+    "overall_to_utc": "2026-08-30T00:00:00Z",
+    "token_entry": "HUMAN_ONLY_MASKED_PROMPT"
+  },
+  "stop_point": "HUMAN_SCALPING_TIMEFRAME_DATA_ACQUISITION_REQUIRED",
+  "same_packet_resume_state": "WAIT_FOR_PHYSICAL_HUMAN_ARTIFACTS_THEN_RESUME_PACKET_033"
+}

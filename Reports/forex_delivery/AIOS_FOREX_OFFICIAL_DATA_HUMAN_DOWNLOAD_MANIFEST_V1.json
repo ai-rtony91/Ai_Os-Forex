@@ -1,0 +1,89 @@
+{
+  "schema": "AIOS_FOREX_OFFICIAL_DATA_HUMAN_DOWNLOAD_MANIFEST_V1",
+  "packet_id": "PKT-EAST-FOREX-SOURCE-CONTRACT-REPAIR-025",
+  "status": "HUMAN_DATA_ACQUISITION_REQUIRED",
+  "source_contract_status": "REPAIRED_WITH_EXACT_OFFICIAL_ROUTES_AND_MANUAL_BLS_FALLBACK",
+  "combined_with_practice_history": true,
+  "destination_inbox": ".aios/runtime/forex_official_data_human_inbox/",
+  "intended_pair_universe_count": 68,
+  "source_family_count": 3,
+  "expanded_download_item_count": 24,
+  "items": [
+    {
+      "artifact_id": "CENTRAL_BANK_POLICY_HISTORY_BOE_IUDBEDR",
+      "expected_content_markers": [
+        "DATE,IUDBEDR"
+      ],
+      "expected_content_type": "text/csv",
+      "expected_destination_relative_path": ".aios/runtime/forex_official_data_human_inbox/CENTRAL_BANK_POLICY_HISTORY_BOE_IUDBEDR.csv",
+      "expected_time_period": "2005-01-01 through latest available",
+      "official_page": "https://www.bankofengland.co.uk/boeapps/database/FromShowColumns.asp?SearchText=IUDBEDR",
+      "official_url": "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2005&Dateto=now&SeriesCodes=IUDBEDR&UsingCodes=Y&CSVF=TN",
+      "post_download_hash_status": "PENDING_DOWNLOAD",
+      "private_account_required": false,
+      "secret_required": false,
+      "series_id": "IUDBEDR",
+      "source_contract_repair": "Configured FRED/IUDERB route returned HTTP 404. Current official Bank of England database series is IUDBEDR.",
+      "source_family_purpose": "CENTRAL_BANK_POLICY_HISTORY",
+      "source_owner": "Bank of England",
+      "source_status": "OFFICIAL_ROUTE_REPLACED_WITH_CURRENT_OFFICIAL_ROUTE",
+      "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+    },
+    {
+      "artifact_id": "CFTC_POSITIONING_HISTORY_DEACOT",
+      "artifact_year_end": 2026,
+      "artifact_year_start": 2005,
+      "expected_content_markers": [],
+      "expected_content_type": "application/zip",
+      "expected_destination_template": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_{year}.zip",
+      "expected_time_period": "2005 through 2026 annual historical compressed futures-only files",
+      "official_page": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm",
+      "official_url_template": "https://www.cftc.gov/files/dea/history/deacot{year}.zip",
+      "post_download_hash_status": "PENDING_DOWNLOAD",
+      "private_account_required": false,
+      "secret_required": false,
+      "series_id": "CFTC_FUTURES_ONLY_DEACOT",
+      "source_contract_repair": "Configured route was only the CFTC HTML index. Replaced with exact annual official compressed files using the deacotYYYY.zip contract.",
+      "source_family_purpose": "CFTC_POSITIONING_HISTORY",
+      "source_owner": "CFTC",
+      "source_status": "OFFICIAL_ROUTE_REPLACED_WITH_CURRENT_OFFICIAL_ROUTE",
+      "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+    },
+    {
+      "artifact_id": "OFFICIAL_MACRO_RELEASE_SCHEDULES_BLS_RELEASE_CALENDAR",
+      "automation_failure_classification": "OFFICIAL_ROUTE_AUTOMATION_CHALLENGED",
+      "expected_content_markers": [
+        "BEGIN:VCALENDAR"
+      ],
+      "expected_content_type": "text/calendar",
+      "expected_destination_relative_path": ".aios/runtime/forex_official_data_human_inbox/OFFICIAL_MACRO_RELEASE_SCHEDULES_BLS_RELEASE_CALENDAR.ics",
+      "expected_time_period": "current official release calendar plus archived public release pages as needed",
+      "manual_download_required": true,
+      "manual_download_reason": "BLS returned an explicit Access Denied/bot-policy HTML page to automated GET/HEAD probes. Do not bypass anti-bot controls.",
+      "official_page": "https://www.bls.gov/schedule/news_release/",
+      "official_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+      "post_download_hash_status": "PENDING_HUMAN_MANUAL_DOWNLOAD",
+      "private_account_required": false,
+      "secret_required": false,
+      "series_id": "BLS_RELEASE_CALENDAR",
+      "source_family_purpose": "OFFICIAL_MACRO_RELEASE_SCHEDULES",
+      "source_owner": "U.S. Bureau of Labor Statistics",
+      "source_status": "HUMAN_MANUAL_OFFICIAL_DOWNLOAD_REQUIRED",
+      "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+    }
+  ],
+  "manual_downloads": [
+    {
+      "drop_path": ".aios/runtime/forex_official_data_human_inbox/OFFICIAL_MACRO_RELEASE_SCHEDULES_BLS_RELEASE_CALENDAR.ics",
+      "expected_file_type": "ics",
+      "official_page": "https://www.bls.gov/schedule/news_release/",
+      "official_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+      "reason": "BLS anti-bot policy blocked automated retrieval. Manual browser download from the official BLS site is required.",
+      "source_family_purpose": "OFFICIAL_MACRO_RELEASE_SCHEDULES"
+    }
+  ],
+  "manifest_hash": "2e0da895120d362f7495e92692c0e40e5a3602634a2bfaee0763564c3994c8cd",
+  "practice_history_command": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/forex_delivery/Acquire-AiOsOandaPracticeHistory.HUMAN_ONLY.ps1",
+  "privacy_warning": "Do not place credentials, private account data, bank data, screenshots, cookies, browser profiles, or modified files in the inbox.",
+  "single_wrapper_command": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/forex_delivery/Run-AiOsProfitabilityDataClosure.HUMAN_ONLY.ps1"
+}

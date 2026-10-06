@@ -127,17 +127,27 @@ if ([string]::IsNullOrWhiteSpace($WorkerId)) {
     }
 }
 
-$matches = @($locks | Where-Object { $_.lock_id -eq $LockId -and $_.worker_id -eq $WorkerId })
+$ownerMatches = @($locks | Where-Object { $_.lock_id -eq $LockId -and $_.worker_id -eq $WorkerId })
+$matches = @($ownerMatches | Where-Object { $_.status -eq "ACTIVE" })
 $releaseStatus = "BLOCKED"
 
 if ($reviewRequired.Count -gt 0) {
     $releaseStatus = "REVIEW_REQUIRED"
 }
 elseif ($matches.Count -eq 0) {
-    $releaseStatus = "BLOCKED"
-    $reviewRequired += [pscustomobject]@{
-        risk_type = "NO_EXACT_LOCK_OWNER_MATCH"
-        recommendation = "Do not release any lock without exact lock_id and worker_id ownership."
+    if ($ownerMatches.Count -gt 0) {
+        $releaseStatus = "REVIEW_REQUIRED"
+        $reviewRequired += [pscustomobject]@{
+            risk_type = "NON_ACTIVE_LOCK_RELEASE_REVIEW"
+            recommendation = "Do not mutate terminal lock history when no matching ACTIVE record exists."
+        }
+    }
+    else {
+        $releaseStatus = "BLOCKED"
+        $reviewRequired += [pscustomobject]@{
+            risk_type = "NO_EXACT_LOCK_OWNER_MATCH"
+            recommendation = "Do not release any lock without exact lock_id and worker_id ownership."
+        }
     }
 }
 elseif ($matches.Count -gt 1) {
@@ -201,7 +211,7 @@ $writesPerformed = 0
 if ($Apply -and $releaseStatus -eq "READY_TO_RELEASE") {
     $now = ConvertTo-AiOsUtcString -Value (Get-AiOsUtcNow)
     foreach ($lock in $registry.locks) {
-        if ($lock.lock_id -eq $LockId -and $lock.worker_id -eq $WorkerId) {
+        if ($lock.lock_id -eq $LockId -and $lock.worker_id -eq $WorkerId -and $lock.status -eq "ACTIVE") {
             $lock.status = "RELEASED"
             $lock.updated_at_utc = $now
             $lock | Add-Member -NotePropertyName "released_at_utc" -NotePropertyValue $now -Force

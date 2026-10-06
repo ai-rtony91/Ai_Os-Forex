@@ -50,7 +50,12 @@ function Get-ChangedPathFromStatusLine {
     if ([string]::IsNullOrWhiteSpace($Line) -or $Line -like "##*") { return $null }
     if ($Line.Length -lt 4) { return $null }
     $path = $Line.Substring(3).Trim()
-    if ($path -match " -> ") { $path = ($path -split " -> ")[-1].Trim() }
+    if ($path -match " -> ") {
+        $pathParts = $path -split " -> "
+        if ($null -ne $pathParts -and $pathParts.Length -gt 0) {
+            $path = $pathParts[$pathParts.Length - 1].Trim()
+        }
+    }
     return $path.Replace("\", "/")
 }
 
@@ -95,30 +100,35 @@ function Invoke-PythonJsonLogic {
     $psi.RedirectStandardError = $true
     $psi.UseShellExecute = $false
     $psi.WorkingDirectory = $resolvedRepoRoot
-    $existingPythonPath = $psi.EnvironmentVariables["PYTHONPATH"]
-    if ([string]::IsNullOrWhiteSpace($existingPythonPath)) {
-        $psi.EnvironmentVariables["PYTHONPATH"] = $resolvedRepoRoot
+    $previousPythonPath = [System.Environment]::GetEnvironmentVariable("PYTHONPATH")
+    if ([string]::IsNullOrWhiteSpace($previousPythonPath)) {
+        $env:PYTHONPATH = $resolvedRepoRoot
     }
     else {
-        $psi.EnvironmentVariables["PYTHONPATH"] = "$resolvedRepoRoot$([System.IO.Path]::PathSeparator)$existingPythonPath"
+        $env:PYTHONPATH = "$resolvedRepoRoot$([System.IO.Path]::PathSeparator)$previousPythonPath"
     }
     $process = [System.Diagnostics.Process]::new()
     $process.StartInfo = $psi
-    [void]$process.Start()
-    $stdoutTask = $process.StandardOutput.ReadToEndAsync()
-    $stderrTask = $process.StandardError.ReadToEndAsync()
-    $process.StandardInput.Write($payloadJson)
-    $process.StandardInput.Close()
-    if (-not $process.WaitForExit($TimeoutSecondsValue * 1000)) {
-        $process.Kill()
-        throw "AIOS approved autonomy worker launch controller timed out."
+    try {
+        [void]$process.Start()
+        $stdoutTask = $process.StandardOutput.ReadToEndAsync()
+        $stderrTask = $process.StandardError.ReadToEndAsync()
+        $process.StandardInput.Write($payloadJson)
+        $process.StandardInput.Close()
+        if (-not $process.WaitForExit($TimeoutSecondsValue * 1000)) {
+            $process.Kill()
+            throw "AIOS approved autonomy worker launch controller timed out."
+        }
+        $rawText = $stdoutTask.Result.Trim()
+        $errorText = $stderrTask.Result.Trim()
+        if ([string]::IsNullOrWhiteSpace($rawText)) {
+            throw "AIOS approved autonomy worker launch controller returned no JSON. $errorText"
+        }
+        return $rawText | ConvertFrom-Json -ErrorAction Stop
     }
-    $rawText = $stdoutTask.Result.Trim()
-    $errorText = $stderrTask.Result.Trim()
-    if ([string]::IsNullOrWhiteSpace($rawText)) {
-        throw "AIOS approved autonomy worker launch controller returned no JSON. $errorText"
+    finally {
+        $env:PYTHONPATH = $previousPythonPath
     }
-    return $rawText | ConvertFrom-Json -ErrorAction Stop
 }
 
 function Write-ConsoleReport {

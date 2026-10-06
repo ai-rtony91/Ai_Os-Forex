@@ -1,0 +1,46 @@
+{
+    "allowed_paths":  [
+                          ".aios/staging/PKT_FOREX_045/stage1_occ84",
+                          "automation/orchestration/locks/FILE_LOCK_REGISTRY.json"
+                      ],
+    "approval_evidence":  {
+                              "type":  "HMAC_SHA256",
+                              "status":  "SIGNED_BY_HUMAN_OWNER",
+                              "canonical_payload_schema":  "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v1",
+                              "canonical_payload_sha256":  "de8afc90749becfd060232bbdc5d8a9f3af21375b5bb2b52d6e6cdc3b312b556",
+                              "approval_hmac_sha256":  "a1c040e3aae82900197343a1e80a45fbccdca271b9b0a7a313711c1072f93e5e",
+                              "approval_nonce":  "a883e8626e0a4b3d9a3e5bbd21d81510",
+                              "key_id":  "AIOS-HUMAN-OWNER-PRIMARY-V1",
+                              "key_version":  1,
+                              "key_fingerprint_sha256":  "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786"
+                          },
+    "approval_gate_id":  "PKT045-REPAIR-20260915-MUSCLE98-01",
+    "approval_request_id":  "PKT045-REPAIR-20260915-MUSCLE98-01",
+    "approval_status":  "approved_for_apply",
+    "approval_timestamp_utc":  "2026-09-15T12:03:54.5582463+00:00",
+    "approved_by_human":  true,
+    "approved_mode":  "APPLY",
+    "blocked_paths":  [
+                          "broker/",
+                          "oanda/",
+                          "secrets/",
+                          "credentials/",
+                          "webhooks/",
+                          "validation_holdout/",
+                          "research_memory/"
+                      ],
+    "commit_package_required":  true,
+    "expires_at_utc":  "2026-09-16T03:26:42.312496+00:00",
+    "packet_id":  "PKT-FOREX-045",
+    "repair_parent_request_id":  "PKT045-MUSCLE98-RECOVERY-20260915",
+    "repair_plan_sha256":  "bf71fc38c7fd65f549db5650320e6d8cfb9b4732d70b9134a825ecfe4cec50ba",
+    "requested_action":  "RECOVER_EXISTING_PKT045_WITH_SIGNED_REPAIR",
+    "requested_mode":  "APPLY",
+    "schema":  "AIOS_PACKET_APPROVAL_REQUEST.v1",
+    "validator_chain":  [
+                            "PKT045_PARENT_APPROVAL_SHA256=2cca49a94d0504a805fdb27929aa925f20fcf89bdb6c43cf94d9f90b3afd1522",
+                            "PKT045_REPAIR_PLAN_SHA256=bf71fc38c7fd65f549db5650320e6d8cfb9b4732d70b9134a825ecfe4cec50ba"
+                        ],
+    "validator_chain_required":  true,
+    "approved_by":  "Anthony, Human Owner"
+}

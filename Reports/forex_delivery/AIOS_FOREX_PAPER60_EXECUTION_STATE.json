@@ -1,0 +1,56 @@
+{
+  "schema": "AIOS_FOREX_PAPER60_EXECUTION_STATE_V1",
+  "paper60_collection_complete": true,
+  "paper60_certification_complete": false,
+  "long": {
+    "runtime_status": "COMPLETE",
+    "active_positions": 4,
+    "completed_trades": 30,
+    "trades_added_this_execution": 30,
+    "expectancy_r": -1.1833358592272332,
+    "profit_factor": 0.0,
+    "maximum_drawdown_r": 35.50007577681699,
+    "win_rate": 0.0,
+    "average_r": -1.1833358592272332,
+    "wins": 0,
+    "losses": 30,
+    "duplicates": 0,
+    "internal_errors": 0,
+    "certification": "FAIL",
+    "failure_class": "STRATEGY_FAILURE"
+  },
+  "short": {
+    "runtime_status": "COMPLETE",
+    "active_positions": 8,
+    "completed_trades": 30,
+    "trades_added_this_execution": 30,
+    "expectancy_r": 0.06710380434260585,
+    "profit_factor": 1.0769945277275081,
+    "maximum_drawdown_r": 20.472506722173154,
+    "win_rate": 0.26666666666666666,
+    "average_r": 0.06710380434260585,
+    "wins": 8,
+    "losses": 22,
+    "duplicates": 0,
+    "internal_errors": 0,
+    "certification": "FAIL",
+    "failure_class": "STRATEGY_FAILURE"
+  },
+  "combined": {
+    "completed_trades": 60,
+    "long_completed": 30,
+    "short_completed": 30,
+    "combined_certification": "FAIL",
+    "combined_review": "NOT_READY"
+  },
+  "safety": {
+    "broker_write_performed": false,
+    "practice_order_performed": false,
+    "live_trade_performed": false,
+    "money_movement_performed": false,
+    "credentials_persisted": false,
+    "duplicate_completed_trades": 0,
+    "internal_errors": 0
+  },
+  "next_safe_action": "Strategy research lane with preserved failed evidence"
+}

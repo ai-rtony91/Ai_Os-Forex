@@ -285,7 +285,11 @@ def run_replay_reconciliation_proof_bundle(
     ):
         proof_bundle_status = PROOF_BUNDLE_INCOMPLETE
 
-    ready_for_candidate_bridge = proof_bundle_status == PROOF_BUNDLE_COMPLETE
+    ready_for_candidate_bridge = (
+        proof_bundle_status == PROOF_BUNDLE_COMPLETE
+        and source_candidate_verdict == "DEMO_REVIEW_READY"
+        and source_review_chain_status == "REVIEW_CHAIN_REVIEW_READY"
+    )
 
     if proof_bundle_status == PROOF_BUNDLE_BLOCKED:
         next_safe_action = "Resolve unsafe source flags before emitting proof bundle."

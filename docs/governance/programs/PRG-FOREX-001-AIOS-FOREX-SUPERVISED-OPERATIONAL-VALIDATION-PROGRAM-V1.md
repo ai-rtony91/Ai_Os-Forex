@@ -59,7 +59,7 @@ Out of scope:
 1. Define the official Forex supervised operational validation Program under AIOS governance.
 2. Declare the Program relationship to MISSION-AIOS-001.
 3. Establish the exact Epic and Bucket structure for future Forex validation work.
-4. Declare the first ten governed Packets for future scoped execution requests.
+4. Declare the first eleven governed Packets for future scoped execution requests.
 5. Preserve strict boundaries against broker, credential, runtime, trading, and money movement authority.
 6. Require future implementation authority to come only from separate governed packets under higher repository policy.
 
@@ -68,9 +68,9 @@ Out of scope:
 The Program is successful when:
 
 - The Program document exists in the approved governance program path.
-- The Program declares exactly four Epics.
-- The Program declares exactly eight Buckets.
-- The Program declares the first ten Packets.
+- The Program declares exactly five Epics.
+- The Program declares exactly nine Buckets.
+- The Program declares the first eleven Packets.
 - The Program states its safety and authority boundaries clearly.
 - The Program does not create runtime, code, scripts, tests, credentials, broker access, trading access, or protected-action authority.
 - Future work can reference this Program without treating it as implementation approval.
@@ -146,7 +146,7 @@ The Program remains in definition status until future governed packets create ap
 
 ## Epics
 
-This Program defines exactly four Epics.
+This Program defines exactly five Epics.
 
 ### EPC-FOREX-001: Demo Operations
 
@@ -164,9 +164,13 @@ Defines the future capital safety lane for risk parameters, compounding review, 
 
 Defines the future readiness review lane for reliability evidence, operational controls, and Human Owner production decision support.
 
+### EPC-FOREX-006: Governed Forex Historical Dataset Validation and Immutable Freezing
+
+Defines deterministic certification and copy-once freezing of the bounded 21-series OANDA Practice historical dataset without authorizing acquisition, strategy research, or trading activity.
+
 ## Buckets
 
-This Program defines exactly eight Buckets.
+This Program defines exactly nine Buckets.
 
 ### BKT-FOREX-001: Demo Runtime
 
@@ -200,9 +204,13 @@ Future long-duration reliability, failure handling, and operational stability bo
 
 Future production transition review, readiness decision, and approval evidence boundary.
 
+### BKT-FOREX-010: OANDA Practice 21-Series Dataset Evidence, Validation, Provenance, and Freeze
+
+Historical dataset manifest, checkpoint, batch, hash, provenance, validation-receipt, and immutable-freeze evidence boundary.
+
 ## Initial Packets
 
-This Program declares the first ten Packets.
+This Program declares the first eleven Packets.
 
 ### PKT-FOREX-001: Supervised Demo Operational Validation Runner
 
@@ -243,6 +251,10 @@ Future packet for requesting scoped long-duration reliability validation design 
 ### PKT-FOREX-010: Micro-Capital Readiness Review
 
 Future packet for requesting scoped micro-capital readiness review design or implementation authority under higher policy.
+
+### PKT-FOREX-011: Historical Dataset Verifier and Freezer V1
+
+Packet for implementing the deterministic 21-series verifier, conditional copy-once freezer, receipt schemas, and synthetic validation suite. It does not authorize execution against the real dataset.
 
 ## Future Packet Rule
 

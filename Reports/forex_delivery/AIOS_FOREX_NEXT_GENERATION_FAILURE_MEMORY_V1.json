@@ -1,0 +1,201 @@
+{
+  "failed_candidates": [
+    {
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_LONG_TSMOM_1M_TRAIL_V1",
+      "direction": "LONG",
+      "family": "A_TIME_SERIES_MOMENTUM",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_SHORT_TSMOM_1M_TRAIL_V1",
+      "direction": "SHORT",
+      "family": "A_TIME_SERIES_MOMENTUM",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_LONG_TSMOM_3M_TIME_V1",
+      "direction": "LONG",
+      "family": "A_TIME_SERIES_MOMENTUM",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_SHORT_TSMOM_3M_TIME_V1",
+      "direction": "SHORT",
+      "family": "A_TIME_SERIES_MOMENTUM",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_LONG_XS_MOM_TOPBOT_V1",
+      "direction": "LONG",
+      "family": "B_CROSS_SECTIONAL_FACTOR",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_SHORT_XS_MOM_TOPBOT_V1",
+      "direction": "SHORT",
+      "family": "B_CROSS_SECTIONAL_FACTOR",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_LONG_XS_SPREAD_EFFICIENT_V1",
+      "direction": "LONG",
+      "family": "B_CROSS_SECTIONAL_FACTOR",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_SHORT_XS_SPREAD_EFFICIENT_V1",
+      "direction": "SHORT",
+      "family": "B_CROSS_SECTIONAL_FACTOR",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_LONG_MOM_CARRY_AVAILABLE_ONLY_V1",
+      "direction": "LONG",
+      "family": "C_CARRY_VALUE_MOMENTUM",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_SHORT_MOM_CARRY_AVAILABLE_ONLY_V1",
+      "direction": "SHORT",
+      "family": "C_CARRY_VALUE_MOMENTUM",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_LONG_VALUE_COMPONENT_INELIGIBLE_MOM_V1",
+      "direction": "LONG",
+      "family": "C_CARRY_VALUE_MOMENTUM",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_SHORT_VALUE_COMPONENT_INELIGIBLE_MOM_V1",
+      "direction": "SHORT",
+      "family": "C_CARRY_VALUE_MOMENTUM",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "D_RELATIVE_VALUE_LONG_ROLLING_RESIDUAL_V1",
+      "direction": "LONG",
+      "family": "D_RELATIVE_VALUE",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "D_RELATIVE_VALUE_SHORT_ROLLING_RESIDUAL_V1",
+      "direction": "SHORT",
+      "family": "D_RELATIVE_VALUE",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "D_RELATIVE_VALUE_LONG_CROSS_RATE_RESIDUAL_V1",
+      "direction": "LONG",
+      "family": "D_RELATIVE_VALUE",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "D_RELATIVE_VALUE_SHORT_CROSS_RATE_RESIDUAL_V1",
+      "direction": "SHORT",
+      "family": "D_RELATIVE_VALUE",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "E_EVENT_DRIVEN_LONG_POST_BLS_CONTINUATION_V1",
+      "direction": "LONG",
+      "family": "E_EVENT_DRIVEN",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "E_EVENT_DRIVEN_SHORT_POST_BLS_CONTINUATION_V1",
+      "direction": "SHORT",
+      "family": "E_EVENT_DRIVEN",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "E_EVENT_DRIVEN_LONG_POST_EVENT_REVERSAL_V1",
+      "direction": "LONG",
+      "family": "E_EVENT_DRIVEN",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "E_EVENT_DRIVEN_SHORT_POST_EVENT_REVERSAL_V1",
+      "direction": "SHORT",
+      "family": "E_EVENT_DRIVEN",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "F_LIQUIDITY_SESSION_LONG_LONDON_NY_TRANSITION_V1",
+      "direction": "LONG",
+      "family": "F_LIQUIDITY_SESSION",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "F_LIQUIDITY_SESSION_SHORT_LONDON_NY_TRANSITION_V1",
+      "direction": "SHORT",
+      "family": "F_LIQUIDITY_SESSION",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "F_LIQUIDITY_SESSION_LONG_SPREAD_NORMALIZATION_V1",
+      "direction": "LONG",
+      "family": "F_LIQUIDITY_SESSION",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "F_LIQUIDITY_SESSION_SHORT_SPREAD_NORMALIZATION_V1",
+      "direction": "SHORT",
+      "family": "F_LIQUIDITY_SESSION",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "G_REGIME_SWITCHING_LONG_TREND_VOL_STATE_V1",
+      "direction": "LONG",
+      "family": "G_REGIME_SWITCHING",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "G_REGIME_SWITCHING_SHORT_TREND_VOL_STATE_V1",
+      "direction": "SHORT",
+      "family": "G_REGIME_SWITCHING",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "G_REGIME_SWITCHING_LONG_NO_TRADE_VOL_GATE_V1",
+      "direction": "LONG",
+      "family": "G_REGIME_SWITCHING",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "G_REGIME_SWITCHING_SHORT_NO_TRADE_VOL_GATE_V1",
+      "direction": "SHORT",
+      "family": "G_REGIME_SWITCHING",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "H_META_LABEL_ROUTER_LONG_LOW_COST_TAKE_V1",
+      "direction": "LONG",
+      "family": "H_META_LABEL_ROUTER",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "H_META_LABEL_ROUTER_SHORT_LOW_COST_TAKE_V1",
+      "direction": "SHORT",
+      "family": "H_META_LABEL_ROUTER",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "H_META_LABEL_ROUTER_LONG_VOL_CALIBRATED_TAKE_V1",
+      "direction": "LONG",
+      "family": "H_META_LABEL_ROUTER",
+      "reason": "Failed required Development/statistical/downstream gate."
+    },
+    {
+      "candidate_id": "H_META_LABEL_ROUTER_SHORT_VOL_CALIBRATED_TAKE_V1",
+      "direction": "SHORT",
+      "family": "H_META_LABEL_ROUTER",
+      "reason": "Failed required Development/statistical/downstream gate."
+    }
+  ],
+  "packet026_terminal_state": "PROFITABILITY_RESEARCH_EXHAUSTED_NO_EDGE",
+  "packet027_status": "NEXT_GENERATION_RESEARCH_EXHAUSTED_NO_EDGE",
+  "packet_id": "PKT-EAST-FOREX-NEXT-GENERATION-PROFITABILITY-027",
+  "schema": "AIOS_FOREX_NEXT_GENERATION_FAILURE_MEMORY_V1",
+  "state_hash": "139bcdd7ca6a64c63470f41b63791b33fcfa32a870b01e8fb065ca6ec23b6cfe"
+}

@@ -10,6 +10,24 @@ MODULE = REPO_ROOT / "automation" / "orchestration" / "continuation" / "aios_aut
 FIXED_NOW = "2026-06-16T12:00:00Z"
 
 
+def test_research_owner_observation_requires_identity_progress_and_freshness():
+    project = _load().project_research_observation
+    now = 1000.
+    record = {"schema": "S6_RESEARCH_OWNER_OBSERVATION.v1", "owner": "EXISTING_GOAL_MUSCLE98",
+              "role": "MARKET", "source_pins_checked": True, "phase": "SCORING",
+              "worker_identity": "EAST_OCC_97_S6", "job": "FIXTURE", "active_workers": 1,
+              "heartbeat_at": 999., "useful_progress_at": 900., "metadata_saved_at": 999.,
+              "last_accepted_at": 850., "queue_size": 3}
+    assert project(record, now=now)["state"] == "ACTIVE_OWNER_REPORTED"
+    assert project({**record, "useful_progress_at": 600.}, now=now)["state"] == "STALLED"
+    assert project({**record, "heartbeat_at": 960.}, now=now)["active_workers"] is None
+    assert project({**record, "heartbeat_at": 1001.}, now=now)["state"] == "STALE"
+    for change in ({"role": "BUILDER"}, {"source_pins_checked": False}, {"worker_identity": "unsafe/path"}):
+        assert project({**record, **change}, now=now)["active_workers"] is None
+    assert project(None, now=now)["state"] == "UNKNOWN"
+    assert project({**record, "phase": "WAITING_FOR_OWNER"}, now=now)["active_workers"] == 0
+
+
 def _load():
     spec = importlib.util.spec_from_file_location("aios_autonomous_job_continuation", MODULE)
     assert spec is not None and spec.loader is not None

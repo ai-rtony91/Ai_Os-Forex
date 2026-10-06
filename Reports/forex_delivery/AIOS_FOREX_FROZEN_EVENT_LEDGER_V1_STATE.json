@@ -1,0 +1,17 @@
+{
+  "accepted_entry_count": 0,
+  "accepted_entry_ledger_hash": "17c6c1d1493306de009878bc68cd60bff56548da79f2bf8716ecf851a4234461",
+  "accepted_entry_ledger_path": ".aios/runtime/forex_frozen_event_ledger_v1/accepted_entry_ledger.jsonl.gz",
+  "candidate_count_with_entries": 2,
+  "direction_counts": {
+    "LONG": 6960,
+    "SHORT": 6960
+  },
+  "eligible_event_count": 13920,
+  "eligible_event_ledger_hash": "17c6c1d1493306de009878bc68cd60bff56548da79f2bf8716ecf851a4234461",
+  "feature_outcome_separation": "PASS_FEATURES_EXCLUDE_FUTURE_OUTCOMES",
+  "packet_id": "PKT-EAST-FOREX-EDGE-EXISTENCE-CLOSURE-031",
+  "schema": "AIOS_FOREX_FROZEN_EVENT_LEDGER_V1_STATE",
+  "state_hash": "124c5ae2a4cfdcfa60a581689846d1a640820daa6178374238ee0306a040a684",
+  "status": "FROZEN_EVENT_LEDGER_BUILT"
+}

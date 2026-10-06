@@ -239,7 +239,7 @@ $dayStartCommit = Get-AiOsObjectPropertyValue -Object $dailyBaseline -Name "day_
 
 $timestamp = Get-Date -Format "yyyy-MM-dd_HHmm"
 $destinationName = "AIOS_BACKUP_POST_MAIN_${timestamp}_$shortCommit"
-$recommendedBackupPath = Join-Path $normalizedBackupRoot $destinationName
+$recommendedBackupPath = [System.IO.Path]::Combine($normalizedBackupRoot, $destinationName)
 $excludedDirs = @(".git", ".codex_backups", "node_modules", "__pycache__", ".venv", "dist", "build")
 $excludedSecretPatterns = @(".env", "*.env", ".env.*", "*.pem", "*.key", "id_rsa", "id_ed25519", "*.pfx", "*.p12", "*secret*", "*secrets*")
 $robocopyPreview = @(
