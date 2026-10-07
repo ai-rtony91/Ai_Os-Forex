@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import test from 'node:test'
 import { getLoginPresentation, getLoginProviders } from '../src/pages/loginAuthPresentation.js'
+
+const loginPortalSource = readFileSync(fileURLToPath(new URL('../src/pages/LoginPortalPage.jsx', import.meta.url)), 'utf8')
+const appShellStyles = readFileSync(fileURLToPath(new URL('../src/app/AiosAppShell.css', import.meta.url)), 'utf8')
 
 test('identity_required enables only providers returned by the server', () => {
   assert.deepEqual(getLoginPresentation({ phase: 'identity_required' }), {
@@ -41,6 +46,12 @@ test('provider actions have fixed local routes and only configured providers are
   const both = getLoginProviders({ phase: 'identity_required', providers: ['microsoft', 'github', 'https://untrusted.test'] })
   assert.deepEqual(both.map(({ href, enabled }) => [href, enabled]), [['/auth/login', true], ['/auth/login?provider=github', true]])
   assert.equal(getLoginProviders({ phase: 'identity_required', providers: [] }).some(({ enabled }) => enabled), false)
+})
+
+test('Microsoft SSO button is presented as one integrated control', () => {
+  assert.match(loginPortalSource, /microsoftProviderIcon/)
+  assert.doesNotMatch(loginPortalSource, /providerSsoBadge/)
+  assert.doesNotMatch(appShellStyles, /providerSsoBadge/)
 })
 
 test('provider availability never overrides a failed or incomplete authentication check', () => {
