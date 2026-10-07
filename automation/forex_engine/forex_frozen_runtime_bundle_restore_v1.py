@@ -47,6 +47,19 @@ def _candidate_files(root: Path, name: str) -> list[Path]:
     return [path for path in root.rglob(name) if path.is_file()]
 
 
+def _linked_target_root(root: Path) -> bool:
+    absolute = root.absolute()
+    try:
+        if absolute.resolve(strict=False) != absolute:
+            return True
+    except (OSError, RuntimeError):
+        return True
+    return any(
+        part.is_symlink() or getattr(part, "is_junction", lambda: False)()
+        for part in (absolute, *absolute.parents)
+    )
+
+
 def _copy_verified_new_file(source: Path, destination: Path, expected_sha256: str) -> None:
     temporary: Path | None = None
     digest = hashlib.sha256()
@@ -107,46 +120,56 @@ def restore_bundle(
     validate_expected_hashes(expected_hashes)
     target_root = Path(target_root)
     search_roots = [Path(root) for root in search_roots]
+    linked_root = _linked_target_root(target_root)
     matches: dict[str, dict[str, Any]] = {}
     target_mismatched: list[str] = []
     needed: dict[str, str] = {}
-    for name, expected_sha256 in sorted(expected_hashes.items()):
-        destination = target_root / name
-        if destination.is_symlink():
-            target_mismatched.append(name)
-            matches[name] = {"target_path": destination.as_posix(), "blocked_symlink": True}
-        elif destination.exists():
-            if not destination.is_file():
+    if not linked_root:
+        for name, expected_sha256 in sorted(expected_hashes.items()):
+            destination = target_root / name
+            if destination.is_symlink():
                 target_mismatched.append(name)
-                matches[name] = {"target_path": destination.as_posix(), "blocked_non_file": True}
-            else:
-                actual_sha256 = sha256_file(destination)
-                if actual_sha256.lower() != expected_sha256.lower():
+                matches[name] = {"target_path": destination.as_posix(), "blocked_symlink": True}
+            elif destination.exists():
+                if not destination.is_file():
                     target_mismatched.append(name)
-                    matches[name] = {"target_path": destination.as_posix(), "actual_sha256": actual_sha256, "expected_sha256": expected_sha256}
+                    matches[name] = {"target_path": destination.as_posix(), "blocked_non_file": True}
                 else:
-                    matches[name] = {"target_path": destination.as_posix(), "sha256": actual_sha256, "bytes": destination.stat().st_size, "already_present": True}
-        else:
-            needed[name] = expected_sha256
+                    actual_sha256 = sha256_file(destination)
+                    if actual_sha256.lower() != expected_sha256.lower():
+                        target_mismatched.append(name)
+                        matches[name] = {"target_path": destination.as_posix(), "actual_sha256": actual_sha256, "expected_sha256": expected_sha256}
+                    else:
+                        matches[name] = {"target_path": destination.as_posix(), "sha256": actual_sha256, "bytes": destination.stat().st_size, "already_present": True}
+            else:
+                needed[name] = expected_sha256
 
-    matches.update(_find_matches(search_roots, needed))
+        matches.update(_find_matches(search_roots, needed))
     missing = [name for name, match in matches.items() if match.get("missing")]
     copied: list[str] = []
     publication_error: str | None = None
 
-    if copy and not missing and not target_mismatched:
-        target_root.mkdir(parents=True, exist_ok=True)
-        for name in needed:
-            match = matches[name]
-            destination = target_root / name
-            try:
-                _copy_verified_new_file(Path(match["source_path"]), destination, expected_hashes[name])
-            except AtomicPublishUnavailable as exc:
-                publication_error = str(exc)
-                break
-            copied.append(name)
+    if copy and not linked_root and not missing and not target_mismatched:
+        if _linked_target_root(target_root):
+            linked_root = True
+        else:
+            target_root.mkdir(parents=True, exist_ok=True)
+            for name in needed:
+                if _linked_target_root(target_root):
+                    linked_root = True
+                    break
+                match = matches[name]
+                destination = target_root / name
+                try:
+                    _copy_verified_new_file(Path(match["source_path"]), destination, expected_hashes[name])
+                except AtomicPublishUnavailable as exc:
+                    publication_error = str(exc)
+                    break
+                copied.append(name)
 
-    if target_mismatched:
+    if linked_root:
+        status = "BLOCKED_TARGET_ROOT_LINK"
+    elif target_mismatched:
         status = "BLOCKED_TARGET_HASH_MISMATCH"
     elif missing:
         status = "BLOCKED_SOURCE_FILES_NOT_FOUND"
@@ -167,16 +190,18 @@ def restore_bundle(
         "copy_requested": copy,
         "counts": {
             "expected": len(expected_hashes),
-            "matched": len(expected_hashes) - len(missing) - len(target_mismatched),
+            "matched": 0 if linked_root else len(expected_hashes) - len(missing) - len(target_mismatched),
             "copied": len(copied),
             "missing": len(missing),
         },
         "missing": missing,
         "target_mismatched": target_mismatched,
+        "blocked_target_root_link": linked_root,
         "publication_error": publication_error,
         "files": matches,
         "copied": copied,
         "next_safe_action": (
+            "select_target_root_without_links" if linked_root else
             "run_restore_verifier" if status in {"RESTORED_VERIFIED_BUNDLE", "ALREADY_VERIFIED_BUNDLE"} else
             "inspect_mismatched_target_without_overwrite" if target_mismatched else
             "use_local_filesystem_supporting_atomic_publish" if publication_error is not None else

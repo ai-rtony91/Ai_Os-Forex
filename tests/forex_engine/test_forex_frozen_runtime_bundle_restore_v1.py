@@ -298,6 +298,32 @@ def test_target_symlink_blocks_copy_even_when_hash_matches(tmp_path: Path) -> No
     assert outside.read_bytes() == b"authoritative\n"
 
 
+@pytest.mark.parametrize("linked_ancestor", [False, True])
+def test_linked_target_root_blocks_copy_outside_named_target(tmp_path: Path, linked_ancestor: bool) -> None:
+    source = tmp_path / "backup"
+    source.mkdir()
+    name = "AIOS_FOREX_PHASE1_RECEIPT.json"
+    (source / name).write_bytes(b"authoritative\n")
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    alias = tmp_path / "alias"
+    try:
+        alias.symlink_to(outside, target_is_directory=True)
+    except OSError:
+        pytest.skip("directory symlinks unavailable")
+    target = alias / "target" if linked_ancestor else alias
+
+    result = restore_bundle(
+        [source], target,
+        expected_hashes={name: "f60c0a47613a06b34b0df267113d5d08872fef3a5415e362a6252a838ba3f076"},
+        copy=True,
+    )
+
+    assert result["status"] == "BLOCKED_TARGET_ROOT_LINK"
+    assert result["counts"]["copied"] == 0
+    assert not (outside / "target" / name if linked_ancestor else outside / name).exists()
+
+
 def test_cli_custom_target_cannot_write_state_inside_default_frozen_root(tmp_path: Path) -> None:
     default_root = tmp_path / ".aios/runtime/forex_frozen_21_series_edge_research_v1"
     default_root.mkdir(parents=True)
