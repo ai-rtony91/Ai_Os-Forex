@@ -185,5 +185,6 @@ html,body,#root{background:var(--aios-page)}
 .loginPortal .providerStack .providerAction-github,.loginPortal .providerStack .providerAction-github:hover:not(:disabled){background:#171515;border:1px solid #89909a}
 .loginPortal .microsoftSignIn{display:block;width:215px;height:41px;max-width:none}
 .loginPortal .githubMark{display:block;width:20px;height:auto;flex-shrink:0}
+.loginPortal .providerSsoBadge{display:inline-grid;place-items:center;min-width:34px;min-height:22px;margin-left:-45px;padding:0 7px;border:1px solid rgba(255,255,255,.42);border-radius:999px;background:rgba(0,0,0,.72);color:#fff;font:700 10px/1 'Segoe UI',Arial,sans-serif;letter-spacing:.08em}
 .loginPortal .providerAvailability{max-width:235px;color:#c7d3df;font-family:'Segoe UI',Arial,sans-serif;font-size:12px;line-height:1.4;text-align:center}
 .loginPortal .providerStack>.authStatus{grid-area:auto;grid-column:1 / -1;text-align:center;line-height:1.5}

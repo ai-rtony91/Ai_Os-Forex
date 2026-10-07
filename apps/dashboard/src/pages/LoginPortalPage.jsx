@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { getLoginPresentation, getLoginProviders } from './loginAuthPresentation.js'
+import LoginScene from '../components/LoginScene.jsx'
 import newLoginBackgroundUrl from '../assets/aios-login-background-new.png'
 import microsoftSignInUrl from '../assets/microsoft-signin-dark.svg'
 import githubMarkUrl from '../assets/github-invertocat-white.svg'
@@ -15,16 +16,6 @@ const previewFonts = [
 
 const previewFontGroups = [{ label: 'Focused choices', fonts: previewFonts }]
 
-const loginStars = [
-  ['tiny', '7%', '14%', '10s', '-3s'], ['tiny', '15%', '31%', '13s', '-8s'], ['tiny', '22%', '10%', '16s', '-12s'],
-  ['tiny', '29%', '24%', '12s', '-5s'], ['tiny', '37%', '9%', '15s', '-10s'], ['tiny', '46%', '18%', '11s', '-2s'],
-  ['tiny', '54%', '11%', '14s', '-7s'], ['tiny', '63%', '27%', '17s', '-14s'], ['tiny', '72%', '13%', '12s', '-4s'],
-  ['tiny', '81%', '30%', '15s', '-9s'], ['tiny', '91%', '17%', '19s', '-16s'], ['tiny', '5%', '54%', '14s', '-6s'],
-  ['tiny', '18%', '68%', '18s', '-11s'], ['tiny', '31%', '58%', '13s', '-1s'], ['tiny', '69%', '63%', '16s', '-13s'],
-  ['tiny', '86%', '56%', '11s', '-5s'], ['medium', '12%', '21%', '18s', '-15s'], ['medium', '42%', '29%', '21s', '-9s'],
-  ['medium', '78%', '22%', '20s', '-17s'], ['medium', '94%', '42%', '23s', '-12s'], ['focal', '25%', '16%', '26s', '-20s'],
-  ['focal', '74%', '18%', '29s', '-24s'], ['focal', '58%', '40%', '31s', '-27s'],
-]
 
 function initialPreviewFont() {
   if (!import.meta.env.DEV) return 'orbitron'
@@ -119,24 +110,26 @@ export default function LoginPortalPage({ navigate }) {
   const changePreviewFont = (event) => {
     const next = event.target.value
     setPreviewFont(next)
-    try { window.localStorage.setItem('aios-login-preview-font', next) } catch {}
+    try { window.localStorage.setItem('aios-login-preview-font', next) } catch { /* Preview preference is optional. */ }
   }
   const resetPreviewFont = () => {
     setPreviewFont('orbitron')
-    try { window.localStorage.setItem('aios-login-preview-font', 'orbitron') } catch {}
+    try { window.localStorage.setItem('aios-login-preview-font', 'orbitron') } catch { /* Preview preference is optional. */ }
   }
   const movePreviewFont = (offset) => {
     const currentIndex = previewFonts.findIndex((font) => font.id === previewFont)
     const next = previewFonts[(currentIndex + offset + previewFonts.length) % previewFonts.length]
     setPreviewFont(next.id)
-    try { window.localStorage.setItem('aios-login-preview-font', next.id) } catch {}
+    try { window.localStorage.setItem('aios-login-preview-font', next.id) } catch { /* Preview preference is optional. */ }
   }
-  return <main className="loginPortal" style={{ '--login-preview-font': selectedFont.family }}><img className="loginArtwork" src={newLoginBackgroundUrl} alt="" aria-hidden="true" /><div className="loginStars" aria-hidden="true">{loginStars.map(([kind, left, top, duration, delay], index) => <i className={`loginStar loginStar-${kind}`} key={`${kind}-${index}`} style={{ left, top, '--star-duration': duration, '--star-delay': delay }} />)}</div><section className="identityGate" aria-labelledby="auth-title">
+  return <main className="loginPortal" style={{ '--login-preview-font': selectedFont.family }}><img className="loginArtwork" src={newLoginBackgroundUrl} alt="" aria-hidden="true" /><LoginScene poster={newLoginBackgroundUrl} /><section className="identityGate" aria-labelledby="auth-title">
     <div className="identityCopy"><h1 id="auth-title" tabIndex="-1"><span className="loginHeadingLead">Sign in to</span><span className="loginHeadingMark">AIOS</span></h1><span>Continue with your approved account.</span></div>
     <div className="providerStack" aria-label="Secure authentication">
       {authState.phase === 'turnstile_required' ? <div className="turnstilePanel"><strong>Complete verification</strong><span>Confirm you are human to finish sign-in.</span><div ref={turnstileHost} /></div> : providers.map((provider) => <div className="providerOption" key={provider.id}>
         <button className={`providerAction providerAction-${provider.id}`} type="button" onClick={() => begin(provider)} disabled={!provider.enabled || redirecting} aria-label={provider.label} aria-describedby={`auth-status${provider.id === 'github' && available && !provider.enabled ? ' github-unavailable' : ''}`}>
-          {provider.id === 'microsoft' ? <img className="microsoftSignIn" src={microsoftSignInUrl} alt="" aria-hidden="true" /> : <><img className="githubMark" src={githubMarkUrl} alt="" aria-hidden="true" /><span>{provider.label}</span></>}
+          {provider.id === 'microsoft'
+            ? <><img className="microsoftSignIn" src={microsoftSignInUrl} alt="" aria-hidden="true" /><span className="providerSsoBadge">SSO</span></>
+            : <><img className="githubMark" src={githubMarkUrl} alt="" aria-hidden="true" /><span>{provider.label}</span></>}
         </button>
         {provider.id === 'github' && available && !provider.enabled && <span id="github-unavailable" className="providerAvailability">GitHub sign-in is not available yet.</span>}
       </div>)}

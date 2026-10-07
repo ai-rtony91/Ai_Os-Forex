@@ -2,12 +2,13 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import { getLoginPresentation, getLoginProviders } from '../src/pages/loginAuthPresentation.js'
 
-test('identity_required enables the Microsoft sign-in action', () => {
+test('identity_required enables only providers returned by the server', () => {
   assert.deepEqual(getLoginPresentation({ phase: 'identity_required' }), {
     available: true,
     tone: 'ready',
     message: 'Use your approved Microsoft identity to continue.',
   })
+  assert.equal(getLoginProviders({ phase: 'identity_required' }).some(({ enabled }) => enabled), false)
 })
 
 test('turnstile_required keeps the action closed and shows the human check', () => {
@@ -28,10 +29,17 @@ test('configuration, Cloudflare, Turnstile, and network failures remain distinct
 
 test('provider actions have fixed local routes and only configured providers are enabled', () => {
   const microsoftOnly = getLoginProviders({ phase: 'identity_required', providers: ['microsoft'] })
-  assert.deepEqual(microsoftOnly.map(({ id, enabled }) => [id, enabled]), [['microsoft', true], ['github', false]])
+  assert.deepEqual(microsoftOnly.map(({ id, label, enabled }) => [id, label, enabled]), [
+    ['microsoft', 'SSO with Microsoft', true],
+    ['github', 'SSO with GitHub', false],
+  ])
+  const githubOnly = getLoginProviders({ phase: 'identity_required', providers: ['github'] })
+  assert.deepEqual(githubOnly.map(({ id, label, enabled }) => [id, label, enabled]), [
+    ['microsoft', 'SSO with Microsoft', false],
+    ['github', 'SSO with GitHub', true],
+  ])
   const both = getLoginProviders({ phase: 'identity_required', providers: ['microsoft', 'github', 'https://untrusted.test'] })
   assert.deepEqual(both.map(({ href, enabled }) => [href, enabled]), [['/auth/login', true], ['/auth/login?provider=github', true]])
-  assert.equal(getLoginProviders({ phase: 'identity_required' })[0].enabled, true)
   assert.equal(getLoginProviders({ phase: 'identity_required', providers: [] }).some(({ enabled }) => enabled), false)
 })
 

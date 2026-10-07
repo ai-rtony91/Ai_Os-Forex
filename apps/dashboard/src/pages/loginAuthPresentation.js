@@ -13,9 +13,9 @@ export function getLoginPresentation({ phase = '', code = '', providers = [] } =
 
 export function getLoginProviders(authState = {}) {
   const available = getLoginPresentation(authState).available
-  const enabled = Array.isArray(authState.providers) ? authState.providers : ['microsoft']
+  const enabled = Array.isArray(authState.providers) ? authState.providers : []
   return [
-    { id: 'microsoft', label: 'Sign in with Microsoft', href: '/auth/login' },
-    { id: 'github', label: 'Sign in with GitHub', href: '/auth/login?provider=github' },
+    { id: 'microsoft', label: 'SSO with Microsoft', href: '/auth/login' },
+    { id: 'github', label: 'SSO with GitHub', href: '/auth/login?provider=github' },
   ].map((provider) => ({ ...provider, enabled: available && enabled.includes(provider.id) }))
 }
