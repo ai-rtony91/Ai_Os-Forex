@@ -175,7 +175,7 @@ html,body,#root{background:var(--aios-page)}
 @media(max-width:700px){.loginPortal{padding-inline:12px}.loginPortal .identityGate{width:min(calc(100vw - 24px),calc(100dvh * .75));grid-template-columns:1fr;grid-template-areas:"copy" "provider";gap:9px;padding:9px 14px 7px}.loginPortal .identityCopy{text-align:center}.loginPortal .identityCopy h1{font-size:clamp(1.25rem,6.5vw,1.75rem)}.loginPortal .identityCopy>span{font-size:.74rem}.loginPortal .providerStack>p{grid-column:auto}.loginPortal footer{font-size:.58rem}}
 .loginStar-medium,.loginStar-focal{--star-min:.22;--star-max:.5}@media(max-width:700px){.loginStars{opacity:.72}.loginStar:nth-child(n+17){display:none}.loginStar-focal{width:3px;height:3px}}
 
-/* Provider artwork keeps its official colors, proportions, and typography. */
+/* Provider buttons keep their brand marks inside one clean control. */
 .loginPortal .providerStack{grid-template-columns:minmax(0,1fr);gap:10px}
 .loginPortal .providerOption{display:grid;justify-items:center;gap:6px}
 .loginPortal .providerStack .providerAction{display:flex;align-items:center;justify-content:center;width:215px;min-height:44px;padding:0;gap:9px;border:0;border-radius:0;background:#2f2f2f;color:#fff;font-family:'Segoe UI',Arial,sans-serif;font-size:14px;font-weight:600;letter-spacing:0;line-height:1.25;box-shadow:none;transition:none;transform:none;text-shadow:none}
@@ -183,8 +183,11 @@ html,body,#root{background:var(--aios-page)}
 .loginPortal .providerStack .providerAction:focus-visible{outline:3px solid #ffc44c;outline-offset:4px}
 .loginPortal .providerStack .providerAction:disabled{opacity:1;filter:none;cursor:not-allowed}
 .loginPortal .providerStack .providerAction-github,.loginPortal .providerStack .providerAction-github:hover:not(:disabled){background:#171515;border:1px solid #89909a}
-.loginPortal .microsoftSignIn{display:block;width:215px;height:41px;max-width:none}
+.loginPortal .microsoftProviderIcon{display:grid;grid-template-columns:repeat(2,11px);grid-template-rows:repeat(2,11px);gap:2px;flex:0 0 auto}
+.loginPortal .microsoftProviderIcon span:nth-child(1){background:#f25022}
+.loginPortal .microsoftProviderIcon span:nth-child(2){background:#7fba00}
+.loginPortal .microsoftProviderIcon span:nth-child(3){background:#00a4ef}
+.loginPortal .microsoftProviderIcon span:nth-child(4){background:#ffb900}
 .loginPortal .githubMark{display:block;width:20px;height:auto;flex-shrink:0}
-.loginPortal .providerSsoBadge{display:inline-grid;place-items:center;min-width:34px;min-height:22px;margin-left:-45px;padding:0 7px;border:1px solid rgba(255,255,255,.42);border-radius:999px;background:rgba(0,0,0,.72);color:#fff;font:700 10px/1 'Segoe UI',Arial,sans-serif;letter-spacing:.08em}
 .loginPortal .providerAvailability{max-width:235px;color:#c7d3df;font-family:'Segoe UI',Arial,sans-serif;font-size:12px;line-height:1.4;text-align:center}
 .loginPortal .providerStack>.authStatus{grid-area:auto;grid-column:1 / -1;text-align:center;line-height:1.5}
