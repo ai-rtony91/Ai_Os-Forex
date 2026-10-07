@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { getLoginPresentation, getLoginProviders } from './loginAuthPresentation.js'
 import LoginScene from '../components/LoginScene.jsx'
 import newLoginBackgroundUrl from '../assets/aios-login-background-new.png'
-import microsoftSignInUrl from '../assets/microsoft-signin-dark.svg'
 import githubMarkUrl from '../assets/github-invertocat-white.svg'
 
 const previewFonts = [
@@ -128,7 +127,7 @@ export default function LoginPortalPage({ navigate }) {
       {authState.phase === 'turnstile_required' ? <div className="turnstilePanel"><strong>Complete verification</strong><span>Confirm you are human to finish sign-in.</span><div ref={turnstileHost} /></div> : providers.map((provider) => <div className="providerOption" key={provider.id}>
         <button className={`providerAction providerAction-${provider.id}`} type="button" onClick={() => begin(provider)} disabled={!provider.enabled || redirecting} aria-label={provider.label} aria-describedby={`auth-status${provider.id === 'github' && available && !provider.enabled ? ' github-unavailable' : ''}`}>
           {provider.id === 'microsoft'
-            ? <><img className="microsoftSignIn" src={microsoftSignInUrl} alt="" aria-hidden="true" /><span className="providerSsoBadge">SSO</span></>
+            ? <><span className="microsoftProviderIcon" aria-hidden="true"><span /><span /><span /><span /></span><span>{provider.label}</span></>
             : <><img className="githubMark" src={githubMarkUrl} alt="" aria-hidden="true" /><span>{provider.label}</span></>}
         </button>
         {provider.id === 'github' && available && !provider.enabled && <span id="github-unavailable" className="providerAvailability">GitHub sign-in is not available yet.</span>}
