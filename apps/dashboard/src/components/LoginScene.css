@@ -1,0 +1,36 @@
+.loginPortal .loginSceneVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.loginPortal .loginSceneVideo.isReady { opacity: 1; }
+.loginPortal .loginMotionControl {
+  position: absolute;
+  right: 24px;
+  bottom: 22px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  border: 1px solid #779fdd66;
+  border-radius: 24px;
+  color: #d8e5ff;
+  background: #060b1be6;
+  font: 400 14px/1.4 system-ui, sans-serif;
+  cursor: pointer;
+}
+.loginPortal .loginMotionControl:hover { background: #14233c; border-color: #8bdcff; }
+.loginPortal .loginMotionControl:focus-visible { outline: 2px solid #b6ddff; outline-offset: 4px; }
+@media (max-width: 760px) {
+  .loginPortal .loginMotionControl { top: auto; bottom: 46px; right: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loginPortal .loginSceneVideo { display: none; transition: none; }
+}
