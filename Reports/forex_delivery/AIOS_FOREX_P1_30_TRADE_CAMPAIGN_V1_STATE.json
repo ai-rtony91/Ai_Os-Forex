@@ -5,7 +5,7 @@
   "broker_write_performed": false,
   "campaign_status": "STOPPED",
   "campaign_version": "forex_p1_supervised_paper_campaign_v1",
-  "completed_utc": "2026-08-24T23:22:35.822958+00:00",
+  "completed_utc": "2026-10-08T16:44:29.191503+00:00",
   "consecutive_losses": 0,
   "credentials_persisted": false,
   "current_trade_number": 0,
@@ -31,5 +31,5 @@
   "strategy_qualifying_trade_counts": {},
   "target_qualifying_trades": 30,
   "trade_results": [],
-  "updated_utc": "2026-08-24T23:22:35.822958+00:00"
+  "updated_utc": "2026-10-08T16:44:29.191503+00:00"
 }
