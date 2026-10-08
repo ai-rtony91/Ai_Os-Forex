@@ -267,6 +267,18 @@ I need the real file path before I can create a Codex packet.
 
 This rule must not weaken commit, push, merge, trading, secrets, validator, protected-action, or approval gates.
 
+## AI_OS Registered Packet Title Invocation Rule
+
+A title-only request is valid only when the entire operator input, after trimming surrounding whitespace, is exactly one non-empty line. Lookup is exact and case-sensitive. Fuzzy, partial, corrected, alias, semantic, and nearest-title matching are forbidden. One Codex task may invoke only one title; multiple titles, extra instructions, conversational text, and unknown titles fail closed.
+
+An exact ACTIVE registered title is the Human Owner's explicit request to resolve and execute its stored packet. Codex must attempt title resolution before rejecting the input for absent packet markers. The title is not a packet and grants no independent authority. Tasks are isolated: resolution uses only repository files present in the current task and never another task's conversation history.
+
+The stored packet must contain `CODEX-ONLY PROMPT`, `AI_OS EXECUTION TOKEN`, `AI_OS BOOTSTRAP REQUIRED`, complete identity, mode, zone, lane, worktree and branch handling, allowed paths, forbidden paths, approval authority, validator chain, stop point, mission, preflight, and final report format. The packet body—not its title—defines mission, scope, validators, protected actions, and stop point, and it must pass the canonical prompt validator.
+
+Unknown, INACTIVE, duplicate, SUPERSEDED, malformed, path-escaping, digest-mismatched, and invalid registrations fail closed. `OWNER_TITLE_INVOCATION` is allowed only for unprotected bounded local work or the exact non-destructive branch-change operations declared by the stored packet. It never automatically approves staging, commit, push, pull-request creation, merge, deployment, scheduler or service activation, credentials or secrets, broker or OANDA access, order submission, live trading, money movement, or destructive actions. These actions retain their separate approval gates.
+
+The canonical registry must validate every protected-action flag as an exact boolean object. It must not infer authority from prose. Loaded packet authority must agree with registry authority. Resolution must reject inactive, superseded, duplicate, malformed, path-escaping, digest-mismatched, identity-mismatched, or otherwise invalid packets.
+
 ## AI_OS Execution Token Rule
 
 Codex must treat a pasted block as an executable AI_OS task only when one of these is true:

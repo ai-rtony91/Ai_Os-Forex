@@ -1,0 +1,28 @@
+{
+  "schema": "AIOS_CODEX_PACKET_TITLE_REGISTRY.v1",
+  "entries": [
+    {
+      "title": "AIOS-PACKET-RESTORE-PR1379-BRANCH-V1",
+      "packet_id": "AIOS-PACKET-RESTORE-PR1379-BRANCH-V1",
+      "status": "ACTIVE",
+      "packet_path": "automation/orchestration/relay/packets/AIOS-PACKET-RESTORE-PR1379-BRANCH-V1.md",
+      "packet_sha256": "3c17ea25cba79ed7bef9b96335abfd078dd337ccf5cdeafa2fe9a1d464f3c9fd",
+      "approval_mode": "OWNER_TITLE_INVOCATION",
+      "protected_action_flags": {
+        "staging": false,
+        "commit": false,
+        "push": false,
+        "pull_request": false,
+        "merge": false,
+        "branch_change": true,
+        "scheduler_or_service": false,
+        "credentials_or_secrets": false,
+        "broker_or_oanda": false,
+        "order_submission": false,
+        "live_trading": false,
+        "money_movement": false
+      },
+      "replacement_title": ""
+    }
+  ]
+}
