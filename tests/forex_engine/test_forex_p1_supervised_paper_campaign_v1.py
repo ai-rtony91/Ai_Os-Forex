@@ -673,11 +673,24 @@ def test_main_default_supervised_path_is_unmodified(monkeypatch):
         captured["campaign_paths"] = paths
         return {"stop_reason": "OWNER_SESSION_CYCLE_LIMIT"}
 
-    monkeypatch.setattr(runtime_script, "OandaReadOnlyClient", lambda *_args, **_kwargs: None)
-    monkeypatch.setattr(runtime_script, "_runtime_environment_value", lambda *_args: "value")
+    client_args = {}
+
+    def fake_client(*_args, **kwargs):
+        client_args.update(kwargs)
+        return None
+
+    def fake_runtime_value(name):
+        return {
+            "OANDA_DEMO_ACCESS_TOKEN": "demo-token",
+            "OANDA_DEMO_ACCOUNT_ID": "demo-account",
+        }.get(name, "")
+
+    monkeypatch.setattr(runtime_script, "OandaReadOnlyClient", fake_client)
+    monkeypatch.setattr(runtime_script, "_runtime_environment_value", fake_runtime_value)
     monkeypatch.setattr(runtime_script, "completed_paper_records", fake_records)
     monkeypatch.setattr(runtime_script, "run_campaign", fake_campaign)
     assert runtime_script.main(["--owner-local-runtime", "--reviewer", "Human Owner Anthony", "--cycles", "288"]) == 0
+    assert client_args == {"api_token": "demo-token", "account_id": "demo-account", "environment": "practice"}
     assert captured["signal_source"] == "sprint-4"
     assert captured["runtime_path"] == runtime_script.SUPERVISED_PRACTICE_SESSION_PATH
     assert captured["cycles"] == 288
