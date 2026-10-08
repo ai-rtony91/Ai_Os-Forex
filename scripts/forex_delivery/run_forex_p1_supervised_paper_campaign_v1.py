@@ -140,8 +140,12 @@ def main(argv: list[str] | None = None) -> int:
     if not args.owner_local_runtime:
         print("RUNTIME_CREDENTIAL_OR_PRACTICE_DATA_REQUIRED")
         return 2
-    token = _runtime_environment_value("OANDA_API_TOKEN")
-    account = _runtime_environment_value("OANDA_ACCOUNT_ID")
+    token = _runtime_environment_value("OANDA_API_TOKEN") or _runtime_environment_value(
+        "OANDA_DEMO_ACCESS_TOKEN"
+    )
+    account = _runtime_environment_value("OANDA_ACCOUNT_ID") or _runtime_environment_value(
+        "OANDA_DEMO_ACCOUNT_ID"
+    )
     if not token or not account:
         print("RUNTIME_CREDENTIAL_OR_PRACTICE_DATA_REQUIRED")
         return 2
