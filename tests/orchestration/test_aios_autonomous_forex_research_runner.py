@@ -20,10 +20,10 @@ def _param_block() -> str:
     return match.group(1)
 
 
-def _current_branch() -> str:
+def _current_branch(repo_root: Path = REPO_ROOT) -> str:
     result = subprocess.run(
         ["git", "branch", "--show-current"],
-        cwd=REPO_ROOT,
+        cwd=repo_root,
         text=True,
         capture_output=True,
         check=True,
@@ -31,7 +31,11 @@ def _current_branch() -> str:
     return result.stdout.strip()
 
 
-def _run_runner(*args: str, console_encoding: str = "") -> subprocess.CompletedProcess[str]:
+def _run_runner(
+    *args: str,
+    console_encoding: str = "",
+    cwd: Path = REPO_ROOT,
+) -> subprocess.CompletedProcess[str]:
     if console_encoding:
         # Reproduce the UTF-8 console inherited from GitHub's pwsh host, or
         # the OEM console on a normal Windows PowerShell terminal.
@@ -52,11 +56,17 @@ def _run_runner(*args: str, console_encoding: str = "") -> subprocess.CompletedP
         ]
     else:
         command = [
-            "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(RUNNER), *args,
+            "powershell",
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-File",
+            str(RUNNER),
+            *args,
         ]
     return subprocess.run(
         command,
-        cwd=REPO_ROOT,
+        cwd=cwd,
         text=True,
         encoding="utf-8" if console_encoding else None,
         capture_output=True,
@@ -119,14 +129,16 @@ def test_runner_output_json_branch_is_json_only_surface() -> None:
     assert "Write-ConsoleReport -Result $result" in text
 
 
-def test_runner_dry_run_executes_from_repo_root_imports_package_and_writes_no_ledger(tmp_path: Path) -> None:
+def test_runner_dry_run_executes_from_repo_root_imports_package_and_writes_no_ledger(clean_repo_root: Path, tmp_path: Path) -> None:
     output_root = tmp_path / "ledger"
     result = _run_runner(
         "-Mode",
         "DRY_RUN",
         "-OutputJson",
+        "-RepoRoot",
+        str(clean_repo_root),
         "-ExpectedBranch",
-        _current_branch(),
+        _current_branch(clean_repo_root),
         "-HumanOwnerResearchApproval",
         "APPROVED_LOCAL_FOREX_RESEARCH_ONLY",
         "-ResearchMode",
@@ -145,6 +157,7 @@ def test_runner_dry_run_executes_from_repo_root_imports_package_and_writes_no_le
         "30",
         "-OutputRoot",
         str(output_root),
+        cwd=clean_repo_root,
     )
 
     assert "ModuleNotFoundError" not in result.stderr
@@ -156,14 +169,16 @@ def test_runner_dry_run_executes_from_repo_root_imports_package_and_writes_no_le
     assert not output_root.exists()
 
 
-def test_runner_apply_writes_ledger_only_to_requested_output_root(tmp_path: Path) -> None:
+def test_runner_apply_writes_ledger_only_to_requested_output_root(clean_repo_root: Path, tmp_path: Path) -> None:
     output_root = tmp_path / "ledger"
     result = _run_runner(
         "-Mode",
         "APPLY",
         "-OutputJson",
+        "-RepoRoot",
+        str(clean_repo_root),
         "-ExpectedBranch",
-        _current_branch(),
+        _current_branch(clean_repo_root),
         "-HumanOwnerResearchApproval",
         "APPROVED_LOCAL_FOREX_RESEARCH_ONLY",
         "-ResearchMode",
@@ -182,6 +197,7 @@ def test_runner_apply_writes_ledger_only_to_requested_output_root(tmp_path: Path
         "30",
         "-OutputRoot",
         str(output_root),
+        cwd=clean_repo_root,
     )
 
     assert "ModuleNotFoundError" not in result.stderr
@@ -221,7 +237,7 @@ def test_runner_surface_blocks_live_broker_secret_paths() -> None:
 def test_runner_payload_survives_host_console_encoding(
     tmp_path: Path, mode: str, console_encoding: str
 ) -> None:
-    output_root = tmp_path / "ledger_東京"
+    output_root = tmp_path / "ledger_æ±äº¬"
     result = _run_runner(
         "-Mode", mode,
         "-OutputJson",
@@ -243,3 +259,4 @@ def test_runner_payload_survives_host_console_encoding(
         assert not output_root.exists()
     assert parsed["safety"]["broker_or_live_trading"] is False
     assert parsed["safety"]["touches_secrets_or_env"] is False
+

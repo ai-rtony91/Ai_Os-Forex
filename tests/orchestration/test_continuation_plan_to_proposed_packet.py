@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import json
 import subprocess
-import tempfile
 from pathlib import Path
 
 
@@ -74,6 +73,7 @@ def _write_plan(tmp_dir: Path, status: str = "READY_FOR_APPROVAL", packet_id: st
         ],
     }
     path = tmp_dir / "Get-AiOsSupervisedContinuationPlan.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(plan), encoding="utf-8")
     return path
 
@@ -85,12 +85,12 @@ def _init_fake_repo(path: Path, dirty: bool = False) -> None:
         (path / "dirty.txt").write_text("dirty", encoding="utf-8")
 
 
-def test_ready_for_approval_continuation_plan_builds_blocking_false_preview():
-    repo = Path(tempfile.mkdtemp()) / "workspace"
+def test_ready_for_approval_continuation_plan_builds_blocking_false_preview(tmp_path: Path):
+    repo = tmp_path / "workspace"
     repo.mkdir()
     _init_fake_repo(repo, dirty=False)
 
-    plan = _write_plan(Path(tempfile.mkdtemp()))
+    plan = _write_plan(tmp_path / "plan")
     result = _run_bridge(repo_root=repo, continuation_plan_path=plan)
 
     assert result["schema"] == "AIOS_CONTINUATION_TO_PROPOSED_PACKET_PREVIEW.v1"
@@ -131,7 +131,7 @@ def test_unsafe_continuation_status_blocks_proposal(tmp_path: Path) -> None:
     repo.mkdir()
     _init_fake_repo(repo)
 
-    plan = _write_plan(Path(tempfile.mkdtemp()), status="BLOCKED")
+    plan = _write_plan(tmp_path / "plan", status="BLOCKED")
     result = _run_bridge(repo_root=repo, continuation_plan_path=plan)
 
     assert result["proposed_packet_status"] == "BLOCKED"
@@ -151,7 +151,7 @@ def test_dirty_repo_blocks_recommendation(tmp_path: Path) -> None:
     repo.mkdir()
     _init_fake_repo(repo, dirty=True)
 
-    plan = _write_plan(Path(tempfile.mkdtemp()))
+    plan = _write_plan(tmp_path / "plan")
     result = _run_bridge(repo_root=repo, continuation_plan_path=plan)
 
     assert result["proposed_packet_status"] == "BLOCKED"
@@ -175,7 +175,7 @@ def test_dry_run_does_not_create_proposed_packet_file(tmp_path: Path) -> None:
     if expected_path.exists():
         expected_path.unlink()
 
-    plan = _write_plan(Path(tempfile.mkdtemp()))
+    plan = _write_plan(tmp_path / "plan")
     _run_bridge(repo_root=repo, continuation_plan_path=plan)
 
     assert not expected_path.exists()

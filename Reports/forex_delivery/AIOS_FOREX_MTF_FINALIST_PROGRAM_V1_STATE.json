@@ -1,0 +1,17 @@
+{
+  "bootstrap_opened": false,
+  "compounding_opened": false,
+  "finalist_count": 0,
+  "forward_opened": false,
+  "holdout_opened": false,
+  "live_opened": false,
+  "packet_id": "PKT-EAST-FOREX-MTF-GROSS-EDGE-DISCOVERY-032",
+  "paper_opened": false,
+  "reason": "No gross-edge survivors reached the finalist gate.",
+  "registry_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "schema": "AIOS_FOREX_MTF_FINALIST_PROGRAM.v1",
+  "status": "NO_FINALISTS_TO_VALIDATE",
+  "surface_status": "SEARCH_FAMILY_EXHAUSTED_NO_ROBUST_EDGE",
+  "v12_opened": false,
+  "validation_opened": false
+}

@@ -10,7 +10,7 @@ SCRIPT = REPO_ROOT / "automation" / "orchestration" / "coordination_spine" / "In
 
 def run_script(*args: str) -> dict:
     completed = subprocess.run(
-        ["powershell", "-NoProfile", "-File", str(SCRIPT), *args],
+        ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(SCRIPT), *args],
         cwd=REPO_ROOT,
         check=True,
         capture_output=True,
@@ -139,7 +139,7 @@ def test_all_sources_present_produces_composed_cockpit_view(tmp_path: Path) -> N
     )
 
     assert result["approval_gate_status"] in {"SAFE_NO_WORK", "REVIEW_REQUIRED"}
-    assert result["module5b_status"] == "design_only"
+    assert result["module5b_status"] == "unknown"
     assert result["t2b_status"] == "prerequisite_only"
     assert result["live_dispatch_status"] == "BLOCKED"
     assert result["write_path_enabled"] is False

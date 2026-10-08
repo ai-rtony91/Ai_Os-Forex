@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 
+import pytest
+
 from automation.forex_engine.canonical_demo_review_evidence_bridge import (
     BLOCKED_INCOMPLETE_EVIDENCE,
     DEMO_REVIEW_READY,
@@ -42,6 +44,22 @@ def _fixture_for_c1_eur_buy() -> dict:
     }
 
 
+def _fixture_for_sample_depth_cases() -> dict:
+    candidate = _fixture_for_c1_eur_buy()
+    candidate.update(
+        {
+            "expectancy": 0.0,
+            "profit_factor": 0.0,
+            "max_drawdown": 0.0,
+            "win_rate": 0.0,
+            "walk_forward_status": "pass",
+            "paper_evidence_status": "passed",
+            "mitigation_status": "not_worse",
+        }
+    )
+    return candidate
+
+
 def test_complete_strong_candidate_returns_demo_review_ready():
     bundle = build_review_bundle(_fixture_for_c1_eur_buy())
     assert bundle["verdict"] == DEMO_REVIEW_READY
@@ -58,6 +76,31 @@ def test_positive_expectancy_small_sample_returns_paper_continue():
     assert bundle["metrics"]["sample_size"] == 8
 
 
+def test_zero_sample_keeps_performance_failures_out_of_blockers():
+    candidate = _fixture_for_sample_depth_cases()
+    candidate["sample_size"] = 0
+    bundle = build_review_bundle(candidate)
+    assert bundle["verdict"] == PAPER_CONTINUE
+    assert "insufficient_sample" in bundle["blockers"]
+    assert "negative_or_zero_expectancy" not in bundle["blockers"]
+    assert "profit_factor_below_minimum" not in bundle["blockers"]
+    assert "low_win_rate" not in bundle["blockers"]
+
+
+def test_small_sample_keeps_performance_failures_out_of_blockers():
+    candidate = _fixture_for_sample_depth_cases()
+    candidate["sample_size"] = 8
+    candidate["expectancy"] = -0.08
+    candidate["profit_factor"] = 0.72
+    candidate["win_rate"] = 0.21
+    bundle = build_review_bundle(candidate)
+    assert bundle["verdict"] == PAPER_CONTINUE
+    assert "insufficient_sample" in bundle["blockers"]
+    assert "negative_or_zero_expectancy" not in bundle["blockers"]
+    assert "profit_factor_below_minimum" not in bundle["blockers"]
+    assert "low_win_rate" not in bundle["blockers"]
+
+
 def test_negative_expectancy_returns_rejected():
     candidate = _fixture_for_c1_eur_buy()
     candidate["expectancy"] = -0.02
@@ -67,12 +110,21 @@ def test_negative_expectancy_returns_rejected():
     assert "Re-run with re-optimized signals" not in bundle["next_safe_action"]
 
 
-def test_low_profit_factor_returns_rejected():
+@pytest.mark.parametrize(
+    "field_name, field_value, expected_blocker",
+    [
+        ("expectancy", -0.02, "negative_or_zero_expectancy"),
+        ("profit_factor", 0.98, "profit_factor_below_minimum"),
+        ("win_rate", 0.21, "low_win_rate"),
+    ],
+)
+def test_adequate_sample_blocks_weak_metrics(field_name, field_value, expected_blocker):
     candidate = _fixture_for_c1_eur_buy()
-    candidate["profit_factor"] = 0.98
+    candidate["sample_size"] = 30
+    candidate[field_name] = field_value
     bundle = build_review_bundle(candidate)
     assert bundle["verdict"] == REJECTED
-    assert any("profit_factor_below_minimum" in item for item in bundle["blockers"])
+    assert expected_blocker in bundle["blockers"]
 
 
 def test_excessive_drawdown_returns_rejected():

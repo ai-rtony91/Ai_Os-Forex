@@ -10,10 +10,10 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 RUNNER = REPO_ROOT / "automation/orchestration/self_development/Test-AiOsFullAutonomyWorkerLaunchGuard.DRY_RUN.ps1"
 
 
-def _current_branch() -> str:
+def _current_branch(repo_root: Path = REPO_ROOT) -> str:
     result = subprocess.run(
         ["git", "branch", "--show-current"],
-        cwd=REPO_ROOT,
+        cwd=repo_root,
         text=True,
         capture_output=True,
         check=True,
@@ -21,8 +21,8 @@ def _current_branch() -> str:
     return result.stdout.strip()
 
 
-def _expected_branch_args() -> tuple[str, ...]:
-    return ("-ExpectedBranch", _current_branch())
+def _expected_branch_args(repo_root: Path = REPO_ROOT) -> tuple[str, ...]:
+    return ("-ExpectedBranch", _current_branch(repo_root))
 
 
 def _run_runner(*args: str, cwd: Path = REPO_ROOT, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -104,10 +104,10 @@ def test_runner_has_required_parameters_and_no_forbidden_parameters() -> None:
         assert forbidden not in param_block
 
 
-def test_runner_emits_json_only_with_output_json() -> None:
+def test_runner_emits_json_only_with_output_json(clean_repo_root: Path) -> None:
     result = _run_runner(
         "-OutputJson",
-        *_expected_branch_args(),
+        *_expected_branch_args(clean_repo_root),
         "-CommandDecision",
         "COMMAND_PREVIEW_READY_AWAITING_APPROVAL",
         "-IdentitySpineStatus",
@@ -124,6 +124,7 @@ def test_runner_emits_json_only_with_output_json() -> None:
         "2",
         "-MaxParallelWorkers",
         "3",
+        cwd=clean_repo_root,
     )
     raw = result.stdout.strip()
     parsed = json.loads(raw)
@@ -135,8 +136,8 @@ def test_runner_emits_json_only_with_output_json() -> None:
     assert parsed["launch_executed"] is False
 
 
-def test_runner_console_summarizes_decision() -> None:
-    result = _run_runner(*_expected_branch_args(), "-AllowedLanes", "validator,self_audit,readiness_review")
+def test_runner_console_summarizes_decision(clean_repo_root: Path) -> None:
+    result = _run_runner(*_expected_branch_args(clean_repo_root), "-AllowedLanes", "validator,self_audit,readiness_review", cwd=clean_repo_root)
     out = result.stdout
 
     for section in (
@@ -151,10 +152,10 @@ def test_runner_console_summarizes_decision() -> None:
     assert "launch_executed:" in out
 
 
-def test_runner_with_approval_approves_future_packet_but_not_execution() -> None:
+def test_runner_with_approval_approves_future_packet_but_not_execution(clean_repo_root: Path) -> None:
     result = _run_runner(
         "-OutputJson",
-        *_expected_branch_args(),
+        *_expected_branch_args(clean_repo_root),
         "-CommandDecision",
         "COMMAND_PREVIEW_READY_APPROVED_BUT_NOT_EXECUTED",
         "-HumanOwnerWorkerLaunchApproval",
@@ -167,6 +168,7 @@ def test_runner_with_approval_approves_future_packet_but_not_execution() -> None
         "2",
         "-MaxParallelWorkers",
         "3",
+        cwd=clean_repo_root,
     )
     parsed = json.loads(result.stdout)
 
@@ -176,8 +178,8 @@ def test_runner_with_approval_approves_future_packet_but_not_execution() -> None
     assert parsed["safety"]["launches_workers"] is False
 
 
-def test_runner_blocks_protected_lanes() -> None:
-    result = _run_runner("-OutputJson", *_expected_branch_args(), "-AllowedLanes", "validator,runtime_execution", check=False)
+def test_runner_blocks_protected_lanes(clean_repo_root: Path) -> None:
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), "-AllowedLanes", "validator,runtime_execution", cwd=clean_repo_root, check=False)
     parsed = json.loads(result.stdout)
 
     assert result.returncode != 0
@@ -203,7 +205,7 @@ def test_runner_refuses_dirty_worktree_outside_exact_allowed_files(tmp_path: Pat
     assert parsed["repo_state"]["dirty_allowed_for_full_autonomy_worker_launch_guard_validation"] is False
 
 
-def test_runner_no_write_proof_does_not_create_forbidden_files() -> None:
+def test_runner_no_write_proof_does_not_create_forbidden_files(clean_repo_root: Path) -> None:
     protected_roots = [
         "Reports",
         "telemetry",
@@ -220,7 +222,7 @@ def test_runner_no_write_proof_does_not_create_forbidden_files() -> None:
         "control/review_bridge/codex_reports",
     ]
     before = {root: _file_set(REPO_ROOT, root) for root in protected_roots}
-    result = _run_runner("-OutputJson", *_expected_branch_args())
+    result = _run_runner("-OutputJson", *_expected_branch_args(clean_repo_root), cwd=clean_repo_root)
     after = {root: _file_set(REPO_ROOT, root) for root in protected_roots}
     parsed = json.loads(result.stdout)
 

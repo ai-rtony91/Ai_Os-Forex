@@ -1,0 +1,2 @@
+import vehicle from '../assets/revuelto-motivation-silhouette.svg'
+export default function MotivationVehicleCard() { return <div className="vehicleCard"><img src={vehicle} alt="Original geometric Revuelto-inspired performance silhouette" /><div><small>PERFORMANCE MOTIVATION</small><h3>2024 Lamborghini Revuelto&nbsp; Performance Motivation</h3><p>A personal benchmark for disciplined engineering, precision, and long-term execution.</p><small>Independent motivational reference. AIOS is not affiliated with or endorsed by Automobili Lamborghini.</small></div></div> }

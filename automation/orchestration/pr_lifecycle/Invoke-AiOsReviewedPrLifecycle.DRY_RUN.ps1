@@ -3,6 +3,7 @@ param(
     [Parameter(Mandatory = $true)][string]$Body,
     [string]$HeadBranch = "",
     [string]$BaseBranch = "main",
+    [string]$GitCommand = "git",
     [string]$BodyFile = "",
     [switch]$WatchChecks,
     [switch]$AnthonyReviewed,
@@ -101,8 +102,21 @@ function Invoke-GitCommandCapture {
     param([string[]]$Arguments, [string]$RepoRootPath)
     $escapedArgs = @("-C", $RepoRootPath) + $Arguments
     $psi = New-Object System.Diagnostics.ProcessStartInfo
-    $psi.FileName = "git"
-    $psi.Arguments = [string]::Join(" ", ($escapedArgs | ForEach-Object { "`"$($_.Replace('"','`"'))`"" }))
+    if ($GitCommand.ToLowerInvariant().EndsWith(".ps1")) {
+        $psi.FileName = "powershell"
+        $psi.Arguments = @(
+            "-NoProfile",
+            "-ExecutionPolicy",
+            "Bypass",
+            "-File",
+            $GitCommand
+        ) + $escapedArgs | ForEach-Object { "`"$($_.Replace('"','`"'))`"" }
+        $psi.Arguments = [string]::Join(" ", $psi.Arguments)
+    }
+    else {
+        $psi.FileName = $GitCommand
+        $psi.Arguments = [string]::Join(" ", ($escapedArgs | ForEach-Object { "`"$($_.Replace('"','`"'))`"" }))
+    }
     $psi.RedirectStandardOutput = $true
     $psi.RedirectStandardError = $true
     $psi.UseShellExecute = $false

@@ -2,40 +2,30 @@
 
 ## Working File
 
-`apps/dashboard/AIOS_STATIC_PREVIEW.html` is the current working dashboard.
+`apps/dashboard/aios-forex-dashboard.html` is the canonical current Forex dashboard selected by the Human Owner.
 
-## Skeleton Role
+`apps/dashboard/AIOS_STATIC_PREVIEW.html` is a noncanonical legacy dashboard. It is retained only because current build, manifest, companion UI, and validator dependencies still reference it.
 
-This skeleton defines the preferred structure for future dashboard work. It is a design standard/reference only.
+## Canonical Structure
 
-## Current Structure
+The canonical dashboard uses three explicit evidence zones:
 
-- Left sidebar: App Dock, App Store, app categories, and connectors.
-- Top strip: workspace modes, reports, telemetry, admin, system status, and diagnostics.
-- Center/main area: Ai_Os Work Table.
-- Right rail: AI Assistant Guide for tour/help text.
-- Tool Registry lane: static tool list for ChatGPT, Codex, Claude, GitHub, PowerShell, Web/Research, Files/OneDrive, Reports, and Telemetry.
-- App Registry lane: static examples for Calendar App, Notes App, Reports App, and Telemetry App.
-- Console panel: static Work Table console output.
+1. Forward Paper — genuine pretend-money PAPER30 progress and realized forward metrics only.
+2. Historical / Research — development replay, uncertainty, probability, and edge-classification evidence.
+3. Readiness / Safety — approval gates, risk status, reconciliation, kill-switch status, and the live-execution boundary.
 
-## Work Table Areas
+The evidence classes must remain visually and semantically separate. Historical trades must never be shown as forward PAPER30 credit.
 
-- Project Brief.
-- Prompt Stack.
-- Build Instructions.
-- Tool Output.
-- Approval Gate.
-- Validation Queue.
+## Interface Direction
 
-## Future Folder Shape
-
-- `concepts/`: experimental UI concepts.
-- `styles/`: split-out CSS when approved.
-- `scripts/`: local UI-only JavaScript when approved.
-- `mock-data/`: static placeholder data when approved.
+- Dark, compact, card-based Forex layout.
+- Clear metric hierarchy and low visual noise.
+- Responsive behavior for desktop and mobile.
+- Read-only placeholders of `PENDING` or `NOT CONNECTED` until a governed data contract supplies evidence.
+- No planetary command wall, large control surface, duplicate panels, or fabricated live data.
 
 ## Boundary
 
-This file does not approve backend calls, API calls, credentials, persistence, service-worker registration, broker/trading automation, live order path behavior, or production dashboard activation.
+This structure does not approve backend calls, API calls, credentials, persistence, service-worker registration, broker automation, order placement, live execution, or production activation.
 
-Future restructuring requires explicit approval and validation.
+Future data wiring requires a separate approved packet, explicit source contracts, evidence-class validation, and repository status review.

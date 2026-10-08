@@ -92,7 +92,7 @@ def _norm_path(value: Any, worktree: Path) -> str:
     raw = str(value).strip().replace("\\", "/")
     if not raw or any(part == ".." for part in PurePosixPath(raw).parts):
         raise ClaimError(f"path traversal rejected: {value!r}")
-    root = worktree.resolve(strict=True)
+    root = worktree.resolve(strict=False)
     candidate = Path(raw)
     if not candidate.is_absolute():
         candidate = root / candidate
@@ -118,7 +118,9 @@ def normalize_claim(claim: Mapping[str, Any]) -> dict[str, Any]:
         raise ClaimError("unsupported claim schema")
     if result["state"] not in ACTIVE_STATES:
         raise ClaimError("unsupported active claim state")
-    worktree = Path(str(result["worktree"])).resolve(strict=True)
+    worktree = Path(str(result["worktree"])).resolve(strict=False)
+    if not worktree.exists():
+        raise ClaimError("worktree does not exist")
     result["worktree"] = worktree.as_posix().casefold()
     result["branch"] = _norm_branch(result["branch"])
     result["base_branch"] = _norm_branch(result["base_branch"])
@@ -245,7 +247,7 @@ class TaskClaimController:
             raise ClaimError("task has no executable active claim")
         if claim["repository"].casefold() != repository.casefold():
             raise ClaimError("wrong repository")
-        if claim["worktree"] != worktree.resolve(strict=True).as_posix().casefold():
+        if claim["worktree"] != worktree.resolve(strict=False).as_posix().casefold():
             raise ClaimError("wrong worktree")
         if claim["branch"] != _norm_branch(branch):
             raise ClaimError("wrong branch")

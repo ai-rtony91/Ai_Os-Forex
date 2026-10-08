@@ -1,0 +1,226 @@
+{
+  "executive_verdict": {
+    "live_unblocked": false,
+    "confidence": "HIGH",
+    "reason": "The canonical PAPER session remains open, but the previously recorded runner PID is no longer present, the stale lock did not refresh on snapshot, and host process-table access is blocked in this session. Genuine qualifying PAPER trades remain 0/30 and the runtime still depends on uncommitted and unpublished code."
+  },
+  "repository": {
+    "root": "C:\\Dev\\Ai.Os",
+    "branch": "main",
+    "head": "b86c65140ed03d53d6c8d6c3618e50da0502f51b",
+    "origin_main": "815b18a6a03823e33db78a2f920870ce6e2af235",
+    "ahead_commits": 7,
+    "dirty_worktree": true,
+    "runtime_source_committed": false,
+    "runtime_source_published": false
+  },
+  "runtime": {
+    "paper_runner_active": false,
+    "observed_cycle_number": 28,
+    "campaign_status": "RUNNING",
+    "active_position_status": "ACTIVE",
+    "relaunch_attempted": true,
+    "current_runner": {
+      "attached_session_id": 35912,
+      "cycles_observed": 0,
+      "proxy_trap_cleared_in_process": true,
+      "relaunch_verification": "UNVERIFIED"
+    },
+    "active_session": {
+      "candidate_id": "1250d1b4b476eb2347027ecd",
+      "instrument": "GBP_USD",
+      "direction": "BUY",
+      "entry_utc": "2026-08-27T13:10:53.097259Z",
+      "entry_price": 1.35859,
+      "stop_price": 1.3573,
+      "target_price": 1.36117,
+      "latest_market_utc": "2026-08-27T20:11:23.037811Z"
+    }
+  },
+  "paper_certification": {
+    "genuine_trades": 0,
+    "target": 30,
+    "expectancy": 0.0,
+    "profit_factor": null,
+    "max_drawdown": 0.0,
+    "win_rate": 0.0,
+    "average_win": 0.0,
+    "average_loss": 0.0,
+    "duplicate_count": 0,
+    "accounting": "reconciled for the held-session evidence",
+    "provenance": "reconciled for the held-session evidence",
+    "certification": "FAIL"
+  },
+  "practice_demo": {
+    "required": true,
+    "status": "BLOCKED_OWNER_APPROVAL",
+    "orders_submitted": false,
+    "receipts_present": false,
+    "protected_exit": false,
+    "realized_pl_reconciled": false,
+    "post_trade_review": false
+  },
+  "validation": {
+    "focused_tests": "PASS",
+    "full_forex_tests": "PASS",
+    "python_compile": "PASS",
+    "powershell_parse": "PASS",
+    "json": "PASS",
+    "git_diff_check": "PASS",
+    "secret_exclusion": "PASS",
+    "live_host_exclusion": "PASS",
+    "non_get_exclusion": "PASS"
+  },
+  "scores": {
+    "repository_quality": 35,
+    "paper_certification": 0,
+    "practice_demo": 0,
+    "validation_quality": 100,
+    "live_risk_controls": 20,
+    "live_execution_governance": 10,
+    "recovery_incident_response": 55,
+    "deployment": 10
+  },
+  "gates": {
+    "repository_quality": {
+      "repository_integrity": "FAIL",
+      "runtime_integrity": "FAIL",
+      "source_provenance": "FAIL",
+      "publication_provenance": "FAIL"
+    },
+    "paper": {
+      "paper_evidence": "FAIL",
+      "paper_profitability": "FAIL",
+      "paper_risk": "FAIL",
+      "paper_certification": "FAIL"
+    },
+    "practice_demo": {
+      "endpoint_boundary": "PASS",
+      "owner_approval_gate": "BLOCKED_OWNER_APPROVAL",
+      "one_order_limit": "NOT_IMPLEMENTED",
+      "no_retry": "NOT_IMPLEMENTED",
+      "no_reentry": "NOT_IMPLEMENTED",
+      "units_limit": "NOT_IMPLEMENTED",
+      "maximum_loss": "NOT_IMPLEMENTED",
+      "stop_protection": "NOT_IMPLEMENTED",
+      "target_protection": "NOT_IMPLEMENTED",
+      "kill_switch": "NOT_IMPLEMENTED",
+      "daily_loss": "NOT_IMPLEMENTED",
+      "idempotency": "NOT_IMPLEMENTED",
+      "duplicate_protection": "NOT_IMPLEMENTED",
+      "receipt_intake": "NOT_IMPLEMENTED",
+      "exit_receipt": "NOT_IMPLEMENTED",
+      "realized_pl": "NOT_IMPLEMENTED",
+      "post_trade_review": "NOT_IMPLEMENTED"
+    },
+    "live_risk_controls": {
+      "strategy_freeze": "BLOCKED",
+      "protocol_freeze": "BLOCKED",
+      "kill_switch": "BLOCKED",
+      "daily_loss": "BLOCKED",
+      "maximum_loss": "BLOCKED",
+      "one_order_only": "BLOCKED",
+      "no_retry": "BLOCKED",
+      "no_reentry": "BLOCKED",
+      "stop_loss": "BLOCKED",
+      "take_profit": "BLOCKED",
+      "spread_gate": "BLOCKED",
+      "freshness_gate": "BLOCKED",
+      "idempotency": "BLOCKED",
+      "duplicate_protection": "BLOCKED"
+    },
+    "live_execution_governance": {
+      "owner_arming": "BLOCKED",
+      "approval_expiry": "BLOCKED",
+      "receipt_intake": "BLOCKED",
+      "protected_exit": "BLOCKED",
+      "exit_receipt": "BLOCKED",
+      "realized_pl_reconciliation": "BLOCKED",
+      "post_trade_review": "BLOCKED",
+      "rolling_24h_ledger": "BLOCKED",
+      "final_release_gate": "BLOCKED"
+    },
+    "recovery_incident_response": {
+      "restart_recovery": "PARTIAL",
+      "broker_outage": "NOT_IMPLEMENTED",
+      "rejection_handling": "PARTIAL",
+      "partial_fill": "NOT_IMPLEMENTED",
+      "unprotected_position": "NOT_IMPLEMENTED",
+      "receipt_mismatch": "NOT_IMPLEMENTED",
+      "accounting_mismatch": "NOT_IMPLEMENTED",
+      "rollback": "NOT_IMPLEMENTED",
+      "credential_revocation": "NOT_IMPLEMENTED",
+      "incident_response": "PARTIAL"
+    },
+    "deployment": {
+      "deployment_source": "NOT IDENTIFIED AS PUBLISHED",
+      "commit": "NOT DONE",
+      "source_fingerprint": "LOCAL ONLY",
+      "configuration": "NOT DEPLOYMENT READY",
+      "rollback_target": "NOT ESTABLISHED",
+      "secrets_excluded": true,
+      "deployment_status": "FAIL"
+    }
+  },
+  "blockers": [
+    {
+      "name": "PAPER certification incomplete",
+      "evidence": "0/30 genuine qualifying trades, expectancy 0.0, profit factor null",
+      "required_fix": "Wait for genuine completed PAPER evidence or market closure.",
+      "owner_action": "Continue observing the active PAPER runner until a genuine close occurs or the market blocks further progress."
+    },
+    {
+      "name": "Runner reconciliation incomplete",
+      "evidence": "Stale lock still pointed at PID 25208 while host process-table evidence was blocked in this session; relaunch PID 35912 had not yet refreshed the lock.",
+      "required_fix": "Confirm the canonical relaunch or record a terminal failure.",
+      "owner_action": "Run the host-side read-only process and lock check command."
+    },
+    {
+      "name": "Source/publication provenance incomplete",
+      "evidence": "Dirty worktree and ahead commits remain; runtime depends on uncommitted and unpublished code.",
+      "required_fix": "Reconcile publication flow after mission-safe validation.",
+      "owner_action": "None yet."
+    },
+    {
+      "name": "Practice/demo approval missing",
+      "evidence": "No owner-approved Practice packet and no Practice receipt.",
+      "required_fix": "Create an exact owner approval packet if demo becomes mandatory.",
+      "owner_action": "Provide exact Practice authorization if needed."
+    },
+    {
+      "name": "LIVE owner release gate missing",
+      "evidence": "No exact-scope LIVE canary authorization packet.",
+      "required_fix": "Prepare a sealed packet only after all repository gates pass.",
+      "owner_action": "Provide a fresh exact-scope LIVE authorization only when requested."
+    }
+  ],
+  "live_canary": {
+    "ready": false,
+    "broker_path": null,
+    "instrument": null,
+    "side": null,
+    "units": null,
+    "maximum_loss": null,
+    "daily_loss_cap": null,
+    "stop": null,
+    "target": null,
+    "order_type": null,
+    "approval_window": null,
+    "evidence_bundle": null,
+    "deployment_commit": null,
+    "kill_switch": "inert only",
+    "arming_step": null,
+    "stop_point": "READY  OWNER LIVE MICRO-TRADE APPROVAL REQUIRED",
+    "owner_approval_required": true
+  },
+  "final_decision": {
+    "live_unblocked": false,
+    "repository_work_remaining": false,
+    "market_evidence_remaining": true,
+    "protected_publishing_remaining": true,
+    "owner_authorization_remaining": true,
+    "current_bottleneck": "The repo still lacks thirty genuine qualifying PAPER trades, the validated runtime still depends on uncommitted and unpublished code, and the runner relaunch has not yet produced refreshed lock evidence because host runtime authority is blocked.",
+    "next_action": "Keep the canonical runner as the only writer, run the host-side read-only process and lock check command, and continue observing the canonical PAPER session.",
+    "status": "IN PROGRESS PAPER EXECUTION ACTIVE"
+  }
+}

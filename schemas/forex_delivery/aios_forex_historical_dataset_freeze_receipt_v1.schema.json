@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aios_forex_historical_dataset_freeze_receipt_v1.schema.json",
+  "title": "AIOS Forex Historical Dataset Freeze Receipt V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "schema_version", "tool_version", "status", "generated_utc", "dataset_id",
+    "immutable_dataset_path", "source_root", "source_head", "scope_fingerprint",
+    "requested_start_utc", "requested_end_utc", "manifest_sha256", "source_state_sha256",
+    "dataset_sha256", "validation_receipt_sha256", "series_expected", "series_complete",
+    "series_inventory", "total_candle_count", "collector_provenance", "file_count",
+    "copy_method", "read_only_applied", "idempotent", "reproducibility_commands"
+  ],
+  "properties": {
+    "schema": {"const": "AIOS_FOREX_HISTORICAL_DATASET_FREEZE_RECEIPT.v1"},
+    "schema_version": {"const": "1.0.0"},
+    "tool_version": {"type": "string", "minLength": 1},
+    "status": {"const": "PASS"},
+    "generated_utc": {"type": "string", "format": "date-time"},
+    "dataset_id": {"type": "string", "pattern": "^AIOS-FX-HIST-V1-[0-9a-f]{20}$"},
+    "immutable_dataset_path": {"type": "string", "minLength": 1},
+    "source_root": {"type": "string", "minLength": 1},
+    "source_head": {"type": "string", "minLength": 1},
+    "scope_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "requested_start_utc": {"type": "string", "format": "date-time"},
+    "requested_end_utc": {"type": "string", "format": "date-time"},
+    "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_state_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "dataset_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "validation_receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "series_expected": {"const": 21}, "series_complete": {"const": 21},
+    "series_inventory": {"type": "array", "minItems": 21, "maxItems": 21, "items": {"type": "object"}},
+    "total_candle_count": {"type": "integer", "minimum": 1},
+    "collector_provenance": {"type": "object"}, "file_count": {"type": "integer", "minimum": 43},
+    "copy_method": {"const": "VERIFIED_BYTE_COPY_ATOMIC_PROMOTION"},
+    "read_only_applied": {"type": "boolean"}, "idempotent": {"type": "boolean"},
+    "reproducibility_commands": {"type": "array", "minItems": 2, "items": {"type": "string"}}
+  }
+}

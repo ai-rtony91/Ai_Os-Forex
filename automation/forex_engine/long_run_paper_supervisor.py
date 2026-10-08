@@ -5,7 +5,7 @@ import time
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, List, Optional
 
-from automation.forex_engine.market_data_normalizer import normalize_market_snapshot
+from automation.forex_engine.market_data_normalizer import normalize_market_snapshot, _normalize_pair
 from automation.forex_engine.strategy_candidates import generate_strategy_candidates
 from automation.forex_engine.multi_trade_queue import build_multi_trade_queue
 from automation.forex_engine.order_preview import build_order_preview
@@ -403,6 +403,7 @@ def run_paper_supervisor_cycle(
     stop_conditions: List[str] = []
     ledger_events: List[Dict[str, Any]] = []
     normalized_snapshots: List[Dict[str, Any]] = []
+    market_by_pair: Dict[str, Dict[str, Any]] = {}
     candidate_count = 0
     selected_count = 0
     rejected_count = 0
@@ -417,6 +418,57 @@ def run_paper_supervisor_cycle(
     account_before = _extract_account_state(account_state)
     all_open = _as_list(open_trades)
     all_closed = _as_list(closed_trades)
+
+    if cfg.kill_switch:
+        stop_conditions.append("kill_switch_active")
+        return {
+            "allowed": False,
+            "decision": LONG_RUN_BLOCKED,
+            "blocked_reason": _RejectionReason.VALIDATION_FAILURE,
+            "blocked_reasons": stop_conditions,
+            "warnings": warnings,
+            "paper_only": True,
+            "mode": LONG_RUN_PAPER_MODE,
+            "session_id": session_id,
+            "cycle_id": cycle_id,
+            "cycle_number": cycle_number,
+            "normalized_market_count": len(normalized_snapshots),
+            "candidate_count": candidate_count,
+            "selected_count": selected_count,
+            "rejected_count": rejected_count,
+            "previews_created": previews_created,
+            "fills_created": fills_created,
+            "trades_opened": trades_opened,
+            "trades_closed": trades_closed,
+            "balance_updates": balance_updates,
+            "ledger_events": ledger_events,
+            "replay_summary": build_session_replay(ledger_events, session_id=session_id, evidence_path=evidence_path, metadata=metadata),
+            "account_state_before": account_before,
+            "account_state_after": account_before,
+            "open_trades": all_open,
+            "closed_trades": all_closed,
+            "heartbeat": _heartbeat(session_id, cycle_number, cycle_id),
+            "stop_conditions": stop_conditions,
+            "safety": _safety_payload(),
+            "next_safe_action": "Resolve kill_switch or wait for next manual cycle.",
+            "metadata": metadata,
+        }
+
+    # Enforce stops before creating any new paper intent or fill. A blocked
+    # return after the fill loop cannot undo a simulated position already made.
+    initial_stop = None
+    if (cfg.max_session_trades_specified and cfg.max_session_trades >= 0
+            and len(all_open) + len(all_closed) >= cfg.max_session_trades):
+        initial_stop = _RejectionReason.MAX_SESSION_TRADES_HIT
+    if cfg.max_session_loss > 0 and account_before.get("starting_balance", 0.0) > 0:
+        baseline = account_before["starting_balance"]
+        if max(0.0, baseline - account_before.get("current_balance", baseline)) >= cfg.max_session_loss:
+            initial_stop = initial_stop or _RejectionReason.MAX_SESSION_LOSS_HIT
+    if initial_stop is not None:
+        # Entry limits halt new exposure. Existing positions still receive their
+        # normal stop/target updates from fresh validated market snapshots.
+        stop_conditions.append(initial_stop)
+        warnings.append(initial_stop)
 
     for raw_snapshot in market_snapshots:
         norm_result = normalize_market_snapshot(
@@ -496,9 +548,13 @@ def run_paper_supervisor_cycle(
         normalized = norm_result.get("normalized_for_strategy") or norm_result
         normalized_snapshots.append(normalized)
         if norm_result.get("pair"):
-            normalized_pair = str(norm_result.get("pair"))
+            normalized_pair = _normalize_pair(norm_result.get("pair"))
+            quote = norm_result.get("normalized_for_preview") or norm_result
+            market_by_pair[normalized_pair] = dict(quote)
 
     for normalized in normalized_snapshots:
+        if initial_stop is not None:
+            break
         strategy_result = generate_strategy_candidates(
             normalized,
             now_timestamp=now_timestamp,
@@ -528,6 +584,11 @@ def run_paper_supervisor_cycle(
 
     if selected_candidates:
         for candidate in selected_candidates:
+            if (cfg.max_session_trades_specified and cfg.max_session_trades >= 0
+                    and len(all_open) + len(all_closed) >= cfg.max_session_trades):
+                stop_conditions.append(_RejectionReason.MAX_SESSION_TRADES_HIT)
+                warnings.append("max_session_trades_hit")
+                break
             if not _safe_candidate_ok(candidate):
                 warnings.append("candidate_invalid")
                 rejected_count += 1
@@ -564,9 +625,14 @@ def run_paper_supervisor_cycle(
                     metadata=metadata,
                 )
             )
+            quote = market_by_pair.get(_normalize_pair(preview.get("pair") or candidate.get("pair")))
+            if quote is None:
+                rejected_count += 1
+                warnings.append("missing_pair_quote_for_fill")
+                continue
             fill_result = simulate_paper_fill(
                 preview,
-                market_state=market_snapshots[0] if market_snapshots else None,
+                market_state=quote,
                 fill_config=(limits.get("fill_config") if isinstance(limits, dict) else None),
                 timestamp=now_timestamp,
                 evidence_path=evidence_path,
@@ -593,50 +659,20 @@ def run_paper_supervisor_cycle(
                 stop_conditions.append(_RejectionReason.RISK_HALT)
                 warnings.append("fill_blocked")
 
-    if cfg.kill_switch:
-        stop_conditions.append("kill_switch_active")
-        return {
-            "allowed": False,
-            "decision": LONG_RUN_BLOCKED,
-            "blocked_reason": _RejectionReason.VALIDATION_FAILURE,
-            "blocked_reasons": stop_conditions,
-            "warnings": warnings,
-            "paper_only": True,
-            "mode": LONG_RUN_PAPER_MODE,
-            "session_id": session_id,
-            "cycle_id": cycle_id,
-            "cycle_number": cycle_number,
-            "normalized_market_count": len(normalized_snapshots),
-            "candidate_count": candidate_count,
-            "selected_count": selected_count,
-            "rejected_count": rejected_count,
-            "previews_created": previews_created,
-            "fills_created": fills_created,
-            "trades_opened": trades_opened,
-            "trades_closed": trades_closed,
-            "balance_updates": balance_updates,
-            "ledger_events": ledger_events,
-            "replay_summary": build_session_replay(ledger_events, session_id=session_id, evidence_path=evidence_path, metadata=metadata),
-            "account_state_before": account_before,
-            "account_state_after": account_before,
-            "open_trades": all_open,
-            "closed_trades": all_closed,
-            "heartbeat": _heartbeat(session_id, cycle_number, cycle_id),
-            "stop_conditions": stop_conditions,
-            "safety": _safety_payload(),
-            "next_safe_action": "Resolve kill_switch or wait for next manual cycle.",
-            "metadata": metadata,
-        }
-
     # lifecycle updates for open trades when price allows close conditions
     updated_open: List[Any] = []
     for trade in list(all_open):
         status = _safe_get_trade_status(trade)
         if status not in {"opened", "active"}:
             continue
+        quote = market_by_pair.get(_normalize_pair(_safe_trade_fields(trade).get("pair")))
+        if quote is None:
+            updated_open.append(trade)
+            warnings.append("missing_pair_quote_for_existing_trade")
+            continue
         process_result = process_trade_update(
             trade,
-            price_update=market_batch[-1] if market_snapshots else None,
+            price_update=quote,
             timestamp=now_timestamp,
             evidence_path=evidence_path,
             metadata=metadata,

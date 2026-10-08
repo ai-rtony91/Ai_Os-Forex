@@ -65,6 +65,54 @@ def test_candles_uses_get_instrument_path_and_bounded_query():
     assert "private" not in observed["url"]
 
 
+def test_observation_candles_uses_get_and_accepts_501():
+    observed = {}
+
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return None
+
+        def read(self):
+            return b'{"candles": []}'
+
+    def opener(request, **_kwargs):
+        observed["url"] = request.full_url
+        observed["method"] = request.get_method()
+        return Response()
+
+    client = OandaReadOnlyClient(api_token="runtime-token", account_id="private", opener=opener)
+    assert client.observation_candles("EUR_USD", granularity="M5", count=501) == {"candles": []}
+    assert observed["method"] == "GET"
+    assert observed["url"].startswith(PRACTICE_BASE_URL + "/v3/instruments/EUR_USD/candles?")
+    assert "granularity=M5" in observed["url"] and "count=501" in observed["url"] and "price=M" in observed["url"]
+    assert "private" not in observed["url"]
+
+
+def test_observation_candles_accepts_mba_price_component():
+    observed = {}
+
+    class Response:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return None
+
+        def read(self):
+            return b'{"candles": []}'
+
+    def opener(request, **_kwargs):
+        observed["url"] = request.full_url
+        return Response()
+
+    client = OandaReadOnlyClient(api_token="runtime-token", account_id="private", opener=opener)
+    assert client.observation_candles("EUR_USD", granularity="M5", count=501, price="MBA") == {"candles": []}
+    assert "price=MBA" in observed["url"]
+
+
 @pytest.mark.parametrize("kwargs", [
     {"instrument": "GBP_USD", "granularity": "M5", "count": 50},
     {"instrument": "EUR_USD", "granularity": "M1", "count": 50},
@@ -75,6 +123,31 @@ def test_candles_rejects_unsupported_requests(kwargs):
     client = OandaReadOnlyClient(api_token="runtime-token", account_id="private")
     with pytest.raises(ValueError):
         client.candles(**kwargs)
+
+
+@pytest.mark.parametrize("kwargs", [
+    {"instrument": "GBPUSD", "granularity": "M5", "count": 50},
+    {"instrument": "EUR_USD", "granularity": "M4", "count": 50},
+    {"instrument": "EUR_USD", "granularity": "M5", "count": 4},
+    {"instrument": "EUR_USD", "granularity": "M5", "count": 502},
+    {"instrument": "EUR_USD", "granularity": "M5", "count": 50, "price": "X"},
+])
+def test_observation_candles_rejects_unsupported_requests(kwargs):
+    client = OandaReadOnlyClient(api_token="runtime-token", account_id="private")
+    with pytest.raises(ValueError):
+        client.observation_candles(**kwargs)
+
+
+def test_legacy_candles_still_rejects_501():
+    client = OandaReadOnlyClient(api_token="runtime-token", account_id="private")
+    with pytest.raises(ValueError):
+        client.candles("EUR_USD", granularity="M5", count=501)
+
+
+def test_oanda_client_has_no_write_methods():
+    client = OandaReadOnlyClient(api_token="runtime-token", account_id="private")
+    for method_name in ("post", "put", "patch", "delete"):
+        assert not hasattr(client, method_name)
 
 
 def test_sanitizer_masks_account_and_strips_order_transaction_identifiers():

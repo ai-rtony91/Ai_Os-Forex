@@ -1,0 +1,60 @@
+{
+  "handoff_hash": "d3e734ce30b7048a897dacf1651e478934dc56c82e86d5edefa4eb599d7348ec",
+  "item_count": 3,
+  "items": [
+    {
+      "credential_requirement": "NONE",
+      "exact_public_artifact_name": "CFTC 2025 annual futures-only historical compressed report",
+      "expected_checksum_when_officially_published": "UNKNOWN",
+      "expected_destination_inbox": ".aios/runtime/forex_institutional_data_breakthrough_v1/manual_drop_inbox/",
+      "expected_file_type": "zip",
+      "expected_period": [
+        "2024-01-01",
+        "2026-08-29"
+      ],
+      "official_owner": "CFTC",
+      "official_page_or_domain": "cftc.gov",
+      "privacy_warning": "Download only public official files. Do not add credentials, account IDs, bank/card data, browser cookies, or edited files.",
+      "series_id": "CFTC_FX_FUTURES_ANNUAL"
+    },
+    {
+      "credential_requirement": "NONE",
+      "exact_public_artifact_name": "IUDERB official graph/download CSV",
+      "expected_checksum_when_officially_published": "UNKNOWN",
+      "expected_destination_inbox": ".aios/runtime/forex_institutional_data_breakthrough_v1/manual_drop_inbox/",
+      "expected_file_type": "csv",
+      "expected_period": [
+        "2024-01-01",
+        "2026-08-29"
+      ],
+      "official_owner": "Federal Reserve Bank of St. Louis / Bank of England",
+      "official_page_or_domain": "fred.stlouisfed.org",
+      "privacy_warning": "Download only public official files. Do not add credentials, account IDs, bank/card data, browser cookies, or edited files.",
+      "series_id": "IUDERB"
+    },
+    {
+      "credential_requirement": "NONE",
+      "exact_public_artifact_name": "BLS public news release calendar ICS",
+      "expected_checksum_when_officially_published": "UNKNOWN",
+      "expected_destination_inbox": ".aios/runtime/forex_institutional_data_breakthrough_v1/manual_drop_inbox/",
+      "expected_file_type": "ics",
+      "expected_period": [
+        "2024-01-01",
+        "2026-08-29"
+      ],
+      "official_owner": "U.S. Bureau of Labor Statistics",
+      "official_page_or_domain": "bls.gov",
+      "privacy_warning": "Download only public official files. Do not add credentials, account IDs, bank/card data, browser cookies, or edited files.",
+      "series_id": "BLS_RELEASE_CALENDAR"
+    }
+  ],
+  "manual_drop_inbox": ".aios/runtime/forex_institutional_data_breakthrough_v1/manual_drop_inbox",
+  "packet_id": "PKT-EAST-FOREX-DATA-BREAKTHROUGH-FUNDING-016",
+  "safety": {
+    "broker_or_oanda_live": false,
+    "credentials_required": false,
+    "private_data_required": false
+  },
+  "schema": "AIOS_FOREX_OFFICIAL_DATA_DROP_HANDOFF_STATE_V1",
+  "status": "HUMAN_OFFICIAL_DATA_DROP_REQUIRED"
+}

@@ -52,34 +52,39 @@ function Invoke-PythonJsonLogic {
     $psi.RedirectStandardError = $true
     $psi.UseShellExecute = $false
     $psi.WorkingDirectory = $resolvedRepoRoot
-    $existingPythonPath = $psi.EnvironmentVariables["PYTHONPATH"]
-    if ([string]::IsNullOrWhiteSpace($existingPythonPath)) {
-        $psi.EnvironmentVariables["PYTHONPATH"] = $resolvedRepoRoot
+    $previousPythonPath = [System.Environment]::GetEnvironmentVariable("PYTHONPATH")
+    if ([string]::IsNullOrWhiteSpace($previousPythonPath)) {
+        $env:PYTHONPATH = $resolvedRepoRoot
     }
     else {
-        $psi.EnvironmentVariables["PYTHONPATH"] = "$resolvedRepoRoot$([System.IO.Path]::PathSeparator)$existingPythonPath"
+        $env:PYTHONPATH = "$resolvedRepoRoot$([System.IO.Path]::PathSeparator)$previousPythonPath"
     }
     $process = [System.Diagnostics.Process]::new()
     $process.StartInfo = $psi
-    [void]$process.Start()
-    $stdoutTask = $process.StandardOutput.ReadToEndAsync()
-    $stderrTask = $process.StandardError.ReadToEndAsync()
-    # Windows PowerShell's inherited console encoding can add a UTF-8 BOM
-    # or replace Unicode path characters. The Python bridge accepts UTF-8.
-    $payloadBytes = [System.Text.Encoding]::UTF8.GetBytes($payloadJson)
-    $inputStream = $process.StandardInput.BaseStream
-    $inputStream.Write($payloadBytes, 0, $payloadBytes.Length)
-    $inputStream.Close()
-    if (-not $process.WaitForExit($TimeoutSecondsValue * 1000)) {
-        $process.Kill()
-        throw "AIOS autonomous Forex research pipeline timed out."
+    try {
+        [void]$process.Start()
+        $stdoutTask = $process.StandardOutput.ReadToEndAsync()
+        $stderrTask = $process.StandardError.ReadToEndAsync()
+        # Windows PowerShell's inherited console encoding can add a UTF-8 BOM
+        # or replace Unicode path characters. The Python bridge accepts UTF-8.
+        $payloadBytes = [System.Text.Encoding]::UTF8.GetBytes($payloadJson)
+        $inputStream = $process.StandardInput.BaseStream
+        $inputStream.Write($payloadBytes, 0, $payloadBytes.Length)
+        $inputStream.Close()
+        if (-not $process.WaitForExit($TimeoutSecondsValue * 1000)) {
+            $process.Kill()
+            throw "AIOS autonomous Forex research pipeline timed out."
+        }
+        $rawText = $stdoutTask.Result.Trim()
+        $errorText = $stderrTask.Result.Trim()
+        if ([string]::IsNullOrWhiteSpace($rawText)) {
+            throw "AIOS autonomous Forex research pipeline returned no JSON. $errorText"
+        }
+        return $rawText | ConvertFrom-Json -ErrorAction Stop
     }
-    $rawText = $stdoutTask.Result.Trim()
-    $errorText = $stderrTask.Result.Trim()
-    if ([string]::IsNullOrWhiteSpace($rawText)) {
-        throw "AIOS autonomous Forex research pipeline returned no JSON. $errorText"
+    finally {
+        $env:PYTHONPATH = $previousPythonPath
     }
-    return $rawText | ConvertFrom-Json -ErrorAction Stop
 }
 
 function Write-ConsoleReport {
@@ -141,3 +146,4 @@ else {
 
 if ([string]$result.safety.status -eq "PASS") { exit 0 }
 exit 1
+

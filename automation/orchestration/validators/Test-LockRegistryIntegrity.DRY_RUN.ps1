@@ -32,7 +32,6 @@ else {
 }
 
 $warnings = New-Object System.Collections.Generic.List[string]
-$lockIds = New-Object System.Collections.Generic.HashSet[string]
 
 function Get-LockPaths {
     param($Lock)
@@ -104,10 +103,6 @@ foreach ($lock in $locks) {
     if ([string]::IsNullOrWhiteSpace($lockId) -or $lockId -like "*PLACEHOLDER*") {
         $warnings.Add("Lock has malformed lock_id: $lockId") | Out-Null
     }
-    elseif (-not $lockIds.Add($lockId)) {
-        $warnings.Add("Duplicate lock_id detected: $lockId") | Out-Null
-    }
-
     if ([string]::IsNullOrWhiteSpace($workerId) -or $workerId -like "*PLACEHOLDER*") {
         $warnings.Add("Lock has missing worker_id.") | Out-Null
     }
@@ -128,6 +123,22 @@ foreach ($lock in $locks) {
         if ([string]::IsNullOrWhiteSpace((ConvertTo-PathKey -Path $lockedPath))) {
             $warnings.Add("Lock has empty claimed path: $lockId") | Out-Null
         }
+    }
+}
+
+foreach ($group in @($locks | Group-Object lock_id)) {
+    $records = @($group.Group)
+    if ($records.Count -le 1 -or [string]::IsNullOrWhiteSpace([string]$group.Name)) {
+        continue
+    }
+
+    $activeForId = @($records | Where-Object { $_.status -eq "ACTIVE" })
+    $unresolvedForId = @($records | Where-Object { $_.status -notin @("ACTIVE", "RELEASED") })
+    if ($activeForId.Count -gt 1) {
+        $warnings.Add("Multiple ACTIVE records share canonical lock_id: $($group.Name)") | Out-Null
+    }
+    if ($unresolvedForId.Count -gt 0) {
+        $warnings.Add("Repeated canonical lock_id has unresolved non-terminal history: $($group.Name)") | Out-Null
     }
 }
 

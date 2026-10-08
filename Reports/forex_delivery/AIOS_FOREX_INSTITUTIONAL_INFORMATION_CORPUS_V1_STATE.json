@@ -1,0 +1,79 @@
+{
+  "acquisition_report_hash": "78ad9c39608635dfea70d7a4757461134b2e2741d4c2ec617ea2fb779b5e56f7",
+  "acquisition_state_hash": "5de665e5ba5a2dd51789f8ed7896fd73f9f7c2a085dca7fcaa45297330d2179d",
+  "aggregate_hash": "6241fb03181abcb8db2ba0e02dd3e35958de2b66ffcc6267f85fdc3f3c26fe09",
+  "corpus_id": "AIOS_FOREX_INSTITUTIONAL_INFORMATION_CORPUS_V1",
+  "frozen": true,
+  "market_corpus_hash": "44bad0bb22fa88771c824c2c91551fef7116a458d5d7fee7039f5f87c76dac6a",
+  "normalized_artifacts": [
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/ALFRED_CPIAUCSL.json",
+      "records": 30,
+      "sha256": "6299f8713995e3429f9bed2a5a18cce233de60add6964e7731dd65b3e1c8e1b5"
+    },
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/ALFRED_PAYEMS.json",
+      "records": 31,
+      "sha256": "4e96caa17a59811ee4710cc77d4cbb88a48850a617b854debc6985eb4514c5ba"
+    },
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/FRED_DFF.json",
+      "records": 970,
+      "sha256": "eb69dd93c3557d21267ec728582f0e0591b7a6c4c0dbb3c271b35141be6b877c"
+    },
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/FRED_DGS10.json",
+      "records": 664,
+      "sha256": "ac2b804151a7a0c67fdccbb00085f42079b4bcc67ee7acede629ea223bfbbe99"
+    },
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/FRED_DGS2.json",
+      "records": 664,
+      "sha256": "6936ccd36e893057fbb491a870fb263631d84dde6493739abc170967b34b19f8"
+    },
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/FRED_ECBDFR.json",
+      "records": 971,
+      "sha256": "b44973c7a36b89a2ad10e9f83584da1d602f818e72266ab614a0d9f973258cf7"
+    },
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/FRED_IRSTCI01AUM156N.json",
+      "records": 30,
+      "sha256": "bef5ffdde5f5e75d5f314db43e696086acf5e8f5afe7e14615aa4f9adcc8d1d1"
+    },
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/FRED_IRSTCI01CAM156N.json",
+      "records": 30,
+      "sha256": "aed4cf4db092645d98aed7967987ce0e8945d94aade5ea1f9a8ab86e43e5d3cf"
+    },
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/FRED_IRSTCI01CHM156N.json",
+      "records": 3,
+      "sha256": "d9e19dc80c4c2a6c957679cb5a3184d65049580dcf3246481d16dfb42db153f8"
+    },
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/FRED_IRSTCI01JPM156N.json",
+      "records": 30,
+      "sha256": "39df0fed6cb2851c02c92ac407afceace41bf8dc6a472e3310bc3cb0c17e7475"
+    },
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/FRED_IRSTCI01NZM156N.json",
+      "records": 12,
+      "sha256": "8eeada71e6f81dce1f3e237b7dd468bcd92173320eb51cac0ae2857db8007e31"
+    },
+    {
+      "path": ".aios/runtime/forex_institutional_data_breakthrough_v1/normalized/FRED_VIXCLS.json",
+      "records": 686,
+      "sha256": "64e2f302c07331746e0246596293a6d35f8f0bf483e63871d9da651bed48d5b1"
+    }
+  ],
+  "quality": {
+    "duplicate_count": 0,
+    "pass": true,
+    "record_count": 4121,
+    "violations": []
+  },
+  "record_count": 4121,
+  "schema": "AIOS_FOREX_INSTITUTIONAL_INFORMATION_CORPUS_V1",
+  "status": "FROZEN_VALID"
+}

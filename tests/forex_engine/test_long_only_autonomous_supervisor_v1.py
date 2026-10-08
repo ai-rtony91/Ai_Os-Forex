@@ -222,12 +222,13 @@ def _final_status_payload():
 
 def test_current_long_only_demo_supervisor_can_prepare_but_not_execute():
     result = supervisor.build_long_only_autonomous_supervisor_contract()
-    assert result["status"] == supervisor.AUTONOMOUS_BLOCKED_BY_BROKER_GATE
-    assert result["can_prepare_demo_plan"] is True
+    assert result["status"] == supervisor.AUTONOMOUS_REQUIRE_MORE_EVIDENCE
+    assert result["can_prepare_demo_plan"] is False
     assert result["execution_allowed"] is False
     assert result["ready_to_execute"] is False
     assert result["demo_plan"]["prepare_only"] is True
     assert result["demo_plan"]["order_execution"] is False
+    assert result["next_safe_action"] == "restore_profitable_evidence_and_walk_forward_gate"
 
 
 def test_short_side_stays_disabled():

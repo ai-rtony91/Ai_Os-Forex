@@ -1,27 +1,25 @@
-"""Proof bundle -> candidate bridge with deterministic compatibility behavior."""
+"""Fail-closed proof-bundle to candidate review bridge.
 
+Only explicit caller evidence is consumed. Missing data never invokes a fixture
+producer or supplies profitable economics, proof success, or a freshness clock.
+"""
 from __future__ import annotations
 
 import json
+import math
 from copy import deepcopy
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from . import canonical_demo_review_evidence_bridge
-from . import candidate_intake_demo_review_bridge
 
 PacketResult = Dict[str, Any]
-
 PACKET_ID = "AIOS_FOREX_PROOF_BUNDLE_TO_CANDIDATE_BRIDGE_V1"
-
-_IN_BRIDGE_CALL = False
-
-# Re-export canonical verdict constants for legacy callers.
 DEMO_REVIEW_READY = canonical_demo_review_evidence_bridge.DEMO_REVIEW_READY
 PAPER_CONTINUE = canonical_demo_review_evidence_bridge.PAPER_CONTINUE
 REJECTED = canonical_demo_review_evidence_bridge.REJECTED
 BLOCKED_INCOMPLETE_EVIDENCE = canonical_demo_review_evidence_bridge.BLOCKED_INCOMPLETE_EVIDENCE
-
 
 SAFETY_DEFAULTS = {
     "paper_only": True,
@@ -35,280 +33,378 @@ SAFETY_DEFAULTS = {
     "live_trading_authorized": False,
 }
 
+# Existing P1 intake uses these equivalent declarations at its source boundary.
+P1_DENIED_FLAGS = (
+    "broker_call_performed", "broker_write_performed", "credentials_loaded",
+    "account_access_performed", "order_submission_allowed", "order_modification_allowed",
+    "order_close_allowed", "live_execution_allowed", "money_movement_allowed",
+    "scheduler_created", "daemon_created", "webhook_created", "network_access",
+)
+
+# Explicit statuses supported by the canonical evidence contract. Numbers,
+# arbitrary nonempty strings, and mappings without a result are never success.
+PASS_STATUSES = frozenset({"TRUE", "PASS", "PASSED", "OK", "READY", "COMPLETE", "COMPLETED", "GREEN"})
+PROOF_RESULT_FIELDS = ("status", "passed", "value", "pass", "valid", "approved", "confirmed", "ready")
+IDENTITY_FIELDS = {
+    "candidate_id": ("candidate_id", "selected_candidate_id", "journey_selected_candidate_id", "bundle_selected_candidate_id"),
+    "strategy": ("strategy", "strategy_name", "selected_strategy", "journey_selected_strategy", "bundle_selected_strategy"),
+    "pair": ("pair", "symbol", "selected_pair", "journey_selected_pair", "bundle_selected_pair"),
+    "direction": ("direction", "selected_direction", "journey_selected_direction", "bundle_selected_direction"),
+}
+
 
 def _normalize_proof_payload(proof_bundle_payload: Optional[Dict[str, Any]]) -> Dict[str, Any]:
-    payload = dict(proof_bundle_payload or {})
-    if not payload:
-        payload = {
-            "proof_bundle_status": "PROOF_BUNDLE_COMPLETE",
-            "proof_bundle_status_msg": "deterministic_fallback",
-            "proof_records": [
-                {"proof_type": "replay", "status": "PASS"},
-                {"proof_type": "reconciliation", "status": "PASS"},
-                {"proof_type": "rollback", "status": "PASS"},
-                {"proof_type": "demo_validation", "status": "PASS"},
-            ],
-            "selected_candidate_id": "c1-eur-buy",
-            "candidate_id": "c1-eur-buy",
-            "candidate": {"candidate_id": "c1-eur-buy"},
-        }
-    return payload
+    if not isinstance(proof_bundle_payload, dict):
+        return {}
+    try:
+        # Evidence is a JSON contract. Cycles and non-JSON metadata are malformed.
+        json.dumps(proof_bundle_payload)
+        return deepcopy(proof_bundle_payload)
+    except (TypeError, ValueError, RecursionError):
+        return {}
 
 
 def closed_proof_blockers(before_blockers: list[str], after_blockers: list[str]) -> list[str]:
-    before_set = set(before_blockers or [])
-    after_set = set(after_blockers or [])
-    return sorted(before_set - after_set)
+    return sorted(set(before_blockers or []) - set(after_blockers or []))
+
+
+def _proof_passed(raw: Any) -> bool:
+    if isinstance(raw, bool):
+        return raw
+    if isinstance(raw, str):
+        return raw.strip().upper() in PASS_STATUSES
+    if isinstance(raw, dict):
+        results = [raw[key] for key in PROOF_RESULT_FIELDS if key in raw]
+        results.extend(_nested_proof_results(raw.get("evidence")))
+        return bool(results) and all(_proof_passed(result) for result in results)
+    return False
+
+
+def _nested_proof_results(value: Any) -> list[Any]:
+    if isinstance(value, dict):
+        results = [value[key] for key in PROOF_RESULT_FIELDS if key in value]
+        for nested in value.values():
+            results.extend(_nested_proof_results(nested))
+        return results
+    if isinstance(value, list):
+        return [result for nested in value for result in _nested_proof_results(nested)]
+    return []
+
+
+def _finite_number(raw: Any) -> float | None:
+    if isinstance(raw, bool) or not isinstance(raw, (int, float, str)):
+        return None
+    try:
+        value = float(raw)
+    except (TypeError, ValueError, OverflowError):
+        return None
+    return value if math.isfinite(value) else None
+
+
+def _freshness_passed(raw: Any) -> bool:
+    if not isinstance(raw, dict):
+        return False
+    statuses = [raw[key] for key in PROOF_RESULT_FIELDS if key in raw]
+    if statuses and not all(_proof_passed(status) for status in statuses):
+        return False
+    ages = []
+    if "age_hours" in raw:
+        ages.append(_finite_number(raw["age_hours"]))
+    now = datetime.now(timezone.utc)
+    for key in ("timestamp", "as_of", "captured_at", "at"):
+        if key not in raw:
+            continue
+        timestamp = raw[key]
+        if not isinstance(timestamp, str):
+            return False
+        try:
+            parsed = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+        except ValueError:
+            return False
+        if parsed.tzinfo is None:
+            return False
+        try:
+            ages.append((now - parsed.astimezone(timezone.utc)).total_seconds() / 3600)
+        except (ValueError, OverflowError):
+            return False
+    maximum_age = canonical_demo_review_evidence_bridge.DEFAULT_MAX_FRESHNESS_AGE_HOURS
+    return bool(ages) and all(age is not None and 0 <= age <= maximum_age for age in ages)
+
+
+def _proof_sources(payload: dict[str, Any]) -> tuple[dict[str, list[Any]], list[str]]:
+    sources = {name: [] for name in canonical_demo_review_evidence_bridge.PROOF_FIELDS}
+    blockers = []
+    proofs = payload.get("proofs", {})
+    if not isinstance(proofs, dict):
+        blockers.append("malformed_proofs")
+        proofs = {}
+    candidate = payload.get("candidate")
+    candidate = candidate if isinstance(candidate, dict) else {}
+    candidate_proofs = candidate.get("proofs", {})
+    if not isinstance(candidate_proofs, dict):
+        blockers.append("malformed_candidate_proofs")
+        candidate_proofs = {}
+    for name, aliases in canonical_demo_review_evidence_bridge.PROOF_ALIASES.items():
+        status_aliases = tuple(f"{alias}_status" for alias in aliases)
+        for container in (proofs, payload, candidate, candidate_proofs):
+            sources[name].extend(container[key] for key in (*aliases, *status_aliases) if key in container)
+    records = payload.get("proof_records", [])
+    if not isinstance(records, list):
+        return sources, [*blockers, "malformed_proof_records"]
+    for record in records:
+        if (
+            not isinstance(record, dict)
+            or not isinstance(record.get("proof_type"), str)
+            or record["proof_type"] not in sources
+        ):
+            blockers.append("malformed_proof_record")
+            continue
+        sources[record["proof_type"]].append(record)
+    return sources, blockers
 
 
 def build_enriched_candidate(proof_bundle_payload: Dict[str, Any]) -> Dict[str, Any]:
-    candidate = dict(proof_bundle_payload.get("candidate") or {})
-    candidate_id = (
-        candidate.get("candidate_id")
-        or proof_bundle_payload.get("candidate_id")
-        or proof_bundle_payload.get("selected_candidate_id")
-    )
-    if not candidate_id:
+    candidate = proof_bundle_payload.get("candidate")
+    if not isinstance(candidate, dict) or not candidate:
         return {}
-
-    records = proof_bundle_payload.get("proof_records", [])
-    by_type: Dict[str, Any] = {str(p.get("proof_type")): p for p in records if isinstance(p, dict)}
-    proofs = proof_bundle_payload.get("proofs", {})
-    if isinstance(proofs, dict):
-        by_type.setdefault("replay", proofs.get("replay_proof"))
-        by_type.setdefault("reconciliation", proofs.get("reconciliation_proof"))
-        by_type.setdefault("rollback", proofs.get("rollback_proof"))
-        by_type.setdefault("demo_validation", proofs.get("demo_validation_proof"))
-        by_type.setdefault("kill_switch", proofs.get("kill_switch_proof"))
-        by_type.setdefault("risk", proofs.get("risk_proof"))
-        by_type.setdefault("freshness", proofs.get("freshness_proof"))
-
-    def _proof_bool(raw: Any) -> bool:
-        if isinstance(raw, dict):
-            if "status" in raw:
-                return bool(raw.get("status"))
-            if "passed" in raw:
-                return bool(raw.get("passed"))
-            if "value" in raw:
-                return bool(raw.get("value"))
-        return bool(raw)
-
-    return {
-        "candidate_id": candidate_id,
-        "strategy": candidate.get("strategy", candidate.get("strategy_name", "unknown")),
-        "pair": candidate.get("pair", "unknown"),
-        "direction": candidate.get("direction", "unknown"),
-        "expectancy": candidate.get("expectancy"),
-        "profit_factor": candidate.get("profit_factor"),
-        "max_drawdown": candidate.get("max_drawdown"),
-        "win_rate": candidate.get("win_rate"),
-        "sample_size": candidate.get("sample_size"),
-        "walk_forward_status": candidate.get("walk_forward_status", "pending"),
-        "paper_evidence_status": candidate.get("paper_evidence_status", "pending"),
-        "mitigation_status": candidate.get("mitigation_status", "pending"),
-        "replay_proof": _proof_bool(by_type.get("replay")),
-        "reconciliation_proof": _proof_bool(by_type.get("reconciliation")),
-        "rollback_proof": _proof_bool(by_type.get("rollback")),
-        "demo_validation_proof": _proof_bool(by_type.get("demo_validation")),
-        "kill_switch_proof": bool(_proof_bool(by_type.get("kill_switch")) or proof_bundle_payload.get("kill_switch_proof", True)),
-        "risk_proof": bool(_proof_bool(by_type.get("risk")) or proof_bundle_payload.get("risk_proof", True)),
-        "freshness_proof": proof_bundle_payload.get("freshness_proof", {"age_hours": 1}),
+    sources, _ = _proof_sources(proof_bundle_payload)
+    enriched = {
+        "candidate_id": candidate.get("candidate_id", candidate.get("id")),
+        "strategy": candidate.get("strategy", candidate.get("strategy_name")),
+        "pair": candidate.get("pair", candidate.get("symbol")),
+        "direction": candidate.get("direction"),
     }
+    for key, aliases in canonical_demo_review_evidence_bridge.METRIC_ALIASES.items():
+        enriched[key] = next((candidate[alias] for alias in aliases if alias in candidate), None)
+    for name, values in sources.items():
+        check = _freshness_passed if name == "freshness" else _proof_passed
+        passed = bool(values) and all(check(value) for value in values)
+        enriched[f"{name}_proof"] = deepcopy(values[0]) if name == "freshness" and passed else passed
+    return enriched
 
 
-def _default_candidate_payload() -> Dict[str, Any]:
-    return {
-        "candidate_id": "c1-eur-buy",
-        "strategy": "ema_mean_reversion",
-        "pair": "EURUSD",
-        "direction": "buy",
-        "expectancy": 0.65,
-        "profit_factor": 1.8,
-        "max_drawdown": 0.05,
-        "win_rate": 0.61,
-        "sample_size": 250,
-        "walk_forward_status": "passed",
-        "paper_evidence_status": "ready",
-        "mitigation_status": "mitigated",
+def _identity_value(field: str, value: Any) -> str | None:
+    if not isinstance(value, str) or not value.strip() or value.strip().lower() == "unknown":
+        return None
+    normalized = value.strip()
+    if field == "direction":
+        return {"buy": "buy", "long": "buy", "sell": "sell", "short": "sell"}.get(normalized.lower())
+    return normalized.upper() if field == "pair" else normalized
+
+
+def _identity_blockers(payload: Any, identity: dict[str, Any]) -> list[str]:
+    blockers = []
+    if isinstance(payload, dict):
+        for field, aliases in IDENTITY_FIELDS.items():
+            for key in aliases:
+                if key in payload and _identity_value(field, payload[key]) != _identity_value(field, identity.get(field)):
+                    blockers.append(f"contradictory_{field}")
+        for value in payload.values():
+            blockers.extend(_identity_blockers(value, identity))
+    elif isinstance(payload, list):
+        for value in payload:
+            blockers.extend(_identity_blockers(value, identity))
+    return blockers
+
+
+def _list_blockers(payload: dict[str, Any], key: str) -> list[str]:
+    value = payload.get(key, [])
+    if not isinstance(value, list) or any(not isinstance(item, str) or not item for item in value):
+        return [f"malformed_{key}"]
+    return value
+
+
+def _metric_value(field: str, value: Any) -> Any:
+    if field not in {"walk_forward_status", "paper_evidence_status", "mitigation_status"}:
+        return _finite_number(value)
+    if not isinstance(value, str):
+        return None
+    status = value.strip().lower().replace("-", "_")
+    allowed = {
+        "walk_forward_status": {"pass", "passed", "pass_strong", "pass_stable", "ready"},
+        "paper_evidence_status": {"pass", "passed", "ready"},
+        "mitigation_status": {"pass", "passed", "ready", "mitigated", "not_worse", "unchanged", "stable"},
     }
+    return "pass" if status in allowed[field] else None
+
+
+def _metric_blockers(candidate: dict[str, Any]) -> list[str]:
+    blockers = []
+    for field, aliases in canonical_demo_review_evidence_bridge.METRIC_ALIASES.items():
+        values = [_metric_value(field, candidate[alias]) for alias in aliases if alias in candidate]
+        if not values or any(value is None for value in values):
+            blockers.append(f"missing_or_invalid_{field}")
+        elif any(value != values[0] for value in values[1:]):
+            blockers.append(f"contradictory_{field}")
+        if values and values[0] is not None:
+            value = values[0]
+            if field in {"max_drawdown", "win_rate"} and not 0 <= value <= 1:
+                blockers.append(f"invalid_fraction_{field}")
+    return blockers
+
+
+def _source_claim_blockers(value: Any) -> list[str]:
+    blockers = []
+    if isinstance(value, dict):
+        for key in ("source_blockers", "candidate_blockers", "blockers", "blocked_reasons"):
+            blockers.extend(_list_blockers(value, key))
+        accepted = {
+            "source_candidate_verdict": {DEMO_REVIEW_READY, PAPER_CONTINUE},
+            "candidate_verdict": {DEMO_REVIEW_READY, PAPER_CONTINUE},
+            "source_review_chain_status": {"REVIEW_CHAIN_REVIEW_READY"},
+            "review_chain_status": {"REVIEW_CHAIN_REVIEW_READY"},
+            "source_journey_final_verdict": {"REVIEW_READY"},
+            "journey_final_verdict": {"REVIEW_READY"},
+        }
+        for key, statuses in accepted.items():
+            if key in value and (not isinstance(value[key], str) or value[key] not in statuses):
+                blockers.append(f"failed_or_invalid_{key}")
+        for nested in value.values():
+            blockers.extend(_source_claim_blockers(nested))
+    elif isinstance(value, list):
+        for nested in value:
+            blockers.extend(_source_claim_blockers(nested))
+    return blockers
+
+
+def _source_safety_gaps(value: Any) -> list[str]:
+    gaps = []
+    if isinstance(value, dict):
+        if "safety" in value and not isinstance(value["safety"], dict):
+            gaps.append("malformed_safety")
+        if "is_safe" in value and value["is_safe"] is not True:
+            gaps.append("source_is_not_safe")
+        if "safety_gaps" in value and (not isinstance(value["safety_gaps"], list) or value["safety_gaps"]):
+            gaps.append("declared_source_safety_gaps")
+        for key, required in {**SAFETY_DEFAULTS, **dict.fromkeys(P1_DENIED_FLAGS, False)}.items():
+            if key in value and value[key] is not required:
+                gaps.append(key)
+        for nested in value.values():
+            gaps.extend(_source_safety_gaps(nested))
+    elif isinstance(value, list):
+        for nested in value:
+            gaps.extend(_source_safety_gaps(nested))
+    return _dedupe(gaps)
+
+
+def _development_blockers(value: Any) -> list[str]:
+    """Preserve development provenance through nested candidate/proof adapters."""
+    blockers = []
+    if isinstance(value, dict):
+        for key in ("fixture_only", "synthetic_only", "uses_synthetic_fixture_only"):
+            if key in value and value[key] is not False:
+                blockers.append(f"development_evidence_{key}")
+        mode = value.get("mode")
+        if isinstance(mode, str) and (
+            mode.strip().upper() == "ENGINEERING_DRY_RUN"
+            or mode.strip().upper().endswith("DEVELOPMENT_ONLY")
+        ):
+            blockers.append("development_evidence_mode")
+        if value.get("edge_status") == "UNPROVEN":
+            blockers.append("independent_edge_unproven")
+        if value.get("proof_level") == "DEVELOPMENT_USED_NOT_INDEPENDENT_EDGE":
+            blockers.append("development_evidence_proof_level")
+        evidence_source = value.get("evidence_source")
+        if isinstance(evidence_source, str) and any(marker in evidence_source.lower() for marker in ("synthetic", "fixture")):
+            blockers.append("development_evidence_source")
+        for nested in value.values():
+            blockers.extend(_development_blockers(nested))
+    elif isinstance(value, list):
+        for nested in value:
+            blockers.extend(_development_blockers(nested))
+    return blockers
 
 
 def run_proof_bundle_to_candidate_bridge(
     write_reports: bool = True, proof_bundle_payload: dict | None = None
 ) -> PacketResult:
-    global _IN_BRIDGE_CALL
-    if _IN_BRIDGE_CALL:
-        proof_bundle_payload = _normalize_proof_payload(proof_bundle_payload)
-    else:
-        if proof_bundle_payload is None:
-            _IN_BRIDGE_CALL = True
-            try:
-                from .replay_reconciliation_proof_bundle import (
-                    run_replay_reconciliation_proof_bundle,
-                )
+    """Review one explicit bundle; this function never loads another producer."""
+    payload = _normalize_proof_payload(proof_bundle_payload)
+    blockers = [] if isinstance(proof_bundle_payload, dict) and proof_bundle_payload else ["missing_or_malformed_proof_bundle"]
+    proof_status = payload.get("proof_bundle_status", "PROOF_BUNDLE_INCOMPLETE")
+    if proof_status != "PROOF_BUNDLE_COMPLETE":
+        blockers.append("proof_bundle_not_complete")
+    candidate = payload.get("candidate")
+    if not isinstance(candidate, dict) or not candidate:
+        blockers.append("missing_or_malformed_candidate")
+        candidate = {}
+    enriched = build_enriched_candidate(payload)
+    for field in IDENTITY_FIELDS:
+        if _identity_value(field, enriched.get(field)) is None:
+            blockers.append(f"missing_or_invalid_{field}")
+    blockers.extend(_identity_blockers(payload, enriched))
+    if "id" in candidate and _identity_value("candidate_id", candidate["id"]) != _identity_value("candidate_id", enriched.get("candidate_id")):
+        blockers.append("contradictory_candidate_id")
+    blockers.extend(_development_blockers(payload))
+    blockers.extend(_metric_blockers(candidate))
+    sources, proof_format_blockers = _proof_sources(payload)
+    blockers.extend(proof_format_blockers)
+    for name, values in sources.items():
+        check = _freshness_passed if name == "freshness" else _proof_passed
+        if not values or not all(check(value) for value in values):
+            blockers.append("stale_freshness_or_missing" if name == "freshness" else f"missing_{name}_proof")
+    for field in ("expectancy", "profit_factor", "max_drawdown", "win_rate", "sample_size"):
+        value = _finite_number(enriched.get(field))
+        if value is None or (field == "sample_size" and (value < 0 or not value.is_integer())):
+            blockers.append(f"missing_or_invalid_{field}")
+            if enriched:
+                enriched[field] = None
+    blockers.extend(_source_claim_blockers(payload))
 
-                proof_bundle_payload = run_replay_reconciliation_proof_bundle(write_reports=False)
-            except Exception:
-                proof_bundle_payload = None
-            finally:
-                _IN_BRIDGE_CALL = False
-        proof_bundle_payload = _normalize_proof_payload(proof_bundle_payload)
+    source_safety = payload.get("safety", {})
+    safety_gaps = _source_safety_gaps(payload)
+    if not isinstance(source_safety, dict):
+        source_safety = {}
+    safety = {
+        **SAFETY_DEFAULTS,
+        **{key: payload[key] for key in SAFETY_DEFAULTS if key in payload},
+        **source_safety,
+    }
+    safety["live_trading_authorized"] = False
+    safety.update({"is_safe": not safety_gaps, "safety_gaps": safety_gaps})
+    blockers.extend(f"unsafe_{key}" for key in safety_gaps)
 
-    try:
-        candidate_payload = proof_bundle_payload.get("candidate", {}) or {}
-        candidate_payload = dict(candidate_payload)
-        if not candidate_payload:
-            try:
-                intake_payload = candidate_intake_demo_review_bridge.run_candidate_intake_demo_review_bridge(write_reports=False)
-            except Exception:
-                intake_payload = {}
-            candidate_payload = dict(intake_payload.get("normalized_candidate") or intake_payload.get("candidate") or {})
-            if not candidate_payload:
-                candidate_payload = _default_candidate_payload()
-
-        source_candidate_verdict = proof_bundle_payload.get("source_candidate_verdict")
-        candidate_payload = deepcopy(candidate_payload)
-
-        enriched_candidate = build_enriched_candidate(
-            {**proof_bundle_payload, "candidate": candidate_payload}
-        )
-        if not enriched_candidate:
-            enriched_candidate = _default_candidate_payload()
-
-        source_safety = dict(proof_bundle_payload.get("safety", {}) if proof_bundle_payload else {})
-        safety_payload = {**SAFETY_DEFAULTS, **source_safety}
-        safety_payload["live_trading_authorized"] = bool(safety_payload.get("live_trading_authorized", False))
-
-        safety_gaps = [
-            key
-            for key in (
-                "broker_connected",
-                "credentials_used",
-                "account_id_present",
-                "network_used",
-                "order_execution",
-                "demo_trading",
-                "live_trading",
-                "live_trading_authorized",
-            )
-            if safety_payload.get(key)
-        ]
-        safety_payload["is_safe"] = len(safety_gaps) == 0
-        safety_payload["safety_gaps"] = safety_gaps
-
-        proof_status = proof_bundle_payload.get("proof_bundle_status", "PROOF_BUNDLE_COMPLETE")
-        proof_bundle_ready = proof_status == "PROOF_BUNDLE_COMPLETE"
-
-        source_blockers = list(proof_bundle_payload.get("source_blockers", []))
-        if "walk_forward_failed" in proof_bundle_payload.get("candidate_blockers", []):
-            source_blockers.append("walk_forward_failed")
-        if (
-            str(enriched_candidate.get("walk_forward_status", "")).strip().lower()
-            in {"failed", "fail", "material_fail", "failed_walk_forward", "warn"}
-            or enriched_candidate.get("walk_forward_status") in {0, False}
-        ):
-            if "walk_forward_failed" not in source_blockers:
-                source_blockers.append("walk_forward_failed")
-        canonical_pre = {
-            "candidate": candidate_payload,
-            "verdict": proof_bundle_payload.get("candidate_verdict", source_candidate_verdict),
-            "blockers": list(source_blockers),
-            "safety_gaps": safety_payload.get("safety_gaps", []),
-            "next_safe_action": proof_bundle_payload.get("next_safe_action", "collect_demo_contract"),
-            "candidate_id": candidate_payload.get("candidate_id"),
-        }
-
-        review_bundle = canonical_demo_review_evidence_bridge.build_review_bundle(
-            enriched_candidate
-        )
-        if isinstance(review_bundle, dict) and review_bundle.get("blockers"):
-            canonical_pre["blockers"] = _dedupe(canonical_pre.get("blockers", []) + list(review_bundle.get("blockers", [])))
-        if isinstance(review_bundle, dict):
-            canonical_pre.update(
-                {
-                    "next_safe_action": review_bundle.get("next_safe_action", canonical_pre.get("next_safe_action")),
-                }
-            )
-
-        after_blockers = canonical_pre.get("blockers", [])
-        if str(enriched_candidate.get("walk_forward_status", "")).strip().lower() in {
-            "failed",
-            "fail",
-            "material_fail",
-            "failed_walk_forward",
-        }:
-            after_blockers = _dedupe([*after_blockers, "walk_forward_failed"])
-
-        closed = closed_proof_blockers(
-            [
-                "missing_replay_proof",
-                "missing_reconciliation_proof",
-                "missing_rollback_proof",
-                "missing_demo_validation_proof",
-            ],
-            [
-                b
-                for b in after_blockers
-                if b.startswith("missing_") and "proof" in b and "missing_" in b
-            ],
-        )
-
-        strategy_quality_gaps = [
-            blocker
-            for blocker in after_blockers
-            if blocker in {"walk_forward_failed", "paper_evidence_not_ready", "mitigation_worsened"}
-        ]
-        demo_contract_gaps = [
-            blocker
-            for blocker in after_blockers
-            if blocker == "missing_demo_validation_contract"
-        ]
-        review_package_gaps = [
-            blocker
-            for blocker in after_blockers
-            if blocker in {
-                "missing_one_shot_exception_package",
-                "missing_live_review_readiness_certificate",
-            }
-        ]
-        human_review_gaps = [
-            blocker
-            for blocker in after_blockers
-            if blocker in {"missing_human_review_ready", "missing_live_readiness_candidate"}
-        ]
-
-        candidate_bridge_verdict = review_bundle.get("verdict", "BLOCKED")
-        if safety_gaps:
-            candidate_bridge_verdict = BLOCKED_INCOMPLETE_EVIDENCE
-
-        payload: PacketResult = {
-            "mode": "LOCAL_APPLY",
-            "packet_id": PACKET_ID,
-            "safety": safety_payload,
-            "selected_candidate_id": candidate_payload.get("candidate_id"),
-            "selected_strategy": candidate_payload.get("strategy"),
-            "selected_direction": candidate_payload.get("direction"),
-            "source_proof_bundle_status": proof_status,
-            "source_candidate_verdict": source_candidate_verdict,
-            "candidate_bridge_verdict": candidate_bridge_verdict,
-            "proof_bundle_ready_for_candidate_bridge": proof_bundle_ready,
-            "enriched_candidate": enriched_candidate,
-            "canonical_review_bundle": canonical_pre,
-            "closed_blockers": closed,
-            "remaining_blockers": after_blockers,
-            "strategy_quality_gaps": strategy_quality_gaps,
-            "demo_contract_gaps": demo_contract_gaps,
-            "review_package_gaps": review_package_gaps,
-            "human_review_gaps": human_review_gaps,
-            "safety_gaps": safety_gaps,
-            "next_safe_action": canonical_pre.get("next_safe_action", "collect_next_evidence"),
-            "live_trading_authorized": False,
-        }
-        if write_reports:
-            payload["report_path"] = write_report(payload)
-        return payload
-    finally:
-        _IN_BRIDGE_CALL = False
+    reviewed = canonical_demo_review_evidence_bridge.build_review_bundle(enriched)
+    blockers = _dedupe([*blockers, *reviewed.get("blockers", [])])
+    verdict = BLOCKED_INCOMPLETE_EVIDENCE if blockers else reviewed["verdict"]
+    next_action = "Collect explicit matching candidate and proof evidence; no execution is authorized." if blockers else reviewed["next_safe_action"]
+    canonical = {
+        **reviewed,
+        "candidate": deepcopy(candidate),
+        "verdict": verdict,
+        "blockers": blockers,
+        "safety_gaps": safety_gaps,
+        "next_safe_action": next_action,
+    }
+    result: PacketResult = {
+        "mode": "LOCAL_APPLY",
+        "packet_id": PACKET_ID,
+        "safety": safety,
+        "selected_candidate_id": enriched.get("candidate_id"),
+        "selected_strategy": enriched.get("strategy"),
+        "selected_direction": enriched.get("direction"),
+        "source_proof_bundle_status": proof_status,
+        "source_candidate_verdict": payload.get("source_candidate_verdict"),
+        "candidate_bridge_verdict": verdict,
+        "proof_bundle_ready_for_candidate_bridge": verdict == DEMO_REVIEW_READY,
+        "enriched_candidate": enriched,
+        "canonical_review_bundle": canonical,
+        "closed_blockers": closed_proof_blockers(
+            [f"missing_{name}_proof" for name in ("replay", "reconciliation", "rollback", "demo_validation")],
+            blockers,
+        ) if candidate else [],
+        "remaining_blockers": blockers,
+        "strategy_quality_gaps": [reason for reason in blockers if reason in {"walk_forward_failed", "paper_evidence_not_ready", "mitigation_worsened"}],
+        "demo_contract_gaps": [reason for reason in blockers if reason == "missing_demo_validation_contract"],
+        "review_package_gaps": [reason for reason in blockers if reason in {"missing_one_shot_exception_package", "missing_live_review_readiness_certificate"}],
+        "human_review_gaps": [reason for reason in blockers if reason in {"missing_human_review_ready", "missing_live_readiness_candidate"}],
+        "safety_gaps": safety_gaps,
+        "next_safe_action": next_action,
+        "live_trading_authorized": False,
+    }
+    if write_reports:
+        result["report_path"] = write_report(result)
+    return result
 
 
 def write_report(payload: dict) -> Path:
@@ -320,11 +416,4 @@ def write_report(payload: dict) -> Path:
 
 
 def _dedupe(values: List[str]) -> List[str]:
-    seen = set()
-    out = []
-    for value in values:
-        if value in seen:
-            continue
-        seen.add(value)
-        out.append(value)
-    return out
+    return list(dict.fromkeys(values))

@@ -34,7 +34,7 @@ The intended product behavior remains:
 
 ## Known Demo Account Context
 
-The prior read-only diagnostic found that the token-visible OANDA DEMO account is `101-001-38382514-001`.
+The prior read-only diagnostic found that the token-visible OANDA DEMO account is `[REDACTED_DEMO_ACCOUNT_ID]`.
 
 The prior mismatched account remains rejected for this token context.
 

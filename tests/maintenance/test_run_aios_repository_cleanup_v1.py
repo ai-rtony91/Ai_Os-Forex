@@ -54,9 +54,13 @@ def test_audit_and_plan_are_read_only_and_ignore_untracked(tmp_path: Path) -> No
     assert audit["tracked_file_count"] == len(cleanup.tracked_files(root))
 
 
-def test_symlink_escape_is_blocked(tmp_path: Path) -> None:
+def test_symlink_escape_is_blocked(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     root = repo(tmp_path); outside = tmp_path.parent / "outside-cleanup-test"; outside.write_text("outside", encoding="utf-8")
-    link = root / "escape.txt"; link.symlink_to(outside); command(root, "git", "add", "escape.txt"); command(root, "git", "commit", "-qm", "link")
+    link = root / "escape.txt"; link.write_text("outside", encoding="utf-8"); command(root, "git", "add", "escape.txt"); command(root, "git", "commit", "-qm", "link")
+    original_is_symlink = cleanup.Path.is_symlink
+    original_resolve = cleanup.Path.resolve
+    monkeypatch.setattr(cleanup.Path, "is_symlink", lambda self: self == link or original_is_symlink(self))
+    monkeypatch.setattr(cleanup.Path, "resolve", lambda self, *args, **kwargs: (outside.resolve(strict=False) if self == link else original_resolve(self, *args, **kwargs)))
     assert report(root)["categories"]["A"] == "BLOCKED"
 
 
@@ -94,11 +98,26 @@ def test_mixed_eol_and_markdown_spaces_are_observed_not_rewritten(tmp_path: Path
     assert path.read_bytes() == original
 
 
-def test_generated_runtime_duplicate_and_case_collision_detection(tmp_path: Path) -> None:
+def test_generated_runtime_duplicate_and_case_collision_detection(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     root = repo(tmp_path)
     for name in ("runtime/state.txt", "Same.txt", "same.TXT", "copy.txt"):
         path = root / name; path.parent.mkdir(parents=True, exist_ok=True); path.write_text("duplicate\n", encoding="utf-8")
     command(root, "git", "add", "runtime/state.txt", "Same.txt", "same.TXT", "copy.txt"); command(root, "git", "commit", "-qm", "findings")
+    monkeypatch.setattr(
+        cleanup,
+        "tracked_files",
+        lambda repo_root: [
+            "AGENTS.md",
+            "README.md",
+            "SECURITY.md",
+            "COMPLIANCE_BASELINE.md",
+            ".github/workflows/ci.yml",
+            "runtime/state.txt",
+            "Same.txt",
+            "same.TXT",
+            "copy.txt",
+        ],
+    )
     result = report(root)
     assert result["categories"]["G"] == result["categories"]["E"] == result["categories"]["N"] == "WARN"
 

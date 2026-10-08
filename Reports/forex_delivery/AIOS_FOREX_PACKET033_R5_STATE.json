@@ -1,0 +1,170 @@
+{
+  "acquisition_plan": {
+    "acquisition_command": "& '.\\scripts\\forex_delivery\\Acquire-AiOsOandaPracticeScalpingHistory.HUMAN_ONLY.ps1' -OutputRoot '.aios/runtime/forex_scalping_history_human_inbox_v1' -Instruments @('EUR_USD','GBP_USD','USD_JPY') -Granularities @('M1','M2','M4','S10','S15','S30','S5') -FromUtc '2024-01-01T00:00:00Z' -ToUtc '2026-08-30T00:00:00Z'",
+    "candles_per_request": 5000,
+    "checkpoint_every_requests": 1,
+    "estimate_class": "UPPER_BOUND_WITH_FX_MARKET_OPEN_RATIO",
+    "estimated_candles_per_series_by_granularity": {
+      "M1": 999772,
+      "M2": 499886,
+      "M4": 249943,
+      "S10": 5998629,
+      "S15": 3999086,
+      "S30": 1999543,
+      "S5": 11997258
+    },
+    "estimated_minimum_request_duration_seconds": 7725,
+    "estimated_raw_bytes": 32437587420,
+    "estimated_request_count": 15450,
+    "estimated_requests_by_granularity": {
+      "M1": 600,
+      "M2": 300,
+      "M4": 150,
+      "S10": 3600,
+      "S15": 2400,
+      "S30": 1200,
+      "S5": 7200
+    },
+    "from_utc": "2024-01-01T00:00:00Z",
+    "live_host_allowed": false,
+    "minimum_request_interval_seconds": 0.5,
+    "orders_allowed": false,
+    "pacing_policy": "SINGLE_IN_FLIGHT_FIXED_MINIMUM_INTERVAL",
+    "plan_command": "& '.\\scripts\\forex_delivery\\Acquire-AiOsOandaPracticeScalpingHistory.HUMAN_ONLY.ps1' -OutputRoot '.aios/runtime/forex_scalping_history_human_inbox_v1' -Instruments @('EUR_USD','GBP_USD','USD_JPY') -Granularities @('M1','M2','M4','S10','S15','S30','S5') -FromUtc '2024-01-01T00:00:00Z' -ToUtc '2026-08-30T00:00:00Z' -WhatIfOnly",
+    "practice_get_only": true,
+    "resume_from_first_incomplete_series": true,
+    "secret_persistence_allowed": false,
+    "series_count": 21,
+    "to_boundary_semantics": "EXCLUSIVE",
+    "to_utc": "2026-08-30T00:00:00Z"
+  },
+  "audits": {
+    "T06_TIMEFRAME_MAPPING": {
+      "errors": [],
+      "evidence": {
+        "coverage_hash": "3de374cbd8f16e292cf187bafc268ce561dbe9a6726a795da86fe1a60651ab00",
+        "requested_count": 24,
+        "unavailable_count": 9
+      },
+      "status": "PASS",
+      "warnings": []
+    },
+    "T07_PACKET_STATE_INTEGRITY": {
+      "errors": [],
+      "evidence": {
+        "hypotheses": 912,
+        "queue_count": 263,
+        "technique_count": 82
+      },
+      "status": "PASS",
+      "warnings": []
+    },
+    "T08_TECHNIQUE_FIDELITY": {
+      "errors": [],
+      "evidence": {
+        "code_fingerprint": "14ab6761460090335e7eac6ef0a5e6ddd17598d46be4c1f4a5493c2df1ef7df6",
+        "contract_count": 82,
+        "family_count": 12,
+        "inventory_hash": "f23e7e735303f7aa72e7c09f809a8447c8b09228142beaefda4099c3e5989b2a",
+        "technique_count": 82
+      },
+      "status": "PASS",
+      "warnings": []
+    },
+    "T10_HYPOTHESIS_LEDGER": {
+      "errors": [],
+      "evidence": {
+        "effective_trials": 0,
+        "entry_count": 263,
+        "ledger_hash": "93aacc75b5c382176bc53a6b32dc61961818da60274ca193cf388564c5eea77b",
+        "total_attempted": 0
+      },
+      "status": "PASS",
+      "warnings": []
+    },
+    "T12_M30_MACD_READINESS": {
+      "errors": [],
+      "evidence": {
+        "m30_macd_queue_count": 3
+      },
+      "status": "PASS",
+      "warnings": []
+    },
+    "T13_FINALIST_FORWARD_V13": {
+      "errors": [],
+      "evidence": {
+        "gross_ready": false,
+        "route": "WAIT_FOR_EARNED_CANDIDATE"
+      },
+      "status": "PASS",
+      "warnings": []
+    }
+  },
+  "checkpoint": {
+    "current_lock": "AIOS-LOCK-2a0d9ee5a25e4bd2943ebabc9e2450cb",
+    "first_incomplete_task": "P01",
+    "human_artifacts_present": false,
+    "last_completed_task": "T15",
+    "one_hour_requirement_status": "SATISFIED",
+    "packet_id": "PKT-EAST-FOREX-PACKET033-R5-CONTINUATION-CONSTITUTION",
+    "previously_proven_minutes": 0.4,
+    "productive_minutes_cumulative": 60.0,
+    "productive_minutes_remaining": 0.0,
+    "r5_productive_seconds": 3576.0,
+    "same_packet_resume_required": true,
+    "schema": "AIOS_FOREX_PACKET033_R5_CONTINUATION.v1.productive-time",
+    "status": "WAITING_HUMAN_SCALPING_ARTIFACTS",
+    "task_ledger_tail_hash": "d42657bc873ed0a6b91ca533f6e2b7a06f1ec2434b03888205983ca1cd7af992",
+    "task_statuses": {
+      "T01": "COMPLETE",
+      "T02": "COMPLETE",
+      "T03": "COMPLETE",
+      "T04": "COMPLETE",
+      "T05": "COMPLETE",
+      "T06": "COMPLETE",
+      "T07": "COMPLETE",
+      "T08": "COMPLETE",
+      "T09": "COMPLETE",
+      "T10": "COMPLETE",
+      "T11": "COMPLETE",
+      "T12": "COMPLETE",
+      "T13": "COMPLETE",
+      "T14": "COMPLETE",
+      "T15": "COMPLETE"
+    },
+    "updated_at_utc": "2026-08-31T14:26:14.872862Z"
+  },
+  "full_cost_net_edge": "NOT_OPENED",
+  "human_artifact_status": "ABSENT_WAITING_HUMAN",
+  "long_gross_edge": "NOT_PROVEN",
+  "packet_id": "PKT-EAST-FOREX-PACKET033-R5-CONTINUATION-CONSTITUTION",
+  "safety": {
+    "broker_mutation": false,
+    "commit": false,
+    "live_order": false,
+    "live_request": false,
+    "money_movement": false,
+    "practice_order": false,
+    "push": false,
+    "secret_output": false
+  },
+  "schema": "AIOS_FOREX_PACKET033_R5_CONTINUATION.v1",
+  "short_gross_edge": "NOT_PROVEN",
+  "state_hash": "ebd3aa537356bffc6c732e040182b5535384544faf9b581cfccd6b11f22220ed",
+  "status": "WAITING_HUMAN_SCALPING_ARTIFACTS",
+  "stop_proof": {
+    "active_compute_shard_count": 0,
+    "alternate_safe_actions": [],
+    "compute_shard_evidence": "PRE_DATA_SHARD_PLANNER_VALIDATED_NO_SHARDS_LAUNCHED",
+    "independent_codex_resolvable_work_count": 0,
+    "phase_completion_only_stop": false,
+    "pre_terminal_audit_status": "PASS",
+    "remaining_authorized_work_count": 0,
+    "repairable_p0_p1_count": 0,
+    "report_only_stop": false,
+    "stop_allowed": true,
+    "unlocked_next_phase_count": 0,
+    "unlocked_next_phases": []
+  },
+  "updated_at_utc": "2026-08-31T14:26:14.872862Z"
+}

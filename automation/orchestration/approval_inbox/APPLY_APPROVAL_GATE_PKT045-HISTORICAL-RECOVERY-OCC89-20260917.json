@@ -1,0 +1,46 @@
+{
+    "allowed_paths":  [
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery"
+                      ],
+    "approval_authority":  "Anthony, Human Owner",
+    "approval_evidence":  {
+                              "type":  "HMAC_SHA256",
+                              "status":  "SIGNED_BY_HUMAN_OWNER",
+                              "canonical_payload_schema":  "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v1",
+                              "canonical_payload_sha256":  "8c0dbbc9d7966d949810482d102b916dda255cf30a0754e2309a2b7b7a59a67d",
+                              "approval_hmac_sha256":  "c064fbcee605f42e16974357470fc58561837c0c1ffa9c32c136befcd6473519",
+                              "approval_nonce":  "856c2054d5f9488ca42ba4ec6a88210f",
+                              "key_id":  "AIOS-HUMAN-OWNER-PRIMARY-V1",
+                              "key_version":  1,
+                              "key_fingerprint_sha256":  "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786"
+                          },
+    "approval_gate_id":  "PKT045-HISTORICAL-RECOVERY-OCC89-20260917",
+    "approval_request_id":  "PKT045-HISTORICAL-RECOVERY-OCC89-20260917",
+    "approval_status":  "approved_for_apply",
+    "approval_timestamp_utc":  "2026-09-18T00:49:49.4120175+00:00",
+    "approved_by_human":  true,
+    "approved_mode":  "APPLY",
+    "blocked_paths":  [
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045\\stage1_occ84",
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045\\postacq_occ89_20260916\\certification_stage",
+                          "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine",
+                          "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce",
+                          "C:\\Dev\\Ai.Os\\AGENTS.md",
+                          "C:\\Dev\\Ai.Os\\RISK_POLICY.md",
+                          "C:\\Dev\\Ai.Os\\automation\\orchestration\\locks\\FILE_LOCK_REGISTRY.json",
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\PKT045_PRICE_GAP_REPAIR_EVIDENCE.json",
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\PKT045_PRICE_GAP_POSITIONS.json"
+                      ],
+    "commit_package_required":  true,
+    "expires_at_utc":  "2026-09-18T05:57:41.821842+00:00",
+    "packet_id":  "PKT-AIOS-ADAPTIVE-WORKFORCE-001",
+    "push_blocked_until_final_review":  true,
+    "requested_action":  "Bounded historical recovery of the exact 21 diagnosed source keys, whole-object validation, isolated reconstruction and identical two-pass canonical certification; no scoring or original overwrite",
+    "requested_mode":  "APPLY",
+    "risk_level":  "HIGH",
+    "schema":  "AIOS_PACKET_APPROVAL_REQUEST.v1",
+    "validator_chain":  [
+                            "PKT045_HISTORICAL_RECOVERY_PLAN_SHA256=644c927c438309fd3ca153325ef0255b2bbadcfe66d645a6d6772618310a738b"
+                        ],
+    "approved_by":  "Anthony, Human Owner"
+}

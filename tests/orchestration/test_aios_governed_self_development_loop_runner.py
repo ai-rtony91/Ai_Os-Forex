@@ -12,14 +12,14 @@ PACKET_ROUTER_RUNNER = REPO_ROOT / "automation/orchestration/self_audit/Get-AiOs
 SELF_AUDIT_RUNNER = REPO_ROOT / "automation/orchestration/self_audit/Invoke-AiOsSelfAuditLoop.DRY_RUN.ps1"
 VALIDATOR_ROUTER_RUNNER = REPO_ROOT / "automation/orchestration/validators/Get-AiOsValidatorEvidenceRouter.DRY_RUN.ps1"
 DAY_NIGHT_RUNNER = REPO_ROOT / "automation/orchestration/supervisor/Get-AiOsDayNightReadiness.DRY_RUN.ps1"
-_RUNNER_JSON: subprocess.CompletedProcess[str] | None = None
-_RUNNER_CONSOLE: subprocess.CompletedProcess[str] | None = None
+_RUNNER_JSON: dict[str, subprocess.CompletedProcess[str]] = {}
+_RUNNER_CONSOLE: dict[str, subprocess.CompletedProcess[str]] = {}
 
 
-def _current_branch() -> str:
+def _current_branch(repo_root: Path = REPO_ROOT) -> str:
     result = subprocess.run(
         ["git", "branch", "--show-current"],
-        cwd=REPO_ROOT,
+        cwd=repo_root,
         text=True,
         capture_output=True,
         check=True,
@@ -27,8 +27,8 @@ def _current_branch() -> str:
     return result.stdout.strip()
 
 
-def _expected_branch_args() -> tuple[str, ...]:
-    branch = _current_branch()
+def _expected_branch_args(repo_root: Path = REPO_ROOT) -> tuple[str, ...]:
+    branch = _current_branch(repo_root)
     if branch == "main":
         return ()
     return ("-ExpectedBranch", branch)
@@ -137,18 +137,18 @@ def _run_runner(*args: str, cwd: Path = REPO_ROOT, check: bool = True) -> subpro
     return result
 
 
-def _runner_json() -> subprocess.CompletedProcess[str]:
-    global _RUNNER_JSON
-    if _RUNNER_JSON is None:
-        _RUNNER_JSON = _run_runner("-OutputJson", *_expected_branch_args(), *_runner_evidence_args())
-    return _RUNNER_JSON
+def _runner_json(repo_root: Path = REPO_ROOT) -> subprocess.CompletedProcess[str]:
+    key = str(repo_root)
+    if key not in _RUNNER_JSON:
+        _RUNNER_JSON[key] = _run_runner("-OutputJson", *_expected_branch_args(repo_root), *_runner_evidence_args(), cwd=repo_root)
+    return _RUNNER_JSON[key]
 
 
-def _runner_console() -> subprocess.CompletedProcess[str]:
-    global _RUNNER_CONSOLE
-    if _RUNNER_CONSOLE is None:
-        _RUNNER_CONSOLE = _run_runner(*_expected_branch_args(), *_runner_evidence_args())
-    return _RUNNER_CONSOLE
+def _runner_console(repo_root: Path = REPO_ROOT) -> subprocess.CompletedProcess[str]:
+    key = str(repo_root)
+    if key not in _RUNNER_CONSOLE:
+        _RUNNER_CONSOLE[key] = _run_runner(*_expected_branch_args(repo_root), *_runner_evidence_args(), cwd=repo_root)
+    return _RUNNER_CONSOLE[key]
 
 
 def _file_set(root: Path, relative: str) -> set[str]:
@@ -191,8 +191,8 @@ def test_runner_defaults_expected_branch_to_main() -> None:
     assert "feature/governed-self-development-closure-v1" not in text
 
 
-def test_runner_emits_json_only_with_output_json() -> None:
-    result = _runner_json()
+def test_runner_emits_json_only_with_output_json(clean_repo_root: Path) -> None:
+    result = _runner_json(clean_repo_root)
     raw = result.stdout.strip()
     parsed = json.loads(raw)
 
@@ -202,9 +202,9 @@ def test_runner_emits_json_only_with_output_json() -> None:
     assert parsed["recommended_next_packet"]["packet_id"] == "AIOS-OPERATOR-CONTROL-SURFACE-CONTRACT-DRYRUN-V1"
 
 
-def test_runner_accepts_explicit_current_expected_branch() -> None:
-    branch = _current_branch()
-    result = _run_runner("-OutputJson", "-ExpectedBranch", branch, *_runner_evidence_args())
+def test_runner_accepts_explicit_current_expected_branch(clean_repo_root: Path) -> None:
+    branch = _current_branch(clean_repo_root)
+    result = _run_runner("-OutputJson", "-ExpectedBranch", branch, *_runner_evidence_args(), cwd=clean_repo_root)
     parsed = json.loads(result.stdout)
 
     assert parsed["repo_state"]["expected_branch"] == branch
@@ -212,8 +212,8 @@ def test_runner_accepts_explicit_current_expected_branch() -> None:
     assert parsed["safety"]["status"] == "PASS"
 
 
-def test_runner_console_mode_includes_expected_sections() -> None:
-    result = _runner_console()
+def test_runner_console_mode_includes_expected_sections(clean_repo_root: Path) -> None:
+    result = _runner_console(clean_repo_root)
     out = result.stdout
 
     for section in (
@@ -256,7 +256,7 @@ def test_runner_refuses_dirty_worktree_outside_exact_allowed_files(tmp_path: Pat
     assert parsed["repo_state"]["dirty_allowed_for_governed_loop_validation"] is False
 
 
-def test_runner_no_write_proof_does_not_create_forbidden_files() -> None:
+def test_runner_no_write_proof_does_not_create_forbidden_files(clean_repo_root: Path) -> None:
     protected_roots = [
         "Reports",
         "telemetry",
@@ -270,7 +270,7 @@ def test_runner_no_write_proof_does_not_create_forbidden_files() -> None:
         "automation/orchestration/workers/inbox",
     ]
     before = {root: _file_set(REPO_ROOT, root) for root in protected_roots}
-    result = _runner_json()
+    result = _runner_json(clean_repo_root)
     after = {root: _file_set(REPO_ROOT, root) for root in protected_roots}
     parsed = json.loads(result.stdout)
 
@@ -338,8 +338,8 @@ def test_runner_does_not_call_excluded_write_capable_scripts() -> None:
         assert script not in surface_block
 
 
-def test_runner_output_does_not_recommend_protected_or_runtime_commands() -> None:
-    result = _runner_json()
+def test_runner_output_does_not_recommend_protected_or_runtime_commands(clean_repo_root: Path) -> None:
+    result = _runner_json(clean_repo_root)
     parsed = json.loads(result.stdout)
     action = parsed["next_safe_action"].lower()
 

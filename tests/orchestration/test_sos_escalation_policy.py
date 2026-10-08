@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 import shutil
 import subprocess
-import tempfile
 from pathlib import Path
 
 
@@ -152,278 +151,264 @@ def _assert_read_only_result(out: dict) -> None:
     assert out["can_continue_without_anthony"] is False
 
 
-def test_empty_bus_is_no_review_needed_or_routine_and_read_only() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
+def test_empty_bus_is_no_review_needed_or_routine_and_read_only(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
 
-        pre = _file_set(root)
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
-        post = _file_set(root)
+    pre = _file_set(root)
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
+    post = _file_set(root)
 
-        _assert_read_only_result(out)
-        assert out["escalation_status"] in {"NO_REVIEW_NEEDED", "ROUTINE_REVIEW"}
-        assert isinstance(out["escalation_reasons"], list)
-        assert isinstance(out["limitations"], list)
-        assert out["safe_next_action"]
-        assert out["matched_sos_categories"] == []
-        assert out["matched_routine_categories"] == []
-        assert pre == post
-
-
-def test_ordinary_relay_review_becomes_routine_review() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        _seed_relay_message(root, payload="Prepare normal Codex report handoff for review.")
-
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
-
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "ROUTINE_REVIEW"
-        assert out["anthony_required"] is False
-        assert out["routine_review_allowed"] is True
-        assert out["requires_human_review"] is True
-        assert "CODEX_REPORT_REVIEW" in out["matched_routine_categories"]
-        assert out["matched_sos_categories"] == []
-        assert out["confidence"] in {"MEDIUM", "LOW"}
-        assert out["inspected_actor"] == "codex_cli"
-        assert out["inspected_target_actor"] == "powershell_operator"
-        assert out["inspected_packet_id"] == "AIOS-SOS-REVIEW-01"
-        assert out["inspected_message_type"] == "codex_final_report"
-        assert out["inspected_status"] == "pending"
+    _assert_read_only_result(out)
+    assert out["escalation_status"] in {"NO_REVIEW_NEEDED", "ROUTINE_REVIEW"}
+    assert isinstance(out["escalation_reasons"], list)
+    assert isinstance(out["limitations"], list)
+    assert out["safe_next_action"]
+    assert out["matched_sos_categories"] == []
+    assert out["matched_routine_categories"] == []
+    assert pre == post
 
 
-def test_secret_like_payload_becomes_sos_escalation() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        _seed_raw_relay_message(
-            root,
-            payload_text='{"message_id": "AIOS-SOS-REVIEW-SECRETS-01", "content": "Contains API credential: AIOS_TG_BOT_TOKEN=abc123 for sync flow."}',
-        )
+def test_ordinary_relay_review_becomes_routine_review(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    _seed_relay_message(root, payload="Prepare normal Codex report handoff for review.")
 
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
 
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "SOS_ESCALATION"
-        assert out["anthony_required"] is True
-        assert out["routine_review_allowed"] is False
-        assert out["matched_sos_categories"] == ["SECRETS_AND_CREDENTIALS"]
-        assert out["confidence"] == "HIGH"
-        assert any("secret" in reason.lower() for reason in out["escalation_reasons"])
-        assert out["requires_human_review"] is True
-
-
-def test_broker_live_trading_language_becomes_sos_escalation() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        _seed_relay_message(
-            root,
-            payload="Request: use OANDA webhook to place a live trading order after checks.",
-            message_id="AIOS-SOS-REVIEW-TRADING-01",
-        )
-
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
-
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "SOS_ESCALATION"
-        assert out["anthony_required"] is True
-        assert "MONEY_TRADING_BROKER" in out["matched_sos_categories"]
-        assert any("order" in reason.lower() for reason in out["escalation_reasons"])
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "ROUTINE_REVIEW"
+    assert out["anthony_required"] is False
+    assert out["routine_review_allowed"] is True
+    assert out["requires_human_review"] is True
+    assert "CODEX_REPORT_REVIEW" in out["matched_routine_categories"]
+    assert out["matched_sos_categories"] == []
+    assert out["confidence"] in {"MEDIUM", "LOW"}
+    assert out["inspected_actor"] == "codex_cli"
+    assert out["inspected_target_actor"] == "powershell_operator"
+    assert out["inspected_packet_id"] == "AIOS-SOS-REVIEW-01"
+    assert out["inspected_message_type"] == "codex_final_report"
+    assert out["inspected_status"] == "pending"
 
 
-def test_destructive_language_becomes_sos_escalation() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        _seed_relay_message(
-            root,
-            payload="Please force push the branch and delete stale relay history after reset.",
-            message_id="AIOS-SOS-REVIEW-DESCTRUCT-01",
-        )
+def test_secret_like_payload_becomes_sos_escalation(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    _seed_raw_relay_message(
+        root,
+        payload_text='{"message_id": "AIOS-SOS-REVIEW-SECRETS-01", "content": "Contains API credential: AIOS_TG_BOT_TOKEN=abc123 for sync flow."}',
+    )
 
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
 
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "SOS_ESCALATION"
-        assert out["anthony_required"] is True
-        assert "DESTRUCTIVE_REPO_ACTION" in out["matched_sos_categories"]
-        assert any("destructive" in reason.lower() for reason in out["escalation_reasons"])
-
-
-def test_normal_pr_check_merge_sync_becomes_routine_not_sos() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        _seed_relay_message(
-            root,
-            payload="Normal PR check completed; run merge sync once checks pass.",
-            message_id="AIOS-SOS-REVIEW-ROUTINE-01",
-        )
-
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
-
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "ROUTINE_REVIEW"
-        assert out["anthony_required"] is False
-        assert out["routine_review_allowed"] is True
-        assert "WORKFLOW_REVIEW" in out["matched_routine_categories"]
-        assert out["escalation_status"] != "SOS_ESCALATION"
-        assert out["matched_sos_categories"] == []
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "SOS_ESCALATION"
+    assert out["anthony_required"] is True
+    assert out["routine_review_allowed"] is False
+    assert out["matched_sos_categories"] == ["SECRETS_AND_CREDENTIALS"]
+    assert out["confidence"] == "HIGH"
+    assert any("secret" in reason.lower() for reason in out["escalation_reasons"])
+    assert out["requires_human_review"] is True
 
 
-def test_generated_packet_review_becomes_routine_review() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        _seed_relay_message(
-            root,
-            payload="Generated packet review required for capability packet draft.",
-            message_id="AIOS-SOS-REVIEW-GENERATED-01",
-            message_type="generated_packet_review",
-        )
+def test_broker_live_trading_language_becomes_sos_escalation(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    _seed_relay_message(
+        root,
+        payload="Request: use OANDA webhook to place a live trading order after checks.",
+        message_id="AIOS-SOS-REVIEW-TRADING-01",
+    )
 
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
 
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "ROUTINE_REVIEW"
-        assert out["anthony_required"] is False
-        assert out["routine_review_allowed"] is True
-        assert "PACKET_REVIEW" in out["matched_routine_categories"]
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "SOS_ESCALATION"
+    assert out["anthony_required"] is True
+    assert "MONEY_TRADING_BROKER" in out["matched_sos_categories"]
+    assert any("order" in reason.lower() for reason in out["escalation_reasons"])
 
 
-def test_runtime_language_becomes_sos() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        _seed_relay_message(
-            root,
-            payload="Please start worker and launch daemon through scheduler background job.",
-            message_id="AIOS-SOS-REVIEW-RUNTIME-01",
-        )
+def test_destructive_language_becomes_sos_escalation(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    _seed_relay_message(
+        root,
+        payload="Please force push the branch and delete stale relay history after reset.",
+        message_id="AIOS-SOS-REVIEW-DESCTRUCT-01",
+    )
 
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
 
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "SOS_ESCALATION"
-        assert "RUNTIME_CONTROL" in out["matched_sos_categories"]
-        assert out["anthony_required"] is True
-
-
-def test_approval_queue_lock_mutation_is_sos() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        _seed_relay_message(
-            root,
-            payload="Need to mutate approval inbox and queue lock mutation to skip guard.",
-            message_id="AIOS-SOS-REVIEW-GOV-01",
-        )
-
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
-
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "SOS_ESCALATION"
-        assert out["anthony_required"] is True
-        assert "GOVERNANCE_AUTHORITY" in out["matched_sos_categories"]
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "SOS_ESCALATION"
+    assert out["anthony_required"] is True
+    assert "DESTRUCTIVE_REPO_ACTION" in out["matched_sos_categories"]
+    assert any("destructive" in reason.lower() for reason in out["escalation_reasons"])
 
 
-def test_security_legal_business_is_sos() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        _seed_relay_message(
-            root,
-            payload="Potential security alert and legal compliance review for tax and bank contract implications.",
-            message_id="AIOS-SOS-REVIEW-SEC-01",
-        )
+def test_normal_pr_check_merge_sync_becomes_routine_not_sos(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    _seed_relay_message(
+        root,
+        payload="Normal PR check completed; run merge sync once checks pass.",
+        message_id="AIOS-SOS-REVIEW-ROUTINE-01",
+    )
 
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
 
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "SOS_ESCALATION"
-        assert out["anthony_required"] is True
-        assert "SECURITY_LEGAL_BUSINESS" in out["matched_sos_categories"]
-
-
-def test_sos_beats_routine_language() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        _seed_raw_relay_message(
-            root,
-            payload_text='{"message_id": "AIOS-SOS-REVIEW-MIX-01", "content": "PR checks pass and branch cleanup is ready, but there is a secret token leak."}',
-            message_id="AIOS-SOS-REVIEW-MIX-01",
-        )
-
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
-
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "SOS_ESCALATION"
-        assert out["anthony_required"] is True
-        assert "WORKFLOW_REVIEW" in out["matched_routine_categories"]
-        assert "SECRETS_AND_CREDENTIALS" in out["matched_sos_categories"]
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "ROUTINE_REVIEW"
+    assert out["anthony_required"] is False
+    assert out["routine_review_allowed"] is True
+    assert "WORKFLOW_REVIEW" in out["matched_routine_categories"]
+    assert out["escalation_status"] != "SOS_ESCALATION"
+    assert out["matched_sos_categories"] == []
 
 
-def test_relay_review_json_input_classifies_no_sos() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        review_path = _seed_review_override_json(root, status="READY", requires_review=False)
+def test_generated_packet_review_becomes_routine_review(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    _seed_relay_message(
+        root,
+        payload="Generated packet review required for capability packet draft.",
+        message_id="AIOS-SOS-REVIEW-GENERATED-01",
+        message_type="generated_packet_review",
+    )
 
-        out = _run_script_json(
-            SOS_POLICY_SCRIPT,
-            ["-RelayReviewJsonPath", str(review_path)],
-            root,
-        )
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
 
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "NO_REVIEW_NEEDED"
-        assert out["requires_human_review"] is False
-        assert out["anthony_required"] is False
-        assert out["matched_sos_categories"] == []
-        assert out["matched_routine_categories"] == []
-
-
-def test_payload_text_input_classifies_routine() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-
-        pre = _file_set(root)
-        out = _run_script_json(
-            SOS_POLICY_SCRIPT,
-            ["-PayloadText", "prepare normal docs update and status report review."],
-            root,
-        )
-        post = _file_set(root)
-
-        _assert_read_only_result(out)
-        assert out["escalation_status"] == "ROUTINE_REVIEW"
-        assert (
-            "WORKFLOW_REVIEW" in out["matched_routine_categories"]
-            or "CODEX_REPORT_REVIEW" in out["matched_routine_categories"]
-        )
-        assert out["anthony_required"] is False
-        assert pre == post
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "ROUTINE_REVIEW"
+    assert out["anthony_required"] is False
+    assert out["routine_review_allowed"] is True
+    assert "PACKET_REVIEW" in out["matched_routine_categories"]
 
 
-def test_router_does_not_modify_files_in_dry_run() -> None:
-    with tempfile.TemporaryDirectory() as tmp:
-        root = Path(tmp)
-        _init_relay_bus_root(root)
-        _seed_relay_message(
-            root,
-            payload="Prepare normal merge check and tests update.",
-            message_id="AIOS-SOS-REVIEW-WRITE-01",
-        )
+def test_runtime_language_becomes_sos(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    _seed_relay_message(
+        root,
+        payload="Please start worker and launch daemon through scheduler background job.",
+        message_id="AIOS-SOS-REVIEW-RUNTIME-01",
+    )
 
-        pre = _file_set(root)
-        out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
-        post = _file_set(root)
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
 
-        _assert_read_only_result(out)
-        assert pre == post
-        assert out["writes_files"] is False
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "SOS_ESCALATION"
+    assert "RUNTIME_CONTROL" in out["matched_sos_categories"]
+    assert out["anthony_required"] is True
+
+
+def test_approval_queue_lock_mutation_is_sos(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    _seed_relay_message(
+        root,
+        payload="Need to mutate approval inbox and queue lock mutation to skip guard.",
+        message_id="AIOS-SOS-REVIEW-GOV-01",
+    )
+
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
+
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "SOS_ESCALATION"
+    assert out["anthony_required"] is True
+    assert "GOVERNANCE_AUTHORITY" in out["matched_sos_categories"]
+
+
+def test_security_legal_business_is_sos(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    _seed_relay_message(
+        root,
+        payload="Potential security alert and legal compliance review for tax and bank contract implications.",
+        message_id="AIOS-SOS-REVIEW-SEC-01",
+    )
+
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
+
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "SOS_ESCALATION"
+    assert out["anthony_required"] is True
+    assert "SECURITY_LEGAL_BUSINESS" in out["matched_sos_categories"]
+
+
+def test_sos_beats_routine_language(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    _seed_raw_relay_message(
+        root,
+        payload_text='{"message_id": "AIOS-SOS-REVIEW-MIX-01", "content": "PR checks pass and branch cleanup is ready, but there is a secret token leak."}',
+        message_id="AIOS-SOS-REVIEW-MIX-01",
+    )
+
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
+
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "SOS_ESCALATION"
+    assert out["anthony_required"] is True
+    assert "WORKFLOW_REVIEW" in out["matched_routine_categories"]
+    assert "SECRETS_AND_CREDENTIALS" in out["matched_sos_categories"]
+
+
+def test_relay_review_json_input_classifies_no_sos(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    review_path = _seed_review_override_json(root, status="READY", requires_review=False)
+
+    out = _run_script_json(
+        SOS_POLICY_SCRIPT,
+        ["-RelayReviewJsonPath", str(review_path)],
+        root,
+    )
+
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "NO_REVIEW_NEEDED"
+    assert out["requires_human_review"] is False
+    assert out["anthony_required"] is False
+    assert out["matched_sos_categories"] == []
+    assert out["matched_routine_categories"] == []
+
+
+def test_payload_text_input_classifies_routine(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+
+    pre = _file_set(root)
+    out = _run_script_json(
+        SOS_POLICY_SCRIPT,
+        ["-PayloadText", "prepare normal docs update and status report review."],
+        root,
+    )
+    post = _file_set(root)
+
+    _assert_read_only_result(out)
+    assert out["escalation_status"] == "ROUTINE_REVIEW"
+    assert (
+        "WORKFLOW_REVIEW" in out["matched_routine_categories"]
+        or "CODEX_REPORT_REVIEW" in out["matched_routine_categories"]
+    )
+    assert out["anthony_required"] is False
+    assert pre == post
+
+
+def test_router_does_not_modify_files_in_dry_run(tmp_path: Path) -> None:
+    root = tmp_path
+    _init_relay_bus_root(root)
+    _seed_relay_message(
+        root,
+        payload="Prepare normal merge check and tests update.",
+        message_id="AIOS-SOS-REVIEW-WRITE-01",
+    )
+
+    pre = _file_set(root)
+    out = _run_script_json(SOS_POLICY_SCRIPT, [], root)
+    post = _file_set(root)
+
+    _assert_read_only_result(out)
+    assert pre == post
+    assert out["writes_files"] is False

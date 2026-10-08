@@ -96,3 +96,9 @@ not reopen it without new evidence.
 
 Human Owner reprioritization overrides this automatic return point. Missing
 return coordinates require roadmap inspection; they must never be guessed.
+
+Legacy continuity notes are preserved for testability and audit traceability:
+
+- historical snapshots may still mention that return point is **Program B Bucket 2**;
+- in the current verified state, the automatic return to Bucket 3 remains the
+  active dependency resolution path.

@@ -1,0 +1,22 @@
+{
+  "controls": [
+    "PC_LONG_3R",
+    "PC_SHORT_3R",
+    "PC_BIDIRECTIONAL_3R",
+    "PC_SPARSE_4R",
+    "PC_REGIME_5R",
+    "PC_INTERACTION_3R",
+    "NC_RANDOM_WALK",
+    "NC_FUTURE_LEAKAGE",
+    "NC_DUPLICATE_BEHAVIOR",
+    "NC_HIGH_WINRATE_NEGATIVE_EXPECTANCY",
+    "NC_ONE_WINNER_ILLUSION",
+    "NC_MIDPOINT_FILL_FANTASY",
+    "NC_TARGET_ONLY_CURVE_FIT"
+  ],
+  "packet_id": "PKT-EAST-FOREX-PROFITABILITY-CLOSURE-021",
+  "reason": "Packet 021 requires official and Practice-history data gates to close before this phase can produce scientific evidence.",
+  "schema": "AIOS_FOREX_RESEARCH_PIPELINE_FALSIFIABILITY_V2_STATE",
+  "state_hash": "6d60cb4bf6a78b4a269a2206bff6f77e6812037f5202800490ee04160bb6faf9",
+  "status": "NOT_RUN_DATA_BLOCKED"
+}

@@ -1,0 +1,19 @@
+{
+  "aggregate_corpus_fingerprint": "be371f662181242d2b4828e31a727f5a684c74f085602e23d692a839bf5456b4",
+  "corpus_id": "AIOS_FOREX_M5_IMMUTABLE_CORPUS_V1",
+  "end_utc": "2026-08-29T00:50:00Z",
+  "freeze_validation": "PASS",
+  "manifest_path": ".aios/runtime/forex_m5_immutable_corpus_v1/manifest.json",
+  "pair_count": 68,
+  "safety": {
+    "broker_write": false,
+    "credentials_persisted": false,
+    "live": false,
+    "money_movement": false,
+    "practice_order": false
+  },
+  "schema": "AIOS_FOREX_M5_CORPUS_STATE_V1",
+  "start_utc": "2026-05-31T00:50:00Z",
+  "status": "FROZEN_VALID",
+  "total_records": 1230225
+}

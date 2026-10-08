@@ -13,7 +13,7 @@ SCRIPT = REPO_ROOT / "automation" / "orchestration" / "coordination_spine" / "Ge
 
 def run_script(*args: str) -> dict:
     completed = subprocess.run(
-        ["powershell", "-NoProfile", "-File", str(SCRIPT), *args],
+        ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(SCRIPT), *args],
         cwd=REPO_ROOT,
         check=True,
         capture_output=True,

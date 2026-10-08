@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
+from datetime import datetime, timedelta, timezone
 
 import pytest
 
@@ -54,6 +56,48 @@ class FakeClient(OandaReadOnlyClient):
         }
 
 
+def _history_candle(index: int, *, instrument: str, complete: bool) -> dict:
+    timestamp = (datetime(2026, 8, 1, 10, 0, tzinfo=timezone.utc) + timedelta(minutes=index)).isoformat().replace("+00:00", "Z")
+    if instrument == "EUR_USD":
+        open_ = 1.1000 + index * 0.0001
+        high = 1.1004 + index * 0.0001
+        low = 1.0996 + index * 0.0001
+        close = 1.1001 + index * 0.0001
+    else:
+        open_ = 110.0 + index * 0.01
+        high = 110.04 + index * 0.01
+        low = 109.96 + index * 0.01
+        close = 110.01 + index * 0.01
+    return {
+        "time": timestamp,
+        "complete": complete,
+        "volume": 10,
+        "open": open_,
+        "high": high,
+        "low": low,
+        "close": close,
+        "mid": {"o": open_, "h": high, "l": low, "c": close},
+        "observed_at_utc": timestamp,
+    }
+
+
+def _history_payload(*, instrument: str, completed_count: int, incomplete_count: int) -> list[dict]:
+    raw = [_history_candle(index, instrument=instrument, complete=True) for index in range(completed_count)]
+    raw.extend(_history_candle(completed_count + index, instrument=instrument, complete=False) for index in range(incomplete_count))
+    return raw
+
+
+class StaticHistoryClient(FakeClient):
+    def __init__(self, payloads: dict[str, list[dict]]) -> None:
+        super().__init__()
+        self.payloads = payloads
+        self.requested_counts: list[int] = []
+
+    def observation_candles(self, instrument: str, *, granularity: str, count: int, price: str = "M") -> dict:
+        self.requested_counts.append(count)
+        return {"instrument": instrument, "granularity": granularity, "candles": list(self.payloads[instrument])}
+
+
 def test_discover_universe_is_deterministic():
     client = FakeClient()
     universe = module.discover_fixed_universe(client)
@@ -92,6 +136,117 @@ def test_snapshot_and_candidate_normalization():
         assert candidate["planned_reward_risk"] >= module.MIN_RR
 
 
+def test_fetch_completed_history_overfetches_one_extra_raw_candle_and_selects_exact_window():
+    client = StaticHistoryClient({"EUR_USD": _history_payload(instrument="EUR_USD", completed_count=50, incomplete_count=1)})
+    history = module.fetch_completed_m5_history(client, "EUR_USD", candle_count=50)
+    assert client.requested_counts == [51]
+    assert history["requested_count"] == 50
+    assert history["requested_raw_count"] == 51
+    assert history["raw_returned_count"] == 51
+    assert history["completed_available_count"] == 50
+    assert history["incomplete_filtered_count"] == 1
+    assert history["selected_count"] == 50
+    assert history["returned_count"] == 50
+    assert history["candles"][0]["timestamp"] == "2026-08-01T10:00:00Z"
+    assert history["candles"][-1]["timestamp"] == "2026-08-01T10:49:00Z"
+    window = module.candles_to_strategy_window(history, instrument="EUR_USD")
+    assert len(window) == 50
+    assert window[0].timestamp == "2026-08-01T10:00:00Z"
+    assert window[-1].timestamp == "2026-08-01T10:49:00Z"
+    result = module.evaluate_supertrend_pullback(window, module.normalized_strategy_config("EUR_USD"))
+    assert isinstance(result, dict)
+    assert result["strategy_name"] == module.STRATEGY_ID
+    assert "accepted" in result
+
+
+def test_fetch_completed_history_selects_newest_exact_window_when_more_completed_candles_exist():
+    client = StaticHistoryClient({"EUR_USD": _history_payload(instrument="EUR_USD", completed_count=51, incomplete_count=1)})
+    history = module.fetch_completed_m5_history(client, "EUR_USD", candle_count=50)
+    assert client.requested_counts == [51]
+    assert history["completed_available_count"] == 51
+    assert history["selected_count"] == 50
+    assert history["candles"][0]["timestamp"] == "2026-08-01T10:01:00Z"
+    assert history["candles"][-1]["timestamp"] == "2026-08-01T10:50:00Z"
+    window = module.candles_to_strategy_window(history, instrument="EUR_USD")
+    assert window[0].timestamp == "2026-08-01T10:01:00Z"
+    assert window[-1].timestamp == "2026-08-01T10:50:00Z"
+    assert all(window[index].timestamp <= window[index + 1].timestamp for index in range(len(window) - 1))
+
+
+def test_fetch_completed_history_raises_when_fewer_than_required_completed_candles_remain():
+    client = StaticHistoryClient({"EUR_USD": _history_payload(instrument="EUR_USD", completed_count=49, incomplete_count=1)})
+    with pytest.raises(ValueError, match="insufficient_completed_m5_history"):
+        module.fetch_completed_m5_history(client, "EUR_USD", candle_count=50)
+    assert client.requested_counts == [51]
+
+
+def test_fetch_completed_history_respects_client_boundary_for_large_requests():
+    client = StaticHistoryClient({"EUR_USD": _history_payload(instrument="EUR_USD", completed_count=500, incomplete_count=1)})
+    history = module.fetch_completed_m5_history(client, "EUR_USD", candle_count=500)
+    assert client.requested_counts == [501]
+    assert history["requested_raw_count"] == 501
+    assert history["completed_available_count"] == 500
+    assert history["selected_count"] == 500
+
+
+def test_replay_candidate_accepts_buy_and_sell_with_direction_safe_identity():
+    instrument = module.NormalizedInstrument("EUR_USD", 5, -4, True, True)
+    candles = [
+        module.Candle(symbol="EURUSD", timeframe="5m", timestamp="2026-08-01T10:00:00Z", open=1.1000, high=1.1004, low=1.0996, close=1.1001, volume=10, source="test"),
+        module.Candle(symbol="EURUSD", timeframe="5m", timestamp="2026-08-01T10:05:00Z", open=1.1001, high=1.1006, low=1.0998, close=1.1003, volume=10, source="test"),
+        module.Candle(symbol="EURUSD", timeframe="5m", timestamp="2026-08-01T10:10:00Z", open=1.1003, high=1.1008, low=1.1000, close=1.1005, volume=10, source="test"),
+    ]
+    snapshot = {"bid": 1.1004, "ask": 1.1006}
+
+    buy_signal = SimpleNamespace(direction=module.Direction.BUY, entry_price=1.1006, stop_loss=1.1000, take_profit=1.1018)
+    sell_signal = SimpleNamespace(direction=module.Direction.SELL, entry_price=1.1004, stop_loss=1.1010, take_profit=1.0992)
+
+    original = module.evaluate_supertrend_pullback
+    try:
+        module.evaluate_supertrend_pullback = lambda *_args, **_kwargs: {"accepted": True, "signal": buy_signal}
+        buy_candidate = module.replay_candidate(instrument, candles, snapshot, strategy_config=module.SupertrendPullbackConfig())
+        assert buy_candidate is not None
+        assert buy_candidate["direction"] == module.Direction.BUY
+        assert buy_candidate["stop_price"] < buy_candidate["entry_price"] < buy_candidate["target_price"]
+
+        module.evaluate_supertrend_pullback = lambda *_args, **_kwargs: {"accepted": True, "signal": sell_signal}
+        sell_candidate = module.replay_candidate(instrument, candles, snapshot, strategy_config=module.SupertrendPullbackConfig())
+        assert sell_candidate is not None
+        assert sell_candidate["direction"] == module.Direction.SELL
+        assert sell_candidate["target_price"] < sell_candidate["entry_price"] < sell_candidate["stop_price"]
+        assert sell_candidate["risk_distance"] > 0
+        assert sell_candidate["planned_reward_risk"] == pytest.approx(2.0, rel=1e-9)
+        assert sell_candidate["candidate_id"] != buy_candidate["candidate_id"]
+    finally:
+        module.evaluate_supertrend_pullback = original
+
+
+def test_calibrate_candidate_to_actual_entry_supports_sell_and_rejects_invalid_geometry():
+    candidate = {
+        "direction": module.Direction.SELL,
+        "entry_price": 1.1004,
+        "stop_price": 1.1012,
+        "target_price": 1.0988,
+        "risk_distance": 0.0008,
+        "risk_amount": 0.08,
+        "planned_reward_risk": 2.0,
+        "planned_target_reward_risk": 2.0,
+        "display_precision": 5,
+        "units": 100,
+    }
+    calibrated = module.calibrate_candidate_to_actual_entry(candidate, {"bid": 1.1004, "ask": 1.1006}, reward_risk=2.0)
+    assert calibrated["entry_price"] == pytest.approx(1.1004)
+    assert calibrated["stop_price"] == pytest.approx(1.1012)
+    assert calibrated["target_price"] == pytest.approx(1.0988)
+    assert calibrated["risk_distance"] == pytest.approx(1.1012 - 1.1004)
+    assert calibrated["planned_reward_risk"] == pytest.approx(2.0)
+
+    bad_candidate = dict(candidate)
+    bad_candidate["stop_price"] = 1.1001
+    with pytest.raises(ValueError):
+        module.calibrate_candidate_to_actual_entry(bad_candidate, {"bid": 1.1004, "ask": 1.1006}, reward_risk=2.0)
+
+
 def test_quote_mid_extraction_and_trade_outcome():
     mids = module.quote_mids_from_pricing(
         {"prices": [{"instrument": "USD_JPY", "time": "2026-08-01T10:30:00Z", "bids": [{"price": "110.00"}], "asks": [{"price": "110.03"}]}]}
@@ -106,3 +261,123 @@ def test_quote_mid_extraction_and_trade_outcome():
     outcome = module.normalized_trade_outcome(session, {"bid": 1.1020, "ask": 1.1022}, quote_mids=mids)
     assert outcome["realized_pl_quote_currency"] > 0
     assert outcome["roi_class"] == "POSITIVE_R"
+
+    short_session = {
+        "entry_price": 1.1000,
+        "units": 100,
+        "risk_amount": 0.10,
+        "quote_currency": "USD",
+        "direction": module.Direction.SELL,
+    }
+    short_outcome = module.normalized_trade_outcome(short_session, {"bid": 1.0980, "ask": 1.0982}, quote_mids=mids)
+    assert short_outcome["realized_pl_quote_currency"] > 0
+    assert short_outcome["roi_class"] == "POSITIVE_R"
+
+
+def test_actual_entry_calibration_uses_snapshot_ask_geometry():
+    candidate = {
+        "direction": module.Direction.BUY,
+        "entry_price": 1.1000,
+        "stop_price": 1.0990,
+        "target_price": 1.1020,
+        "risk_distance": 0.0010,
+        "risk_amount": 0.10,
+        "planned_reward_risk": 2.0,
+        "planned_target_reward_risk": 2.0,
+        "display_precision": 5,
+        "units": 100,
+    }
+    snapshot = {"ask": 1.1002}
+    calibrated = module.calibrate_candidate_to_actual_entry(candidate, snapshot, reward_risk=2.0)
+    assert calibrated["entry_price"] == pytest.approx(1.1002)
+    assert calibrated["stop_price"] == pytest.approx(1.0990)
+    assert calibrated["target_price"] == pytest.approx(1.1026)
+    assert calibrated["risk_amount"] == pytest.approx((1.1002 - 1.0990) * 100)
+    assert calibrated["planned_reward_risk"] == pytest.approx(2.0)
+
+
+def test_normalized_atr_threshold_is_pip_based():
+    assert module.normalized_min_atr_price("EUR_USD") == pytest.approx(0.0004)
+    assert module.normalized_min_atr_price("USD_JPY") == pytest.approx(0.04)
+    eur_cfg = module.normalized_strategy_config("EUR_USD")
+    jpy_cfg = module.normalized_strategy_config("USD_JPY")
+    assert eur_cfg.min_atr == pytest.approx(0.0004)
+    assert jpy_cfg.min_atr == pytest.approx(0.04)
+
+
+def test_historical_usd_pl_conversion_uses_mba_timestamp_and_quote_side():
+    replay_cache = {
+        "pair_histories": {
+            "EUR_USD": {
+                "sanitized_candles": [
+                    {
+                        "timestamp": "2026-08-01T10:00:00Z",
+                        "bid": {"close": 1.1000},
+                        "ask": {"close": 1.1002},
+                    }
+                ]
+            },
+            "USD_JPY": {
+                "sanitized_candles": [
+                    {
+                        "timestamp": "2026-08-01T10:00:00Z",
+                        "bid": {"close": 110.00},
+                        "ask": {"close": 110.02},
+                    }
+                ]
+            },
+            "GBP_USD": {
+                "sanitized_candles": [
+                    {
+                        "timestamp": "2026-08-01T10:00:00Z",
+                        "bid": {"close": 1.2500},
+                        "ask": {"close": 1.2503},
+                    }
+                ]
+            },
+            "USD_ZAR": {
+                "sanitized_candles": [
+                    {
+                        "timestamp": "2026-08-01T10:00:00Z",
+                        "bid": {"close": 18.0000},
+                        "ask": {"close": 18.0100},
+                    }
+                ]
+            },
+        }
+    }
+    eur = module.historical_normalized_usd_pl(
+        quote_currency="USD",
+        quote_pl=15.0,
+        conversion_timestamp="2026-08-01T10:00:00Z",
+        replay_cache=replay_cache,
+    )
+    eur_jpy = module.historical_normalized_usd_pl(
+        quote_currency="JPY",
+        quote_pl=1000.0,
+        conversion_timestamp="2026-08-01T10:00:00Z",
+        replay_cache=replay_cache,
+    )
+    eur_gbp = module.historical_normalized_usd_pl(
+        quote_currency="GBP",
+        quote_pl=-10.0,
+        conversion_timestamp="2026-08-01T10:00:00Z",
+        replay_cache=replay_cache,
+    )
+    zar = module.historical_normalized_usd_pl(
+        quote_currency="ZAR",
+        quote_pl=100.0,
+        conversion_timestamp="2026-08-01T10:00:00Z",
+        replay_cache=replay_cache,
+    )
+    assert eur["normalized_usd_pl"] == pytest.approx(15.0)
+    assert eur["conversion_provenance"] == "GENUINE_OANDA_HISTORICAL_MBA_CONVERSION"
+    assert eur_jpy["conversion_pair"] == "USD_JPY"
+    assert eur_jpy["conversion_side"] == "ASK"
+    assert eur_jpy["normalized_usd_pl"] == pytest.approx(1000.0 / 110.02)
+    assert eur_gbp["conversion_pair"] == "GBP_USD"
+    assert eur_gbp["conversion_side"] == "ASK"
+    assert eur_gbp["normalized_usd_pl"] == pytest.approx(-10.0 * 1.2503)
+    assert zar["conversion_pair"] == "USD_ZAR"
+    assert zar["conversion_side"] == "ASK"
+    assert zar["normalized_usd_pl"] == pytest.approx(100.0 / 18.01)

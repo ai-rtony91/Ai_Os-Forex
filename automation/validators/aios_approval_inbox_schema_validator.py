@@ -148,6 +148,26 @@ def validate_approval_inbox_record(payload: dict[str, Any]) -> list[str]:
 
 def validate_apply_gate_record(payload: dict[str, Any], *, check_human_evidence: bool = True) -> list[str]:
     issues: list[str] = []
+    if payload.get("schema") == "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v2":
+        v2_required = (
+            "purpose", "algorithm", "request_id", "gate_id", "goal_id", "requested_action",
+            "requested_mode", "approved_mode", "owner_identity", "key_version", "approval_nonce",
+            "created_at_utc", "not_before_utc", "latest_entry_utc", "expires_at_utc",
+            "closure_reserve_hours", "worker", "lane", "worktree", "validator_chain",
+            "package_sha256", "source_hashes", "data_hashes", "strategy_identity", "cost_identity",
+            "trial_allocation", "resource_limits", "capabilities", "resume_policy",
+        )
+        issues.extend(f"gate_v2_missing:{field}" for field in v2_required if field not in payload)
+        if payload.get("approval_status") == "pending_review":
+            return issues
+        if payload.get("approved_by_human") is not True:
+            issues.append("gate_v2_approved_by_human_not_true")
+        evidence = payload.get("approval_evidence")
+        if not isinstance(evidence, dict) or evidence.get("type") != "HMAC_SHA256":
+            issues.append("gate_v2_human_evidence_missing_or_invalid")
+        elif evidence.get("canonical_payload_schema") != "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v2":
+            issues.append("gate_v2_canonical_schema_invalid")
+        return issues
     missing = sorted(field for field in REQUIRED_GATE_FIELDS if field not in payload)
     issues.extend(f"gate_missing:{field}" for field in missing)
 

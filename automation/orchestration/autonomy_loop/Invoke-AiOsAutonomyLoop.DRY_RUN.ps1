@@ -2,7 +2,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$GoalText,
 
-    [string]$PacketDirectory = "automation/orchestration/work_packets/proposed",
+    [string]$PacketDirectory = "Reports/autonomy_loop/proposed",
     [string]$AutonomyReportDirectory = "Reports/autonomy_loop",
     [string]$PacketRunnerOutputPath,
     [string]$PacketRunnerReportPath,

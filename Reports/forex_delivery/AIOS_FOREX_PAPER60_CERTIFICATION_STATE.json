@@ -1,0 +1,36 @@
+{
+  "schema": "AIOS_FOREX_PAPER60_CERTIFICATION_STATE_V1",
+  "paper60_collection_complete": true,
+  "certification_status": "FAILED",
+  "long": {
+    "completed_trades": 30,
+    "expectancy_r": -1.1833358592272332,
+    "profit_factor": 0.0,
+    "maximum_drawdown_r": 35.50007577681699,
+    "win_rate": 0.0,
+    "certification": "FAIL"
+  },
+  "short": {
+    "completed_trades": 30,
+    "expectancy_r": 0.06710380434260585,
+    "profit_factor": 1.0769945277275081,
+    "maximum_drawdown_r": 20.472506722173154,
+    "win_rate": 0.26666666666666666,
+    "certification": "FAIL"
+  },
+  "combined": {
+    "completed_trades": 60,
+    "certification": "FAIL"
+  },
+  "evidence_integrity": {
+    "broker_write_performed": false,
+    "practice_order_performed": false,
+    "live_trade_performed": false,
+    "money_movement_performed": false,
+    "credentials_persisted": false,
+    "duplicate_completed_trades": 0,
+    "internal_errors": 0
+  },
+  "failure_classification": "STRATEGY_FAILURE",
+  "next_safe_action": "Strategy research lane with preserved failed evidence"
+}

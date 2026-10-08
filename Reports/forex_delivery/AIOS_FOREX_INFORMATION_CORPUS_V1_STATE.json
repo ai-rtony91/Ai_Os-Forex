@@ -1,0 +1,125 @@
+{
+  "aggregate_hash": "57da729226ebd675d7c79f182510f0612fc2f93cd0f20a05abed64243163d854",
+  "alternate_safe_actions": [
+    "FAMILY_D_GLOBAL_RISK_LIQUIDITY",
+    "FAMILY_E_LONG_HORIZON_RELATIVE_VALUE_MOMENTUM"
+  ],
+  "artifacts": [
+    {
+      "normalized_hash": "da38711d098adc7f796871572d394e2747711cc2237871eb8fc8b7b98c0fc122",
+      "normalized_path": ".aios/runtime/forex_information_corpus_v1/normalized/cftc_2024.json",
+      "raw_hash": "3f00585741a7cf76c207df640951d644dd91ff22a1106b38ca37a2469c765637",
+      "raw_path": ".aios/runtime/forex_information_corpus_v1/raw/fut_fin_txt_2024.zip",
+      "records": 3163,
+      "source_id": "CFTC_FINANCIAL_FUTURES_2024"
+    },
+    {
+      "normalized_hash": "61e167d144a0366e16cace4eb7518b4d618bc5c99d97b71ca3c9eb99c43bbbe0",
+      "normalized_path": ".aios/runtime/forex_information_corpus_v1/normalized/cftc_2025.json",
+      "raw_hash": "2ea0cda6395f7dd6501c27422be3763e1f2f5b41b768cfd36b871f092a07d438",
+      "raw_path": ".aios/runtime/forex_information_corpus_v1/raw/fut_fin_txt_2025.zip",
+      "records": 3686,
+      "source_id": "CFTC_FINANCIAL_FUTURES_2025"
+    },
+    {
+      "normalized_hash": "03d768680f2c0d32842aa550189731afef11f8a8fd0c0107e56ff0fe43762018",
+      "normalized_path": ".aios/runtime/forex_information_corpus_v1/normalized/cftc_2026.json",
+      "raw_hash": "0d3a015f09b47a050580e5653186466b156ad6b4729f41d75d76c7344d034dad",
+      "raw_path": ".aios/runtime/forex_information_corpus_v1/raw/fut_fin_txt_2026.zip",
+      "records": 2959,
+      "source_id": "CFTC_FINANCIAL_FUTURES_2026"
+    }
+  ],
+  "continuation_active": true,
+  "corpus_id": "AIOS_FOREX_INFORMATION_CORPUS_V1",
+  "current_action": "freeze complete",
+  "current_phase": "INFORMATION_CORPUS_FREEZE",
+  "failures": [
+    {
+      "error_class": "TimeoutError",
+      "sanitized_error": "The read operation timed out",
+      "source_id": "FRED_DFF"
+    },
+    {
+      "error_class": "TimeoutError",
+      "sanitized_error": "The read operation timed out",
+      "source_id": "FRED_DGS10"
+    },
+    {
+      "error_class": "TimeoutError",
+      "sanitized_error": "The read operation timed out",
+      "source_id": "FRED_DGS2"
+    },
+    {
+      "error_class": "TimeoutError",
+      "sanitized_error": "The read operation timed out",
+      "source_id": "FRED_ECBDFR"
+    },
+    {
+      "error_class": "TimeoutError",
+      "sanitized_error": "The read operation timed out",
+      "source_id": "FRED_IRSTCI01AUM156N"
+    },
+    {
+      "error_class": "TimeoutError",
+      "sanitized_error": "The read operation timed out",
+      "source_id": "FRED_IRSTCI01CAM156N"
+    },
+    {
+      "error_class": "TimeoutError",
+      "sanitized_error": "The read operation timed out",
+      "source_id": "FRED_IRSTCI01CHM156N"
+    },
+    {
+      "error_class": "TimeoutError",
+      "sanitized_error": "The read operation timed out",
+      "source_id": "FRED_IRSTCI01JPM156N"
+    },
+    {
+      "error_class": "TimeoutError",
+      "sanitized_error": "The read operation timed out",
+      "source_id": "FRED_IRSTCI01NZM156N"
+    },
+    {
+      "error_class": "TimeoutError",
+      "sanitized_error": "The read operation timed out",
+      "source_id": "FRED_IUDERB"
+    },
+    {
+      "error_class": "TimeoutError",
+      "sanitized_error": "The read operation timed out",
+      "source_id": "FRED_VIXCLS"
+    }
+  ],
+  "freeze": {
+    "aggregate_hash": "57da729226ebd675d7c79f182510f0612fc2f93cd0f20a05abed64243163d854",
+    "corpus_id": "AIOS_FOREX_INFORMATION_CORPUS_V1",
+    "manifest_hash": "eb3a29a609ffd358d2843447786b8725e0feb0d7708dafc8ec0055974b866d11",
+    "status": "FROZEN_VALID"
+  },
+  "lock_id": "AIOS-LOCK-f1b2dccc1a1c40c98ec4af8c9012de39",
+  "market_corpus_hash": "44bad0bb22fa88771c824c2c91551fef7116a458d5d7fee7039f5f87c76dac6a",
+  "next_action": "INFORMATION_FAMILY_FALSIFICATION",
+  "next_three_actions": [
+    "MARKET_ALIGNMENT",
+    "FAMILY_A_CARRY_POLICY",
+    "FAMILY_B_COT_POSITIONING"
+  ],
+  "packet_id": "PKT-EAST-FOREX-INFORMATION-EDGE-TO-FUNDING-013",
+  "period": [
+    "2024-01-01",
+    "2026-08-29"
+  ],
+  "pre_terminal_audit_status": "FAIL_CONTINUE",
+  "remaining_authorized_work_count": 12,
+  "safety": {
+    "broker_write": false,
+    "credentials": false,
+    "live": false,
+    "money_movement": false
+  },
+  "same_packet_resume_command": "python -B -m automation.forex_engine.forex_information_edge_program_v1 --execute",
+  "schema": "AIOS_FOREX_INFORMATION_CORPUS_V1",
+  "source_inventory_hash": "81a3a0da11f0bdafe7045ff8c97c87536dd61e72ac0c458bfd9feabee306399b",
+  "terminal_state_candidate": null
+}

@@ -23,6 +23,8 @@ import argparse
 import json
 import re
 import tempfile
+import shutil
+import uuid
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -184,8 +186,11 @@ def _sample_check() -> dict[str, object]:
         "FORBIDDEN PATHS:\n- AGENTS.md\n- broker/\nMISSION:\nsample\n"
     )
     evidence = "pytest: 3 passed. git diff --check PASS. validation complete."
-    with tempfile.TemporaryDirectory() as d:
-        root = Path(d)
+    base = Path(tempfile.gettempdir()) / "aios_completion_evidence_validator_samples"
+    base.mkdir(parents=True, exist_ok=True)
+    root = base / uuid.uuid4().hex
+    root.mkdir(parents=True, exist_ok=False)
+    try:
         (root / "automation/validators").mkdir(parents=True)
         good = "automation/validators/sample_good.py"
         (root / good).write_text("print('ok')\n", encoding="utf-8")
@@ -195,13 +200,14 @@ def _sample_check() -> dict[str, object]:
         unproven = evaluate_completion(packet, [good], root, None)              # no evidence
         missing = evaluate_completion(packet, ["automation/validators/ghost.py"], root, evidence)
         forbidden = evaluate_completion(packet, ["AGENTS.md"], root, evidence)  # forbidden + exists
-
-    return {
-        "verified": verified["verdict"],
-        "unproven": unproven["verdict"],
-        "contradicted_missing": missing["verdict"],
-        "contradicted_forbidden": forbidden["verdict"],
-    }
+        return {
+            "verified": verified["verdict"],
+            "unproven": unproven["verdict"],
+            "contradicted_missing": missing["verdict"],
+            "contradicted_forbidden": forbidden["verdict"],
+        }
+    finally:
+        shutil.rmtree(root, ignore_errors=True)
 
 
 def main() -> int:
