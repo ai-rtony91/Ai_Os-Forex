@@ -1,8 +1,8 @@
 {
   "affected_packet027_candidate_count": 32,
   "code_hashes": {
-    "packet030_m5_adapter": "ec53cef95010c6e0e970e846ed1c7842a693d40f9f20d5f62387bc711664b995",
-    "packet030_targeted_program": "fd35fb4855633b88316270b63b3cfe5611cbf0e88f3461551c67be01879a7bc0"
+    "packet030_m5_adapter": "6eb85bccbf6e1174ae43faca0a89d71030cac9399d4772da9a67a51baa939b61",
+    "packet030_targeted_program": "fdb6022b32eecb2d3f1b36957097893c6ab7045290d20b022764f28bc59528ae"
   },
   "family_controls_status": "TRACE_BACKED_FAMILY_CONTROLS_CERTIFIED",
   "m5_bridge_status": "M5_DAY_TRADING_BRIDGE_CERTIFIED",
@@ -171,7 +171,7 @@
     }
   ],
   "schema": "AIOS_FOREX_PACKET030_RECEIPT_AUDIT_V1_STATE",
-  "state_hash": "e15e0ef81679e4434b872a9c6d12a2b9ceb87a98bb919e3f7839395f96c83a9a",
+  "state_hash": "6fe8ccfa20bc096e7c4165c140f5c68a8a51d41d7c35d7c79a42467aebf64b80",
   "status": "PACKET030_RECEIPTS_RECONCILED_WITH_M5_RECEIPT_LIMITATION",
   "targeted_candidate_count": 20,
   "targeted_candidate_receipt_classes": {

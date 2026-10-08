@@ -4,6 +4,6 @@ Packet: PKT-EAST-FOREX-EDGE-EXISTENCE-CLOSURE-031
 
 Status: PACKET030_RECEIPTS_RECONCILED_WITH_M5_RECEIPT_LIMITATION
 
-State hash: e15e0ef81679e4434b872a9c6d12a2b9ceb87a98bb919e3f7839395f96c83a9a
+State hash: 6fe8ccfa20bc096e7c4165c140f5c68a8a51d41d7c35d7c79a42467aebf64b80
 
 No broker, order, credential, funding, Paper, LIVE, or compounding action was performed.
