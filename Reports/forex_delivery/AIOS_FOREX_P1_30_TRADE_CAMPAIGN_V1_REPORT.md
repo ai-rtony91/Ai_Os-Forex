@@ -1,6 +1,6 @@
 # AIOS Forex P1 30-Trade Paper Campaign V1
 
-- CAMPAIGN_STATUS: STOPPED
+- CAMPAIGN_STATUS: WAITING_FOR_NEXT_RUN
 - TARGET: 30
 - ACCEPTED: 0
 - QUALIFYING_STRATEGY: ANY
@@ -18,11 +18,11 @@
 - LATEST_BLOCKER_CLASSIFICATION: NONE
 - LATEST_BLOCKER_REASON: NONE
 - HISTORICAL_SIGNAL_REJECTIONS: {}
-- ACTIVE_POSITION_STATUS: NONE
-- ACTIVE_POSITION: NONE
-- STOP_REASON: OWNER_SESSION_CYCLE_LIMIT
-- COMPLETED_UTC: 2026-10-08T16:44:29.191503+00:00
-- NEXT_ACTION: Review the stop reason before a new owner-started campaign.
+- ACTIVE_POSITION_STATUS: ACTIVE
+- ACTIVE_POSITION: {"candidate_id": "p1-runtime-8b0648909f39f832b839d3ab", "direction": "BUY", "entry_price": 1.11955, "entry_timestamp_new_york": "2026-10-08T12:47:44.406577-04:00", "entry_timestamp_utc": "2026-10-08T16:47:44.406577Z", "instrument": "EUR_USD", "stop": 1.11856, "strategy": "sprint_4_intraday_trend_follow_v1", "target": 1.12105, "units": 100}
+- STOP_REASON: NONE
+- COMPLETED_UTC: NONE
+- NEXT_ACTION: Start the next owner-bounded paper/demo campaign run when ready.
 
 ## PAPER_PNL_BY_TRADE
 
