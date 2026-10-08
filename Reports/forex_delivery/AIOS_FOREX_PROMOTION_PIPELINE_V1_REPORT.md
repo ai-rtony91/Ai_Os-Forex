@@ -11,8 +11,6 @@ Safety boundary: No broker/API access, no credentials, no demo-order placement, 
 - STRATEGY_VALIDATION_EVIDENCE
 - DEMO_ENVIRONMENT_READINESS
 - RISK_LIMIT_VERIFICATION
-- BROKER_ACCOUNT_READINESS
-- LIVE_ARMING_REVIEW
 
 ## Missing evidence
 - None
@@ -49,5 +47,6 @@ Gather broker/account readiness evidence artifacts and rerun with --broker-ready
 - position_size_policy_present
 - broker_readiness_checklist_present
 - account_capability_review_present
+- owner_approval_card_present
 - live_arming_checklist_present
 - final_governance_review_present
