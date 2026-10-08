@@ -8,10 +8,10 @@ This memory is a starting context, not command authority. If the branch changes,
 
 ## Last Updated
 
-- Timestamp: 2026-06-05
-- Updated by: Codex worker, lane `MEMORY_LOOP_APPLY`
+- Timestamp: 2026-08-07
+- Updated by: Codex worker, lane `REPO_MEMORY_STATE_ALIGNMENT`
 
-## Last Known Push State
+## Last Known Push State (historical, not refreshed)
 
 main is synced with origin/main after the latest push.
 
@@ -21,24 +21,37 @@ main is synced with origin/main after the latest push.
 - 3a88c6c docs(governance): clarify AI_OS naming and repo path authority
 - d333cd6 Add hard duplicate-prevention rule for Codex workers
 
-## Current Local Dirty State
+## Historical Local Dirty State (2026-06-05; stale)
 
 - README.md is modified and unstaged.
 - Multiple untracked automation/ and docs/ files remain local.
 - AGENTS.md duplicate-prevention rule is committed and pushed.
 
-## Pending Local Work
+## Historical Pending Local Work (2026-06-05; stale)
 
 - Classify remaining untracked automation/ and docs/ files before assigning fixed parallel worker lanes.
 - Decide whether the local README.md modification should be kept, reverted, or moved into a scoped lane.
 - Keep untracked local material out of authority until it is classified.
 
-## Next Safe Queue
+## Historical Next Safe Queue (2026-06-05; stale)
 
 1. Classify remaining untracked automation/ and docs/ files.
 2. Decide whether README.md should be kept, reverted, or moved into a lane.
 3. Do not create fixed parallel worktrees until the dirty local state is classified.
 4. Do not repeatedly ask the operator to re-check the already-known push state unless the branch changes or a new commit/push occurs.
+
+## Current Verified Repository State
+
+- Verified timestamp: 2026-08-07.
+- Verified worktree: `C:\Dev\Ai.Os`.
+- Verified branch: `main`.
+- Verified HEAD: `a5a941835cb7e797694e76074a7573a1ca23d415`.
+- Verified origin: `https://github.com/ai-rtony91/Ai_Os.git`.
+- Working tree: dirty only because this memory file is intentionally modified; `git status --short --branch` returns `## main...origin/main` and ` M docs/governance/AI_OS_REPO_MEMORY.md`.
+- README.md modified: no; `git diff -- README.md` returned no output.
+- Untracked-file count: `0`; `git status --short` returned no output.
+- Current live Git evidence supersedes the historical dirty-state snapshot for present execution decisions.
+- Future contradictions must fail closed and trigger another governed repo-memory refresh.
 
 ## Worker Rule
 
