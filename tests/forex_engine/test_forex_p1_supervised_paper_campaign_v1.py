@@ -669,8 +669,9 @@ def test_main_default_supervised_path_is_unmodified(monkeypatch):
         captured["cycles"] = kwargs["cycles"]
         return iter(())
 
-    def fake_campaign(_candidates, paths, **_kwargs):
+    def fake_campaign(_candidates, paths, **kwargs):
         captured["campaign_paths"] = paths
+        captured["active_session_path"] = kwargs["active_session_path"]
         return {"stop_reason": "OWNER_SESSION_CYCLE_LIMIT"}
 
     client_args = {}
@@ -693,5 +694,6 @@ def test_main_default_supervised_path_is_unmodified(monkeypatch):
     assert client_args == {"api_token": "demo-token", "account_id": "demo-account", "environment": "practice"}
     assert captured["signal_source"] == "sprint-4"
     assert captured["runtime_path"] == runtime_script.SUPERVISED_PRACTICE_SESSION_PATH
+    assert captured["active_session_path"] == runtime_script.SUPERVISED_PRACTICE_SESSION_PATH
     assert captured["cycles"] == 288
     assert captured["campaign_paths"].campaign_state.parent == runtime_script.REPORTS
