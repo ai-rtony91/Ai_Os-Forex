@@ -311,3 +311,94 @@ scratch directory. The two bridge modules passed **14 tests, 11 skipped** on
 Linux. Independent review found no Critical or Important issue. The scoped
 follow-up commit message is `Decode Windows research test output as UTF-8`,
 with the same branch, remote and PR target; hosted CI remains to be rechecked.
+
+### Paper promotion numeric validation repair — 2026-10-05
+
+Verified GitHub head `a64d00570346c7efea950556706e8ef0a6d8e8cb`:
+runs 37378229342, 37378229402 and 37378223978 completed successfully.
+PR #1433 is open, draft and mergeable; main integration has not occurred.
+
+Mission: strengthen the existing offline paper-to-demo review gate without
+arming any execution. Owner instruction: continue building toward paper
+readiness, repair weak evidence gates, test meaningful changes and preserve
+disabled broker/credential/scheduler/daemon/order paths.
+Worker: Codex East; lane: existing research-evidence-hardening-20261005;
+branch: codex/research-evidence-hardening-20261005.
+Allowed writes are the existing paper_evidence_promotion_gate.py, its existing
+test module, and this progress record. All other source, governance, runtime,
+approval, lock and data files remain outside this repair.
+Preflight found no local diff in either target and an empty file-lock registry;
+no new worker or background service was started.
+
+Root cause: float conversion used zero for missing/bad values, accepted boolean
+values, and did not validate metric or limit domains. A drawdown of -100
+returned DEMO_CANDIDATE; missing drawdown and infinite positive expectancy
+could also pass. NaN produced PAPER_CONTINUE without a useful block reason.
+The repair requires finite nonboolean metrics, nonnegative drawdown/profit
+factor and finite nonnegative limits. Invalid input returns
+MORE_EVIDENCE_REQUIRED, no promotion reasons and an explicit repair action.
+Valid finite losing results retain the scientific rejection behavior.
+
+The 49 new parameterized regressions all failed on original source; the 10
+original gate tests passed. After repair, the gate and its direct workflow
+passed 68 tests. Expanded research-controller, runner, watchdog, pipeline,
+profitability evaluator and promotion coverage passed 236 tests, 8 skipped
+using a new unique temporary directory. The initial expanded attempt hit
+WinError 5 on pytest's existing default temporary root; no ACL or machine
+settings were changed, and the fresh-directory retry passed.
+git diff --check passed. Inline diff review found no new execution or network
+path; existing promotion, safety and losing-strategy regression tests passed.
+
+The broad project pytest run remains red: 9 failures and 1 setup error before
+the configured 10-failure stop. All reported failures are in
+services/python_supervisor/test_autonomy_bridge.py:
+test_reference_schema_does_not_become_current_blocker,
+test_stale_relay_approval_is_historical_warning,
+test_projection_state_does_not_self_block,
+test_relay_readme_is_reference_warning,
+test_relay_example_approval_is_reference_warning,
+test_historical_relay_goal_approval_is_warning,
+test_relay_done_task_is_historical_warning,
+test_relay_log_state_is_historical_warning,
+AutonomyBridgeGlueTests.test_historical_relay_goal_approval_is_warning;
+the setup error is test_operation_glue_approval_reaches_must_see.
+This confirms the pre-existing baseline issue described above; it does not
+establish that the unexecuted remainder of the suite passes.
+
+These new changes are saved on the laptop only: no staging, commit, push,
+merge, broker connection, paper order or unattended runtime was performed.
+Stop point: reviewed local repair with test evidence, before protected
+publication. Proposed commit message: Harden paper promotion numeric evidence.
+Next safe work: bind real source/data/cost evidence into the existing candidate
+gate and prove operational paper controls before separately authorized paper
+execution. Source authenticity, independent OOS selection, open-position
+drawdown, real paper fills and recovery remain unverified here. No edge,
+paper readiness, live readiness or Forex/Futures winner is claimed.
+Phase 1 remains an offline control contract, not a running 24/7 research system.
+
+Protected publication review: the DRY_RUN push gate returned BLOCKED because
+the action-specific APPROVE_PUSH marker is missing. No protected action was
+executed. The first direct script invocation was blocked by PowerShell's
+execution policy; a new child PowerShell with process-only execution policy
+ran the read-only classifier successfully, without changing machine policy.
+Publication handoff: exact three changed files listed above; proposed commit
+Harden paper promotion numeric evidence; push only to
+origin/codex/research-evidence-hardening-20261005 and existing PR #1433.
+Any merge remains a separate exact-PR approval and latest-head CI review.
+
+
+## Current-turn verification - 2026-10-05
+
+Independent read-only review found no substantive defect in the malformed-container
+repair to the paper promotion gate and its regressions. The implementer reports
+16 red-first container tests and 102 passing focused tests; diff check passed.
+Expanded test retrieval is unavailable in this turn. The broad baseline remains
+9 failures and 1 setup error; no broad-suite passing claim is made.
+
+Active R17 sources are installed. Canonical CHECK reports
+PREPARED_NOT_AUTHORIZED: two ready H3/H6 jobs, 16 exposures and 12 calls reserved,
+with zero new market calls. A genuine owner signature remains pending. Available
+RAM is 4.09 GiB against the approximately 6.23 GiB enforced reserve. The existing
+hourly supervisor was updated; this is monitoring, not a continuous research worker.
+The signing pwsh process 30012 started and was responsive; window visibility is
+unverified and no owner key was handled. No research launch, commit or push occurred.
