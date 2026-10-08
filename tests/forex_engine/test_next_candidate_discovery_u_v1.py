@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import inspect
+import json
+from pathlib import Path
 
 from automation.forex_engine import next_candidate_discovery_u_v1 as module
 
@@ -53,15 +55,36 @@ def test_rejected_candidates_and_exceeds_anchor_logic():
     assert isinstance(leaderboard["candidates_exceed_anchor"], list)
 
 
-def test_anchor_meets_canonical_sample_depth():
+def test_unverified_anchor_has_no_scored_trades():
     payload = _run()
     anchor = payload["leaderboard"]["anchor_candidate"]
     assert anchor["candidate_id"] == "c1-eur-buy"
     assert payload["genuine_campaign_evidence"] is False
-    assert payload["campaign_state"]["accepted_qualifying_trades"] == 0
     assert anchor["closed_trade_count"] == 0
     assert anchor["promotion_status"] == "REJECT_INSUFFICIENT_SAMPLE"
     assert "insufficient_sample" in anchor["blocker_reasons"]
+
+
+def test_unrelated_paper_trade_cannot_authenticate_profile_pnl(tmp_path: Path):
+    report_root = tmp_path / "reports"
+    report_root.mkdir()
+    (report_root / "AIOS_FOREX_P1_30_TRADE_CAMPAIGN_V1_STATE.json").write_text(
+        json.dumps({
+            "accepted_qualifying_trades": 1,
+            "trade_results": [{
+                "trade_id": "paper-1",
+                "strategy_name": "unrelated_strategy",
+                "realized_paper_pl": 0.183,
+            }],
+        }),
+        encoding="utf-8",
+    )
+    payload = module.run_next_candidate_discovery(
+        write_reports=False, report_root=report_root
+    )
+    assert payload["genuine_campaign_evidence"] is False
+    assert all(row["closed_trade_count"] == 0 for row in payload["candidates"])
+    assert all(row["promotion_status"] != "PROFIT_OBJECTIVE_READY" for row in payload["candidates"])
 
 
 def test_no_forbidden_execution_surfaces():

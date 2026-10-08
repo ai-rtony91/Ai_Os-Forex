@@ -18,6 +18,7 @@ DEFAULT_OUTPUT_ROOT = ROOT / "Reports" / "forex_delivery"
 def parser() -> argparse.ArgumentParser:
     result = argparse.ArgumentParser(description=__doc__)
     result.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
+    result.add_argument("--report-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
     result.add_argument("--target-bait", type=int, default=3)
     result.add_argument("--cycles", type=int, default=1)
     result.add_argument("--write-state", action="store_true")
@@ -31,6 +32,7 @@ def main(argv: list[str] | None = None) -> int:
     result = run_forex_bait_factory_v1(
         target_bait_count=args.target_bait,
         cycles=args.cycles,
+        report_root=args.report_root,
     )
     output_root = Path(args.output_root)
     output_root.mkdir(parents=True, exist_ok=True)

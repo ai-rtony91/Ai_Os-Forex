@@ -8,7 +8,9 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Mapping, Sequence
+
+from automation.forex_engine.profit_proof_ledger_v1 import ProfitProofCandidateEvidence
 
 from automation.forex_engine.forex_110_profit_evidence_truth_lock_v1 import (
     run_profit_evidence_truth_lock,
@@ -67,12 +69,13 @@ RUNNER_SCRIPT = "scripts/forex_delivery/run_forex_110_walkforward_oos_sufficienc
 
 def run_walkforward_oos_sufficiency_truth_lock(
     report_root: str | Path = DEFAULT_REPORT_ROOT,
+    candidates: Sequence[ProfitProofCandidateEvidence | Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Return the Forex 110 walk-forward/OOS sufficiency truth state."""
 
     root = Path(report_root)
     intake = intake_result_to_jsonable_dict(intake_walk_forward_evidence(root))
-    profit_lock = run_profit_evidence_truth_lock(root)
+    profit_lock = run_profit_evidence_truth_lock(root, candidates)
     top_candidate_id = str(profit_lock.get("top_candidate_id") or "NONE")
     source_files = list(intake.get("source_files") or [])
     source_candidates = _candidate_ids_from_sources(root, source_files)

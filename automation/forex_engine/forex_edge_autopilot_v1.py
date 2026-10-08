@@ -6,10 +6,7 @@ creates demo/live authority.
 from __future__ import annotations
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Mapping
-from automation.forex_engine.broker_connection_proof_boundary_readiness_v1 import (
-    run_broker_connection_proof_boundary_readiness_v1,
-)
+from typing import Any, Mapping, Sequence
 from automation.forex_engine.candidate_selector_hardening_v1 import (
     run_candidate_selector_hardening_v1,
 )
@@ -19,23 +16,12 @@ from automation.forex_engine.forex_110_profit_evidence_truth_lock_v1 import (
 from automation.forex_engine.forex_110_walkforward_oos_sufficiency_truth_lock_v1 import (
     run_walkforward_oos_sufficiency_truth_lock,
 )
-from automation.forex_engine.forex_statistical_profit_proof_gate_v1 import (
-    evaluate_forex_statistical_profit_proof_gate,
-    to_jsonable_dict as statistical_result_to_jsonable_dict,
-)
 from automation.forex_engine.profit_proof_ledger_v1 import (
+    ProfitProofCandidateEvidence,
     evaluate_profit_proof_ledger,
     result_to_jsonable_dict as ledger_result_to_jsonable_dict,
 )
 from automation.forex_engine.profitability_evidence_intake_v1 import DEFAULT_REPORT_ROOT
-from automation.forex_engine.strategy_promotion_router_v1 import (
-    result_to_jsonable_dict as promotion_result_to_jsonable_dict,
-    route_strategy_promotion,
-)
-from automation.forex_engine.trusted_profit_22_6_readiness_v1 import (
-    evaluate_trusted_profit_22_6_readiness,
-    result_to_jsonable_dict as trusted_profit_result_to_jsonable_dict,
-)
 PACKET_ID = "PKT-FOREX-EDGE-AUTOPILOT-V1"
 ENGINE_VERSION = "forex_edge_autopilot_v1"
 PROTECTED_FALSE_FIELDS = (
@@ -62,15 +48,17 @@ def run_forex_edge_autopilot_v1(
     *,
     target_candidate_count: int = 3,
     cycles: int = 1,
+    candidates: Sequence[ProfitProofCandidateEvidence | Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Run repo-safe edge gates and return the ranked candidate basket."""
     safe_cycles = max(1, int(cycles))
     target = max(1, int(target_candidate_count))
     root = Path(report_root)
+    candidate_rows = tuple(candidates) if candidates is not None else ()
     runs = []
     latest: dict[str, Any] = {}
     for cycle_index in range(1, safe_cycles + 1):
-        latest = _run_one_cycle(root, target, cycle_index)
+        latest = _run_one_cycle(root, target, cycle_index, candidate_rows)
         runs.append(latest)
         if latest["candidate_count"] >= target:
             break
@@ -97,32 +85,27 @@ def run_forex_edge_autopilot_v1(
     )
     final.update({field: False for field in PROTECTED_FALSE_FIELDS})
     return final
-def _run_one_cycle(report_root: Path, target: int, cycle_index: int) -> dict[str, Any]:
-    profit_lock = run_profit_evidence_truth_lock(report_root)
-    walkforward_lock = run_walkforward_oos_sufficiency_truth_lock(report_root)
-    ledger = ledger_result_to_jsonable_dict(evaluate_profit_proof_ledger())
-    selector = run_candidate_selector_hardening_v1()
-    promotion = promotion_result_to_jsonable_dict(route_strategy_promotion())
-    trusted_22_6 = trusted_profit_result_to_jsonable_dict(
-        evaluate_trusted_profit_22_6_readiness()
-    )
-    statistical = statistical_result_to_jsonable_dict(
-        evaluate_forex_statistical_profit_proof_gate()
-    )
-    broker_boundary = run_broker_connection_proof_boundary_readiness_v1()
-    candidates = _candidate_basket(
+def _run_one_cycle(
+    report_root: Path, target: int, cycle_index: int,
+    candidates: Sequence[ProfitProofCandidateEvidence | Mapping[str, Any]],
+) -> dict[str, Any]:
+    profit_lock = run_profit_evidence_truth_lock(report_root, candidates)
+    walkforward_lock = run_walkforward_oos_sufficiency_truth_lock(report_root, candidates)
+    ledger = ledger_result_to_jsonable_dict(evaluate_profit_proof_ledger(candidates))
+    selector = run_candidate_selector_hardening_v1([])
+    # Caller-supplied flags and hashes cannot authenticate a source receipt.
+    candidate_ids: set[str] = set()
+    review_candidates = _candidate_basket(
         profit_lock=profit_lock,
         walkforward_lock=walkforward_lock,
-        ledger=ledger,
-        selector=selector,
-        promotion=promotion,
+        candidate_ids=candidate_ids,
     )
     rejected = _rejected_candidates(ledger, selector)
     return {
         "cycle_index": cycle_index,
-        "candidate_count": len(candidates),
+        "candidate_count": len(review_candidates),
         "target_candidate_count": target,
-        "candidate_basket": candidates,
+        "candidate_basket": review_candidates,
         "rejected_or_blocked_candidates": rejected,
         "proof_gates": {
             "profit_truth_lock_status": profit_lock.get("truth_lock_status"),
@@ -131,10 +114,11 @@ def _run_one_cycle(report_root: Path, target: int, cycle_index: int) -> dict[str
             "walkforward_truth_lock_status": walkforward_lock.get("truth_lock_status"),
             "ledger_status": ledger.get("ledger_status"),
             "selector_status": selector.get("selector_status"),
-            "strategy_promotion_status": promotion.get("promotion_status"),
-            "statistical_classification": statistical.get("classification"),
-            "trusted_22_6_status": trusted_22_6.get("readiness_status"),
-            "broker_boundary_status": broker_boundary.get("readiness_status"),
+            "strategy_promotion_status": "NOT_EVALUATED_IN_CANDIDATE_CHAIN",
+            "statistical_classification": "NOT_EVALUATED_IN_CANDIDATE_CHAIN",
+            "trusted_22_6_status": "NOT_EVALUATED_IN_CANDIDATE_CHAIN",
+            "broker_boundary_status": "NOT_EVALUATED_IN_CANDIDATE_CHAIN",
+            "source_authentication_status": "NO_INDEPENDENT_VERIFIER_CONNECTED",
         },
         "false_positive_controls": {
             "sample_selector_not_used_as_trade_authority": True,
@@ -148,15 +132,15 @@ def _candidate_basket(
     *,
     profit_lock: Mapping[str, Any],
     walkforward_lock: Mapping[str, Any],
-    ledger: Mapping[str, Any],
-    selector: Mapping[str, Any],
-    promotion: Mapping[str, Any],
+    candidate_ids: set[str],
 ) -> list[dict[str, Any]]:
     candidates: list[dict[str, Any]] = []
     top_candidate_id = str(profit_lock.get("top_candidate_id") or "NONE")
     if (
         profit_lock.get("truth_lock_status") == "PROVEN"
         and walkforward_lock.get("walk_forward_oos_status") == "PROVEN"
+        and top_candidate_id in candidate_ids
+        and walkforward_lock.get("top_candidate_id") == top_candidate_id
     ):
         candidates.append(
             {
@@ -168,41 +152,7 @@ def _candidate_basket(
                 "permissions": "review_only_no_demo_live_or_order_authority",
             }
         )
-    selected = selector.get("selected_candidate") or {}
-    selected_id = str(selected.get("candidate_id") or "NONE")
-    if selector.get("selector_status") == "REVIEW_READY_CANDIDATE_SELECTED" and selected_id != "NONE":
-        candidates.append(
-            {
-                "candidate_id": selected_id,
-                "tier": "SECONDARY_REVIEW_READY",
-                "status": "REVIEW_READY_NEEDS_BROKER_SLIPPAGE_RECONCILIATION",
-                "source": "candidate_selector_hardening",
-                "metrics": selected,
-                "permissions": "review_only_no_demo_live_or_order_authority",
-            }
-        )
-    if promotion.get("promotion_status") == "STRATEGY_PROMOTION_REVIEW_READY":
-        strategy = str(promotion.get("best_strategy") or "UNKNOWN")
-        if strategy not in {item["candidate_id"] for item in candidates}:
-            candidates.append(
-                {
-                    "candidate_id": strategy,
-                    "tier": "STRATEGY_REVIEW_ONLY",
-                    "status": _strategy_review_status(promotion.get("supertrend_status")),
-                    "source": "strategy_promotion_router",
-                    "metrics": {
-                        "promotion_score": promotion.get("promotion_score"),
-                        "expectancy_status": promotion.get("expectancy_status"),
-                        "proof_status": promotion.get("proof_status"),
-                    },
-                    "permissions": "review_only_no_demo_live_or_order_authority",
-                }
-            )
     return candidates
-def _strategy_review_status(raw: Any) -> str:
-    if isinstance(raw, Mapping):
-        return str(raw.get("status") or raw.get("recommendation") or "REVIEW_READY")
-    return str(raw or "REVIEW_READY")
 def _rejected_candidates(
     ledger: Mapping[str, Any], selector: Mapping[str, Any]
 ) -> list[dict[str, Any]]:
@@ -235,7 +185,7 @@ def _rejected_candidates(
 def _stop_reason(latest: Mapping[str, Any], target: int) -> str:
     if int(latest.get("candidate_count", 0)) >= target:
         return "TARGET_REVIEW_CANDIDATES_FOUND_REPO_SAFE"
-    return "BROKER_PRACTICE_READ_ONLY_BOUNDARY_OR_MORE_DATA_REQUIRED"
+    return "CANDIDATE_PROOF_AND_INDEPENDENT_SOURCE_CHECK_REQUIRED"
 def _next_safe_action(latest: Mapping[str, Any], target: int) -> str:
     if int(latest.get("candidate_count", 0)) >= target:
         return (
@@ -243,8 +193,9 @@ def _next_safe_action(latest: Mapping[str, Any], target: int) -> str:
             "read-only PAPER campaign locally to collect more closed paper trades."
         )
     return (
-        "Continue repo-safe evidence search and collect more PAPER records only after "
-        "owner-approved runtime-only OANDA Practice credentials are present locally."
+        "Collect candidate-specific closed-trade proof and connect an independent "
+        "source check. PAPER data collection can continue through the separately "
+        "authorized owner-local Practice path."
     )
 def build_report_markdown(result: Mapping[str, Any]) -> str:
     lines = [

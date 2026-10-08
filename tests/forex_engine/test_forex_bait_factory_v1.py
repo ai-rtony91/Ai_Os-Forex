@@ -15,24 +15,22 @@ from scripts.forex_delivery.run_forex_bait_factory_v1 import (  # noqa: E402
     STATE_NAME,
     main,
 )
-def test_bait_factory_builds_hot_warm_cold_chain_without_trading() -> None:
-    result = run_forex_bait_factory_v1(target_bait_count=3, cycles=2)
-    assert result["status"] == "BAIT_READY_FOR_REVIEW"
+def test_bait_factory_does_not_promote_unbound_hypotheses(tmp_path: Path) -> None:
+    result = run_forex_bait_factory_v1(
+        report_root=tmp_path / "empty", target_bait_count=3, cycles=2
+    )
     assert result["pipeline"] == [
-        "hypothesis_builder",
-        "warm_cold_scorer",
-        "proof_ledger",
-        "edge_autopilot",
-        "paper_campaign_handoff",
+        "hypothesis_builder", "warm_cold_scorer", "proof_ledger",
+        "edge_autopilot", "paper_campaign_handoff",
     ]
-    assert result["bait_count"] >= 3
-    assert result["label_counts"]["HOT"] >= 1
-    assert result["label_counts"]["WARM"] >= 1
-    assert result["label_counts"]["COLD"] >= 1
-    risky = next(item for item in result["bait_box"] if item["candidate_id"] == "c5-gbp-buy")
-    assert risky["label"] == "COLD"
-    assert result["paper_campaign_handoff"]["handoff_status"] == "READY_WHEN_BAIT_BOX_EMPTY_OR_OWNER_PRACTICE_CREDS_PRESENT"
-    assert result["paper_campaign_handoff"]["command"]
+    assert result["status"] == "BAIT_SEARCH_CONTINUES"
+    assert result["bait_count"] == 0
+    assert result["label_counts"] == {"HOT": 0, "WARM": 0, "COLD": 0, "UNTESTED": 5}
+    assert all(item["next_step"] == "collect_candidate_specific_evidence" for item in result["bait_box"])
+    assert all(item["expectancy"] is None and item["profit_factor"] is None for item in result["bait_box"])
+    assert result["proof_ledger"]["top_candidate_id"] == "NONE"
+    assert result["edge_autopilot"]["candidate_count"] == 0
+    assert result["paper_campaign_handoff"]["handoff_status"] == "BLOCKED_NO_CANDIDATE_PROOF"
     for field in PROTECTED_FALSE_FIELDS:
         assert result[field] is False
         assert result["permissions"][field] is False
@@ -44,6 +42,7 @@ def test_bait_factory_target_not_met_keeps_search_open() -> None:
 def test_bait_factory_report_and_cli_write_outputs(tmp_path: Path) -> None:
     output_root = tmp_path / "out"
     assert main([
+        "--report-root", str(tmp_path / "empty"),
         "--output-root", str(output_root),
         "--target-bait", "3",
         "--cycles", "2",
@@ -52,10 +51,22 @@ def test_bait_factory_report_and_cli_write_outputs(tmp_path: Path) -> None:
     ]) == 0
     state = json.loads((output_root / STATE_NAME).read_text(encoding="utf-8"))
     report = (output_root / REPORT_NAME).read_text(encoding="utf-8")
-    assert state["status"] == "BAIT_READY_FOR_REVIEW"
+    assert state["status"] == "BAIT_SEARCH_CONTINUES"
+    assert state["bait_count"] == 0
     assert "AIOS Forex Bait Factory V1" in report
     assert "hypothesis_builder -> warm_cold_scorer -> proof_ledger -> edge_autopilot -> paper_campaign_handoff" in report
     assert "Broker/API calls: false" in report
+def test_factory_candidate_counts_do_not_depend_on_cwd(tmp_path: Path, monkeypatch) -> None:
+    report_root = ROOT / "Reports" / "forex_delivery"
+    first = run_forex_bait_factory_v1(report_root=report_root)
+    monkeypatch.chdir(tmp_path)
+    second = run_forex_bait_factory_v1(report_root=report_root)
+    assert [(row["candidate_id"], row["closed_trade_count"]) for row in first["bait_box"]] == [
+        (row["candidate_id"], row["closed_trade_count"]) for row in second["bait_box"]
+    ]
+    assert first["bait_count"] == second["bait_count"] == 0
+
+
 def test_build_report_handles_empty_bait() -> None:
     report = build_report_markdown(
         {
