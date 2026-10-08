@@ -31,8 +31,8 @@ Current status: BROKER_READINESS_REQUIRED
 Selected gate: BROKER_ACCOUNT_READINESS
 Next action: PREPARE_BROKER_READINESS_REVIEW
 Failed gates (if any): - BROKER_ACCOUNT_READINESS
-- LIVE_ARMING_REVIEW
 - OWNER_APPROVAL_GATE
+- LIVE_ARMING_REVIEW
 Available evidence count: 17
 
 AIOS is not authorized to place trades from this packet.
