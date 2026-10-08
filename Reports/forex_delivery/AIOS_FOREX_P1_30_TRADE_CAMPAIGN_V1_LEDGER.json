@@ -1,0 +1,43 @@
+{
+  "account_access_performed": false,
+  "broker_call_performed": false,
+  "broker_write_performed": false,
+  "continuous_execution_allowed": false,
+  "credentials_loaded": false,
+  "daemon_created": false,
+  "live_execution_allowed": false,
+  "money_movement_allowed": false,
+  "order_close_allowed": false,
+  "order_modification_allowed": false,
+  "order_submission_allowed": false,
+  "records": [
+    {
+      "direction": "BUY",
+      "entry_price": 1.11955,
+      "entry_rationale": "genuine observed EUR USD M5 sprint_4_intraday_trend_follow_v1 paper signal",
+      "entry_timestamp_utc": "2026-10-08T16:47:44.406577588Z",
+      "evidence_source": "sanitized_supervised_paper_session",
+      "evidence_type": "paper",
+      "exit_price": 1.12138,
+      "exit_reason": "paper_target",
+      "exit_timestamp_utc": "2026-10-08T17:17:54.907326611Z",
+      "fees": 0.0,
+      "instrument": "EUR_USD",
+      "mode": "PAPER_ONLY",
+      "paper_only": true,
+      "quantity_or_units": 100.0,
+      "realized_pl": 0.183,
+      "review_timestamp_utc": "2026-10-08T17:17:56.071354Z",
+      "reviewed_by": "Human Owner Anthony",
+      "risk_amount": 0.099,
+      "stop_price": 1.11856,
+      "strategy_id": "sprint_4_intraday_trend_follow_v1",
+      "strategy_name": "sprint_4_intraday_trend_follow_v1",
+      "target_price": 1.12105,
+      "trade_id": "p1-session-6ac0678d7e7c264b19a34222"
+    }
+  ],
+  "scheduler_created": false,
+  "version": "forex_p1_supervised_paper_evidence_pipeline_v1",
+  "webhook_created": false
+}
