@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import base64
 import json
 from pathlib import Path
 import re
 import subprocess
+
+import pytest
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -28,9 +31,31 @@ def _current_branch(repo_root: Path = REPO_ROOT) -> str:
     return result.stdout.strip()
 
 
-def _run_runner(*args: str, cwd: Path = REPO_ROOT) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        [
+def _run_runner(
+    *args: str,
+    console_encoding: str = "",
+    cwd: Path = REPO_ROOT,
+) -> subprocess.CompletedProcess[str]:
+    if console_encoding:
+        # Reproduce the UTF-8 console inherited from GitHub's pwsh host, or
+        # the OEM console on a normal Windows PowerShell terminal.
+        encoding = (
+            "[Text.UTF8Encoding]::new($true)"
+            if console_encoding == "utf8_with_bom"
+            else "[Text.Encoding]::GetEncoding(437)"
+        )
+        quote = lambda value: "'" + value.replace("'", "''") + "'"
+        invocation = " ".join(arg if arg.startswith("-") else quote(arg) for arg in args)
+        script = (
+            "[Console]::OutputEncoding = [Text.UTF8Encoding]::new($false); "
+            f"[Console]::InputEncoding = {encoding}; & {quote(str(RUNNER))} {invocation}"
+        )
+        command = [
+            "powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-EncodedCommand",
+            base64.b64encode(script.encode("utf-16-le")).decode("ascii"),
+        ]
+    else:
+        command = [
             "powershell",
             "-NoProfile",
             "-ExecutionPolicy",
@@ -38,9 +63,12 @@ def _run_runner(*args: str, cwd: Path = REPO_ROOT) -> subprocess.CompletedProces
             "-File",
             str(RUNNER),
             *args,
-        ],
+        ]
+    return subprocess.run(
+        command,
         cwd=cwd,
         text=True,
+        encoding="utf-8" if console_encoding else None,
         capture_output=True,
         check=False,
     )
@@ -202,3 +230,33 @@ def test_runner_surface_blocks_live_broker_secret_paths() -> None:
     assert "PYTHONPATH" in text
     assert "OANDA" not in text
     assert "broker" not in text.lower()
+
+
+@pytest.mark.parametrize("mode", ["DRY_RUN", "APPLY"])
+@pytest.mark.parametrize("console_encoding", ["utf8_with_bom", "oem"])
+def test_runner_payload_survives_host_console_encoding(
+    tmp_path: Path, mode: str, console_encoding: str
+) -> None:
+    output_root = tmp_path / "ledger_æ±äº¬"
+    result = _run_runner(
+        "-Mode", mode,
+        "-OutputJson",
+        "-ExpectedBranch", _current_branch(),
+        "-HumanOwnerResearchApproval", "APPROVED_LOCAL_FOREX_RESEARCH_ONLY",
+        "-ResearchMode", "FULL_LOCAL_RESEARCH_STUB",
+        "-OutputRoot", str(output_root),
+        console_encoding=console_encoding,
+    )
+
+    assert result.returncode == 0, result.stderr
+    parsed = json.loads(result.stdout)
+    assert parsed["mode"] == mode
+    assert parsed["run_ledger"]["written"] is (mode == "APPLY")
+    if mode == "APPLY":
+        # Test the real destination; caller stdout may use an OEM code page.
+        assert len(list(output_root.glob("*.json"))) == 1
+    else:
+        assert not output_root.exists()
+    assert parsed["safety"]["broker_or_live_trading"] is False
+    assert parsed["safety"]["touches_secrets_or_env"] is False
+

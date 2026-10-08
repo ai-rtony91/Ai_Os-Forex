@@ -1,7 +1,8 @@
 """Paper evidence promotion gate for demo-validation candidacy."""
 from __future__ import annotations
 
-from typing import Any, Mapping
+import math
+from typing import Any, Mapping, Sequence
 
 DECISION_PAPER_CONTINUE = "PAPER_CONTINUE"
 DECISION_MORE_EVIDENCE_REQUIRED = "MORE_EVIDENCE_REQUIRED"
@@ -10,6 +11,9 @@ DECISION_REJECTED = "REJECTED"
 
 _BLOCK_REASON_ORDER = (
     "missing_profitability_evidence",
+    "invalid_profitability_evidence",
+    "invalid_profitability_metrics",
+    "invalid_promotion_limits",
     "missing_evidence",
     "evidence_quality_failed",
     "risk_quality_failed",
@@ -21,11 +25,19 @@ _BLOCK_REASON_ORDER = (
 )
 
 
-def _safe_float(value: Any, default: float = 0.0) -> float:
+def _finite_float(value: Any) -> float | None:
+    if isinstance(value, bool):
+        return None
     try:
-        return float(value)
-    except (TypeError, ValueError):
-        return default
+        parsed = float(value)
+    except (TypeError, ValueError, OverflowError):
+        return None
+    return parsed if math.isfinite(parsed) else None
+
+
+def _safe_float(value: Any, default: float = 0.0) -> float:
+    parsed = _finite_float(value)
+    return default if parsed is None else parsed
 
 
 def _safe_bool(value: Any, default: bool = False) -> bool:
@@ -58,12 +70,13 @@ def evaluate_paper_evidence_promotion(
     limits: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Decide whether paper profitability evidence can become a demo candidate."""
+    invalid_limits_container = limits is not None and not isinstance(limits, Mapping)
     caps = {
         "minimum_profit_factor": 1.2,
         "maximum_drawdown": 500.0,
         "minimum_expectancy_per_trade": 0.0,
         "minimum_expectancy_r": 0.0,
-        **dict(limits or {}),
+        **dict(limits if isinstance(limits, Mapping) else {}),
     }
     if not isinstance(profitability_result, Mapping):
         blocked_reasons = ["missing_profitability_evidence"]
@@ -80,7 +93,42 @@ def evaluate_paper_evidence_promotion(
             "safety": _safety(),
         }
 
-    existing_reasons = [str(reason) for reason in profitability_result.get("blocked_reasons", []) if reason]
+    metric_names = ("expectancy_per_trade", "expectancy_r", "profit_factor", "max_drawdown")
+    metrics = {name: _finite_float(profitability_result.get(name)) for name in metric_names}
+    parsed_caps = {name: _finite_float(caps[name]) for name in (
+        "minimum_profit_factor", "maximum_drawdown",
+        "minimum_expectancy_per_trade", "minimum_expectancy_r",
+    )}
+    invalid_reasons = []
+    raw_reasons = profitability_result.get("blocked_reasons", [])
+    if (
+        isinstance(raw_reasons, (str, bytes))
+        or not isinstance(raw_reasons, Sequence)
+        or any(not isinstance(reason, str) for reason in raw_reasons)
+    ):
+        invalid_reasons.append("invalid_profitability_evidence")
+    if any(value is None for value in metrics.values()) or any(
+        metrics[name] is not None and metrics[name] < 0
+        for name in ("profit_factor", "max_drawdown")
+    ):
+        invalid_reasons.append("invalid_profitability_metrics")
+    if invalid_limits_container or any(value is None or value < 0 for value in parsed_caps.values()):
+        invalid_reasons.append("invalid_promotion_limits")
+    if invalid_reasons:
+        return {
+            "allowed": False,
+            "decision": DECISION_MORE_EVIDENCE_REQUIRED,
+            "promotion_status": DECISION_MORE_EVIDENCE_REQUIRED,
+            "blocked_reasons": invalid_reasons,
+            "promotion_reasons": [],
+            "next_safe_action": "repair_profitability_evidence_or_limits",
+            "demo_candidate": False,
+            "requires_more_evidence": True,
+            "rejected": False,
+            "safety": _safety(),
+        }
+
+    existing_reasons = [reason for reason in raw_reasons if reason]
     blocked_reasons: list[str] = list(existing_reasons)
 
     profitability_ready = _safe_bool(profitability_result.get("profitability_ready"))
