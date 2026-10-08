@@ -1,0 +1,714 @@
+{
+  "account_identifiers_used": false,
+  "background_loop_started": false,
+  "bait_box": [
+    {
+      "blockers": [],
+      "candidate_id": "c1-eur-buy",
+      "closed_trade_count": 30,
+      "decision": "REVIEW_READY",
+      "direction": "LONG",
+      "expectancy": 200.0,
+      "label": "HOT",
+      "max_drawdown": 0.0,
+      "next_step": "send_to_proof_ledger_and_edge_autopilot_review",
+      "normalized_score": 96.0,
+      "profit_factor": 999.0,
+      "strategy_id": "paper_long_run_supervisor_v2"
+    },
+    {
+      "blockers": [
+        "sample_size 20 is below required 30"
+      ],
+      "candidate_id": "c2-usd-buy",
+      "closed_trade_count": 20,
+      "decision": "REQUIRE_MORE_EVIDENCE",
+      "direction": "LONG",
+      "expectancy": 20.3,
+      "label": "WARM",
+      "max_drawdown": 0.11914218,
+      "next_step": "collect_more_evidence_before_paper_handoff",
+      "normalized_score": 83.515081,
+      "profit_factor": 10.02222222,
+      "strategy_id": "paper_momentum_supervisor_v3"
+    },
+    {
+      "blockers": [
+        "insufficient_sample"
+      ],
+      "candidate_id": "c3-eur-sell",
+      "closed_trade_count": 16,
+      "decision": "BLOCKED_BY_EVIDENCE",
+      "direction": "SHORT",
+      "expectancy": 9.3125,
+      "label": "WARM",
+      "max_drawdown": 0.04971167,
+      "next_step": "collect_more_evidence_before_paper_handoff",
+      "normalized_score": 61.090718,
+      "profit_factor": 17.55555556,
+      "strategy_id": "paper_mean_reversion_v2"
+    },
+    {
+      "blockers": [
+        "insufficient_sample"
+      ],
+      "candidate_id": "c5-gbp-buy",
+      "closed_trade_count": 15,
+      "decision": "BLOCKED_BY_RISK",
+      "direction": "LONG",
+      "expectancy": 82.33333333,
+      "label": "COLD",
+      "max_drawdown": 0.94384143,
+      "next_step": "reject_or_park_as_false_positive_risk",
+      "normalized_score": 51.5,
+      "profit_factor": 13.35,
+      "strategy_id": "paper_continuation_supervisor_v2"
+    },
+    {
+      "blockers": [
+        "insufficient_sample",
+        "negative_expectancy",
+        "low_profit_factor"
+      ],
+      "candidate_id": "c4-jpy-buy",
+      "closed_trade_count": 16,
+      "decision": "REJECT",
+      "direction": "LONG",
+      "expectancy": -0.4375,
+      "label": "COLD",
+      "max_drawdown": 0.36955653,
+      "next_step": "reject_or_park_as_false_positive_risk",
+      "normalized_score": 23.833333,
+      "profit_factor": 0.93457944,
+      "strategy_id": "paper_breakout_supervisor_v2"
+    }
+  ],
+  "bait_count": 3,
+  "bank_movement_allowed": false,
+  "blocked_actions": [
+    "broker_api_used",
+    "credentials_used",
+    "env_read",
+    "account_identifiers_used",
+    "order_execution",
+    "demo_authorized",
+    "live_authorized",
+    "scheduler_started",
+    "daemon_started",
+    "webhook_started",
+    "background_loop_started",
+    "broker_action_allowed",
+    "real_money_allowed",
+    "compounding_allowed",
+    "bank_movement_allowed",
+    "live_trading_allowed",
+    "order_submission_allowed"
+  ],
+  "broker_action_allowed": false,
+  "broker_api_used": false,
+  "cold_count": 2,
+  "compounding_allowed": false,
+  "credentials_used": false,
+  "cycle_index": 1,
+  "cycles_completed": 1,
+  "cycles_requested": 3,
+  "daemon_started": false,
+  "demo_authorized": false,
+  "edge_autopilot": {
+    "candidate_count": 3,
+    "status": "TARGET_REVIEW_CANDIDATES_FOUND",
+    "stop_reason": "TARGET_REVIEW_CANDIDATES_FOUND_REPO_SAFE"
+  },
+  "engine_version": "forex_bait_factory_v1",
+  "env_read": false,
+  "false_positive_controls": {
+    "broker_keys_required_locally_only": true,
+    "cold_bait_blocked_from_proof_promotion": true,
+    "paper_handoff_does_not_execute": true,
+    "proof_ledger_and_edge_autopilot_recheck_bait": true
+  },
+  "generated_at": "2026-10-08T17:53:45.675272+00:00",
+  "hypothesis_builder": {
+    "candidate_count": 5,
+    "genuine_campaign_evidence": true,
+    "packet_id": "AIOS_FOREX_NEXT_CANDIDATE_DISCOVERY_PACKET_U_V1"
+  },
+  "label_counts": {
+    "COLD": 2,
+    "HOT": 1,
+    "WARM": 2
+  },
+  "live_authorized": false,
+  "live_trading_allowed": false,
+  "next_safe_action": "Use the bait box for proof review; start PAPER only from owner local runtime when more closed trades are needed.",
+  "order_execution": false,
+  "order_submission_allowed": false,
+  "packet_id": "PKT-FOREX-BAIT-FACTORY-V1",
+  "paper_campaign_handoff": {
+    "bait_available": true,
+    "command": "python scripts\\forex_delivery\\run_forex_p1_supervised_paper_campaign_v1.py --owner-local-runtime --cycles 30",
+    "edge_autopilot_status": "TARGET_REVIEW_CANDIDATES_FOUND",
+    "executes_now": false,
+    "handoff_status": "READY_WHEN_BAIT_BOX_EMPTY_OR_OWNER_PRACTICE_CREDS_PRESENT",
+    "ready_bait_count": 3,
+    "reason": "Paper campaign starts only from owner local runtime with practice read-only credentials.",
+    "requires_local_runtime_env": [
+      "OANDA_DEMO_ACCESS_TOKEN",
+      "OANDA_DEMO_ACCOUNT_ID"
+    ]
+  },
+  "permissions": {
+    "account_identifiers_used": false,
+    "background_loop_started": false,
+    "bank_movement_allowed": false,
+    "broker_action_allowed": false,
+    "broker_api_used": false,
+    "compounding_allowed": false,
+    "credentials_used": false,
+    "daemon_started": false,
+    "demo_authorized": false,
+    "env_read": false,
+    "live_authorized": false,
+    "live_trading_allowed": false,
+    "order_execution": false,
+    "order_submission_allowed": false,
+    "real_money_allowed": false,
+    "scheduler_started": false,
+    "webhook_started": false
+  },
+  "pipeline": [
+    "hypothesis_builder",
+    "warm_cold_scorer",
+    "proof_ledger",
+    "edge_autopilot",
+    "paper_campaign_handoff"
+  ],
+  "proof_ledger": {
+    "ledger_status": "PROFIT_PROOF_LEDGER_PROMOTABLE",
+    "top_candidate_id": "c2-eur-buy-stronger-review-ready"
+  },
+  "real_money_allowed": false,
+  "runs": [
+    {
+      "bait_box": [
+        {
+          "blockers": [],
+          "candidate_id": "c1-eur-buy",
+          "closed_trade_count": 30,
+          "decision": "REVIEW_READY",
+          "direction": "LONG",
+          "expectancy": 200.0,
+          "label": "HOT",
+          "max_drawdown": 0.0,
+          "next_step": "send_to_proof_ledger_and_edge_autopilot_review",
+          "normalized_score": 96.0,
+          "profit_factor": 999.0,
+          "strategy_id": "paper_long_run_supervisor_v2"
+        },
+        {
+          "blockers": [
+            "sample_size 20 is below required 30"
+          ],
+          "candidate_id": "c2-usd-buy",
+          "closed_trade_count": 20,
+          "decision": "REQUIRE_MORE_EVIDENCE",
+          "direction": "LONG",
+          "expectancy": 20.3,
+          "label": "WARM",
+          "max_drawdown": 0.11914218,
+          "next_step": "collect_more_evidence_before_paper_handoff",
+          "normalized_score": 83.515081,
+          "profit_factor": 10.02222222,
+          "strategy_id": "paper_momentum_supervisor_v3"
+        },
+        {
+          "blockers": [
+            "insufficient_sample"
+          ],
+          "candidate_id": "c3-eur-sell",
+          "closed_trade_count": 16,
+          "decision": "BLOCKED_BY_EVIDENCE",
+          "direction": "SHORT",
+          "expectancy": 9.3125,
+          "label": "WARM",
+          "max_drawdown": 0.04971167,
+          "next_step": "collect_more_evidence_before_paper_handoff",
+          "normalized_score": 61.090718,
+          "profit_factor": 17.55555556,
+          "strategy_id": "paper_mean_reversion_v2"
+        },
+        {
+          "blockers": [
+            "insufficient_sample"
+          ],
+          "candidate_id": "c5-gbp-buy",
+          "closed_trade_count": 15,
+          "decision": "BLOCKED_BY_RISK",
+          "direction": "LONG",
+          "expectancy": 82.33333333,
+          "label": "COLD",
+          "max_drawdown": 0.94384143,
+          "next_step": "reject_or_park_as_false_positive_risk",
+          "normalized_score": 51.5,
+          "profit_factor": 13.35,
+          "strategy_id": "paper_continuation_supervisor_v2"
+        },
+        {
+          "blockers": [
+            "insufficient_sample",
+            "negative_expectancy",
+            "low_profit_factor"
+          ],
+          "candidate_id": "c4-jpy-buy",
+          "closed_trade_count": 16,
+          "decision": "REJECT",
+          "direction": "LONG",
+          "expectancy": -0.4375,
+          "label": "COLD",
+          "max_drawdown": 0.36955653,
+          "next_step": "reject_or_park_as_false_positive_risk",
+          "normalized_score": 23.833333,
+          "profit_factor": 0.93457944,
+          "strategy_id": "paper_breakout_supervisor_v2"
+        }
+      ],
+      "bait_count": 3,
+      "cold_count": 2,
+      "cycle_index": 1,
+      "edge_autopilot": {
+        "candidate_count": 3,
+        "status": "TARGET_REVIEW_CANDIDATES_FOUND",
+        "stop_reason": "TARGET_REVIEW_CANDIDATES_FOUND_REPO_SAFE"
+      },
+      "false_positive_controls": {
+        "broker_keys_required_locally_only": true,
+        "cold_bait_blocked_from_proof_promotion": true,
+        "paper_handoff_does_not_execute": true,
+        "proof_ledger_and_edge_autopilot_recheck_bait": true
+      },
+      "hypothesis_builder": {
+        "candidate_count": 5,
+        "genuine_campaign_evidence": true,
+        "packet_id": "AIOS_FOREX_NEXT_CANDIDATE_DISCOVERY_PACKET_U_V1"
+      },
+      "label_counts": {
+        "COLD": 2,
+        "HOT": 1,
+        "WARM": 2
+      },
+      "paper_campaign_handoff": {
+        "bait_available": true,
+        "command": "python scripts\\forex_delivery\\run_forex_p1_supervised_paper_campaign_v1.py --owner-local-runtime --cycles 30",
+        "edge_autopilot_status": "TARGET_REVIEW_CANDIDATES_FOUND",
+        "executes_now": false,
+        "handoff_status": "READY_WHEN_BAIT_BOX_EMPTY_OR_OWNER_PRACTICE_CREDS_PRESENT",
+        "ready_bait_count": 3,
+        "reason": "Paper campaign starts only from owner local runtime with practice read-only credentials.",
+        "requires_local_runtime_env": [
+          "OANDA_DEMO_ACCESS_TOKEN",
+          "OANDA_DEMO_ACCOUNT_ID"
+        ]
+      },
+      "proof_ledger": {
+        "ledger_status": "PROFIT_PROOF_LEDGER_PROMOTABLE",
+        "top_candidate_id": "c2-eur-buy-stronger-review-ready"
+      },
+      "target_bait_count": 3,
+      "warm_cold_scorer": {
+        "candidate_count": 5,
+        "engine_version": "candidate_scoring_v1",
+        "results": [
+          {
+            "blockers": [],
+            "candidate_id": "c1-eur-buy",
+            "decision": "REVIEW_READY",
+            "decision_reasons": [
+              "normalized_score 96.000000 meets review threshold 75",
+              "candidate remains review-only and authorizes no execution"
+            ],
+            "normalized_score": 96.0,
+            "rank": 1,
+            "recommended_next_action": "Prepare a supervised demo review packet; do not place, route, or approve a trade.",
+            "safety": {
+              "account_ids_read": false,
+              "autonomous_runtime_started": false,
+              "broker_called": false,
+              "credentials_read": false,
+              "demo_execution_allowed": false,
+              "live_trading_allowed": false,
+              "network_used": false,
+              "orders_placed": false
+            },
+            "score_breakdown": {
+              "demo_readiness_score": 100.0,
+              "drawdown_score": 100.0,
+              "evidence_quality_score": 100.0,
+              "expectancy_score": 100.0,
+              "operator_confidence_score": 70.0,
+              "profit_factor_score": 100.0,
+              "recency_score": 100.0,
+              "regime_alignment_score": 75.0,
+              "risk_quality_score": 100.0,
+              "sample_size_score": 100.0
+            },
+            "total_score": 96.0
+          },
+          {
+            "blockers": [
+              "sample_size 20 is below required 30"
+            ],
+            "candidate_id": "c2-usd-buy",
+            "decision": "REQUIRE_MORE_EVIDENCE",
+            "decision_reasons": [
+              "sample_size 20 is below required 30"
+            ],
+            "normalized_score": 83.515081,
+            "rank": 2,
+            "recommended_next_action": "Collect missing or weak candidate evidence, then rerun scoring.",
+            "safety": {
+              "account_ids_read": false,
+              "autonomous_runtime_started": false,
+              "broker_called": false,
+              "credentials_read": false,
+              "demo_execution_allowed": false,
+              "live_trading_allowed": false,
+              "network_used": false,
+              "orders_placed": false
+            },
+            "score_breakdown": {
+              "demo_readiness_score": 100.0,
+              "drawdown_score": 23.736785,
+              "evidence_quality_score": 100.0,
+              "expectancy_score": 100.0,
+              "operator_confidence_score": 70.0,
+              "profit_factor_score": 100.0,
+              "recency_score": 100.0,
+              "regime_alignment_score": 75.0,
+              "risk_quality_score": 100.0,
+              "sample_size_score": 66.666667
+            },
+            "total_score": 83.515081
+          },
+          {
+            "blockers": [
+              "required evidence is incomplete"
+            ],
+            "candidate_id": "c3-eur-sell",
+            "decision": "BLOCKED_BY_EVIDENCE",
+            "decision_reasons": [
+              "required evidence is incomplete"
+            ],
+            "normalized_score": 61.090718,
+            "rank": 3,
+            "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+            "safety": {
+              "account_ids_read": false,
+              "autonomous_runtime_started": false,
+              "broker_called": false,
+              "credentials_read": false,
+              "demo_execution_allowed": false,
+              "live_trading_allowed": false,
+              "network_used": false,
+              "orders_placed": false
+            },
+            "score_breakdown": {
+              "demo_readiness_score": 0.0,
+              "drawdown_score": 77.144869,
+              "evidence_quality_score": 75.0,
+              "expectancy_score": 100.0,
+              "operator_confidence_score": 20.0,
+              "profit_factor_score": 100.0,
+              "recency_score": 100.0,
+              "regime_alignment_score": 35.0,
+              "risk_quality_score": 0.0,
+              "sample_size_score": 53.333333
+            },
+            "total_score": 61.090718
+          },
+          {
+            "blockers": [
+              "excessive drawdown"
+            ],
+            "candidate_id": "c5-gbp-buy",
+            "decision": "BLOCKED_BY_RISK",
+            "decision_reasons": [
+              "max_drawdown 0.94384143 exceeds allowed 0.15"
+            ],
+            "normalized_score": 51.5,
+            "rank": 4,
+            "recommended_next_action": "Resolve risk blockers before candidate review.",
+            "safety": {
+              "account_ids_read": false,
+              "autonomous_runtime_started": false,
+              "broker_called": false,
+              "credentials_read": false,
+              "demo_execution_allowed": false,
+              "live_trading_allowed": false,
+              "network_used": false,
+              "orders_placed": false
+            },
+            "score_breakdown": {
+              "demo_readiness_score": 0.0,
+              "drawdown_score": 0.0,
+              "evidence_quality_score": 75.0,
+              "expectancy_score": 100.0,
+              "operator_confidence_score": 20.0,
+              "profit_factor_score": 100.0,
+              "recency_score": 100.0,
+              "regime_alignment_score": 35.0,
+              "risk_quality_score": 0.0,
+              "sample_size_score": 50.0
+            },
+            "total_score": 51.5
+          },
+          {
+            "blockers": [
+              "negative expectancy"
+            ],
+            "candidate_id": "c4-jpy-buy",
+            "decision": "REJECT",
+            "decision_reasons": [
+              "expectancy is negative"
+            ],
+            "normalized_score": 23.833333,
+            "rank": 5,
+            "recommended_next_action": "Reject or redesign the candidate before any review lane.",
+            "safety": {
+              "account_ids_read": false,
+              "autonomous_runtime_started": false,
+              "broker_called": false,
+              "credentials_read": false,
+              "demo_execution_allowed": false,
+              "live_trading_allowed": false,
+              "network_used": false,
+              "orders_placed": false
+            },
+            "score_breakdown": {
+              "demo_readiness_score": 0.0,
+              "drawdown_score": 0.0,
+              "evidence_quality_score": 75.0,
+              "expectancy_score": 0.0,
+              "operator_confidence_score": 20.0,
+              "profit_factor_score": 0.0,
+              "recency_score": 100.0,
+              "regime_alignment_score": 35.0,
+              "risk_quality_score": 0.0,
+              "sample_size_score": 53.333333
+            },
+            "total_score": 23.833333
+          }
+        ],
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        }
+      }
+    }
+  ],
+  "scheduler_started": false,
+  "status": "BAIT_READY_FOR_REVIEW",
+  "stop_reason": "TARGET_BAIT_COUNT_FOUND_REPO_SAFE",
+  "target_bait_count": 3,
+  "warm_cold_scorer": {
+    "candidate_count": 5,
+    "engine_version": "candidate_scoring_v1",
+    "results": [
+      {
+        "blockers": [],
+        "candidate_id": "c1-eur-buy",
+        "decision": "REVIEW_READY",
+        "decision_reasons": [
+          "normalized_score 96.000000 meets review threshold 75",
+          "candidate remains review-only and authorizes no execution"
+        ],
+        "normalized_score": 96.0,
+        "rank": 1,
+        "recommended_next_action": "Prepare a supervised demo review packet; do not place, route, or approve a trade.",
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        },
+        "score_breakdown": {
+          "demo_readiness_score": 100.0,
+          "drawdown_score": 100.0,
+          "evidence_quality_score": 100.0,
+          "expectancy_score": 100.0,
+          "operator_confidence_score": 70.0,
+          "profit_factor_score": 100.0,
+          "recency_score": 100.0,
+          "regime_alignment_score": 75.0,
+          "risk_quality_score": 100.0,
+          "sample_size_score": 100.0
+        },
+        "total_score": 96.0
+      },
+      {
+        "blockers": [
+          "sample_size 20 is below required 30"
+        ],
+        "candidate_id": "c2-usd-buy",
+        "decision": "REQUIRE_MORE_EVIDENCE",
+        "decision_reasons": [
+          "sample_size 20 is below required 30"
+        ],
+        "normalized_score": 83.515081,
+        "rank": 2,
+        "recommended_next_action": "Collect missing or weak candidate evidence, then rerun scoring.",
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        },
+        "score_breakdown": {
+          "demo_readiness_score": 100.0,
+          "drawdown_score": 23.736785,
+          "evidence_quality_score": 100.0,
+          "expectancy_score": 100.0,
+          "operator_confidence_score": 70.0,
+          "profit_factor_score": 100.0,
+          "recency_score": 100.0,
+          "regime_alignment_score": 75.0,
+          "risk_quality_score": 100.0,
+          "sample_size_score": 66.666667
+        },
+        "total_score": 83.515081
+      },
+      {
+        "blockers": [
+          "required evidence is incomplete"
+        ],
+        "candidate_id": "c3-eur-sell",
+        "decision": "BLOCKED_BY_EVIDENCE",
+        "decision_reasons": [
+          "required evidence is incomplete"
+        ],
+        "normalized_score": 61.090718,
+        "rank": 3,
+        "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        },
+        "score_breakdown": {
+          "demo_readiness_score": 0.0,
+          "drawdown_score": 77.144869,
+          "evidence_quality_score": 75.0,
+          "expectancy_score": 100.0,
+          "operator_confidence_score": 20.0,
+          "profit_factor_score": 100.0,
+          "recency_score": 100.0,
+          "regime_alignment_score": 35.0,
+          "risk_quality_score": 0.0,
+          "sample_size_score": 53.333333
+        },
+        "total_score": 61.090718
+      },
+      {
+        "blockers": [
+          "excessive drawdown"
+        ],
+        "candidate_id": "c5-gbp-buy",
+        "decision": "BLOCKED_BY_RISK",
+        "decision_reasons": [
+          "max_drawdown 0.94384143 exceeds allowed 0.15"
+        ],
+        "normalized_score": 51.5,
+        "rank": 4,
+        "recommended_next_action": "Resolve risk blockers before candidate review.",
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        },
+        "score_breakdown": {
+          "demo_readiness_score": 0.0,
+          "drawdown_score": 0.0,
+          "evidence_quality_score": 75.0,
+          "expectancy_score": 100.0,
+          "operator_confidence_score": 20.0,
+          "profit_factor_score": 100.0,
+          "recency_score": 100.0,
+          "regime_alignment_score": 35.0,
+          "risk_quality_score": 0.0,
+          "sample_size_score": 50.0
+        },
+        "total_score": 51.5
+      },
+      {
+        "blockers": [
+          "negative expectancy"
+        ],
+        "candidate_id": "c4-jpy-buy",
+        "decision": "REJECT",
+        "decision_reasons": [
+          "expectancy is negative"
+        ],
+        "normalized_score": 23.833333,
+        "rank": 5,
+        "recommended_next_action": "Reject or redesign the candidate before any review lane.",
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        },
+        "score_breakdown": {
+          "demo_readiness_score": 0.0,
+          "drawdown_score": 0.0,
+          "evidence_quality_score": 75.0,
+          "expectancy_score": 0.0,
+          "operator_confidence_score": 20.0,
+          "profit_factor_score": 0.0,
+          "recency_score": 100.0,
+          "regime_alignment_score": 35.0,
+          "risk_quality_score": 0.0,
+          "sample_size_score": 53.333333
+        },
+        "total_score": 23.833333
+      }
+    ],
+    "safety": {
+      "account_ids_read": false,
+      "autonomous_runtime_started": false,
+      "broker_called": false,
+      "credentials_read": false,
+      "demo_execution_allowed": false,
+      "live_trading_allowed": false,
+      "network_used": false,
+      "orders_placed": false
+    }
+  },
+  "webhook_started": false
+}

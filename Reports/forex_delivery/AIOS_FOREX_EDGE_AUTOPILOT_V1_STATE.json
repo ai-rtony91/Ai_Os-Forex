@@ -1,0 +1,305 @@
+{
+  "account_identifiers_used": false,
+  "background_loop_started": false,
+  "bank_movement_allowed": false,
+  "blocked_actions": [
+    "broker_api_used",
+    "credentials_used",
+    "env_read",
+    "account_identifiers_used",
+    "order_execution",
+    "demo_authorized",
+    "live_authorized",
+    "scheduler_started",
+    "daemon_started",
+    "webhook_started",
+    "background_loop_started",
+    "broker_action_allowed",
+    "real_money_allowed",
+    "compounding_allowed",
+    "bank_movement_allowed",
+    "live_trading_allowed",
+    "order_submission_allowed"
+  ],
+  "broker_action_allowed": false,
+  "broker_api_used": false,
+  "candidate_basket": [
+    {
+      "candidate_id": "c2-eur-buy-stronger-review-ready",
+      "metrics": {
+        "after_costs": true,
+        "closed_trade_count": 42.0,
+        "consecutive_profitable_periods": 6.0,
+        "evidence_age_days": 1.0,
+        "expectancy": 0.26619048,
+        "max_allowed_drawdown": 0.5,
+        "max_drawdown": 0.22,
+        "max_evidence_age_days": 7.0,
+        "min_closed_trade_count": 30.0,
+        "min_expectancy": 0.0,
+        "min_profit_factor": 1.1,
+        "min_profitable_periods": 3.0,
+        "profit_factor": 6.85340314,
+        "sanitized": true
+      },
+      "permissions": "review_only_no_demo_live_or_order_authority",
+      "source": "profit_truth_lock_and_walkforward_oos_truth_lock",
+      "status": "PROVEN_FOR_OPERATOR_REVIEW_ONLY",
+      "tier": "PRIMARY_EDGE_PROOF"
+    },
+    {
+      "candidate_id": "CANDIDATE-EURUSD-C1",
+      "metrics": {
+        "candidate_id": "CANDIDATE-EURUSD-C1",
+        "evidence_depth_score": 86,
+        "expectancy": 0.34,
+        "max_drawdown_percent": 7.5,
+        "mitigation_worsened": false,
+        "owner_review_ready": true,
+        "profit_factor": 1.62,
+        "score": 137,
+        "trade_count": 42,
+        "walkforward_evidence": true
+      },
+      "permissions": "review_only_no_demo_live_or_order_authority",
+      "source": "candidate_selector_hardening",
+      "status": "REVIEW_READY_NEEDS_BROKER_SLIPPAGE_RECONCILIATION",
+      "tier": "SECONDARY_REVIEW_READY"
+    },
+    {
+      "candidate_id": "supertrend",
+      "metrics": {
+        "expectancy_status": "EXPECTANCY_STRONG",
+        "promotion_score": "100.00",
+        "proof_status": "PROOF_IMPROVING"
+      },
+      "permissions": "review_only_no_demo_live_or_order_authority",
+      "source": "strategy_promotion_router",
+      "status": "SUPER_TREND_PROOF_REVIEW_READY",
+      "tier": "STRATEGY_REVIEW_ONLY"
+    }
+  ],
+  "candidate_count": 3,
+  "compounding_allowed": false,
+  "credentials_used": false,
+  "cycle_index": 1,
+  "cycles_completed": 1,
+  "cycles_requested": 3,
+  "daemon_started": false,
+  "demo_authorized": false,
+  "engine_version": "forex_edge_autopilot_v1",
+  "env_read": false,
+  "false_positive_controls": {
+    "all_trading_permissions_false": true,
+    "broker_or_slippage_gaps_keep_secondary_candidates_review_only": true,
+    "sample_selector_not_used_as_trade_authority": true,
+    "weak_candidates_rejected": 4
+  },
+  "generated_at": "2026-10-08T17:45:09.977663+00:00",
+  "live_authorized": false,
+  "live_trading_allowed": false,
+  "next_safe_action": "Review the ranked basket, then run the owner-approved OANDA Practice read-only PAPER campaign locally to collect more closed paper trades.",
+  "order_execution": false,
+  "order_submission_allowed": false,
+  "packet_id": "PKT-FOREX-EDGE-AUTOPILOT-V1",
+  "permissions": {
+    "account_identifiers_used": false,
+    "background_loop_started": false,
+    "bank_movement_allowed": false,
+    "broker_action_allowed": false,
+    "broker_api_used": false,
+    "compounding_allowed": false,
+    "credentials_used": false,
+    "daemon_started": false,
+    "demo_authorized": false,
+    "env_read": false,
+    "live_authorized": false,
+    "live_trading_allowed": false,
+    "order_execution": false,
+    "order_submission_allowed": false,
+    "real_money_allowed": false,
+    "scheduler_started": false,
+    "webhook_started": false
+  },
+  "proof_gates": {
+    "broker_boundary_status": "OWNER_GATED_BROKER_CONNECTION_PROOF_READY_FOR_REVIEW",
+    "ledger_status": "PROFIT_PROOF_LEDGER_PROMOTABLE",
+    "profit_proof_status": "PROVEN",
+    "profit_truth_lock_status": "PROVEN",
+    "selector_status": "REVIEW_READY_CANDIDATE_SELECTED",
+    "statistical_classification": "STATISTICAL_PROFIT_PROOF_READY",
+    "strategy_promotion_status": "STRATEGY_PROMOTION_REVIEW_READY",
+    "trusted_22_6_status": "TRUSTED_PROFIT_22_6_STRATEGY_REVIEW_READY",
+    "walk_forward_oos_status": "PROVEN",
+    "walkforward_truth_lock_status": "PROVEN"
+  },
+  "protected_boundary": "broker_practice_read_only_owner_runtime_boundary",
+  "real_money_allowed": false,
+  "rejected_or_blocked_candidates": [
+    {
+      "candidate_id": "weak-negative-expectancy",
+      "classification": "PROFIT_PROOF_LEDGER_BLOCKED_NEGATIVE_EXPECTANCY",
+      "reasons": [
+        "expectancy -0.11 is not positive",
+        "profit factor 0.76 below minimum 1.25"
+      ],
+      "source": "profit_proof_ledger"
+    },
+    {
+      "candidate_id": "weak-low-profit-factor",
+      "classification": "PROFIT_PROOF_LEDGER_BLOCKED_LOW_PROFIT_FACTOR",
+      "reasons": [
+        "profit factor 1.18 below minimum 1.25"
+      ],
+      "source": "profit_proof_ledger"
+    },
+    {
+      "candidate_id": "CANDIDATE-GBPUSD-WEAK",
+      "classification": "REJECTED_BY_HARDENING",
+      "reasons": [
+        "insufficient_sample",
+        "low_profit_factor",
+        "missing_walk_forward_evidence",
+        "weak_evidence_depth",
+        "missing_owner_review_readiness"
+      ],
+      "source": "candidate_selector_hardening"
+    },
+    {
+      "candidate_id": "CANDIDATE-USDJPY-DRAWDOWN",
+      "classification": "REJECTED_BY_HARDENING",
+      "reasons": [
+        "excessive_drawdown",
+        "mitigation_worsened"
+      ],
+      "source": "candidate_selector_hardening"
+    }
+  ],
+  "runs": [
+    {
+      "candidate_basket": [
+        {
+          "candidate_id": "c2-eur-buy-stronger-review-ready",
+          "metrics": {
+            "after_costs": true,
+            "closed_trade_count": 42.0,
+            "consecutive_profitable_periods": 6.0,
+            "evidence_age_days": 1.0,
+            "expectancy": 0.26619048,
+            "max_allowed_drawdown": 0.5,
+            "max_drawdown": 0.22,
+            "max_evidence_age_days": 7.0,
+            "min_closed_trade_count": 30.0,
+            "min_expectancy": 0.0,
+            "min_profit_factor": 1.1,
+            "min_profitable_periods": 3.0,
+            "profit_factor": 6.85340314,
+            "sanitized": true
+          },
+          "permissions": "review_only_no_demo_live_or_order_authority",
+          "source": "profit_truth_lock_and_walkforward_oos_truth_lock",
+          "status": "PROVEN_FOR_OPERATOR_REVIEW_ONLY",
+          "tier": "PRIMARY_EDGE_PROOF"
+        },
+        {
+          "candidate_id": "CANDIDATE-EURUSD-C1",
+          "metrics": {
+            "candidate_id": "CANDIDATE-EURUSD-C1",
+            "evidence_depth_score": 86,
+            "expectancy": 0.34,
+            "max_drawdown_percent": 7.5,
+            "mitigation_worsened": false,
+            "owner_review_ready": true,
+            "profit_factor": 1.62,
+            "score": 137,
+            "trade_count": 42,
+            "walkforward_evidence": true
+          },
+          "permissions": "review_only_no_demo_live_or_order_authority",
+          "source": "candidate_selector_hardening",
+          "status": "REVIEW_READY_NEEDS_BROKER_SLIPPAGE_RECONCILIATION",
+          "tier": "SECONDARY_REVIEW_READY"
+        },
+        {
+          "candidate_id": "supertrend",
+          "metrics": {
+            "expectancy_status": "EXPECTANCY_STRONG",
+            "promotion_score": "100.00",
+            "proof_status": "PROOF_IMPROVING"
+          },
+          "permissions": "review_only_no_demo_live_or_order_authority",
+          "source": "strategy_promotion_router",
+          "status": "SUPER_TREND_PROOF_REVIEW_READY",
+          "tier": "STRATEGY_REVIEW_ONLY"
+        }
+      ],
+      "candidate_count": 3,
+      "cycle_index": 1,
+      "false_positive_controls": {
+        "all_trading_permissions_false": true,
+        "broker_or_slippage_gaps_keep_secondary_candidates_review_only": true,
+        "sample_selector_not_used_as_trade_authority": true,
+        "weak_candidates_rejected": 4
+      },
+      "proof_gates": {
+        "broker_boundary_status": "OWNER_GATED_BROKER_CONNECTION_PROOF_READY_FOR_REVIEW",
+        "ledger_status": "PROFIT_PROOF_LEDGER_PROMOTABLE",
+        "profit_proof_status": "PROVEN",
+        "profit_truth_lock_status": "PROVEN",
+        "selector_status": "REVIEW_READY_CANDIDATE_SELECTED",
+        "statistical_classification": "STATISTICAL_PROFIT_PROOF_READY",
+        "strategy_promotion_status": "STRATEGY_PROMOTION_REVIEW_READY",
+        "trusted_22_6_status": "TRUSTED_PROFIT_22_6_STRATEGY_REVIEW_READY",
+        "walk_forward_oos_status": "PROVEN",
+        "walkforward_truth_lock_status": "PROVEN"
+      },
+      "protected_boundary": "broker_practice_read_only_owner_runtime_boundary",
+      "rejected_or_blocked_candidates": [
+        {
+          "candidate_id": "weak-negative-expectancy",
+          "classification": "PROFIT_PROOF_LEDGER_BLOCKED_NEGATIVE_EXPECTANCY",
+          "reasons": [
+            "expectancy -0.11 is not positive",
+            "profit factor 0.76 below minimum 1.25"
+          ],
+          "source": "profit_proof_ledger"
+        },
+        {
+          "candidate_id": "weak-low-profit-factor",
+          "classification": "PROFIT_PROOF_LEDGER_BLOCKED_LOW_PROFIT_FACTOR",
+          "reasons": [
+            "profit factor 1.18 below minimum 1.25"
+          ],
+          "source": "profit_proof_ledger"
+        },
+        {
+          "candidate_id": "CANDIDATE-GBPUSD-WEAK",
+          "classification": "REJECTED_BY_HARDENING",
+          "reasons": [
+            "insufficient_sample",
+            "low_profit_factor",
+            "missing_walk_forward_evidence",
+            "weak_evidence_depth",
+            "missing_owner_review_readiness"
+          ],
+          "source": "candidate_selector_hardening"
+        },
+        {
+          "candidate_id": "CANDIDATE-USDJPY-DRAWDOWN",
+          "classification": "REJECTED_BY_HARDENING",
+          "reasons": [
+            "excessive_drawdown",
+            "mitigation_worsened"
+          ],
+          "source": "candidate_selector_hardening"
+        }
+      ],
+      "target_candidate_count": 3
+    }
+  ],
+  "scheduler_started": false,
+  "status": "TARGET_REVIEW_CANDIDATES_FOUND",
+  "stop_reason": "TARGET_REVIEW_CANDIDATES_FOUND_REPO_SAFE",
+  "target_candidate_count": 3,
+  "webhook_started": false
+}
