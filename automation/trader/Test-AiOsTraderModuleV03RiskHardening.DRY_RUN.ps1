@@ -128,11 +128,8 @@ assert ok_decision["live_execution_status"] == "BLOCKED"
 print("PASS: AIOS Trader Module v0.3 risk hardening DRY_RUN validation passed.")
 '@
 
-$TempScript = New-TemporaryFile
-try {
-    Set-Content -Path $TempScript -Value $PythonScript -Encoding UTF8
-    python $TempScript
-}
-finally {
-    Remove-Item -Path $TempScript -Force
+# Run from stdin; -B prevents Python from creating __pycache__ files.
+$PythonScript | python -B -
+if ($LASTEXITCODE -ne 0) {
+    exit $LASTEXITCODE
 }

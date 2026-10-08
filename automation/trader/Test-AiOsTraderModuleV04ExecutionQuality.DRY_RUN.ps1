@@ -26,7 +26,7 @@ $PriorValidators = @(
 )
 
 foreach ($Validator in $PriorValidators) {
-    $Output = powershell -ExecutionPolicy Bypass -File $Validator
+    $Output = powershell -NoProfile -File $Validator
     if ($LASTEXITCODE -ne 0) {
         throw "Prior validator failed: $Validator"
     }
@@ -117,11 +117,8 @@ for term in forbidden:
 print("PASS: AIOS Trader Module v0.4 execution quality DRY_RUN validation passed.")
 '@
 
-$TempScript = New-TemporaryFile
-try {
-    Set-Content -Path $TempScript -Value $PythonScript -Encoding UTF8
-    python $TempScript
-}
-finally {
-    Remove-Item -Path $TempScript -Force
+# Run from stdin; -B prevents Python from creating __pycache__ files.
+$PythonScript | python -B -
+if ($LASTEXITCODE -ne 0) {
+    exit $LASTEXITCODE
 }
