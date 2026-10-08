@@ -21,6 +21,7 @@ Safety boundary: No broker/API access, no credentials, no demo-order placement, 
 - position_size_policy_present
 - broker_readiness_checklist_present
 - account_capability_review_present
+- owner_approval_card_present
 - live_arming_checklist_present
 - final_governance_review_present
 
@@ -63,7 +64,7 @@ Safety boundary: No broker/API access, no credentials, no demo-order placement, 
   required_evidence: broker_readiness_checklist_present, account_capability_review_present
   human_gate: false
   broker_gate: true
-  status: passed
+  status: pending
 - OWNER_APPROVAL_GATE: Owner approval gate
   required_evidence: owner_approval_card_present
   human_gate: true
@@ -73,7 +74,7 @@ Safety boundary: No broker/API access, no credentials, no demo-order placement, 
   required_evidence: live_arming_checklist_present, final_governance_review_present
   human_gate: true
   broker_gate: true
-  status: passed
+  status: pending
 
 ## Safety boundary
 No broker/API access, no credentials, no demo-order placement, no live trading, no money movement, no scheduler installation, no daemon installation, and no webhook creation are performed.
