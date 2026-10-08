@@ -2,8 +2,16 @@ from __future__ import annotations
 
 import hashlib
 import json
-import msvcrt
 import os
+
+try:
+    import msvcrt
+except ImportError:  # pragma: no cover - exercised by Linux collection
+    msvcrt = None
+try:
+    import fcntl
+except ImportError:  # pragma: no cover - Windows fallback
+    fcntl = None
 import subprocess
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -2753,6 +2761,25 @@ def _write_holdout_guard(path: Path, datasets: Mapping[str, Mapping[str, Any]]) 
     return guard
 
 
+def _lock_one_byte(handle: Any) -> None:
+    if msvcrt is not None:
+        msvcrt.locking(handle.fileno(), msvcrt.LK_LOCK, 1)
+        return
+    if fcntl is not None:
+        fcntl.lockf(handle.fileno(), fcntl.LOCK_EX, 1)
+        return
+    raise RuntimeError('NO_FILE_LOCK_SUPPORT')
+
+
+def _unlock_one_byte(handle: Any) -> None:
+    if msvcrt is not None:
+        msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+        return
+    if fcntl is not None:
+        fcntl.lockf(handle.fileno(), fcntl.LOCK_UN, 1)
+        return
+    raise RuntimeError('NO_FILE_LOCK_SUPPORT')
+
 def claim_final_holdout_access(
     dataset_id: str,
     dataset_fingerprint: str | None = None,
@@ -2764,7 +2791,7 @@ def claim_final_holdout_access(
         raise ValueError('FINAL_HOLDOUT_GUARD_MISSING')
     with guard_path.open('r+', encoding='utf-8') as handle:
         handle.seek(0)
-        msvcrt.locking(handle.fileno(), msvcrt.LK_LOCK, 1)
+        _lock_one_byte(handle)
         try:
             handle.seek(0)
             guard = json.load(handle)
@@ -2792,7 +2819,7 @@ def claim_final_holdout_access(
             return dict(dataset)
         finally:
             handle.seek(0)
-            msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+            _unlock_one_byte(handle)
 
 
 def evaluate_holdout_once(
