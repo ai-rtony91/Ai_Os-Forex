@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from automation.forex_engine import live_runtime_executor_v1 as executor
+from automation.forex_engine import oanda_live_runtime_connector_v2 as connector_mod
 
 
 class FakeLiveConnector:
@@ -88,6 +89,24 @@ def _runtime_request() -> dict:
         _command_contract(),
         _auth_gate(),
         runtime_context=_runtime_context(),
+    )
+
+
+def _oanda_config() -> dict:
+    return connector_mod.build_oanda_live_connector_config(
+        {
+            "operator_approved_live_runtime": True,
+            "live_endpoint_confirmed": True,
+            "credentials_runtime_only": True,
+            "credentials_persisted": False,
+            "account_id_persisted": False,
+            "single_order_only": True,
+            "micro_size_only": True,
+            "no_retry": True,
+            "no_loop": True,
+            "max_order_count": 1,
+            "transport_injected": True,
+        }
     )
 
 
@@ -179,6 +198,27 @@ def test_executor_submits_exactly_one_order_with_fake_connector() -> None:
     assert result["no_loop"] is True
     assert result["no_retry"] is True
     assert result["one_order_only"] is True
+
+
+def test_executor_blocks_connector_refusal_without_marking_submitted() -> None:
+    command = _command_contract()
+    command["sanitized_order_intent"]["units"] = connector_mod.MAX_LIVE_MICRO_UNITS + 1
+    request = executor.build_live_runtime_execution_request(
+        command,
+        _auth_gate(),
+        runtime_context=_runtime_context(),
+    )
+    connector = connector_mod.OandaLiveRuntimeConnectorV2(_oanda_config(), FakeLiveConnector())
+
+    result = executor.execute_single_live_micro_trade(request, connector, execute_requested=True)
+
+    assert result["execution_status"] == executor.LIVE_RUNTIME_EXECUTION_BLOCKED
+    assert result["executed"] is False
+    assert result["order_count"] == 0
+    assert result["sanitized_broker_result"]["submitted"] is False
+    assert result["sanitized_broker_result"]["accepted"] is False
+    assert "connector_order_not_submitted" in result["blockers"]
+    assert "units_exceed_micro_max" in result["blockers"]
 
 
 def test_executor_output_is_sanitized() -> None:

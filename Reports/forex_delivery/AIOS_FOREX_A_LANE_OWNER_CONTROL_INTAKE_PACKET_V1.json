@@ -1,0 +1,100 @@
+{
+  "created_utc": "2026-10-09T20:52:03+00:00",
+  "do_not_include": [
+    "API tokens",
+    "passwords",
+    "full broker account IDs",
+    "banking details",
+    "private legal identifiers",
+    "screenshots containing secrets or account numbers"
+  ],
+  "packet_schema": "AIOS_FOREX_A_LANE_OWNER_CONTROL_INTAKE_PACKET_V1",
+  "protected_actions_not_taken": [
+    "no broker API",
+    "no credentials",
+    "no orders",
+    "no execution policy changes",
+    "no script signing",
+    "no claim script execution"
+  ],
+  "purpose": "Collect only sanitized owner-provided facts needed to unblock A-lane install/control gates before PAPER/LIVE consideration.",
+  "required_sections": {
+    "broker_permission_boundary": {
+      "fields": {
+        "account_currency": "",
+        "account_type_sanitized": "",
+        "asset_class": "forex",
+        "broker_environment": "practice",
+        "broker_house_restrictions": [],
+        "broker_name_sanitized": "OANDA",
+        "demo_sandbox_order_preview_supported": "",
+        "effective_leverage_limit": "",
+        "evidence_timestamp_utc": "",
+        "fifo_required": "",
+        "hedging_available": "",
+        "instrument_tradable": "",
+        "long_permission": "",
+        "margin_available_confirmed": "",
+        "max_units": "",
+        "one_order_only_supported": "",
+        "order_type_supported": "market",
+        "proof_source_sanitized": "",
+        "short_permission": "",
+        "stop_loss_supported": "",
+        "take_profit_supported": ""
+      },
+      "status": "UNKNOWN"
+    },
+    "daily_loss_authority": {
+      "fields": {
+        "daily_loss_cap_unit": "USD or ACCOUNT_PERCENT",
+        "daily_loss_cap_value": "",
+        "evidence_timestamp_utc": "",
+        "owner_attestation": "",
+        "restart_persistence_required": true,
+        "rollover_cutoff_time": "",
+        "trading_day_timezone": ""
+      },
+      "status": "UNKNOWN"
+    },
+    "execution_policy_resolution": {
+      "fields": {
+        "approved_execution_policy_route": "",
+        "evidence_timestamp_utc": "",
+        "owner_attestation": "",
+        "policy_scope": "CurrentUser or approved enterprise route",
+        "post_sign_claim_script_sha256": "",
+        "post_sign_release_script_sha256": "",
+        "reviewed_claim_script_sha256": "33a8eb24a4113abb3126a5b0e65ff595dc2f8c16d6857afd185c6a915007f087",
+        "reviewed_release_script_sha256": "9b829a7c292a991f39891594efe5d2d0fd151e9a0a444bc9a85ff07ae2d395b6",
+        "trusted_signer_name": ""
+      },
+      "status": "UNKNOWN"
+    },
+    "kill_switch_authority": {
+      "fields": {
+        "audit_logging_declared": true,
+        "credential_revoke_path": "",
+        "evidence_timestamp_utc": "",
+        "manual_operator_stop_path": "",
+        "max_daily_loss_stop_declared": true,
+        "max_drawdown_stop_declared": true,
+        "notification_path": "",
+        "owner_attestation": ""
+      },
+      "status": "UNKNOWN"
+    },
+    "owner_safety_controls_refresh": {
+      "fields": {
+        "daily_stop_state_artifact": "",
+        "evidence_timestamp_utc": "",
+        "freshness_window_hours": 24,
+        "kill_switch_state_artifact": "",
+        "max_loss_state_artifact": "",
+        "monitoring_ready_artifact": "",
+        "owner_attestation": ""
+      },
+      "status": "UNKNOWN"
+    }
+  }
+}

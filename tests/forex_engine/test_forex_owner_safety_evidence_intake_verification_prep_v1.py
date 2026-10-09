@@ -511,6 +511,23 @@ def test_pipeline_with_state_report_writes_preserves_owner_evidence_and_marks_pr
     assert result_template["controls"]["daily_stop_state"]["evidence_present"] is True
 
 
+def test_run_collection_without_input_path_loads_existing_default_template(
+    tmp_path: Path,
+    monkeypatch,
+) -> None:
+    default_template = tmp_path / "AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_TEMPLATE_V1.json"
+    intake._write_json(default_template, _complete_owner_input_payload())
+    monkeypatch.setattr(intake, "DEFAULT_INPUT_TEMPLATE_PATH", default_template)
+
+    payload = intake.run_collection_pipeline()
+
+    assert (
+        payload["result"]["status"]
+        == "OWNER_SAFETY_EVIDENCE_PRESENT_UNVERIFIED"
+    )
+    assert payload["result"]["present_unverified_controls"] == list(intake.CONTROL_FIELDS)
+
+
 def test_run_collection_validator_chain_threads_custom_effective_paths(tmp_path: Path) -> None:
     input_template = tmp_path / "custom_input_template.json"
     template_output = tmp_path / "custom_template_output.json"
@@ -949,6 +966,7 @@ def test_cli_writes_template_state_report_and_next_packet(tmp_path: Path) -> Non
 
     report_text = report_output.read_text(encoding="utf-8")
     next_packet_text = next_packet_output.read_text(encoding="utf-8")
-    assert "Status: OWNER_SAFETY_EVIDENCE_INTAKE_REQUIRED" in report_text
+    assert "Status: OWNER_SAFETY_EVIDENCE_INTAKE_REVIEW" in report_text
     assert "Owner evidence completion percent: 0.0%" in report_text
+    assert "Stale controls:" in report_text
     assert next_packet_text.startswith("CODEX-ONLY PROMPT")

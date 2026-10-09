@@ -28,7 +28,7 @@ WORKTREE
 C:\Dev\Ai.Os
 
 BRANCH
-main
+codex/forex-edge-autopilot-20261008
 
 MISSION / PROGRAM / EPIC / BUCKET / PACKET IDENTITY
 Mission ID: MISSION-AIOS-FOREX-FINISH-LINE-V1
@@ -107,7 +107,7 @@ git diff --check -- automation/forex_engine/forex_owner_safety_evidence_intake_v
 git status --short --branch
 
 SAFE NEXT ACTION
-Sanitized evidence is present for all four controls and currently unverified; route to later verification only after explicit verification mechanisms are run. Then route to later verification packet only when explicit verification mechanism is available.
+Owner must refresh stale evidence entries with current sanitized artifacts. Then route to later verification packet only when explicit verification mechanism is available.
 
 STOP POINT
 Stop after validators and final report.
@@ -116,14 +116,14 @@ Do not push.
 Do not create PR.
 
 FINAL REPORT FORMAT
-CURRENT_BRANCH:main
-CURRENT_HEAD:755f1bb0
+CURRENT_BRANCH:codex/forex-edge-autopilot-20261008
+CURRENT_HEAD:4fdf3061
 MISSING_CONTROLS:none
-PRESENT_UNVERIFIED_CONTROLS:kill_switch_state, daily_stop_state, max_loss_state, monitoring_ready
-STALE_CONTROLS:
+PRESENT_UNVERIFIED_CONTROLS:
+STALE_CONTROLS:kill_switch_state, daily_stop_state, max_loss_state, monitoring_ready
 INVALID_CONTROLS:
-OWNER_EVIDENCE_COMPLETION_PERCENT:100.0
-NEXT_RESULT_STATUS:OWNER_SAFETY_EVIDENCE_PRESENT_UNVERIFIED
+OWNER_EVIDENCE_COMPLETION_PERCENT:0.0
+NEXT_RESULT_STATUS:OWNER_SAFETY_EVIDENCE_INTAKE_REVIEW
 VERIFICATION_CLAIMED:False
 BROKER_API_USED:False
 CREDENTIALS_USED:False
