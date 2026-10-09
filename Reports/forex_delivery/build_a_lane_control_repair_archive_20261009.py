@@ -18,6 +18,8 @@ FILES = [
     "tests/forex_engine/test_live_runtime_executor_v1.py",
     "tests/forex_engine/test_forex_owner_safety_evidence_intake_verification_prep_v1.py",
     "tests/forex_engine/test_forex_owner_safety_evidence_artifact_verifier_v1.py",
+    "automation/forex_engine/forex_a_lane_owner_control_intake_validator_v1.py",
+    "tests/forex_engine/test_forex_a_lane_owner_control_intake_validator_v1.py",
     "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_V1_STATE.json",
     "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_V1_REPORT.md",
     "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_NEXT_CODEX_PACKET_V1.md",
@@ -57,7 +59,7 @@ def main() -> int:
         "protected_actions_not_taken": ["no broker API", "no credentials", "no orders", "no execution policy change", "no script signing", "no claim script execution"],
         "verification": {
             "native_focused_tests": "76 passed",
-            "native_broader_a_lane_tests": "207 passed",
+            "native_broader_a_lane_tests": "211 passed",
             "governance_packets": "PASS",
         },
         "entries": entries,

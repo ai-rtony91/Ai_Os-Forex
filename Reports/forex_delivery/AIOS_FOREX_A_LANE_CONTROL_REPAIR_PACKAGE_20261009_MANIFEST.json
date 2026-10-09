@@ -1,5 +1,5 @@
 {
-  "created_utc": "2026-10-09T20:52:14+00:00",
+  "created_utc": "2026-10-09T20:54:19+00:00",
   "entries": [
     {
       "path": "automation/forex_engine/live_runtime_executor_v1.py",
@@ -30,6 +30,16 @@
       "path": "tests/forex_engine/test_forex_owner_safety_evidence_artifact_verifier_v1.py",
       "sha256": "f84762eaec28dd0d97eb7d7592946f944351bea047337d64c2446963c6821622",
       "size_bytes": 11130
+    },
+    {
+      "path": "automation/forex_engine/forex_a_lane_owner_control_intake_validator_v1.py",
+      "sha256": "d81468a3269476d39b4a42cab60f76a716b1855c820552043a082e9335c7421b",
+      "size_bytes": 6254
+    },
+    {
+      "path": "tests/forex_engine/test_forex_a_lane_owner_control_intake_validator_v1.py",
+      "sha256": "fa47306523d05d54a0a4f1d47d68e92e51cddf06cfa80e57cb1928183be84b4b",
+      "size_bytes": 5857
     },
     {
       "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_V1_STATE.json",
@@ -134,7 +144,7 @@
   "scope": "A-lane platform/control/safety only; excludes Friend B data/strategy/PAPER lane files",
   "verification": {
     "governance_packets": "PASS",
-    "native_broader_a_lane_tests": "207 passed",
+    "native_broader_a_lane_tests": "211 passed",
     "native_focused_tests": "76 passed"
   }
 }
