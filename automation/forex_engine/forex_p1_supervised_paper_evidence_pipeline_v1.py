@@ -53,7 +53,7 @@ REQUIRED_FIELDS = (
     "reviewed_by", "review_timestamp_utc",
 )
 OPTIONAL_IDENTITY_FIELDS = (
-    "strategy_name", "mode", "paper_only", "strategy_config",
+    "strategy_name", "mode", "paper_only", "strategy_config", "candidate_id",
 )
 NUMERIC_FIELDS = (
     "entry_price", "exit_price", "stop_price", "target_price",

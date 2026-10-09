@@ -98,11 +98,18 @@ def candle_from_repo_row(row: dict[str, Any]) -> dict[str, Any]:
         "bid_close": float(bid["c"]),
         "ask_close": float(ask["c"]),
         "spread": max(0.0, float(ask["c"]) - float(bid["c"])),
-        "complete": True,
+        "complete": row.get("complete") is True,
     }
 
 
+def _require_m5_admission() -> None:
+    # This consumer has no independent critical-gap authenticator. Metadata
+    # labels, retained pair lists and cached rows cannot supply that authority.
+    raise ValueError("INDEPENDENT_CRITICAL_GAP_CLASSIFICATION_NOT_VERIFIED")
+
+
 def load_m5_rows(instrument: str) -> list[dict[str, Any]]:
+    _require_m5_admission()
     cache_key = ("M5_RAW", instrument)
     if cache_key in ROW_CACHE:
         return ROW_CACHE[cache_key]
@@ -161,6 +168,13 @@ def load_h1_rows(instrument: str) -> list[dict[str, Any]]:
 
 
 def resample(rows: list[dict[str, Any]], minutes: int) -> list[dict[str, Any]]:
+    """Aggregate observed rows without certifying bucket completeness.
+
+    The loaders can truncate or downsample source rows. Individual completed
+    candles do not prove that every required constituent is present. No
+    expected-constituent/market-calendar contract is supplied here, so even
+    apparently contiguous observations remain unverified.
+    """
     if not rows:
         return []
     buckets: dict[Any, list[dict[str, Any]]] = {}
@@ -186,22 +200,22 @@ def resample(rows: list[dict[str, Any]], minutes: int) -> list[dict[str, Any]]:
                 "bid_close": chunk[-1]["bid_close"],
                 "ask_close": chunk[-1]["ask_close"],
                 "spread": chunk[-1]["spread"],
-                "complete": True,
+                "complete": False,
+                "completeness_status": "UNVERIFIED",
+                "completeness_reason": "expected_constituents_unverified",
             }
         )
     return out
 
 
 def pair_universe() -> list[str]:
-    state = read_json(M5_STATE)
-    pairs = sorted(state.get("eligible_pairs") or {a.get("instrument") for a in state.get("artifacts", []) if a.get("instrument")})
-    if len(pairs) <= PAIR_SAMPLE_LIMIT:
-        return list(pairs)
-    ranked = sorted(pairs, key=lambda p: sha256_text(f"{PACKET_ID}|{p}"))
-    return sorted(ranked[:PAIR_SAMPLE_LIMIT])
+    _require_m5_admission()
+    return []
 
 
 def candles_for(instrument: str, timeframe: str) -> list[dict[str, Any]]:
+    if timeframe in LOWER_TFS:
+        _require_m5_admission()
     cache_key = (timeframe, instrument)
     if cache_key in ROW_CACHE:
         return ROW_CACHE[cache_key]
@@ -385,6 +399,10 @@ def evaluate_hypothesis(hypothesis: dict[str, Any], pair_rows: dict[str, list[di
 
 
 def build_indicator_caches(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    # Indicators filter incomplete rows. Reject them before that filtering can
+    # misalign indicator indexes with the original price rows used by scoring.
+    if any(row.get("complete") is not True for row in rows):
+        raise ValueError("unverified_candle_completeness")
     return {
         "st": {params: supertrend(rows, params[0], params[1]) for params in set(SUPERTREND_GRID + [(10, 3.0), (14, 3.0)])},
         "macd": {params: macd(rows, *params) for params in set(MACD_GRID + [(12, 26, 9), (8, 17, 9)])},
@@ -393,8 +411,8 @@ def build_indicator_caches(rows: list[dict[str, Any]]) -> dict[str, Any]:
 
 
 def run_surface() -> dict[str, Any]:
-    ROOT.mkdir(parents=True, exist_ok=True)
     pairs = pair_universe()
+    ROOT.mkdir(parents=True, exist_ok=True)
     coverage = coverage_matrix()
     hypotheses = [h for h in hypothesis_grid() if coverage.get(h["timeframe"], {}).get("eligible_for_development")]
     ledger: list[dict[str, Any]] = []

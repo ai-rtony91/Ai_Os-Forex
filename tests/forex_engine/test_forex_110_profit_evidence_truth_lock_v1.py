@@ -11,13 +11,12 @@ if str(ROOT) not in sys.path:
 
 from automation.forex_engine.forex_110_profit_evidence_truth_lock_v1 import (  # noqa: E402
     PROFIT_PROOF_BLOCKED,
-    PROFIT_PROOF_PROVEN,
-    PROFIT_PROOF_REVIEW_READY_PERSISTENCE_BLOCKED,
     build_report_markdown,
     run_profit_evidence_truth_lock,
 )
 from automation.forex_engine.profit_proof_ledger_v1 import (  # noqa: E402
     build_sample_all_blocked_candidates,
+    build_sample_profit_proof_candidates,
 )
 from scripts.forex_delivery.run_forex_110_profit_evidence_truth_lock_v1 import (  # noqa: E402
     REPORT_NAME,
@@ -95,13 +94,15 @@ def assert_permissions_false(result: dict) -> None:
         assert result["permissions"][flag] is False
 
 
-def test_truth_lock_proves_only_when_intake_and_ledger_both_pass(tmp_path: Path) -> None:
+def test_truth_lock_keeps_passing_synthetic_metrics_diagnostic(tmp_path: Path) -> None:
     report_root = tmp_path / "reports"
     write_complete_persistent_profit_report(report_root)
 
-    result = run_profit_evidence_truth_lock(report_root)
+    result = run_profit_evidence_truth_lock(report_root, build_sample_profit_proof_candidates())
 
-    assert result["profit_proof_status"] == PROFIT_PROOF_PROVEN
+    assert result["profit_proof_status"] == PROFIT_PROOF_BLOCKED
+    assert result["source_authentication_status"] == "UNVERIFIED"
+    assert "NO_INDEPENDENT_VERIFIER_CONNECTED" in result["blockers"]
     assert result["ledger_status"] == "PROFIT_PROOF_LEDGER_PROMOTABLE"
     assert_permissions_false(result)
 
@@ -110,10 +111,12 @@ def test_truth_lock_blocks_when_ledger_promotable_but_persistence_blocked(tmp_pa
     report_root = tmp_path / "reports"
     write_blocked_persistent_profit_report(report_root)
 
-    result = run_profit_evidence_truth_lock(report_root)
+    result = run_profit_evidence_truth_lock(report_root, build_sample_profit_proof_candidates())
 
     assert result["profit_proof_status"] == PROFIT_PROOF_BLOCKED
-    assert result["truth_lock_status"] == PROFIT_PROOF_REVIEW_READY_PERSISTENCE_BLOCKED
+    assert result["truth_lock_status"] == PROFIT_PROOF_BLOCKED
+    assert result["diagnostic_ledger_promotable"] is True
+    assert result["diagnostic_persistence_ready"] is False
     assert "profitable periods are below threshold" in result["blockers"]
     assert_permissions_false(result)
 
