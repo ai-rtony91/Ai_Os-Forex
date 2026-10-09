@@ -167,10 +167,20 @@ def execute_single_live_micro_trade(
     if status == LIVE_RUNTIME_EXECUTION_READY and execute_requested:
         intent = dict(request.get("sanitized_order_intent", {}))
         result = live_connector.place_live_micro_order(dict(intent))
-        executed = True
-        order_count = 1
-        status = LIVE_RUNTIME_EXECUTION_SUBMITTED
         broker_result = _sanitize_mapping(result or {})
+        submitted = bool(broker_result.get("submitted", False))
+        accepted = bool(broker_result.get("accepted", submitted))
+        if submitted:
+            executed = True
+            order_count = 1
+            status = LIVE_RUNTIME_EXECUTION_SUBMITTED
+        else:
+            status = LIVE_RUNTIME_EXECUTION_BLOCKED
+            blockers.append("connector_order_not_submitted")
+            blockers.extend(str(blocker) for blocker in broker_result.get("blockers", ()) if blocker)
+            order_count = int(broker_result.get("order_count", 0) or 0)
+        broker_result["submitted"] = submitted
+        broker_result["accepted"] = accepted
 
     return {
         "execution_schema": "AIOS_SINGLE_LIVE_MICRO_TRADE_EXECUTOR_V1",

@@ -1,0 +1,298 @@
+--- a/automation/forex_engine/forex_mtf_gross_edge_surface_v1.py
++++ b/automation/forex_engine/forex_mtf_gross_edge_surface_v1.py
+@@ -98,11 +98,18 @@
+         "bid_close": float(bid["c"]),
+         "ask_close": float(ask["c"]),
+         "spread": max(0.0, float(ask["c"]) - float(bid["c"])),
+-        "complete": True,
++        "complete": row.get("complete") is True,
+     }
+ 
+ 
++def _require_m5_admission() -> None:
++    # This consumer has no independent critical-gap authenticator. Metadata
++    # labels, retained pair lists and cached rows cannot supply that authority.
++    raise ValueError("INDEPENDENT_CRITICAL_GAP_CLASSIFICATION_NOT_VERIFIED")
++
++
+ def load_m5_rows(instrument: str) -> list[dict[str, Any]]:
++    _require_m5_admission()
+     cache_key = ("M5_RAW", instrument)
+     if cache_key in ROW_CACHE:
+         return ROW_CACHE[cache_key]
+@@ -161,6 +168,13 @@
+ 
+ 
+ def resample(rows: list[dict[str, Any]], minutes: int) -> list[dict[str, Any]]:
++    """Aggregate observed rows without certifying bucket completeness.
++
++    The loaders can truncate or downsample source rows. Individual completed
++    candles do not prove that every required constituent is present. No
++    expected-constituent/market-calendar contract is supplied here, so even
++    apparently contiguous observations remain unverified.
++    """
+     if not rows:
+         return []
+     buckets: dict[Any, list[dict[str, Any]]] = {}
+@@ -186,22 +200,22 @@
+                 "bid_close": chunk[-1]["bid_close"],
+                 "ask_close": chunk[-1]["ask_close"],
+                 "spread": chunk[-1]["spread"],
+-                "complete": True,
++                "complete": False,
++                "completeness_status": "UNVERIFIED",
++                "completeness_reason": "expected_constituents_unverified",
+             }
+         )
+     return out
+ 
+ 
+ def pair_universe() -> list[str]:
+-    state = read_json(M5_STATE)
+-    pairs = sorted(state.get("eligible_pairs") or {a.get("instrument") for a in state.get("artifacts", []) if a.get("instrument")})
+-    if len(pairs) <= PAIR_SAMPLE_LIMIT:
+-        return list(pairs)
+-    ranked = sorted(pairs, key=lambda p: sha256_text(f"{PACKET_ID}|{p}"))
+-    return sorted(ranked[:PAIR_SAMPLE_LIMIT])
++    _require_m5_admission()
++    return []
+ 
+ 
+ def candles_for(instrument: str, timeframe: str) -> list[dict[str, Any]]:
++    if timeframe in LOWER_TFS:
++        _require_m5_admission()
+     cache_key = (timeframe, instrument)
+     if cache_key in ROW_CACHE:
+         return ROW_CACHE[cache_key]
+@@ -385,6 +399,10 @@
+ 
+ 
+ def build_indicator_caches(rows: list[dict[str, Any]]) -> dict[str, Any]:
++    # Indicators filter incomplete rows. Reject them before that filtering can
++    # misalign indicator indexes with the original price rows used by scoring.
++    if any(row.get("complete") is not True for row in rows):
++        raise ValueError("unverified_candle_completeness")
+     return {
+         "st": {params: supertrend(rows, params[0], params[1]) for params in set(SUPERTREND_GRID + [(10, 3.0), (14, 3.0)])},
+         "macd": {params: macd(rows, *params) for params in set(MACD_GRID + [(12, 26, 9), (8, 17, 9)])},
+@@ -393,8 +411,8 @@
+ 
+ 
+ def run_surface() -> dict[str, Any]:
++    pairs = pair_universe()
+     ROOT.mkdir(parents=True, exist_ok=True)
+-    pairs = pair_universe()
+     coverage = coverage_matrix()
+     hypotheses = [h for h in hypothesis_grid() if coverage.get(h["timeframe"], {}).get("eligible_for_development")]
+     ledger: list[dict[str, Any]] = []
+--- /dev/null
++++ b/tests/forex_engine/test_forex_mtf_aggregation_completeness_v1.py
+@@ -0,0 +1,126 @@
++"""Synthetic timestamps only; no source data, research run, or broker access."""
++from copy import deepcopy
++from datetime import datetime, timedelta, timezone
++
++import pytest
++
++from automation.forex_engine import forex_mtf_gross_edge_surface_v1 as surface
++
++
++def candle(stamp, value=1.0, complete=True):
++    return {
++        "time": stamp, "timestamp": stamp.isoformat().replace("+00:00", "Z"),
++        "open": value, "high": value + 2, "low": value - 1,
++        "close": value + 1, "bid_close": value + .9,
++        "ask_close": value + 1.1, "spread": .2, "complete": complete,
++    }
++
++
++def assert_unverified(row):
++    assert row["complete"] is False
++    assert row["completeness_status"] == "UNVERIFIED"
++    assert row["completeness_reason"] == "expected_constituents_unverified"
++
++
++@pytest.mark.parametrize("minutes", [15, 30, 240, 1440, 10080, 43200])
++def test_sparse_source_rows_never_certify_an_aggregate(minutes):
++    # Returning complete=True for the only observed bar would fail this test.
++    rows = [candle(datetime(2024, 2, 14, 12, tzinfo=timezone.utc))]
++    out = surface.resample(rows, minutes)
++    assert len(out) == 1
++    assert_unverified(out[0])
++
++
++@pytest.mark.parametrize("stamps", [
++    [datetime(2024, 2, 1, tzinfo=timezone.utc) + timedelta(hours=i) for i in range(29 * 24)],
++    [datetime(2024, 2, 1, tzinfo=timezone.utc), datetime(2024, 2, 29, 23, tzinfo=timezone.utc)],
++    [datetime(2024, 2, 14, 12, tzinfo=timezone.utc)] * 4,
++], ids=["every_calendar_hour", "month_endpoints_only", "duplicate_hours"])
++def test_observed_hour_counts_do_not_invent_an_fx_calendar(stamps):
++    out = surface.resample([candle(stamp) for stamp in stamps], 43200)
++    assert len(out) == 1
++    assert_unverified(out[0])
++
++
++@pytest.mark.parametrize("complete", [False, None, True])
++def test_source_completion_does_not_prove_bucket_coverage(complete):
++    out = surface.resample([candle(datetime(2024, 2, 1, tzinfo=timezone.utc), complete=complete)], 43200)
++    assert_unverified(out[0])
++
++
++def test_calendar_months_keep_leap_day_and_year_boundaries_and_ohlc():
++    stamps = [datetime(2023, 12, 31, 23, tzinfo=timezone.utc),
++              datetime(2024, 1, 1, tzinfo=timezone.utc),
++              datetime(2024, 2, 1, tzinfo=timezone.utc),
++              datetime(2024, 2, 29, 23, tzinfo=timezone.utc),
++              datetime(2024, 3, 1, tzinfo=timezone.utc)]
++    rows = [candle(stamp, value=i + 1) for i, stamp in enumerate(stamps)]
++    before = deepcopy(rows)
++    out = surface.resample(list(reversed(rows)), 43200)
++    assert [(r["time"].year, r["time"].month) for r in out] == [(2023, 12), (2024, 1), (2024, 2), (2024, 3)]
++    feb = out[2]
++    assert {k: feb[k] for k in ("open", "high", "low", "close")} == {"open": 3, "high": 6, "low": 2, "close": 5}
++    assert feb["timestamp"] == rows[3]["timestamp"]
++    assert feb["bid_close"] == rows[3]["bid_close"]
++    assert feb["ask_close"] == rows[3]["ask_close"]
++    assert rows == before
++    for row in out:
++        assert_unverified(row)
++
++
++@pytest.mark.parametrize("flag", [False, None, 1, "true", "false", "absent"])
++def test_native_row_conversion_does_not_invent_source_completion(flag):
++    raw = {"time": "2024-02-01T00:00:00Z", "mid": {"o": 1, "h": 2, "l": .5, "c": 1.5}}
++    if flag != "absent":
++        raw["complete"] = flag
++    assert surface.candle_from_repo_row(raw)["complete"] is False
++
++
++def test_native_row_conversion_preserves_explicit_completed_flag():
++    raw = {"time": "2024-02-01T00:00:00Z", "mid": {"o": 1, "h": 2, "l": .5, "c": 1.5}, "complete": True}
++    assert surface.candle_from_repo_row(raw)["complete"] is True
++
++
++def test_h1_sampling_cannot_become_monthly_completeness(monkeypatch):
++    start = datetime(2024, 1, 1, tzinfo=timezone.utc)
++    source = [{"time": start + timedelta(hours=i),
++               "mid": {"o": 1, "h": 2, "l": .5, "c": 1.5},
++               "bid": {"c": 1.4}, "ask": {"c": 1.6}}
++              for i in range(3200)]
++    # p27's inspected loader contract yields completed source candles only.
++    # Replace only its IO boundary; the real load_h1_rows/resample execute.
++    monkeypatch.setattr(surface.p27, "load_h1", lambda *args: source)
++    monkeypatch.setattr(surface, "ROW_CACHE", {})
++    rows = surface.load_h1_rows("SYNTHETIC_ONLY")
++    assert len(rows) == 1600
++    assert rows[1]["time"] - rows[0]["time"] == timedelta(hours=2)
++    assert surface.load_h1_rows("SYNTHETIC_ONLY") is rows
++    assert all(row["complete"] is True for row in rows)  # Individual H1 closure only.
++    out = surface.candles_for("SYNTHETIC_ONLY", "MN1")
++    assert out
++    for row in out:
++        assert_unverified(row)
++
++
++@pytest.mark.parametrize("flag", [False, None, 1, "true"])
++def test_indicator_cache_rejects_uncertain_rows_before_index_misalignment(flag):
++    start = datetime(2024, 2, 1, tzinfo=timezone.utc)
++    rows = [candle(start + timedelta(hours=i)) for i in range(80)]
++    rows[25]["complete"] = flag
++    with pytest.raises(ValueError, match="^unverified_candle_completeness$"):
++        surface.build_indicator_caches(rows)
++
++
++def test_completed_native_indicator_rows_keep_full_length():
++    start = datetime(2024, 2, 1, tzinfo=timezone.utc)
++    rows = [candle(start + timedelta(hours=i), value=1 + i / 100) for i in range(80)]
++    caches = surface.build_indicator_caches(rows)
++    assert all(len(series) == len(rows) for values in caches.values() for series in values.values())
++
++
++def test_empty_input_does_not_synthesize_a_month():
++    assert surface.resample([], 43200) == []
++
++
++def test_timeframe_universe_does_not_gain_s45_or_six_month_admission():
++    assert surface.TIMEFRAME_MINUTES == {"M5": 5, "M15": 15, "M30": 30, "H1": 60, "H4": 240, "D1": 1440, "W1": 10080, "MN1": 43200}
+--- /dev/null
++++ b/tests/forex_engine/test_forex_mtf_consumer_admission_v1.py
+@@ -0,0 +1,79 @@
++"""Synthetic metadata and rejecting IO sentinels; no real price data or scoring."""
++from copy import deepcopy
++import json
++
++import pytest
++
++from automation.forex_engine import forex_mtf_gross_edge_surface_v1 as surface
++
++BLOCKER = "INDEPENDENT_CRITICAL_GAP_CLASSIFICATION_NOT_VERIFIED"
++
++
++@pytest.fixture
++def metadata(tmp_path, monkeypatch):
++    path = tmp_path / "manifest.json"
++    value = {
++        "status": "EXTERNAL_DATA_BLOCKED",
++        "eligible_pairs": ["SYNTHETIC_PAIR"],
++        "artifacts": [{"instrument": "SYNTHETIC_PAIR", "path": "SYNTHETIC_ONLY.gz"}],
++    }
++    path.write_text(json.dumps(value))
++    monkeypatch.setattr(surface, "M5_STATE", path)
++    monkeypatch.setattr(surface, "ROW_CACHE", {})
++
++    def forbidden(*args, **kwargs):
++        raise AssertionError("price_io_coverage_or_scoring_reached_before_admission")
++
++    monkeypatch.setattr(surface, "resolve_m5_artifact", forbidden)
++    monkeypatch.setattr(surface.gzip, "open", forbidden)
++    monkeypatch.setattr(surface, "coverage_matrix", forbidden)
++    monkeypatch.setattr(surface, "evaluate_hypothesis", forbidden)
++    monkeypatch.setattr(surface.p27, "load_h1", forbidden)
++    return path, value
++
++
++@pytest.mark.parametrize("case", ["retained_pairs", "artifact_fallback", "self_asserted_valid", "missing_manifest"])
++def test_pair_scope_rejects_unverified_metadata(metadata, case):
++    path, value = metadata
++    if case == "artifact_fallback":
++        value.pop("eligible_pairs")
++    if case == "self_asserted_valid":
++        value.update(status="FROZEN_VALID", critical_gap_classification_verified=True,
++                     unclassified_critical_gaps=0, proof_sha256="a" * 64)
++    if case == "missing_manifest":
++        path.unlink()
++    else:
++        path.write_text(json.dumps(value))
++    before = path.read_bytes() if path.exists() else None
++    with pytest.raises(ValueError, match="^" + BLOCKER + "$"):
++        surface.pair_universe()
++    assert (path.read_bytes() if path.exists() else None) == before
++
++
++@pytest.mark.parametrize("cached", [False, True])
++def test_direct_m5_loader_denies_before_artifact_or_cached_rows(metadata, cached):
++    if cached:
++        surface.ROW_CACHE[("M5_RAW", "SYNTHETIC_PAIR")] = [{"synthetic_cache_sentinel": True}]
++    before = deepcopy(surface.ROW_CACHE)
++    with pytest.raises(ValueError, match="^" + BLOCKER + "$"):
++        surface.load_m5_rows("SYNTHETIC_PAIR")
++    assert surface.ROW_CACHE == before
++
++
++@pytest.mark.parametrize("timeframe", ["M5", "M15", "M30"])
++@pytest.mark.parametrize("cached", [False, True])
++def test_candle_entry_denies_unverified_native_and_derived_cache(metadata, timeframe, cached):
++    if cached:
++        surface.ROW_CACHE[(timeframe, "SYNTHETIC_PAIR")] = [{"synthetic_cache_sentinel": True}]
++    before = deepcopy(surface.ROW_CACHE)
++    with pytest.raises(ValueError, match="^" + BLOCKER + "$"):
++        surface.candles_for("SYNTHETIC_PAIR", timeframe)
++    assert surface.ROW_CACHE == before
++
++
++def test_surface_entry_denies_before_directory_coverage_prices_or_scoring(metadata, tmp_path, monkeypatch):
++    root = tmp_path / "not_created"
++    monkeypatch.setattr(surface, "ROOT", root)
++    with pytest.raises(ValueError, match="^" + BLOCKER + "$"):
++        surface.run_surface()
++    assert not root.exists()

@@ -1,0 +1,52 @@
+{
+  "schema": "AIOS_FOREX_FRIEND_B_SCREENSHOT_FOCUSED_VERIFICATION_V1",
+  "created_utc": "2026-10-09T21:00:40Z",
+  "observer": "codex_a_lane",
+  "scope": "read_only_focused_verification_against_friend_b_screenshot_themes",
+  "branch": "codex/forex-edge-autopilot-20261008",
+  "base_progress_receipt": "Reports/forex_delivery/AIOS_FOREX_FRIEND_B_SCREENSHOT_PROGRESS_INTAKE_V1.json",
+  "protected_actions_not_taken": [
+    "no broker API",
+    "no credentials",
+    "no orders",
+    "no execution policy change",
+    "no script signing",
+    "no claim script execution",
+    "no Friend B file edits"
+  ],
+  "commands": [
+    {
+      "command": "python -m pytest tests\\forex_engine\\test_candidate_intake_demo_review_bridge.py tests\\forex_engine\\test_canonical_demo_review_evidence_bridge.py tests\\forex_engine\\test_forex_all_timeframe_scalping_search_controller_v1.py tests\\forex_engine\\test_next_candidate_discovery_u_v1.py tests\\forex_engine\\test_proof_bundle_to_candidate_bridge.py -q",
+      "result": "70 passed in 0.93s",
+      "status": "PASS",
+      "reason": "Candidate intake, canonical bridge, all-timeframe search, next candidate discovery, and proof-bundle bridge coverage around Friend B candidate/PROVEN-label screenshot themes."
+    },
+    {
+      "command": "python -m pytest tests\\forex_engine\\test_forex_m5_day_trading_adapter_v2.py tests\\forex_engine\\test_forex_m5_runtime_root_handoff_v1.py tests\\forex_engine\\test_forex_multipair_m5_replay_v1.py tests\\forex_engine\\test_forex_p1_eurusd_m5_capture_signal_loop_v1.py tests\\forex_engine\\test_forex_p1_eurusd_m5_history_capture_v1.py tests\\forex_engine\\test_forex_p1_eurusd_market_history_signal_v1.py tests\\forex_engine\\test_forex_p1_multipair_normalization_v1.py -q",
+      "result": "89 passed in 1.55s",
+      "status": "PASS",
+      "reason": "M5, multipair M5, and P1 M5 data/capture normalization coverage around Friend B M5 screenshot themes."
+    },
+    {
+      "command": "python -m pytest tests\\forex_engine\\test_forex_p1_supervised_paper_evidence_pipeline_v1.py tests\\forex_engine\\test_forex_p1_supervised_paper_capture_replay_v1.py tests\\forex_engine\\test_forex_p1_supervised_paper_session_v1.py tests\\forex_engine\\test_forex_frozen_candidate_paper30_v1.py tests\\forex_engine\\test_paper_evidence_promotion_gate.py tests\\forex_engine\\test_paper_to_demo_promotion.py -q",
+      "result": "212 passed in 2.92s",
+      "status": "PASS",
+      "reason": "P1 supervised PAPER evidence, capture/replay, frozen candidate paper30, evidence promotion, and paper-to-demo promotion coverage around Friend B P1/PAPER screenshot themes."
+    }
+  ],
+  "limitations": [
+    "These tests verify current focused engineering behavior only.",
+    "They do not admit screenshots as Friend B evidence return artifacts.",
+    "They do not reconcile the three conflicting run IDs.",
+    "They do not prove P1 identity and cost provenance.",
+    "They do not prove PAPER or LIVE readiness."
+  ],
+  "remaining_required_friend_b_inputs": [
+    "Actual Friend B 25-ID evidence return package.",
+    "Exact source hashes for M5 unverified-data-path repair.",
+    "Exact source hashes for built-in sample PROVEN-label repair.",
+    "Exact source hashes for candidate ID field-retention repair.",
+    "Owner-approved reconciliation for the three conflicting run IDs.",
+    "P1 identity and cost provenance evidence."
+  ]
+}

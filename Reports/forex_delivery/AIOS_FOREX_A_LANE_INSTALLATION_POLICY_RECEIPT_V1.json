@@ -1,0 +1,58 @@
+{
+  "blocker_reasons": [
+    "CurrentUser execution policy is Restricted",
+    "Claim-AiOsFileLock.DRY_RUN.ps1 is not signed by a trusted signer",
+    "Release-AiOsFileLock.DRY_RUN.ps1 is not signed by a trusted signer"
+  ],
+  "branch": "codex/forex-edge-autopilot-20261008",
+  "claim_scripts": [
+    {
+      "authenticode_status": "2",
+      "authenticode_status_message": "The file C:\\Dev\\Ai.Os\\automation\\orchestration\\locks\\Claim-AiOsFileLock.DRY_RUN.ps1 is not digitally signed. You cannot run this script on the current system. For more information about running scripts and setting execution policy, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170",
+      "exists": true,
+      "path": "C:\\Dev\\Ai.Os\\automation\\orchestration\\locks\\Claim-AiOsFileLock.DRY_RUN.ps1",
+      "sha256": "33a8eb24a4113abb3126a5b0e65ff595dc2f8c16d6857afd185c6a915007f087",
+      "signer_present": false,
+      "size_bytes": 13216
+    },
+    {
+      "authenticode_status": "2",
+      "authenticode_status_message": "The file C:\\Dev\\Ai.Os\\automation\\orchestration\\locks\\Release-AiOsFileLock.DRY_RUN.ps1 is not digitally signed. You cannot run this script on the current system. For more information about running scripts and setting execution policy, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170",
+      "exists": true,
+      "path": "C:\\Dev\\Ai.Os\\automation\\orchestration\\locks\\Release-AiOsFileLock.DRY_RUN.ps1",
+      "sha256": "9b829a7c292a991f39891594efe5d2d0fd151e9a0a444bc9a85ff07ae2d395b6",
+      "signer_present": false,
+      "size_bytes": 8594
+    }
+  ],
+  "created_utc": "2026-10-09T20:50:10+00:00",
+  "execution_policy": {
+    "CurrentUser": "Restricted",
+    "LocalMachine": "Undefined",
+    "MachinePolicy": "Undefined",
+    "Process": "Undefined",
+    "UserPolicy": "Undefined"
+  },
+  "head": "4fdf30619fa7c29f0dd9adbd710a1b04526ccdd0",
+  "installation_claim_ready": false,
+  "lock_registry": {
+    "exists": true,
+    "path": "C:\\Dev\\Ai.Os\\automation\\orchestration\\locks\\FILE_LOCK_REGISTRY.json",
+    "sha256": "edeaa893c3a51311b04b6e3434eab2bea0ab477e542dbafa505252bc1ce91009"
+  },
+  "protected_actions_not_taken": [
+    "no execution policy changed",
+    "no script signing performed",
+    "no claim script executed",
+    "no repair installation performed",
+    "no broker API used",
+    "no credentials read",
+    "no orders placed"
+  ],
+  "receipt_schema": "AIOS_FOREX_A_LANE_INSTALLATION_POLICY_RECEIPT_V1",
+  "required_owner_resolution": [
+    "Choose a legitimate Windows execution-policy route for reviewed signed scripts",
+    "Review and sign the exact claim/release script contents or provide trusted signed equivalents",
+    "Rerun canonical claim and ownership checks after policy/signature resolution"
+  ]
+}

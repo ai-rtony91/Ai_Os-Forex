@@ -82,12 +82,33 @@ def _sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def test_all_four_owner_evidence_artifacts_pass_structural_verification() -> None:
-    result = verifier.run_artifact_verifier()
+def test_all_four_fresh_owner_evidence_artifacts_pass_structural_verification(
+    tmp_path: Path,
+) -> None:
+    intake, prep, _payload = _write_fixture(tmp_path)
+
+    result = _run(intake, prep)
 
     assert result["artifact_verifier_status"] == verifier.PASS_STATUS
     assert result["artifact_verified_controls"] == list(verifier.CONTROL_FIELDS)
     assert result["artifact_failed_controls"] == []
+    assert result["operational_control_verified"] is False
+    assert result["broker_api_used"] is False
+    assert result["credentials_used"] is False
+    assert result["order_execution"] is False
+    assert result["live_trading_authorized"] is False
+
+
+def test_default_checked_in_owner_evidence_uses_current_clock_and_fails_when_stale() -> None:
+    result = verifier.run_artifact_verifier()
+
+    assert result["artifact_verifier_status"] == verifier.FAIL_STATUS
+    assert result["artifact_verified_controls"] == []
+    assert result["artifact_failed_controls"] == list(verifier.CONTROL_FIELDS)
+    for control in verifier.CONTROL_FIELDS:
+        assert "evidence_timestamp_utc is outside freshness_window_hours" in result[
+            "control_results"
+        ][control]["failures"]
     assert result["operational_control_verified"] is False
     assert result["broker_api_used"] is False
     assert result["credentials_used"] is False

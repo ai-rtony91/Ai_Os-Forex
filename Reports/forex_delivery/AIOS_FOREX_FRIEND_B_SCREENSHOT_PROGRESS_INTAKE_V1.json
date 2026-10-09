@@ -1,0 +1,86 @@
+{
+  "schema": "AIOS_FOREX_FRIEND_B_SCREENSHOT_PROGRESS_INTAKE_V1",
+  "created_utc": "2026-10-09T20:56:55Z",
+  "observer": "codex_a_lane",
+  "scope": "coordination_intake_only",
+  "lane_boundary": {
+    "a_lane": "platform_install_runtime_control_safety",
+    "friend_b_lane": "accounting_data_strategy_paper_candidate_evidence",
+    "collision_policy": "Do not modify Friend B files or mark Friend B gates complete from screenshots alone. Require the actual Friend B evidence return package with task IDs, hashes, test receipts, and unresolved gates."
+  },
+  "sources": [
+    {
+      "uploaded_name": "image(20261009-205419).png",
+      "scratch_path": "/workspace/scratch/48a2e3a1bd16/upload/image(20261009-205419).png",
+      "sha256": "78e3143d544e28d7d93a01eb5a51d599aa3b6f6057d14b23e49ea8cbc98c8b9f",
+      "observed_text_summary": "Friend B task board: 0/3, then 1/3, then 2/3 complete. Task 3 remains: independently verify and save the Friend B evidence return with all unresolved gates explicit."
+    },
+    {
+      "uploaded_name": "image(20261009-205430).png",
+      "scratch_path": "/workspace/scratch/48a2e3a1bd16/upload/image(20261009-205430).png",
+      "sha256": "0f5565b57e69c6d3a07f58d3677376dd535ede028c1e20325ec73463ba85957f",
+      "observed_text_summary": "Reports M5 defect validated on Windows: 13 failures before fix, then 41 passing tests with fix. Accounting review says 12 attempt entries were administrative updates, not evaluations. Three conflicting run IDs still need owner-approved reconciliation. Three repair proposals have passing regression tests; two reporting errors fixed; return package being assembled."
+    },
+    {
+      "uploaded_name": "image(20261009-205450).png",
+      "scratch_path": "/workspace/scratch/48a2e3a1bd16/upload/image(20261009-205450).png",
+      "sha256": "8700336fc6ea1151594d66de1d43b2d753cc15263478ef854c42247d4ee30acd",
+      "observed_text_summary": "New accounting records found: terminal research readback and additional successor journal entries. Shared platform files changing; findings will include observed file hashes. Two uncovered gaps: M5 path can still read unverified data, and candidate reports can label built-in samples as PROVEN. Saved P1 record has matching simulated open and close events but lacks identity and cost provenance; a field-loss bug was fixed so future records retain supplied candidate ID."
+    },
+    {
+      "uploaded_name": "image(20261009-205505).png",
+      "scratch_path": "/workspace/scratch/48a2e3a1bd16/upload/image(20261009-205505).png",
+      "sha256": "d9a4d6ddd02c07b2f52e8cb586622da0bd4c0fb9ac1aa293d4b2bddbe5be85d3",
+      "observed_text_summary": "Friend B is keeping Pxx-yy IDs for 25 tasks; starting with accounting and data admission, then candidate verification and PAPER evidence using existing claims and approval rules. Handoff points to newer repair package/checkpoint. Existing M5 and aggregation repairs have isolated Windows evidence; unresolved trial outcomes, saved P1 record, candidate identity, and verifier inputs are being traced."
+    },
+    {
+      "uploaded_name": "image(20261009-205546).png",
+      "scratch_path": "/workspace/scratch/48a2e3a1bd16/upload/image(20261009-205546).png",
+      "sha256": "510be02b6b9363c7aeeca3ebb817a4a98e199abee64fc3d32a93089c8407fd42",
+      "observed_text_summary": "Friend B task board remains 2 out of 3 tasks completed. Task 3 remains active: independently verify and save the Friend B evidence return with all unresolved gates explicit."
+    }
+  ],
+  "extracted_findings": [
+    {
+      "finding_id": "FB_SCREENSHOT_PROGRESS_ONLY",
+      "status": "OPEN",
+      "disposition": "Screenshots show work progress but are not admission evidence, not a verifier receipt, and not a gate closure artifact."
+    },
+    {
+      "finding_id": "FB_RETURN_PACKAGE_MISSING",
+      "status": "OPEN",
+      "disposition": "Actual Friend B evidence return package with all 25 task IDs, exact hashes, regression receipts, and unresolved gate map is still required."
+    },
+    {
+      "finding_id": "FB_CONFLICTING_RUN_IDS",
+      "status": "OWNER_RECONCILIATION_REQUIRED",
+      "disposition": "Three conflicting run IDs still need owner-approved reconciliation before associated accounting/trial evidence can be admitted."
+    },
+    {
+      "finding_id": "FB_P1_IDENTITY_COST_PROVENANCE",
+      "status": "OPEN",
+      "disposition": "Saved P1 open/close simulation match is insufficient without identity and cost provenance."
+    },
+    {
+      "finding_id": "FB_M5_UNVERIFIED_PATH",
+      "status": "PATCH_VALIDATION_PENDING",
+      "disposition": "Screenshot reports an uncovered path where M5 can read unverified data; actual patch, hash, and Windows validation receipt are required."
+    },
+    {
+      "finding_id": "FB_BUILTIN_SAMPLE_PROVEN_LABEL",
+      "status": "PATCH_VALIDATION_PENDING",
+      "disposition": "Screenshot reports candidate reports can label built-in samples as PROVEN; actual patch, hash, and regression receipt are required."
+    },
+    {
+      "finding_id": "FB_FIELD_LOSS_CANDIDATE_ID",
+      "status": "PATCH_EVIDENCE_REQUIRED",
+      "disposition": "Screenshot reports field-loss bug fixed for future candidate IDs; actual source/test receipt is required before integration."
+    }
+  ],
+  "a_lane_impact": {
+    "modified_friend_b_files": false,
+    "paper_or_live_readiness_claimed": false,
+    "broker_or_secret_action_taken": false,
+    "next_safe_a_lane_action": "Wait for actual Friend B evidence return package; meanwhile continue A-lane owner-control, installation policy, safety, runtime refusal, and kill-switch readiness work."
+  }
+}

@@ -1,0 +1,546 @@
+--- a/automation/forex_engine/forex_110_profit_evidence_truth_lock_v1.py
++++ b/automation/forex_engine/forex_110_profit_evidence_truth_lock_v1.py
+@@ -55,43 +55,38 @@
+     """Return the Forex 110 profit proof truth state."""
+ 
+     intake = intake_result_to_jsonable_dict(intake_profitability_evidence(report_root))
+-    ledger = ledger_result_to_jsonable_dict(evaluate_profit_proof_ledger(candidates))
++    # Omitted input is missing evidence, never permission to select a sample.
++    ledger = ledger_result_to_jsonable_dict(
++        evaluate_profit_proof_ledger(() if candidates is None else candidates)
++    )
+ 
+     persistent_ready = intake.get("status") == PERSISTENT_PROFITABILITY_READY
+     ledger_promotable = ledger.get("ledger_status") == PROFIT_PROOF_LEDGER_PROMOTABLE
+     top_candidate = ledger.get("top_candidate") or {}
+ 
+-    if persistent_ready and ledger_promotable:
+-        profit_proof_status = PROFIT_PROOF_PROVEN
+-        truth_lock_status = PROFIT_PROOF_PROVEN
+-        blockers: list[str] = []
+-        owner_answer = (
+-            "Profit proof is proven for operator review only. This does not "
+-            "approve demo execution, live trading, broker action, real money, "
+-            "compounding, or bank movement."
+-        )
+-    elif ledger_promotable:
+-        profit_proof_status = PROFIT_PROOF_BLOCKED
+-        truth_lock_status = PROFIT_PROOF_REVIEW_READY_PERSISTENCE_BLOCKED
+-        blockers = list(intake.get("blockers") or [])
+-        owner_answer = (
+-            "A profit proof ledger candidate is promotable for operator review, "
+-            "but persistent profitability proof remains blocked by the current "
+-            "evidence. No execution or money authority is approved."
+-        )
+-    else:
+-        profit_proof_status = PROFIT_PROOF_BLOCKED
+-        truth_lock_status = PROFIT_PROOF_BLOCKED
+-        blockers = list(dict.fromkeys((intake.get("blockers") or []) + (ledger.get("blockers") or [])))
+-        owner_answer = (
+-            "Profit proof is blocked. Current evidence does not satisfy both "
+-            "persistent profitability and profit ledger proof."
+-        )
++    # These parsers and rankers validate supplied summaries, not their custody.
++    # No independent candidate/source verifier is connected to this interface.
++    # Keep numeric diagnostics and economic blockers without issuing proof.
++    profit_proof_status = PROFIT_PROOF_BLOCKED
++    truth_lock_status = PROFIT_PROOF_BLOCKED
++    blockers = list(dict.fromkeys([
++        *(intake.get("blockers") or []),
++        *(ledger.get("blockers") or []),
++        "NO_INDEPENDENT_VERIFIER_CONNECTED",
++    ]))
++    owner_answer = (
++        "Profit proof is blocked because candidate and report source authenticity "
++        "have not been independently verified. Summary metrics are diagnostic only. "
++        "No execution or money authority is approved."
++    )
+ 
+     return {
+         "packet_id": PACKET_ID,
+         "engine_version": ENGINE_VERSION,
+         "profit_proof_status": profit_proof_status,
++        "source_authentication_status": "UNVERIFIED",
++        "diagnostic_persistence_ready": persistent_ready,
++        "diagnostic_ledger_promotable": ledger_promotable,
+         "truth_lock_status": truth_lock_status,
+         "persistent_profitability_status": intake.get("status"),
+         "ledger_status": ledger.get("ledger_status"),
+@@ -113,17 +108,32 @@
+ def build_report_markdown(result: Mapping[str, Any]) -> str:
+     """Build an operator-readable truth-lock report."""
+ 
+-    blockers = result.get("blockers") or ["none"]
++    # A historical or caller-supplied PROVEN label is not authentication.
++    result = dict(result)
++    result["profit_proof_status"] = PROFIT_PROOF_BLOCKED
++    result["truth_lock_status"] = PROFIT_PROOF_BLOCKED
++    for field in ("persistent_profitability_status", "ledger_status", "top_candidate_classification"):
++        if result.get(field) == PROFIT_PROOF_PROVEN:
++            result[field] = "UNVERIFIED"
++    result["permissions"] = dict(PROTECTED_PERMISSION_FLAGS)
++    result["owner_answer"] = (
++        "Profit proof is blocked: independent candidate and source verification is unavailable. "
++        "Summary metrics are diagnostic only. No execution or money authority is approved."
++    )
++    result["next_safe_action"] = _next_safe_action(PROFIT_PROOF_BLOCKED, PROFIT_PROOF_BLOCKED)
++    blockers = list(dict.fromkeys([
++        *(result.get("blockers") or []), "NO_INDEPENDENT_VERIFIER_CONNECTED"
++    ]))
+     lines = [
+         "# AIOS Forex 110 Profit Evidence Truth Lock V1",
+         "",
+         f"Packet ID: `{result.get('packet_id', PACKET_ID)}`",
+         f"Profit proof status: `{result.get('profit_proof_status')}`",
+         f"Truth lock status: `{result.get('truth_lock_status')}`",
+-        f"Persistent profitability status: `{result.get('persistent_profitability_status')}`",
+-        f"Ledger status: `{result.get('ledger_status')}`",
++        f"Unverified diagnostic persistent profitability status: `{result.get('persistent_profitability_status')}`",
++        f"Unverified diagnostic ledger status: `{result.get('ledger_status')}`",
+         f"Top candidate: `{result.get('top_candidate_id')}`",
+-        f"Top candidate classification: `{result.get('top_candidate_classification')}`",
++        f"Unverified diagnostic top candidate classification: `{result.get('top_candidate_classification')}`",
+         "",
+         "## Owner Answer",
+         str(result.get("owner_answer", "")),
+@@ -152,8 +162,9 @@
+             "runtime services, access credentials, compound, or move money."
+         )
+     return (
+-        "Repair profit evidence blockers with sanitized local evidence before "
+-        "any demo, live, compounding, broker, or money movement review."
++        "Obtain independent candidate/source/custody verification through the existing admitted "
++        "evidence owner. Preserve economic blockers; labels and summary metrics are insufficient. "
++        "Do not execute research, access proof data, or trade without separate admission."
+     )
+ 
+ 
+--- a/automation/forex_engine/forex_110_walkforward_oos_sufficiency_truth_lock_v1.py
++++ b/automation/forex_engine/forex_110_walkforward_oos_sufficiency_truth_lock_v1.py
+@@ -27,6 +27,7 @@
+ ENGINE_VERSION = "forex_110_walkforward_oos_sufficiency_truth_lock_v1"
+ 
+ WALK_FORWARD_OOS_PROVEN = "PROVEN"
++WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY = "BLOCKED_SOURCE_AUTHENTICITY"
+ WALK_FORWARD_OOS_BLOCKED_MISSING_EVIDENCE = "BLOCKED_MISSING_EVIDENCE"
+ WALK_FORWARD_OOS_BLOCKED_INSUFFICIENT_EVIDENCE = "BLOCKED_INSUFFICIENT_EVIDENCE"
+ WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH = "BLOCKED_TOP_CANDIDATE_MISMATCH"
+@@ -84,13 +85,16 @@
+     blockers = _dedupe(
+         list(intake.get("blockers") or [])
+         + [f"missing evidence field: {field}" for field in missing_fields]
++        + list(profit_lock.get("blockers") or [])
++        + ["NO_INDEPENDENT_VERIFIER_CONNECTED"]
+     )
+ 
+     if intake.get("status") == WALK_FORWARD_OOS_READY and alignment["aligned"]:
+-        walk_forward_oos_status = WALK_FORWARD_OOS_PROVEN
+-        truth_lock_status = TRUTH_LOCK_PROVEN
+-        profit_persistence_unlocked = True
+-        blockers = []
++        # Aligned IDs and passing summary fields do not establish provenance,
++        # untouched custody, or independent acceptance. No verifier is connected.
++        walk_forward_oos_status = WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY
++        truth_lock_status = TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_BLOCKED
++        profit_persistence_unlocked = False
+     elif not alignment["aligned"]:
+         walk_forward_oos_status = WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH
+         truth_lock_status = TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_CANDIDATE_MISMATCH
+@@ -106,6 +110,8 @@
+         profit_persistence_unlocked = False
+ 
+     missing_evidence_field = _missing_evidence_field(missing_fields, alignment)
++    if missing_evidence_field == "NONE":
++        missing_evidence_field = "source_authentication"
+     attack_to_finish = _attack_to_finish(
+         walk_forward_oos_status=walk_forward_oos_status,
+         missing_evidence_field=missing_evidence_field,
+@@ -115,6 +121,7 @@
+         "packet_id": PACKET_ID,
+         "engine_version": ENGINE_VERSION,
+         "walk_forward_oos_status": walk_forward_oos_status,
++        "source_authentication_status": "UNVERIFIED",
+         "profit_persistence_unlocked": profit_persistence_unlocked,
+         "truth_lock_status": truth_lock_status,
+         "top_candidate_alignment": alignment,
+@@ -141,8 +148,42 @@
+ def build_report_markdown(result: Mapping[str, Any]) -> str:
+     """Build an operator-readable truth-lock report."""
+ 
+-    blockers = result.get("blockers") or ["none"]
+-    attack = result.get("attack_to_finish") or {}
++    # Do not re-export historical or self-asserted proof as current evidence.
++    result = dict(result)
++    if result.get("walk_forward_oos_status") == WALK_FORWARD_OOS_PROVEN:
++        result["walk_forward_oos_status"] = WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY
++    if result.get("truth_lock_status") == TRUTH_LOCK_PROVEN:
++        result["truth_lock_status"] = TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_BLOCKED
++    result["profit_persistence_unlocked"] = False
++    result["permissions"] = dict(PROTECTED_PERMISSION_FLAGS)
++    result["next_safe_action"] = _next_safe_action(WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY)
++    blockers = _dedupe([
++        *(result.get("blockers") or []), "NO_INDEPENDENT_VERIFIER_CONNECTED"
++    ])
++    original_attack = result.get("attack_to_finish")
++    if not isinstance(original_attack, Mapping):
++        original_attack = {}
++    original_missing = str(original_attack.get("missing_evidence_field") or "")
++    known_fields = set(REQUIRED_SUFFICIENCY_FIELDS) | {
++        "candidate_alignment", "candidate_id", "top_candidate_id", "source_authentication"
++    }
++    original_fields = set(original_missing.split(","))
++    negative_statuses = {
++        WALK_FORWARD_OOS_BLOCKED_MISSING_EVIDENCE,
++        WALK_FORWARD_OOS_BLOCKED_INSUFFICIENT_EVIDENCE,
++        WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH,
++    }
++    missing_field = (
++        original_missing
++        if result.get("walk_forward_oos_status") in negative_statuses
++        and original_fields <= known_fields
++        else "source_authentication"
++    )
++    attack = _attack_to_finish(
++        walk_forward_oos_status=str(result.get("walk_forward_oos_status") or "BLOCKED"),
++        missing_evidence_field=missing_field,
++        exact_blocker="; ".join(blockers),
++    )
+     lines = [
+         "# AIOS Forex 110 Walk-Forward/OOS Sufficiency Truth Lock V1",
+         "",
+@@ -291,7 +332,12 @@
+         blocker_status = "BLOCKED"
+         unlock_status_required = "PROVEN"
+         next_packet_name = "PKT-FOREX-110-TOP-CANDIDATE-WALKFORWARD-OOS-EVIDENCE-COLLECTION-V1"
+-        owner_action_required = "provide missing field " + missing_evidence_field
++        owner_action_required = (
++            "Provide independent candidate/source/custody verification through the existing "
++            "admitted evidence owner; metadata flags do not authenticate evidence."
++            if missing_evidence_field == "source_authentication"
++            else "provide missing field " + missing_evidence_field
++        )
+         stop_condition = "walk-forward/OOS sufficiency not proven"
+     return {
+         "blocker_id": blocker_id,
+@@ -310,6 +356,12 @@
+ 
+ 
+ def _next_safe_action(walk_forward_oos_status: str) -> str:
++    if walk_forward_oos_status == WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY:
++        return (
++            "Obtain independent frozen-candidate/source/custody verification through the "
++            "existing admitted evidence owner. Preserve source and failure history. "
++            "Do not expose protected proof data or trade without separate admission."
++        )
+     if walk_forward_oos_status == WALK_FORWARD_OOS_PROVEN:
+         return (
+             "Use this as review-only evidence for the persistent profitability "
+@@ -342,6 +394,7 @@
+     "TRUTH_LOCK_PROVEN",
+     "TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_BLOCKED",
+     "TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_CANDIDATE_MISMATCH",
++    "WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY",
+     "WALK_FORWARD_OOS_BLOCKED_INSUFFICIENT_EVIDENCE",
+     "WALK_FORWARD_OOS_BLOCKED_MISSING_EVIDENCE",
+     "WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH",
+--- a/tests/forex_engine/test_forex_110_profit_evidence_truth_lock_v1.py
++++ b/tests/forex_engine/test_forex_110_profit_evidence_truth_lock_v1.py
+@@ -11,13 +11,12 @@
+ 
+ from automation.forex_engine.forex_110_profit_evidence_truth_lock_v1 import (  # noqa: E402
+     PROFIT_PROOF_BLOCKED,
+-    PROFIT_PROOF_PROVEN,
+-    PROFIT_PROOF_REVIEW_READY_PERSISTENCE_BLOCKED,
+     build_report_markdown,
+     run_profit_evidence_truth_lock,
+ )
+ from automation.forex_engine.profit_proof_ledger_v1 import (  # noqa: E402
+     build_sample_all_blocked_candidates,
++    build_sample_profit_proof_candidates,
+ )
+ from scripts.forex_delivery.run_forex_110_profit_evidence_truth_lock_v1 import (  # noqa: E402
+     REPORT_NAME,
+@@ -95,13 +94,15 @@
+         assert result["permissions"][flag] is False
+ 
+ 
+-def test_truth_lock_proves_only_when_intake_and_ledger_both_pass(tmp_path: Path) -> None:
++def test_truth_lock_keeps_passing_synthetic_metrics_diagnostic(tmp_path: Path) -> None:
+     report_root = tmp_path / "reports"
+     write_complete_persistent_profit_report(report_root)
+ 
+-    result = run_profit_evidence_truth_lock(report_root)
++    result = run_profit_evidence_truth_lock(report_root, build_sample_profit_proof_candidates())
+ 
+-    assert result["profit_proof_status"] == PROFIT_PROOF_PROVEN
++    assert result["profit_proof_status"] == PROFIT_PROOF_BLOCKED
++    assert result["source_authentication_status"] == "UNVERIFIED"
++    assert "NO_INDEPENDENT_VERIFIER_CONNECTED" in result["blockers"]
+     assert result["ledger_status"] == "PROFIT_PROOF_LEDGER_PROMOTABLE"
+     assert_permissions_false(result)
+ 
+@@ -110,10 +111,12 @@
+     report_root = tmp_path / "reports"
+     write_blocked_persistent_profit_report(report_root)
+ 
+-    result = run_profit_evidence_truth_lock(report_root)
++    result = run_profit_evidence_truth_lock(report_root, build_sample_profit_proof_candidates())
+ 
+     assert result["profit_proof_status"] == PROFIT_PROOF_BLOCKED
+-    assert result["truth_lock_status"] == PROFIT_PROOF_REVIEW_READY_PERSISTENCE_BLOCKED
++    assert result["truth_lock_status"] == PROFIT_PROOF_BLOCKED
++    assert result["diagnostic_ledger_promotable"] is True
++    assert result["diagnostic_persistence_ready"] is False
+     assert "profitable periods are below threshold" in result["blockers"]
+     assert_permissions_false(result)
+ 
+--- a/tests/forex_engine/test_forex_110_walkforward_oos_sufficiency_truth_lock_v1.py
++++ b/tests/forex_engine/test_forex_110_walkforward_oos_sufficiency_truth_lock_v1.py
+@@ -10,13 +10,15 @@
+     sys.path.insert(0, str(ROOT))
+ 
+ from automation.forex_engine.forex_110_walkforward_oos_sufficiency_truth_lock_v1 import (  # noqa: E402
+-    TRUTH_LOCK_PROVEN,
++    TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_BLOCKED,
+     TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_CANDIDATE_MISMATCH,
+     WALK_FORWARD_OOS_BLOCKED_MISSING_EVIDENCE,
+     WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH,
+-    WALK_FORWARD_OOS_PROVEN,
+     build_report_markdown,
+     run_walkforward_oos_sufficiency_truth_lock,
++)
++from automation.forex_engine.profit_proof_ledger_v1 import (
++    build_sample_profit_proof_candidates,
+ )
+ from scripts.forex_delivery.run_forex_110_walkforward_oos_sufficiency_truth_lock_v1 import (  # noqa: E402
+     REPORT_NAME,
+@@ -88,19 +90,21 @@
+         assert result["permissions"][flag] is False
+ 
+ 
+-def test_truth_lock_proves_when_oos_ready_and_top_candidate_aligned(tmp_path: Path) -> None:
++def test_truth_lock_blocks_unauthenticated_aligned_summary(tmp_path: Path) -> None:
+     report_root = tmp_path / "reports"
+     report_root.mkdir()
+     write_profitability_report(report_root)
+     write_walkforward_report(report_root, candidate_id="c2-eur-buy-stronger-review-ready")
+ 
+-    result = run_walkforward_oos_sufficiency_truth_lock(report_root)
+-
+-    assert result["walk_forward_oos_status"] == WALK_FORWARD_OOS_PROVEN
+-    assert result["profit_persistence_unlocked"] is True
+-    assert result["truth_lock_status"] == TRUTH_LOCK_PROVEN
++    result = run_walkforward_oos_sufficiency_truth_lock(report_root, build_sample_profit_proof_candidates())
++
++    assert result["walk_forward_oos_status"] == "BLOCKED_SOURCE_AUTHENTICITY"
++    assert "NO_INDEPENDENT_VERIFIER_CONNECTED" in result["blockers"]
++    assert result["profit_persistence_unlocked"] is False
++    assert result["truth_lock_status"] == TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_BLOCKED
+     assert result["top_candidate_alignment"]["status"] == "ALIGNED"
+-    assert result["attack_to_finish"]["blocker_id"] == "NO_BLOCKER"
++    assert result["attack_to_finish"]["blocker_status"] == "BLOCKED"
++    assert result["attack_to_finish"]["missing_evidence_field"] == "source_authentication"
+     assert_permissions_false(result)
+ 
+ 
+@@ -110,7 +114,7 @@
+     write_profitability_report(report_root)
+     write_walkforward_report(report_root, candidate_id="c1-eur-buy")
+ 
+-    result = run_walkforward_oos_sufficiency_truth_lock(report_root)
++    result = run_walkforward_oos_sufficiency_truth_lock(report_root, build_sample_profit_proof_candidates())
+ 
+     assert result["walk_forward_oos_status"] == WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH
+     assert result["truth_lock_status"] == TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_CANDIDATE_MISMATCH
+@@ -130,7 +134,7 @@
+         include_oos=False,
+     )
+ 
+-    result = run_walkforward_oos_sufficiency_truth_lock(report_root)
++    result = run_walkforward_oos_sufficiency_truth_lock(report_root, build_sample_profit_proof_candidates())
+ 
+     assert result["walk_forward_oos_status"] == WALK_FORWARD_OOS_BLOCKED_MISSING_EVIDENCE
+     assert "oos_segments_total" in result["evidence_missing"]
+@@ -163,12 +167,13 @@
+         encoding="utf-8",
+     )
+ 
+-    result = run_walkforward_oos_sufficiency_truth_lock(report_root)
+-
+-    assert result["walk_forward_oos_status"] == WALK_FORWARD_OOS_PROVEN
++    result = run_walkforward_oos_sufficiency_truth_lock(report_root, build_sample_profit_proof_candidates())
++
++    assert result["walk_forward_oos_status"] == "BLOCKED_SOURCE_AUTHENTICITY"
++    assert "NO_INDEPENDENT_VERIFIER_CONNECTED" in result["blockers"]
+     assert result["normalized_walkforward_oos_summary"]["windows_total"] == 6.0
+     assert result["normalized_walkforward_oos_summary"]["max_allowed_drawdown"] == 0.5
+-    assert result["profit_persistence_unlocked"] is True
++    assert result["profit_persistence_unlocked"] is False
+     assert_permissions_false(result)
+ 
+ 
+@@ -178,7 +183,7 @@
+     write_profitability_report(report_root)
+     write_walkforward_report(report_root, candidate_id="c1-eur-buy")
+ 
+-    report = build_report_markdown(run_walkforward_oos_sufficiency_truth_lock(report_root))
++    report = build_report_markdown(run_walkforward_oos_sufficiency_truth_lock(report_root, build_sample_profit_proof_candidates()))
+ 
+     assert "Walk-forward/OOS status: `BLOCKED_TOP_CANDIDATE_MISMATCH`" in report
+     assert "ATTACK_TO_FINISH" in report
+--- /dev/null
++++ b/tests/forex_engine/test_forex_110_truth_lock_source_authentication.py
+@@ -0,0 +1,153 @@
++"""Synthetic engineering regressions. No market, holdout, or native state access."""
++import dataclasses
++import json
++import os
++from pathlib import Path
++import subprocess
++import sys
++
++import pytest
++
++ROOT = Path(os.environ.get('TRUTH_LOCK_SOURCE_ROOT', Path(__file__).resolve().parents[2])).resolve()
++sys.path.insert(0, str(ROOT))
++from automation.forex_engine.forex_110_profit_evidence_truth_lock_v1 import (
++    run_profit_evidence_truth_lock, build_report_markdown as profit_report,
++)
++from automation.forex_engine.forex_110_walkforward_oos_sufficiency_truth_lock_v1 import (
++    run_walkforward_oos_sufficiency_truth_lock, build_report_markdown as walk_report,
++)
++from automation.forex_engine.profit_proof_ledger_v1 import (
++    build_sample_profit_proof_candidates, build_sample_all_blocked_candidates,
++)
++
++AUTH_BLOCK = 'NO_INDEPENDENT_VERIFIER_CONNECTED'
++
++def reports(root, candidate='c2-eur-buy-stronger-review-ready', *, profitable=True, complete=True):
++    root.mkdir()
++    (root / 'AIOS_FOREX_PROFITABILITY_VERDICT_V1.md').write_text('\n'.join([
++        '- closed_trade_count: 40', '- min_closed_trade_count: 30',
++        '- expectancy: 0.40', '- min_expectancy: 0.05',
++        '- profit_factor: 1.50', '- min_profit_factor: 1.25',
++        '- max_drawdown: 0.02', '- max_allowed_drawdown: 0.05',
++        f'- consecutive_profitable_periods: {5 if profitable else 1}',
++        '- min_profitable_periods: 4', '- after_costs: true', '- sanitized: true',
++        '- evidence_age_days: 1', '- max_evidence_age_days: 7',
++    ]))
++    lines = [f'- candidate: `{candidate}`', '- windows_total: 6', '- windows_passed: 6',
++             '- min_pass_rate: 0.75', '- max_drawdown: 0.02', '- max_allowed_drawdown: 0.05',
++             '- sanitized: true', '- evidence_age_days: 1', '- max_evidence_age_days: 7']
++    if complete:
++        lines += ['- oos_segments_total: 4', '- oos_segments_passed: 4']
++    (root / 'AIOS_FOREX_WALK_FORWARD_DEPTH_PACKET_R_V1_REPORT.md').write_text('\n'.join(lines))
++
++def candidates(kind):
++    if kind == 'default':
++        return None, 'c2-eur-buy-stronger-review-ready'
++    rows = [dataclasses.asdict(x) for x in build_sample_profit_proof_candidates()]
++    if kind == 'renamed':
++        for row in rows:
++            row['candidate_id'] = 'c9-' + row['candidate_id']
++            row['evidence_source'] = 'claimed-authenticated-immutable-receipt'
++            row['source_authentication_status'] = 'VERIFIED'
++            row['untouched_verified'] = True
++        return rows, 'c9-c2-eur-buy-stronger-review-ready'
++    return rows, 'c2-eur-buy-stronger-review-ready'
++
++def assert_denied(result):
++    assert result['truth_lock_status'] != 'PROVEN'
++    assert result.get('profit_proof_status') != 'PROVEN'
++    assert result.get('walk_forward_oos_status') != 'PROVEN'
++    assert result.get('profit_persistence_unlocked', False) is False
++    assert AUTH_BLOCK in result['blockers']
++    assert result['source_authentication_status'] == 'UNVERIFIED'
++    assert not any(result['permissions'].values())
++
++@pytest.mark.parametrize('kind', ['default', 'explicit', 'renamed'])
++@pytest.mark.parametrize('evaluate', [run_profit_evidence_truth_lock, run_walkforward_oos_sufficiency_truth_lock])
++def test_synthetic_or_self_claimed_summaries_cannot_become_proof(tmp_path, kind, evaluate):
++    rows, identity = candidates(kind)
++    root = tmp_path / 'reports'
++    reports(root, identity)
++    before = {p.name:p.read_bytes() for p in root.iterdir()}
++    result = evaluate(root, rows)
++    assert_denied(result)
++    if evaluate is run_walkforward_oos_sufficiency_truth_lock and kind != 'default':
++        assert result['top_candidate_alignment']['status'] == 'ALIGNED'
++    assert before == {p.name:p.read_bytes() for p in root.iterdir()}
++
++def test_missing_candidate_does_not_select_a_default_fixture(tmp_path):
++    root=tmp_path/'reports'; reports(root)
++    result=run_profit_evidence_truth_lock(root)
++    assert result['top_candidate_id'] == 'NONE'
++    assert result['ledger_status'] != 'PROFIT_PROOF_LEDGER_PROMOTABLE'
++
++def test_economic_failures_are_retained(tmp_path):
++    root=tmp_path/'reports'; reports(root, profitable=False)
++    result=run_profit_evidence_truth_lock(root, build_sample_all_blocked_candidates())
++    assert_denied(result)
++    assert 'profitable periods are below threshold' in result['blockers']
++    assert result['ledger_status'] != 'PROFIT_PROOF_LEDGER_PROMOTABLE'
++    assert len(result['ledger_blockers']) > 0
++
++@pytest.mark.parametrize('complete,candidate', [(False,'c2-eur-buy-stronger-review-ready'), (True,'c1-eur-buy')])
++def test_missing_fields_and_candidate_mismatch_remain_blocked(tmp_path, complete, candidate):
++    root=tmp_path/'reports'; reports(root, candidate, complete=complete)
++    result=run_walkforward_oos_sufficiency_truth_lock(root, build_sample_profit_proof_candidates())
++    assert_denied(result)
++    if not complete:
++        assert 'oos_segments_total' in result['evidence_missing']
++    else:
++        assert result['top_candidate_alignment']['status'] == 'MISMATCHED'
++
++@pytest.mark.parametrize('name', ['profit_evidence', 'walkforward_oos_sufficiency'])
++def test_actual_cli_writes_only_blocked_artifacts_to_isolated_output(tmp_path, name):
++    root=tmp_path/'reports'; reports(root)
++    output=tmp_path/'out'
++    script=ROOT/'scripts'/'forex_delivery'/f'run_forex_110_{name}_truth_lock_v1.py'
++    process=subprocess.run([sys.executable,str(script),'--report-root',str(root),'--output-root',str(output),'--write-state','--write-report'],cwd=tmp_path,capture_output=True,text=True)
++    assert process.returncode == 0, process.stderr
++    result=json.loads(process.stdout); assert_denied(result)
++    states=list(output.glob('*.json')); assert len(states) == 1
++    assert json.loads(states[0].read_text()) == result
++    exported=''.join(p.read_text() for p in output.glob('*.md'))
++    assert 'status: `PROVEN`' not in exported
++    assert 'Profit persistence unlocked: `true`' not in exported
++
++@pytest.mark.parametrize('formatter', [profit_report, walk_report])
++def test_historical_or_self_asserted_proven_labels_cannot_be_reexported(formatter):
++    forged={'profit_proof_status':'PROVEN','truth_lock_status':'PROVEN',
++            'walk_forward_oos_status':'PROVEN','profit_persistence_unlocked':True,
++            'source_authentication_status':'VERIFIED','blockers':[],
++            'attack_to_finish':{'blocker_id':'NO_BLOCKER','blocker_status':'PROVEN'},
++            'owner_answer':'Profit proof is proven for operator review only.',
++            'next_safe_action':'Use this as operator review evidence only.',
++            'permissions':{'owner_approval_created': True}}
++    before=json.dumps(forged,sort_keys=True)
++    text=formatter(forged)
++    assert 'status: `PROVEN`' not in text
++    assert 'Profit persistence unlocked: `true`' not in text
++    assert 'blocker_id: NO_BLOCKER' not in text
++    assert 'Profit proof is proven' not in text
++    assert 'owner_approval_created: `true`' not in text
++    assert 'Use this as operator review evidence only.' not in text
++    assert AUTH_BLOCK in text
++    assert json.dumps(forged,sort_keys=True) == before
++
++def test_profit_export_cannot_echo_secondary_proven_claims():
++    forged={'profit_proof_status':'PROVEN','truth_lock_status':'PROVEN',
++            'persistent_profitability_status':'PROVEN','ledger_status':'PROVEN',
++            'top_candidate_classification':'PROVEN'}
++    text=profit_report(forged)
++    assert 'status: `PROVEN`' not in text
++    assert 'classification: `PROVEN`' not in text
++    assert AUTH_BLOCK in text
++
++@pytest.mark.parametrize('complete,identity', [(False,'c2-eur-buy-stronger-review-ready'), (True,'c1-eur-buy')])
++def test_walk_export_retains_original_negative_missing_field(tmp_path, complete, identity):
++    root=tmp_path/'reports'; reports(root, identity, complete=complete)
++    result=run_walkforward_oos_sufficiency_truth_lock(root, build_sample_profit_proof_candidates())
++    original=result['attack_to_finish']['missing_evidence_field']
++    assert original != 'source_authentication'
++    text=walk_report(result)
++    assert f'- missing_evidence_field: {original}\n' in text
++    assert AUTH_BLOCK in text

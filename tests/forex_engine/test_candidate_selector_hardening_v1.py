@@ -56,6 +56,13 @@ def test_no_candidate_blocks_promotion():
     assert "no_review_ready_candidate" in result["promotion_blockers"]
 
 
+def test_explicit_empty_candidates_do_not_load_samples():
+    result = module.run_candidate_selector_hardening_v1([])
+    assert result["candidates_evaluated"] == 0
+    assert result["selected_candidate"] is None
+    assert result["promotion_allowed"] is False
+
+
 def test_protected_booleans_remain_false():
     result = module.run_candidate_selector_hardening_v1()
 

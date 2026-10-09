@@ -55,43 +55,38 @@ def run_profit_evidence_truth_lock(
     """Return the Forex 110 profit proof truth state."""
 
     intake = intake_result_to_jsonable_dict(intake_profitability_evidence(report_root))
-    ledger = ledger_result_to_jsonable_dict(evaluate_profit_proof_ledger(candidates))
+    # Omitted input is missing evidence, never permission to select a sample.
+    ledger = ledger_result_to_jsonable_dict(
+        evaluate_profit_proof_ledger(() if candidates is None else candidates)
+    )
 
     persistent_ready = intake.get("status") == PERSISTENT_PROFITABILITY_READY
     ledger_promotable = ledger.get("ledger_status") == PROFIT_PROOF_LEDGER_PROMOTABLE
     top_candidate = ledger.get("top_candidate") or {}
 
-    if persistent_ready and ledger_promotable:
-        profit_proof_status = PROFIT_PROOF_PROVEN
-        truth_lock_status = PROFIT_PROOF_PROVEN
-        blockers: list[str] = []
-        owner_answer = (
-            "Profit proof is proven for operator review only. This does not "
-            "approve demo execution, live trading, broker action, real money, "
-            "compounding, or bank movement."
-        )
-    elif ledger_promotable:
-        profit_proof_status = PROFIT_PROOF_BLOCKED
-        truth_lock_status = PROFIT_PROOF_REVIEW_READY_PERSISTENCE_BLOCKED
-        blockers = list(intake.get("blockers") or [])
-        owner_answer = (
-            "A profit proof ledger candidate is promotable for operator review, "
-            "but persistent profitability proof remains blocked by the current "
-            "evidence. No execution or money authority is approved."
-        )
-    else:
-        profit_proof_status = PROFIT_PROOF_BLOCKED
-        truth_lock_status = PROFIT_PROOF_BLOCKED
-        blockers = list(dict.fromkeys((intake.get("blockers") or []) + (ledger.get("blockers") or [])))
-        owner_answer = (
-            "Profit proof is blocked. Current evidence does not satisfy both "
-            "persistent profitability and profit ledger proof."
-        )
+    # These parsers and rankers validate supplied summaries, not their custody.
+    # No independent candidate/source verifier is connected to this interface.
+    # Keep numeric diagnostics and economic blockers without issuing proof.
+    profit_proof_status = PROFIT_PROOF_BLOCKED
+    truth_lock_status = PROFIT_PROOF_BLOCKED
+    blockers = list(dict.fromkeys([
+        *(intake.get("blockers") or []),
+        *(ledger.get("blockers") or []),
+        "NO_INDEPENDENT_VERIFIER_CONNECTED",
+    ]))
+    owner_answer = (
+        "Profit proof is blocked because candidate and report source authenticity "
+        "have not been independently verified. Summary metrics are diagnostic only. "
+        "No execution or money authority is approved."
+    )
 
     return {
         "packet_id": PACKET_ID,
         "engine_version": ENGINE_VERSION,
         "profit_proof_status": profit_proof_status,
+        "source_authentication_status": "UNVERIFIED",
+        "diagnostic_persistence_ready": persistent_ready,
+        "diagnostic_ledger_promotable": ledger_promotable,
         "truth_lock_status": truth_lock_status,
         "persistent_profitability_status": intake.get("status"),
         "ledger_status": ledger.get("ledger_status"),
@@ -113,17 +108,32 @@ def run_profit_evidence_truth_lock(
 def build_report_markdown(result: Mapping[str, Any]) -> str:
     """Build an operator-readable truth-lock report."""
 
-    blockers = result.get("blockers") or ["none"]
+    # A historical or caller-supplied PROVEN label is not authentication.
+    result = dict(result)
+    result["profit_proof_status"] = PROFIT_PROOF_BLOCKED
+    result["truth_lock_status"] = PROFIT_PROOF_BLOCKED
+    for field in ("persistent_profitability_status", "ledger_status", "top_candidate_classification"):
+        if result.get(field) == PROFIT_PROOF_PROVEN:
+            result[field] = "UNVERIFIED"
+    result["permissions"] = dict(PROTECTED_PERMISSION_FLAGS)
+    result["owner_answer"] = (
+        "Profit proof is blocked: independent candidate and source verification is unavailable. "
+        "Summary metrics are diagnostic only. No execution or money authority is approved."
+    )
+    result["next_safe_action"] = _next_safe_action(PROFIT_PROOF_BLOCKED, PROFIT_PROOF_BLOCKED)
+    blockers = list(dict.fromkeys([
+        *(result.get("blockers") or []), "NO_INDEPENDENT_VERIFIER_CONNECTED"
+    ]))
     lines = [
         "# AIOS Forex 110 Profit Evidence Truth Lock V1",
         "",
         f"Packet ID: `{result.get('packet_id', PACKET_ID)}`",
         f"Profit proof status: `{result.get('profit_proof_status')}`",
         f"Truth lock status: `{result.get('truth_lock_status')}`",
-        f"Persistent profitability status: `{result.get('persistent_profitability_status')}`",
-        f"Ledger status: `{result.get('ledger_status')}`",
+        f"Unverified diagnostic persistent profitability status: `{result.get('persistent_profitability_status')}`",
+        f"Unverified diagnostic ledger status: `{result.get('ledger_status')}`",
         f"Top candidate: `{result.get('top_candidate_id')}`",
-        f"Top candidate classification: `{result.get('top_candidate_classification')}`",
+        f"Unverified diagnostic top candidate classification: `{result.get('top_candidate_classification')}`",
         "",
         "## Owner Answer",
         str(result.get("owner_answer", "")),
@@ -152,8 +162,9 @@ def _next_safe_action(profit_proof_status: str, truth_lock_status: str) -> str:
             "runtime services, access credentials, compound, or move money."
         )
     return (
-        "Repair profit evidence blockers with sanitized local evidence before "
-        "any demo, live, compounding, broker, or money movement review."
+        "Obtain independent candidate/source/custody verification through the existing admitted "
+        "evidence owner. Preserve economic blockers; labels and summary metrics are insufficient. "
+        "Do not execute research, access proof data, or trade without separate admission."
     )
 
 

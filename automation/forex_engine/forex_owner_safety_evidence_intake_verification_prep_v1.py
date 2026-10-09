@@ -681,6 +681,10 @@ def _build_report_text(
     state_path_for_validator = _format_packet_path(effective_state_output_path)
     report_path_for_validator = _format_packet_path(effective_report_output_path)
     next_packet_path_for_validator = _format_packet_path(effective_next_packet_output_path)
+    missing_controls = " ".join(result["missing_controls"]) or "none"
+    present_unverified_controls = " ".join(result["present_unverified_controls"]) or "none"
+    stale_controls = " ".join(result["stale_controls"]) or "none"
+    invalid_controls = " ".join(result["invalid_controls"]) or "none"
 
     return f"""# AIOS Forex Owner Safety Evidence Intake Verification Prep V1 Report
 
@@ -700,16 +704,16 @@ Owner evidence required:
 - monitoring_ready
 
 Missing controls:
-- {' '.join(result["missing_controls"])}
+- {missing_controls}
 
 Present-unverified controls:
-- {' '.join(result["present_unverified_controls"])}
+- {present_unverified_controls}
 
 Stale controls:
-- {' '.join(result["stale_controls"])}
+- {stale_controls}
 
 Invalid controls:
-- {' '.join(result["invalid_controls"])}
+- {invalid_controls}
 
 Next safe action: {result["next_safe_action"]}
 
@@ -795,12 +799,8 @@ def run_collection_pipeline(
     input_error_type: str | None = None
     now_utc = _now_utc()
     try:
-        if input_template_path is None:
-            # An implicit default input path means the caller did not provide owner input.
-            owner_input = build_input_template()
-        else:
-            owner_input = _load_json_if_exists(effective_input_template_path)
-            owner_input = owner_input or build_input_template()
+        owner_input = _load_json_if_exists(effective_input_template_path)
+        owner_input = owner_input or build_input_template()
         result = run_forex_owner_safety_evidence_intake_verification_prep_v1(owner_input)
     except ValueError as exc:
         input_error_present = True

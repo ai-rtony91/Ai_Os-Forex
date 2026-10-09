@@ -10,13 +10,15 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from automation.forex_engine.forex_110_walkforward_oos_sufficiency_truth_lock_v1 import (  # noqa: E402
-    TRUTH_LOCK_PROVEN,
+    TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_BLOCKED,
     TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_CANDIDATE_MISMATCH,
     WALK_FORWARD_OOS_BLOCKED_MISSING_EVIDENCE,
     WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH,
-    WALK_FORWARD_OOS_PROVEN,
     build_report_markdown,
     run_walkforward_oos_sufficiency_truth_lock,
+)
+from automation.forex_engine.profit_proof_ledger_v1 import (
+    build_sample_profit_proof_candidates,
 )
 from scripts.forex_delivery.run_forex_110_walkforward_oos_sufficiency_truth_lock_v1 import (  # noqa: E402
     REPORT_NAME,
@@ -88,19 +90,21 @@ def assert_permissions_false(result: dict) -> None:
         assert result["permissions"][flag] is False
 
 
-def test_truth_lock_proves_when_oos_ready_and_top_candidate_aligned(tmp_path: Path) -> None:
+def test_truth_lock_blocks_unauthenticated_aligned_summary(tmp_path: Path) -> None:
     report_root = tmp_path / "reports"
     report_root.mkdir()
     write_profitability_report(report_root)
     write_walkforward_report(report_root, candidate_id="c2-eur-buy-stronger-review-ready")
 
-    result = run_walkforward_oos_sufficiency_truth_lock(report_root)
+    result = run_walkforward_oos_sufficiency_truth_lock(report_root, build_sample_profit_proof_candidates())
 
-    assert result["walk_forward_oos_status"] == WALK_FORWARD_OOS_PROVEN
-    assert result["profit_persistence_unlocked"] is True
-    assert result["truth_lock_status"] == TRUTH_LOCK_PROVEN
+    assert result["walk_forward_oos_status"] == "BLOCKED_SOURCE_AUTHENTICITY"
+    assert "NO_INDEPENDENT_VERIFIER_CONNECTED" in result["blockers"]
+    assert result["profit_persistence_unlocked"] is False
+    assert result["truth_lock_status"] == TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_BLOCKED
     assert result["top_candidate_alignment"]["status"] == "ALIGNED"
-    assert result["attack_to_finish"]["blocker_id"] == "NO_BLOCKER"
+    assert result["attack_to_finish"]["blocker_status"] == "BLOCKED"
+    assert result["attack_to_finish"]["missing_evidence_field"] == "source_authentication"
     assert_permissions_false(result)
 
 
@@ -110,7 +114,7 @@ def test_truth_lock_blocks_current_style_candidate_mismatch(tmp_path: Path) -> N
     write_profitability_report(report_root)
     write_walkforward_report(report_root, candidate_id="c1-eur-buy")
 
-    result = run_walkforward_oos_sufficiency_truth_lock(report_root)
+    result = run_walkforward_oos_sufficiency_truth_lock(report_root, build_sample_profit_proof_candidates())
 
     assert result["walk_forward_oos_status"] == WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH
     assert result["truth_lock_status"] == TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_CANDIDATE_MISMATCH
@@ -130,7 +134,7 @@ def test_truth_lock_blocks_missing_oos_counts(tmp_path: Path) -> None:
         include_oos=False,
     )
 
-    result = run_walkforward_oos_sufficiency_truth_lock(report_root)
+    result = run_walkforward_oos_sufficiency_truth_lock(report_root, build_sample_profit_proof_candidates())
 
     assert result["walk_forward_oos_status"] == WALK_FORWARD_OOS_BLOCKED_MISSING_EVIDENCE
     assert "oos_segments_total" in result["evidence_missing"]
@@ -163,12 +167,13 @@ def test_truth_lock_prefers_c2_source_over_older_c1_report(tmp_path: Path) -> No
         encoding="utf-8",
     )
 
-    result = run_walkforward_oos_sufficiency_truth_lock(report_root)
+    result = run_walkforward_oos_sufficiency_truth_lock(report_root, build_sample_profit_proof_candidates())
 
-    assert result["walk_forward_oos_status"] == WALK_FORWARD_OOS_PROVEN
+    assert result["walk_forward_oos_status"] == "BLOCKED_SOURCE_AUTHENTICITY"
+    assert "NO_INDEPENDENT_VERIFIER_CONNECTED" in result["blockers"]
     assert result["normalized_walkforward_oos_summary"]["windows_total"] == 6.0
     assert result["normalized_walkforward_oos_summary"]["max_allowed_drawdown"] == 0.5
-    assert result["profit_persistence_unlocked"] is True
+    assert result["profit_persistence_unlocked"] is False
     assert_permissions_false(result)
 
 
@@ -178,7 +183,7 @@ def test_report_markdown_contains_attack_to_finish(tmp_path: Path) -> None:
     write_profitability_report(report_root)
     write_walkforward_report(report_root, candidate_id="c1-eur-buy")
 
-    report = build_report_markdown(run_walkforward_oos_sufficiency_truth_lock(report_root))
+    report = build_report_markdown(run_walkforward_oos_sufficiency_truth_lock(report_root, build_sample_profit_proof_candidates()))
 
     assert "Walk-forward/OOS status: `BLOCKED_TOP_CANDIDATE_MISMATCH`" in report
     assert "ATTACK_TO_FINISH" in report

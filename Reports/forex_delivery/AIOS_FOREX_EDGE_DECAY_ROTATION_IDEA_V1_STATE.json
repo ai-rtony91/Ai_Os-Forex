@@ -1,0 +1,49 @@
+{
+  "artifact": "AIOS_FOREX_EDGE_DECAY_ROTATION_IDEA_V1",
+  "status": "IDEA_CAPTURED_ONLY",
+  "date": "2026-10-08",
+  "scope": "paper-first forex strategy rotation",
+  "proposed_component": "forex_edge_decay_rotation_manager_v1",
+  "live_trading_authorized": false,
+  "paper_auto_rotation_proposed": true,
+  "daily_run_proposed": true,
+  "strategy_states": [
+    "CANDIDATE",
+    "WARM",
+    "HOT",
+    "PAPER_ACTIVE",
+    "PROFITABLE_ACTIVE",
+    "WATCH_DECAY",
+    "STALE",
+    "RETIRED",
+    "REPLACEMENT_READY"
+  ],
+  "stale_rules_v1": {
+    "rolling_expectancy_after_costs_stale": "<= 0R after minimum recent closed trade sample",
+    "profit_factor_stale": "< 1.10 after minimum recent closed trade sample",
+    "drawdown_stale": "breaches configured cap",
+    "loss_streak_stale": "breaches policy loss limit",
+    "slippage_spread_stale": "cost drift makes expected edge non-positive",
+    "data_freshness_stale": "> 7 days without valid forward evidence",
+    "regime_mismatch_stale": "repeated mismatch with losing outcomes"
+  },
+  "install_boundary": {
+    "paper": "eligible after proof, risk, rollback, and paper handoff gates",
+    "live": "blocked without separate explicit owner approval"
+  },
+  "inputs": [
+    "bait_factory_output",
+    "warm_cold_scorer_output",
+    "proof_ledger_records",
+    "edge_autopilot_state",
+    "paper_campaign_results"
+  ],
+  "outputs": [
+    "daily_decay_report",
+    "strategy_state_changes",
+    "paper_install_requests",
+    "retirement_records",
+    "rollback_metadata",
+    "blocked_live_action_records"
+  ]
+}
