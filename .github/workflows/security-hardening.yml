@@ -1,0 +1,135 @@
+name: Security Hardening
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "31 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-hardening-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  secret-pattern-scan:
+    name: High-confidence secret pattern scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Scan tracked text files for committed secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git grep -nIP \
+            -e '-----BEGIN (RSA |DSA |EC |OPENSSH |PGP )?PRIVATE KEY-----' \
+            -e 'ghp_[A-Za-z0-9_]{36,}' \
+            -e 'github_pat_[A-Za-z0-9_]{82,}' \
+            -e 'AKIA[0-9A-Z]{16}' \
+            -e 'ASIA[0-9A-Z]{16}' \
+            -e 'xox[baprs]-[A-Za-z0-9-]{10,}' \
+            -e '(^|[^A-Za-z0-9_-])sk-(proj-)?(?!sample-|example-|placeholder|your_)[A-Za-z0-9_-]{20,}' \
+            -- \
+            ':!tests/**' \
+            ':!docs/**' \
+            ':!Reports/**' \
+            ':!**/*.example.json' \
+            ':!**/.env.example' \
+          && {
+            echo "Potential committed secret found in protected source scope."
+            exit 1
+          } || status=$?
+
+          if [ "${status:-0}" -eq 1 ]; then
+            echo "No high-confidence secrets found in protected source scope."
+            exit 0
+          fi
+
+          exit "${status:-0}"
+
+  dependency-review:
+    name: Dependency review
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@v5
+        with:
+          fail-on-severity: high
+
+  codeql:
+    name: CodeQL
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language:
+          - python
+          - javascript-typescript
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+
+  scorecard:
+    name: OpenSSF Scorecard
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+      security-events: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Run Scorecard
+        uses: ossf/scorecard-action@v2.4.2
+        with:
+          results_file: scorecard.sarif
+          results_format: sarif
+          publish_results: true
+
+      - name: Upload Scorecard SARIF
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: scorecard.sarif
