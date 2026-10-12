@@ -119,6 +119,7 @@ def collect_c2_walkforward_oos_source(
     valid_sources = [item for item in candidates if item["source_is_real_sanitized_local"]]
     conflicts = _conflicting_real_sources(valid_sources)
     source = valid_sources[0] if valid_sources and not conflicts else None
+    diagnostic_sources = [item["path"] for item in candidates if item["diagnostic_summary_complete"]]
     sample_refs = [item["path"] for item in candidates if item["source_is_test_or_sample"]]
 
     if conflicts:
@@ -136,7 +137,10 @@ def collect_c2_walkforward_oos_source(
         candidate_alignment = "ALIGNED"
         blockers = []
     else:
-        classification = SAMPLE_TEST_ONLY if sample_refs else SOURCE_UNAVAILABLE
+        classification = (
+            "UNVERIFIED_LOCAL_SUMMARY" if diagnostic_sources
+            else (SAMPLE_TEST_ONLY if sample_refs else SOURCE_UNAVAILABLE)
+        )
         status = SOURCE_COLLECTION_BLOCKED
         found = False
         generated = False
@@ -150,12 +154,15 @@ def collect_c2_walkforward_oos_source(
             ]
         )
 
+    blockers = _dedupe([*blockers, "NO_INDEPENDENT_VERIFIER_CONNECTED"])
     selected_fields = dict(source["fields"]) if source else _empty_source_fields()
     walkforward_status = str(truth_lock.get("walk_forward_oos_status") or "UNKNOWN")
     result = {
         "packet_id": PACKET_ID,
         "engine_version": ENGINE_VERSION,
         "source_collection_status": status,
+        "source_authentication_status": "UNVERIFIED",
+        "diagnostic_source_paths": diagnostic_sources,
         "evidence_source_classification": classification,
         "target_candidate_id": TARGET_CANDIDATE_ID,
         "top_candidate_id": top_candidate_id,
@@ -196,6 +203,35 @@ def collect_c2_walkforward_oos_source(
 
 def build_report_markdown(result: Mapping[str, Any]) -> str:
     """Build the source collection report."""
+
+    # Rendering a historical or caller-supplied label is not source verification.
+    result = dict(result)
+    result["source_authentication_status"] = "UNVERIFIED"
+    result["source_is_real_sanitized_local"] = False
+    result["permissions"] = dict(PROTECTED_PERMISSION_FLAGS)
+    result["blockers"] = list(dict.fromkeys([
+        *(result.get("blockers") or []), "NO_INDEPENDENT_VERIFIER_CONNECTED"
+    ]))
+    result["next_safe_action"] = (
+        "Provide independently verified candidate-bound source, trades and costs "
+        "through the existing evidence owner. Do not trade."
+    )
+    result["source_collection_status"] = SOURCE_COLLECTION_BLOCKED
+    for flag in ("c2_source_found", "c2_source_generated", "profit_persistence_unlocked"):
+        result[flag] = False
+    if result.get("evidence_source_classification") in {
+        REAL_SANITIZED_LOCAL_SOURCE_FOUND, REAL_SANITIZED_LOCAL_SOURCE_GENERATED,
+    }:
+        result["evidence_source_classification"] = "UNVERIFIED_LOCAL_SUMMARY"
+    result["walkforward_oos_status_after_rerun"] = "BLOCKED_SOURCE_AUTHENTICITY"
+    result["attack_to_finish"] = {
+        **dict(result.get("attack_to_finish") or {}),
+        "blocker_id": "MISSING_SOURCE_AUTHENTICITY",
+        "blocker_status": "BLOCKED",
+        "exact_blocker": "candidate source, trade receipts, costs and independent replay are unverified",
+        "missing_evidence_field": "independent_source_verification",
+        "stop_condition": "source authenticity remains unverified",
+    }
 
     attack = result.get("attack_to_finish") if isinstance(result.get("attack_to_finish"), Mapping) else {}
     lines = [
@@ -257,32 +293,10 @@ def build_report_markdown(result: Mapping[str, Any]) -> str:
 def build_source_markdown(result: Mapping[str, Any]) -> str:
     """Build a consumable C2 source report only from a proven real source."""
 
-    if result.get("evidence_source_classification") not in {
-        REAL_SANITIZED_LOCAL_SOURCE_FOUND,
-        REAL_SANITIZED_LOCAL_SOURCE_GENERATED,
-    }:
-        raise ValueError("C2 source report requires real sanitized local source evidence")
-    lines = [
-        "# AIOS Forex 110 C2 Walk-Forward OOS Source V1",
-        "",
-        f"- candidate: `{TARGET_CANDIDATE_ID}`",
-        f"- windows_total: {result.get('windows_total')}",
-        f"- windows_passed: {result.get('windows_passed')}",
-        f"- oos_segments_total: {result.get('oos_segments_total')}",
-        f"- oos_segments_passed: {result.get('oos_segments_passed')}",
-        f"- min_pass_rate: {result.get('min_pass_rate')}",
-        f"- max_drawdown: {result.get('max_drawdown')}",
-        f"- max_allowed_drawdown: {result.get('max_allowed_drawdown')}",
-        f"- sanitized: {str(result.get('sanitized')).lower()}",
-        f"- evidence_age_days: {result.get('evidence_age_days')}",
-        f"- max_evidence_age_days: {result.get('max_evidence_age_days')}",
-        f"- source_path: `{result.get('source_path')}`",
-        "",
-        "This source is repo-local, deterministic, non-test, non-sample, and review-only.",
-        "It creates no broker, credential, demo, live, order, money, commit, push, PR, or merge authority.",
-        "",
-    ]
-    return "\n".join(lines)
+    raise ValueError(
+        "C2 source report requires real sanitized local source evidence; "
+        "independent source verifier is unavailable"
+    )
 
 
 def _scan_candidate_sources(base: Path, roots: Iterable[str | Path]) -> list[dict[str, Any]]:
@@ -317,7 +331,7 @@ def _candidate_from_path(base: Path, path: Path) -> dict[str, Any] | None:
     source_is_test_or_sample = _is_test_or_sample(path, text)
     source_is_blocker_report = _is_blocker_report(text)
     evaluation = evaluate_walk_forward_oos_evidence(_summary_for_evaluation(fields))
-    source_is_real = (
+    diagnostic_summary_complete = (
         not source_is_test_or_sample
         and not source_is_blocker_report
         and fields.get("candidate") == TARGET_CANDIDATE_ID
@@ -329,7 +343,10 @@ def _candidate_from_path(base: Path, path: Path) -> dict[str, Any] | None:
         "fields": fields,
         "source_is_test_or_sample": source_is_test_or_sample,
         "source_is_blocker_report": source_is_blocker_report,
-        "source_is_real_sanitized_local": source_is_real,
+        # Completeness and a file location cannot verify market-data custody,
+        # candidate trade receipts, costs or an independent replay.
+        "source_is_real_sanitized_local": False,
+        "diagnostic_summary_complete": diagnostic_summary_complete,
         "evaluation_status": evaluation.get("walk_forward_oos_status"),
         "evaluation_blockers": list(evaluation.get("blockers") or []),
         "missing_fields": _missing_required_fields(fields),

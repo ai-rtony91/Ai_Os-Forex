@@ -180,7 +180,11 @@ def build_completion_index_markdown(result: Mapping[str, Any]) -> str:
     lines = [
         "# AIOS Forex 110 Completion Index V1",
         "",
-        "Forex 110 repo-safe proof chain is review-ready.",
+        (
+            "Forex 110 repo-safe proof chain is review-ready."
+            if result.get("closure_status") == "READY_FOR_OWNER_REVIEW"
+            else "Forex 110 repo-safe proof chain remains blocked."
+        ),
         "",
         "## Review State",
         f"- Closure status: `{result['closure_status']}`",

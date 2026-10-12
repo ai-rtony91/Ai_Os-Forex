@@ -1,5 +1,14 @@
 # AIOS Forex 110 C2 Real Walk-Forward OOS Harness Source V1
 
+> CORRECTION (2026-10-12): REJECTED_SYNTHETIC_FIXTURE / UNVERIFIED.
+> These retained numbers derive from hard-coded sample outcomes, not authenticated market trades.
+> They cannot qualify C2 for PAPER. Original committed text is preserved at 6c937257d954a1f12e96e012e8d3f7f79594e75b.
+
+- source_is_test_or_sample: true
+- source_is_real_sanitized_local: false
+- source_authentication_status: UNVERIFIED
+
+
 - candidate: `c2-eur-buy-stronger-review-ready`
 - windows_total: 6
 - windows_passed: 6
