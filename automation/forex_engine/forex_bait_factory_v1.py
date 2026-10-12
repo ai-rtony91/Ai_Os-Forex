@@ -1,4 +1,4 @@
-﻿"""Repo-safe Forex bait factory V1.
+"""Repo-safe Forex bait factory V1.
 The factory builds candidate bait from local hypotheses, labels it HOT/WARM/COLD,
 runs proof review gates, and prepares a paper-campaign handoff. It does not read
 secrets, contact brokers, place orders, or start background runtime.
@@ -320,4 +320,3 @@ __all__ = [
     "build_report_markdown",
     "run_forex_bait_factory_v1",
 ]
-

@@ -1,4 +1,4 @@
-﻿"""Repo-safe Forex edge autopilot V1.
+"""Repo-safe Forex edge autopilot V1.
 This orchestrator repeats only local evidence and proof gates. It never reads
 credentials, contacts a broker, starts a scheduler/daemon, places orders, or
 creates demo/live authority.
@@ -253,4 +253,3 @@ __all__ = [
     "build_report_markdown",
     "run_forex_edge_autopilot_v1",
 ]
-

@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 from pathlib import Path
 import json
 import sys
@@ -85,4 +85,3 @@ def test_build_report_handles_empty_bait() -> None:
     )
     assert "- none" in report
     assert "keep searching" in report
-

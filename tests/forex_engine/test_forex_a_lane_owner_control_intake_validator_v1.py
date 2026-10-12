@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from datetime import datetime, timezone
 
@@ -125,4 +125,3 @@ def test_stale_timestamp_blocks_payload() -> None:
 
     assert result["status"] == validator.REVIEW_REQUIRED
     assert any(blocker.endswith("stale:evidence_timestamp_utc") for blocker in result["blockers"])
-
