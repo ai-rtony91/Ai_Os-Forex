@@ -13,6 +13,58 @@
   "broker_action_allowed": false,
   "claim_audit": {
     "candidate_id": "c2-eur-buy-stronger-review-ready",
+    "authentic_source_preflight_20261012": {
+      "observed_at_utc": "2026-10-12T18:53:58Z",
+      "main_commit": "27f8e43e4555afa8b7410b1d1bf666cb2a0b0809",
+      "board_counts": {"total": 107, "completed": 65, "blocked": 42},
+      "status": "BLOCKED_SOURCE_CUSTODY_PERMISSION_AND_HUMAN_ADMISSION",
+      "local_lineage_reused": {"eurusd_m5_partitions": 24, "records": 149453},
+      "fresh_native_metadata_sha256": {
+        "corpus_manifest": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+        "acquisition_checkpoint": "ce5adbde8bc4e317e00d3b9221e3ba6f816dd1f22be1cb6082f01cc254db92a1",
+        "development_manifest": "ab40a9fc6c2abb1c9dfe1065afb072b8483d00ada693a708d0ea92c6aa901313",
+        "registered_request": "50940fd5d31bb9571f6ea69f2a8f9d41d34e3ef8e0f3f5278524ee80ba9c7ca6"
+      },
+      "provider_case": "07372843_ACKNOWLEDGED_REVIEW_PENDING_NO_NEW_PERMISSION",
+      "native_admission": {"approval_status": "pending_review", "approved_by_human": false, "signature_field_present": false},
+      "prepared_catalog": {
+        "job_ids": ["S6_FXH02_0_db46c2e61c2e0231", "S6_FXH02_1_1ae33616d4e000d0", "S6_FXH02_2_357693da213e47f0"],
+        "instrument": "EUR_USD", "granularity": "M5",
+        "development_start": "2024-01-01T00:00:00Z", "development_end_exclusive": "2026-01-01T00:00:00Z",
+        "configurations": 6, "physical_calls": 18, "executed": false,
+        "catalog_sha256": "325d4febfc427aa5d0cc5164ab60b771c6d9d1b2281d88106f38a55ebb60d333",
+        "allocation_is_preparation_not_reconciled_spent_totals": true
+      },
+      "new_trials": 0, "new_trade_receipts": 0, "new_market_calls": 0,
+      "holdout_opened": false, "credentials_accessed": false, "orders": 0,
+      "c2_quarantined": true, "c2_qualifying_trades": 0,
+      "next_changed_input": "Independently accepted authentic acquisition/custody and applicable provider permission tied to this source, or a distinctly licensed successor; then existing HUMAN_ONLY admission and current input/history/budget/resource checks.",
+      "original_h1_mapping_is_separate": true,
+      "existing_framework_reused": true,
+      "native_trade_contract_inspection": {
+        "source_sha256": "bfd6ca07ad5068a2a2ca76489808711b708bf2c1856c660fa396aa71a8145108",
+        "gate_pin_matches": true,
+        "individual_trade_economics_already_emitted": true,
+        "parameters_and_source_inherited_from_frozen_parent": true,
+        "spread_embedded_in_bid_ask_prices": true,
+        "financing_excluded_by_no_rollover_boundary": true,
+        "intrabar_fill_time_can_be_unknown": true,
+        "event_id_not_guaranteed_unique_per_trade": true,
+        "saved_metrics_check": "SAME_ENGINE_CONSISTENCY_NOT_INDEPENDENT_FINANCIAL_RECONSTRUCTION",
+        "new_actual_receipts": 0
+      },
+      "focused_verification": {
+        "test_module": "tests/forex_engine/test_forex_110_final_dashboard_closure_v1.py",
+        "windows_python": "3.12",
+        "tests_passed": 9,
+        "expected_pre_fix_projection_failures": 3,
+        "configured_ruff": "0.17.0 F821/F822/F823 PASS",
+        "diff_check": "PASS",
+        "cached_window_map_and_state_refreshed": true,
+        "full_suite_claimed": false
+      },
+      "scope_limit": "Metadata/source-code preflight and proof-projection repair only. No new market evaluation or independent economic verification."
+    },
     "claim_origin": "build_default_c2_harness_input hard-coded 6x7 outcomes; saved walkforward and OOS results exactly match fixture",
     "cost_reconciliation": "UNVERIFIED: supplied realized_pl forced by sample generator; after_costs=True was hard-coded",
     "disposition": "REJECTED_SYNTHETIC_FIXTURE_NOT_PROVEN",

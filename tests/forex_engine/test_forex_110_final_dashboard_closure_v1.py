@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import sys
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -197,6 +198,7 @@ def test_committed_dashboard_cache_agrees_with_corrected_candidate_proof():
     for field in ("closure_status", "profit_proof_status", "dashboard_completion_status"):
         assert fresh[field] == "BLOCKED"
         assert cached[field] == fresh[field]
+    assert cached["clickable_emoji_windows"] == fresh["clickable_emoji_windows"]
     for flag in PROTECTED_FLAGS:
         assert cached[flag] is False
 
@@ -208,3 +210,97 @@ def test_blocked_completion_index_does_not_claim_review_ready():
     report = build_completion_index_markdown(result)
     assert "Forex 110 repo-safe proof chain is review-ready" not in report
     assert "Forex 110 repo-safe proof chain remains blocked" in report
+
+
+def closure_with_truth_lock(truth_lock: dict, c2_status: str = "PROVEN") -> dict:
+    states = {
+        "AIOS_FOREX_110_PROFIT_EVIDENCE_TRUTH_LOCK_V1_STATE.json": truth_lock,
+        "AIOS_FOREX_110_PERSISTENT_PROFITABILITY_PERIOD_EVIDENCE_V1_STATE.json": {
+            "period_evidence_status": "PROVEN_PERSISTENT_PROFITABILITY_PERIODS",
+        },
+        "AIOS_FOREX_110_WALKFORWARD_OOS_SUFFICIENCY_TRUTH_LOCK_V1_STATE.json": {
+            "truth_lock_status": "PROVEN",
+        },
+        "AIOS_FOREX_110_C2_REAL_WALKFORWARD_OOS_HARNESS_V1_STATE.json": {
+            "harness_status": "PROVEN_REAL_WALKFORWARD_OOS_HARNESS",
+        },
+        "AIOS_FOREX_110_C2_WALKFORWARD_OOS_SOURCE_COLLECTION_V1_STATE.json": {
+            "source_collection_status": "PROVEN_REAL_SANITIZED_LOCAL_C2_SOURCE",
+        },
+        "AIOS_FOREX_110_C2_WALKFORWARD_OOS_EVIDENCE_GENERATION_V1_STATE.json": {
+            "c2_oos_evidence_status": c2_status,
+        },
+    }
+    with patch(
+        "automation.forex_engine.forex_110_final_dashboard_closure_v1._read_json",
+        side_effect=lambda path: states[path.name],
+    ):
+        return run_forex_110_final_dashboard_closure_v1()
+
+
+def test_blocked_clickable_window_summaries_agree_with_source_statuses() -> None:
+    result = run_forex_110_final_dashboard_closure_v1(ROOT / "Reports" / "forex_delivery")
+    summaries = {window["target"]: window["default_summary"] for window in result["clickable_emoji_windows"]}
+
+    assert result["closure_status"] == "BLOCKED"
+    assert result["profit_proof_status"] == "BLOCKED"
+    assert summaries["command_center"] == "Forex 110 blocked state and next safe action."
+    assert summaries["candidate"] == "No top candidate is available for owner review."
+    assert summaries["profit_proof"] == "Profit proof is blocked for owner review only."
+    window_map = build_clickable_emoji_window_map_markdown(result)
+    assert "review-ready" not in window_map
+    assert "Profit proof is proven" not in window_map
+    assert_protected_flags_false(result)
+
+
+def test_ready_clickable_window_summaries_preserve_source_proof_status() -> None:
+    result = closure_with_truth_lock({
+        "truth_lock_status": "PROVEN",
+        "profit_proof_status": "PROVEN",
+        "persistent_profitability_status": "PERSISTENT_PROFITABILITY_READY",
+        "top_candidate_id": "C2",
+    })
+    summaries = {window["target"]: window["default_summary"] for window in result["clickable_emoji_windows"]}
+
+    assert result["closure_status"] == "READY_FOR_OWNER_REVIEW"
+    assert result["profit_proof_status"] == "PROVEN"
+    assert summaries["command_center"] == "Forex 110 review-ready state and next safe action."
+    assert summaries["candidate"] == "Top candidate is review-ready only."
+    assert summaries["profit_proof"] == "Profit proof is proven for owner review only."
+    window_map = build_clickable_emoji_window_map_markdown(result)
+    assert all(summary in window_map for summary in summaries.values())
+    assert_protected_flags_false(result)
+
+
+def test_ready_closure_does_not_manufacture_a_top_candidate() -> None:
+    for candidate_id in (None, "", "NONE"):
+        result = closure_with_truth_lock({
+            "truth_lock_status": "PROVEN",
+            "profit_proof_status": "PROVEN",
+            "persistent_profitability_status": "PERSISTENT_PROFITABILITY_READY",
+            "top_candidate_id": candidate_id,
+        })
+        summaries = {window["target"]: window["default_summary"] for window in result["clickable_emoji_windows"]}
+
+        assert result["closure_status"] == "READY_FOR_OWNER_REVIEW"
+        assert summaries["candidate"] == "No top candidate is available for owner review."
+
+
+def test_blocked_closure_projects_profit_proof_status_independently() -> None:
+    for status in ("BLOCKED", "UNKNOWN", "PROVEN"):
+        truth_lock = {
+            "truth_lock_status": "PROVEN",
+            "persistent_profitability_status": "PERSISTENT_PROFITABILITY_READY",
+            "top_candidate_id": "C2",
+        }
+        if status != "UNKNOWN":
+            truth_lock["profit_proof_status"] = status
+        result = closure_with_truth_lock(truth_lock, c2_status="BLOCKED")
+        summaries = {window["target"]: window["default_summary"] for window in result["clickable_emoji_windows"]}
+
+        assert result["closure_status"] == "BLOCKED"
+        assert result["profit_proof_status"] == status
+        assert summaries["profit_proof"] == f"Profit proof is {status.lower()} for owner review only."
+        assert summaries["candidate"] == "Top candidate has not cleared the proof chain."
+        assert summaries["command_center"] == "Forex 110 blocked state and next safe action."
+        assert_protected_flags_false(result)

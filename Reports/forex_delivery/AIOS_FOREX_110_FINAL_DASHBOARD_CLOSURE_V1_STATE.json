@@ -24,7 +24,7 @@
   "c2_source_status": "BLOCKED",
   "clickable_emoji_windows": [
     {
-      "default_summary": "Forex 110 review-ready state and next safe action.",
+      "default_summary": "Forex 110 blocked state and next safe action.",
       "hidden_detail": "Full proof-chain internals stay behind report links.",
       "label": "\ud83c\udfdb Command Center",
       "target": "command_center"
@@ -36,7 +36,7 @@
       "target": "safety_gate"
     },
     {
-      "default_summary": "Top candidate is review-ready only.",
+      "default_summary": "No top candidate is available for owner review.",
       "hidden_detail": "Candidate scoring internals stay behind report links.",
       "label": "\ud83c\udfaf Candidate",
       "target": "candidate"
@@ -48,7 +48,7 @@
       "target": "evidence"
     },
     {
-      "default_summary": "Profit proof is proven for owner review only.",
+      "default_summary": "Profit proof is blocked for owner review only.",
       "hidden_detail": "No profit guarantee; detailed math stays behind report links.",
       "label": "\ud83d\udcb0 Profit Proof",
       "target": "profit_proof"
