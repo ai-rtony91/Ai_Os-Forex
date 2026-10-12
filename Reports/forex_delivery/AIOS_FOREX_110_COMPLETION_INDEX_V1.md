@@ -1,6 +1,6 @@
 # AIOS Forex 110 Completion Index V1
 
-Forex 110 repo-safe proof chain is review-ready.
+Forex 110 repo-safe proof chain remains blocked.
 
 ## Review State
 - Closure status: `BLOCKED`

@@ -192,6 +192,7 @@ def build_report_markdown(result: Mapping[str, Any]) -> str:
         "through the existing evidence owner. Do not trade."
     )
     result["harness_status"] = HARNESS_BLOCKED
+    result["walkforward_oos_status"] = "UNVERIFIED_DIAGNOSTIC"
 
     lines = [
         "# AIOS Forex 110 C2 Real Walk-Forward OOS Harness V1",

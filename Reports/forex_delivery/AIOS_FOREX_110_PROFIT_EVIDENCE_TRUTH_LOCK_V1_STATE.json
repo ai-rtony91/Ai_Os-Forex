@@ -18,6 +18,14 @@
     "disposition": "REJECTED_SYNTHETIC_FIXTURE_NOT_PROVEN",
     "excluded_other_strategy_paper_trade": "sprint_4_intraday_trend_follow_v1, accepted count 1",
     "execution_permissions_granted": false,
+    "failed_preparations": [
+      {
+        "correction": "Explicit UTF-8 for dashboard source and regenerated reports",
+        "error": "UnicodeDecodeError in temporary edit script using Windows default text encoding",
+        "final_verification": "124 passed; syntax and configured lint passed",
+        "pid": 23300
+      }
+    ],
     "fixture_arithmetic": {
       "gross_loss": 1.91,
       "gross_profit": 13.09,
@@ -61,6 +69,8 @@
         "failed_on_unchanged_snapshot": 5
       },
       "red_regressions": {
+        "blocked_completion_index_wording": 1,
+        "forged_harness_oos_status": 1,
         "harness_authenticity": 10,
         "historical_period_export": 2,
         "historical_report_formatters": 3,
@@ -70,7 +80,7 @@
       "scope_limit": "Focused offline engineering verification, not a full-suite or economic-proof claim",
       "scoped_modules": 14,
       "syntax": "PASS",
-      "tests_passed": 123
+      "tests_passed": 124
     },
     "original_commit": "6c937257d954a1f12e96e012e8d3f7f79594e75b",
     "original_git_content_sha256": {

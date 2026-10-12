@@ -199,3 +199,12 @@ def test_committed_dashboard_cache_agrees_with_corrected_candidate_proof():
         assert cached[field] == fresh[field]
     for flag in PROTECTED_FLAGS:
         assert cached[flag] is False
+
+
+def test_blocked_completion_index_does_not_claim_review_ready():
+    from automation.forex_engine.forex_110_final_dashboard_closure_v1 import build_completion_index_markdown
+    result = run_forex_110_final_dashboard_closure_v1(ROOT / "Reports" / "forex_delivery")
+    assert result["closure_status"] == "BLOCKED"
+    report = build_completion_index_markdown(result)
+    assert "Forex 110 repo-safe proof chain is review-ready" not in report
+    assert "Forex 110 repo-safe proof chain remains blocked" in report

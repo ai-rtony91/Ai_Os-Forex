@@ -154,12 +154,13 @@ def test_module_source_has_no_external_or_execution_access() -> None:
 def test_report_formatter_blocks_historical_and_forged_proof_labels():
     import copy
     historical = json.loads((Path(__file__).with_name("fixtures") / "c2_historical_false_proven_state.json").read_text())
+    historical["walkforward_oos_status"] = "PROVEN"
     historical["source_authentication_status"] = "VERIFIED"
     for key in historical.get("permissions", {}):
         historical["permissions"][key] = True
     before = copy.deepcopy(historical)
     report = build_report_markdown(historical)
-    for forbidden in ['PROVEN_REAL_WALKFORWARD_OOS_HARNESS']:
+    for forbidden in ['PROVEN_REAL_WALKFORWARD_OOS_HARNESS', 'Walk-forward/OOS status: `PROVEN`']:
         assert forbidden not in report
     assert "NO_INDEPENDENT_VERIFIER_CONNECTED" in report
     for flag in PROTECTED_FLAGS:

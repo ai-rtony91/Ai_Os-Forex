@@ -4,7 +4,7 @@ Packet ID: `PKT-FOREX-110-C2-REAL-WALKFORWARD-OOS-HARNESS-BUILD-V1`
 Harness status: `BLOCKED_REAL_WALKFORWARD_OOS_HARNESS`
 Candidate: `c2-eur-buy-stronger-review-ready`
 Candidate alignment: `ALIGNED`
-Walk-forward/OOS status: `WALK_FORWARD_OOS_READY`
+Walk-forward/OOS status: `UNVERIFIED_DIAGNOSTIC`
 
 ## Sanitized Evidence Fields
 - windows_total: `6`
