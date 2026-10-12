@@ -25,7 +25,7 @@
         "development_manifest": "ab40a9fc6c2abb1c9dfe1065afb072b8483d00ada693a708d0ea92c6aa901313",
         "registered_request": "50940fd5d31bb9571f6ea69f2a8f9d41d34e3ef8e0f3f5278524ee80ba9c7ca6"
       },
-      "provider_case": "07372843_ACKNOWLEDGED_REVIEW_PENDING_NO_NEW_PERMISSION",
+      "provider_case": "ACKNOWLEDGED_REVIEW_PENDING_NO_NEW_PERMISSION",
       "native_admission": {"approval_status": "pending_review", "approved_by_human": false, "signature_field_present": false},
       "prepared_catalog": {
         "job_ids": ["S6_FXH02_0_db46c2e61c2e0231", "S6_FXH02_1_1ae33616d4e000d0", "S6_FXH02_2_357693da213e47f0"],
