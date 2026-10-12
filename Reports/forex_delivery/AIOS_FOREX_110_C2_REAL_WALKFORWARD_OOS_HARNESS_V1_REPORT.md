@@ -1,7 +1,7 @@
 # AIOS Forex 110 C2 Real Walk-Forward OOS Harness V1
 
 Packet ID: `PKT-FOREX-110-C2-REAL-WALKFORWARD-OOS-HARNESS-BUILD-V1`
-Harness status: `PROVEN_REAL_WALKFORWARD_OOS_HARNESS`
+Harness status: `BLOCKED_REAL_WALKFORWARD_OOS_HARNESS`
 Candidate: `c2-eur-buy-stronger-review-ready`
 Candidate alignment: `ALIGNED`
 Walk-forward/OOS status: `WALK_FORWARD_OOS_READY`
@@ -19,7 +19,9 @@ Walk-forward/OOS status: `WALK_FORWARD_OOS_READY`
 - max_evidence_age_days: `7`
 
 ## Blockers
-- none
+- default walk-forward/OOS inputs are synthetic sample data
+- source authenticity is not independently verified
+- NO_INDEPENDENT_VERIFIER_CONNECTED
 
 ## Permission Locks
 - next_demo_trade_allowed: `false`
@@ -33,4 +35,4 @@ Walk-forward/OOS status: `WALK_FORWARD_OOS_READY`
 - owner_approval_created: `false`
 
 ## Next Safe Action
-Rerun C2 source collection and sufficiency truth lock. Do not trade.
+Provide independently verified candidate-bound source, trades and costs through the existing evidence owner. Do not trade.

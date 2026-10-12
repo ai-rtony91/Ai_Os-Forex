@@ -3,17 +3,17 @@
 Forex 110 repo-safe proof chain is review-ready.
 
 ## Review State
-- Closure status: `READY_FOR_OWNER_REVIEW`
-- Repo-safe completion: `FOREX_110_REPO_SAFE_PROOF_CHAIN_REVIEW_READY`
-- Dashboard completion: `COMPLETE`
+- Closure status: `BLOCKED`
+- Repo-safe completion: `FOREX_110_REPO_SAFE_PROOF_CHAIN_BLOCKED`
+- Dashboard completion: `BLOCKED`
 - Protected boundary: `LOCKED_FALSE`
 
 ## Proof Chain
-- C2 walk-forward/OOS source: `PROVEN`
-- Walk-forward/OOS proof: `PROVEN`
-- Profit truth lock: `PROVEN`
-- Profit proof: `PROVEN`
-- Persistent profitability: `READY`
+- C2 walk-forward/OOS source: `BLOCKED`
+- Walk-forward/OOS proof: `BLOCKED_TOP_CANDIDATE_MISMATCH`
+- Profit truth lock: `BLOCKED`
+- Profit proof: `BLOCKED`
+- Persistent profitability: `PERSISTENT_PROFITABILITY_BLOCKED`
 
 ## Source Links
 - `Reports/forex_delivery/AIOS_FOREX_110_PROFIT_EVIDENCE_TRUTH_LOCK_V1_STATE.json`

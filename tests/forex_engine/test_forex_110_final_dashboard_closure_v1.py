@@ -188,3 +188,14 @@ def test_runner_writes_allowed_outputs(tmp_path: Path) -> None:
         doc_root / DOC_WINDOW_MAP_NAME,
     ):
         assert path.exists()
+
+
+def test_committed_dashboard_cache_agrees_with_corrected_candidate_proof():
+    root = ROOT / "Reports" / "forex_delivery"
+    fresh = run_forex_110_final_dashboard_closure_v1(root)
+    cached = json.loads((root / "AIOS_FOREX_110_FINAL_DASHBOARD_CLOSURE_V1_STATE.json").read_text())
+    for field in ("closure_status", "profit_proof_status", "dashboard_completion_status"):
+        assert fresh[field] == "BLOCKED"
+        assert cached[field] == fresh[field]
+    for flag in PROTECTED_FLAGS:
+        assert cached[flag] is False

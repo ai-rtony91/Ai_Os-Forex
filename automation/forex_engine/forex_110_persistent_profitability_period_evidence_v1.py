@@ -33,6 +33,7 @@ PERIOD_EVIDENCE_PROVEN = "PROVEN_PERSISTENT_PROFITABILITY_PERIODS"
 PERIOD_EVIDENCE_BLOCKED = "BLOCKED_INSUFFICIENT_PROFITABLE_PERIODS"
 PERIOD_EVIDENCE_SAMPLE_TEST_ONLY = "SAMPLE_TEST_ONLY"
 PERIOD_EVIDENCE_MISSING_SOURCE = "BLOCKED_MISSING_C2_PERIOD_SOURCE"
+PERIOD_EVIDENCE_UNVERIFIED = "BLOCKED_UNVERIFIED_C2_PERIOD_SOURCE"
 
 MIN_CLOSED_TRADE_COUNT = 30
 MIN_EXPECTANCY = 0.0
@@ -107,23 +108,18 @@ def run_persistent_profitability_period_evidence(
     periods = _profitable_periods_from_harness(harness)
     summary = _period_summary(harness, periods)
     missing_periods = max(0, MIN_PROFITABLE_PERIODS - int(summary["consecutive_profitable_periods"]))
-    source_path = root / SOURCE_NAME
-    source_generated = missing_periods == 0
+    # A saved harness label and profitable numeric windows do not authenticate
+    # original market data, fills, costs or independent replay. No verifier is
+    # connected here; retain the arithmetic as diagnostics without exporting proof.
 
     result = {
         **base_result,
-        "period_evidence_status": (
-            PERIOD_EVIDENCE_PROVEN if source_generated else PERIOD_EVIDENCE_BLOCKED
-        ),
-        "evidence_source_classification": (
-            "REAL_SANITIZED_LOCAL_C2_PERIOD_SOURCE"
-            if source_generated
-            else "BLOCKED_INSUFFICIENT_PROFITABLE_PERIODS"
-        ),
-        "c2_period_source_generated": source_generated,
-        "source_path": source_path.as_posix() if source_generated else "NONE",
+        "period_evidence_status": PERIOD_EVIDENCE_UNVERIFIED,
+        "evidence_source_classification": "DIAGNOSTIC_UNVERIFIED_C2_PERIOD_SOURCE",
+        "c2_period_source_generated": False,
+        "source_path": "NONE",
         "source_is_test_or_sample": False,
-        "source_is_real_sanitized_local": source_generated,
+        "source_is_real_sanitized_local": False,
         "consecutive_profitable_periods": summary["consecutive_profitable_periods"],
         "min_profitable_periods": summary["min_profitable_periods"],
         "missing_profitable_periods": missing_periods,
@@ -131,64 +127,68 @@ def run_persistent_profitability_period_evidence(
         "profit_factor": summary["profit_factor"],
         "max_drawdown": summary["max_drawdown"],
         "closed_trade_count": summary["closed_trade_count"],
-        "blockers": [] if source_generated else ["profitable periods are below threshold"],
+        "blockers": [
+            "NO_INDEPENDENT_VERIFIER_CONNECTED",
+            *(["profitable periods are below threshold"] if missing_periods else []),
+        ],
+        "source_authentication_status": "UNVERIFIED",
         "required_proof_fields": summary,
-        "attack_to_finish": _attack_to_finish(source_generated, missing_periods),
+        "attack_to_finish": {
+            **_attack_to_finish(False, missing_periods),
+            "exact_blocker": "candidate source, trade receipts, costs and independent replay are unverified",
+            "missing_evidence_field": "independent_source_verification",
+            "stop_condition": "source authenticity remains unverified",
+        },
         "next_safe_action": (
-            "Rerun the profit evidence truth lock. No trading authority is created."
-            if source_generated
-            else "Collect additional real sanitized profitable periods. Do not trade."
+            "Provide independently verified candidate-bound source, trades and costs "
+            "through the existing evidence owner. Do not trade."
         ),
     }
-    if source_generated:
-        result["source_markdown"] = build_source_markdown(result)
     return _attach_truth_lock(result, root)
 
 
 def build_source_markdown(result: Mapping[str, Any]) -> str:
     """Build the consumable persistent profitability source report."""
 
-    fields = result.get("required_proof_fields") or {}
-    if result.get("period_evidence_status") != PERIOD_EVIDENCE_PROVEN:
-        raise ValueError("source markdown requires proven persistent period evidence")
-    return "\n".join(
-        [
-            "# AIOS Forex 110 Persistent Profitability Period Source V1",
-            "",
-            "Persistent profitability evidence summary.",
-            f"- candidate: `{TARGET_CANDIDATE_ID}`",
-            f"- closed_trade_count: {fields.get('closed_trade_count')}",
-            f"- min_closed_trade_count: {fields.get('min_closed_trade_count')}",
-            f"- expectancy: {fields.get('expectancy')}",
-            f"- min_expectancy: {fields.get('min_expectancy')}",
-            f"- profit_factor: {fields.get('profit_factor')}",
-            f"- min_profit_factor: {fields.get('min_profit_factor')}",
-            f"- max_drawdown: {fields.get('max_drawdown')}",
-            f"- max_allowed_drawdown: {fields.get('max_allowed_drawdown')}",
-            f"- consecutive_profitable_periods: {fields.get('consecutive_profitable_periods')}",
-            f"- min_profitable_periods: {fields.get('min_profitable_periods')}",
-            f"- after_costs: {str(fields.get('after_costs')).lower()}",
-            f"- sanitized: {str(fields.get('sanitized')).lower()}",
-            f"- evidence_age_days: {fields.get('evidence_age_days')}",
-            f"- max_evidence_age_days: {fields.get('max_evidence_age_days')}",
-            "",
-            "| window_id | expectancy | profit_factor | max_drawdown | closed_trades | promotion_status | blocker_reasons |",
-            "|---|---:|---:|---:|---:|---|---|",
-            *[
-                "| {window_id} | {expectancy} | {profit_factor} | {max_drawdown} | "
-                "{closed_trades} | {promotion_status} | {blocker_reasons} |".format(**period)
-                for period in result.get("profitable_periods", [])
-            ],
-            "",
-            "This source is repo-local, deterministic, non-test, non-sample, sanitized, after-costs, and review-only.",
-            "It grants no broker, credential, demo, live, order, money, commit, push, PR, or merge authority.",
-            "",
-        ]
+    # Caller-supplied and historical result labels cannot authenticate a source.
+    raise ValueError(
+        "source markdown requires proven persistent period evidence; "
+        "independent source verifier is unavailable"
     )
 
 
 def build_report_markdown(result: Mapping[str, Any]) -> str:
     """Build an operator-readable period evidence report."""
+
+    # Rendering a historical or caller-supplied label is not source verification.
+    result = dict(result)
+    result["source_authentication_status"] = "UNVERIFIED"
+    result["source_is_real_sanitized_local"] = False
+    result["permissions"] = dict(PROTECTED_PERMISSION_FLAGS)
+    result["blockers"] = list(dict.fromkeys([
+        *(result.get("blockers") or []), "NO_INDEPENDENT_VERIFIER_CONNECTED"
+    ]))
+    result["next_safe_action"] = (
+        "Provide independently verified candidate-bound source, trades and costs "
+        "through the existing evidence owner. Do not trade."
+    )
+    if result.get("period_evidence_status") == PERIOD_EVIDENCE_PROVEN:
+        result["period_evidence_status"] = PERIOD_EVIDENCE_UNVERIFIED
+    if result.get("evidence_source_classification") == "REAL_SANITIZED_LOCAL_C2_PERIOD_SOURCE":
+        result["evidence_source_classification"] = "DIAGNOSTIC_UNVERIFIED_C2_PERIOD_SOURCE"
+    result["c2_period_source_generated"] = False
+    result["profit_truth_lock_status_after_rerun"] = "BLOCKED"
+    result["profit_proof_status_after_rerun"] = "BLOCKED"
+    result["persistent_profitability_status_after_rerun"] = "UNVERIFIED_DIAGNOSTIC"
+    result["profit_persistence_unlocked"] = False
+    result["attack_to_finish"] = {
+        **dict(result.get("attack_to_finish") or {}),
+        "blocker_id": "MISSING_SOURCE_AUTHENTICITY",
+        "blocker_status": "BLOCKED",
+        "exact_blocker": "candidate source, trade receipts, costs and independent replay are unverified",
+        "missing_evidence_field": "independent_source_verification",
+        "stop_condition": "source authenticity remains unverified",
+    }
 
     lines = [
         "# AIOS Forex 110 Persistent Profitability Period Evidence V1",
@@ -269,19 +269,27 @@ def _period_summary(harness: Mapping[str, Any], periods: list[dict[str, Any]]) -
         "min_profit_factor": MIN_PROFIT_FACTOR,
         "max_drawdown": max_drawdown,
         "max_allowed_drawdown": _float(harness.get("max_allowed_drawdown")),
-        "consecutive_profitable_periods": len(periods),
+        "consecutive_profitable_periods": _profitable_streak(harness, periods),
         "min_profitable_periods": MIN_PROFITABLE_PERIODS,
-        "after_costs": True,
+        "after_costs": False,
+        "cost_verification_status": "UNVERIFIED",
+        "expectancy_unit": "USD_DIAGNOSTIC",
         "sanitized": True,
         "evidence_age_days": _float(harness.get("evidence_age_days")),
         "max_evidence_age_days": _float(harness.get("max_evidence_age_days")),
     }
 
 
+def _profitable_streak(harness: Mapping[str, Any], periods: list[dict[str, Any]]) -> int:
+    passing = {period["window_id"] for period in periods}
+    longest = streak = 0
+    for row in (harness.get("walkforward_result") or {}).get("window_results") or []:
+        streak = streak + 1 if row.get("window_number") in passing else 0
+        longest = max(longest, streak)
+    return longest
+
+
 def _attach_truth_lock(result: dict[str, Any], root: Path) -> dict[str, Any]:
-    if result.get("c2_period_source_generated") is True:
-        source_path = root / SOURCE_NAME
-        source_path.write_text(str(result.pop("source_markdown")), encoding="utf-8")
     truth_lock = run_profit_evidence_truth_lock(root)
     result["profit_truth_lock_status_after_rerun"] = truth_lock.get("truth_lock_status")
     result["profit_proof_status_after_rerun"] = truth_lock.get("profit_proof_status")
@@ -292,14 +300,10 @@ def _attach_truth_lock(result: dict[str, Any], root: Path) -> dict[str, Any]:
         truth_lock.get("persistent_profitability_status") == "PERSISTENT_PROFITABILITY_READY"
         and truth_lock.get("profit_proof_status") == "PROVEN"
     )
-    if result.get("c2_period_source_generated") is True and result["profit_persistence_unlocked"] is not True:
-        normalized = truth_lock.get("normalized_profitability_summary") or {}
-        result["attack_to_finish"] = _post_rerun_blocker_attack_to_finish(normalized)
-        result["next_safe_action"] = (
-            "C2 period source is generated, but the canonical intake still resolves an earlier "
-            "one-period preferred report first. Repair intake precedence or retire stale "
-            "one-period proof under a separate approved packet. Do not trade."
-        )
+    result["source_authentication_status"] = truth_lock.get("source_authentication_status", "UNVERIFIED")
+    result["blockers"] = list(dict.fromkeys([
+        *(result.get("blockers") or []), *(truth_lock.get("blockers") or []),
+    ]))
     return result
 
 
@@ -365,30 +369,6 @@ def _attack_to_finish(proven: bool, missing_periods: int) -> dict[str, str]:
     }
 
 
-def _post_rerun_blocker_attack_to_finish(normalized: Mapping[str, Any]) -> dict[str, str]:
-    periods = int(_float(normalized.get("consecutive_profitable_periods")))
-    min_periods = int(_float(normalized.get("min_profitable_periods") or MIN_PROFITABLE_PERIODS))
-    missing = max(0, min_periods - periods)
-    return {
-        "blocker_id": "MISSING_EVIDENCE_FIELD",
-        "blocker_status": "BLOCKED",
-        "exact_blocker": (
-            "Generated C2 source proves enough profitable periods, but existing "
-            f"profitability intake still resolves consecutive_profitable_periods={periods} "
-            "from an earlier preferred report before the generated source."
-        ),
-        "canonical_owner_file": "automation/forex_engine/profitability_evidence_intake_v1.py",
-        "test_file": "tests/forex_engine/test_profitability_evidence_intake_v1.py",
-        "runner_script": "scripts/forex_delivery/run_forex_110_profit_evidence_truth_lock_v1.py",
-        "missing_evidence_field": f"canonical intake period precedence still short by {missing} periods",
-        "unlock_status_required": "PROVEN",
-        "next_packet_name": "PKT-FOREX-110-PROFITABILITY-INTAKE-C2-PERSISTENCE-PRECEDENCE-V1",
-        "owner_action_required": "approve APPLY for profitability intake precedence repair",
-        "stop_condition": "profit truth lock rerun remains persistence-blocked",
-        "no_bloat_guard": "Repair existing intake precedence only; do not create duplicate proof authority.",
-    }
-
-
 def _read_json(path: Path) -> Mapping[str, Any]:
     if not path.exists():
         return {}
@@ -411,6 +391,7 @@ __all__ = [
     "PACKET_ID",
     "PERIOD_EVIDENCE_BLOCKED",
     "PERIOD_EVIDENCE_MISSING_SOURCE",
+    "PERIOD_EVIDENCE_UNVERIFIED",
     "PERIOD_EVIDENCE_PROVEN",
     "PERIOD_EVIDENCE_SAMPLE_TEST_ONLY",
     "SOURCE_NAME",

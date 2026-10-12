@@ -1,15 +1,101 @@
 {
-  "packet_id": "PKT-FOREX-110-FINAL-DASHBOARD-CLOSURE-AND-PROTECTED-HANDOFF-V1",
-  "engine_version": "forex_110_final_dashboard_closure_v1",
-  "closure_status": "READY_FOR_OWNER_REVIEW",
-  "repo_safe_completion_status": "FOREX_110_REPO_SAFE_PROOF_CHAIN_REVIEW_READY",
-  "profit_truth_lock_status": "PROVEN",
-  "profit_proof_status": "PROVEN",
-  "persistent_profitability_status": "READY",
-  "walkforward_oos_status": "PROVEN",
-  "c2_source_status": "PROVEN",
-  "dashboard_completion_status": "COMPLETE",
-  "total_completion_label": "FOREX_110_REPO_SAFE_COMPLETE_OWNER_REVIEW_REQUIRED",
+  "ATTACK_TO_FINISH": {
+    "blocker_id": "MISSING_EVIDENCE_FIELD",
+    "blocker_status": "BLOCKED",
+    "canonical_owner_file": "docs/trading_lab/forex/FOREX_110_FINAL_DASHBOARD_CLOSURE_V1.md",
+    "exact_blocker": "Forex 110 proof chain did not satisfy all closure statuses.",
+    "missing_evidence_field": "closure_status",
+    "next_packet_name": "NONE",
+    "no_bloat_guard": "Use this focused closure layer; do not create duplicate dashboard authority, secret authority, broker authority, or proof engines.",
+    "owner_action_required": "review Reports/forex_delivery/AIOS_FOREX_110_COMPLETION_INDEX_V1.md",
+    "runner_script": "scripts/forex_delivery/run_forex_110_final_dashboard_closure_v1.py",
+    "stop_condition": "proof chain incomplete",
+    "test_file": "tests/forex_engine/test_forex_110_final_dashboard_closure_v1.py",
+    "unlock_status_required": "READY_FOR_OWNER_REVIEW"
+  },
+  "account_identifiers_used": false,
+  "all_protected_permission_flags_false": true,
+  "autonomous_real_money_trading_authorized": false,
+  "background_loop_started": false,
+  "bank_movement_allowed": false,
+  "bitwarden_blocked_until_forex_110_complete": true,
+  "broker_action_allowed": false,
+  "broker_api_used": false,
+  "c2_source_status": "BLOCKED",
+  "clickable_emoji_windows": [
+    {
+      "default_summary": "Forex 110 review-ready state and next safe action.",
+      "hidden_detail": "Full proof-chain internals stay behind report links.",
+      "label": "\ud83c\udfdb Command Center",
+      "target": "command_center"
+    },
+    {
+      "default_summary": "Protected permissions are locked false.",
+      "hidden_detail": "Policy details and gate evidence stay behind report links.",
+      "label": "\ud83d\udee1 Safety Gate",
+      "target": "safety_gate"
+    },
+    {
+      "default_summary": "Top candidate is review-ready only.",
+      "hidden_detail": "Candidate scoring internals stay behind report links.",
+      "label": "\ud83c\udfaf Candidate",
+      "target": "candidate"
+    },
+    {
+      "default_summary": "Repo-safe evidence chain is available.",
+      "hidden_detail": "Raw evidence, long logs, and metadata stay behind report links.",
+      "label": "\ud83d\udcc1 Evidence",
+      "target": "evidence"
+    },
+    {
+      "default_summary": "Profit proof is proven for owner review only.",
+      "hidden_detail": "No profit guarantee; detailed math stays behind report links.",
+      "label": "\ud83d\udcb0 Profit Proof",
+      "target": "profit_proof"
+    },
+    {
+      "default_summary": "Broker/API/order/live/demo authority is false.",
+      "hidden_detail": "Broker-heavy state stays behind report links.",
+      "label": "\ud83d\udea7 Broker Boundary",
+      "target": "broker_boundary"
+    },
+    {
+      "default_summary": "Open closure index, UX contract, and boundary handoff.",
+      "hidden_detail": "Long report body opens only by click.",
+      "label": "\ud83d\udcc4 Reports",
+      "target": "reports"
+    },
+    {
+      "default_summary": "Show only critical owner action requirements.",
+      "hidden_detail": "Escalation evidence stays behind report links.",
+      "label": "\ud83d\udea8 SOS / Owner Wake",
+      "target": "sos_owner_wake"
+    },
+    {
+      "default_summary": "Placeholder only; no runtime authority.",
+      "hidden_detail": "Settings implementation deferred to a later approved packet.",
+      "label": "\u2699\ufe0f Settings Placeholder",
+      "target": "settings_placeholder"
+    },
+    {
+      "default_summary": "Bitwarden and secrets work remains blocked.",
+      "hidden_detail": "Secrets workflow requires a separate owner-approved packet.",
+      "label": "\ud83d\udd10 Secrets Later",
+      "target": "secrets_later"
+    }
+  ],
+  "closure_status": "BLOCKED",
+  "compounding_allowed": false,
+  "credential_access_allowed": false,
+  "credentials_used": false,
+  "critical_only_display_rules": [
+    "Show closure status, proof-chain state, protected boundary state, and next safe action first.",
+    "Display owner-review requirement near any demo, live, broker, order, money, or credential reference.",
+    "Display locked false flags as summaries, not as operational controls.",
+    "Never display a profit guarantee or autonomous real-money trading claim."
+  ],
+  "daemon_started": false,
+  "dashboard_completion_status": "BLOCKED",
   "dashboard_user_sections": [
     "Command Center",
     "Safety Gate",
@@ -22,89 +108,34 @@
     "Settings Placeholder",
     "Secrets Later"
   ],
-  "clickable_emoji_windows": [
-    {
-      "label": "\ud83c\udfdb Command Center",
-      "target": "command_center",
-      "default_summary": "Forex 110 review-ready state and next safe action.",
-      "hidden_detail": "Full proof-chain internals stay behind report links."
-    },
-    {
-      "label": "\ud83d\udee1 Safety Gate",
-      "target": "safety_gate",
-      "default_summary": "Protected permissions are locked false.",
-      "hidden_detail": "Policy details and gate evidence stay behind report links."
-    },
-    {
-      "label": "\ud83c\udfaf Candidate",
-      "target": "candidate",
-      "default_summary": "Top candidate is review-ready only.",
-      "hidden_detail": "Candidate scoring internals stay behind report links."
-    },
-    {
-      "label": "\ud83d\udcc1 Evidence",
-      "target": "evidence",
-      "default_summary": "Repo-safe evidence chain is available.",
-      "hidden_detail": "Raw evidence, long logs, and metadata stay behind report links."
-    },
-    {
-      "label": "\ud83d\udcb0 Profit Proof",
-      "target": "profit_proof",
-      "default_summary": "Profit proof is proven for owner review only.",
-      "hidden_detail": "No profit guarantee; detailed math stays behind report links."
-    },
-    {
-      "label": "\ud83d\udea7 Broker Boundary",
-      "target": "broker_boundary",
-      "default_summary": "Broker/API/order/live/demo authority is false.",
-      "hidden_detail": "Broker-heavy state stays behind report links."
-    },
-    {
-      "label": "\ud83d\udcc4 Reports",
-      "target": "reports",
-      "default_summary": "Open closure index, UX contract, and boundary handoff.",
-      "hidden_detail": "Long report body opens only by click."
-    },
-    {
-      "label": "\ud83d\udea8 SOS / Owner Wake",
-      "target": "sos_owner_wake",
-      "default_summary": "Show only critical owner action requirements.",
-      "hidden_detail": "Escalation evidence stays behind report links."
-    },
-    {
-      "label": "\u2699\ufe0f Settings Placeholder",
-      "target": "settings_placeholder",
-      "default_summary": "Placeholder only; no runtime authority.",
-      "hidden_detail": "Settings implementation deferred to a later approved packet."
-    },
-    {
-      "label": "\ud83d\udd10 Secrets Later",
-      "target": "secrets_later",
-      "default_summary": "Bitwarden and secrets work remains blocked.",
-      "hidden_detail": "Secrets workflow requires a separate owner-approved packet."
-    }
-  ],
-  "critical_only_display_rules": [
-    "Show closure status, proof-chain state, protected boundary state, and next safe action first.",
-    "Display owner-review requirement near any demo, live, broker, order, money, or credential reference.",
-    "Display locked false flags as summaries, not as operational controls.",
-    "Never display a profit guarantee or autonomous real-money trading claim."
-  ],
-  "hidden_heavy_data_rules": [
-    "Keep raw evidence, long logs, metadata, proof internals, and broker-heavy state behind report links.",
-    "Keep account identifiers, credentials, `.env`, broker API details, and secret paths out of the dashboard.",
-    "Open detailed proof reports only after an intentional user click.",
-    "Use repo-safe report links instead of embedding heavy state in first-view dashboard panels."
-  ],
+  "demo_authorized": false,
   "end_user_overwhelm_prevention_rules": [
     "Use one concise state label per window.",
     "Prefer review-ready, locked, blocked, and next-action labels over dense proof text.",
     "Collapse non-critical evidence by default.",
     "Keep SOS / Owner Wake reserved for real owner action, not routine proof detail."
   ],
-  "protected_boundary_status": "LOCKED_FALSE",
-  "bitwarden_blocked_until_forex_110_complete": true,
+  "engine_version": "forex_110_final_dashboard_closure_v1",
+  "env_read": false,
+  "hidden_heavy_data_rules": [
+    "Keep raw evidence, long logs, metadata, proof internals, and broker-heavy state behind report links.",
+    "Keep account identifiers, credentials, `.env`, broker API details, and secret paths out of the dashboard.",
+    "Open detailed proof reports only after an intentional user click.",
+    "Use repo-safe report links instead of embedding heavy state in first-view dashboard panels."
+  ],
+  "live_authorized": false,
+  "live_trading_allowed": false,
+  "next_demo_trade_allowed": false,
   "next_safe_action": "Owner review of the Forex 110 closure index and protected boundary handoff. Do not start Bitwarden, secrets, demo, live, broker, order, money, scheduler, daemon, webhook, or background-loop lanes until closure is landed.",
+  "order_execution": false,
+  "order_submission_allowed": false,
+  "owner_approval_created": false,
+  "owner_review_required": true,
+  "packet_id": "PKT-FOREX-110-FINAL-DASHBOARD-CLOSURE-AND-PROTECTED-HANDOFF-V1",
+  "persistent_profitability_status": "PERSISTENT_PROFITABILITY_BLOCKED",
+  "profit_guarantee_created": false,
+  "profit_proof_status": "BLOCKED",
+  "profit_truth_lock_status": "BLOCKED",
   "proof_chain_sources": [
     "AIOS_FOREX_110_PROFIT_EVIDENCE_TRUTH_LOCK_V1_STATE.json",
     "AIOS_FOREX_110_PERSISTENT_PROFITABILITY_PERIOD_EVIDENCE_V1_STATE.json",
@@ -114,64 +145,33 @@
     "AIOS_FOREX_110_C2_WALKFORWARD_OOS_SOURCE_COLLECTION_V1_STATE.json",
     "AIOS_FOREX_110_C2_WALKFORWARD_OOS_EVIDENCE_GENERATION_V1_STATE.json"
   ],
-  "owner_review_required": true,
-  "profit_guarantee_created": false,
-  "autonomous_real_money_trading_authorized": false,
+  "protected_boundary_status": "LOCKED_FALSE",
   "protected_permission_flags": {
-    "broker_api_used": false,
-    "credentials_used": false,
-    "env_read": false,
     "account_identifiers_used": false,
-    "order_execution": false,
-    "demo_authorized": false,
-    "live_authorized": false,
-    "scheduler_started": false,
-    "daemon_started": false,
-    "webhook_started": false,
     "background_loop_started": false,
-    "next_demo_trade_allowed": false,
-    "broker_action_allowed": false,
-    "real_money_allowed": false,
-    "compounding_allowed": false,
     "bank_movement_allowed": false,
-    "live_trading_allowed": false,
+    "broker_action_allowed": false,
+    "broker_api_used": false,
+    "compounding_allowed": false,
     "credential_access_allowed": false,
+    "credentials_used": false,
+    "daemon_started": false,
+    "demo_authorized": false,
+    "env_read": false,
+    "live_authorized": false,
+    "live_trading_allowed": false,
+    "next_demo_trade_allowed": false,
+    "order_execution": false,
     "order_submission_allowed": false,
-    "owner_approval_created": false
+    "owner_approval_created": false,
+    "real_money_allowed": false,
+    "scheduler_started": false,
+    "webhook_started": false
   },
-  "all_protected_permission_flags_false": true,
-  "ATTACK_TO_FINISH": {
-    "blocker_id": "NO_BLOCKER",
-    "blocker_status": "READY_FOR_OWNER_REVIEW",
-    "exact_blocker": "NONE",
-    "canonical_owner_file": "docs/trading_lab/forex/FOREX_110_FINAL_DASHBOARD_CLOSURE_V1.md",
-    "test_file": "tests/forex_engine/test_forex_110_final_dashboard_closure_v1.py",
-    "runner_script": "scripts/forex_delivery/run_forex_110_final_dashboard_closure_v1.py",
-    "missing_evidence_field": "NONE",
-    "unlock_status_required": "READY_FOR_OWNER_REVIEW",
-    "next_packet_name": "NONE",
-    "owner_action_required": "review Reports/forex_delivery/AIOS_FOREX_110_COMPLETION_INDEX_V1.md",
-    "stop_condition": "NONE",
-    "no_bloat_guard": "Use this focused closure layer; do not create duplicate dashboard authority, secret authority, broker authority, or proof engines."
-  },
-  "broker_api_used": false,
-  "credentials_used": false,
-  "env_read": false,
-  "account_identifiers_used": false,
-  "order_execution": false,
-  "demo_authorized": false,
-  "live_authorized": false,
-  "scheduler_started": false,
-  "daemon_started": false,
-  "webhook_started": false,
-  "background_loop_started": false,
-  "next_demo_trade_allowed": false,
-  "broker_action_allowed": false,
   "real_money_allowed": false,
-  "compounding_allowed": false,
-  "bank_movement_allowed": false,
-  "live_trading_allowed": false,
-  "credential_access_allowed": false,
-  "order_submission_allowed": false,
-  "owner_approval_created": false
+  "repo_safe_completion_status": "FOREX_110_REPO_SAFE_PROOF_CHAIN_BLOCKED",
+  "scheduler_started": false,
+  "total_completion_label": "FOREX_110_REPO_SAFE_INCOMPLETE",
+  "walkforward_oos_status": "BLOCKED_TOP_CANDIDATE_MISMATCH",
+  "webhook_started": false
 }
