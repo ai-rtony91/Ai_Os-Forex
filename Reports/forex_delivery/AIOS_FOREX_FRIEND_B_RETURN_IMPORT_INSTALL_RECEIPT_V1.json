@@ -1,0 +1,75 @@
+{
+  "schema": "AIOS_FOREX_FRIEND_B_RETURN_IMPORT_INSTALL_RECEIPT_V1",
+  "created_utc": "2026-10-09T21:06:10Z",
+  "observer": "codex_a_lane_coordinator",
+  "source_zip": {
+    "uploaded_name": "AIOS_Friend_B_Evidence_Return_2026-10-09(1).zip",
+    "scratch_path": "/workspace/scratch/48a2e3a1bd16/upload/AIOS_Friend_B_Evidence_Return_2026-10-09(1).zip",
+    "sha256": "1e64590ed14bcc2fd1e42e4cc8ee87c63b272ebc660b2df61f588023411be2a3",
+    "member_count": 409
+  },
+  "friend_b_return_summary": {
+    "assigned_tasks": 25,
+    "blocked_tasks": 25,
+    "actual_acceptance_tasks_completed": 0,
+    "operational_gate_closures": 0,
+    "paper_ready": false,
+    "live_ready": false,
+    "classification": "SOURCE_BOUND_PREPARATION_AND_EVIDENCE_RETURN_NOT_AUTHORITY"
+  },
+  "installed_patches": [
+    {
+      "source_member": "work/data/mtf_consumer_repair/12_aggregation_completeness_and_mtf_admission.patch",
+      "native_path": "Reports/forex_delivery/friend_b_return_import_20261009/12_aggregation_completeness_and_mtf_admission.patch",
+      "sha256": "44423623f0343848ac50b2a2775f35867561e422c1e153fa47da7552b387e036",
+      "scope": "MTF/M5 consumer refusal and aggregation completeness retention"
+    },
+    {
+      "source_member": "work/strategy/truth_lock_repair/truth_lock_source_authentication.patch",
+      "native_path": "Reports/forex_delivery/friend_b_return_import_20261009/truth_lock_source_authentication.patch",
+      "sha256": "f84b3f212ac61a5fd899b517ba305fb9abb4ef27db6d7db82b441a655a6d6f00",
+      "scope": "Truth-lock source authentication and synthetic proof refusal"
+    },
+    {
+      "source_member": "work/paper/candidate_identity_preservation_with_tests.patch",
+      "native_path": "Reports/forex_delivery/friend_b_return_import_20261009/candidate_identity_preservation_with_tests.patch",
+      "sha256": "bd89d3bca41bd7f34cee2270b60beea3eacbb45680970098320a1ea9b6d3191d",
+      "scope": "PAPER candidate identity preservation"
+    }
+  ],
+  "native_integration": {
+    "repo": "C:/Dev/Ai.Os",
+    "branch": "codex/forex-edge-autopilot-20261008",
+    "git_apply_check": "PASS for all three exact Friend B patches",
+    "git_apply": "APPLIED",
+    "target_files_were_clean_before_apply": true
+  },
+  "verification": [
+    {
+      "command": "python -m pytest tests\\forex_engine\\test_forex_mtf_aggregation_completeness_v1.py tests\\forex_engine\\test_forex_mtf_consumer_admission_v1.py tests\\forex_engine\\test_forex_110_profit_evidence_truth_lock_v1.py tests\\forex_engine\\test_forex_110_walkforward_oos_sufficiency_truth_lock_v1.py tests\\forex_engine\\test_forex_110_truth_lock_source_authentication.py tests\\forex_engine\\test_forex_p1_candidate_identity_custody_v1.py -q",
+      "result": "73 passed in 1.46s",
+      "status": "PASS"
+    },
+    {
+      "command": "python -m pytest tests\\forex_engine\\test_forex_mtf_aggregation_completeness_v1.py tests\\forex_engine\\test_forex_mtf_consumer_admission_v1.py tests\\forex_engine\\test_forex_mtf_indicator_coverage_v1.py tests\\forex_engine\\test_forex_m5_day_trading_adapter_v2.py tests\\forex_engine\\test_forex_m5_runtime_root_handoff_v1.py tests\\forex_engine\\test_forex_multipair_m5_replay_v1.py tests\\forex_engine\\test_forex_110_profit_evidence_truth_lock_v1.py tests\\forex_engine\\test_forex_110_walkforward_oos_sufficiency_truth_lock_v1.py tests\\forex_engine\\test_forex_110_truth_lock_source_authentication.py tests\\forex_engine\\test_persistent_profitability_evidence_v1.py tests\\forex_engine\\test_walk_forward_oos_evidence_v1.py tests\\forex_engine\\test_forex_p1_candidate_identity_custody_v1.py tests\\forex_engine\\test_forex_p1_supervised_paper_evidence_pipeline_v1.py tests\\forex_engine\\test_forex_p1_supervised_paper_capture_replay_v1.py tests\\forex_engine\\test_forex_p1_supervised_paper_session_v1.py tests\\forex_engine\\test_paper_evidence_promotion_gate.py tests\\forex_engine\\test_paper_to_demo_promotion.py -q",
+      "result": "297 passed in 50.25s",
+      "status": "PASS"
+    }
+  ],
+  "protected_actions_not_taken": [
+    "no broker API",
+    "no credentials",
+    "no orders",
+    "no execution policy change",
+    "no script signing",
+    "no claim script execution",
+    "no PAPER or LIVE readiness claim"
+  ],
+  "remaining_gate_blockers": [
+    "Friend B all 25 assigned evidence tasks remain blocked as returned.",
+    "Three conflicting run IDs still need owner-approved reconciliation.",
+    "Eight exact terminal candidate dispositions remain unresolved.",
+    "Current canonical spent/reserved totals remain unresolved.",
+    "Admitted development data, real candidate identity, cost provenance, independent verifier, untouched proof custody, P1 identity/cost provenance, and authenticated PAPER observation time remain missing."
+  ]
+}

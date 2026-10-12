@@ -163,14 +163,54 @@ def execute_single_live_micro_trade(
     executed = False
     order_count = 0
     broker_result: dict[str, Any] = {}
+    connector_called = False
+    transport_attempted: bool | None = False
+    outcome_known = True
 
     if status == LIVE_RUNTIME_EXECUTION_READY and execute_requested:
         intent = dict(request.get("sanitized_order_intent", {}))
-        result = live_connector.place_live_micro_order(dict(intent))
-        executed = True
-        order_count = 1
-        status = LIVE_RUNTIME_EXECUTION_SUBMITTED
+        connector_called = True
+        transport_attempted = None
+        try:
+            result = live_connector.place_live_micro_order(dict(intent))
+        except Exception:
+            result = {"outcome_known": False, "blockers": ("connector_outcome_unknown",)}
         broker_result = _sanitize_mapping(result or {})
+        submitted_raw = broker_result.get("submitted", False)
+        accepted_raw = broker_result.get("accepted", False)
+        if type(submitted_raw) is not bool:
+            blockers.append("connector_submitted_not_bool")
+        if type(accepted_raw) is not bool:
+            blockers.append("connector_accepted_not_bool")
+        broker_result["submitted"] = submitted_raw is True
+        broker_result["accepted"] = accepted_raw is True
+        outcome_known = _known_order_outcome(broker_result)
+        reported_attempt = broker_result.get("transport_attempted")
+        if _attempt_acknowledgement_conflict(broker_result):
+            transport_attempted = None
+        elif type(reported_attempt) is bool:
+            transport_attempted = reported_attempt
+        elif broker_result.get("submitted") is True:
+            transport_attempted = True
+        if _confirmed_order_submission(broker_result):
+            executed = True
+            order_count = 1
+            status = LIVE_RUNTIME_EXECUTION_SUBMITTED
+        else:
+            status = LIVE_RUNTIME_EXECUTION_BLOCKED
+            if broker_result.get("submitted") is False:
+                blockers.append("connector_order_not_submitted")
+            reasons = broker_result.get("blockers")
+            if isinstance(reasons, (list, tuple)):
+                blockers.extend(reason for reason in reasons if isinstance(reason, str))
+            if broker_result.get("submitted") is True and broker_result.get("accepted") is False:
+                blockers.append("connector_order_not_accepted")
+            else:
+                blockers.append("connector_not_accepted" if outcome_known else "connector_outcome_unknown")
+
+    safety = _safety_summary(order_executed=executed, broker_call=transport_attempted is True)
+    # Preserve uncertainty instead of falsely claiming no broker interaction.
+    safety["broker_call_performed"] = transport_attempted
 
     return {
         "execution_schema": "AIOS_SINGLE_LIVE_MICRO_TRADE_EXECUTOR_V1",
@@ -178,15 +218,20 @@ def execute_single_live_micro_trade(
         "ready": status in {LIVE_RUNTIME_EXECUTION_READY, LIVE_RUNTIME_EXECUTION_SUBMITTED},
         "executed": executed,
         "order_count": order_count,
+        "order_count_semantics": "confirmed_accepted_submissions_this_call",
+        "connector_called": connector_called,
+        "transport_attempted": transport_attempted,
+        "outcome_known": outcome_known,
+        "retry_allowed": False,
         "blockers": tuple(_unique(blockers)),
         "sanitized_broker_result": broker_result,
-        "safety_summary": _safety_summary(order_executed=executed, broker_call=executed),
+        "safety_summary": safety,
         "next_safe_action": _next_execution_action(status),
         "latency_budget": {
             "runtime_request_eval_ms": 1,
             "connector_gate_eval_ms": 1,
             "single_order_submit_ms": 1 if executed else 0,
-            "network_latency_ms": "runtime_injected_connector_only" if executed else "excluded_until_execute_requested",
+            "network_latency_ms": "runtime_injected_connector_only" if connector_called else "excluded_until_execute_requested",
         },
         "no_loop": True,
         "no_retry": True,
@@ -204,6 +249,18 @@ def record_live_micro_trade_runtime_result(
     execution = dict(execution_result or {})
     review = dict(result_review or {})
     blockers: list[str] = []
+    broker_result = execution.get("sanitized_broker_result")
+    attempt_conflict = (_attempt_acknowledgement_conflict(broker_result)
+                        or (_confirmed_order_submission(broker_result)
+                            and "transport_attempted" in execution
+                            and execution["transport_attempted"] is not True))
+    outcome_known = (_known_order_outcome(broker_result) and not attempt_conflict
+                     and execution.get("outcome_known", True) is True)
+    confirmed = (execution.get("execution_status") == LIVE_RUNTIME_EXECUTION_SUBMITTED
+                 and execution.get("executed") is True
+                 and execution.get("order_count") == 1
+                 and outcome_known
+                 and _confirmed_order_submission(execution.get("sanitized_broker_result")))
 
     if not execution:
         status = LIVE_RUNTIME_LEDGER_INVALID
@@ -211,6 +268,14 @@ def record_live_micro_trade_runtime_result(
     elif execution.get("execution_status") != LIVE_RUNTIME_EXECUTION_SUBMITTED or not execution.get("executed"):
         status = LIVE_RUNTIME_LEDGER_REVIEW_REQUIRED
         blockers.append("execution_not_submitted")
+    elif not confirmed:
+        status = LIVE_RUNTIME_LEDGER_REVIEW_REQUIRED
+        if isinstance(broker_result, Mapping):
+            if broker_result.get("submitted") is not True:
+                blockers.append("broker_result_not_submitted")
+            if broker_result.get("accepted") is not True:
+                blockers.append("broker_result_not_accepted")
+        blockers.append("connector_submission_unconfirmed")
     elif _contains_sensitive_keys(review):
         status = LIVE_RUNTIME_LEDGER_BLOCKED
         blockers.append("sensitive_result_review_field_detected")
@@ -221,28 +286,37 @@ def record_live_micro_trade_runtime_result(
         status = LIVE_RUNTIME_LEDGER_READY
 
     sanitized_result = {
-        "broker_result": _sanitize_mapping(execution.get("sanitized_broker_result", {})),
+        "broker_result": _sanitize_mapping(broker_result),
         "review": _sanitize_mapping(review),
         "recorded_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "one_order_only": execution.get("order_count", 0) == 1,
+        "one_order_only": confirmed,
+        "reported_order_count": execution.get("order_count", 0),
         "sanitized": True,
     }
+    transport_attempted = execution.get("transport_attempted")
+    if type(transport_attempted) is not bool and isinstance(broker_result, Mapping):
+        transport_attempted = broker_result.get("transport_attempted")
+    if type(transport_attempted) is not bool:
+        transport_attempted = True if confirmed else None
+    if attempt_conflict:
+        transport_attempted = None
+    safety = _safety_summary(order_executed=confirmed, broker_call=transport_attempted is True)
+    safety["broker_call_performed"] = transport_attempted
 
     return {
         "ledger_schema": "AIOS_LIVE_RUNTIME_RESULT_LEDGER_V1",
         "ledger_status": status,
         "ready": status == LIVE_RUNTIME_LEDGER_READY,
+        "outcome_known": outcome_known,
+        "retry_allowed": False,
         "blockers": tuple(_unique(blockers)),
         "sanitized_result": sanitized_result,
         "evidence_summary": {
-            "execution_submitted": execution.get("execution_status") == LIVE_RUNTIME_EXECUTION_SUBMITTED,
-            "order_count": execution.get("order_count", 0),
+            "execution_submitted": confirmed,
+            "order_count": 1 if confirmed else 0,
             "one_order_only": execution.get("order_count", 0) <= 1,
         },
-        "safety_summary": _safety_summary(
-            order_executed=execution.get("executed", False),
-            broker_call=execution.get("executed", False),
-        ),
+        "safety_summary": safety,
         "next_safe_action": _next_ledger_action(status),
         "latency_budget": {
             "execution_result_read_ms": 1,
@@ -250,6 +324,28 @@ def record_live_micro_trade_runtime_result(
             "network_latency_ms": "not_applicable_post_execution_record",
         },
     }
+
+
+def _known_order_outcome(payload: Any) -> bool:
+    if not isinstance(payload, Mapping):
+        return False
+    submitted, accepted = payload.get("submitted"), payload.get("accepted")
+    return (type(submitted) is bool and type(accepted) is bool
+            and not (accepted and not submitted)
+            and ("transport_attempted" not in payload or type(payload["transport_attempted"]) is bool)
+            and not _attempt_acknowledgement_conflict(payload)
+            and payload.get("outcome_known", True) is True
+            and not (accepted and payload.get("blockers")))
+
+
+def _attempt_acknowledgement_conflict(payload: Any) -> bool:
+    return (isinstance(payload, Mapping) and payload.get("submitted") is True
+            and "transport_attempted" in payload and payload["transport_attempted"] is not True)
+
+
+def _confirmed_order_submission(payload: Any) -> bool:
+    return (_known_order_outcome(payload) and payload.get("submitted") is True
+            and payload.get("accepted") is True and not payload.get("blockers"))
 
 
 def _command_ready(command: Mapping[str, Any]) -> bool:
@@ -338,6 +434,15 @@ def _validate_live_connector(connector: Any) -> tuple[bool, tuple[str, ...]]:
     return not blockers, tuple(blockers)
 
 
+def _sanitize_value(value: Any) -> Any:
+    """Apply the existing sensitive-key filter through every nested container."""
+    if isinstance(value, Mapping):
+        return _sanitize_mapping(value)
+    if isinstance(value, list | tuple):
+        return [_sanitize_value(item) for item in value]
+    return value
+
+
 def _sanitize_mapping(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, Mapping):
         return {}
@@ -346,15 +451,7 @@ def _sanitize_mapping(payload: Any) -> dict[str, Any]:
         lowered = str(key).strip().lower()
         if lowered in SENSITIVE_KEYS:
             continue
-        if isinstance(value, Mapping):
-            sanitized[str(key)] = _sanitize_mapping(value)
-        elif isinstance(value, list | tuple):
-            sanitized[str(key)] = [
-                _sanitize_mapping(item) if isinstance(item, Mapping) else item
-                for item in value
-            ]
-        else:
-            sanitized[str(key)] = value
+        sanitized[str(key)] = _sanitize_value(value)
     sanitized["credential_persisted"] = False
     sanitized["account_id_persisted"] = False
     sanitized["raw_broker_payload_persisted"] = False

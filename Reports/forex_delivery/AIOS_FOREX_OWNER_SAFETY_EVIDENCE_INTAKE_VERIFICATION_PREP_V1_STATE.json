@@ -9,8 +9,8 @@
   "epic_name": "Owner Safety Evidence Intake And Verification Prep",
   "bucket_id": "BKT-FOREX-OWNER-SAFETY-EVIDENCE-INTAKE-001",
   "bucket_name": "Owner Safety Evidence Intake Template And Classifier",
-  "status": "OWNER_SAFETY_EVIDENCE_PRESENT_UNVERIFIED",
-  "current_timestamp_utc": "2026-06-29T09:44:23Z",
+  "status": "OWNER_SAFETY_EVIDENCE_INTAKE_REVIEW",
+  "current_timestamp_utc": "2026-10-09T20:39:03Z",
   "required_controls": [
     "kill_switch_state",
     "daily_stop_state",
@@ -19,75 +19,75 @@
   ],
   "control_evaluations": {
     "kill_switch_state": {
-      "status": "PRESENT_UNVERIFIED",
+      "status": "STALE",
       "evidence_metadata": {
         "evidence_present": true,
         "evidence_type": "owner checklist entry tied to a timestamped evidence artifact",
         "sanitized_artifact_path": "Reports/forex_delivery/owner_safety_evidence/KILL_SWITCH_STATE_SANITIZED_V1.md",
         "owner_attestation": "Owner reviewed this sanitized artifact and confirms it contains no secrets or account identifiers.",
-        "evidence_timestamp_utc": "2026-06-29T09:43:35Z",
+        "evidence_timestamp_utc": "2026-07-01T15:25:37Z",
         "freshness_window_hours": 24,
         "contains_secret_or_account_identifier": false,
         "notes": "Current owner review session evidence."
       },
-      "reason": "Evidence present with required metadata; not yet verified."
+      "reason": "Evidence timestamp is outside the freshness window."
     },
     "daily_stop_state": {
-      "status": "PRESENT_UNVERIFIED",
+      "status": "STALE",
       "evidence_metadata": {
         "evidence_present": true,
         "evidence_type": "owner checklist entry tied to a timestamped evidence artifact",
         "sanitized_artifact_path": "Reports/forex_delivery/owner_safety_evidence/DAILY_STOP_STATE_SANITIZED_V1.md",
         "owner_attestation": "Owner reviewed this sanitized artifact and confirms it contains no secrets or account identifiers.",
-        "evidence_timestamp_utc": "2026-06-29T09:43:35Z",
+        "evidence_timestamp_utc": "2026-07-01T15:25:37Z",
         "freshness_window_hours": 24,
         "contains_secret_or_account_identifier": false,
         "notes": "Current owner review session evidence."
       },
-      "reason": "Evidence present with required metadata; not yet verified."
+      "reason": "Evidence timestamp is outside the freshness window."
     },
     "max_loss_state": {
-      "status": "PRESENT_UNVERIFIED",
+      "status": "STALE",
       "evidence_metadata": {
         "evidence_present": true,
         "evidence_type": "owner checklist entry tied to a timestamped evidence artifact",
         "sanitized_artifact_path": "Reports/forex_delivery/owner_safety_evidence/MAX_LOSS_STATE_SANITIZED_V1.md",
         "owner_attestation": "Owner reviewed this sanitized artifact and confirms it contains no secrets or account identifiers.",
-        "evidence_timestamp_utc": "2026-06-29T09:43:35Z",
+        "evidence_timestamp_utc": "2026-07-01T15:25:37Z",
         "freshness_window_hours": 24,
         "contains_secret_or_account_identifier": false,
         "notes": "Current owner review session evidence."
       },
-      "reason": "Evidence present with required metadata; not yet verified."
+      "reason": "Evidence timestamp is outside the freshness window."
     },
     "monitoring_ready": {
-      "status": "PRESENT_UNVERIFIED",
+      "status": "STALE",
       "evidence_metadata": {
         "evidence_present": true,
         "evidence_type": "owner checklist entry tied to a timestamped evidence artifact",
         "sanitized_artifact_path": "Reports/forex_delivery/owner_safety_evidence/MONITORING_READY_SANITIZED_V1.md",
         "owner_attestation": "Owner reviewed this sanitized artifact and confirms it contains no secrets or account identifiers.",
-        "evidence_timestamp_utc": "2026-06-29T09:43:35Z",
+        "evidence_timestamp_utc": "2026-07-01T15:25:37Z",
         "freshness_window_hours": 24,
         "contains_secret_or_account_identifier": false,
         "notes": "Current owner review session evidence."
       },
-      "reason": "Evidence present with required metadata; not yet verified."
+      "reason": "Evidence timestamp is outside the freshness window."
     }
   },
   "missing_controls": [],
-  "present_unverified_controls": [
+  "present_unverified_controls": [],
+  "stale_controls": [
     "kill_switch_state",
     "daily_stop_state",
     "max_loss_state",
     "monitoring_ready"
   ],
-  "stale_controls": [],
   "invalid_controls": [],
-  "owner_evidence_completion_percent": 100.0,
+  "owner_evidence_completion_percent": 0.0,
   "verification_claimed": false,
   "verification_mechanism_available": false,
-  "next_safe_action": "Sanitized evidence is present for all four controls and currently unverified; route to later verification only after explicit verification mechanisms are run.",
+  "next_safe_action": "Owner must refresh stale evidence entries with current sanitized artifacts.",
   "broker_api_used": false,
   "credentials_used": false,
   "order_execution": false,

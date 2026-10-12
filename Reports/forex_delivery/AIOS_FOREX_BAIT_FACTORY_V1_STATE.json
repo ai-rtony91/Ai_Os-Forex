@@ -1,0 +1,798 @@
+{
+  "account_identifiers_used": false,
+  "background_loop_started": false,
+  "bait_box": [
+    {
+      "blockers": [
+        "insufficient_sample",
+        "negative_expectancy",
+        "low_profit_factor"
+      ],
+      "candidate_id": "c1-eur-buy",
+      "closed_trade_count": 0,
+      "decision": "BLOCKED_BY_EVIDENCE",
+      "direction": "LONG",
+      "expectancy": null,
+      "label": "UNTESTED",
+      "max_drawdown": null,
+      "next_step": "collect_candidate_specific_evidence",
+      "normalized_score": null,
+      "profit_factor": null,
+      "strategy_id": "paper_long_run_supervisor_v2"
+    },
+    {
+      "blockers": [
+        "insufficient_sample",
+        "negative_expectancy",
+        "low_profit_factor"
+      ],
+      "candidate_id": "c2-usd-buy",
+      "closed_trade_count": 0,
+      "decision": "BLOCKED_BY_EVIDENCE",
+      "direction": "LONG",
+      "expectancy": null,
+      "label": "UNTESTED",
+      "max_drawdown": null,
+      "next_step": "collect_candidate_specific_evidence",
+      "normalized_score": null,
+      "profit_factor": null,
+      "strategy_id": "paper_momentum_supervisor_v3"
+    },
+    {
+      "blockers": [
+        "insufficient_sample",
+        "negative_expectancy",
+        "low_profit_factor"
+      ],
+      "candidate_id": "c3-eur-sell",
+      "closed_trade_count": 0,
+      "decision": "BLOCKED_BY_EVIDENCE",
+      "direction": "SHORT",
+      "expectancy": null,
+      "label": "UNTESTED",
+      "max_drawdown": null,
+      "next_step": "collect_candidate_specific_evidence",
+      "normalized_score": null,
+      "profit_factor": null,
+      "strategy_id": "paper_mean_reversion_v2"
+    },
+    {
+      "blockers": [
+        "insufficient_sample",
+        "negative_expectancy",
+        "low_profit_factor"
+      ],
+      "candidate_id": "c4-jpy-buy",
+      "closed_trade_count": 0,
+      "decision": "BLOCKED_BY_EVIDENCE",
+      "direction": "LONG",
+      "expectancy": null,
+      "label": "UNTESTED",
+      "max_drawdown": null,
+      "next_step": "collect_candidate_specific_evidence",
+      "normalized_score": null,
+      "profit_factor": null,
+      "strategy_id": "paper_breakout_supervisor_v2"
+    },
+    {
+      "blockers": [
+        "insufficient_sample",
+        "negative_expectancy",
+        "low_profit_factor"
+      ],
+      "candidate_id": "c5-gbp-buy",
+      "closed_trade_count": 0,
+      "decision": "BLOCKED_BY_EVIDENCE",
+      "direction": "LONG",
+      "expectancy": null,
+      "label": "UNTESTED",
+      "max_drawdown": null,
+      "next_step": "collect_candidate_specific_evidence",
+      "normalized_score": null,
+      "profit_factor": null,
+      "strategy_id": "paper_continuation_supervisor_v2"
+    }
+  ],
+  "bait_count": 0,
+  "bank_movement_allowed": false,
+  "blocked_actions": [
+    "broker_api_used",
+    "credentials_used",
+    "env_read",
+    "account_identifiers_used",
+    "order_execution",
+    "demo_authorized",
+    "live_authorized",
+    "scheduler_started",
+    "daemon_started",
+    "webhook_started",
+    "background_loop_started",
+    "broker_action_allowed",
+    "real_money_allowed",
+    "compounding_allowed",
+    "bank_movement_allowed",
+    "live_trading_allowed",
+    "order_submission_allowed"
+  ],
+  "broker_action_allowed": false,
+  "broker_api_used": false,
+  "cold_count": 0,
+  "compounding_allowed": false,
+  "credentials_used": false,
+  "cycle_index": 1,
+  "cycles_completed": 1,
+  "cycles_requested": 1,
+  "daemon_started": false,
+  "demo_authorized": false,
+  "edge_autopilot": {
+    "candidate_count": 0,
+    "status": "SEARCH_CONTINUES_REPO_SAFE",
+    "stop_reason": "BROKER_PRACTICE_READ_ONLY_BOUNDARY_OR_MORE_DATA_REQUIRED"
+  },
+  "engine_version": "forex_bait_factory_v1",
+  "env_read": false,
+  "false_positive_controls": {
+    "broker_keys_required_locally_only": true,
+    "cold_bait_blocked_from_proof_promotion": true,
+    "paper_handoff_does_not_execute": true,
+    "proof_ledger_and_edge_autopilot_recheck_bait": true
+  },
+  "generated_at": "2026-10-08T19:16:14.151719+00:00",
+  "hypothesis_builder": {
+    "candidate_count": 5,
+    "genuine_campaign_evidence": false,
+    "packet_id": "AIOS_FOREX_NEXT_CANDIDATE_DISCOVERY_PACKET_U_V1"
+  },
+  "label_counts": {
+    "COLD": 0,
+    "HOT": 0,
+    "UNTESTED": 5,
+    "WARM": 0
+  },
+  "live_authorized": false,
+  "live_trading_allowed": false,
+  "next_safe_action": "Collect candidate-specific, independently checked evidence before paper handoff.",
+  "order_execution": false,
+  "order_submission_allowed": false,
+  "packet_id": "PKT-FOREX-BAIT-FACTORY-V1",
+  "paper_campaign_handoff": {
+    "bait_available": false,
+    "command": "python scripts\\forex_delivery\\run_forex_p1_supervised_paper_campaign_v1.py --owner-local-runtime --cycles 30",
+    "edge_autopilot_status": "SEARCH_CONTINUES_REPO_SAFE",
+    "executes_now": false,
+    "handoff_status": "BLOCKED_NO_CANDIDATE_PROOF",
+    "ready_bait_count": 0,
+    "reason": "No candidate-specific proof passed; paper handoff is blocked.",
+    "requires_local_runtime_env": [
+      "OANDA_DEMO_ACCESS_TOKEN",
+      "OANDA_DEMO_ACCOUNT_ID"
+    ]
+  },
+  "permissions": {
+    "account_identifiers_used": false,
+    "background_loop_started": false,
+    "bank_movement_allowed": false,
+    "broker_action_allowed": false,
+    "broker_api_used": false,
+    "compounding_allowed": false,
+    "credentials_used": false,
+    "daemon_started": false,
+    "demo_authorized": false,
+    "env_read": false,
+    "live_authorized": false,
+    "live_trading_allowed": false,
+    "order_execution": false,
+    "order_submission_allowed": false,
+    "real_money_allowed": false,
+    "scheduler_started": false,
+    "webhook_started": false
+  },
+  "pipeline": [
+    "hypothesis_builder",
+    "warm_cold_scorer",
+    "proof_ledger",
+    "edge_autopilot",
+    "paper_campaign_handoff"
+  ],
+  "proof_ledger": {
+    "ledger_status": "PROFIT_PROOF_LEDGER_BLOCKED_MISSING_EVIDENCE",
+    "top_candidate_id": "NONE"
+  },
+  "real_money_allowed": false,
+  "runs": [
+    {
+      "bait_box": [
+        {
+          "blockers": [
+            "insufficient_sample",
+            "negative_expectancy",
+            "low_profit_factor"
+          ],
+          "candidate_id": "c1-eur-buy",
+          "closed_trade_count": 0,
+          "decision": "BLOCKED_BY_EVIDENCE",
+          "direction": "LONG",
+          "expectancy": null,
+          "label": "UNTESTED",
+          "max_drawdown": null,
+          "next_step": "collect_candidate_specific_evidence",
+          "normalized_score": null,
+          "profit_factor": null,
+          "strategy_id": "paper_long_run_supervisor_v2"
+        },
+        {
+          "blockers": [
+            "insufficient_sample",
+            "negative_expectancy",
+            "low_profit_factor"
+          ],
+          "candidate_id": "c2-usd-buy",
+          "closed_trade_count": 0,
+          "decision": "BLOCKED_BY_EVIDENCE",
+          "direction": "LONG",
+          "expectancy": null,
+          "label": "UNTESTED",
+          "max_drawdown": null,
+          "next_step": "collect_candidate_specific_evidence",
+          "normalized_score": null,
+          "profit_factor": null,
+          "strategy_id": "paper_momentum_supervisor_v3"
+        },
+        {
+          "blockers": [
+            "insufficient_sample",
+            "negative_expectancy",
+            "low_profit_factor"
+          ],
+          "candidate_id": "c3-eur-sell",
+          "closed_trade_count": 0,
+          "decision": "BLOCKED_BY_EVIDENCE",
+          "direction": "SHORT",
+          "expectancy": null,
+          "label": "UNTESTED",
+          "max_drawdown": null,
+          "next_step": "collect_candidate_specific_evidence",
+          "normalized_score": null,
+          "profit_factor": null,
+          "strategy_id": "paper_mean_reversion_v2"
+        },
+        {
+          "blockers": [
+            "insufficient_sample",
+            "negative_expectancy",
+            "low_profit_factor"
+          ],
+          "candidate_id": "c4-jpy-buy",
+          "closed_trade_count": 0,
+          "decision": "BLOCKED_BY_EVIDENCE",
+          "direction": "LONG",
+          "expectancy": null,
+          "label": "UNTESTED",
+          "max_drawdown": null,
+          "next_step": "collect_candidate_specific_evidence",
+          "normalized_score": null,
+          "profit_factor": null,
+          "strategy_id": "paper_breakout_supervisor_v2"
+        },
+        {
+          "blockers": [
+            "insufficient_sample",
+            "negative_expectancy",
+            "low_profit_factor"
+          ],
+          "candidate_id": "c5-gbp-buy",
+          "closed_trade_count": 0,
+          "decision": "BLOCKED_BY_EVIDENCE",
+          "direction": "LONG",
+          "expectancy": null,
+          "label": "UNTESTED",
+          "max_drawdown": null,
+          "next_step": "collect_candidate_specific_evidence",
+          "normalized_score": null,
+          "profit_factor": null,
+          "strategy_id": "paper_continuation_supervisor_v2"
+        }
+      ],
+      "bait_count": 0,
+      "cold_count": 0,
+      "cycle_index": 1,
+      "edge_autopilot": {
+        "candidate_count": 0,
+        "status": "SEARCH_CONTINUES_REPO_SAFE",
+        "stop_reason": "BROKER_PRACTICE_READ_ONLY_BOUNDARY_OR_MORE_DATA_REQUIRED"
+      },
+      "false_positive_controls": {
+        "broker_keys_required_locally_only": true,
+        "cold_bait_blocked_from_proof_promotion": true,
+        "paper_handoff_does_not_execute": true,
+        "proof_ledger_and_edge_autopilot_recheck_bait": true
+      },
+      "hypothesis_builder": {
+        "candidate_count": 5,
+        "genuine_campaign_evidence": false,
+        "packet_id": "AIOS_FOREX_NEXT_CANDIDATE_DISCOVERY_PACKET_U_V1"
+      },
+      "label_counts": {
+        "COLD": 0,
+        "HOT": 0,
+        "UNTESTED": 5,
+        "WARM": 0
+      },
+      "paper_campaign_handoff": {
+        "bait_available": false,
+        "command": "python scripts\\forex_delivery\\run_forex_p1_supervised_paper_campaign_v1.py --owner-local-runtime --cycles 30",
+        "edge_autopilot_status": "SEARCH_CONTINUES_REPO_SAFE",
+        "executes_now": false,
+        "handoff_status": "BLOCKED_NO_CANDIDATE_PROOF",
+        "ready_bait_count": 0,
+        "reason": "No candidate-specific proof passed; paper handoff is blocked.",
+        "requires_local_runtime_env": [
+          "OANDA_DEMO_ACCESS_TOKEN",
+          "OANDA_DEMO_ACCOUNT_ID"
+        ]
+      },
+      "proof_ledger": {
+        "ledger_status": "PROFIT_PROOF_LEDGER_BLOCKED_MISSING_EVIDENCE",
+        "top_candidate_id": "NONE"
+      },
+      "target_bait_count": 3,
+      "warm_cold_scorer": {
+        "candidate_count": 5,
+        "engine_version": "candidate_scoring_v1",
+        "results": [
+          {
+            "blockers": [
+              "required evidence is marked absent",
+              "required evidence is incomplete",
+              "evidence quality is missing",
+              "evidence age 999 days is stale at or beyond 30 days"
+            ],
+            "candidate_id": "c1-eur-buy",
+            "decision": "BLOCKED_BY_EVIDENCE",
+            "decision_reasons": [
+              "required evidence is marked absent",
+              "required evidence is incomplete",
+              "evidence quality is missing",
+              "evidence age 999 days is stale at or beyond 30 days"
+            ],
+            "normalized_score": 16.5,
+            "rank": 1,
+            "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+            "safety": {
+              "account_ids_read": false,
+              "autonomous_runtime_started": false,
+              "broker_called": false,
+              "credentials_read": false,
+              "demo_execution_allowed": false,
+              "live_trading_allowed": false,
+              "network_used": false,
+              "orders_placed": false
+            },
+            "score_breakdown": {
+              "demo_readiness_score": 0.0,
+              "drawdown_score": 100.0,
+              "evidence_quality_score": 0.0,
+              "expectancy_score": 0.0,
+              "operator_confidence_score": 20.0,
+              "profit_factor_score": 0.0,
+              "recency_score": 0.0,
+              "regime_alignment_score": 35.0,
+              "risk_quality_score": 0.0,
+              "sample_size_score": 0.0
+            },
+            "total_score": 16.5
+          },
+          {
+            "blockers": [
+              "required evidence is marked absent",
+              "required evidence is incomplete",
+              "evidence quality is missing",
+              "evidence age 999 days is stale at or beyond 30 days"
+            ],
+            "candidate_id": "c2-usd-buy",
+            "decision": "BLOCKED_BY_EVIDENCE",
+            "decision_reasons": [
+              "required evidence is marked absent",
+              "required evidence is incomplete",
+              "evidence quality is missing",
+              "evidence age 999 days is stale at or beyond 30 days"
+            ],
+            "normalized_score": 16.5,
+            "rank": 2,
+            "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+            "safety": {
+              "account_ids_read": false,
+              "autonomous_runtime_started": false,
+              "broker_called": false,
+              "credentials_read": false,
+              "demo_execution_allowed": false,
+              "live_trading_allowed": false,
+              "network_used": false,
+              "orders_placed": false
+            },
+            "score_breakdown": {
+              "demo_readiness_score": 0.0,
+              "drawdown_score": 100.0,
+              "evidence_quality_score": 0.0,
+              "expectancy_score": 0.0,
+              "operator_confidence_score": 20.0,
+              "profit_factor_score": 0.0,
+              "recency_score": 0.0,
+              "regime_alignment_score": 35.0,
+              "risk_quality_score": 0.0,
+              "sample_size_score": 0.0
+            },
+            "total_score": 16.5
+          },
+          {
+            "blockers": [
+              "required evidence is marked absent",
+              "required evidence is incomplete",
+              "evidence quality is missing",
+              "evidence age 999 days is stale at or beyond 30 days"
+            ],
+            "candidate_id": "c3-eur-sell",
+            "decision": "BLOCKED_BY_EVIDENCE",
+            "decision_reasons": [
+              "required evidence is marked absent",
+              "required evidence is incomplete",
+              "evidence quality is missing",
+              "evidence age 999 days is stale at or beyond 30 days"
+            ],
+            "normalized_score": 16.5,
+            "rank": 3,
+            "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+            "safety": {
+              "account_ids_read": false,
+              "autonomous_runtime_started": false,
+              "broker_called": false,
+              "credentials_read": false,
+              "demo_execution_allowed": false,
+              "live_trading_allowed": false,
+              "network_used": false,
+              "orders_placed": false
+            },
+            "score_breakdown": {
+              "demo_readiness_score": 0.0,
+              "drawdown_score": 100.0,
+              "evidence_quality_score": 0.0,
+              "expectancy_score": 0.0,
+              "operator_confidence_score": 20.0,
+              "profit_factor_score": 0.0,
+              "recency_score": 0.0,
+              "regime_alignment_score": 35.0,
+              "risk_quality_score": 0.0,
+              "sample_size_score": 0.0
+            },
+            "total_score": 16.5
+          },
+          {
+            "blockers": [
+              "required evidence is marked absent",
+              "required evidence is incomplete",
+              "evidence quality is missing",
+              "evidence age 999 days is stale at or beyond 30 days"
+            ],
+            "candidate_id": "c4-jpy-buy",
+            "decision": "BLOCKED_BY_EVIDENCE",
+            "decision_reasons": [
+              "required evidence is marked absent",
+              "required evidence is incomplete",
+              "evidence quality is missing",
+              "evidence age 999 days is stale at or beyond 30 days"
+            ],
+            "normalized_score": 16.5,
+            "rank": 4,
+            "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+            "safety": {
+              "account_ids_read": false,
+              "autonomous_runtime_started": false,
+              "broker_called": false,
+              "credentials_read": false,
+              "demo_execution_allowed": false,
+              "live_trading_allowed": false,
+              "network_used": false,
+              "orders_placed": false
+            },
+            "score_breakdown": {
+              "demo_readiness_score": 0.0,
+              "drawdown_score": 100.0,
+              "evidence_quality_score": 0.0,
+              "expectancy_score": 0.0,
+              "operator_confidence_score": 20.0,
+              "profit_factor_score": 0.0,
+              "recency_score": 0.0,
+              "regime_alignment_score": 35.0,
+              "risk_quality_score": 0.0,
+              "sample_size_score": 0.0
+            },
+            "total_score": 16.5
+          },
+          {
+            "blockers": [
+              "required evidence is marked absent",
+              "required evidence is incomplete",
+              "evidence quality is missing",
+              "evidence age 999 days is stale at or beyond 30 days"
+            ],
+            "candidate_id": "c5-gbp-buy",
+            "decision": "BLOCKED_BY_EVIDENCE",
+            "decision_reasons": [
+              "required evidence is marked absent",
+              "required evidence is incomplete",
+              "evidence quality is missing",
+              "evidence age 999 days is stale at or beyond 30 days"
+            ],
+            "normalized_score": 16.5,
+            "rank": 5,
+            "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+            "safety": {
+              "account_ids_read": false,
+              "autonomous_runtime_started": false,
+              "broker_called": false,
+              "credentials_read": false,
+              "demo_execution_allowed": false,
+              "live_trading_allowed": false,
+              "network_used": false,
+              "orders_placed": false
+            },
+            "score_breakdown": {
+              "demo_readiness_score": 0.0,
+              "drawdown_score": 100.0,
+              "evidence_quality_score": 0.0,
+              "expectancy_score": 0.0,
+              "operator_confidence_score": 20.0,
+              "profit_factor_score": 0.0,
+              "recency_score": 0.0,
+              "regime_alignment_score": 35.0,
+              "risk_quality_score": 0.0,
+              "sample_size_score": 0.0
+            },
+            "total_score": 16.5
+          }
+        ],
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        }
+      }
+    }
+  ],
+  "scheduler_started": false,
+  "status": "BAIT_SEARCH_CONTINUES",
+  "stop_reason": "TARGET_BAIT_COUNT_NOT_MET_REPO_SAFE",
+  "target_bait_count": 3,
+  "warm_cold_scorer": {
+    "candidate_count": 5,
+    "engine_version": "candidate_scoring_v1",
+    "results": [
+      {
+        "blockers": [
+          "required evidence is marked absent",
+          "required evidence is incomplete",
+          "evidence quality is missing",
+          "evidence age 999 days is stale at or beyond 30 days"
+        ],
+        "candidate_id": "c1-eur-buy",
+        "decision": "BLOCKED_BY_EVIDENCE",
+        "decision_reasons": [
+          "required evidence is marked absent",
+          "required evidence is incomplete",
+          "evidence quality is missing",
+          "evidence age 999 days is stale at or beyond 30 days"
+        ],
+        "normalized_score": 16.5,
+        "rank": 1,
+        "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        },
+        "score_breakdown": {
+          "demo_readiness_score": 0.0,
+          "drawdown_score": 100.0,
+          "evidence_quality_score": 0.0,
+          "expectancy_score": 0.0,
+          "operator_confidence_score": 20.0,
+          "profit_factor_score": 0.0,
+          "recency_score": 0.0,
+          "regime_alignment_score": 35.0,
+          "risk_quality_score": 0.0,
+          "sample_size_score": 0.0
+        },
+        "total_score": 16.5
+      },
+      {
+        "blockers": [
+          "required evidence is marked absent",
+          "required evidence is incomplete",
+          "evidence quality is missing",
+          "evidence age 999 days is stale at or beyond 30 days"
+        ],
+        "candidate_id": "c2-usd-buy",
+        "decision": "BLOCKED_BY_EVIDENCE",
+        "decision_reasons": [
+          "required evidence is marked absent",
+          "required evidence is incomplete",
+          "evidence quality is missing",
+          "evidence age 999 days is stale at or beyond 30 days"
+        ],
+        "normalized_score": 16.5,
+        "rank": 2,
+        "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        },
+        "score_breakdown": {
+          "demo_readiness_score": 0.0,
+          "drawdown_score": 100.0,
+          "evidence_quality_score": 0.0,
+          "expectancy_score": 0.0,
+          "operator_confidence_score": 20.0,
+          "profit_factor_score": 0.0,
+          "recency_score": 0.0,
+          "regime_alignment_score": 35.0,
+          "risk_quality_score": 0.0,
+          "sample_size_score": 0.0
+        },
+        "total_score": 16.5
+      },
+      {
+        "blockers": [
+          "required evidence is marked absent",
+          "required evidence is incomplete",
+          "evidence quality is missing",
+          "evidence age 999 days is stale at or beyond 30 days"
+        ],
+        "candidate_id": "c3-eur-sell",
+        "decision": "BLOCKED_BY_EVIDENCE",
+        "decision_reasons": [
+          "required evidence is marked absent",
+          "required evidence is incomplete",
+          "evidence quality is missing",
+          "evidence age 999 days is stale at or beyond 30 days"
+        ],
+        "normalized_score": 16.5,
+        "rank": 3,
+        "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        },
+        "score_breakdown": {
+          "demo_readiness_score": 0.0,
+          "drawdown_score": 100.0,
+          "evidence_quality_score": 0.0,
+          "expectancy_score": 0.0,
+          "operator_confidence_score": 20.0,
+          "profit_factor_score": 0.0,
+          "recency_score": 0.0,
+          "regime_alignment_score": 35.0,
+          "risk_quality_score": 0.0,
+          "sample_size_score": 0.0
+        },
+        "total_score": 16.5
+      },
+      {
+        "blockers": [
+          "required evidence is marked absent",
+          "required evidence is incomplete",
+          "evidence quality is missing",
+          "evidence age 999 days is stale at or beyond 30 days"
+        ],
+        "candidate_id": "c4-jpy-buy",
+        "decision": "BLOCKED_BY_EVIDENCE",
+        "decision_reasons": [
+          "required evidence is marked absent",
+          "required evidence is incomplete",
+          "evidence quality is missing",
+          "evidence age 999 days is stale at or beyond 30 days"
+        ],
+        "normalized_score": 16.5,
+        "rank": 4,
+        "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        },
+        "score_breakdown": {
+          "demo_readiness_score": 0.0,
+          "drawdown_score": 100.0,
+          "evidence_quality_score": 0.0,
+          "expectancy_score": 0.0,
+          "operator_confidence_score": 20.0,
+          "profit_factor_score": 0.0,
+          "recency_score": 0.0,
+          "regime_alignment_score": 35.0,
+          "risk_quality_score": 0.0,
+          "sample_size_score": 0.0
+        },
+        "total_score": 16.5
+      },
+      {
+        "blockers": [
+          "required evidence is marked absent",
+          "required evidence is incomplete",
+          "evidence quality is missing",
+          "evidence age 999 days is stale at or beyond 30 days"
+        ],
+        "candidate_id": "c5-gbp-buy",
+        "decision": "BLOCKED_BY_EVIDENCE",
+        "decision_reasons": [
+          "required evidence is marked absent",
+          "required evidence is incomplete",
+          "evidence quality is missing",
+          "evidence age 999 days is stale at or beyond 30 days"
+        ],
+        "normalized_score": 16.5,
+        "rank": 5,
+        "recommended_next_action": "Repair candidate evidence completeness and freshness before review.",
+        "safety": {
+          "account_ids_read": false,
+          "autonomous_runtime_started": false,
+          "broker_called": false,
+          "credentials_read": false,
+          "demo_execution_allowed": false,
+          "live_trading_allowed": false,
+          "network_used": false,
+          "orders_placed": false
+        },
+        "score_breakdown": {
+          "demo_readiness_score": 0.0,
+          "drawdown_score": 100.0,
+          "evidence_quality_score": 0.0,
+          "expectancy_score": 0.0,
+          "operator_confidence_score": 20.0,
+          "profit_factor_score": 0.0,
+          "recency_score": 0.0,
+          "regime_alignment_score": 35.0,
+          "risk_quality_score": 0.0,
+          "sample_size_score": 0.0
+        },
+        "total_score": 16.5
+      }
+    ],
+    "safety": {
+      "account_ids_read": false,
+      "autonomous_runtime_started": false,
+      "broker_called": false,
+      "credentials_read": false,
+      "demo_execution_allowed": false,
+      "live_trading_allowed": false,
+      "network_used": false,
+      "orders_placed": false
+    }
+  },
+  "webhook_started": false
+}

@@ -1,13 +1,13 @@
 {
-  "artifact_failed_controls": [],
-  "artifact_verification_scope": "Local structural verification of owner-sanitized artifact files, metadata freshness, approved path boundary, and no-secret/no-account declarations only.",
-  "artifact_verified_controls": [
+  "artifact_failed_controls": [
     "kill_switch_state",
     "daily_stop_state",
     "max_loss_state",
     "monitoring_ready"
   ],
-  "artifact_verifier_status": "OWNER_SAFETY_EVIDENCE_ARTIFACTS_STRUCTURALLY_VERIFIED",
+  "artifact_verification_scope": "Local structural verification of owner-sanitized artifact files, metadata freshness, approved path boundary, and no-secret/no-account declarations only.",
+  "artifact_verified_controls": [],
+  "artifact_verifier_status": "OWNER_SAFETY_EVIDENCE_ARTIFACTS_STRUCTURE_REVIEW_REQUIRED",
   "artifact_warning_controls": [],
   "broker_api_used": false,
   "bucket_id": "BKT-FOREX-OWNER-SAFETY-EVIDENCE-VERIFICATION-001",
@@ -16,50 +16,62 @@
     "daily_stop_state": {
       "broker_api_used": false,
       "credentials_used": false,
-      "evidence_timestamp_utc": "2026-06-29T09:43:35Z",
-      "failures": [],
+      "evidence_timestamp_utc": "2026-07-01T15:25:37Z",
+      "failures": [
+        "control status is not PRESENT_UNVERIFIED in intake verification state",
+        "evidence_timestamp_utc is outside freshness_window_hours"
+      ],
       "freshness_window_hours": 24,
       "live_trading_authorized": false,
       "operational_control_verified": false,
       "order_execution": false,
       "sanitized_artifact_path": "Reports/forex_delivery/owner_safety_evidence/DAILY_STOP_STATE_SANITIZED_V1.md",
-      "status": "STRUCTURALLY_VERIFIED"
+      "status": "FAILED"
     },
     "kill_switch_state": {
       "broker_api_used": false,
       "credentials_used": false,
-      "evidence_timestamp_utc": "2026-06-29T09:43:35Z",
-      "failures": [],
+      "evidence_timestamp_utc": "2026-07-01T15:25:37Z",
+      "failures": [
+        "control status is not PRESENT_UNVERIFIED in intake verification state",
+        "evidence_timestamp_utc is outside freshness_window_hours"
+      ],
       "freshness_window_hours": 24,
       "live_trading_authorized": false,
       "operational_control_verified": false,
       "order_execution": false,
       "sanitized_artifact_path": "Reports/forex_delivery/owner_safety_evidence/KILL_SWITCH_STATE_SANITIZED_V1.md",
-      "status": "STRUCTURALLY_VERIFIED"
+      "status": "FAILED"
     },
     "max_loss_state": {
       "broker_api_used": false,
       "credentials_used": false,
-      "evidence_timestamp_utc": "2026-06-29T09:43:35Z",
-      "failures": [],
+      "evidence_timestamp_utc": "2026-07-01T15:25:37Z",
+      "failures": [
+        "control status is not PRESENT_UNVERIFIED in intake verification state",
+        "evidence_timestamp_utc is outside freshness_window_hours"
+      ],
       "freshness_window_hours": 24,
       "live_trading_authorized": false,
       "operational_control_verified": false,
       "order_execution": false,
       "sanitized_artifact_path": "Reports/forex_delivery/owner_safety_evidence/MAX_LOSS_STATE_SANITIZED_V1.md",
-      "status": "STRUCTURALLY_VERIFIED"
+      "status": "FAILED"
     },
     "monitoring_ready": {
       "broker_api_used": false,
       "credentials_used": false,
-      "evidence_timestamp_utc": "2026-06-29T09:43:35Z",
-      "failures": [],
+      "evidence_timestamp_utc": "2026-07-01T15:25:37Z",
+      "failures": [
+        "control status is not PRESENT_UNVERIFIED in intake verification state",
+        "evidence_timestamp_utc is outside freshness_window_hours"
+      ],
       "freshness_window_hours": 24,
       "live_trading_authorized": false,
       "operational_control_verified": false,
       "order_execution": false,
       "sanitized_artifact_path": "Reports/forex_delivery/owner_safety_evidence/MONITORING_READY_SANITIZED_V1.md",
-      "status": "STRUCTURALLY_VERIFIED"
+      "status": "FAILED"
     }
   },
   "credentials_used": false,
@@ -70,7 +82,7 @@
   "live_trading_authorized": false,
   "mission_id": "MISSION-AIOS-FOREX-FINISH-LINE-V1",
   "mission_name": "Governed Forex Finish Line",
-  "next_safe_action": "Route structurally verified sanitized owner artifacts to a finish-line safety-closure consumer update while keeping broker, demo, live micro, live trading, scheduler, daemon, webhook, and order execution locked.",
+  "next_safe_action": "Repair failed sanitized owner artifact metadata or files, then rerun this structural verifier before any safety-closure consumer update.",
   "operational_control_verified": false,
   "order_execution": false,
   "owner_intake_modified": false,

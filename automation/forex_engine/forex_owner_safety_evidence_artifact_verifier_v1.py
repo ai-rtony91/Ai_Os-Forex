@@ -191,17 +191,8 @@ def run_artifact_verifier(
 
 
 def _default_verification_time(intake: Mapping[str, Any]) -> datetime:
-    """Choose a stable default verification time for checked-in evidence fixtures."""
+    """Use the actual verifier runtime when no review timestamp is supplied."""
 
-    timestamps: list[datetime] = []
-    for item in _mapping(intake.get("controls")).values():
-        parsed = _parse_utc_timestamp(
-            _text(_mapping(item).get("evidence_timestamp_utc")),
-        )
-        if parsed is not None:
-            timestamps.append(parsed)
-    if timestamps:
-        return max(timestamps) + timedelta(hours=1)
     return datetime.now(timezone.utc)
 
 
