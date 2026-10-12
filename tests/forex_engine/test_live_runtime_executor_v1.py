@@ -21,12 +21,27 @@ class FakeLiveConnector:
         self.calls.append(dict(intent))
         return {
             "submitted": True,
+            "accepted": True,
+            "outcome_known": True,
+            "transport_attempted": True,
             "status": "ACCEPTED",
             "units": intent.get("units"),
             "instrument": intent.get("instrument"),
             "side": intent.get("side"),
         }
 
+
+
+class MalformedSubmittedConnector(FakeLiveConnector):
+    def place_live_micro_order(self, intent: dict) -> dict:
+        self.calls.append(dict(intent))
+        return {"submitted": "false", "accepted": True, "status": "REJECTED"}
+
+
+class RejectedConnector(FakeLiveConnector):
+    def place_live_micro_order(self, intent: dict) -> dict:
+        self.calls.append(dict(intent))
+        return {"submitted": True, "accepted": False, "status": "REJECTED"}
 
 class UnsafeConnector:
     supports_live_orders = False
@@ -221,6 +236,44 @@ def test_executor_blocks_connector_refusal_without_marking_submitted() -> None:
     assert "units_exceed_micro_max" in result["blockers"]
 
 
+
+def test_executor_rejects_truthy_string_submitted_flag() -> None:
+    connector = MalformedSubmittedConnector()
+
+    result = executor.execute_single_live_micro_trade(_runtime_request(), connector, execute_requested=True)
+
+    assert result["execution_status"] == executor.LIVE_RUNTIME_EXECUTION_BLOCKED
+    assert result["executed"] is False
+    assert result["sanitized_broker_result"]["submitted"] is False
+    assert "connector_submitted_not_bool" in result["blockers"]
+    assert "connector_order_not_submitted" in result["blockers"]
+
+
+def test_executor_requires_accepted_true_before_submission_credit() -> None:
+    connector = RejectedConnector()
+
+    result = executor.execute_single_live_micro_trade(_runtime_request(), connector, execute_requested=True)
+
+    assert result["execution_status"] == executor.LIVE_RUNTIME_EXECUTION_BLOCKED
+    assert result["executed"] is False
+    assert result["sanitized_broker_result"]["submitted"] is True
+    assert result["sanitized_broker_result"]["accepted"] is False
+    assert "connector_order_not_accepted" in result["blockers"]
+
+
+def test_live_ledger_requires_strict_submitted_and_accepted() -> None:
+    execution = {
+        "execution_status": executor.LIVE_RUNTIME_EXECUTION_SUBMITTED,
+        "executed": True,
+        "order_count": 1,
+        "sanitized_broker_result": {"submitted": True, "accepted": False},
+    }
+
+    ledger = executor.record_live_micro_trade_runtime_result(execution, {"reviewed": True})
+
+    assert ledger["ledger_status"] == executor.LIVE_RUNTIME_LEDGER_REVIEW_REQUIRED
+    assert "broker_result_not_accepted" in ledger["blockers"]
+
 def test_executor_output_is_sanitized() -> None:
     connector = FakeLiveConnector()
     result = executor.execute_single_live_micro_trade(_runtime_request(), connector, execute_requested=True)
@@ -259,3 +312,67 @@ def test_no_real_network_or_broker_is_used_in_tests() -> None:
     assert execution["safety_summary"]["credential_persistence"] is False
     assert execution["safety_summary"]["env_read"] is False
     assert execution["safety_summary"]["scheduler_daemon_webhook"] is False
+
+
+def test_executor_preserves_connector_rejection_without_ledger_credit() -> None:
+    class BlockedFakeConnector(FakeLiveConnector):
+        def place_live_micro_order(self, intent: dict) -> dict:
+            self.calls.append(dict(intent))
+            return {"submitted": False, "accepted": False, "outcome_known": True,
+                    "transport_attempted": False, "blockers": ("second_order_blocked",)}
+
+    connector = BlockedFakeConnector()
+    execution = executor.execute_single_live_micro_trade(_runtime_request(), connector, execute_requested=True)
+    ledger = executor.record_live_micro_trade_runtime_result(execution)
+
+    assert execution["execution_status"] == executor.LIVE_RUNTIME_EXECUTION_BLOCKED
+    assert execution["executed"] is False
+    assert execution["order_count"] == 0
+    assert "second_order_blocked" in execution["blockers"]
+    assert execution["safety_summary"]["broker_call_performed"] is False
+    assert ledger["ready"] is False
+    assert ledger["evidence_summary"]["execution_submitted"] is False
+
+
+def test_result_recorder_rejects_historical_false_outer_success() -> None:
+    result = executor.record_live_micro_trade_runtime_result({
+        "execution_status": executor.LIVE_RUNTIME_EXECUTION_SUBMITTED,
+        "executed": True, "order_count": 1,
+        "sanitized_broker_result": {"submitted": False, "accepted": False,
+                                    "transport_attempted": False, "blockers": ("second_order_blocked",)}})
+
+    assert result["ready"] is False
+    assert result["evidence_summary"]["execution_submitted"] is False
+    assert result["evidence_summary"]["order_count"] == 0
+    assert result["safety_summary"]["order_execution"] is False
+
+
+def test_no_attempt_positive_acknowledgement_cannot_receive_executor_credit() -> None:
+    class ContradictoryFakeConnector(FakeLiveConnector):
+        def place_live_micro_order(self, intent: dict) -> dict:
+            return {"submitted": True, "accepted": True, "outcome_known": True,
+                    "transport_attempted": False, "blockers": []}
+
+    execution = executor.execute_single_live_micro_trade(_runtime_request(), ContradictoryFakeConnector(), execute_requested=True)
+
+    assert execution["executed"] is False
+    assert execution["order_count"] == 0
+    assert execution["outcome_known"] is False
+    assert execution["retry_allowed"] is False
+    assert execution["safety_summary"]["broker_call_performed"] is None
+    assert executor.record_live_micro_trade_runtime_result(execution)["ready"] is False
+
+
+def test_no_attempt_positive_acknowledgement_cannot_receive_historical_credit() -> None:
+    result = executor.record_live_micro_trade_runtime_result({
+        "execution_status": executor.LIVE_RUNTIME_EXECUTION_SUBMITTED,
+        "executed": True, "order_count": 1,
+        "sanitized_broker_result": {"submitted": True, "accepted": True, "outcome_known": True,
+                                    "transport_attempted": False, "blockers": []}})
+
+    assert result["ready"] is False
+    assert result["evidence_summary"]["execution_submitted"] is False
+    assert result["evidence_summary"]["order_count"] == 0
+    assert result["outcome_known"] is False
+    assert result["retry_allowed"] is False
+    assert result["safety_summary"]["broker_call_performed"] is None

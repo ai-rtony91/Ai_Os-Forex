@@ -91,14 +91,17 @@ def test_blank_template_is_review_required() -> None:
     assert result["order_execution"] is False
 
 
-def test_complete_sanitized_payload_validates() -> None:
+def test_complete_sanitized_payload_is_structural_only() -> None:
     result = validator.validate_owner_control_intake(
         _filled_payload(),
         now_utc=datetime(2026, 10, 9, 20, 30, tzinfo=timezone.utc),
     )
 
-    assert result["status"] == validator.VALIDATED
-    assert result["ready"] is True
+    assert result["status"] == validator.STRUCTURAL_COMPLETE
+    assert result["ready"] is False
+    assert result["structural_complete"] is True
+    assert result["source_bound_evidence_verified"] is False
+    assert result["execution_authority_granted"] is False
     assert result["blockers"] == []
     assert all(section["status"] == "VALID" for section in result["section_results"].values())
 

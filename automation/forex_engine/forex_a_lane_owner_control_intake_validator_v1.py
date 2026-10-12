@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 PACKET_SCHEMA = "AIOS_FOREX_A_LANE_OWNER_CONTROL_INTAKE_PACKET_V1"
-VALIDATED = "AIOS_FOREX_A_LANE_OWNER_CONTROL_INTAKE_VALIDATED"
+STRUCTURAL_COMPLETE = "AIOS_FOREX_A_LANE_OWNER_CONTROL_INTAKE_STRUCTURAL_COMPLETE_REVIEW_REQUIRED"
 REVIEW_REQUIRED = "AIOS_FOREX_A_LANE_OWNER_CONTROL_INTAKE_REVIEW_REQUIRED"
 
 REQUIRED_SECTIONS = (
@@ -140,11 +140,16 @@ def validate_owner_control_intake(
         }
         blockers.extend(f"{section}:{item}" for item in section_blockers)
 
-    status = VALIDATED if not blockers else REVIEW_REQUIRED
+    structural_complete = not blockers
+    status = STRUCTURAL_COMPLETE if structural_complete else REVIEW_REQUIRED
     return {
         "validator_schema": "AIOS_FOREX_A_LANE_OWNER_CONTROL_INTAKE_VALIDATOR_V1",
         "status": status,
-        "ready": status == VALIDATED,
+        "ready": False,
+        "structural_complete": structural_complete,
+        "source_bound_evidence_verified": False,
+        "execution_authority_granted": False,
+        "readiness_scope": "structural_intake_only_no_source_bound_authority",
         "blockers": blockers,
         "section_results": section_results,
         "broker_api_used": False,
@@ -165,7 +170,7 @@ def _blank(value: Any) -> bool:
     if value is None:
         return True
     if isinstance(value, str):
-        return value.strip().lower() in {"", "unknown", "todo", "tbd", "pending", "n/a", "na", "none", "null"}
+        return value.strip().lower() in {"", "unknown", "not_computable", "todo", "tbd", "pending", "n/a", "na", "none", "null"}
     if isinstance(value, list | tuple | set | dict):
         return len(value) == 0
     return False

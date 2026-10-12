@@ -8,7 +8,7 @@ credentials or account identifiers.
 
 from __future__ import annotations
 
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping
 
 
 OANDA_LIVE_CONNECTOR_CONFIG_READY = "OANDA_LIVE_CONNECTOR_CONFIG_READY"
@@ -100,10 +100,25 @@ class OandaLiveRuntimeConnectorV2:
     stores_credentials = False
     stores_account_id = False
 
-    def __init__(self, config_result: Mapping[str, Any] | None, transport: Any = None) -> None:
+    def __init__(
+        self,
+        config_result: Mapping[str, Any] | None,
+        transport: Any = None,
+        *,
+        reserve_attempt: Callable[[], bool] | None = None,
+    ) -> None:
+        """Require an external durable, atomic reservation before transport.
+
+        The caller must bind reserve_attempt to its existing one-shot scope.
+        Only literal True may mean a new reservation was durably committed.
+        Missing history, prior attempts, errors and uncertainty must not grant
+        it. This component supplies no storage, reset or reconciliation policy.
+        """
         self.config_result = dict(config_result or {})
         self.transport = transport
+        self._reserve_attempt = reserve_attempt
         self.order_count = 0
+        self._outcome_known = True
 
         ready = self.config_result.get("config_status") == OANDA_LIVE_CONNECTOR_CONFIG_READY and bool(
             self.config_result.get("ready", False)
@@ -123,44 +138,68 @@ class OandaLiveRuntimeConnectorV2:
             blockers.append("connector_config_not_ready")
         if self.transport is None:
             blockers.append("transport_missing")
+        if not callable(self._reserve_attempt):
+            blockers.append("attempt_reservation_required")
         if self.order_count >= 1:
             blockers.append("second_order_blocked")
         blockers.extend(_order_intent_blockers(intent))
 
+        method = getattr(self.transport, "place_live_micro_order", None)
+        if not callable(method):
+            method = getattr(self.transport, "submit_live_micro_order", None)
+        if self.transport is not None and not callable(method):
+            blockers.append("transport_order_method_missing")
+
         if blockers:
-            return {
-                "submitted": False,
-                "accepted": False,
-                "order_count": self.order_count,
-                "sanitized_response": {},
-                "blockers": tuple(_unique(blockers)),
-                "safety_summary": _safety_summary(order_submitted=False),
-            }
+            return self._order_result(blockers=blockers)
 
+        # Consume the local budget before reservation: the callback may commit
+        # and then fail. Never release a reservation or clear this counter here.
         self.order_count += 1
-        if hasattr(self.transport, "place_live_micro_order"):
-            response = self.transport.place_live_micro_order(dict(intent))
-        elif hasattr(self.transport, "submit_live_micro_order"):
-            response = self.transport.submit_live_micro_order(dict(intent))
-        else:
-            self.order_count -= 1
-            return {
-                "submitted": False,
-                "accepted": False,
-                "order_count": self.order_count,
-                "sanitized_response": {},
-                "blockers": ("transport_order_method_missing",),
-                "safety_summary": _safety_summary(order_submitted=False),
-            }
+        self._outcome_known = False
+        try:
+            reserved = self._reserve_attempt()
+        except Exception:
+            return self._order_result(blockers=["attempt_reservation_unavailable"])
+        if reserved is not True:
+            return self._order_result(blockers=["attempt_reservation_denied"])
+        try:
+            response = method(dict(intent))
+        except Exception:
+            # False below means no confirmed submission, never proof that the
+            # broker did nothing. Preserve UNKNOWN and prohibit retry.
+            return self._order_result(transport_attempted=True, blockers=["transport_outcome_unknown"])
 
-        sanitized = _sanitize_mapping(response or {})
+        if not isinstance(response, Mapping):
+            return self._order_result(transport_attempted=True, blockers=["transport_acknowledgement_invalid"])
+        submitted, accepted = response.get("submitted"), response.get("accepted")
+        if (type(submitted) is not bool or type(accepted) is not bool
+                or (accepted and not submitted)
+                or ("transport_attempted" in response and type(response["transport_attempted"]) is not bool)
+                or (submitted and response.get("transport_attempted", True) is not True)
+                or response.get("outcome_known", True) is not True
+                or (accepted and response.get("blockers"))):
+            return self._order_result(transport_attempted=True, blockers=["transport_acknowledgement_invalid"])
+        self._outcome_known = True
+        return self._order_result(submitted=submitted, accepted=accepted,
+                                  transport_attempted=True, response=response,
+                                  blockers=[] if accepted else ["transport_not_accepted"])
+
+    def _order_result(
+        self, *, submitted: bool = False, accepted: bool = False,
+        transport_attempted: bool = False, response: Any = None,
+        blockers: list[str],
+    ) -> dict[str, Any]:
         return {
-            "submitted": True,
-            "accepted": bool(sanitized.get("accepted", sanitized.get("submitted", True))),
+            "submitted": submitted,
+            "accepted": accepted,
+            "outcome_known": self._outcome_known,
+            "transport_attempted": transport_attempted,
+            "retry_allowed": False,
             "order_count": self.order_count,
-            "sanitized_response": sanitized,
-            "blockers": tuple(),
-            "safety_summary": _safety_summary(order_submitted=True),
+            "sanitized_response": _sanitize_mapping(response or {}),
+            "blockers": tuple(_unique(blockers)),
+            "safety_summary": _safety_summary(order_submitted=submitted),
         }
 
 
@@ -206,6 +245,15 @@ def _order_intent_blockers(intent: Mapping[str, Any]) -> list[str]:
     return blockers
 
 
+def _sanitize_value(value: Any) -> Any:
+    """Apply the existing sensitive-key filter through every nested container."""
+    if isinstance(value, Mapping):
+        return _sanitize_mapping(value)
+    if isinstance(value, list | tuple):
+        return [_sanitize_value(item) for item in value]
+    return value
+
+
 def _sanitize_mapping(payload: Any) -> dict[str, Any]:
     if not isinstance(payload, Mapping):
         return {}
@@ -214,12 +262,7 @@ def _sanitize_mapping(payload: Any) -> dict[str, Any]:
         lowered = str(key).lower().strip()
         if lowered in SENSITIVE_KEYS:
             continue
-        if isinstance(value, Mapping):
-            sanitized[str(key)] = _sanitize_mapping(value)
-        elif isinstance(value, list | tuple):
-            sanitized[str(key)] = [_sanitize_mapping(item) if isinstance(item, Mapping) else item for item in value]
-        else:
-            sanitized[str(key)] = value
+        sanitized[str(key)] = _sanitize_value(value)
     sanitized["credential_persisted"] = False
     sanitized["account_id_persisted"] = False
     sanitized["raw_broker_payload_persisted"] = False
