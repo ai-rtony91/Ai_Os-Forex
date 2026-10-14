@@ -1,39 +1,44 @@
 # AIOS P1 EUR_USD M5 History Capture V1
 
-## Purpose
+## Protected capability
 
-This component reuses `OandaReadOnlyClient` for one explicit, owner-local, GET-only OANDA Practice candle request. It does not run by default and never uses the live endpoint.
+`AIOS_OANDA_PRACTICE_CANDLE_HISTORY_TRANSPORT.v1` is a physically separate,
+Practice-only transport. Its sole representable request is one HTTPS `GET` to
+`api-fxpractice.oanda.com/v3/instruments/EUR_USD/candles` with `granularity=M5`,
+`price=M`, and `count=50`. The timeout is exactly 10 seconds, the request budget
+is one attempted request, retries are zero, and redirects or changed final URLs
+are rejected.
 
-## Canonical contract
+The transport has no environment, host, path, account ID, or generic request
+input. It exposes no current-pricing, account, position, trade, transaction, or
+order capability. It does not use or authorize `OandaReadOnlyClient`.
 
-- Endpoint: `/v3/instruments/EUR_USD/candles`
-- Schema: `AIOS_P1_EURUSD_MARKET_HISTORY.v1`
-- Evidence type: `SANITIZED_CANDLE_HISTORY`
-- Runtime file: `.aios/runtime/forex_market_history/EUR_USD_latest.json`
-- Candle fields: `observed_at_utc`, `open`, `high`, `low`, `close`, `volume`, `complete`
-- Freshness: the final completed candle must be no more than 300 seconds old.
-- Count: 3 through 500; owner handoff requests 50.
+## Owner-session approval
 
-No new schema or translation layer is used. Incomplete candles and the raw OANDA midpoint object are discarded. The canonical validator rejects stale, malformed, duplicate, unordered, non-finite, or unsafe history.
+Capture requires a repository-local, non-symlink approval below
+`.aios/runtime/forex_authorizations/` using the exact schema
+`AIOS_OANDA_PRACTICE_CANDLE_SESSION_APPROVAL.v1`. The approval binds the Human
+Owner, packet ID, fixed endpoint and request values, canonical output path, and
+`AFTER_ONE_SANITIZED_WRITE_OR_FAILURE` stop point. Its explicit UTC window may
+not exceed 15 minutes and must be current. Unknown, duplicate, non-finite, or
+sensitive fields fail closed. Validators cannot create or extend approval.
 
-## Safety boundary
+Only owner-started capture mode reads `OANDA_API_TOKEN`; it neither reports nor
+persists the token. No account ID is read or accepted. The response is decoded
+with duplicate-key and non-finite rejection, strict allowlists at every object
+boundary, and canonical candle validation before atomic publication. Raw broker
+payloads, headers, and private metadata are never returned or persisted. Output
+is limited to the ignored runtime path
+`.aios/runtime/forex_market_history/EUR_USD_latest.json`.
 
-Codex made no OANDA request and loaded no credentials. Capture is one-shot, Practice-only, and writes atomically to the runtime-only path. It does not evaluate a signal, generate a candidate, open a paper session, place an order, poll, schedule itself, persist credentials, or move money.
+## One-shot boundary and exclusions
 
-## ASUS PowerShell handoff
+The file historically named “loop” now accepts exactly one cycle. It performs no
+sleep, wait, retry, continuation, background work, or paper-session opening. The
+repair does not authorize current pricing, account endpoints, snapshot capture,
+capture-and-open, supervised paper-session opening, demo or live orders, order
+mutation, money movement, or broker access during tests. Fake responses are used
+for tests.
 
-```powershell
-Set-Location 'C:\Dev\Ai_Os'
-python --version
-if ([string]::IsNullOrWhiteSpace($env:OANDA_API_TOKEN)) { throw 'OANDA_API_TOKEN is not present in this process.' }
-Write-Host 'OANDA Practice token is present; its value will not be printed.'
-python scripts/forex_delivery/run_forex_p1_eurusd_m5_history_capture_v1.py preflight
-python scripts/forex_delivery/run_forex_p1_eurusd_m5_history_capture_v1.py capture --owner-local-runtime --environment practice --instrument EUR_USD --granularity M5 --count 50 --output .aios/runtime/forex_market_history/EUR_USD_latest.json
-python scripts/forex_delivery/run_forex_p1_eurusd_m5_history_capture_v1.py validate --output .aios/runtime/forex_market_history/EUR_USD_latest.json
-Write-Host '.aios/runtime/forex_market_history/EUR_USD_latest.json'
-$now = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
-Write-Host "python scripts/forex_delivery/run_forex_p1_eurusd_market_history_signal_v1.py evaluate --history .aios/runtime/forex_market_history/EUR_USD_latest.json --output .aios/runtime/forex_signals/EUR_USD_P1_current.json --as-of-utc $now"
-Write-Host 'Capture places no order, generates no signal or candidate, and opens no paper session.'
-```
-
-The command printed after capture is the existing canonical offline signal-evaluation command. Run it separately only after capture validation succeeds.
+`RISK_POLICY.md` remains unchanged. Capture remains blocked until a later Tier 4
+protected-policy review and separate Human Owner policy approval.
