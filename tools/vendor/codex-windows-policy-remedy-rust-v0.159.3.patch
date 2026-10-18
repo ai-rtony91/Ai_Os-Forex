@@ -1,0 +1,1321 @@
+diff --git a/codex-rs/core/src/codex_thread.rs b/codex-rs/core/src/codex_thread.rs
+index 316af05c0881cafa45a7ee862bb7c2f5a132cf9a..11419a85a7c91418a699c57207ad6b6740b9e6f6 100644
+--- a/codex-rs/core/src/codex_thread.rs
++++ b/codex-rs/core/src/codex_thread.rs
+@@ -1109,14 +1109,46 @@
+         meta: Option<serde_json::Value>,
+     ) -> anyhow::Result<CallToolResult> {
+         self.session.refresh_mcp_if_dirty().await;
+-        self.session
+-            .services
+-            .mcp_runtime
+-            .latest_call_tool(
+-                server, tool, /*environment_id*/ None, arguments, meta,
+-                /*requested_timeout*/ None, /*wait_for_server*/ true,
+-            )
+-            .await
++        let runtime = &self.session.services.mcp_runtime;
++        // Capture only the requested server, never unrelated pending MCP clients.
++        let prepared_call = codex_mcp::PreparedMcpCall::prepare_direct(runtime, server, tool).await?;
++        let supports_state = match prepared_call.as_ref() {
++            Some(call) => call.server_supports_sandbox_state_meta_capability().await?,
++            None => false,
++        };
++        if !supports_state {
++            // Retain the existing raw route for unadvertised/non-opted-in calls,
++            // but never forward a caller-supplied policy-valid state key.
++            let meta = direct_call_meta_with_sandbox_state(meta, None)?;
++            return runtime
++                .latest_call_tool(
++                    server, tool, /*environment_id*/ None, arguments, meta,
++                    /*requested_timeout*/ None, /*wait_for_server*/ true,
++                )
++                .await;
++        }
++        let call = prepared_call.ok_or_else(|| anyhow::anyhow!("sandbox-state binding unavailable"))?;
++        if !call.is_current_in(runtime) {
++            anyhow::bail!("sandbox-state binding changed before capture");
++        }
++        let sandbox_cwd = call.config().environment_cwds
++            .get(call.server_environment_id()).cloned()
++            .ok_or_else(|| anyhow::anyhow!("captured server sandbox cwd unavailable"))?;
++        let state = serde_json::to_value(codex_mcp::SandboxState {
++            permission_profile: call.permission_profile().clone(),
++            codex_linux_sandbox_exe: call.config().codex_linux_sandbox_exe.clone(),
++            sandbox_cwd,
++            use_legacy_landlock: call.config().use_legacy_landlock,
++        })?;
++        let meta = direct_call_meta_with_sandbox_state(meta, Some(state))?;
++        // This direct route must not acquire the model path's trusted entitlements.
++        let result = call.call_direct(arguments, meta, None).await?;
++        if !call.is_current_in(runtime) {
++            // The owned fixture may already have recorded an old-snapshot export.
++            // Return unavailable and preserve it as failure evidence, never a current positive.
++            anyhow::bail!("sandbox-state binding changed during capture");
++        }
++        Ok(result)
+     }
+
+     pub fn enabled(&self, feature: Feature) -> bool {
+@@ -1164,3 +1196,501 @@
+         control.check_turn_admission(multi_agent_version, &self.session_source)
+     }
+ }
++
++
++// HELD vendor candidate: source-produced metadata for the direct no-model route.
++fn direct_call_meta_with_sandbox_state(
++    meta: Option<serde_json::Value>,
++    state: Option<serde_json::Value>,
++) -> anyhow::Result<Option<serde_json::Value>> {
++    let had_meta = meta.is_some();
++    let mut map = match meta {
++        Some(serde_json::Value::Object(map)) => map,
++        None => serde_json::Map::new(),
++        Some(_) => anyhow::bail!("direct MCP request _meta must be a JSON object"),
++    };
++    let key = codex_mcp::MCP_SANDBOX_STATE_META_CAPABILITY;
++    match state {
++        Some(state) => { map.insert(key.to_string(), state); }
++        None if map.contains_key(key) => {
++            anyhow::bail!("caller-supplied sandbox state is not a genuine producer export")
++        }
++        None => {}
++    }
++    Ok((had_meta || !map.is_empty()).then_some(serde_json::Value::Object(map)))
++}
++
++#[cfg(test)]
++mod direct_call_sandbox_state_meta_tests {
++    use super::direct_call_meta_with_sandbox_state;
++    use serde_json::json;
++
++    #[test]
++    fn producer_state_overwrites_caller_value_preserving_other_metadata() {
++        let key = codex_mcp::MCP_SANDBOX_STATE_META_CAPABILITY;
++        let mut input = json!({"threadId":"owned-thread", "other":{"stable":true}});
++        input.as_object_mut().unwrap().insert(key.into(), json!({"fabricated":true}));
++        let original = input.clone();
++        let produced = json!({"captured_profile_marker":"unit-only-not-enforcement"});
++        let actual = direct_call_meta_with_sandbox_state(Some(input.clone()), Some(produced.clone())).unwrap().unwrap();
++        assert_eq!(actual[key], produced);
++        assert_eq!(actual["threadId"], original["threadId"]);
++        assert_eq!(actual["other"], original["other"]);
++        assert_eq!(input, original);
++    }
++
++    #[test]
++    fn non_object_metadata_is_rejected_even_with_producer_state() {
++        for value in [json!(null), json!(false), json!(17), json!("bad"), json!([])] {
++            assert!(direct_call_meta_with_sandbox_state(Some(value), Some(json!({}))).is_err());
++        }
++    }
++
++    #[test]
++    fn unsupported_producer_cannot_forward_a_caller_state() {
++        let key = codex_mcp::MCP_SANDBOX_STATE_META_CAPABILITY;
++        let mut input = json!({});
++        input.as_object_mut().unwrap().insert(key.into(), json!({"fabricated":true}));
++        assert!(direct_call_meta_with_sandbox_state(Some(input), None).is_err());
++    }
++
++    #[test]
++    fn non_opted_in_metadata_without_state_is_preserved() {
++        let original = json!({"threadId":"owned-thread", "request":"nonce"});
++        assert_eq!(direct_call_meta_with_sandbox_state(Some(original.clone()), None).unwrap(), Some(original));
++        assert_eq!(direct_call_meta_with_sandbox_state(None, None).unwrap(), None);
++        assert_eq!(direct_call_meta_with_sandbox_state(Some(json!({})), None).unwrap(), Some(json!({})));
++    }
++}
++
++
++// HELD, compile-unverified same-file integration tests at immutable base
++// 01fc69f4026735edfdf6789820549727a4867b11. No new RPC or production hook.
++#[cfg(test)]
++mod direct_call_sandbox_state_thread_integration_tests {
++    use super::*;
++    use crate::session::tests::make_session_and_context_with_auth_and_config_and_rx;
++    use codex_login::CodexAuth;
++    use codex_mcp::{McpConfig, McpRuntime, McpRuntimeInput, McpStartupPolicy, PreparedMcpCall};
++    use codex_protocol::protocol::SessionConfiguredEvent;
++    use serde_json::{Value, json};
++    use std::collections::HashMap;
++    use std::sync::Mutex as StdMutex;
++    use std::sync::atomic::{AtomicUsize, Ordering};
++    use std::sync::mpsc;
++    use std::time::Duration;
++    use tempfile::TempDir;
++    use tokio::sync::Notify;
++    use tokio::time::timeout;
++    use wiremock::{Mock, MockServer, Request, Respond, ResponseTemplate};
++    use wiremock::matchers::{method, path};
++
++    const BOUND: Duration = Duration::from_secs(3);
++    const SERVER: &str = "owned-capture";
++    const TOOL: &str = "ReadFile";
++    const STATE_KEY: &str = codex_mcp::MCP_SANDBOX_STATE_META_CAPABILITY;
++
++    #[derive(Clone)]
++    struct CoreWire {
++        marker: PathBuf,
++        raw_calls: Arc<StdMutex<Vec<Vec<u8>>>>,
++        reads: Arc<AtomicUsize>,
++        entered: Arc<Notify>,
++        response_gate: Arc<StdMutex<Option<mpsc::Receiver<()>>>>,
++        catalog_entered: Arc<Notify>,
++        catalog_gate: Arc<StdMutex<Option<mpsc::Receiver<()>>>>,
++        catalog_release: Arc<StdMutex<Option<mpsc::Sender<()>>>>,
++    }
++
++    impl CoreWire {
++        fn hold_next_response(&self) -> mpsc::Sender<()> {
++            let (release, gate) = mpsc::channel();
++            *self.response_gate.lock().unwrap() = Some(gate);
++            release
++        }
++
++        fn release_catalog(&self) -> anyhow::Result<()> {
++            self.catalog_release.lock().unwrap().take()
++                .ok_or_else(|| anyhow::anyhow!("owned catalog release absent"))?
++                .send(()).map_err(|_| anyhow::anyhow!("release actual old catalog"))
++        }
++
++        fn calls(&self) -> usize {
++            self.raw_calls.lock().unwrap().len()
++        }
++
++        fn call_body(&self, index: usize) -> Value {
++            serde_json::from_slice(&self.raw_calls.lock().unwrap()[index]).unwrap()
++        }
++    }
++
++    impl Respond for CoreWire {
++        fn respond(&self, request: &Request) -> ResponseTemplate {
++            let body: Value = serde_json::from_slice(&request.body).expect("actual MCP JSON-RPC");
++            let id = body.get("id").cloned().unwrap_or(Value::Null);
++            let result = match body.get("method").and_then(Value::as_str) {
++                Some("initialize") => json!({
++                    "protocolVersion": body.pointer("/params/protocolVersion").and_then(Value::as_str)
++                        .unwrap_or("2025-06-18"),
++                    "capabilities": {
++                        "tools": {},
++                        "experimental": {(STATE_KEY): {}}
++                    },
++                    "serverInfo": {"name": "owned-core-capture", "version": "0.0.0-test"}
++                }),
++                Some("notifications/initialized") => return ResponseTemplate::new(202),
++                Some("tools/list") => {
++                    let gate = self.catalog_gate.lock().unwrap().take();
++                    self.catalog_entered.notify_one();
++                    if let Some(gate) = gate {
++                        if gate.recv_timeout(BOUND).is_err() {
++                            return ResponseTemplate::new(500).set_body_json(json!({
++                                "jsonrpc": "2.0", "id": id,
++                                "error": {"code": -32603, "message": "owned catalog gate expired"}
++                            }));
++                        }
++                    }
++                    json!({"tools": [{
++                        "name": TOOL, "description": "Read the one owned harmless marker",
++                        "inputSchema": {"type": "object", "properties": {}},
++                        "annotations": {"readOnlyHint": true}
++                    }]})
++                },
++                Some("tools/call") => {
++                    assert_eq!(body.pointer("/params/name").and_then(Value::as_str), Some(TOOL));
++                    self.raw_calls.lock().unwrap().push(request.body.clone());
++                    let gate = self.response_gate.lock().unwrap().take();
++                    self.entered.notify_one();
++                    // Same dedicated wiremock responder gate pattern as the pinned
++                    // AppsTestServer, with a strict bound instead of an open wait.
++                    if let Some(gate) = gate {
++                        if gate.recv_timeout(BOUND).is_err() {
++                            return ResponseTemplate::new(500).set_body_json(json!({
++                                "jsonrpc": "2.0", "id": id,
++                                "error": {"code": -32603, "message": "owned response gate expired"}
++                            }));
++                        }
++                    }
++                    let bytes = std::fs::read(&self.marker).expect("read only owned marker");
++                    self.reads.fetch_add(1, Ordering::SeqCst);
++                    json!({
++                        "content": [],
++                        "structuredContent": {
++                            "actualMeta": body.pointer("/params/_meta").cloned().unwrap_or(Value::Null),
++                            "ownedReadBytes": bytes
++                        }
++                    })
++                }
++                Some("ping") => json!({}),
++                _ => return ResponseTemplate::new(200).set_body_json(json!({
++                    "jsonrpc": "2.0", "id": id,
++                    "error": {"code": -32601, "message": "unexpected owned MCP method"}
++                })),
++            };
++            ResponseTemplate::new(200).set_body_json(json!({
++                "jsonrpc": "2.0", "id": id, "result": result
++            }))
++        }
++    }
++
++    struct OwnedCore {
++        thread: Arc<CodexThread>,
++        session: Arc<Session>,
++        runtime: Arc<McpRuntime>,
++        // Keep the factory's actual event receiver in SessionIo and every
++        // owned fixture directory alive until the direct calls have stopped.
++        _home: TempDir,
++        workspace: TempDir,
++        _server: MockServer,
++        wire: CoreWire,
++    }
++
++    impl OwnedCore {
++        async fn close(&self) -> anyhow::Result<()> {
++            self.runtime.cancel_startup();
++            timeout(BOUND, self.runtime.shutdown()).await?;
++            Ok(())
++        }
++    }
++
++    async fn owned_core(configured_timeout: Option<Duration>, hold_catalog: bool) -> anyhow::Result<OwnedCore> {
++        let home = TempDir::new()?;
++        let workspace = TempDir::new()?;
++        let marker = workspace.path().join("owned-marker");
++        std::fs::write(&marker, b"owned-harmless-marker")?;
++        let wire = CoreWire {
++            marker, raw_calls: Default::default(), reads: Default::default(),
++            entered: Default::default(), response_gate: Default::default(),
++            catalog_entered: Default::default(), catalog_gate: Default::default(),
++            catalog_release: Default::default(),
++        };
++        if hold_catalog {
++            let (release, gate) = mpsc::channel();
++            *wire.catalog_gate.lock().unwrap() = Some(gate);
++            *wire.catalog_release.lock().unwrap() = Some(release);
++        }
++        let server = MockServer::start().await;
++        Mock::given(method("POST")).and(path("/mcp"))
++            .respond_with(wire.clone()).mount(&server).await;
++        let url = format!("{}/mcp", server.uri());
++        let home_path = AbsolutePathBuf::try_from(home.path().to_path_buf())?;
++        let cwd = AbsolutePathBuf::try_from(workspace.path().to_path_buf())?;
++        let (session, turn, events) =
++            make_session_and_context_with_auth_and_config_and_rx(
++                CodexAuth::from_api_key("owned-fixture-only-not-a-real-key"),
++                Vec::new(),
++                move |config| {
++                    config.codex_home = home_path;
++                    config.cwd = cwd;
++                    config.analytics_enabled = Some(false);
++                    let mut server = json!({"url": url});
++                    if let Some(bound) = configured_timeout {
++                        server["tool_timeout_sec"] = json!(bound.as_secs_f64());
++                    }
++                    config.mcp_servers.set(HashMap::from([(
++                        SERVER.to_string(),
++                        serde_json::from_value(server).expect("actual configured MCP type"),
++                    )])).expect("owned server is admitted by fixture configuration");
++                },
++            ).await;
++        session.refresh_mcp_if_dirty().await;
++        let runtime = Arc::clone(&session.services.mcp_runtime);
++        let (tx_sub, _rx_sub) = async_channel::bounded(1);
++        let io = SessionIo {
++            tx_sub, rx_event: events,
++            agent_status: watch::channel(AgentStatus::PendingInit).1,
++            session_loop_termination: crate::session::completed_session_loop_termination(),
++        };
++        // Constructor-only startup metadata. The producer ignores this fixture
++        // record and reads the real current runtime's captured policy instead.
++        let event = SessionConfiguredEvent {
++            session_id: codex_protocol::SessionId::from(session.thread_id),
++            thread_id: session.thread_id,
++            forked_from_id: None, parent_thread_id: None, thread_source: None,
++            thread_name: None, model: "owned-uninvoked-model".to_string(),
++            model_provider_id: "owned-uninvoked-provider".to_string(), service_tier: None,
++            approval_policy: turn.config.permissions.approval_policy.value(),
++            approvals_reviewer: turn.config.approvals_reviewer,
++            permission_profile: turn.config.permissions.effective_permission_profile(),
++            active_permission_profile: None, cwd: turn.config.cwd.clone(),
++            reasoning_effort: None, initial_messages: None, network_proxy: None,
++            rollout_path: None,
++        };
++        let thread = Arc::new(CodexThread::new(
++            Arc::clone(&session), io, ThreadStartupMetadata::from(&event), None, SessionSource::Exec,
++        ));
++        Ok(OwnedCore { thread, session, runtime, _home: home, workspace, _server: server, wire })
++    }
++
++    async fn input_for(
++        owned: &OwnedCore,
++        config: Arc<McpConfig>,
++    ) -> McpRuntimeInput {
++        // Match actual auth and exact selected environment handles. Otherwise
++        // refresh_mcp_if_dirty would repair the fixture before the producer runs.
++        let auth = owned.session.services.auth_manager.auth_cached();
++        McpRuntimeInput {
++            startup_policy: McpStartupPolicy::Eager,
++            mcp_servers: codex_mcp::effective_mcp_servers(&config, auth.as_ref()),
++            config,
++            plugins_available: false,
++            ready_selected_capability_roots: owned.runtime.current_ready_selected_capability_roots(),
++            submit_id: "owned-core-qualification".to_string(),
++            tx_event: None,
++            startup_cancellation_token: CancellationToken::new(),
++            runtime_context: owned.session.current_mcp_runtime_context().await,
++            codex_apps_tools_cache: owned.session.services.mcp_manager.codex_apps_tools_cache(),
++            tool_catalog_cache: owned.session.services.mcp_manager.tool_catalog_cache(),
++            codex_apps_tools_cache_key: codex_connectors::connector_runtime_context_key(auth.as_ref()),
++            client_mcp_extensions: owned.session.services.client_mcp_extensions.for_mcp_servers(),
++            auth,
++            auth_manager: Some(Arc::clone(&owned.session.services.auth_manager)),
++            elicitation_reviewer: None, elicitation_lifecycle: None,
++        }
++    }
++
++    fn assert_genuine_fields(
++        owned: &OwnedCore,
++        captured: &PreparedMcpCall,
++        meta: &Value,
++    ) -> anyhow::Result<()> {
++        let actual: codex_mcp::SandboxState = serde_json::from_value(meta[STATE_KEY].clone())?;
++        assert_eq!(&actual.permission_profile, captured.permission_profile());
++        assert!(matches!(actual.permission_profile, PermissionProfile::Managed { .. }));
++        assert_eq!(
++            actual.sandbox_cwd,
++            captured.config().environment_cwds[captured.server_environment_id()]
++        );
++        assert_eq!(actual.codex_linux_sandbox_exe, captured.config().codex_linux_sandbox_exe);
++        assert_eq!(actual.use_legacy_landlock, captured.config().use_legacy_landlock);
++        assert_eq!(actual.sandbox_cwd, PathUri::from_host_native_path(owned.workspace.path())?);
++        Ok(())
++    }
++
++    #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
++    async fn direct_call_sandbox_state_missing_exact_cwd_rejects_before_real_transport()
++        -> anyhow::Result<()>
++    {
++        for wrong_environment_only in [false, true] {
++            let owned = owned_core(None, false).await?;
++            let before = PreparedMcpCall::prepare_direct(&owned.runtime, SERVER, TOOL).await?
++                .ok_or_else(|| anyhow::anyhow!("actual complete capture unavailable"))?;
++            let environment = before.server_environment_id().to_string();
++            let complete = owned.runtime.current_config().unwrap();
++            let mut broken = (*complete).clone();
++            broken.environment_cwds.clear();
++            if wrong_environment_only {
++                broken.environment_cwds.insert(
++                    "different-owned-environment".to_string(),
++                    PathUri::from_host_native_path(owned.workspace.path())?,
++                );
++            }
++            let broken = Arc::new(broken);
++            timeout(BOUND, owned.runtime.replace(input_for(&owned, Arc::clone(&broken)).await)).await?;
++            let error = timeout(BOUND, owned.thread.call_mcp_tool(
++                SERVER, TOOL, None, Some(json!({"rootRequestNonce": "owned-missing-cwd"})),
++            )).await?.expect_err("actual CodexThread must reject exact missing cwd");
++            assert!(error.to_string().contains("captured server sandbox cwd unavailable"), "{error:#}");
++            assert!(!owned.runtime.current_config().unwrap().environment_cwds.contains_key(&environment),
++                "automatic refresh must not silently heal the negative fixture");
++            assert_eq!(owned.wire.calls(), 0);
++            assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 0);
++            timeout(BOUND, owned.runtime.replace(input_for(&owned, Arc::clone(&complete)).await)).await?;
++            let current = PreparedMcpCall::prepare_direct(&owned.runtime, SERVER, TOOL).await?
++                .ok_or_else(|| anyhow::anyhow!("restored actual capture unavailable"))?;
++            let result = timeout(BOUND, owned.thread.call_mcp_tool(
++                SERVER, TOOL, None, Some(json!({"rootRequestNonce": "owned-restored-cwd"})),
++            )).await??;
++            let content = result.structured_content.ok_or_else(|| anyhow::anyhow!("actual result absent"))?;
++            assert_genuine_fields(&owned, &current, &content["actualMeta"])?;
++            assert_eq!(content["actualMeta"]["rootRequestNonce"], "owned-restored-cwd");
++            assert_eq!(owned.wire.calls(), 1);
++            assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 1);
++            owned.close().await?;
++        }
++        Ok(())
++    }
++
++    #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
++    async fn direct_call_sandbox_state_same_config_fresh_connections_rejects_real_inflight_result()
++        -> anyhow::Result<()>
++    {
++        let owned = owned_core(None, false).await?;
++        let authority = PreparedMcpCall::prepare_direct(&owned.runtime, SERVER, TOOL).await?
++            .ok_or_else(|| anyhow::anyhow!("real captured authority unavailable"))?;
++        let config = owned.runtime.current_config().unwrap();
++        let release = owned.wire.hold_next_response();
++        let entered = owned.wire.entered.notified();
++        tokio::pin!(entered);
++        entered.as_mut().enable();
++        let pending = {
++            let thread = Arc::clone(&owned.thread);
++            tokio::spawn(async move {
++                thread.call_mcp_tool(SERVER, TOOL, None,
++                    Some(json!({"rootRequestNonce": "owned-inflight-old"}))).await
++            })
++        };
++        timeout(BOUND, entered).await?;
++        assert_eq!(owned.wire.calls(), 1);
++        assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 0);
++        let original_request = owned.wire.call_body(0);
++        assert_genuine_fields(&owned, &authority, &original_request["params"]["_meta"])?;
++        assert!(authority.is_current_in(&owned.runtime));
++        owned.runtime.reconnect_on_next_refresh();
++        timeout(BOUND, owned.runtime.replace(input_for(&owned, Arc::clone(&config)).await)).await?;
++        assert!(Arc::ptr_eq(&config, &owned.runtime.current_config().unwrap()));
++        assert!(!authority.is_current_in(&owned.runtime),
++            "same config Arc plus failed two-part identity witnesses fresh actual connections");
++        release.send(()).map_err(|_| anyhow::anyhow!("release actual old response"))?;
++        let error = timeout(BOUND, pending).await??.expect_err(
++            "actual CodexThread must reject the old state-bearing response after publication");
++        assert!(error.to_string().contains("sandbox-state binding changed during capture"), "{error:#}");
++        assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 1);
++        // This real old export/read is failure evidence. Do not relabel it current.
++        assert_eq!(owned.wire.call_body(0), original_request);
++        let current = PreparedMcpCall::prepare_direct(&owned.runtime, SERVER, TOOL).await?
++            .ok_or_else(|| anyhow::anyhow!("fresh real control unavailable"))?;
++        let fresh = timeout(BOUND, owned.thread.call_mcp_tool(SERVER, TOOL, None,
++            Some(json!({"rootRequestNonce": "owned-inflight-fresh"})))).await??;
++        let fresh = fresh.structured_content.ok_or_else(|| anyhow::anyhow!("fresh result absent"))?;
++        assert_genuine_fields(&owned, &current, &fresh["actualMeta"])?;
++        assert_eq!(fresh["actualMeta"]["rootRequestNonce"], "owned-inflight-fresh");
++        assert_eq!(owned.wire.calls(), 2);
++        assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 2);
++        drop(authority);
++        owned.close().await?;
++        Ok(())
++    }
++
++    #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
++    async fn direct_call_sandbox_state_real_prepared_timeout_uses_shorter_bound()
++        -> anyhow::Result<()>
++    {
++        for (configured_ms, requested_ms) in [(50, 500), (500, 50)] {
++            let owned = owned_core(Some(Duration::from_millis(configured_ms)), false).await?;
++            let current = PreparedMcpCall::prepare_direct(&owned.runtime, SERVER, TOOL).await?
++                .ok_or_else(|| anyhow::anyhow!("real timeout capture unavailable"))?;
++            let release = owned.wire.hold_next_response();
++            let started = tokio::time::Instant::now();
++            let error = timeout(BOUND, current.call_direct(None, None,
++                Some(Duration::from_millis(requested_ms)))).await?
++                .expect_err("shorter bound must stop the actual direct RPC");
++            assert!(format!("{error:#}").contains("timed out"), "{error:#}");
++            assert!(started.elapsed() < Duration::from_millis(400));
++            assert_eq!(owned.wire.calls(), 1);
++            assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 0);
++            // A remote handler already admitted is not revoked by a caller timeout.
++            // Release and retain its late owned effect; do not credit cancellation.
++            release.send(()).map_err(|_| anyhow::anyhow!("release timed-out owned handler"))?;
++            timeout(BOUND, async {
++                while owned.wire.reads.load(Ordering::SeqCst) == 0 {
++                    tokio::time::sleep(Duration::from_millis(5)).await;
++                }
++            }).await?;
++            assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 1);
++            owned.close().await?;
++        }
++        Ok(())
++    }
++    #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
++    async fn direct_call_sandbox_state_publication_changes_during_target_capture_before_wire()
++        -> anyhow::Result<()>
++    {
++        let owned = owned_core(None, true).await?;
++        timeout(BOUND, owned.wire.catalog_entered.notified()).await?;
++        let old_config = owned.runtime.current_config().unwrap();
++        let mut pending = Box::pin(owned.thread.call_mcp_tool(SERVER, TOOL, None,
++            Some(json!({"rootRequestNonce": "owned-before-state-capture"}))));
++        // The session's refresh was settled by owned_core. With its auth and
++        // environments unchanged and no submitted turn, the target startup
++        // catalog is the first pending authority input in this actual call.
++        assert!(futures::poll!(pending.as_mut()).is_pending());
++        let mut next_config = (*old_config).clone();
++        next_config.use_legacy_landlock = !old_config.use_legacy_landlock;
++        let next_config = Arc::new(next_config);
++        owned.runtime.reconnect_on_next_refresh();
++        timeout(BOUND, owned.runtime.replace(
++            input_for(&owned, Arc::clone(&next_config)).await,
++        )).await?;
++        assert!(!Arc::ptr_eq(&old_config, &owned.runtime.current_config().unwrap()));
++        owned.wire.release_catalog()?;
++        let error = timeout(BOUND, pending).await?
++            .expect_err("actual capture must reject replaced authority before state/transport");
++        assert!(error.to_string().contains("publication changed during capture"), "{error:#}");
++        assert_eq!(owned.wire.calls(), 0);
++        assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 0);
++        let current = PreparedMcpCall::prepare_direct(&owned.runtime, SERVER, TOOL).await?
++            .ok_or_else(|| anyhow::anyhow!("fresh capture valid control absent"))?;
++        let result = timeout(BOUND, owned.thread.call_mcp_tool(SERVER, TOOL, None,
++            Some(json!({"rootRequestNonce": "owned-after-capture-replacement"})))).await??;
++        let result = result.structured_content.ok_or_else(|| anyhow::anyhow!("current result absent"))?;
++        assert_genuine_fields(&owned, &current, &result["actualMeta"])?;
++        assert_eq!(result["actualMeta"]["rootRequestNonce"], "owned-after-capture-replacement");
++        assert_eq!(owned.wire.calls(), 1);
++        assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 1);
++        owned.close().await?;
++        Ok(())
++    }
++
++}
++
+diff --git a/codex-rs/codex-mcp/src/binding.rs b/codex-rs/codex-mcp/src/binding.rs
+index f0a95b95c6d082b0acc20b0dd38a18066d4ee589..c45798db5786b6bb17d30fff80d9cd1d1c8c3a3e 100644
+--- a/codex-rs/codex-mcp/src/binding.rs
++++ b/codex-rs/codex-mcp/src/binding.rs
+@@ -286,6 +286,68 @@
+
+     pub async fn server_supports_sandbox_state_meta_capability(&self) -> Result<bool> {
+         Ok(self.client.server_supports_sandbox_state_meta_capability)
++    }
++
++    /// Capture only the requested server/tool. A broad binding can start unrelated clients.
++    pub async fn prepare_direct(
++        runtime: &crate::runtime::McpRuntime,
++        server: &str,
++        tool: &str,
++    ) -> Result<Option<Self>> {
++        let Some(config) = runtime.current_config() else { return Ok(None); };
++        let connections = runtime.latest_connections();
++        let (tools, errors) = connections
++            .list_tools_with_errors(|name| name == server)
++            .await;
++        if let Some(error) = errors.get(server) {
++            return Err(anyhow::anyhow!("requested MCP catalog unavailable for `{server}`: {error}"));
++        }
++        let Some(advertised_tool) = tools.into_iter()
++            .find(|info| info.server_name == server && info.tool.name.as_ref() == tool)
++        else { return Ok(None); };
++        let call = connections.prepare_call_for_tool(config, &advertised_tool).await;
++        if call.as_ref().is_some_and(|call| !call.is_current_in(runtime)) {
++            return Err(anyhow::anyhow!("requested MCP publication changed during capture"));
++        }
++        Ok(call)
++    }
++
++    /// Both config and connections identify the publication's captured authority.
++    /// This is a snapshot check, not a global host-policy revocation fence.
++    pub fn is_current_in(&self, runtime: &crate::runtime::McpRuntime) -> bool {
++        let Some(config) = runtime.current_config() else { return false; };
++        let connections = runtime.latest_connections();
++        same_direct_call_authority(&self.connections, &self.config, &connections, &config)
++    }
++
++    /// A captured direct API call retains the raw route's no-entitlement contract.
++    /// This must not call add_trusted_access_context or grant model-path authority.
++    pub async fn call_direct(
++        &self,
++        arguments: Option<JsonValue>,
++        mut meta: Option<JsonValue>,
++        requested_timeout: Option<Duration>,
++    ) -> Result<CallToolResult> {
++        if let Some(serde_json::Value::Object(map)) = meta.as_mut() {
++            map.remove(crate::trusted_access::ENTITLEMENT_CONTEXT_KEY);
++        }
++        let effective_timeout = match (self.client.tool_timeout, requested_timeout) {
++            (Some(server_timeout), Some(requested_timeout)) => Some(server_timeout.min(requested_timeout)),
++            (server_timeout, requested_timeout) => server_timeout.or(requested_timeout),
++        };
++        let tool_name = self.tool_info.tool.name.to_string();
++        self.client.tool_catalog
++            .run_with_snapshot(&self.catalog_snapshot, || async {
++                self.client.client
++                    .call_tool(tool_name.clone(), arguments, meta, effective_timeout)
++                    .await
++                    .with_context(|| format!("direct tool call failed for `{}/{tool_name}`", self.server_name))
++            })
++            .await
++            .ok_or_else(|| anyhow::anyhow!(
++                "direct tool call rejected because the catalog changed after `{}/{tool_name}` was prepared", self.server_name
++            ))?
++            .map(call_tool_result_from_rmcp)
+     }
+
+     pub async fn call(
+@@ -386,3 +448,245 @@
+ #[cfg(test)]
+ #[path = "binding_tests.rs"]
+ mod tests;
++
++
++fn same_direct_call_authority(
++    captured_connections: &Arc<McpConnectionSet>,
++    captured_config: &Arc<McpConfig>,
++    current_connections: &Arc<McpConnectionSet>,
++    current_config: &Arc<McpConfig>,
++) -> bool {
++    Arc::ptr_eq(captured_connections, current_connections)
++        && Arc::ptr_eq(captured_config, current_config)
++}
++
++#[cfg(test)]
++mod direct_call_authority_tests {
++    use super::*;
++
++    #[test]
++    fn same_config_arc_with_new_connections_is_not_current_authority() {
++        let config = Arc::new(crate::mcp::tests::test_mcp_config(std::env::temp_dir()));
++        let captured = Arc::new(McpConnectionSet::empty(true));
++        let refreshed = Arc::new(McpConnectionSet::empty(true));
++        assert!(same_direct_call_authority(&captured, &config, &captured, &config));
++        assert!(!same_direct_call_authority(&captured, &config, &refreshed, &config));
++    }
++
++    #[test]
++    fn same_connections_with_new_config_is_not_current_authority() {
++        let captured_config = Arc::new(crate::mcp::tests::test_mcp_config(std::env::temp_dir()));
++        let refreshed_config = Arc::new(crate::mcp::tests::test_mcp_config(std::env::temp_dir()));
++        let connections = Arc::new(McpConnectionSet::empty(true));
++        assert!(!same_direct_call_authority(&connections, &captured_config, &connections, &refreshed_config));
++    }
++}
++
++
++// HELD, compile-unverified real-wire direct catalog regression.
++// Appends to the existing binding.rs file; no additional upstream path.
++#[cfg(test)]
++mod direct_call_sandbox_state_catalog_wire_tests {
++    use super::*;
++    use codex_protocol::mcp::McpServerInfo;
++    use codex_rmcp_client::{InProcessTransportFactory, RmcpClient};
++    use futures::FutureExt;
++    use rmcp::ServiceExt;
++    use rmcp::handler::server::ServerHandler;
++    use rmcp::model::{ClientCapabilities, Implementation, InitializeRequestParams,
++        JsonObject, ListToolsResult, ProtocolVersion, ServerCapabilities, ServerInfo, Tool};
++    use std::path::PathBuf;
++    use std::sync::Mutex;
++    use std::sync::atomic::{AtomicUsize, Ordering};
++    use tokio::task::JoinHandle;
++    use tokio::time::timeout;
++    use crate::client_tool_catalog::ClientToolCatalog;
++
++    const BOUND: Duration = Duration::from_secs(3);
++    const SERVER: &str = "owned-catalog";
++    const TOOL: &str = "ReadFile";
++
++    #[derive(Clone)]
++    struct CatalogWire {
++        marker: PathBuf,
++        calls: Arc<AtomicUsize>,
++        reads: Arc<AtomicUsize>,
++        tasks: Arc<Mutex<Vec<JoinHandle<()>>>>,
++    }
++
++    fn advertised_tool() -> Tool {
++        Tool::new(TOOL.to_string(), "Read only the owned harmless marker".to_string(),
++            Arc::new(JsonObject::new()))
++    }
++
++    impl ServerHandler for CatalogWire {
++        fn get_info(&self) -> ServerInfo {
++            ServerInfo::new(ServerCapabilities::builder().enable_tools().build())
++        }
++
++        async fn list_tools(
++            &self,
++            _request: Option<PaginatedRequestParams>,
++            _context: rmcp::service::RequestContext<rmcp::service::RoleServer>,
++        ) -> Result<ListToolsResult, rmcp::ErrorData> {
++            Ok(ListToolsResult::with_all_items(vec![advertised_tool()]))
++        }
++
++        async fn call_tool(
++            &self,
++            request: rmcp::model::CallToolRequestParams,
++            _context: rmcp::service::RequestContext<rmcp::service::RoleServer>,
++        ) -> Result<rmcp::model::CallToolResponse, rmcp::ErrorData> {
++            self.calls.fetch_add(1, Ordering::SeqCst);
++            if request.name != TOOL {
++                return Err(rmcp::ErrorData::invalid_params("unexpected owned catalog tool", None));
++            }
++            let bytes = std::fs::read(&self.marker)
++                .map_err(|e| rmcp::ErrorData::internal_error(e.to_string(), None))?;
++            self.reads.fetch_add(1, Ordering::SeqCst);
++            let mut result = rmcp::model::CallToolResult::success(Vec::new());
++            result.structured_content = Some(serde_json::json!({"ownedReadBytes": bytes}));
++            Ok(result.into())
++        }
++    }
++
++    impl InProcessTransportFactory for CatalogWire {
++        fn open(&self) -> futures::future::BoxFuture<'static, std::io::Result<tokio::io::DuplexStream>> {
++            let server = self.clone();
++            async move {
++                let (client, transport) = tokio::io::duplex(4096);
++                let tasks = Arc::clone(&server.tasks);
++                let task = tokio::spawn(async move {
++                    server.serve(transport).await.expect("serve owned catalog MCP")
++                        .waiting().await.expect("owned catalog MCP exits");
++                });
++                tasks.lock().unwrap().push(task);
++                Ok(client)
++            }.boxed()
++        }
++    }
++
++    struct OwnedCatalog {
++        client: Arc<RmcpClient>,
++        managed: Arc<ManagedClient>,
++        config: Arc<McpConfig>,
++        tool: ToolInfo,
++        connections: Arc<McpConnectionSet>,
++        wire: CatalogWire,
++        _directory: tempfile::TempDir,
++    }
++
++    impl Drop for OwnedCatalog {
++        fn drop(&mut self) {
++            for task in self.wire.tasks.lock().unwrap().drain(..) { task.abort(); }
++        }
++    }
++
++    impl OwnedCatalog {
++        async fn capture(&self) -> anyhow::Result<PreparedMcpCall> {
++            PreparedMcpCall::new(
++                Arc::clone(&self.connections), Arc::clone(&self.managed),
++                Arc::clone(&self.config), self.managed.tool_catalog.read(Arc::new).await,
++                self.tool.clone(),
++                McpServerMetadata {
++                    environment_id: String::new(), pollutes_memory: false, origin: None,
++                    supports_parallel_tool_calls: false,
++                    default_tools_approval_mode: None, tool_approval_modes: HashMap::new(),
++                },
++                None, false,
++            ).ok_or_else(|| anyhow::anyhow!("owned configured profile unavailable"))
++        }
++
++        async fn close(&self) -> anyhow::Result<()> {
++            timeout(BOUND, self.client.shutdown()).await?;
++            let tasks = std::mem::take(&mut *self.wire.tasks.lock().unwrap());
++            for task in tasks { timeout(BOUND, task).await??; }
++            Ok(())
++        }
++    }
++
++    async fn owned_catalog() -> anyhow::Result<OwnedCatalog> {
++        let directory = tempfile::tempdir()?;
++        let marker = directory.path().join("owned-marker");
++        std::fs::write(&marker, b"owned-catalog-valid-control")?;
++        let wire = CatalogWire {
++            marker, calls: Default::default(), reads: Default::default(), tasks: Default::default(),
++        };
++        let client = Arc::new(RmcpClient::new_in_process_client(Arc::new(wire.clone())).await?);
++        client.initialize(
++            InitializeRequestParams::new(ClientCapabilities::default(),
++                Implementation::new("owned-catalog-test", "0.0.0-test"))
++                .with_protocol_version(ProtocolVersion::V_2025_06_18),
++            Some(BOUND),
++            Box::new(|_, _| async { Err(anyhow::anyhow!("unexpected elicitation")) }.boxed()),
++        ).await?;
++        let tool = ToolInfo {
++            server_name: SERVER.to_string(), supports_parallel_tool_calls: false,
++            server_origin: None, callable_name: TOOL.to_string(), callable_namespace: SERVER.to_string(),
++            namespace_description: None, tool: advertised_tool(),
++            openai_file_input_optional_fields: Default::default(),
++            connector_id: None, connector_name: None, plugin_display_names: Vec::new(),
++        };
++        let managed = Arc::new(ManagedClient {
++            _auth_change_notifications: None, client: Arc::clone(&client),
++            server_info: McpServerInfo {
++                name: "owned-catalog-test".to_string(), title: None, version: "0.0.0-test".to_string(),
++                description: None, icons: None, website_url: None,
++            },
++            tool_catalog: Arc::new(ClientToolCatalog::new(vec![tool.clone()], None)),
++            tool_timeout: Some(BOUND), server_instructions: None,
++            server_supports_sandbox_state_meta_capability: false,
++            codex_apps_tools_cache_context: None,
++        });
++        let mut config = crate::mcp::tests::test_mcp_config(directory.path().to_path_buf());
++        config.server_permission_profiles.insert(SERVER.into(), PermissionProfile::read_only());
++        Ok(OwnedCatalog {
++            client, managed, config: Arc::new(config), tool,
++            connections: Arc::new(McpConnectionSet::empty(true)), wire, _directory: directory,
++        })
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_catalog_invalidated_rejects_real_wire_and_read()
++        -> anyhow::Result<()>
++    {
++        let owned = owned_catalog().await?;
++        let stale = owned.capture().await?;
++        owned.managed.tool_catalog.refresh(
++            || async { Ok((vec![owned.tool.clone()], ())) }, |_, ()| {}
++        ).await?;
++        let error = timeout(BOUND, stale.call_direct(None, None, None)).await?
++            .expect_err("actual direct transport must reject a stale catalog");
++        assert!(error.to_string().contains("catalog changed"), "{error:#}");
++        assert_eq!(owned.wire.calls.load(Ordering::SeqCst), 0);
++        assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 0);
++        let current = owned.capture().await?;
++        let result = timeout(BOUND, current.call_direct(None, None, None)).await??;
++        assert_eq!(result.structured_content.unwrap()["ownedReadBytes"],
++            serde_json::json!(b"owned-catalog-valid-control".to_vec()));
++        assert_eq!(owned.wire.calls.load(Ordering::SeqCst), 1);
++        assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 1);
++        owned.close().await?;
++        assert!(owned.wire.tasks.lock().unwrap().is_empty());
++        Ok(())
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_closed_captured_client_cannot_dispatch_again()
++        -> anyhow::Result<()>
++    {
++        let owned = owned_catalog().await?;
++        let call = owned.capture().await?;
++        timeout(BOUND, call.call_direct(None, None, None)).await??;
++        assert_eq!(owned.wire.calls.load(Ordering::SeqCst), 1);
++        assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 1);
++        owned.close().await?;
++        let error = timeout(BOUND, call.call_direct(None, None, None)).await?
++            .expect_err("closed captured client must fail without a new route");
++        assert!(format!("{error:#}").contains("shut down"), "{error:#}");
++        assert_eq!(owned.wire.calls.load(Ordering::SeqCst), 1);
++        assert_eq!(owned.wire.reads.load(Ordering::SeqCst), 1);
++        Ok(())
++    }
++}
++
+diff --git a/codex-rs/app-server/tests/suite/v2/plugin_install.rs b/codex-rs/app-server/tests/suite/v2/plugin_install.rs
+index 99ffcd08c537dcc245c18eb44f0e5a363d299822..3feabef8ee79e295b588f83d54722072faafa951 100644
+--- a/codex-rs/app-server/tests/suite/v2/plugin_install.rs
++++ b/codex-rs/app-server/tests/suite/v2/plugin_install.rs
+@@ -3407,3 +3407,436 @@
+     }
+     Ok(tar.into_inner()?.finish()?)
+ }
++
++
++// HELD, uncompiled test candidate for openai/codex 01fc69f4026735edfdf6789820549727a4867b11.
++// Appended to the exact original plugin_install.rs; original bytes stay unchanged.
++// These are transport tests. They do not certify native sandbox enforcement.
++#[cfg(test)]
++mod direct_call_sandbox_state_integration {
++    use super::*;
++    use serde_json::Value;
++    use tokio::sync::Notify;
++
++    const CALL_BOUND: Duration = Duration::from_secs(3);
++    const STATE_KEY: &str = codex_mcp::MCP_SANDBOX_STATE_META_CAPABILITY;
++    // Actual direct-route stripping key, from codex-mcp/src/trusted_access.rs.
++    const ENTITLEMENT_KEY: &str = "openai/entitlementContext";
++
++    #[derive(Default)]
++    struct Capture {
++        initializes: AtomicUsize,
++        catalogs: AtomicUsize,
++        calls: StdMutex<Vec<Value>>,
++        initialize_gate: Option<Arc<Notify>>,
++        capability: bool,
++        app_only: bool,
++        catalog_error: bool,
++    }
++
++    #[derive(Clone)]
++    struct CaptureServer(Arc<Capture>);
++
++    impl ServerHandler for CaptureServer {
++        async fn initialize(
++            &self,
++            request: rmcp::model::InitializeRequestParams,
++            context: rmcp::service::RequestContext<rmcp::service::RoleServer>,
++        ) -> std::result::Result<rmcp::model::InitializeResult, rmcp::ErrorData> {
++            self.0.initializes.fetch_add(1, Ordering::SeqCst);
++            if let Some(gate) = self.0.initialize_gate.as_ref() {
++                // Bounded even if an assertion aborts before the explicit release.
++                timeout(Duration::from_secs(8), gate.notified())
++                    .await
++                    .map_err(|_| rmcp::ErrorData::internal_error("owned initialize gate expired", None))?;
++            }
++            context.peer.set_peer_info(request);
++            Ok(self.get_info())
++        }
++
++        fn get_info(&self) -> ServerInfo {
++            let mut capabilities = ServerCapabilities::builder().enable_tools().build();
++            if self.0.capability {
++                capabilities.experimental = Some(BTreeMap::from([(
++                    STATE_KEY.to_string(),
++                    JsonObject::new(),
++                )]));
++            }
++            ServerInfo::new(capabilities)
++        }
++
++        fn list_tools(
++            &self,
++            _request: Option<rmcp::model::PaginatedRequestParams>,
++            _context: rmcp::service::RequestContext<rmcp::service::RoleServer>,
++        ) -> impl std::future::Future<Output = std::result::Result<ListToolsResult, rmcp::ErrorData>> + Send + '_ {
++            async move {
++                self.0.catalogs.fetch_add(1, Ordering::SeqCst);
++                if self.0.catalog_error {
++                    return Err(rmcp::ErrorData::internal_error("owned target catalog failure", None));
++                }
++                let mut tool = Tool::new(
++                    "capture".to_string(),
++                    "Return the actual request metadata without producing any state".to_string(),
++                    Arc::new(JsonObject::new()),
++                );
++                if self.0.app_only {
++                    let mut meta = MetaObject::new();
++                    meta.insert("ui".to_string(), json!({"visibility": ["app"]}));
++                    tool.meta = Some(meta);
++                }
++                Ok(ListToolsResult::with_all_items(vec![tool]))
++            }
++        }
++
++        async fn call_tool(
++            &self,
++            request: rmcp::model::CallToolRequestParams,
++            context: rmcp::service::RequestContext<rmcp::service::RoleServer>,
++        ) -> std::result::Result<rmcp::model::CallToolResponse, rmcp::ErrorData> {
++            // "raw" is deliberately absent from tools/list, but the raw transport
++            // may dispatch an unadvertised, unfiltered tool as it did before.
++            if request.name != "capture" && request.name != "raw" {
++                return Err(rmcp::ErrorData::invalid_params("unexpected owned fixture tool", None));
++            }
++            let meta = Value::Object(context.meta.0.0);
++            self.0.calls.lock().unwrap().push(meta.clone());
++            if let Some(delay_ms) = request.arguments.as_ref()
++                .and_then(|args| args.get("delay_ms"))
++                .and_then(Value::as_u64)
++            {
++                tokio::time::sleep(Duration::from_millis(delay_ms)).await;
++            }
++            let mut result = rmcp::model::CallToolResult::success(Vec::new());
++            result.structured_content = Some(meta);
++            Ok(result.into())
++        }
++    }
++
++    struct OwnedServer {
++        url: String,
++        capture: Arc<Capture>,
++        task: JoinHandle<()>,
++    }
++
++    impl Drop for OwnedServer {
++        fn drop(&mut self) {
++            if let Some(gate) = self.capture.initialize_gate.as_ref() {
++                gate.notify_waiters();
++            }
++            self.task.abort();
++        }
++    }
++
++    async fn start_owned_server(capture: Capture) -> Result<OwnedServer> {
++        let capture = Arc::new(capture);
++        let handler = CaptureServer(Arc::clone(&capture));
++        let listener = TcpListener::bind("127.0.0.1:0").await?;
++        let address = listener.local_addr()?;
++        let service = StreamableHttpService::new(
++            move || Ok(handler.clone()),
++            Arc::new(LocalSessionManager::default()),
++            StreamableHttpServerConfig::default(),
++        );
++        let router = Router::new().nest_service("/mcp", service);
++        let task = tokio::spawn(async move {
++            let _ = axum::serve(listener, router).await;
++        });
++        Ok(OwnedServer { url: format!("http://{address}/mcp"), capture, task })
++    }
++
++    fn config_for(url: &str, extra_root: &str, extra_target: &str) -> String {
++        // Only owned loopback fixtures are configured. No auth files are copied.
++        format!(
++            "sandbox_mode = \"read-only\"\napproval_policy = \"never\"\n\
++             mcp_optional_startup_grace_ms = 0\n{extra_root}\n\
++             [mcp_servers.target]\nurl = {url:?}\n{extra_target}\n"
++        )
++    }
++
++    // Declare the app first so its Drop runs before the owned directories vanish.
++    struct OwnedApp {
++        app: TestAppServer,
++        thread_id: String,
++        codex_home: TempDir,
++        workspace: TempDir,
++    }
++
++    async fn start_owned_app(config: String) -> Result<OwnedApp> {
++        let codex_home = TempDir::new()?;
++        let workspace = TempDir::new()?;
++        std::fs::write(codex_home.path().join("config.toml"), config)?;
++        let mut app = TestAppServer::builder()
++            .with_codex_home(codex_home.path())
++            .without_auto_env()
++            .without_managed_config()
++            .build_initialized_with_timeout(DEFAULT_TIMEOUT)
++            .await?;
++        // Existing RPC, same typed ThreadStartResponse as the owning module.
++        let id = app.send_raw_request("thread/start", Some(json!({
++            "cwd": workspace.path().to_string_lossy(),
++            "sandbox": "read-only",
++            "approvalPolicy": "never",
++            "ephemeral": true
++        }))).await?;
++        let response: ThreadStartResponse =
++            timeout(DEFAULT_TIMEOUT, app.read_response(id)).await??;
++        Ok(OwnedApp { app, thread_id: response.thread.id, codex_home, workspace })
++    }
++
++    async fn send(
++        app: &mut OwnedApp,
++        server: &str,
++        tool: &str,
++        meta: Option<Value>,
++        arguments: Option<Value>,
++    ) -> Result<i64> {
++        Ok(app.app.send_mcp_server_tool_call_request(McpServerToolCallParams {
++            thread_id: app.thread_id.clone(),
++            server: server.to_string(),
++            tool: tool.to_string(),
++            arguments,
++            meta,
++        }).await?)
++    }
++
++    async fn call(
++        app: &mut OwnedApp,
++        server: &str,
++        tool: &str,
++        meta: Option<Value>,
++        arguments: Option<Value>,
++    ) -> Result<Value> {
++        let id = send(app, server, tool, meta, arguments).await?;
++        let response: McpServerToolCallResponse =
++            timeout(CALL_BOUND, app.app.read_response(id)).await??;
++        response.structured_content.ok_or_else(|| anyhow::anyhow!("owned capture response missing"))
++    }
++
++    async fn reject(
++        app: &mut OwnedApp,
++        server: &str,
++        tool: &str,
++        meta: Option<Value>,
++        arguments: Option<Value>,
++    ) -> Result<String> {
++        let id = send(app, server, tool, meta, arguments).await?;
++        let error = timeout(CALL_BOUND, app.app.read_stream_until_error_message(RequestId::Integer(id))).await??;
++        Ok(error.error.message)
++    }
++
++    fn call_count(server: &OwnedServer) -> usize {
++        server.capture.calls.lock().unwrap().len()
++    }
++
++    fn typed_state(meta: &Value) -> Result<codex_mcp::SandboxState> {
++        serde_json::from_value(
++            meta.get(STATE_KEY).cloned()
++                .ok_or_else(|| anyhow::anyhow!("genuine state absent from actual wire metadata"))?
++        ).map_err(Into::into)
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_advertised_wire_is_typed_and_thread_bound() -> Result<()> {
++        let server = start_owned_server(Capture { capability: true, ..Default::default() }).await?;
++        let mut app = start_owned_app(config_for(&server.url, "", "")).await?;
++        let actual = call(&mut app, "target", "capture", Some(json!({
++            "rootRequestNonce": "owned-advertised-control",
++            "threadId": "caller-must-not-select-the-thread"
++        })), None).await?;
++        let state = typed_state(&actual)?;
++        assert_eq!(state.permission_profile, codex_protocol::models::PermissionProfile::read_only());
++        assert_eq!(
++            state.sandbox_cwd,
++            codex_utils_path_uri::PathUri::from_host_native_path(app.workspace.path())?
++        );
++        assert_eq!(actual["rootRequestNonce"], "owned-advertised-control");
++        assert_eq!(actual["threadId"], app.thread_id);
++        assert_eq!(call_count(&server), 1);
++        assert_eq!(server.capture.calls.lock().unwrap()[0], actual);
++        Ok(())
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_replaces_fabricated_state_and_preserves_input() -> Result<()> {
++        let server = start_owned_server(Capture { capability: true, ..Default::default() }).await?;
++        let mut app = start_owned_app(config_for(&server.url, "", "")).await?;
++        let mut input = json!({"rootRequestNonce": "owned-overwrite", "other": {"stable": [1, true]}});
++        input.as_object_mut().unwrap().insert(STATE_KEY.into(), json!({"fabricated": true}));
++        let original = input.clone();
++        let actual = call(&mut app, "target", "capture", Some(input.clone()), None).await?;
++        let state = typed_state(&actual)?;
++        assert_eq!(state.permission_profile, codex_protocol::models::PermissionProfile::read_only());
++        assert_ne!(actual[STATE_KEY], original[STATE_KEY]);
++        assert_eq!(actual["other"], original["other"]);
++        assert_eq!(actual["rootRequestNonce"], original["rootRequestNonce"]);
++        assert_eq!(actual["threadId"], app.thread_id);
++        assert_eq!(input, original);
++        assert_eq!(call_count(&server), 1);
++        Ok(())
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_opt_out_preserves_raw_and_rejects_reserved() -> Result<()> {
++        let server = start_owned_server(Capture::default()).await?;
++        let mut app = start_owned_app(config_for(&server.url, "", "")).await?;
++        let actual = call(&mut app, "target", "capture", Some(json!({"ordinary": [7, "raw"]})), None).await?;
++        assert_eq!(actual["ordinary"], json!([7, "raw"]));
++        assert_eq!(actual["threadId"], app.thread_id);
++        assert!(actual.get(STATE_KEY).is_none());
++        let before = call_count(&server);
++        let mut fabricated = json!({"ordinary": true});
++        fabricated.as_object_mut().unwrap().insert(STATE_KEY.into(), json!({"fabricated": true}));
++        let error = reject(&mut app, "target", "capture", Some(fabricated), None).await?;
++        assert!(error.contains("caller-supplied sandbox state"), "{error}");
++        assert_eq!(call_count(&server), before);
++        Ok(())
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_rejects_nonobject_wire_metadata_before_transport() -> Result<()> {
++        for capability in [false, true] {
++            let server = start_owned_server(Capture { capability, ..Default::default() }).await?;
++            let mut app = start_owned_app(config_for(&server.url, "", "")).await?;
++            for invalid in [json!(false), json!(17), json!("bad"), json!([])] {
++                let error = reject(&mut app, "target", "capture", Some(invalid.clone()), None).await?;
++                assert!(error.contains("_meta must be a JSON object"), "{invalid}: {error}");
++                assert_eq!(call_count(&server), 0);
++            }
++            // Option<Value> maps explicit wire null to absent. The core helper's
++            // Some(Null) rejection belongs to its existing focused unit test.
++            let actual = call(&mut app, "target", "capture", Some(Value::Null), None).await?;
++            assert_eq!(actual["threadId"], app.thread_id);
++            assert_eq!(actual.get(STATE_KEY).is_some(), capability);
++        }
++        Ok(())
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_unadvertised_raw_and_app_only_have_no_export() -> Result<()> {
++        for app_only in [false, true] {
++            let server = start_owned_server(Capture { capability: true, app_only, ..Default::default() }).await?;
++            let mut app = start_owned_app(config_for(&server.url, "", "")).await?;
++            let tool = if app_only { "capture" } else { "raw" };
++            let actual = call(&mut app, "target", tool, Some(json!({"ordinary": "no-export"})), None).await?;
++            assert_eq!(actual["ordinary"], "no-export");
++            assert!(actual.get(STATE_KEY).is_none());
++            let mut fabricated = json!({});
++            fabricated.as_object_mut().unwrap().insert(STATE_KEY.into(), json!({"fabricated": true}));
++            let error = reject(&mut app, "target", tool, Some(fabricated), None).await?;
++            assert!(error.contains("caller-supplied sandbox state"), "{error}");
++            assert_eq!(call_count(&server), 1);
++        }
++        Ok(())
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_unknown_and_filtered_tools_do_not_dispatch() -> Result<()> {
++        let server = start_owned_server(Capture { capability: true, ..Default::default() }).await?;
++        let mut app = start_owned_app(config_for(&server.url, "", "disabled_tools = [\"capture\"]")).await?;
++        let unknown = reject(&mut app, "unknown-owned-server", "capture", None, None).await?;
++        assert!(unknown.contains("unknown-owned-server"), "{unknown}");
++        let filtered = reject(&mut app, "target", "capture", None, None).await?;
++        assert!(filtered.contains("disabled") || filtered.contains("not allowed"), "{filtered}");
++        assert_eq!(call_count(&server), 0);
++        Ok(())
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_target_catalog_error_does_not_dispatch() -> Result<()> {
++        let server = start_owned_server(Capture {
++            capability: true, catalog_error: true, ..Default::default()
++        }).await?;
++        let mut app = start_owned_app(config_for(&server.url, "", "")).await?;
++        let error = reject(&mut app, "target", "capture", None, None).await?;
++        assert!(error.contains("owned target catalog failure"), "{error}");
++        assert_eq!(call_count(&server), 0);
++        Ok(())
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_strips_entitlements_on_captured_and_raw_routes() -> Result<()> {
++        for capability in [true, false] {
++            let server = start_owned_server(Capture { capability, ..Default::default() }).await?;
++            let mut app = start_owned_app(config_for(&server.url, "", "")).await?;
++            let mut meta = json!({"ordinary": {"keep": true}});
++            meta.as_object_mut().unwrap().insert(ENTITLEMENT_KEY.into(), json!({"caller": "untrusted"}));
++            let actual = call(&mut app, "target", "capture", Some(meta), None).await?;
++            assert!(actual.get(ENTITLEMENT_KEY).is_none());
++            assert_eq!(actual["ordinary"], json!({"keep": true}));
++            assert_eq!(actual.get(STATE_KEY).is_some(), capability);
++            assert_eq!(call_count(&server), 1);
++        }
++        Ok(())
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_target_only_does_not_wait_for_pending_optional_server() -> Result<()> {
++        let gate = Arc::new(Notify::new());
++        let unrelated = start_owned_server(Capture {
++            initialize_gate: Some(Arc::clone(&gate)), ..Default::default()
++        }).await?;
++        let server = start_owned_server(Capture { capability: true, ..Default::default() }).await?;
++        let extra = format!(
++            "[mcp_servers.unrelated]\nurl = {:?}\nrequired = false\nstartup_timeout_sec = 12\n",
++            unrelated.url
++        );
++        let mut app = start_owned_app(config_for(&server.url, "", &format!(
++            "\n{extra}"
++        ))).await?;
++        timeout(CALL_BOUND, async {
++            while unrelated.capture.initializes.load(Ordering::SeqCst) == 0 {
++                tokio::time::sleep(Duration::from_millis(10)).await;
++            }
++        }).await?;
++        let initialized_before = unrelated.capture.initializes.load(Ordering::SeqCst);
++        assert_eq!(unrelated.capture.catalogs.load(Ordering::SeqCst), 0);
++        let actual = call(&mut app, "target", "capture", None, None).await?;
++        typed_state(&actual)?;
++        assert_eq!(unrelated.capture.initializes.load(Ordering::SeqCst), initialized_before);
++        assert_eq!(unrelated.capture.catalogs.load(Ordering::SeqCst), 0);
++        assert_eq!(call_count(&unrelated), 0);
++        gate.notify_waiters();
++        // This witnesses no additional startup/no unrelated wait, not zero eager
++        // startup: eager initialization may already precede the direct request.
++        Ok(())
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_configured_timeout_bounds_real_transport() -> Result<()> {
++        let server = start_owned_server(Capture { capability: true, ..Default::default() }).await?;
++        let mut app = start_owned_app(config_for(&server.url, "", "tool_timeout_sec = 0.05")).await?;
++        let started = tokio::time::Instant::now();
++        let error = reject(&mut app, "target", "capture", None, Some(json!({"delay_ms": 1500}))).await?;
++        assert!(error.contains("timed out") || error.contains("timeout"), "{error}");
++        assert!(started.elapsed() < CALL_BOUND);
++        assert_eq!(call_count(&server), 1);
++        let actual = call(&mut app, "target", "capture", Some(json!({"afterTimeout": true})), None).await?;
++        assert_eq!(actual["afterTimeout"], true);
++        assert_eq!(call_count(&server), 2);
++        // Outer process ownership, descendant cleanup, and explicit requested
++        // timeout are separate rows; this RPC does not expose requested_timeout.
++        Ok(())
++    }
++
++    #[tokio::test]
++    async fn direct_call_sandbox_state_refresh_uses_new_configured_server() -> Result<()> {
++        let old = start_owned_server(Capture { capability: true, ..Default::default() }).await?;
++        let new = start_owned_server(Capture { capability: true, ..Default::default() }).await?;
++        let mut app = start_owned_app(config_for(&old.url, "", "")).await?;
++        let before = call(&mut app, "target", "capture", Some(json!({"phase": "before"})), None).await?;
++        typed_state(&before)?;
++        std::fs::write(app.codex_home.path().join("config.toml"), config_for(&new.url, "", ""))?;
++        let refresh = app.app.send_raw_request("mcpServer/refresh", None).await?;
++        let _: Value = timeout(CALL_BOUND, app.app.read_response(refresh)).await??;
++        let after = call(&mut app, "target", "capture", Some(json!({"phase": "after"})), None).await?;
++        typed_state(&after)?;
++        assert_eq!(after["threadId"], app.thread_id);
++        assert_eq!(call_count(&old), 1);
++        assert_eq!(call_count(&new), 1);
++        assert_eq!(new.capture.calls.lock().unwrap()[0]["phase"], "after");
++        // This does not assert same-config Arc identity or an in-flight barrier.
++        Ok(())
++    }
++}
++
