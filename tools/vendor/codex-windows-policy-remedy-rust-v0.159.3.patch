@@ -879,7 +879,7 @@ index f0a95b95c6d082b0acc20b0dd38a18066d4ee589..c45798db5786b6bb17d30fff80d9cd1d
 +}
 +
 diff --git a/codex-rs/app-server/tests/suite/v2/plugin_install.rs b/codex-rs/app-server/tests/suite/v2/plugin_install.rs
-index 99ffcd08c537dcc245c18eb44f0e5a363d299822..674d19ef20f6a5dea34535723f9b9801960a97ff 100644
+index 99ffcd08c537dcc245c18eb44f0e5a363d299822..1136d198e3da282789682aa1e0355aa2f20d454d 100644
 --- a/codex-rs/app-server/tests/suite/v2/plugin_install.rs
 +++ b/codex-rs/app-server/tests/suite/v2/plugin_install.rs
 @@ -3407,3 +3407,437 @@
@@ -1307,7 +1307,7 @@ index 99ffcd08c537dcc245c18eb44f0e5a363d299822..674d19ef20f6a5dea34535723f9b9801
 +        let before = call(&mut app, "target", "capture", Some(json!({"phase": "before"})), None).await?;
 +        typed_state(&before)?;
 +        std::fs::write(app.codex_home.path().join("config.toml"), config_for(&new.url, "", ""))?;
-+        let refresh = app.app.send_raw_request("mcpServer/refresh", None).await?;
++        let refresh = app.app.send_raw_request("config/mcpServer/reload", None).await?;
 +        let _: Value = timeout(CALL_BOUND, app.app.read_response(refresh)).await??;
 +        let after = call(&mut app, "target", "capture", Some(json!({"phase": "after"})), None).await?;
 +        typed_state(&after)?;
