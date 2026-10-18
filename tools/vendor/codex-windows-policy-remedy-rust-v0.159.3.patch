@@ -879,10 +879,10 @@ index f0a95b95c6d082b0acc20b0dd38a18066d4ee589..c45798db5786b6bb17d30fff80d9cd1d
 +}
 +
 diff --git a/codex-rs/app-server/tests/suite/v2/plugin_install.rs b/codex-rs/app-server/tests/suite/v2/plugin_install.rs
-index 99ffcd08c537dcc245c18eb44f0e5a363d299822..3feabef8ee79e295b588f83d54722072faafa951 100644
+index 99ffcd08c537dcc245c18eb44f0e5a363d299822..674d19ef20f6a5dea34535723f9b9801960a97ff 100644
 --- a/codex-rs/app-server/tests/suite/v2/plugin_install.rs
 +++ b/codex-rs/app-server/tests/suite/v2/plugin_install.rs
-@@ -3407,3 +3407,436 @@
+@@ -3407,3 +3407,437 @@
      }
      Ok(tar.into_inner()?.finish()?)
  }
@@ -894,6 +894,7 @@ index 99ffcd08c537dcc245c18eb44f0e5a363d299822..3feabef8ee79e295b588f83d54722072
 +#[cfg(test)]
 +mod direct_call_sandbox_state_integration {
 +    use super::*;
++    use pretty_assertions::assert_eq;
 +    use serde_json::Value;
 +    use tokio::sync::Notify;
 +
