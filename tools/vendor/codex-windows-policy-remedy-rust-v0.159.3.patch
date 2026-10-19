@@ -879,10 +879,10 @@ index f0a95b95c6d082b0acc20b0dd38a18066d4ee589..c45798db5786b6bb17d30fff80d9cd1d
 +}
 +
 diff --git a/codex-rs/app-server/tests/suite/v2/plugin_install.rs b/codex-rs/app-server/tests/suite/v2/plugin_install.rs
-index 99ffcd08c537dcc245c18eb44f0e5a363d299822..1136d198e3da282789682aa1e0355aa2f20d454d 100644
+index 99ffcd08c537dcc245c18eb44f0e5a363d299822..5273135ec97d8fff55f969c44251131abf2847d6 100644
 --- a/codex-rs/app-server/tests/suite/v2/plugin_install.rs
 +++ b/codex-rs/app-server/tests/suite/v2/plugin_install.rs
-@@ -3407,3 +3407,437 @@
+@@ -3407,3 +3407,432 @@
      }
      Ok(tar.into_inner()?.finish()?)
  }
@@ -1178,16 +1178,11 @@ index 99ffcd08c537dcc245c18eb44f0e5a363d299822..1136d198e3da282789682aa1e0355aa2
 +        for capability in [false, true] {
 +            let server = start_owned_server(Capture { capability, ..Default::default() }).await?;
 +            let mut app = start_owned_app(config_for(&server.url, "", "")).await?;
-+            for invalid in [json!(false), json!(17), json!("bad"), json!([])] {
++            for invalid in [json!(null), json!(false), json!(17), json!("bad"), json!([])] {
 +                let error = reject(&mut app, "target", "capture", Some(invalid.clone()), None).await?;
 +                assert!(error.contains("_meta must be a JSON object"), "{invalid}: {error}");
 +                assert_eq!(call_count(&server), 0);
 +            }
-+            // Option<Value> maps explicit wire null to absent. The core helper's
-+            // Some(Null) rejection belongs to its existing focused unit test.
-+            let actual = call(&mut app, "target", "capture", Some(Value::Null), None).await?;
-+            assert_eq!(actual["threadId"], app.thread_id);
-+            assert_eq!(actual.get(STATE_KEY).is_some(), capability);
 +        }
 +        Ok(())
 +    }
@@ -1320,3 +1315,84 @@ index 99ffcd08c537dcc245c18eb44f0e5a363d299822..1136d198e3da282789682aa1e0355aa2
 +    }
 +}
 +
+diff --git a/codex-rs/app-server-protocol/src/protocol/v2/mcp.rs b/codex-rs/app-server-protocol/src/protocol/v2/mcp.rs
+index be16f57fd442b34c5ffdc815d7f61aa763b6848f..d05422509bd0957a9593d0a7277cb8d386fe304e 100644
+--- a/codex-rs/app-server-protocol/src/protocol/v2/mcp.rs
++++ b/codex-rs/app-server-protocol/src/protocol/v2/mcp.rs
+@@ -195,6 +195,17 @@
+     pub notification: McpServerEventNotification,
+ }
+
++// Missing metadata remains None via the field default. Present values,
++// including null, reach the direct-call validator without Option collapsing them.
++fn deserialize_present_tool_call_meta<'de, D>(
++    deserializer: D,
++) -> Result<Option<JsonValue>, D::Error>
++where
++    D: serde::Deserializer<'de>,
++{
++    JsonValue::deserialize(deserializer).map(Some)
++}
++
+ #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, JsonSchema, TS)]
+ #[serde(rename_all = "camelCase")]
+ #[ts(export_to = "v2/")]
+@@ -205,7 +216,12 @@
+     #[serde(default, skip_serializing_if = "Option::is_none")]
+     #[ts(optional)]
+     pub arguments: Option<JsonValue>,
+-    #[serde(rename = "_meta", default, skip_serializing_if = "Option::is_none")]
++    #[serde(
++        rename = "_meta",
++        default,
++        skip_serializing_if = "Option::is_none",
++        deserialize_with = "deserialize_present_tool_call_meta"
++    )]
+     #[ts(optional)]
+     pub meta: Option<JsonValue>,
+ }
+@@ -919,3 +935,44 @@
+         }
+     }
+ }
++
++
++#[cfg(test)]
++mod direct_call_metadata_presence_tests {
++    use super::McpServerToolCallParams;
++    use serde_json::Value;
++    use serde_json::json;
++
++    fn request() -> Value {
++        json!({"threadId": "owned-thread", "server": "target", "tool": "capture"})
++    }
++
++    #[test]
++    fn missing_meta_stays_absent_and_serializes_omitted() {
++        let params: McpServerToolCallParams = serde_json::from_value(request()).unwrap();
++        assert!(params.meta.is_none());
++        assert!(serde_json::to_value(params).unwrap().get("_meta").is_none());
++    }
++
++    #[test]
++    fn object_meta_is_preserved_without_other_field_changes() {
++        let meta = json!({"ordinary": [7, "raw"], "codex/sandbox-state-meta": {"fabricated": true}});
++        let mut wire = request();
++        wire["_meta"] = meta.clone();
++        let params: McpServerToolCallParams = serde_json::from_value(wire.clone()).unwrap();
++        assert!(params.meta.as_ref() == Some(&meta));
++        assert!(params.arguments.is_none());
++        assert!(serde_json::to_value(params).unwrap() == wire);
++    }
++
++    #[test]
++    fn all_present_nonobjects_reach_existing_core_validation() {
++        for meta in [json!(null), json!(false), json!(17), json!("bad"), json!([])] {
++            let mut wire = request();
++            wire["_meta"] = meta.clone();
++            let params: McpServerToolCallParams = serde_json::from_value(wire.clone()).unwrap();
++            assert!(params.meta.as_ref() == Some(&meta), "{meta}");
++            assert!(serde_json::to_value(params).unwrap() == wire);
++        }
++    }
++}
