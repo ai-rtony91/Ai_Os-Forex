@@ -13,13 +13,13 @@ $normalized = ($PacketText -replace "`r`n", "`n") -replace "`r", "`n"
 $lines = @($normalized -split "`n")
 
 function Get-Section([string]$Label) {
-    $heading = "$Label`:`"
+    $heading = "${Label}:"
     for ($i = 0; $i -lt $lines.Count; $i++) {
         if ($lines[$i].Trim() -eq $heading) {
             $values = @()
             for ($j = $i + 1; $j -lt $lines.Count; $j++) {
                 $line = $lines[$j]
-                if ($line.Trim() -match '^[A-Z][A-Z _-]+:$') { break }
+                if ($line.Trim() -cmatch '^[A-Z][A-Z _-]+:$' -or $line -match '^(execution_allowed|can_continue_without_anthony|writes_files)=') { break }
                 if (-not [string]::IsNullOrWhiteSpace($line)) { $values += $line.Trim() }
             }
             return @($values)
@@ -30,13 +30,32 @@ function Get-Section([string]$Label) {
 
 $missing = @()
 $defects = @()
+if ($normalized.IndexOf([char]0) -ge 0) { $defects += "nul_character" }
+$bootstrapPosition = -1
+foreach ($instruction in @($contract.required_bootstrap_lines)) {
+    $position = [array]::IndexOf($lines, $instruction)
+    if ($position -le $bootstrapPosition) { $defects += "missing_bootstrap_instruction" }
+    $bootstrapPosition = $position
+}
+foreach ($flag in @($contract.safety_flags)) {
+    $flagPattern = '(?i)(?<![A-Za-z0-9_])' + [regex]::Escape($flag) + '[ \t]*='
+    if ([regex]::Matches($normalized, $flagPattern).Count -ne 1 -or $lines -cnotcontains "$flag=false") {
+        $defects += "invalid_safety_flag:$flag"
+    }
+}
 if ($lines.Count -eq 0 -or $lines[0] -cne $contract.exact_first_line) { $missing += $contract.exact_first_line; $defects += "wrong_first_line" }
 foreach ($marker in @($contract.required_markers)) {
     if ($lines -cnotcontains $marker) { $missing += $marker }
 }
+foreach ($field in @($contract.required_scalar_fields) + @($contract.protected_action_fields) + @($contract.list_valued_fields)) {
+    # A second heading is conflicting even when injected inside a scalar value.
+    $headerPattern = '(?i)(?<![A-Za-z0-9_])' + [regex]::Escape($field) + '[ \t]*:'
+    if ([regex]::Matches($normalized, $headerPattern).Count -gt 1) { $defects += "duplicate_field:$field" }
+}
 foreach ($field in @($contract.required_scalar_fields) + @($contract.protected_action_fields)) {
     $value = @(Get-Section $field)
     if ($value.Count -eq 0 -or [string]::IsNullOrWhiteSpace(($value -join ""))) { $missing += $field }
+    elseif ($value.Count -ne 1) { $defects += "multiline_field:$field" }
 }
 foreach ($field in @($contract.protected_action_fields)) {
     $value = @(Get-Section $field)
@@ -46,7 +65,7 @@ foreach ($field in @($contract.protected_action_fields)) {
 }
 foreach ($field in @($contract.list_valued_fields)) {
     $value = @(Get-Section $field)
-    if ($value.Count -eq 0 -or @($value | Where-Object { $_ -match '^\s*-\s*\S' }).Count -eq 0) {
+    if ($value.Count -eq 0 -or @($value | Where-Object { $_ -match '^\s*-\s*\S' }).Count -ne $value.Count) {
         $missing += $field; $defects += "empty_or_malformed_list:$field"
     }
 }
