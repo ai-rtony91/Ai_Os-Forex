@@ -1,127 +1,112 @@
-# AIOS Codex Packet Generator V1
+# AIOS Codex Packet Generator
 
-## Purpose
+## Purpose and boundary
 
-Codex packets are hand-crafted and repetitive. This packet generator creates a
-deterministic, AGENTS-compliant packet from structured intent so downstream workers
-can receive complete handoff text without missing governance fields.
+This existing PowerShell surface creates a review draft. It does not approve,
+execute, deliver, or enqueue work. The filename is retained for existing links;
+the shared contract, generator, and validator now report their v2 schemas.
 
-The generator is write-safe and emits packet text that is immediately ready for
-human copy/paste into the Codex lane.
+A valid result proves the text meets this contract. It does not prove that its
+claimed branch, hierarchy, lock, scope, or approval is authentic. The receiving
+worker must verify those facts against current repository and owner evidence.
 
-## Why this exists
+## Required inputs
 
-Before this lane, packet drafting commonly missed mandatory execution and safety
-fields or copied fragments with omissions. The generator:
+Supply every required field explicitly. The generator never invents missing
+hierarchy, ownership, approval, or repository state.
 
-- standardizes packet headers
-- checks mandatory execution controls
-- enforces deterministic formatting for continuation-driven packets
-- keeps `execution_allowed` false
-- keeps `can_continue_without_anthony` false
-- avoids runtime/workspace mutation in packet generation
+| Input group | Parameters | Source |
+| --- | --- | --- |
+| Hierarchy | MissionId, MissionName, ProgramId, ProgramName, EpicId, EpicName, BucketId, BucketName, PacketId, PacketName | Exact assigned work packet or campaign |
+| Identity | IdentityMarker, SupervisorIdentity, WorkerIdentity, LockIdentity | Assigned lane and matching ownership record |
+| Repository | Mode, Zone, Lane, Worktree, Branch | Assigned scope and current repository preflight |
+| Scope | AllowedPaths, ForbiddenPaths | Reviewed exact write boundary |
+| Validation | Preflight, Validators, StopPoint, FinalReportFormat | Assigned checks and stop condition |
+| Approval | ApprovalAuthority, StagingAuthority, CommitAuthority, PushAuthority, PullRequestAuthority, MergeAuthority | Actual owner instruction; absent protected permission is NOT AUTHORIZED |
+| Additional reads | ReadFirst | Assigned lane instructions beyond the fixed bootstrap |
 
-## Required AGENTS fields it emits
+Required repository preflight commands are: pwd; git status --short --branch;
+git branch --show-current; git remote -v; git rev-parse HEAD; git diff --name-only.
+The shared contract owns their exact strings.
 
-The generated packet always includes at least:
+A lock name is a declaration, not a lock acquisition. Verify matching packet,
+worker, lane, active status, and claimed paths before shared or APPLY work.
+Drafting never modifies the lock registry.
 
-- `CODEX-ONLY PROMPT`
-- `AI_OS EXECUTION TOKEN`
-- `AI_OS BOOTSTRAP REQUIRED`
-- `IDENTITY MARKER`
-- `SUPERVISOR IDENTITY`
-- `WORKER IDENTITY`
-- `PACKET ID`
-- `MODE`
-- `ZONE`
-- `LANE`
-- `WORKTREE`
-- `START_BRANCH`
-- `BRANCH`
-- `APPROVAL AUTHORITY`
-- `MISSION`
-- `PREFLIGHT`
-- `REQUIRED PREFLIGHT STATE`
-- `BRANCH PLAN`
-- `READ FIRST`
-- `ALLOWED MUTATION FILES ONLY`
-- `FORBIDDEN PATHS`
-- `IMPLEMENTATION`
-- `VALIDATOR CHAIN`
-- `COMMIT`
-- `STOP POINT`
-- `COMPLETION REPORT FORMAT`
-- `STATUS`
+## Legacy parameter migration
 
-It also writes:
+| Older input | v2 behavior |
+| --- | --- |
+| AllowedMutationFiles | Supplies AllowedPaths when absent; conflicting nonempty lists are rejected |
+| StartBranch | Supplies Branch when absent; is also retained separately |
+| Mission | Supplies MissionName when absent; is retained as the work description |
+| ReadFirst | Retained in the draft; malformed or unresolved values are blocked |
+| FromContinuationPlan / ContinuationPlanScript | Blocked with continuation_requires_explicit_v2_inputs; no script is run |
 
-- `execution_allowed: false`
-- `can_continue_without_anthony: false`
-- `writes_files: false`
-- output schema `AIOS_CODEX_PACKET_GENERATOR.v1`
+Branch and StartBranch may intentionally differ for an explicitly reviewed branch
+plan. MissionName names the hierarchy; Mission describes the work. These are not
+unconditional aliases when both are supplied.
 
-## How this stays paper-only
+Older argument names work with complete v2 safety context. An old invocation
+without that context is deliberately blocked. Raw incomplete v1 packet text is
+not grandfathered past the v2 checks.
 
-The generator does not execute the target packet. It does not:
+## Output and validation
 
-- call brokers or OANDA
-- load API keys
-- call webhooks
-- access live market data
-- start scheduler, daemon, worker, queue, lock, or approval inbox flows
-- commit or push on behalf of the packet
+OutputJson returns AIOS_CODEX_PACKET_GENERATOR.v2 JSON containing packet_valid,
+generated_packet_text, missing_required_fields, and validation_defects. Invalid
+results contain empty generated_packet_text. Prompt mode emits a short failure
+report instead of an incomplete executable draft.
 
-All safety controls are explicit in output text, and the validator script checks
-mandatory packet fields before review.
+The generated text starts with CODEX-ONLY PROMPT and includes the execution
+marker, fixed bootstrap instructions, hierarchy, identity, scope, preflight,
+validators, stop point, report format, and protected-action sections.
 
-### Array binding stability
+The generator runs the canonical Test-AiOsCodexPacket.DRY_RUN.ps1 validator
+against the serialized result before returning a valid draft. The validator
+rejects missing context, unresolved values, duplicate headings (including
+embedded approval headings), malformed lists, NUL characters, and missing,
+duplicate, or changed safety flags. Bootstrap instructions must be present in
+the required order.
 
-Scalar packet fields (`SUPERVISOR IDENTITY`, `WORKER IDENTITY`, `WORKTREE`,
-`START_BRANCH`, `MODE`, `ZONE`, `LANE`, and `APPROVAL AUTHORITY`) are resolved with
-scalar-only handling so list-valued inputs can never be reused as scalar packet
-values.
+Every valid draft carries exactly one false value for execution_allowed,
+can_continue_without_anthony, and writes_files. These are drafting boundaries;
+they do not grant or replace a later execution decision.
 
-This prevents list inputs such as `AllowedMutationFiles`, `ForbiddenPaths`,
-`ReadFirst`, and `Validators` from bleeding into scalar packet fields during
-argument binding.
+The contract retains current main's operator_delivery guidance: one complete
+handoff, no repeated full prompts, and the smallest safe recovery delta.
 
-## Validator behavior
+## Existing development queue
 
-`Test-AiOsCodexPacket.DRY_RUN.ps1` validates the generated text for required
-fields and returns:
+This PowerShell review draft is not a queue item. Its packet_valid value must
+never be copied into queue approval, readiness, or execution authority.
 
-- `packet_valid` boolean
-- `missing_required_fields`
-- `writes_files` (always false)
-- `execution_allowed` (always false)
-- `can_continue_without_anthony` (always false)
+The current Python route uses
+automation/orchestration/runtime_queue/aios_execution_packet_resolver.py and
+automation/orchestration/aios_codex_packet_builder.py. The autonomy runner supplies
+its rich queue item separately from the normalized dispatch view. That route
+owns its schema and source checks; it does not call this PowerShell generator.
 
-The validator is strictly DRY_RUN and never writes files.
+No PowerShell-to-queue adapter is introduced. The inspected Python packet text
+does not pass this strict v2 text format. Its separate unit checks must not be
+reported as v2 integration, real delivery, worker execution, or full autonomy.
+A future common-format migration must change the existing owner and validate the
+actual consumer without adding another queue or controller.
 
-## Relay bus connection
+## Verification
 
-The packet generator participates in the existing relay/operator flow:
-
-- it creates deterministic packet text for manual approval routing
-- it does not bypass relay review or manual execution
-- output `STATUS` and `completion` expectations remain aligned with `relay` and
-  relay-operator visibility
-
-This keeps packet generation as a structured handoff step, not an autonomous
-execution step.
-
-## Example command
+Run on a host with PowerShell installed:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File automation/orchestration/packet_generator/New-AiOsCodexPacket.DRY_RUN.ps1 -PacketId "AIOS-SAMPLE-PACKET" -Mode APPLY -Zone "SAMPLE" -Lane "SAMPLE_LANE" -Mission "Sample mission" -Branch "feature/sample" -ApprovalAuthority "Anthony approves sample only." -AllowedMutationFiles @("docs/sample.md") -ForbiddenPaths @("broker/OANDA/webhook/order/secrets paths") -Validators @("git diff --check") -StopPoint "Stop after one local commit. No push. No PR. No merge." -AsPromptBlock
+python -m pytest -p no:cacheprovider tests/orchestration/test_codex_packet_generator.py tests/orchestration/test_capability_packet_draft.py -q
+git diff --check
 ```
 
-## What remains manual
+The generator tests include complete new-format and legacy-name examples,
+missing-context rejection, serialization checks, approval injection, safety
+flags, bootstrap, and no-write checks. Test identities are fixtures, not owner
+approval or real lock claims. Behavioral tests require a real PowerShell host;
+static contract tests still run without it.
 
-- human review of the generated packet
-- manual execution of review steps in a trusted operator mode
-- final decision on commit payload, exact commit path, and protected-action
-  approvals
-
-The generator and validator reduce typing risk and omitted fields; they do not
-replace human review.
+All approval, execution, staging, commit, push, PR, merge, broker, credential,
+and trading decisions remain governed by AGENTS.md and the existing gates.

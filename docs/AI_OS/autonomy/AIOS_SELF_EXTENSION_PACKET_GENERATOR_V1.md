@@ -1,102 +1,83 @@
-# AIOS Self-Extension Packet Generator V1
+# AIOS Self-Extension Packet Drafting
 
 ## Purpose
 
-AI_OS currently needs reusable packet drafting for future capabilities that are not yet
-hand-built. This draft generator lets ChatGPT propose a new capability at runtime
-and automatically receive a structured, AGENTS-compliant Codex packet stub.
+New-AiOsCapabilityPacketDraft.DRY_RUN.ps1 classifies capability intent and creates
+a draft through the existing PowerShell generator. It performs no integration,
+network calls, queue changes, worker launch, lock acquisition, or trading.
 
-It is intentionally conservative:
+The output envelope remains AIOS_CAPABILITY_PACKET_DRAFT.v1. Its contained text
+must satisfy AIOS_CODEX_PACKET_CONTRACT.v2 before packet_valid can be true.
+The historical documentation filename remains unchanged.
 
-- no live execution
-- no broker/OANDA path
-- no secrets/API keys
-- no runtime mutation
-- no scheduler/worker/daemon launch
+## Required context
 
-## What it adds
+In addition to CapabilityName and CapabilityIntent, supply these explicit fields:
 
-- rough capability intake (`CapabilityName`, `CapabilityIntent`)
-- automatic classification (`capability_type`)
-- safety gating (`safety_tier`)
-- actor suggestion (`suggested_actor`)
-- generated draft packet id and packet text
-- optional relay-ready mode through existing packet generator
+| Parameters | Required source |
+| --- | --- |
+| MissionId, MissionName | Assigned mission |
+| ProgramId, ProgramName | Assigned program |
+| EpicId, EpicName | Assigned epic |
+| BucketId, BucketName | Assigned bucket |
+| LockIdentity | Matching assigned lane/ownership context |
+| Worktree | Actual repository folder |
 
-## Capability taxonomy used for classification
+Use the real assigned packet or campaign, not values made up from a capability
+name. The hierarchy doctrine defines required fields, not their actual values.
+An old call that supplies only a capability name and intent now returns a
+blocked result with empty generated_packet_text and an explicit missing list.
 
-- `local_code`
-- `cli_tool`
-- `saas_api`
-- `browser_ui`
-- `file_bridge`
-- `game_engine`
-- `devops`
-- `broker_sandbox`
-- `unknown`
+The wrapper observes the branch in Worktree instead of assuming main. A missing
+branch stays blocked. It creates a deterministic draft packet ID, uses DRY_RUN,
+and keeps staging, commit, push, PR, and merge authority NOT AUTHORIZED.
+A draft lock name does not prove any lock was acquired.
 
-## Safety tiers
+SuggestedZone, SuggestedLane, and TargetActor remain suggestions within the
+review draft. Actor recognition does not authorize execution. The rough
+capability_type and safety_tier classifications are routing hints, not approval.
 
-- `READ_ONLY`
-- `DRY_RUN_ONLY`
-- `SCOPED_APPLY`
-- `REQUIRES_SECRET_REVIEW`
-- `BLOCKED_HIGH_RISK`
+## Existing path and rejection behavior
 
-High-risk intent (broker APIs, live trading, secrets, destructive system actions)
-is routed to `REQUIRES_SECRET_REVIEW` or `BLOCKED_HIGH_RISK`.
+The wrapper is the inspected direct caller of
+New-AiOsCodexPacket.DRY_RUN.ps1. It forwards explicit hierarchy/lock context and
+the observed repository branch, plus its bounded review scope and checks.
 
-## Draft output shape
+The generator validates its serialized text. The wrapper also runs
+Test-AiOsCodexPacket.DRY_RUN.ps1. A rejected, empty, malformed, unavailable, or
+throwing validator cannot fall back to checking section headings. Invalid
+draft text is withheld.
 
-`New-AiOsCapabilityPacketDraft.DRY_RUN.ps1` emits JSON with at least:
+OutputJson returns the JSON envelope. AsPromptBlock emits text only for a valid
+draft. Regardless of validity, execution_allowed, can_continue_without_anthony,
+and writes_files remain false; requires_human_review remains true.
 
-- `schema` (`AIOS_CAPABILITY_PACKET_DRAFT.v1`)
-- `capability_name`
-- `capability_type`
-- `safety_tier`
-- `suggested_actor`
-- `generated_packet_id`
-- `generated_packet_text`
-- `packet_valid`
-- `execution_allowed` (always `false`)
-- `can_continue_without_anthony` (always `false`)
-- `requires_human_review` (always `true`)
-- `exact_next_action`
-- `forbidden_paths`
-- `allowed_mutation_files`
+## Development queue boundary
 
-The generated packet text is validated through
-`Test-AiOsCodexPacket.DRY_RUN.ps1` before being returned.
+This is a manual review/relay drafting surface. It is not a producer of approved
+Python runtime queue items. Do not rename its envelope or copy packet_valid
+into queue approval. Do not treat the generated text as an executable queue
+payload.
 
-## Why this remains paper-only
+The existing Python resolver/builder owns the runtime queue packet route.
+Its packet format differs from the strict PowerShell v2 format. The independent
+checks of each path do not prove a direct connection, actual task delivery,
+sustained operation, or trading readiness.
 
-This feature creates packet drafts only. It does not integrate any external
-service, does not execute tools, and does not apply changes to the target
-system.
+Use existing assigned work, admission, ownership, validators, and queue machinery
+for a later execution packet. This draft never creates that authority.
 
-## Relay and AGENTS alignment
+## Verification and owner decisions
 
-- Uses `New-AiOsCodexPacket.DRY_RUN.ps1` to produce relay-ready packet text.
-- Passes argument arrays to `New-AiOsCodexPacket.DRY_RUN.ps1` through
-  splatted parameters, preserving scalar values in identity/worktree/zone/lane
-  fields while allowing safe list-based reads and mutation rules.
-- Keeps packet validation and review in human/ChatGPT review flow.
-- Preserves `execution_allowed: false` and `can_continue_without_anthony: false`.
-
-## Example command
+The existing tests/orchestration/test_capability_packet_draft.py supplies clearly
+labeled complete test context and checks the wrapper-to-generator-to-validator
+path, protected-action denials, missing context, validator failures, and no
+repository writes. Fixtures do not create production approval or locks.
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File automation/orchestration/packet_generator/New-AiOsCapabilityPacketDraft.DRY_RUN.ps1 `
-    -CapabilityName "Claude Code" `
-    -CapabilityIntent "connect Claude Code as optional code review actor" `
-    -OutputJson
+python -m pytest -p no:cacheprovider tests/orchestration/test_capability_packet_draft.py tests/orchestration/test_codex_packet_generator.py -q
 ```
 
-## What is still manual
-
-- deciding the actual safety tier from operational context
-- confirming allowed mutation path in AGENTS-compliant execution packets
-- turning draft packet text into a full APPLY packet after review
-- all approvals and protected actions
-
-`execution_allowed` remains false until a human-authored APPLY packet is reviewed.
+Human review must confirm real context and allowed scope. APPLY, publishing,
+protected actions, worker launch, broker connections, credentials, and trading
+remain separate decisions under existing repository rules.
