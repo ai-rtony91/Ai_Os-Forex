@@ -1,0 +1,32 @@
+{
+  "schema_version": "AIOS_ABCD_COMPLETION_RECEIPT.v1",
+  "packet_id": "AIOS-ABCD-AUTONOMY-COLLISION-CONTROL-APPLY-V3",
+  "repository": "ai-rtony91/Ai_Os",
+  "branch": "work",
+  "starting_sha": "2ff4ff00eb0d99b1af02ab88e19d5f5085a8a9e5",
+  "status": "LOCAL_IMPLEMENTATION_COMPLETE",
+  "publication_status": "PUBLICATION_BLOCKED_BY_ENVIRONMENT",
+  "canonical_owner": "automation/orchestration/claims/aios_task_claim_control.py",
+  "first_verified_incomplete_dependency": "active-only atomic task claim and collision normalization",
+  "capability_map": {
+    "task_claims": "TaskClaimController.acquire",
+    "collision_normalization": "normalize_claim and collisions",
+    "worktree_branch_source_ownership": "normalize_claim, collisions, and TaskClaimController.guard",
+    "runtime_namespace_ownership": "PATH_FIELDS and RESOURCE_FIELDS collision keys",
+    "stale_claim_handling": "collisions stale_claim classification",
+    "execution_guard": "TaskClaimController.guard",
+    "integration_lock_and_drift": "TaskClaimController.transition",
+    "staged_file_enforcement": "verify_exact_allowlist",
+    "cleanup": "TaskClaimController.release owned_resources boundary",
+    "immutable_receipt_and_replay": "exclusive receipt creation and receipt lookup"
+  },
+  "protected_actions_not_performed": [
+    "merge",
+    "deployment",
+    "scheduler activation",
+    "background worker launch",
+    "broker or trading access",
+    "credential access",
+    "destructive Git operations"
+  ]
+}

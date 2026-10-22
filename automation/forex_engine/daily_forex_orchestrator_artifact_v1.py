@@ -131,7 +131,7 @@ def build_artifact_summary(repo_root: Path, today: date | None = None) -> dict[s
     next_required = (today + timedelta(days=1)).isoformat()
 
     return {
-        "ledger_path": str(ledger_path.relative_to(repo_root)),
+        "ledger_path": ledger_path.relative_to(repo_root).as_posix(),
         "today_utc": today.isoformat(),
         "real_demo_day_dates": real_demo_dates,
         "real_demo_day_count": len(real_demo_dates),

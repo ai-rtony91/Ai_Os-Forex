@@ -1,0 +1,14 @@
+{
+  "broker_call_performed": false,
+  "broker_write_performed": false,
+  "credentials_loaded": false,
+  "credentials_persisted": false,
+  "demo_order_performed": false,
+  "genuine_snapshot_captured": false,
+  "live_order_performed": false,
+  "money_movement_performed": false,
+  "paper_session_opened": false,
+  "qualifying_p1_trade_count_changed": false,
+  "schema": "AIOS_P1_OANDA_PRACTICE_SNAPSHOT_CAPTURE.v1",
+  "status": "BUILD_VALIDATED_OFFLINE"
+}

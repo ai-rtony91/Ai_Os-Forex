@@ -44,6 +44,11 @@ SAFETY_BLOCKS = [
     "Codex launch/API calls BLOCKED",
     "git staging/commit/push/merge BLOCKED unless Anthony separately approves after report",
 ]
+DELIVERY_RECEIPT_PATHS = [
+    ".aios/runtime/engineering_timing/",
+    "Reports/orchestration/AIOS_CODEX_TASK_DELIVERY_METADATA_V1.json",
+    "Reports/orchestration/AIOS_ENGINEERING_VELOCITY_EVENT_LOG_V1.jsonl",
+]
 
 
 def build_repository_aligned_apply_packet(
@@ -133,6 +138,20 @@ def build_repository_aligned_apply_packet(
         f"PACKET ID: {packet_id}",
         f"PACKET NAME: {identity['packet_name']}",
     ]
+    timing_start = (
+        "python scripts/run_aios_delivery_receipt_instrumentation_v1.py task-start "
+        f"--task-id {packet_id} --packet-id {packet_id} --lane {identity['lane']} "
+        f"--branch {branch} --starting-head $(git rev-parse HEAD) --timestamp $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    )
+    timing_complete = (
+        "python scripts/run_aios_delivery_receipt_instrumentation_v1.py task-complete "
+        f"--task-id {packet_id} --packet-id {packet_id} --timestamp $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    )
+    timing_blocked = (
+        "python scripts/run_aios_delivery_receipt_instrumentation_v1.py task-blocked "
+        f"--task-id {packet_id} --packet-id {packet_id} --timestamp $(date -u +%Y-%m-%dT%H:%M:%SZ) --reason RECORDED_TERMINAL_BLOCKER"
+    )
+    instrumented_scope = list(dict.fromkeys(scope + DELIVERY_RECEIPT_PATHS))
     prompt = "\n".join(
         [
             "CODEX-ONLY PROMPT",
@@ -155,18 +174,26 @@ def build_repository_aligned_apply_packet(
             f"Observed branch: {branch}",
             "Observed dirty files: none",
             "Re-run pwd, git status --short --branch, git branch --show-current, and git remote -v. Stop with AIOS-PROMPT-AUTH-STATE-MISMATCH if the observations differ.",
+            "After clean-state preflight, run TASK TIMING START. If it fails, stop before repository mutation.",
+            f"TASK TIMING START: {timing_start}",
             "",
             "MISSION:",
             mission.strip(),
             "",
             "ALLOWED PATHS:",
-            *scope,
+            *instrumented_scope,
             "",
             "FORBIDDEN PATHS:",
             *denied,
             "",
             "VALIDATOR CHAIN:",
             *checks,
+            "After validators and any separately authorized commit processing, run TASK TIMING COMPLETE.",
+            f"TASK TIMING COMPLETE: {timing_complete}",
+            "Before a terminal blocked report, when safe, run TASK TIMING BLOCKED.",
+            f"TASK TIMING BLOCKED: {timing_blocked}",
+            "Instrumentation failure is terminal and must not be bypassed or estimated.",
+            "STAGING AUTHORITY: Receipt metadata and the velocity log may be staged only when changed and only when staging is separately authorized; never stage .aios/runtime/engineering_timing/.",
             "",
             "FINAL REPORT FORMAT:",
             "SUMMARY; WHAT CHANGED; FILES CHANGED; VALIDATION; REMAINING DIRTY FILES; SAFE NEXT COMMAND; STATUS.",
@@ -183,7 +210,7 @@ def build_repository_aligned_apply_packet(
         "repository_state": {"worktree": worktree, "branch": branch, "status_lines": []},
         "identity_chain": {field: identity[field] for field in required_identity},
         "codex_prompt_text": prompt,
-        "write_scope": scope,
+        "write_scope": instrumented_scope,
         "forbidden_paths": denied,
         "validator_chain": checks,
         "safety_blocks": list(SAFETY_BLOCKS),

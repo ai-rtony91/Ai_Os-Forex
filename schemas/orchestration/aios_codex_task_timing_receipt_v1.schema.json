@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aios_codex_task_timing_receipt_v1",
+  "type": "object",
+  "required": ["schema", "task_id", "packet_id", "provenance"],
+  "properties": {
+    "schema": {"const": "AIOS_CODEX_TASK_TIMING_RECEIPT.v1"},
+    "task_id": {"type": "string", "minLength": 1, "maxLength": 200},
+    "packet_id": {"type": "string", "minLength": 1, "maxLength": 200},
+    "lane": {"type": ["string", "null"]},
+    "branch": {"type": ["string", "null"]},
+    "starting_head": {"type": ["string", "null"]},
+    "ending_head": {"type": ["string", "null"]},
+    "started_utc": {"type": ["string", "null"], "format": "date-time"},
+    "completed_utc": {"type": ["string", "null"], "format": "date-time"},
+    "blocked_utc": {"type": ["string", "null"], "format": "date-time"},
+    "status": {"enum": ["COMPLETE", "BLOCKED"]},
+    "elapsed_seconds": {"type": ["number", "null"], "minimum": 0},
+    "elapsed_minutes": {"type": ["number", "null"], "minimum": 0},
+    "duration_measured": {"type": "boolean"},
+    "duration_exclusion_reason": {"type": ["string", "null"]},
+    "runtime_marker_only": {"type": "boolean"},
+    "validation_status": {"type": "string"},
+    "commit_created": {"type": "boolean"},
+    "commit_sha": {"type": ["string", "null"]},
+    "merged": {"type": "boolean"},
+    "provenance": {"const": "MEASURED_REPOSITORY_INSTRUMENTATION"}
+  },
+  "additionalProperties": true
+}

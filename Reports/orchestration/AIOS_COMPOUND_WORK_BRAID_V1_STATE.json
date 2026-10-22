@@ -1,0 +1,1361 @@
+{
+  "braids": [
+    {
+      "braid_id": "BRAID-94B9D44A3A2A",
+      "completion_definition": [
+        "All contained strands are CLOSED_VERIFIED."
+      ],
+      "excluded_strands": [],
+      "exclusion_reasons": [],
+      "execution_order": [
+        "brainstem-daily-start"
+      ],
+      "expected_downstream_elimination": 1,
+      "readiness_status": "READY",
+      "required_paths": [
+        "automation/orchestration/bootstrap/Start-AiOsDay.ps1",
+        "automation/orchestration/supervisor/Resolve-AiOsSupervisorAssignment.DRY_RUN.ps1"
+      ],
+      "rollback_boundary": "Exact required paths only",
+      "shared_root_cause": "canonical_work_packet_obligation",
+      "strand_ids": [
+        "brainstem-daily-start"
+      ],
+      "title": "Compound canonical_work_packet_obligation",
+      "validator_chain": [
+        "powershell -ExecutionPolicy Bypass -File automation\\orchestration\\bootstrap\\Test-AiOsWorkspaceBootstrap.DRY_RUN.ps1"
+      ]
+    },
+    {
+      "braid_id": "BRAID-0345C69C2771",
+      "completion_definition": [
+        "All contained strands are CLOSED_VERIFIED."
+      ],
+      "excluded_strands": [],
+      "exclusion_reasons": [],
+      "execution_order": [
+        "rulebook-foundation"
+      ],
+      "expected_downstream_elimination": 1,
+      "readiness_status": "READY",
+      "required_paths": [
+        "automation/orchestration/operator/AIOS_OPERATOR_RULES.json",
+        "docs/workflows/aios-operator-workflows.md"
+      ],
+      "rollback_boundary": "Exact required paths only",
+      "shared_root_cause": "canonical_work_packet_obligation",
+      "strand_ids": [
+        "rulebook-foundation"
+      ],
+      "title": "Compound canonical_work_packet_obligation",
+      "validator_chain": [
+        "powershell -ExecutionPolicy Bypass -File automation\\orchestration\\bootstrap\\Test-AiOsWorkspaceBootstrap.DRY_RUN.ps1"
+      ]
+    },
+    {
+      "braid_id": "BRAID-868FDB1236C3",
+      "completion_definition": [
+        "All contained strands are CLOSED_VERIFIED."
+      ],
+      "excluded_strands": [],
+      "exclusion_reasons": [],
+      "execution_order": [
+        "PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN"
+      ],
+      "expected_downstream_elimination": 1,
+      "readiness_status": "READY",
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN.md"
+      ],
+      "rollback_boundary": "Exact required paths only",
+      "shared_root_cause": "canonical_work_packet_obligation",
+      "strand_ids": [
+        "PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN"
+      ],
+      "title": "Compound canonical_work_packet_obligation",
+      "validator_chain": []
+    },
+    {
+      "braid_id": "BRAID-B7E1DD7CDABA",
+      "completion_definition": [
+        "All contained strands are CLOSED_VERIFIED."
+      ],
+      "excluded_strands": [],
+      "exclusion_reasons": [],
+      "execution_order": [
+        "PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1"
+      ],
+      "expected_downstream_elimination": 1,
+      "readiness_status": "READY",
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1.md"
+      ],
+      "rollback_boundary": "Exact required paths only",
+      "shared_root_cause": "canonical_work_packet_obligation",
+      "strand_ids": [
+        "PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1"
+      ],
+      "title": "Compound canonical_work_packet_obligation",
+      "validator_chain": []
+    }
+  ],
+  "cables": [
+    {
+      "braid_ids": [
+        "BRAID-0345C69C2771",
+        "BRAID-868FDB1236C3",
+        "BRAID-94B9D44A3A2A",
+        "BRAID-B7E1DD7CDABA"
+      ],
+      "cable_id": "CABLE-1896B284C185",
+      "checkpoint_policy": "Persist after every completed stage; reject material drift.",
+      "completion_definition": [
+        "All braids close with validator evidence."
+      ],
+      "deterministic_priority_score": 1434,
+      "downstream_unlocks": [
+        "Eliminate 4 downstream obligation(s)"
+      ],
+      "exact_write_boundary": [
+        "automation/orchestration/bootstrap/Start-AiOsDay.ps1",
+        "automation/orchestration/operator/AIOS_OPERATOR_RULES.json",
+        "automation/orchestration/supervisor/Resolve-AiOsSupervisorAssignment.DRY_RUN.ps1",
+        "automation/orchestration/work_packets/complete/PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN.md",
+        "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1.md",
+        "docs/workflows/aios-operator-workflows.md"
+      ],
+      "external_waits": [],
+      "internal_execution_blocks": [
+        "preflight",
+        "state_discovery",
+        "dependency_verification",
+        "implementation",
+        "targeted_validation",
+        "bounded_self_repair",
+        "regression_validation",
+        "evidence_generation",
+        "artifact_accounting",
+        "checkpoint_generation",
+        "execution_receipt",
+        "continuation_generation",
+        "commit_readiness_report",
+        "pr_readiness_report",
+        "owner_handoff"
+      ],
+      "owner_decisions": [],
+      "prerequisite_cable_ids": [],
+      "protected_actions": [],
+      "readiness_status": "READY",
+      "repair_budget": 3,
+      "selection_reason": "Repository-local root blocker",
+      "title": "Compound canonical_work_packet_obligation",
+      "validator_chain": [
+        "powershell -ExecutionPolicy Bypass -File automation\\orchestration\\bootstrap\\Test-AiOsWorkspaceBootstrap.DRY_RUN.ps1"
+      ]
+    }
+  ],
+  "continuation_packet": "CODEX-ONLY PROMPT\n\nAI_OS EXECUTION TOKEN: HUMAN_OWNER_REVIEW_REQUIRED_BEFORE_EXECUTION\nAI_OS BOOTSTRAP REQUIRED: READ_AND_OBEY_CURRENT_REPOSITORY_AGENTS_MD_BEFORE_EXECUTION\nIDENTITY MARKER: AIOS_COMPOUND_WORK_BRAID_CONTINUATION_V1\nSUPERVISOR IDENTITY: HUMAN OWNER ANTHONY\nPACKET ID: PACKET-CABLE-1896B284C185\nMODE: APPLY\nZONE: CODEX_CLOUD_LOCAL_REPOSITORY\nWORKER IDENTITY: CODEX_CLOUD_ENGINEERING_WORKER_01\nLANE: AIOS_ORCHESTRATION_COMPOUND_WORK_BRAID\nWORKTREE: /workspace/Ai_Os\nBRANCH: work\nMISSION ID: MISSION-AIOS-CLOSING-THE-LOOP-V1\nMISSION NAME: AI_OS Closing the Loop\nPROGRAM ID: PROGRAM-AIOS-COMPOUND-AUTONOMY-V1\nPROGRAM NAME: AI_OS Compound Engineering Autonomy\nEPIC ID: EPIC-AIOS-WORK-BRAID-ORCHESTRATION-V1\nEPIC NAME: AI_OS Work-Braid Orchestration\nBUCKET ID: BUCKET-AIOS-OPEN-LOOP-CONSOLIDATION-V1\nBUCKET NAME: Repository Open-Loop Consolidation\nPACKET NAME: Compound canonical_work_packet_obligation\n\nALLOWED PATHS:\n- automation/orchestration/bootstrap/Start-AiOsDay.ps1\n- automation/orchestration/operator/AIOS_OPERATOR_RULES.json\n- automation/orchestration/supervisor/Resolve-AiOsSupervisorAssignment.DRY_RUN.ps1\n- automation/orchestration/work_packets/complete/PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN.md\n- automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1.md\n- docs/workflows/aios-operator-workflows.md\n\nFORBIDDEN PATHS:\n- AGENTS.md\n- RISK_POLICY.md\n- SECURITY.md\n- .git/\n- .github/\n- .env\n- secrets/\n- credentials/\n- private/\n- automation/forex_engine/\n- Every path not explicitly listed under ALLOWED PATHS.\n\nAPPROVAL AUTHORITY:\nHuman Owner Anthony must explicitly approve this continuation before execution. No protected action is authorized.\n\nVALIDATOR CHAIN:\n1. Read back every changed file.\n2. Confirm every changed path is in ALLOWED PATHS.\n3. Run targeted tests declared by the selected cable.\n4. Run git diff --check.\n5. Run git status --short --branch.\n\nSTOP POINT:\nStop after implementation, validation, evidence generation, and owner handoff. Do not stage, commit, push, open or modify a PR, merge, deploy, access credentials, access a broker, or place an order.\n\nMISSION:\nExecute the selected dependency-correct cable only after owner approval: Compound canonical_work_packet_obligation.\n\nPREFLIGHT:\nRun pwd, git status --short --branch, git branch --show-current, git remote -v, git rev-parse HEAD, git diff --name-only, and git diff --stat. Stop on state mismatch.\n\nFINAL REPORT FORMAT:\nSUMMARY:\nWHAT CHANGED:\nFILES CHANGED:\nVALIDATION:\nREMAINING DIRTY FILES:\nSAFE NEXT COMMAND:\nSTATUS: COMPLETE, NO COMMIT, NO PUSH\n",
+  "counts": {
+    "braid_count": 4,
+    "cable_count": 1,
+    "duplicate_count": 0,
+    "strand_count": 24,
+    "superseded_count": 0
+  },
+  "dependency_graph": {
+    "critical_path": [
+      "PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN",
+      "PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1",
+      "brainstem-daily-start",
+      "rulebook-foundation"
+    ],
+    "cycles": [],
+    "edges": [],
+    "graph_hash": "4a569d6f2b580c62e47b0f8c1e320948438075f992d2b51643fc57455386435e",
+    "highest_leverage_root_blocker": "PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN",
+    "missing_dependencies": [],
+    "nodes": [
+      "AIOS-APP-SERVICE-BRIDGE-V0-DRY-RUN-FIRST",
+      "AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-IMPLEMENTATION-PLAN-DRY-RUN-V1",
+      "AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-INVENTORY-DRY-RUN-V1",
+      "AIOS-CLOUDFLARE-ACCESS-PROVIDER-SETUP-REVIEW-DRY-RUN-V1",
+      "AIOS-CONNECT-APPROVAL-INBOX-PROMOTION-DESIGN-DRY-RUN-FIRST",
+      "AIOS-CONNECT-RECOVERY-ORPHAN-INTO-LOOP-DRY-RUN-FIRST",
+      "AIOS-CONNECT-SPINE-INTO-LOOP-DRY-RUN-FIRST",
+      "AIOS-COORDINATION-SPINE-V1",
+      "AIOS-ENDURANCE-SOAK-HARNESS-FIRST-RUN-PROOF-DRY-RUN-FIRST",
+      "AIOS-ENDURANCE-T1-WEEKEND-CRASH-SURVIVAL-DRY-RUN-FIRST",
+      "AIOS-GOV-APPROVAL-AUTHORITY-HARDENING-DRY-RUN-FIRST",
+      "AIOS-M1-SPINE-TO-LOOP-PACKET-V1",
+      "AIOS-OPEN-PR-BACKLOG-CLEANUP-REVIEW-AFTER-570",
+      "AIOS-PLANETARY-GAME-DASHBOARD-IMPLEMENTATION-APPLY-REQUEST-V1",
+      "AIOS-PLANETARY-GAME-DASHBOARD-REDESIGN-APPLY-REQUEST-V1",
+      "AIOS-SB-001-APPROVAL-INBOX-SCHEMA-VALIDATOR-DRY-RUN-FIRST",
+      "AIOS-SELFBUILD-COMPLETION-EVIDENCE-VALIDATOR-DRY-RUN-FIRST",
+      "AIOS-T2A-DISPATCH-LANE-WORKERSTATE-DRY-RUN-FIRST",
+      "AIOS-T2B-ASSIGNMENT-LOCK-INTEGRATION-DRY-RUN-FIRST",
+      "PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN",
+      "PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1",
+      "PKT-FOREX-FIRST-DOLLAR-EVIDENCE-FILE-V1",
+      "brainstem-daily-start",
+      "rulebook-foundation"
+    ]
+  },
+  "evidence_limitations": [
+    "Repository-local evidence only",
+    "PR metadata unavailable when not explicitly supplied"
+  ],
+  "mode": "LOCAL_PLANNING_ONLY",
+  "packet_execution_performed": false,
+  "permissions": {
+    "autonomous_approval": false,
+    "broker_access": false,
+    "credential_access": false,
+    "deployment": false,
+    "git_commit": false,
+    "git_merge": false,
+    "git_push": false,
+    "git_stage": false,
+    "money_movement": false,
+    "order_placement": false,
+    "pr_create": false,
+    "queue_mutation": false,
+    "worker_dispatch": false
+  },
+  "pr_reconciliation": [
+    {
+      "classification": "REMOTE_METADATA_UNAVAILABLE",
+      "evidence": {},
+      "pr_number": 1337
+    },
+    {
+      "classification": "REMOTE_METADATA_UNAVAILABLE",
+      "evidence": {},
+      "pr_number": 1342
+    },
+    {
+      "classification": "REMOTE_METADATA_UNAVAILABLE",
+      "evidence": {},
+      "pr_number": 1344
+    }
+  ],
+  "programs": [
+    {
+      "cable_ids": [
+        "CABLE-1896B284C185"
+      ],
+      "name": "Repository Orchestration Reliability",
+      "program_id": "PROGRAM-01",
+      "status": "ACTIVE"
+    },
+    {
+      "cable_ids": [],
+      "name": "Loop Discovery and Closure",
+      "program_id": "PROGRAM-02",
+      "status": "PLANNING_ONLY"
+    },
+    {
+      "cable_ids": [],
+      "name": "Forex Evidence Completion",
+      "program_id": "PROGRAM-03",
+      "status": "PLANNING_ONLY"
+    },
+    {
+      "cable_ids": [],
+      "name": "Owner Demo Readiness",
+      "program_id": "PROGRAM-04",
+      "status": "PLANNING_ONLY"
+    },
+    {
+      "cable_ids": [],
+      "name": "Protected Live Review",
+      "program_id": "PROGRAM-05",
+      "status": "PLANNING_ONLY"
+    },
+    {
+      "cable_ids": [],
+      "name": "Broker-Verified Profit Evidence",
+      "program_id": "PROGRAM-06",
+      "status": "PLANNING_ONLY"
+    },
+    {
+      "cable_ids": [],
+      "name": "First Profitable Withdrawal",
+      "program_id": "PROGRAM-07",
+      "status": "PLANNING_ONLY"
+    },
+    {
+      "cable_ids": [],
+      "name": "Repeatability and Capital Governance",
+      "program_id": "PROGRAM-08",
+      "status": "PLANNING_ONLY"
+    },
+    {
+      "cable_ids": [],
+      "name": "Humanoid Funding Readiness",
+      "program_id": "PROGRAM-09",
+      "status": "PLANNING_ONLY"
+    }
+  ],
+  "protected_actions": {
+    "autonomous_approval": false,
+    "broker_access": false,
+    "credential_access": false,
+    "deployment": false,
+    "git_commit": false,
+    "git_merge": false,
+    "git_push": false,
+    "git_stage": false,
+    "money_movement": false,
+    "order_placement": false,
+    "pr_create": false,
+    "queue_mutation": false,
+    "worker_dispatch": false
+  },
+  "queue_mutation_performed": false,
+  "repository": {
+    "allowed_path_hashes": {
+      "automation/orchestration/bootstrap/Start-AiOsDay.ps1": "1c2562d71f2111f227fd3feb5c6ccc211786d0a2e242bf337ef32166279ac6ac",
+      "automation/orchestration/operator/AIOS_OPERATOR_RULES.json": "15f6f38d60d71ac02058245c0917421226c66dcf39acabf64e8a1a6f6c3b1185",
+      "automation/orchestration/supervisor/Resolve-AiOsSupervisorAssignment.DRY_RUN.ps1": "33436b85c22f216095d9f9300fa8eea38bd1ba2ff87b8fdd160122fd859fbfd1",
+      "automation/orchestration/work_packets/complete/PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN.md": "a65909e691b2f71d6b9d8d5c5fa8b5cca06784ffb33850b7e9255aff9ce7d14b",
+      "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1.md": "fe49eaf55796910ea2bc1521474c49faac65e2286f87c98cf2be5cf94cb71fb3",
+      "docs/workflows/aios-operator-workflows.md": "016b6f10af9a79cf83980e1b0119f221df05975724b591bea8dce62b562424f9"
+    },
+    "branch": "work",
+    "head": "5ae40aadedd80f39163f18bf58206e60a786ac4f",
+    "repository_root": "/workspace/Ai_Os",
+    "worktree_fingerprint": "b3a9c4aa308beeec7902fd6a6ae8d26df636eb75b0f59b212b207494ff214a02",
+    "worktree_status": "M automation/orchestration/README.md\n M automation/orchestration/platform.py\n?? Reports/orchestration/AIOS_COMPOUND_WORK_BRAID_V1_CHECKPOINT.json\n?? Reports/orchestration/AIOS_COMPOUND_WORK_BRAID_V1_NEXT_CODEX_PROMPT.md\n?? Reports/orchestration/AIOS_COMPOUND_WORK_BRAID_V1_REPORT.md\n?? Reports/orchestration/AIOS_COMPOUND_WORK_BRAID_V1_STATE.json\n?? automation/orchestration/aios_compound_work_braid_v1.py\n?? docs/orchestration/AIOS_COMPOUND_WORK_BRAID_V1.md\n?? schemas/orchestration/aios_compound_work_braid_v1.schema.json\n?? scripts/run_aios_compound_work_braid_v1.py\n?? tests/orchestration/test_aios_compound_work_braid_v1.py"
+  },
+  "schema": "AIOS_COMPOUND_WORK_BRAID.v1",
+  "schema_validation": {
+    "defects": [],
+    "grants_authority": false,
+    "schema": "AIOS_COMPOUND_WORK_BRAID_VALIDATION.v1",
+    "schema_path": "schemas/orchestration/aios_compound_work_braid_v1.schema.json",
+    "status": "PASS"
+  },
+  "selected_cable": {
+    "braid_ids": [
+      "BRAID-0345C69C2771",
+      "BRAID-868FDB1236C3",
+      "BRAID-94B9D44A3A2A",
+      "BRAID-B7E1DD7CDABA"
+    ],
+    "cable_id": "CABLE-1896B284C185",
+    "checkpoint_policy": "Persist after every completed stage; reject material drift.",
+    "completion_definition": [
+      "All braids close with validator evidence."
+    ],
+    "deterministic_priority_score": 1434,
+    "downstream_unlocks": [
+      "Eliminate 4 downstream obligation(s)"
+    ],
+    "exact_write_boundary": [
+      "automation/orchestration/bootstrap/Start-AiOsDay.ps1",
+      "automation/orchestration/operator/AIOS_OPERATOR_RULES.json",
+      "automation/orchestration/supervisor/Resolve-AiOsSupervisorAssignment.DRY_RUN.ps1",
+      "automation/orchestration/work_packets/complete/PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN.md",
+      "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1.md",
+      "docs/workflows/aios-operator-workflows.md"
+    ],
+    "external_waits": [],
+    "internal_execution_blocks": [
+      "preflight",
+      "state_discovery",
+      "dependency_verification",
+      "implementation",
+      "targeted_validation",
+      "bounded_self_repair",
+      "regression_validation",
+      "evidence_generation",
+      "artifact_accounting",
+      "checkpoint_generation",
+      "execution_receipt",
+      "continuation_generation",
+      "commit_readiness_report",
+      "pr_readiness_report",
+      "owner_handoff"
+    ],
+    "owner_decisions": [],
+    "prerequisite_cable_ids": [],
+    "protected_actions": [],
+    "readiness_status": "READY",
+    "repair_budget": 3,
+    "selection_reason": "Repository-local root blocker",
+    "title": "Compound canonical_work_packet_obligation",
+    "validator_chain": [
+      "powershell -ExecutionPolicy Bypass -File automation\\orchestration\\bootstrap\\Test-AiOsWorkspaceBootstrap.DRY_RUN.ps1"
+    ]
+  },
+  "status": "READY",
+  "strands": [
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-APP-SERVICE-BRIDGE-V0-DRY-RUN-FIRST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-APP-SERVICE-BRIDGE-V0-DRY-RUN-FIRST.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-APP-SERVICE-BRIDGE-V0-DRY-RUN-FIRST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-APP-SERVICE-BRIDGE-V0-DRY-RUN-FIRST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-APP-SERVICE-BRIDGE-V0-DRY-RUN-FIRST",
+      "superseded_by": null,
+      "title": "AIOS-APP-SERVICE-BRIDGE-V0-DRY-RUN-FIRST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-IMPLEMENTATION-PLAN-DRY-RUN.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-IMPLEMENTATION-PLAN-DRY-RUN.md"
+      ],
+      "observed_status": "dry_run_implementation_plan_complete,_no_provider_changes,_no_secrets_stored",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-IMPLEMENTATION-PLAN-DRY-RUN.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-IMPLEMENTATION-PLAN-DRY-RUN.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-IMPLEMENTATION-PLAN-DRY-RUN-V1",
+      "superseded_by": null,
+      "title": "AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-IMPLEMENTATION-PLAN-DRY-RUN",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-INVENTORY-DRY-RUN.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-INVENTORY-DRY-RUN.md"
+      ],
+      "observed_status": "dry_run_inventory_complete,_no_provider_changes,_no_secrets_stored",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-INVENTORY-DRY-RUN.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-INVENTORY-DRY-RUN.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-INVENTORY-DRY-RUN-V1",
+      "superseded_by": null,
+      "title": "AIOS-CLOUDFLARE-ACCESS-LOCKOUT-SAFE-LOGIN-INVENTORY-DRY-RUN",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-PROVIDER-SETUP-REVIEW-DRY-RUN.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-PROVIDER-SETUP-REVIEW-DRY-RUN.md"
+      ],
+      "observed_status": "dry_run_provider_setup_review_complete,_no_provider_changes,_no_secrets_stored",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-PROVIDER-SETUP-REVIEW-DRY-RUN.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-CLOUDFLARE-ACCESS-PROVIDER-SETUP-REVIEW-DRY-RUN.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-CLOUDFLARE-ACCESS-PROVIDER-SETUP-REVIEW-DRY-RUN-V1",
+      "superseded_by": null,
+      "title": "AIOS-CLOUDFLARE-ACCESS-PROVIDER-SETUP-REVIEW-DRY-RUN",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-CONNECT-APPROVAL-INBOX-PROMOTION-DESIGN-DRY-RUN-FIRST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-CONNECT-APPROVAL-INBOX-PROMOTION-DESIGN-DRY-RUN-FIRST.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-CONNECT-APPROVAL-INBOX-PROMOTION-DESIGN-DRY-RUN-FIRST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-CONNECT-APPROVAL-INBOX-PROMOTION-DESIGN-DRY-RUN-FIRST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-CONNECT-APPROVAL-INBOX-PROMOTION-DESIGN-DRY-RUN-FIRST",
+      "superseded_by": null,
+      "title": "AIOS-CONNECT-APPROVAL-INBOX-PROMOTION-DESIGN-DRY-RUN-FIRST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-CONNECT-RECOVERY-ORPHAN-INTO-LOOP-DRY-RUN-FIRST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-CONNECT-RECOVERY-ORPHAN-INTO-LOOP-DRY-RUN-FIRST.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-CONNECT-RECOVERY-ORPHAN-INTO-LOOP-DRY-RUN-FIRST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-CONNECT-RECOVERY-ORPHAN-INTO-LOOP-DRY-RUN-FIRST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-CONNECT-RECOVERY-ORPHAN-INTO-LOOP-DRY-RUN-FIRST",
+      "superseded_by": null,
+      "title": "AIOS-CONNECT-RECOVERY-ORPHAN-INTO-LOOP-DRY-RUN-FIRST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-CONNECT-SPINE-INTO-LOOP-DRY-RUN-FIRST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-CONNECT-SPINE-INTO-LOOP-DRY-RUN-FIRST.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-CONNECT-SPINE-INTO-LOOP-DRY-RUN-FIRST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-CONNECT-SPINE-INTO-LOOP-DRY-RUN-FIRST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-CONNECT-SPINE-INTO-LOOP-DRY-RUN-FIRST",
+      "superseded_by": null,
+      "title": "AIOS-CONNECT-SPINE-INTO-LOOP-DRY-RUN-FIRST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-COORDINATION-SPINE-V1.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-COORDINATION-SPINE-V1.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-COORDINATION-SPINE-V1.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-COORDINATION-SPINE-V1.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-COORDINATION-SPINE-V1",
+      "superseded_by": null,
+      "title": "AIOS-COORDINATION-SPINE-V1",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-ENDURANCE-SOAK-HARNESS-FIRST-RUN-PROOF-DRY-RUN-FIRST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-ENDURANCE-SOAK-HARNESS-FIRST-RUN-PROOF-DRY-RUN-FIRST.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-ENDURANCE-SOAK-HARNESS-FIRST-RUN-PROOF-DRY-RUN-FIRST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-ENDURANCE-SOAK-HARNESS-FIRST-RUN-PROOF-DRY-RUN-FIRST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-ENDURANCE-SOAK-HARNESS-FIRST-RUN-PROOF-DRY-RUN-FIRST",
+      "superseded_by": null,
+      "title": "AIOS-ENDURANCE-SOAK-HARNESS-FIRST-RUN-PROOF-DRY-RUN-FIRST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-ENDURANCE-T1-WEEKEND-CRASH-SURVIVAL-DRY-RUN-FIRST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-ENDURANCE-T1-WEEKEND-CRASH-SURVIVAL-DRY-RUN-FIRST.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-ENDURANCE-T1-WEEKEND-CRASH-SURVIVAL-DRY-RUN-FIRST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-ENDURANCE-T1-WEEKEND-CRASH-SURVIVAL-DRY-RUN-FIRST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-ENDURANCE-T1-WEEKEND-CRASH-SURVIVAL-DRY-RUN-FIRST",
+      "superseded_by": null,
+      "title": "AIOS-ENDURANCE-T1-WEEKEND-CRASH-SURVIVAL-DRY-RUN-FIRST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-GOV-APPROVAL-AUTHORITY-HARDENING-DRY-RUN-FIRST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-GOV-APPROVAL-AUTHORITY-HARDENING-DRY-RUN-FIRST.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-GOV-APPROVAL-AUTHORITY-HARDENING-DRY-RUN-FIRST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-GOV-APPROVAL-AUTHORITY-HARDENING-DRY-RUN-FIRST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-GOV-APPROVAL-AUTHORITY-HARDENING-DRY-RUN-FIRST",
+      "superseded_by": null,
+      "title": "AIOS-GOV-APPROVAL-AUTHORITY-HARDENING-DRY-RUN-FIRST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-M1-SPINE-TO-LOOP-PACKET-V1.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-M1-SPINE-TO-LOOP-PACKET-V1.md"
+      ],
+      "observed_status": "safe_next_action:",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-M1-SPINE-TO-LOOP-PACKET-V1.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-M1-SPINE-TO-LOOP-PACKET-V1.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-M1-SPINE-TO-LOOP-PACKET-V1",
+      "superseded_by": null,
+      "title": "AIOS-M1-SPINE-TO-LOOP-PACKET-V1",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-OPEN-PR-BACKLOG-CLEANUP-REVIEW-AFTER-570.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-OPEN-PR-BACKLOG-CLEANUP-REVIEW-AFTER-570.md"
+      ],
+      "observed_status": "dry_run_complete,_no_files_changed",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-OPEN-PR-BACKLOG-CLEANUP-REVIEW-AFTER-570.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-OPEN-PR-BACKLOG-CLEANUP-REVIEW-AFTER-570.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-OPEN-PR-BACKLOG-CLEANUP-REVIEW-AFTER-570",
+      "superseded_by": null,
+      "title": "AIOS-OPEN-PR-BACKLOG-CLEANUP-REVIEW-AFTER-570",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-PLANETARY-GAME-DASHBOARD-IMPLEMENTATION-APPLY-REQUEST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-PLANETARY-GAME-DASHBOARD-IMPLEMENTATION-APPLY-REQUEST.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-PLANETARY-GAME-DASHBOARD-IMPLEMENTATION-APPLY-REQUEST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-PLANETARY-GAME-DASHBOARD-IMPLEMENTATION-APPLY-REQUEST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-PLANETARY-GAME-DASHBOARD-IMPLEMENTATION-APPLY-REQUEST-V1",
+      "superseded_by": null,
+      "title": "AIOS-PLANETARY-GAME-DASHBOARD-IMPLEMENTATION-APPLY-REQUEST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-PLANETARY-GAME-DASHBOARD-REDESIGN-APPLY-REQUEST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-PLANETARY-GAME-DASHBOARD-REDESIGN-APPLY-REQUEST.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-PLANETARY-GAME-DASHBOARD-REDESIGN-APPLY-REQUEST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-PLANETARY-GAME-DASHBOARD-REDESIGN-APPLY-REQUEST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-PLANETARY-GAME-DASHBOARD-REDESIGN-APPLY-REQUEST-V1",
+      "superseded_by": null,
+      "title": "AIOS-PLANETARY-GAME-DASHBOARD-REDESIGN-APPLY-REQUEST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-SB-001-APPROVAL-INBOX-SCHEMA-VALIDATOR-DRY-RUN-FIRST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-SB-001-APPROVAL-INBOX-SCHEMA-VALIDATOR-DRY-RUN-FIRST.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-SB-001-APPROVAL-INBOX-SCHEMA-VALIDATOR-DRY-RUN-FIRST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-SB-001-APPROVAL-INBOX-SCHEMA-VALIDATOR-DRY-RUN-FIRST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-SB-001-APPROVAL-INBOX-SCHEMA-VALIDATOR-DRY-RUN-FIRST",
+      "superseded_by": null,
+      "title": "AIOS-SB-001-APPROVAL-INBOX-SCHEMA-VALIDATOR-DRY-RUN-FIRST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-SELFBUILD-COMPLETION-EVIDENCE-VALIDATOR-DRY-RUN-FIRST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-SELFBUILD-COMPLETION-EVIDENCE-VALIDATOR-DRY-RUN-FIRST.md"
+      ],
+      "observed_status": "complete,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-SELFBUILD-COMPLETION-EVIDENCE-VALIDATOR-DRY-RUN-FIRST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-SELFBUILD-COMPLETION-EVIDENCE-VALIDATOR-DRY-RUN-FIRST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-SELFBUILD-COMPLETION-EVIDENCE-VALIDATOR-DRY-RUN-FIRST",
+      "superseded_by": null,
+      "title": "AIOS-SELFBUILD-COMPLETION-EVIDENCE-VALIDATOR-DRY-RUN-FIRST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-T2A-DISPATCH-LANE-WORKERSTATE-DRY-RUN-FIRST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-T2A-DISPATCH-LANE-WORKERSTATE-DRY-RUN-FIRST.md"
+      ],
+      "observed_status": "dry_run_complete,_no_files_changed",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-T2A-DISPATCH-LANE-WORKERSTATE-DRY-RUN-FIRST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-T2A-DISPATCH-LANE-WORKERSTATE-DRY-RUN-FIRST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-T2A-DISPATCH-LANE-WORKERSTATE-DRY-RUN-FIRST",
+      "superseded_by": null,
+      "title": "AIOS-T2A-DISPATCH-LANE-WORKERSTATE-DRY-RUN-FIRST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/AIOS-T2B-ASSIGNMENT-LOCK-INTEGRATION-DRY-RUN-FIRST.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/AIOS-T2B-ASSIGNMENT-LOCK-INTEGRATION-DRY-RUN-FIRST.md"
+      ],
+      "observed_status": "dry_run_complete,_no_apply,_no_commit,_no_push",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/AIOS-T2B-ASSIGNMENT-LOCK-INTEGRATION-DRY-RUN-FIRST.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/AIOS-T2B-ASSIGNMENT-LOCK-INTEGRATION-DRY-RUN-FIRST.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "AIOS-T2B-ASSIGNMENT-LOCK-INTEGRATION-DRY-RUN-FIRST",
+      "superseded_by": null,
+      "title": "AIOS-T2B-ASSIGNMENT-LOCK-INTEGRATION-DRY-RUN-FIRST",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "OPEN_ACTIONABLE",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN.md"
+      ],
+      "observed_status": "complete",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "open_actionable"
+      ],
+      "repository_actionable": true,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN",
+      "superseded_by": null,
+      "title": "PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "OPEN_ACTIONABLE",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1.md"
+      ],
+      "observed_status": "complete",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "open_actionable"
+      ],
+      "repository_actionable": true,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1",
+      "superseded_by": null,
+      "title": "PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-EVIDENCE-FILE-V1.md",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "UNKNOWN_REQUIRES_DISCOVERY",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-EVIDENCE-FILE-V1.md"
+      ],
+      "observed_status": "complete,_committed,_pr_created,_no_merge",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "unknown_requires_discovery"
+      ],
+      "repository_actionable": false,
+      "required_paths": [
+        "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-EVIDENCE-FILE-V1.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-EVIDENCE-FILE-V1.md",
+      "source_type": "markdown_legacy",
+      "strand_id": "PKT-FOREX-FIRST-DOLLAR-EVIDENCE-FILE-V1",
+      "superseded_by": null,
+      "title": "PKT-FOREX-FIRST-DOLLAR-EVIDENCE-FILE-V1",
+      "validator_chain": []
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/bootstrap/Start-AiOsDay.ps1",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "OPEN_ACTIONABLE",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/20260516-064500-brainstem-daily-start.json"
+      ],
+      "observed_status": "complete",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "open_actionable"
+      ],
+      "repository_actionable": true,
+      "required_paths": [
+        "automation/orchestration/bootstrap/Start-AiOsDay.ps1",
+        "automation/orchestration/supervisor/Resolve-AiOsSupervisorAssignment.DRY_RUN.ps1"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/20260516-064500-brainstem-daily-start.json",
+      "source_type": "json",
+      "strand_id": "brainstem-daily-start",
+      "superseded_by": null,
+      "title": "Brainstem Daily Start Route",
+      "validator_chain": [
+        "powershell -ExecutionPolicy Bypass -File automation\\orchestration\\bootstrap\\Test-AiOsWorkspaceBootstrap.DRY_RUN.ps1"
+      ]
+    },
+    {
+      "autonomy_leverage": 1,
+      "closure_evidence": [],
+      "completion_definition": [
+        "Required implementation and validators have evidence."
+      ],
+      "component": "automation/orchestration/operator/AIOS_OPERATOR_RULES.json",
+      "critical_path_weight": 1,
+      "dependencies": [],
+      "duplicate_group": null,
+      "economic_milestone_relevance": 0,
+      "effort_band": "medium",
+      "external_dependency": null,
+      "forbidden_paths": [],
+      "milestone_advanced": "Repository Orchestration Reliability",
+      "normalized_status": "OPEN_ACTIONABLE",
+      "observed_evidence": [
+        "automation/orchestration/work_packets/complete/20260516-064502-rulebook-foundation.json"
+      ],
+      "observed_status": "complete",
+      "owner_decision_required": false,
+      "protected_action_required": false,
+      "reason_codes": [
+        "open_actionable"
+      ],
+      "repository_actionable": true,
+      "required_paths": [
+        "automation/orchestration/operator/AIOS_OPERATOR_RULES.json",
+        "docs/workflows/aios-operator-workflows.md"
+      ],
+      "reuse_value": 1,
+      "reverse_dependencies": [],
+      "risk_class": "low",
+      "root_cause": "canonical_work_packet_obligation",
+      "source_reference": "automation/orchestration/work_packets/complete/20260516-064502-rulebook-foundation.json",
+      "source_type": "json",
+      "strand_id": "rulebook-foundation",
+      "superseded_by": null,
+      "title": "Rulebook Foundation",
+      "validator_chain": [
+        "powershell -ExecutionPolicy Bypass -File automation\\orchestration\\bootstrap\\Test-AiOsWorkspaceBootstrap.DRY_RUN.ps1"
+      ]
+    }
+  ]
+}

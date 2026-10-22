@@ -1,0 +1,22 @@
+{
+  "dependencies": [
+    {"downstream": "VALIDATE_FORECAST", "relationship": "blocks", "status": "open", "upstream": "BUILD_FORECAST"}
+  ],
+  "forecast_target": "AIOS engineering velocity forecast V1 completion",
+  "hierarchy": {
+    "bucket": "AIOS-VELOCITY-FORECAST-V1",
+    "epic": "AIOS-VELOCITY-FORECAST",
+    "mission": "AIOS-ENGINEERING-FORECASTING",
+    "packet": "AIOS-ENGINEERING-VELOCITY-COMPLETION-FORECAST-V1-APPLY",
+    "program": "AIOS-ORCHESTRATION"
+  },
+  "lane": "AIOS_ENGINEERING_ANALYTICS_AND_FORECASTING",
+  "next_safe_action": "Collect five measured task-duration events and sanitized GitHub check validation metadata.",
+  "pert_task_minutes": {"most_likely": 20, "optimistic": 15, "pessimistic": 30},
+  "remaining_work": [
+    {"category": "repository_fixable", "id": "BUILD_FORECAST"},
+    {"category": "repository_fixable", "id": "VALIDATE_FORECAST"},
+    {"category": "external_evidence", "id": "MERGED_PR_EVIDENCE", "wait_minutes": null}
+  ],
+  "subsystem": "orchestration"
+}

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import inspect
 import json
+from datetime import datetime, timedelta, timezone
 
 from automation.forex_engine import campaign_evidence_accumulator as campaign_accumulator
 from automation.forex_engine import demo_candidate_lifecycle_manager as lifecycle
@@ -404,11 +405,13 @@ def test_review_journey_automatically_reuses_canonical_demo_ledger(tmp_path) -> 
 
     ledger = tmp_path / "demo_proof_ledger.jsonl"
     rows = []
-    for day in range(23, 28):
+    today = datetime.now(timezone.utc).date()
+    for age_days in range(4, -1, -1):
+        evidence_date = today - timedelta(days=age_days)
         rows.append(
             {
                 "record_type": "REAL_DEMO_DAY",
-                "date": f"2026-07-{day}",
+                "date": evidence_date.isoformat(),
                 "session_mode": "OANDA_PRACTICE",
                 "session_source": "broker_demo",
                 "fills": 6,

@@ -55,23 +55,23 @@ def assert_permissions_false(result: dict) -> None:
         assert result["permissions"][flag] is False
 
 
-def test_generates_source_when_c2_harness_has_three_profitable_periods(tmp_path: Path) -> None:
+def test_default_fixture_cannot_generate_real_period_source(tmp_path: Path) -> None:
     report_root = tmp_path / "reports"
     write_harness_state(report_root)
 
     result = run_persistent_profitability_period_evidence(report_root)
 
-    assert result["period_evidence_status"] == PERIOD_EVIDENCE_PROVEN
-    assert result["evidence_source_classification"] == "REAL_SANITIZED_LOCAL_C2_PERIOD_SOURCE"
+    assert result["period_evidence_status"] == PERIOD_EVIDENCE_SAMPLE_TEST_ONLY
+    assert result["evidence_source_classification"] == "SAMPLE_TEST_ONLY"
     assert result["c2_period_source_found"] is True
-    assert result["c2_period_source_generated"] is True
-    assert result["source_is_test_or_sample"] is False
-    assert result["source_is_real_sanitized_local"] is True
-    assert result["consecutive_profitable_periods"] == 6
+    assert result["c2_period_source_generated"] is False
+    assert result["source_is_test_or_sample"] is True
+    assert result["source_is_real_sanitized_local"] is False
+    assert result["consecutive_profitable_periods"] == 0
     assert result["min_profitable_periods"] == 3
-    assert result["missing_profitable_periods"] == 0
-    assert result["closed_trade_count"] == 42
-    assert (report_root / SOURCE_NAME).exists()
+    assert result["missing_profitable_periods"] == 3
+    assert result["closed_trade_count"] == 0
+    assert not (report_root / SOURCE_NAME).exists()
     assert_permissions_false(result)
 
 
@@ -112,7 +112,7 @@ def test_blocks_when_c2_harness_has_only_one_profitable_period(tmp_path: Path) -
 
     result = run_persistent_profitability_period_evidence(report_root)
 
-    assert result["period_evidence_status"] == PERIOD_EVIDENCE_BLOCKED
+    assert result["period_evidence_status"] == "BLOCKED_UNVERIFIED_C2_PERIOD_SOURCE"
     assert result["consecutive_profitable_periods"] == 1
     assert result["missing_profitable_periods"] == 2
     assert result["c2_period_source_generated"] is False
@@ -144,7 +144,7 @@ def test_report_contains_attack_to_finish_and_locks(tmp_path: Path) -> None:
 
     assert "ATTACK_TO_FINISH" in report
     assert "next_demo_trade_allowed: `false`" in report
-    assert "Period evidence status: `PROVEN_PERSISTENT_PROFITABILITY_PERIODS`" in report
+    assert "Period evidence status: `SAMPLE_TEST_ONLY`" in report
 
 
 def test_runner_writes_state_and_report(tmp_path: Path) -> None:
@@ -165,5 +165,66 @@ def test_runner_writes_state_and_report(tmp_path: Path) -> None:
     state = json.loads((output_root / STATE_NAME).read_text(encoding="utf-8"))
 
     assert exit_code == 0
-    assert state["period_evidence_status"] == PERIOD_EVIDENCE_PROVEN
+    assert state["period_evidence_status"] == PERIOD_EVIDENCE_SAMPLE_TEST_ONLY
     assert (output_root / REPORT_NAME).exists()
+
+
+def test_historical_false_proven_harness_cannot_publish_period_source(tmp_path):
+    root = tmp_path / "reports"
+    root.mkdir()
+    fixture = Path(__file__).with_name("fixtures") / "c2_historical_false_proven_state.json"
+    (root / "AIOS_FOREX_110_C2_REAL_WALKFORWARD_OOS_HARNESS_V1_STATE.json").write_bytes(fixture.read_bytes())
+    result = run_persistent_profitability_period_evidence(root)
+    assert result["period_evidence_status"] == "BLOCKED_UNVERIFIED_C2_PERIOD_SOURCE"
+    assert result["source_authentication_status"] == "UNVERIFIED"
+    assert result["c2_period_source_generated"] is False
+    assert result["source_is_real_sanitized_local"] is False
+    assert result["profit_persistence_unlocked"] is False
+    assert "NO_INDEPENDENT_VERIFIER_CONNECTED" in result["blockers"]
+    assert "precedence" not in result["next_safe_action"].lower()
+    assert not (root / SOURCE_NAME).exists()
+    assert_permissions_false(result)
+
+
+def test_historical_period_result_cannot_be_exported_as_real_source():
+    import pytest
+    from automation.forex_engine.forex_110_persistent_profitability_period_evidence_v1 import build_source_markdown
+    root = ROOT / "Reports" / "forex_delivery"
+    historical = json.loads((root / "AIOS_FOREX_110_PERSISTENT_PROFITABILITY_PERIOD_EVIDENCE_V1_STATE.json").read_text())
+    historical["period_evidence_status"] = PERIOD_EVIDENCE_PROVEN
+    historical["source_authentication_status"] = "VERIFIED"
+    with pytest.raises(ValueError, match="independent source verifier is unavailable"):
+        build_source_markdown(historical)
+
+
+def test_diagnostic_periods_preserve_failed_windows_and_unverified_costs():
+    from automation.forex_engine.forex_110_persistent_profitability_period_evidence_v1 import _period_summary, _profitable_periods_from_harness
+    historical = json.loads((Path(__file__).with_name("fixtures") / "c2_historical_false_proven_state.json").read_text())
+    historical["walkforward_result"]["window_results"][2]["window_passed"] = False
+    periods = _profitable_periods_from_harness(historical)
+    summary = _period_summary(historical, periods)
+    assert len(periods) == 5
+    assert summary["consecutive_profitable_periods"] == 3
+    assert summary["after_costs"] is False
+    assert summary["cost_verification_status"] == "UNVERIFIED"
+    assert summary["expectancy_unit"] == "USD_DIAGNOSTIC"
+
+
+def test_report_formatter_blocks_historical_and_forged_proof_labels():
+    import copy
+    historical = json.loads((Path(__file__).with_name("fixtures") / "c2_historical_false_proven_state.json").read_text())
+    historical.update(period_evidence_status="PROVEN_PERSISTENT_PROFITABILITY_PERIODS",
+                      evidence_source_classification="REAL_SANITIZED_LOCAL_C2_PERIOD_SOURCE",
+                      c2_period_source_generated=True, profit_proof_status_after_rerun="PROVEN",
+                      profit_truth_lock_status_after_rerun="PROVEN", profit_persistence_unlocked=True)
+    historical["source_authentication_status"] = "VERIFIED"
+    for key in historical.get("permissions", {}):
+        historical["permissions"][key] = True
+    before = copy.deepcopy(historical)
+    report = build_report_markdown(historical)
+    for forbidden in ['PROVEN_PERSISTENT_PROFITABILITY_PERIODS', 'C2 period source generated: `true`', 'Profit proof status after rerun: `PROVEN`', 'Profit persistence unlocked: `true`']:
+        assert forbidden not in report
+    assert "NO_INDEPENDENT_VERIFIER_CONNECTED" in report
+    for flag in PROTECTED_FLAGS:
+        assert f"{flag}: `false`" in report
+    assert historical == before

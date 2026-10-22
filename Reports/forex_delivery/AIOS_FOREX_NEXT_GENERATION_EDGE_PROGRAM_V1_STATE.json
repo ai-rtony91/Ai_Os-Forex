@@ -1,0 +1,1239 @@
+{
+  "architecture_families": {
+    "A_TIME_SERIES_MOMENTUM": {
+      "best_expectancy": -0.14767,
+      "candidate_count": 4,
+      "development_passers": [],
+      "family_name": "Time-series momentum with non-fixed exits",
+      "status": "PROCESSED"
+    },
+    "B_CROSS_SECTIONAL_FACTOR": {
+      "best_expectancy": -0.109396,
+      "candidate_count": 4,
+      "development_passers": [],
+      "family_name": "Cross-sectional currency factor portfolio",
+      "status": "PROCESSED"
+    },
+    "C_CARRY_VALUE_MOMENTUM": {
+      "best_expectancy": -0.272167,
+      "candidate_count": 4,
+      "development_passers": [],
+      "family_name": "Carry/value/momentum composite with unavailable components excluded",
+      "status": "PROCESSED"
+    },
+    "D_RELATIVE_VALUE": {
+      "best_expectancy": -0.163838,
+      "candidate_count": 4,
+      "development_passers": [],
+      "family_name": "Relative-value residual mean reversion",
+      "status": "PROCESSED"
+    },
+    "E_EVENT_DRIVEN": {
+      "best_expectancy": 0.538571,
+      "candidate_count": 4,
+      "development_passers": [],
+      "family_name": "Event-driven post-release behavior",
+      "status": "PROCESSED"
+    },
+    "F_LIQUIDITY_SESSION": {
+      "best_expectancy": -0.11157,
+      "candidate_count": 4,
+      "development_passers": [],
+      "family_name": "Liquidity/session/rollover effects",
+      "status": "PROCESSED"
+    },
+    "G_REGIME_SWITCHING": {
+      "best_expectancy": -0.235115,
+      "candidate_count": 4,
+      "development_passers": [],
+      "family_name": "Transparent regime switching",
+      "status": "PROCESSED"
+    },
+    "H_META_LABEL_ROUTER": {
+      "best_expectancy": -0.107502,
+      "candidate_count": 4,
+      "development_passers": [],
+      "family_name": "Calibrated meta-label/expert router",
+      "status": "PROCESSED"
+    }
+  },
+  "architecture_family_count": 8,
+  "bootstrap_overfit": {
+    "rows": [],
+    "status": "NO_BOOTSTRAP_PASSERS"
+  },
+  "candidate_registry": {
+    "candidate_count": 32,
+    "max_allowed": 64,
+    "state_hash": "2e039417eb121daa540a735a2ebb277aff9b161b3b6ae0992f08c67bc7a2f18a",
+    "status": "FROZEN"
+  },
+  "completeness_audit_status": "COMPLETE",
+  "compounding": {
+    "enabled": false
+  },
+  "credential_readiness": "NOT_REACHED",
+  "development": {
+    "candidate_count": 32,
+    "development": [
+      {
+        "candidate_id": "A_TIME_SERIES_MOMENTUM_LONG_TSMOM_1M_TRAIL_V1",
+        "direction": "LONG",
+        "family": "A_TIME_SERIES_MOMENTUM",
+        "summary": {
+          "average_loss_r": -0.548383,
+          "average_win_r": 1.23889,
+          "expectancy": -0.163939,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2644,
+          "max_drawdown_percent": 138.996636,
+          "max_drawdown_r": 555.986545,
+          "max_pair_share": 0.025793,
+          "max_year_share": 0.090424,
+          "net_r": -552.967351,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.618623,
+          "trades": 3373,
+          "win_rate": 0.214646,
+          "wins": 724,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "A_TIME_SERIES_MOMENTUM_SHORT_TSMOM_1M_TRAIL_V1",
+        "direction": "SHORT",
+        "family": "A_TIME_SERIES_MOMENTUM",
+        "summary": {
+          "average_loss_r": -0.530823,
+          "average_win_r": 1.171825,
+          "expectancy": -0.14767,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2553,
+          "max_drawdown_percent": 121.717165,
+          "max_drawdown_r": 486.86866,
+          "max_pair_share": 0.022748,
+          "max_year_share": 0.099181,
+          "net_r": -486.86866,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.640738,
+          "trades": 3297,
+          "win_rate": 0.22475,
+          "wins": 741,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "A_TIME_SERIES_MOMENTUM_LONG_TSMOM_3M_TIME_V1",
+        "direction": "LONG",
+        "family": "A_TIME_SERIES_MOMENTUM",
+        "summary": {
+          "average_loss_r": -0.995056,
+          "average_win_r": 3.723202,
+          "expectancy": -0.288424,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2901,
+          "max_drawdown_percent": 250.098614,
+          "max_drawdown_r": 1000.394455,
+          "max_pair_share": 0.027843,
+          "max_year_share": 0.088511,
+          "net_r": -984.101277,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.659086,
+          "trades": 3412,
+          "win_rate": 0.149766,
+          "wins": 511,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "A_TIME_SERIES_MOMENTUM_SHORT_TSMOM_3M_TIME_V1",
+        "direction": "SHORT",
+        "family": "A_TIME_SERIES_MOMENTUM",
+        "summary": {
+          "average_loss_r": -0.994727,
+          "average_win_r": 3.615376,
+          "expectancy": -0.368921,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2865,
+          "max_drawdown_percent": 305.776208,
+          "max_drawdown_r": 1223.104831,
+          "max_pair_share": 0.022926,
+          "max_year_share": 0.109804,
+          "net_r": -1222.9731,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.57087,
+          "trades": 3315,
+          "win_rate": 0.135747,
+          "wins": 450,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "B_CROSS_SECTIONAL_FACTOR_LONG_XS_MOM_TOPBOT_V1",
+        "direction": "LONG",
+        "family": "B_CROSS_SECTIONAL_FACTOR",
+        "summary": {
+          "average_loss_r": -0.97505,
+          "average_win_r": 2.198253,
+          "expectancy": -0.150247,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 1,
+            "positive_fold_share": 0.125
+          },
+          "losses": 2201,
+          "max_drawdown_percent": 114.344934,
+          "max_drawdown_r": 457.379736,
+          "max_pair_share": 0.027236,
+          "max_year_share": 0.092132,
+          "net_r": -446.835194,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.79179,
+          "trades": 2974,
+          "win_rate": 0.259919,
+          "wins": 773,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "B_CROSS_SECTIONAL_FACTOR_SHORT_XS_MOM_TOPBOT_V1",
+        "direction": "SHORT",
+        "family": "B_CROSS_SECTIONAL_FACTOR",
+        "summary": {
+          "average_loss_r": -0.969659,
+          "average_win_r": 2.162892,
+          "expectancy": -0.109396,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2055,
+          "max_drawdown_percent": 80.440388,
+          "max_drawdown_r": 321.761553,
+          "max_pair_share": 0.025415,
+          "max_year_share": 0.102012,
+          "net_r": -309.918558,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.844469,
+          "trades": 2833,
+          "win_rate": 0.274621,
+          "wins": 778,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "B_CROSS_SECTIONAL_FACTOR_LONG_XS_SPREAD_EFFICIENT_V1",
+        "direction": "LONG",
+        "family": "B_CROSS_SECTIONAL_FACTOR",
+        "summary": {
+          "average_loss_r": -0.976976,
+          "average_win_r": 2.203571,
+          "expectancy": -0.135398,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 1,
+            "positive_fold_share": 0.125
+          },
+          "losses": 2493,
+          "max_drawdown_percent": 117.135682,
+          "max_drawdown_r": 468.542728,
+          "max_pair_share": 0.025074,
+          "max_year_share": 0.090265,
+          "net_r": -458.998186,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.811546,
+          "trades": 3390,
+          "win_rate": 0.264602,
+          "wins": 897,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "B_CROSS_SECTIONAL_FACTOR_SHORT_XS_SPREAD_EFFICIENT_V1",
+        "direction": "SHORT",
+        "family": "B_CROSS_SECTIONAL_FACTOR",
+        "summary": {
+          "average_loss_r": -0.970507,
+          "average_win_r": 2.186474,
+          "expectancy": -0.111801,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2374,
+          "max_drawdown_percent": 93.934718,
+          "max_drawdown_r": 375.73887,
+          "max_pair_share": 0.024532,
+          "max_year_share": 0.103036,
+          "net_r": -364.582645,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.84176,
+          "trades": 3261,
+          "win_rate": 0.272002,
+          "wins": 887,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "C_CARRY_VALUE_MOMENTUM_LONG_MOM_CARRY_AVAILABLE_ONLY_V1",
+        "direction": "LONG",
+        "family": "C_CARRY_VALUE_MOMENTUM",
+        "summary": {
+          "average_loss_r": -0.992071,
+          "average_win_r": 3.691665,
+          "expectancy": -0.272167,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 1817,
+          "max_drawdown_percent": 150.11824,
+          "max_drawdown_r": 600.472962,
+          "max_pair_share": 0.027014,
+          "max_year_share": 0.085701,
+          "net_r": -584.343486,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.675832,
+          "trades": 2147,
+          "win_rate": 0.153703,
+          "wins": 330,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "C_CARRY_VALUE_MOMENTUM_SHORT_MOM_CARRY_AVAILABLE_ONLY_V1",
+        "direction": "SHORT",
+        "family": "C_CARRY_VALUE_MOMENTUM",
+        "summary": {
+          "average_loss_r": -0.994716,
+          "average_win_r": 3.793559,
+          "expectancy": -0.331445,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 1816,
+          "max_drawdown_percent": 176.158693,
+          "max_drawdown_r": 704.634771,
+          "max_pair_share": 0.026565,
+          "max_year_share": 0.106736,
+          "net_r": -698.685082,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.613218,
+          "trades": 2108,
+          "win_rate": 0.13852,
+          "wins": 292,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "C_CARRY_VALUE_MOMENTUM_LONG_VALUE_COMPONENT_INELIGIBLE_MOM_V1",
+        "direction": "LONG",
+        "family": "C_CARRY_VALUE_MOMENTUM",
+        "summary": {
+          "average_loss_r": -0.996331,
+          "average_win_r": 3.874635,
+          "expectancy": -0.364551,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 3724,
+          "max_drawdown_percent": 397.236684,
+          "max_drawdown_r": 1588.946737,
+          "max_pair_share": 0.025473,
+          "max_year_share": 0.087637,
+          "net_r": -1559.914359,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.579576,
+          "trades": 4279,
+          "win_rate": 0.129703,
+          "wins": 555,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "C_CARRY_VALUE_MOMENTUM_SHORT_VALUE_COMPONENT_INELIGIBLE_MOM_V1",
+        "direction": "SHORT",
+        "family": "C_CARRY_VALUE_MOMENTUM",
+        "summary": {
+          "average_loss_r": -0.994951,
+          "average_win_r": 3.912783,
+          "expectancy": -0.355423,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 3644,
+          "max_drawdown_percent": 374.120405,
+          "max_drawdown_r": 1496.481622,
+          "max_pair_share": 0.022434,
+          "max_year_share": 0.105012,
+          "net_r": -1489.222766,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.589248,
+          "trades": 4190,
+          "win_rate": 0.13031,
+          "wins": 546,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "D_RELATIVE_VALUE_LONG_ROLLING_RESIDUAL_V1",
+        "direction": "LONG",
+        "family": "D_RELATIVE_VALUE",
+        "summary": {
+          "average_loss_r": -0.546307,
+          "average_win_r": 1.187152,
+          "expectancy": -0.196371,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2266,
+          "max_drawdown_percent": 142.320391,
+          "max_drawdown_r": 569.281564,
+          "max_pair_share": 0.022183,
+          "max_year_share": 0.092254,
+          "net_r": -557.692691,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.549496,
+          "trades": 2840,
+          "win_rate": 0.201761,
+          "wins": 573,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "D_RELATIVE_VALUE_SHORT_ROLLING_RESIDUAL_V1",
+        "direction": "SHORT",
+        "family": "D_RELATIVE_VALUE",
+        "summary": {
+          "average_loss_r": -0.553237,
+          "average_win_r": 1.059376,
+          "expectancy": -0.200461,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2229,
+          "max_drawdown_percent": 143.267701,
+          "max_drawdown_r": 573.070804,
+          "max_pair_share": 0.021023,
+          "max_year_share": 0.080238,
+          "net_r": -572.114538,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.53606,
+          "trades": 2854,
+          "win_rate": 0.218641,
+          "wins": 624,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "D_RELATIVE_VALUE_LONG_CROSS_RATE_RESIDUAL_V1",
+        "direction": "LONG",
+        "family": "D_RELATIVE_VALUE",
+        "summary": {
+          "average_loss_r": -0.552918,
+          "average_win_r": 1.109622,
+          "expectancy": -0.205729,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2782,
+          "max_drawdown_percent": 183.923039,
+          "max_drawdown_r": 735.692157,
+          "max_pair_share": 0.021887,
+          "max_year_share": 0.082149,
+          "net_r": -723.75428,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.529485,
+          "trades": 3518,
+          "win_rate": 0.208641,
+          "wins": 734,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "D_RELATIVE_VALUE_SHORT_CROSS_RATE_RESIDUAL_V1",
+        "direction": "SHORT",
+        "family": "D_RELATIVE_VALUE",
+        "summary": {
+          "average_loss_r": -0.543012,
+          "average_win_r": 1.206561,
+          "expectancy": -0.163838,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2791,
+          "max_drawdown_percent": 147.368073,
+          "max_drawdown_r": 589.472292,
+          "max_pair_share": 0.022721,
+          "max_year_share": 0.081627,
+          "net_r": -584.080823,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.614607,
+          "trades": 3565,
+          "win_rate": 0.21655,
+          "wins": 772,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "E_EVENT_DRIVEN_LONG_POST_BLS_CONTINUATION_V1",
+        "direction": "LONG",
+        "family": "E_EVENT_DRIVEN",
+        "summary": {
+          "average_loss_r": -0.924509,
+          "average_win_r": 0.982023,
+          "expectancy": -0.281055,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 159,
+          "max_drawdown_percent": 22.971266,
+          "max_drawdown_r": 91.885064,
+          "max_pair_share": 0.058333,
+          "max_year_share": 1.0,
+          "net_r": -67.453115,
+          "pair_count": 31,
+          "pass": false,
+          "profit_factor": 0.541126,
+          "trades": 240,
+          "win_rate": 0.3375,
+          "wins": 81,
+          "year_count": 1
+        }
+      },
+      {
+        "candidate_id": "E_EVENT_DRIVEN_SHORT_POST_BLS_CONTINUATION_V1",
+        "direction": "SHORT",
+        "family": "E_EVENT_DRIVEN",
+        "summary": {
+          "average_loss_r": -0.930811,
+          "average_win_r": 1.234049,
+          "expectancy": -0.322386,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 110,
+          "max_drawdown_percent": 12.770885,
+          "max_drawdown_r": 51.083541,
+          "max_pair_share": 0.091503,
+          "max_year_share": 1.0,
+          "net_r": -49.325089,
+          "pair_count": 25,
+          "pass": false,
+          "profit_factor": 0.518259,
+          "trades": 153,
+          "win_rate": 0.281046,
+          "wins": 43,
+          "year_count": 1
+        }
+      },
+      {
+        "candidate_id": "E_EVENT_DRIVEN_LONG_POST_EVENT_REVERSAL_V1",
+        "direction": "LONG",
+        "family": "E_EVENT_DRIVEN",
+        "summary": {
+          "average_loss_r": -0.973681,
+          "average_win_r": 1.447994,
+          "expectancy": -0.308908,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 111,
+          "max_drawdown_percent": 20.087363,
+          "max_drawdown_r": 80.349452,
+          "max_pair_share": 0.091503,
+          "max_year_share": 1.0,
+          "net_r": -47.262873,
+          "pair_count": 25,
+          "pass": false,
+          "profit_factor": 0.562699,
+          "trades": 153,
+          "win_rate": 0.27451,
+          "wins": 42,
+          "year_count": 1
+        }
+      },
+      {
+        "candidate_id": "E_EVENT_DRIVEN_SHORT_POST_EVENT_REVERSAL_V1",
+        "direction": "SHORT",
+        "family": "E_EVENT_DRIVEN",
+        "summary": {
+          "average_loss_r": -0.834742,
+          "average_win_r": 2.245587,
+          "expectancy": 0.538571,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 8,
+            "positive_fold_share": 1.0
+          },
+          "losses": 133,
+          "max_drawdown_percent": 7.617993,
+          "max_drawdown_r": 30.471974,
+          "max_pair_share": 0.058333,
+          "max_year_share": 1.0,
+          "net_r": 129.257136,
+          "pair_count": 31,
+          "pass": false,
+          "profit_factor": 2.164262,
+          "trades": 240,
+          "win_rate": 0.445833,
+          "wins": 107,
+          "year_count": 1
+        }
+      },
+      {
+        "candidate_id": "F_LIQUIDITY_SESSION_LONG_LONDON_NY_TRANSITION_V1",
+        "direction": "LONG",
+        "family": "F_LIQUIDITY_SESSION",
+        "summary": {
+          "average_loss_r": -0.648206,
+          "average_win_r": 0.598513,
+          "expectancy": -0.122596,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 442,
+          "max_drawdown_percent": 24.007267,
+          "max_drawdown_r": 96.029068,
+          "max_pair_share": 0.026144,
+          "max_year_share": 0.09281,
+          "net_r": -93.785915,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.672658,
+          "trades": 765,
+          "win_rate": 0.420915,
+          "wins": 322,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "F_LIQUIDITY_SESSION_SHORT_LONDON_NY_TRANSITION_V1",
+        "direction": "SHORT",
+        "family": "F_LIQUIDITY_SESSION",
+        "summary": {
+          "average_loss_r": -0.662517,
+          "average_win_r": 0.626406,
+          "expectancy": -0.122884,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 1,
+            "positive_fold_share": 0.125
+          },
+          "losses": 439,
+          "max_drawdown_percent": 23.225146,
+          "max_drawdown_r": 92.900585,
+          "max_pair_share": 0.029101,
+          "max_year_share": 0.093915,
+          "net_r": -92.900585,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.680584,
+          "trades": 756,
+          "win_rate": 0.417989,
+          "wins": 316,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "F_LIQUIDITY_SESSION_LONG_SPREAD_NORMALIZATION_V1",
+        "direction": "LONG",
+        "family": "F_LIQUIDITY_SESSION",
+        "summary": {
+          "average_loss_r": -0.77946,
+          "average_win_r": 0.873953,
+          "expectancy": -0.11157,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2175,
+          "max_drawdown_percent": 101.97899,
+          "max_drawdown_r": 407.915958,
+          "max_pair_share": 0.024116,
+          "max_year_share": 0.092628,
+          "net_r": -407.118671,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.759858,
+          "trades": 3649,
+          "win_rate": 0.403946,
+          "wins": 1474,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "F_LIQUIDITY_SESSION_SHORT_SPREAD_NORMALIZATION_V1",
+        "direction": "SHORT",
+        "family": "F_LIQUIDITY_SESSION",
+        "summary": {
+          "average_loss_r": -0.786822,
+          "average_win_r": 0.873037,
+          "expectancy": -0.126453,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2181,
+          "max_drawdown_percent": 116.227332,
+          "max_drawdown_r": 464.909328,
+          "max_pair_share": 0.023192,
+          "max_year_share": 0.093319,
+          "net_r": -458.012359,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.733102,
+          "trades": 3622,
+          "win_rate": 0.397846,
+          "wins": 1441,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "G_REGIME_SWITCHING_LONG_TREND_VOL_STATE_V1",
+        "direction": "LONG",
+        "family": "G_REGIME_SWITCHING",
+        "summary": {
+          "average_loss_r": -0.984844,
+          "average_win_r": 2.861003,
+          "expectancy": -0.235115,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 3663,
+          "max_drawdown_percent": 269.472658,
+          "max_drawdown_r": 1077.89063,
+          "max_pair_share": 0.023077,
+          "max_year_share": 0.081978,
+          "net_r": -1069.772128,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.703457,
+          "trades": 4550,
+          "win_rate": 0.194945,
+          "wins": 887,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "G_REGIME_SWITCHING_SHORT_TREND_VOL_STATE_V1",
+        "direction": "SHORT",
+        "family": "G_REGIME_SWITCHING",
+        "summary": {
+          "average_loss_r": -0.987265,
+          "average_win_r": 2.777485,
+          "expectancy": -0.257583,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 3548,
+          "max_drawdown_percent": 285.970277,
+          "max_drawdown_r": 1143.88111,
+          "max_pair_share": 0.022722,
+          "max_year_share": 0.08998,
+          "net_r": -1133.621725,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.676369,
+          "trades": 4401,
+          "win_rate": 0.19382,
+          "wins": 853,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "G_REGIME_SWITCHING_LONG_NO_TRADE_VOL_GATE_V1",
+        "direction": "LONG",
+        "family": "G_REGIME_SWITCHING",
+        "summary": {
+          "average_loss_r": -0.984478,
+          "average_win_r": 2.865525,
+          "expectancy": -0.237593,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 3893,
+          "max_drawdown_percent": 288.173115,
+          "max_drawdown_r": 1152.69246,
+          "max_pair_share": 0.022567,
+          "max_year_share": 0.081988,
+          "net_r": -1147.573958,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.700573,
+          "trades": 4830,
+          "win_rate": 0.193996,
+          "wins": 937,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "G_REGIME_SWITCHING_SHORT_NO_TRADE_VOL_GATE_V1",
+        "direction": "SHORT",
+        "family": "G_REGIME_SWITCHING",
+        "summary": {
+          "average_loss_r": -0.987405,
+          "average_win_r": 2.762079,
+          "expectancy": -0.271732,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 3794,
+          "max_drawdown_percent": 321.65623,
+          "max_drawdown_r": 1286.624919,
+          "max_pair_share": 0.022393,
+          "max_year_share": 0.087439,
+          "net_r": -1274.152076,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.659883,
+          "trades": 4689,
+          "win_rate": 0.190872,
+          "wins": 895,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "H_META_LABEL_ROUTER_LONG_LOW_COST_TAKE_V1",
+        "direction": "LONG",
+        "family": "H_META_LABEL_ROUTER",
+        "summary": {
+          "average_loss_r": -0.975599,
+          "average_win_r": 2.166474,
+          "expectancy": -0.167045,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 2026,
+          "max_drawdown_percent": 116.560647,
+          "max_drawdown_r": 466.242588,
+          "max_pair_share": 0.027859,
+          "max_year_share": 0.092375,
+          "net_r": -455.698046,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.769449,
+          "trades": 2728,
+          "win_rate": 0.257331,
+          "wins": 702,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "H_META_LABEL_ROUTER_SHORT_LOW_COST_TAKE_V1",
+        "direction": "SHORT",
+        "family": "H_META_LABEL_ROUTER",
+        "summary": {
+          "average_loss_r": -0.969587,
+          "average_win_r": 2.162856,
+          "expectancy": -0.107502,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 1,
+            "positive_fold_share": 0.125
+          },
+          "losses": 1883,
+          "max_drawdown_percent": 71.575447,
+          "max_drawdown_r": 286.30179,
+          "max_pair_share": 0.026559,
+          "max_year_share": 0.101617,
+          "net_r": -279.291248,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.847025,
+          "trades": 2598,
+          "win_rate": 0.275212,
+          "wins": 715,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "H_META_LABEL_ROUTER_LONG_VOL_CALIBRATED_TAKE_V1",
+        "direction": "LONG",
+        "family": "H_META_LABEL_ROUTER",
+        "summary": {
+          "average_loss_r": -0.974292,
+          "average_win_r": 2.204001,
+          "expectancy": -0.18325,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 3211,
+          "max_drawdown_percent": 200.571514,
+          "max_drawdown_r": 802.286056,
+          "max_pair_share": 0.023392,
+          "max_year_share": 0.082339,
+          "net_r": -783.394081,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.74959,
+          "trades": 4275,
+          "win_rate": 0.248889,
+          "wins": 1064,
+          "year_count": 14
+        }
+      },
+      {
+        "candidate_id": "H_META_LABEL_ROUTER_SHORT_VOL_CALIBRATED_TAKE_V1",
+        "direction": "SHORT",
+        "family": "H_META_LABEL_ROUTER",
+        "summary": {
+          "average_loss_r": -0.971386,
+          "average_win_r": 2.153817,
+          "expectancy": -0.192346,
+          "folds": {
+            "fold_count": 8,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 3114,
+          "max_drawdown_percent": 200.814855,
+          "max_drawdown_r": 803.25942,
+          "max_pair_share": 0.021456,
+          "max_year_share": 0.092093,
+          "net_r": -797.850601,
+          "pair_count": 58,
+          "pass": false,
+          "profit_factor": 0.736239,
+          "trades": 4148,
+          "win_rate": 0.249277,
+          "wins": 1034,
+          "year_count": 14
+        }
+      }
+    ],
+    "passers": [],
+    "passers_by_direction": {
+      "LONG": [],
+      "PORTFOLIO": [],
+      "SHORT": []
+    },
+    "state_hash": "1622061240519d562fa03d452ab577dea6b715e4d90379ea25997ad82cb599b1",
+    "status": "NO_DEVELOPMENT_PASSERS"
+  },
+  "eligible_pair_count": 58,
+  "finalists": {
+    "long": [],
+    "portfolio": [],
+    "short": []
+  },
+  "forward": {
+    "long": "NOT_STARTED",
+    "short": "NOT_STARTED"
+  },
+  "funding_readiness": "NOT_REACHED",
+  "last_checkpoint_utc": "2026-08-30T22:04:44.669719+00:00",
+  "live_safety": "NOT_REACHED",
+  "multiple_testing": {
+    "best_null_expectancy_95th": 0.22554895833333335,
+    "campaigns": 1500,
+    "rows": [
+      {
+        "candidate_id": "A_TIME_SERIES_MOMENTUM_LONG_TSMOM_1M_TRAIL_V1",
+        "expectancy": -0.163939,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "A_TIME_SERIES_MOMENTUM_SHORT_TSMOM_1M_TRAIL_V1",
+        "expectancy": -0.14767,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "A_TIME_SERIES_MOMENTUM_LONG_TSMOM_3M_TIME_V1",
+        "expectancy": -0.288424,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "A_TIME_SERIES_MOMENTUM_SHORT_TSMOM_3M_TIME_V1",
+        "expectancy": -0.368921,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "B_CROSS_SECTIONAL_FACTOR_LONG_XS_MOM_TOPBOT_V1",
+        "expectancy": -0.150247,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "B_CROSS_SECTIONAL_FACTOR_SHORT_XS_MOM_TOPBOT_V1",
+        "expectancy": -0.109396,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "B_CROSS_SECTIONAL_FACTOR_LONG_XS_SPREAD_EFFICIENT_V1",
+        "expectancy": -0.135398,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "B_CROSS_SECTIONAL_FACTOR_SHORT_XS_SPREAD_EFFICIENT_V1",
+        "expectancy": -0.111801,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "C_CARRY_VALUE_MOMENTUM_LONG_MOM_CARRY_AVAILABLE_ONLY_V1",
+        "expectancy": -0.272167,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "C_CARRY_VALUE_MOMENTUM_SHORT_MOM_CARRY_AVAILABLE_ONLY_V1",
+        "expectancy": -0.331445,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "C_CARRY_VALUE_MOMENTUM_LONG_VALUE_COMPONENT_INELIGIBLE_MOM_V1",
+        "expectancy": -0.364551,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "C_CARRY_VALUE_MOMENTUM_SHORT_VALUE_COMPONENT_INELIGIBLE_MOM_V1",
+        "expectancy": -0.355423,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "D_RELATIVE_VALUE_LONG_ROLLING_RESIDUAL_V1",
+        "expectancy": -0.196371,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "D_RELATIVE_VALUE_SHORT_ROLLING_RESIDUAL_V1",
+        "expectancy": -0.200461,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "D_RELATIVE_VALUE_LONG_CROSS_RATE_RESIDUAL_V1",
+        "expectancy": -0.205729,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "D_RELATIVE_VALUE_SHORT_CROSS_RATE_RESIDUAL_V1",
+        "expectancy": -0.163838,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "E_EVENT_DRIVEN_LONG_POST_BLS_CONTINUATION_V1",
+        "expectancy": -0.281055,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "E_EVENT_DRIVEN_SHORT_POST_BLS_CONTINUATION_V1",
+        "expectancy": -0.322386,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "E_EVENT_DRIVEN_LONG_POST_EVENT_REVERSAL_V1",
+        "expectancy": -0.308908,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "E_EVENT_DRIVEN_SHORT_POST_EVENT_REVERSAL_V1",
+        "expectancy": 0.538571,
+        "family_wise_empirical_p": 0.000666,
+        "pass": true
+      },
+      {
+        "candidate_id": "F_LIQUIDITY_SESSION_LONG_LONDON_NY_TRANSITION_V1",
+        "expectancy": -0.122596,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "F_LIQUIDITY_SESSION_SHORT_LONDON_NY_TRANSITION_V1",
+        "expectancy": -0.122884,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "F_LIQUIDITY_SESSION_LONG_SPREAD_NORMALIZATION_V1",
+        "expectancy": -0.11157,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "F_LIQUIDITY_SESSION_SHORT_SPREAD_NORMALIZATION_V1",
+        "expectancy": -0.126453,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "G_REGIME_SWITCHING_LONG_TREND_VOL_STATE_V1",
+        "expectancy": -0.235115,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "G_REGIME_SWITCHING_SHORT_TREND_VOL_STATE_V1",
+        "expectancy": -0.257583,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "G_REGIME_SWITCHING_LONG_NO_TRADE_VOL_GATE_V1",
+        "expectancy": -0.237593,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "G_REGIME_SWITCHING_SHORT_NO_TRADE_VOL_GATE_V1",
+        "expectancy": -0.271732,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "H_META_LABEL_ROUTER_LONG_LOW_COST_TAKE_V1",
+        "expectancy": -0.167045,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "H_META_LABEL_ROUTER_SHORT_LOW_COST_TAKE_V1",
+        "expectancy": -0.107502,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "H_META_LABEL_ROUTER_LONG_VOL_CALIBRATED_TAKE_V1",
+        "expectancy": -0.18325,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "H_META_LABEL_ROUTER_SHORT_VOL_CALIBRATED_TAKE_V1",
+        "expectancy": -0.192346,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      }
+    ],
+    "status": "PASS"
+  },
+  "packet026_terminal_verdict": "TERMINAL_STATE_VALID_FOR_PACKET026_REGISTRY_ONLY",
+  "packet_id": "PKT-EAST-FOREX-NEXT-GENERATION-PROFITABILITY-027",
+  "paper": {
+    "long": "NOT_STARTED",
+    "short": "NOT_STARTED"
+  },
+  "pre_terminal_audit_status": "PASS",
+  "profitability_milestone": "NO_BIDIRECTIONAL_NEXT_GENERATION_EDGE_SURVIVED_REQUIRED_GATES",
+  "publication": "NOT_REACHED",
+  "recent_challenge": {
+    "passers": [],
+    "phase": "RECENT_CHALLENGE",
+    "rows": [],
+    "status": "NOT_RUN_NO_HOLDOUT_PASSERS"
+  },
+  "rr_atlas_audit_status": "COMPLETE",
+  "safety": {
+    "authorization_header_output": false,
+    "commit": false,
+    "credential_read_by_codex": false,
+    "funding": false,
+    "live": false,
+    "orders": false,
+    "push": false
+  },
+  "same_packet_resume_command": "Rerun Packet 027 only if a Forward accumulation state is reached or a separately approved evidence/candidate change is introduced.",
+  "schema": "AIOS_FOREX_NEXT_GENERATION_EDGE_PROGRAM_V1_STATE",
+  "sealed_holdout": {
+    "passers": [],
+    "phase": "SEALED_HOLDOUT",
+    "rows": [],
+    "status": "NOT_RUN_NO_VALIDATION_PASSERS"
+  },
+  "state_hash": "7d43a393b8b284c6c0874bff162b645c547462f0ba3c0c247193c1839f1aa7ba",
+  "status": "NEXT_GENERATION_RESEARCH_EXHAUSTED_NO_EDGE",
+  "v7": "NOT_REACHED",
+  "validation": {
+    "passers": [],
+    "phase": "VALIDATION",
+    "rows": [],
+    "status": "NOT_RUN_NO_STATISTICAL_PASSERS"
+  }
+}

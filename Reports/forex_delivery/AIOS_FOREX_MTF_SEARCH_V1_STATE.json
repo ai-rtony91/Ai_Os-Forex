@@ -1,0 +1,23 @@
+{
+  "bootstrap_opened": false,
+  "compounding_opened": false,
+  "coverage_status": "TIMEFRAME_COVERAGE_AUDITED",
+  "finalist_status": "NO_FINALISTS_TO_VALIDATE",
+  "forward_opened": false,
+  "funding_opened": false,
+  "gross_screen_survivors": 0,
+  "holdout_opened": false,
+  "hypotheses_tested": 912,
+  "indicator_status": "INDICATOR_FIDELITY_IMPLEMENTED",
+  "live_opened": false,
+  "packet031_preserved": true,
+  "packet031_state_hash": "9d06a0790c0a27cb541c7e181655238eb874fea6f66eccd9385dc54b64f16bf1",
+  "packet_id": "PKT-EAST-FOREX-MTF-GROSS-EDGE-DISCOVERY-032",
+  "paper_opened": false,
+  "schema": "AIOS_FOREX_MTF_SEARCH_CONTROLLER.v1",
+  "state_hash": "f895a2dd11fb96702dd52809db8745277467e81f2a9ad2b62092416ba33a6677",
+  "status": "SEARCH_FAMILY_EXHAUSTED_NO_ROBUST_EDGE",
+  "surface_status": "SEARCH_FAMILY_EXHAUSTED_NO_ROBUST_EDGE",
+  "v12_opened": false,
+  "validation_opened": false
+}

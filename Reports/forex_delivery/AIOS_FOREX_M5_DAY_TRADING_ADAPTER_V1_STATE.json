@@ -1,0 +1,10 @@
+{
+  "schema": "AIOS_FOREX_M5_DAY_TRADING_ADAPTER_V1_STATE",
+  "packet_id": "PKT-EAST-FOREX-FIDELITY-TO-COMPOUNDING-029",
+  "status": "RESEARCH_FIDELITY_REPAIR_REQUIRED",
+  "m5_bridge_status": "NOT_OPENED",
+  "reason": "M5 bridge implementation was not opened because upstream family-control repair did not pass.",
+  "required_next_repair": "Implement a bridge with executable tests for completed higher-timeframe alignment, completed M5 signal candle, next-interval entry, bid/ask sides, same-bar stop-first, DST/session handling, external information timing, deterministic trade IDs, and idempotency.",
+  "paper_opened": false,
+  "live_opened": false
+}

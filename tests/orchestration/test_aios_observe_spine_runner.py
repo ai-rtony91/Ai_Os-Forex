@@ -196,7 +196,7 @@ def test_default_evidence_loading_uses_repo_reports_and_keeps_mutations_false(tm
     assert report["layers"]["runtime_apply_lane"]["status"] == "BLOCKED"
     assert report["observe_loop_status"] == mod.BLOCKED
     assert report["runtime_apply_status"] == "BLOCKED"
-    assert report["queue_gate_status"] == "READY_FOR_HUMAN_REVIEW"
+    assert report["queue_gate_status"] == "BLOCKED"
     assert report["p2_bridge_status"] == "BLOCKED"
     assert report["stale_layers"] == []
     assert all(value is False for value in report["mutation_projection"].values())

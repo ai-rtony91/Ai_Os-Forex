@@ -1,0 +1,81 @@
+{
+  "schema": "AIOS_FOREX_SCALPING_HISTORY_REQUEST_CONTRACT_REPAIR_R2.v1",
+  "packet_id": "PKT-EAST-FOREX-SCALPING-HISTORY-REQUEST-CONTRACT-033-R2",
+  "parent_packet": "PKT-EAST-FOREX-ALL-TIMEFRAME-SCALPING-EDGE-033",
+  "worker": "EAST_OCC_01",
+  "lane": "FOREX_SCALPING_HISTORY_REQUEST_CONTRACT_REPAIR",
+  "mode": "APPLY",
+  "status": "SCALPING_HISTORY_REQUEST_CONTRACT_REPAIRED_WAITING_HUMAN",
+  "updated_utc": "2026-08-31T03:22:34Z",
+  "root_cause": "The previous helper sent from, to, and count in the same OANDA candle request.",
+  "classification": "OANDA_PRACTICE_CANDLE_REQUEST_CONTRACT_BUG",
+  "request_contract_before": {
+    "pagination_contract": "FROM_TO_COUNT",
+    "from_sent": true,
+    "to_sent_on_each_request": true,
+    "count_sent": true
+  },
+  "request_contract_after": {
+    "pagination_contract": "FROM_PLUS_COUNT",
+    "from_sent": true,
+    "to_sent_on_each_request": false,
+    "count_sent": true,
+    "candles_per_request": 5000,
+    "price": "BA"
+  },
+  "local_boundary_contract": {
+    "from_utc_semantics": "inclusive",
+    "to_utc_semantics": "exclusive",
+    "overall_to_utc_sent_to_oanda_with_count": false
+  },
+  "checkpoint_resume": {
+    "checkpoint_enabled": true,
+    "resume_enabled": true,
+    "checkpoint_file_per_series": "AIOS_FOREX_SCALPING_HISTORY_CHECKPOINT.json",
+    "completed_series_redownload_block": true,
+    "partial_series_resume_from_next_cursor": true
+  },
+  "retry_classification": {
+    "retryable": [
+      429,
+      500,
+      502,
+      503,
+      504,
+      "timeout",
+      "temporary_transport"
+    ],
+    "credential_or_authorization_fail_closed": [
+      401,
+      403
+    ],
+    "request_contract_4xx_fail_closed": true,
+    "bounded_exponential_backoff": true
+  },
+  "safety": {
+    "practice_host_only": true,
+    "method": "GET_ONLY",
+    "order_endpoint_allowed": false,
+    "live_host_allowed": false,
+    "token_output_allowed": false,
+    "token_persistence_allowed": false,
+    "authorization_header_output_allowed": false,
+    "broker_mutation_allowed": false
+  },
+  "human_handoff": {
+    "plan": "Reports/forex_delivery/AIOS_FOREX_SCALPING_HISTORY_HUMAN_HANDOFF_V1.md",
+    "state": "Reports/forex_delivery/AIOS_FOREX_SCALPING_HISTORY_HUMAN_HANDOFF_V1_STATE.json",
+    "required_before_research_resume": true
+  },
+  "validation": {
+    "powershell_parser": "PASS",
+    "focused_pytest": "PASS",
+    "focused_pytest_command": "python -m pytest -q tests/forex_engine/test_oanda_practice_scalping_history_human_only_v1.py",
+    "json_parse": "PASS",
+    "git_diff_check": "PASS_WITH_UNRELATED_LINE_ENDING_WARNINGS",
+    "secret_scan": "PASS_RUNTIME_HEADER_KEY_ONLY",
+    "live_order_scan": "PASS"
+  },
+  "stop_point": "HUMAN_SCALPING_TIMEFRAME_DATA_ACQUISITION_REQUIRED",
+  "same_packet_resume_state": "WAIT_FOR_PHYSICAL_HUMAN_ARTIFACTS_THEN_RESUME_PACKET_033"
+}

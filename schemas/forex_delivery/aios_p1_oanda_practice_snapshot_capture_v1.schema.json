@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AIOS P1 OANDA Practice sanitized snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "evidence_type", "provenance", "broker_label", "environment", "instrument", "observed_at_utc", "bid", "ask", "mid", "spread", "source_status", "stale_status", "read_only", "broker_call_performed", "broker_write_performed", "credentials_loaded_runtime_only", "credentials_persisted", "account_identifier_included", "authorization_header_included", "broker_order_identifier_included", "raw_payload_included", "order_submission_allowed", "demo_execution_allowed", "live_execution_allowed", "money_movement_allowed"],
+  "properties": {
+    "schema":{"const":"AIOS_P1_SUPERVISED_PAPER_MARKET_SNAPSHOT.v1"}, "evidence_type":{"const":"SANITIZED_READ_ONLY_MARKET_SNAPSHOT"}, "provenance":{"const":"GENUINE_OBSERVED_MARKET_DATA"}, "broker_label":{"const":"OANDA"}, "environment":{"const":"PRACTICE"}, "instrument":{"const":"EUR_USD"}, "observed_at_utc":{"type":"string","format":"date-time"}, "bid":{"type":"number","exclusiveMinimum":0}, "ask":{"type":"number","exclusiveMinimum":0}, "mid":{"type":"number","exclusiveMinimum":0}, "spread":{"type":"number","minimum":0}, "source_status":{"const":"VALID"}, "stale_status":{"const":"VALID"}, "read_only":{"const":true}, "broker_call_performed":{"type":"boolean"}, "credentials_loaded_runtime_only":{"type":"boolean"}, "broker_write_performed":{"const":false}, "credentials_persisted":{"const":false}, "account_identifier_included":{"const":false}, "authorization_header_included":{"const":false}, "broker_order_identifier_included":{"const":false}, "raw_payload_included":{"const":false}, "order_submission_allowed":{"const":false}, "demo_execution_allowed":{"const":false}, "live_execution_allowed":{"const":false}, "money_movement_allowed":{"const":false}
+  }
+}

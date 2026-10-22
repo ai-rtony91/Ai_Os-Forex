@@ -17,6 +17,8 @@ const staticDashboardOutputs = [
   'mock-data',
   'package.json',
   'server.js',
+  'server',
+  'THIRD_PARTY_ATTRIBUTIONS.md',
 ]
 
 function readJsonFile(filePath) {
@@ -120,7 +122,7 @@ export default defineConfig({
   plugins: [react(), autonomyBridgeStateLoader(), copyStaticDashboardRuntime()],
   server: {
     proxy: {
-      '/api': 'http://localhost:5050',
+      '/api': 'http://127.0.0.1:8080',
     },
   },
 })

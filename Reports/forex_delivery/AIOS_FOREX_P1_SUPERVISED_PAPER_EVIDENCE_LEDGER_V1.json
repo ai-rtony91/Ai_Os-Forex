@@ -1,0 +1,16 @@
+{
+  "account_access_performed": false,
+  "broker_call_performed": false,
+  "broker_write_performed": false,
+  "credentials_loaded": false,
+  "daemon_created": false,
+  "live_execution_allowed": false,
+  "money_movement_allowed": false,
+  "order_close_allowed": false,
+  "order_modification_allowed": false,
+  "order_submission_allowed": false,
+  "records": [],
+  "scheduler_created": false,
+  "version": "forex_p1_supervised_paper_evidence_pipeline_v1",
+  "webhook_created": false
+}

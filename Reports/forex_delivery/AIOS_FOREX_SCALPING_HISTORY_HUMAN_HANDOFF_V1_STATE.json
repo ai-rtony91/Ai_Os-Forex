@@ -1,0 +1,30 @@
+{
+  "schema": "AIOS_FOREX_SCALPING_HISTORY_HUMAN_HANDOFF.v1",
+  "packet_id": "PKT-EAST-FOREX-ALL-TIMEFRAME-SCALPING-EDGE-033",
+  "controlling_repair_packet_id": "PKT-EAST-FOREX-PACKET033-FULL-ATTACK-CONTINUATION-R3",
+  "status": "HUMAN_SCALPING_TIMEFRAME_DATA_ACQUISITION_REQUIRED",
+  "helper": "scripts/forex_delivery/Acquire-AiOsOandaPracticeScalpingHistory.HUMAN_ONLY.ps1",
+  "output_root": ".aios/runtime/forex_scalping_history_human_inbox_v1",
+  "overall_from_utc": "2024-01-01T00:00:00Z",
+  "overall_to_utc": "2026-08-30T00:00:00Z",
+  "to_boundary_semantics": "exclusive",
+  "pagination_contract": "FROM_PLUS_COUNT",
+  "to_sent_on_each_request": false,
+  "include_first_strategy": "FIRST_REQUEST_TRUE_THEN_FROM_LAST_ACCEPTED_WITH_INCLUDE_FIRST_FALSE",
+  "candles_per_request": 5000,
+  "price": "BA",
+  "requested_granularities": ["S5", "S10", "S15", "S30", "M1", "M2", "M4"],
+  "instrument_count": 3,
+  "instruments": ["EUR_USD", "GBP_USD", "USD_JPY"],
+  "safety": {
+    "practice_host_only": true,
+    "method": "GET_ONLY",
+    "orders_allowed": false,
+    "live_host_allowed": false,
+    "token_output_allowed": false,
+    "token_persistence_allowed": false,
+    "authorization_header_output_allowed": false,
+    "broker_mutation_allowed": false
+  },
+  "same_packet_resume_state": "WAIT_FOR_PHYSICAL_HUMAN_ARTIFACTS_THEN_RESUME_PACKET_033"
+}

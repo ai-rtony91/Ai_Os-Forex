@@ -1,0 +1,29 @@
+{
+  "packet_id": "PKT-EAST-FOREX-EDGE-EXISTENCE-CLOSURE-031",
+  "rows": {
+    "1R": {
+      "event_conditional_reach_probability": 0.07018678,
+      "event_count": 13920,
+      "full_cost_positive_probability": 0.28125,
+      "margin_vs_breakeven": -0.43606322,
+      "simplified_full_cost_breakeven_probability": 0.50625
+    },
+    "2R": {
+      "event_conditional_reach_probability": 0.00804598,
+      "event_count": 13920,
+      "full_cost_positive_probability": 0.27593391,
+      "margin_vs_breakeven": -0.32945402,
+      "simplified_full_cost_breakeven_probability": 0.3375
+    },
+    "3R": {
+      "event_conditional_reach_probability": 0.00193966,
+      "event_count": 13920,
+      "full_cost_positive_probability": 0.27571839,
+      "margin_vs_breakeven": -0.25118534,
+      "simplified_full_cost_breakeven_probability": 0.253125
+    }
+  },
+  "schema": "AIOS_FOREX_BREAKEVEN_PROBABILITY_FRONTIER_V1_STATE",
+  "state_hash": "5388a3dcded33e32e5a6932db315598398dd3a41c39f9159a1fd2491757e3916",
+  "status": "BREAKEVEN_PROBABILITY_FRONTIER_COMPLETE"
+}

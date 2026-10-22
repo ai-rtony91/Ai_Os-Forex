@@ -1,0 +1,25 @@
+{
+  "schema": "aios.owner_authority_phases.v1",
+  "program": "AIOS_17_PHASE_OWNER_AUTHORITY_WORKFLOW",
+  "mode": "PREPARE_BEHIND_GATE",
+  "maximum_owner_checkpoints": 4,
+  "phases": [
+    {"phase_id": 1, "name": "Owner Cellular Voice Gateway Program Charter", "owner_authority": "NONE"},
+    {"phase_id": 2, "name": "Full Conversation Context Archive Design", "owner_authority": "POLICY_ACCEPTANCE", "owner_bundle": "OWNER-BUNDLE-1-POLICY", "owner_action": "Approve the proposed retention, archive, and privacy policy after AI validation."},
+    {"phase_id": 3, "name": "Gateway Threat Model", "owner_authority": "RISK_ACCEPTANCE", "owner_bundle": "OWNER-BUNDLE-1-POLICY", "owner_action": "Accept or reject the documented residual gateway risks after mitigations are presented."},
+    {"phase_id": 4, "name": "Phone Number Routing Model", "owner_authority": "EXTERNAL_ACCOUNT", "owner_bundle": "OWNER-BUNDLE-2-DEVICE-IDENTITY", "owner_action": "Confirm ownership/control of the selected phone number and provider account without placing credentials in the repository."},
+    {"phase_id": 5, "name": "Z Fold 6 Trusted Command Terminal Model", "owner_authority": "PHYSICAL_DEVICE", "owner_bundle": "OWNER-BUNDLE-2-DEVICE-IDENTITY", "owner_action": "Physically enroll and approve the trusted command device using the provider or operating-system security flow."},
+    {"phase_id": 6, "name": "Voice Recognition Confidence Model", "owner_authority": "POLICY_ACCEPTANCE", "owner_bundle": "OWNER-BUNDLE-1-POLICY", "owner_action": "Approve the tested voice-confidence threshold and rejection policy."},
+    {"phase_id": 7, "name": "Sick-Day and Voice Fallback Model", "owner_authority": "POLICY_ACCEPTANCE", "owner_bundle": "OWNER-BUNDLE-1-POLICY", "owner_action": "Approve the fallback and lockout policy used when voice confidence is insufficient."},
+    {"phase_id": 8, "name": "Anti-Replay and Time-Bound Liveness Model", "owner_authority": "POLICY_ACCEPTANCE", "owner_bundle": "OWNER-BUNDLE-1-POLICY", "owner_action": "Approve the tested liveness window and replay-rejection policy."},
+    {"phase_id": 9, "name": "YubiKey and Passkey Authority Model", "owner_authority": "PHYSICAL_DEVICE", "owner_bundle": "OWNER-BUNDLE-2-DEVICE-IDENTITY", "owner_action": "Physically enroll the approved YubiKey/passkeys and confirm possession; private keys and recovery secrets must never enter the repository."},
+    {"phase_id": 10, "name": "Governance Memory Model", "owner_authority": "POLICY_ACCEPTANCE", "owner_bundle": "OWNER-BUNDLE-1-POLICY", "owner_action": "Approve what authority decisions may be remembered and their retention/expiry rules."},
+    {"phase_id": 11, "name": "Risk-Scored Command Gating Model", "owner_authority": "POLICY_ACCEPTANCE", "owner_bundle": "OWNER-BUNDLE-1-POLICY", "owner_action": "Approve the tested command-risk thresholds that determine when owner authority is required."},
+    {"phase_id": 12, "name": "Command Intent Parser Contract", "owner_authority": "NONE"},
+    {"phase_id": 13, "name": "AIOS Gateway Router Contract", "owner_authority": "NONE"},
+    {"phase_id": 14, "name": "Runtime Bridge Architecture", "owner_authority": "DEPLOYMENT", "owner_bundle": "OWNER-BUNDLE-3-RUNTIME-SECRETS", "owner_action": "Authorize activation of the validated runtime bridge only after deployment evidence is presented."},
+    {"phase_id": 15, "name": "The_Lab Execution Routing", "owner_authority": "AUTHORITY_BOUNDARY", "owner_bundle": "OWNER-BUNDLE-3-RUNTIME-SECRETS", "owner_action": "Approve the final execution authority boundary for The_Lab after the route is proven fail-closed."},
+    {"phase_id": 16, "name": "Vault, Secrets, and Session Protection", "owner_authority": "SECRET_ACCESS", "owner_bundle": "OWNER-BUNDLE-3-RUNTIME-SECRETS", "owner_action": "Perform or authorize required vault/session configuration in the protected external system; no secret values may be stored in the repository."},
+    {"phase_id": 17, "name": "Location Vault and Privacy Broker", "owner_authority": "PRIVACY_CONSENT", "owner_bundle": "OWNER-BUNDLE-4-LOCATION-PRIVACY", "owner_action": "Give explicit location/privacy consent for the final validated scope before any location capability is activated."}
+  ]
+}

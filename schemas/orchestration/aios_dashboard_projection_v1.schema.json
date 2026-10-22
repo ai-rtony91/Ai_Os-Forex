@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aios_dashboard_projection_v1.schema.json",
+  "title": "AIOS Dashboard Projection V1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_identity",
+    "projection_state",
+    "dimensions",
+    "verified_pnl",
+    "receipts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "AIOS_DASHBOARD_PROJECTION_V1"
+    },
+    "projection_state": {
+      "enum": [
+        "LIVE",
+        "SNAPSHOT",
+        "STALE",
+        "PARTIAL",
+        "UNAVAILABLE"
+      ]
+    },
+    "dimensions": {
+      "type": "object"
+    },
+    "verified_pnl": {
+      "type": "object"
+    },
+    "receipts": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

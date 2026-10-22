@@ -1,0 +1,450 @@
+{
+  "data_source": {
+    "captured_at_utc": "2026-08-21T19:58:03.473792Z",
+    "path": ".aios/runtime/forex_multipair_m5_replay_mba_v1/replay_cache.json",
+    "ranges": [
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "AUD_CAD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "AUD_CHF",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "AUD_HKD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "AUD_JPY",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "AUD_NZD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "AUD_SGD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "AUD_USD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:05:00.000000000Z",
+        "instrument": "CAD_CHF",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "CAD_HKD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "CAD_JPY",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "CAD_SGD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "CHF_HKD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "CHF_JPY",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "CHF_ZAR",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_AUD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_CAD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:10:00.000000000Z",
+        "instrument": "EUR_CHF",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_CZK",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-19T22:40:00.000000000Z",
+        "instrument": "EUR_DKK",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_GBP",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_HKD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_HUF",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_JPY",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:00:00.000000000Z",
+        "instrument": "EUR_NOK",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_NZD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_PLN",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_SEK",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_SGD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-17T09:40:00.000000000Z",
+        "instrument": "EUR_TRY",
+        "last": "2026-08-21T14:55:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_USD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "EUR_ZAR",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "GBP_AUD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "GBP_CAD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "GBP_CHF",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "GBP_HKD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "GBP_JPY",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "GBP_NZD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "GBP_PLN",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "GBP_SGD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "GBP_USD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "GBP_ZAR",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "HKD_JPY",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "NZD_CAD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "NZD_CHF",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:05:00.000000000Z",
+        "instrument": "NZD_HKD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "NZD_JPY",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "NZD_SGD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "NZD_USD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "SGD_CHF",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "SGD_JPY",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-11T13:00:00.000000000Z",
+        "instrument": "TRY_JPY",
+        "last": "2026-08-21T14:55:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "USD_CAD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "USD_CHF",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "USD_CNH",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:10:00.000000000Z",
+        "instrument": "USD_CZK",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:10:00.000000000Z",
+        "instrument": "USD_DKK",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T01:00:00.000000000Z",
+        "instrument": "USD_HKD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "USD_HUF",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "USD_JPY",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:10:00.000000000Z",
+        "instrument": "USD_MXN",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:05:00.000000000Z",
+        "instrument": "USD_NOK",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:10:00.000000000Z",
+        "instrument": "USD_PLN",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:10:00.000000000Z",
+        "instrument": "USD_SEK",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:05:00.000000000Z",
+        "instrument": "USD_SGD",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T01:45:00.000000000Z",
+        "instrument": "USD_THB",
+        "last": "2026-08-21T19:40:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-17T09:20:00.000000000Z",
+        "instrument": "USD_TRY",
+        "last": "2026-08-21T14:55:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-20T02:15:00.000000000Z",
+        "instrument": "USD_ZAR",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      },
+      {
+        "count": 500,
+        "first": "2026-08-19T23:50:00.000000000Z",
+        "instrument": "ZAR_JPY",
+        "last": "2026-08-21T19:50:00.000000000Z"
+      }
+    ],
+    "safety": {
+      "broker_write_performed": false,
+      "credentials_persisted": false,
+      "live_trade_performed": false,
+      "money_movement_performed": false,
+      "practice_order_performed": false
+    },
+    "sha256": "c27bab8093f11735583cc0739f92ed9f47c994ab93da540bef16cf6f7d2ddc9f"
+  },
+  "generated_utc": "2026-08-29T00:18:53Z",
+  "hypotheses_tested": [
+    "BUY_TARGET_1_2_3_4_6_10R_REACHABILITY_FROM_RECORDED_MFE",
+    "ACCOUNTING_AND_DIRECTION_ROUTING",
+    "STOP_TARGET_GEOMETRY",
+    "SHARED_LONG_SHORT_R_PARITY"
+  ],
+  "paper_v2_started": false,
+  "promotion_gate": {
+    "passed": false,
+    "reason": "No non-overlapping chronological development/validation/holdout market sample covers the campaign strategy; promoting v2 would be overfit or fabricated."
+  },
+  "rejected_candidates": [
+    {
+      "identity": "TARGET_ONLY_RECALIBRATION",
+      "reason": "No LONG reached +1R; target reduction cannot rescue the observed sample."
+    }
+  ],
+  "schema": "AIOS_FOREX_PAPER60_CANDIDATE_RESEARCH_STATE_V1",
+  "split": {
+    "holdout": "UNAVAILABLE",
+    "research": "UNAVAILABLE_FOR_CURRENT_CAMPAIGN",
+    "validation": "UNAVAILABLE"
+  },
+  "status": "BOUNDED_HYPOTHESES_EXHAUSTED_NO_PROMOTION",
+  "v2_created": false
+}

@@ -5,6 +5,10 @@ on:
     paths:
       - "automation/forex_engine/forex_extended_evidence_campaign_v1.py"
       - "tests/forex_engine/test_forex_extended_evidence_campaign_v1.py"
+      - "automation/forex_engine/forex_p1_supertrend_session_postmortem_v1.py"
+      - "schemas/aios/forex/AIOS_FOREX_P1_SUPERTREND_SESSION_POSTMORTEM.v1.schema.json"
+      - "tests/forex_engine/test_forex_p1_supertrend_session_postmortem_v1.py"
+      - "requirements-test.txt"
       - "scripts/forex_delivery/Get-AiOsExtendedEvidenceVerdict.ps1"
       - "scripts/forex_delivery/Invoke-AiOsDailyForexOrchestrator.ps1"
       - ".github/workflows/aios_forex_extended_evidence_validation.yml"
@@ -30,8 +34,8 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install test runner
-        run: python -m pip install --disable-pip-version-check pytest
+      - name: Install test dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-test.txt
 
       - name: Compile extended evidence files
         run: |
@@ -44,6 +48,9 @@ jobs:
 
       - name: Run related profit gate tests
         run: python -m pytest tests/forex_engine/test_forex_profit_production_next_gate_v1.py -q
+
+      - name: Run Supertrend postmortem tests
+        run: python -m pytest tests/forex_engine/test_forex_p1_supertrend_session_postmortem_v1.py -q
 
   forex-regression-comparison:
     runs-on: ubuntu-latest
@@ -65,8 +72,9 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install test runner
-        run: python -m pip install --disable-pip-version-check pytest
+      - name: Install test dependencies
+        working-directory: head
+        run: python -m pip install --disable-pip-version-check -r requirements-test.txt
 
       - name: Run baseline and proposed Forex suites
         shell: bash

@@ -126,6 +126,8 @@ def test_repository_aligned_builder_uses_observed_state_and_full_identity():
     assert "MISSION ID: MISSION-FOREX-PROFIT-STAGES" in text
     assert "STOP POINT:" in text
     assert "FINAL REPORT FORMAT:" in text
+    assert "task-start" in text and "task-complete" in text and "task-blocked" in text
+    assert ".aios/runtime/engineering_timing/" in packet["write_scope"]
 
 
 def test_repository_aligned_builder_fails_closed_for_dirty_repository():

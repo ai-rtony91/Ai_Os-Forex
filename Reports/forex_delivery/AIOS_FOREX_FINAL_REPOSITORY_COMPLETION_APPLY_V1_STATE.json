@@ -1,0 +1,89 @@
+{
+  "already_complete_components": [
+    "signal_pipeline_fixture_paper_connection",
+    "risk_governor_deterministic_outputs",
+    "kill_switch_daily_stop_max_loss_drawdown_margin_position_limits",
+    "auto_exit_simulation_paper_readiness",
+    "safe_close_planning_no_broker_execution",
+    "history_writeback_fixture_paper_sanitized",
+    "open_position_reconciliation_fixture_sanitized",
+    "daily_pl_margin_risk_evidence_contracts",
+    "evidence_freshness_staleness_detection",
+    "read_only_broker_evidence_sanitizer",
+    "account_identifier_redaction",
+    "no_secret_no_raw_payload_enforcement",
+    "final_readiness_aggregation",
+    "owner_decision_brief_generation",
+    "first_withdrawable_dollar_projection",
+    "pre_live_non_executing_package",
+    "checkpoint_resume_state",
+    "bounded_next_packet_generation"
+  ],
+  "autonomy_safety_flags": {
+    "broker_write_allowed": false,
+    "continuous_execution_allowed": false,
+    "credential_access_allowed": false,
+    "live_execution_allowed": false,
+    "order_placement_allowed": false
+  },
+  "broker_runtime_blockers": [
+    "runtime_credentials",
+    "broker_connectivity",
+    "supervised_real_execution"
+  ],
+  "external_evidence_blockers": [
+    "current_broker_account_evidence",
+    "post_trade_broker_receipts",
+    "realized_profit",
+    "withdrawable_dollar_verification"
+  ],
+  "final_readiness": {
+    "live_execution_allowed": false,
+    "profitability_proven": false,
+    "status": "EXTERNAL_EVIDENCE_REQUIRED",
+    "withdrawal_proven": false
+  },
+  "next_external_action": "Human Owner may supply fresh sanitized broker/runtime evidence for review; do not arm or execute a trade from repository fixtures.",
+  "next_generated_packet": "CODEX-ONLY PROMPT\n\nAI_OS EXECUTION TOKEN\nAI_OS BOOTSTRAP REQUIRED\n\nMODE: DRY_RUN\nZONE: LOCAL_REPOSITORY\nWORKER IDENTITY: EAST_OCC_EXTERNAL_EVIDENCE_REVIEW_01\nLANE: FOREX_EXTERNAL_EVIDENCE_REVIEW\nWORKTREE: /workspace/Ai_Os\nBRANCH: Resolve during preflight; do not assume.\nSUPERVISOR IDENTITY: HUMAN OWNER ANTHONY\nPACKET ID: AIOS-FOREX-EXTERNAL-EVIDENCE-REVIEW-DRY-RUN-V1\nMISSION: Review only fresh sanitized external evidence.\nALLOWED PATHS: Reports/forex_delivery/\nFORBIDDEN PATHS: .env, .env.*, credentials/, secrets/, broker credential stores.\nAPPROVAL AUTHORITY: review-only, no broker access, no execution.\nVALIDATOR CHAIN: git status --short --branch; python -m pytest -q tests/forex_engine/test_forex_autonomous_campaign_manager_v1.py\nSTOP POINT: Stop after evidence classification and owner-readable report.\nTASK: Collect external sanitized broker/runtime evidence for owner review only; do not execute.\nFINAL REPORT FORMAT: SUMMARY, FINDINGS, EXTERNAL BLOCKERS, NEXT SAFE ACTION, STATUS.\n",
+  "observation_time_blockers": [
+    "market_observation_time"
+  ],
+  "owner_approval_blockers": [
+    "human_owner_approval",
+    "live_arming"
+  ],
+  "pre_live_package": {
+    "artifacts": [
+      "final_non_executing_live_preflight_evidence_bundle",
+      "protected_one_shot_command_package_sealed",
+      "stop_after_one_order_procedure",
+      "auto_exit_and_emergency_close_procedure",
+      "sanitized_order_receipt_intake_contract",
+      "exit_receipt_intake_contract",
+      "real_pl_reconciliation_contract",
+      "post_trade_ledger_template",
+      "replay_evidence_template",
+      "closeout_report_template",
+      "owner_post_trade_review_template",
+      "repeatability_gate_template",
+      "rolling_24_hour_ledger_contract",
+      "withdrawal_readiness_evidence_contract",
+      "first_realized_profitable_withdrawable_dollar_evidence_contract"
+    ],
+    "package_status": "SEALED_FOR_OWNER_REVIEW_ONLY",
+    "required_flags": {
+      "broker_call_performed": false,
+      "broker_write_performed": false,
+      "credentials_loaded": false,
+      "execution_requested": false,
+      "live_execution_allowed": false,
+      "money_moved": false,
+      "order_executed": false
+    }
+  },
+  "profitability_proven": false,
+  "repository_fixable_blockers_remaining": [],
+  "repository_fixable_completion_percent": 100,
+  "snapshot_version": "forex_final_repository_completion_snapshot_v1",
+  "withdrawal_proven": false
+}

@@ -9,6 +9,7 @@ logging, or report writing.
 from __future__ import annotations
 
 import json
+import re
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
@@ -111,10 +112,68 @@ class OandaReadOnlyClient:
         return self.request_json("GET", f"/v3/accounts/{self._account_id}/pendingOrders")
 
     def pricing(self, instruments: tuple[str, ...]) -> dict[str, Any]:
+        if not instruments or any(not isinstance(item, str) or not item for item in instruments):
+            raise ValueError("pricing_instruments_required")
         return self.request_json(
             "GET",
             f"/v3/accounts/{self._account_id}/pricing",
             params={"instruments": ",".join(instruments)},
+        )
+
+    def discover_instruments(self) -> dict[str, Any]:
+        """Read the account's enabled instrument universe through the GET-only bridge."""
+        return self.request_json("GET", f"/v3/accounts/{self._account_id}/instruments")
+
+    def observation_candles(
+        self,
+        instrument: str,
+        *,
+        granularity: str,
+        count: int,
+        price: str = "M",
+    ) -> dict[str, Any]:
+        """Observer-only completed-candle request.
+
+        The legacy ``candles`` method retains its strict EUR_USD/M5 contract
+        for the active campaign.  This separate method intentionally supports
+        only the new observer's M1/M2/M5 read path and still performs GET only.
+        """
+        normalized_instrument = str(instrument or "").upper()
+        if not re.fullmatch(r"[A-Z]{3}_[A-Z]{3}", normalized_instrument):
+            raise ValueError("unsupported_observation_instrument")
+        if granularity not in {"M1", "M2", "M5"}:
+            raise ValueError("unsupported_observation_granularity")
+        if isinstance(count, bool) or not isinstance(count, int) or not 5 <= count <= 501:
+            raise ValueError("observation_candle_count_out_of_bounds")
+        if price not in {"M", "MBA"}:
+            raise ValueError("unsupported_observation_candle_price")
+        return self.request_json(
+            "GET",
+            f"/v3/instruments/{normalized_instrument}/candles",
+            params={"granularity": granularity, "count": count, "price": price},
+        )
+
+    def candles(
+        self,
+        instrument: str,
+        *,
+        granularity: str,
+        count: int,
+        price: str = "M",
+    ) -> dict[str, Any]:
+        """Fetch a bounded candle window through the GET-only transport."""
+        if instrument != "EUR_USD":
+            raise ValueError("unsupported_candle_instrument")
+        if granularity != "M5":
+            raise ValueError("unsupported_candle_granularity")
+        if isinstance(count, bool) or not isinstance(count, int) or not 3 <= count <= 500:
+            raise ValueError("candle_count_out_of_bounds")
+        if price != "M":
+            raise ValueError("unsupported_candle_price")
+        return self.request_json(
+            "GET",
+            f"/v3/instruments/{instrument}/candles",
+            params={"granularity": granularity, "count": count, "price": price},
         )
 
     def transactions(self) -> dict[str, Any]:

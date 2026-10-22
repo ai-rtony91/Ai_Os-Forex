@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aios.local/schemas/orchestration/aios_voice_recognition_confidence_model_v1.schema.json",
+  "title": "AIOS Voice Recognition Confidence Model V1",
+  "description": "Declarative Phase 6 fail-closed design; no operational authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_version",
+    "record_id",
+    "phase",
+    "state",
+    "authority_state",
+    "issued_at",
+    "expires_at",
+    "action_binding",
+    "subject_reference",
+    "provenance",
+    "integrity_reference"
+  ],
+  "properties": {
+    "record_version": {
+      "const": "aios.voice_recognition_confidence_model.v1"
+    },
+    "record_id": {
+      "$ref": "#/$defs/opaqueIdentifier"
+    },
+    "phase": {
+      "const": 6
+    },
+    "state": {
+      "enum": [
+        "ACCEPT",
+        "CHALLENGE",
+        "REJECT",
+        "BLOCKED"
+      ]
+    },
+    "authority_state": {
+      "const": "BLOCKED"
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "action_binding": {
+      "$ref": "#/$defs/opaqueIdentifier"
+    },
+    "subject_reference": {
+      "$ref": "#/$defs/opaqueIdentifier"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "sanitization_state"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "DECLARATIVE_DESIGN",
+            "SANITIZED_EVIDENCE",
+            "UNKNOWN"
+          ]
+        },
+        "sanitization_state": {
+          "enum": [
+            "SANITIZED",
+            "REDACTED",
+            "QUARANTINED"
+          ]
+        }
+      }
+    },
+    "integrity_reference": {
+      "$ref": "#/$defs/opaqueIdentifier"
+    }
+  },
+  "$defs": {
+    "opaqueIdentifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{7,127}$"
+    }
+  },
+  "x-aios-phase": 6,
+  "x-aios-phase-name": "Voice Recognition Confidence Model",
+  "x-aios-owner-authority": "POLICY_ACCEPTANCE",
+  "x-aios-owner-bundle": "OWNER-BUNDLE-1-POLICY",
+  "x-aios-preparation-mode": "PREPARE_BEHIND_GATE",
+  "x-aios-protected-transition": "BLOCKED",
+  "x-aios-operational-capability": false
+}

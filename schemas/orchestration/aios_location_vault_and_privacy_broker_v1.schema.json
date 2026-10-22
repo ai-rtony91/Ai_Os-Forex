@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aios.local/schemas/orchestration/aios_location_vault_and_privacy_broker_v1.schema.json",
+  "title": "AIOS Location Vault and Privacy Broker V1",
+  "description": "Declarative Phase 17 privacy model. It contains no actual location and grants no consent or authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_version",
+    "record_id",
+    "purpose_binding",
+    "consent",
+    "location_evidence",
+    "retention",
+    "authority_state",
+    "protected_transition"
+  ],
+  "properties": {
+    "record_version": {"const": "aios.location_vault_and_privacy_broker.v1"},
+    "record_id": {"$ref": "#/$defs/opaqueIdentifier"},
+    "purpose_binding": {"$ref": "#/$defs/opaqueIdentifier"},
+    "consent": {"$ref": "#/$defs/consentRecord"},
+    "location_evidence": {"$ref": "#/$defs/locationEvidence"},
+    "retention": {"$ref": "#/$defs/retentionRecord"},
+    "authority_state": {"const": "BLOCKED"},
+    "protected_transition": {"const": "BLOCKED"}
+  },
+  "$defs": {
+    "opaqueIdentifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{7,127}$"
+    },
+    "consentRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "consent_reference",
+        "consent_state",
+        "scope_binding",
+        "action_binding",
+        "issued_at",
+        "expires_at",
+        "revocation_state",
+        "provenance"
+      ],
+      "properties": {
+        "consent_reference": {"$ref": "#/$defs/opaqueIdentifier"},
+        "consent_state": {
+          "enum": [
+            "MISSING",
+            "PENDING_EXTERNAL_OWNER_CONSENT",
+            "CURRENT_EXTERNAL_CONSENT_EVIDENCE",
+            "EXPIRED",
+            "REVOKED",
+            "MISMATCHED",
+            "UNKNOWN",
+            "BLOCKED"
+          ]
+        },
+        "scope_binding": {"$ref": "#/$defs/opaqueIdentifier"},
+        "action_binding": {"$ref": "#/$defs/opaqueIdentifier"},
+        "issued_at": {"type": "string", "format": "date-time"},
+        "expires_at": {"type": "string", "format": "date-time"},
+        "revocation_state": {
+          "enum": ["NOT_REVOKED_EVIDENCE", "REVOKED", "UNKNOWN", "BLOCKED"]
+        },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source_class", "sanitization_state"],
+          "properties": {
+            "source_class": {
+              "enum": ["EXTERNAL_CONSENT_REFERENCE", "DECLARATIVE_DESIGN", "UNKNOWN"]
+            },
+            "sanitization_state": {
+              "enum": ["SANITIZED", "REDACTED", "QUARANTINED"]
+            }
+          }
+        }
+      }
+    },
+    "locationEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_reference",
+        "granularity_class",
+        "privacy_classification",
+        "sanitization_state",
+        "integrity_reference"
+      ],
+      "properties": {
+        "evidence_reference": {"$ref": "#/$defs/opaqueIdentifier"},
+        "granularity_class": {
+          "enum": ["NO_LOCATION", "OPAQUE_PURPOSE_BOUND_REFERENCE", "UNKNOWN_BLOCKED"]
+        },
+        "privacy_classification": {
+          "enum": ["MINIMIZED_RESTRICTED", "REDACTED", "QUARANTINED", "UNKNOWN"]
+        },
+        "sanitization_state": {
+          "enum": ["SANITIZED", "REDACTED", "QUARANTINED"]
+        },
+        "integrity_reference": {"$ref": "#/$defs/opaqueIdentifier"}
+      }
+    },
+    "retentionRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "retention_class",
+        "retention_expires_at",
+        "deletion_state",
+        "deletion_evidence_reference"
+      ],
+      "properties": {
+        "retention_class": {
+          "enum": ["PURPOSE_BOUND_EPHEMERAL", "DELETE_ON_REVOCATION", "QUARANTINED", "UNKNOWN"]
+        },
+        "retention_expires_at": {"type": "string", "format": "date-time"},
+        "deletion_state": {
+          "enum": ["NOT_DUE", "DELETION_REQUIRED", "DELETED", "QUARANTINED", "UNKNOWN"]
+        },
+        "deletion_evidence_reference": {
+          "oneOf": [
+            {"$ref": "#/$defs/opaqueIdentifier"},
+            {"type": "null"}
+          ]
+        }
+      }
+    }
+  },
+  "x-aios-phase": 17,
+  "x-aios-phase-name": "Location Vault and Privacy Broker",
+  "x-aios-owner-authority": "PRIVACY_CONSENT",
+  "x-aios-owner-bundle": "OWNER-BUNDLE-4-LOCATION-PRIVACY",
+  "x-aios-preparation-mode": "PREPARE_BEHIND_GATE",
+  "x-aios-protected-transition": "BLOCKED",
+  "x-aios-phase-3-threat-bindings": ["GW-T026", "GW-T027", "GW-T028", "GW-T029", "GW-T038"],
+  "x-aios-location-collection-capability": false,
+  "x-aios-network-capability": false
+}

@@ -137,17 +137,6 @@ def resolve_execution_packet(
         return _result("BLOCKED", "pr_authority_missing")
 
     packet_id = str(item.get("packet_id", "")).strip()
-    matches = [packet for packet in packets if str(packet.get("packet_id", "")).strip() == packet_id]
-    if len(matches) > 1:
-        return _result("BLOCKED", "duplicate_canonical_packets", duplicate_count=len(matches))
-    if len(matches) == 1:
-        packet = matches[0]
-        if packet.get("schema") != PACKET_SCHEMA or packet.get("packet_ready") is not True:
-            return _result("BLOCKED", "existing_packet_invalid")
-        if packet.get("write_scope") != item.get("allowed_paths"):
-            return _result("BLOCKED", "existing_packet_scope_mismatch")
-        return _result("REUSED", "existing_packet_reused", packet=packet)
-
     identity = item.get("packet_identity", {})
     missing = [field for field in IDENTITY_FIELDS if not str(identity.get(field, "")).strip()]
     if missing:
@@ -173,4 +162,19 @@ def resolve_execution_packet(
         "\nSTOP POINT:",
         f"\nEXACT COMMIT MESSAGE: {packet['commit_message']}\nPR AUTHORITY: {packet['pr_authority']}\n\nSTOP POINT:",
     )
+
+    matches = [existing for existing in packets if str(existing.get("packet_id", "")).strip() == packet_id]
+    if len(matches) > 1:
+        return _result("BLOCKED", "duplicate_canonical_packets", duplicate_count=len(matches))
+    if len(matches) == 1:
+        existing = matches[0]
+        if existing.get("schema") != PACKET_SCHEMA or existing.get("packet_ready") is not True:
+            return _result("BLOCKED", "existing_packet_invalid")
+        # Rebuild from the current canonical inputs before reuse.  This preserves
+        # builder-owned instrumentation paths while rejecting stale or tampered
+        # identity, scope, validator, authority, state, and prompt content.
+        if existing != packet:
+            return _result("BLOCKED", "existing_packet_canonical_mismatch")
+        return _result("REUSED", "existing_packet_reused", packet=existing)
+
     return _result("CREATED", "packet_candidate_created", packet=packet)

@@ -1,0 +1,59 @@
+{
+  "schema": "AIOS_FOREX_ATTACK_TO_FINISH_V2_STATE",
+  "packet_id": "PKT-EAST-FOREX-FULL-ATTACK-PRO-REPAIR-024",
+  "status": "HUMAN_DATA_ACQUISITION_REQUIRED",
+  "primary_milestone": "BIDIRECTIONAL_PAPER_PROFITABILITY_CERTIFIED",
+  "continuation_active": false,
+  "pre_terminal_audit_status": "PASS",
+  "remaining_authorized_work_count": 0,
+  "alternate_safe_actions": [],
+  "active_blockers": [
+    {
+      "blocker_id": "P0-001",
+      "priority": "P0",
+      "phase": "OFFICIAL-DATA TRANSPORT REPAIR",
+      "status": "CLOSED",
+      "exact_blocker": "Official public-data helper had only Invoke-WebRequest and failed on transient receive-close behavior.",
+      "chosen_action": "Implemented bounded IWR to curl.exe to HttpClient fallback with temp-file validation and existing-artifact reuse.",
+      "proof_of_unlock": "PowerShell parse PASS; focused pytest PASS; JSON PASS; diff check PASS; secret/capability scan PASS. Runtime smoke exercised the ladder and failed closed without artifact promotion.",
+      "next_action": "Human Owner runs consolidated wrapper outside Codex.",
+      "can_codex_resolve": false,
+      "human_action_required": true,
+      "external_time_required": false
+    },
+    {
+      "blocker_id": "P0-002",
+      "priority": "P0",
+      "phase": "HUMAN DATA CLOSURE",
+      "status": "WAITING_HUMAN",
+      "exact_blocker": "Official data and Practice history artifacts are not complete.",
+      "chosen_action": "Use one repaired consolidated Human-only command.",
+      "proof_of_unlock": "Pending Human status-only return and artifact validation.",
+      "next_action": "cd C:\\Dev\\Ai.Os; powershell -NoProfile -ExecutionPolicy Bypass -File scripts/forex_delivery/Run-AiOsProfitabilityDataClosure.HUMAN_ONLY.ps1",
+      "can_codex_resolve": false,
+      "human_action_required": true,
+      "external_time_required": false
+    },
+    {
+      "blocker_id": "P0-003",
+      "priority": "P0",
+      "phase": "PRACTICE 68-PAIR COVERAGE",
+      "status": "OPEN",
+      "exact_blocker": "68-pair Practice history cannot be validated until sanitized Human artifacts exist.",
+      "chosen_action": "Defer until Human data artifacts exist.",
+      "proof_of_unlock": "Pending",
+      "next_action": "Validate Practice artifacts and build pair coverage matrix after Human data closure.",
+      "can_codex_resolve": false,
+      "human_action_required": true,
+      "external_time_required": false
+    }
+  ],
+  "expected_human_status_return": {
+    "PROFITABILITY_DATA_CLOSURE_COMPLETE": true,
+    "OFFICIAL_DATA_READY": true,
+    "PRACTICE_HISTORY_READY": true,
+    "SECRET_VALUE_EXPOSED": false,
+    "LIVE_HOST_CONTACTED": false,
+    "ORDER_ATTEMPTED": false
+  }
+}

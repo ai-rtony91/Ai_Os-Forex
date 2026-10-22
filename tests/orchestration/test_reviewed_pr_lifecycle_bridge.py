@@ -6,6 +6,8 @@ import json
 import os
 import subprocess
 import tempfile
+import secrets
+import shutil
 from pathlib import Path
 
 
@@ -33,6 +35,8 @@ def _init_review_repo(tmp: Path, ahead: bool = False, dirty: bool = False, branc
     repo = tmp / "repo"
     repo.mkdir()
     subprocess.check_call(["git", "init", "-b", "main"], cwd=str(repo), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.check_call(["git", "config", "user.name", "AIOS Test"], cwd=str(repo), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    subprocess.check_call(["git", "config", "user.email", "aios-test@example.invalid"], cwd=str(repo), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     (repo / "base.txt").write_text("base\n", encoding="utf-8")
     subprocess.check_call(["git", "add", "base.txt"], cwd=str(repo), stdout=subprocess.DEVNULL)
     subprocess.check_call(["git", "commit", "-m", "baseline"], cwd=str(repo), stdout=subprocess.DEVNULL)
@@ -40,7 +44,6 @@ def _init_review_repo(tmp: Path, ahead: bool = False, dirty: bool = False, branc
     bare = tmp / "origin.git"
     subprocess.check_call(["git", "init", "--bare", str(bare)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     subprocess.check_call(["git", "remote", "add", "origin", str(bare)], cwd=str(repo), stdout=subprocess.DEVNULL)
-    subprocess.check_call(["git", "push", "-u", "origin", "main"], cwd=str(repo), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     subprocess.check_call(["git", "checkout", "-b", branch], cwd=str(repo), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     (repo / "change.txt").write_text("change\n", encoding="utf-8")
@@ -101,6 +104,33 @@ exit 0
     calls.write_text("", encoding="utf-8")
 
 
+def _write_fake_git(bin_dir: Path, real_git: str) -> None:
+    ps1 = bin_dir / "git.ps1"
+    ps1.write_text(
+        f"""param([Parameter(ValueFromRemainingArguments=$true)] [string[]]$Arguments)
+if ($Arguments -contains 'push') {{
+    exit 0
+}}
+& "{real_git}" @Arguments
+exit $LASTEXITCODE
+""",
+        encoding="utf-8",
+    )
+    (bin_dir / "git.cmd").write_text(
+        "@echo off\npowershell -NoProfile -ExecutionPolicy Bypass -File \"%~dp0\\git.ps1\" %*\n",
+        encoding="utf-8",
+    )
+    return ps1
+
+
+def _workspace_dir(prefix: str) -> Path:
+    base = Path(tempfile.gettempdir()) / "aios_pytest_workspace" / prefix
+    base.mkdir(parents=True, exist_ok=True)
+    path = base / secrets.token_hex(8)
+    path.mkdir(parents=True, exist_ok=False)
+    return path
+
+
 def _run_lifecycle(
     repo: Path,
     args: list[str],
@@ -108,7 +138,12 @@ def _run_lifecycle(
     env_extra: dict[str, str] | None = None,
 ) -> dict:
     env = os.environ.copy()
+    extra_args: list[str] = []
     if fake_bin is not None:
+        real_git = shutil.which("git")
+        if real_git:
+            fake_git = _write_fake_git(fake_bin, real_git)
+            extra_args.extend(["-GitCommand", str(fake_git)])
         env["PATH"] = f"{fake_bin}{os.pathsep}" + env.get("PATH", "")
     if env_extra:
         env.update(env_extra)
@@ -123,6 +158,7 @@ def _run_lifecycle(
             "-RepoRoot",
             str(repo),
         ]
+        + extra_args
         + args,
         cwd=REPO_ROOT,
         env=env,
@@ -178,7 +214,7 @@ def test_review_bridge_supports_prompt_block_output() -> None:
 
 
 def test_lifecycle_blocks_without_anthony_reviewed_flag() -> None:
-    repo = _init_review_repo(Path(tempfile.mkdtemp()))
+    repo = _init_review_repo(_workspace_dir("reviewed_pr_lifecycle"))
     result = _run_lifecycle(repo=repo, args=[])
 
     assert result["anthony_reviewed"] is False
@@ -187,7 +223,7 @@ def test_lifecycle_blocks_without_anthony_reviewed_flag() -> None:
 
 
 def test_lifecycle_blocks_on_main_branch() -> None:
-    repo = _init_review_repo(Path(tempfile.mkdtemp()), ahead=False)
+    repo = _init_review_repo(_workspace_dir("reviewed_pr_lifecycle"), ahead=False)
     subprocess.check_call(["git", "checkout", "main"], cwd=str(repo), stdout=subprocess.DEVNULL)
     result = _run_lifecycle(repo=repo, args=["-AnthonyReviewed"])
 
@@ -197,7 +233,7 @@ def test_lifecycle_blocks_on_main_branch() -> None:
 
 
 def test_lifecycle_blocks_on_dirty_tree() -> None:
-    repo = _init_review_repo(Path(tempfile.mkdtemp()), dirty=True)
+    repo = _init_review_repo(_workspace_dir("reviewed_pr_lifecycle"), dirty=True)
     result = _run_lifecycle(repo=repo, args=["-AnthonyReviewed"])
 
     assert result["reason"] == "Blocked: working tree is dirty."
@@ -205,7 +241,7 @@ def test_lifecycle_blocks_on_dirty_tree() -> None:
 
 
 def test_lifecycle_blocks_not_ahead_of_base() -> None:
-    repo = _init_review_repo(Path(tempfile.mkdtemp()), ahead=False)
+    repo = _init_review_repo(_workspace_dir("reviewed_pr_lifecycle"), ahead=False)
     result = _run_lifecycle(repo=repo, args=["-AnthonyReviewed"])
 
     assert result["reason"] == "Blocked: no commits ahead of base."
@@ -213,8 +249,8 @@ def test_lifecycle_blocks_not_ahead_of_base() -> None:
 
 
 def test_lifecycle_stops_before_merge_without_merge_flag() -> None:
-    repo = _init_review_repo(Path(tempfile.mkdtemp()), ahead=True)
-    bin_dir = Path(tempfile.mkdtemp()) / "bin"
+    repo = _init_review_repo(_workspace_dir("reviewed_pr_lifecycle"), ahead=True)
+    bin_dir = _workspace_dir("reviewed_pr_lifecycle_bin") / "bin"
     bin_dir.mkdir()
     _write_fake_gh(bin_dir, include_existing_pr=False, checks_ok=True, merge_ok=True)
     result = _run_lifecycle(repo=repo, args=["-AnthonyReviewed", "-WatchChecks"], fake_bin=bin_dir)
@@ -232,8 +268,8 @@ def test_lifecycle_stops_before_merge_without_merge_flag() -> None:
 
 
 def test_merge_requires_approved_flag() -> None:
-    repo = _init_review_repo(Path(tempfile.mkdtemp()), ahead=True)
-    bin_dir = Path(tempfile.mkdtemp()) / "bin"
+    repo = _init_review_repo(_workspace_dir("reviewed_pr_lifecycle"), ahead=True)
+    bin_dir = _workspace_dir("reviewed_pr_lifecycle_bin") / "bin"
     bin_dir.mkdir()
     _write_fake_gh(bin_dir, include_existing_pr=False, checks_ok=True, merge_ok=True)
     result = _run_lifecycle(repo=repo, args=["-AnthonyReviewed"], fake_bin=bin_dir)
@@ -252,8 +288,8 @@ def test_post_merge_read_only_fields_and_placeholders() -> None:
     assert "Get-AiOsSupervisedContinuationPlan.DRY_RUN.ps1" in script_text
     assert "Convert-AiOsContinuationPlanToProposedPacket.DRY_RUN.ps1" in script_text
 
-    repo = _init_review_repo(Path(tempfile.mkdtemp()), ahead=True)
-    bin_dir = Path(tempfile.mkdtemp()) / "bin"
+    repo = _init_review_repo(_workspace_dir("reviewed_pr_lifecycle"), ahead=True)
+    bin_dir = _workspace_dir("reviewed_pr_lifecycle_bin") / "bin"
     bin_dir.mkdir()
     _write_fake_gh(bin_dir)
     result = _run_lifecycle(repo=repo, args=["-AnthonyReviewed", "-WatchChecks"], fake_bin=bin_dir)

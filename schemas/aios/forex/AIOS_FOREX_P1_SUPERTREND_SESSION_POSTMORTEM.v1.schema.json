@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "AIOS_FOREX_P1_SUPERTREND_SESSION_POSTMORTEM.v1.schema.json",
+  "title": "AIOS Forex P1 Supertrend Session Postmortem V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "version",
+    "session_identity",
+    "strategy_identity",
+    "evidence_lineage",
+    "observed_facts",
+    "calculated_metrics",
+    "unavailable_information",
+    "findings",
+    "safety_flags",
+    "disposition"
+  ],
+  "properties": {
+    "schema": {
+      "const": "AIOS_FOREX_P1_SUPERTREND_SESSION_POSTMORTEM.v1"
+    },
+    "version": {
+      "const": "forex_p1_supertrend_session_postmortem_v1"
+    },
+    "session_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["session_id", "identity_status", "started_at_utc", "ended_at_utc"],
+      "properties": {
+        "session_id": {
+          "type": "string",
+          "pattern": "^supertrend-paper-session-[0-9a-f]{20}$"
+        },
+        "identity_status": {
+          "const": "CALCULATED_FROM_EVIDENCE_LINEAGE"
+        },
+        "started_at_utc": {"type": "string", "format": "date-time"},
+        "ended_at_utc": {"type": "string", "format": "date-time"}
+      }
+    },
+    "strategy_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy_id", "strategy_name", "mode", "paper_only"],
+      "properties": {
+        "strategy_id": {"const": "supertrend_pullback_v1"},
+        "strategy_name": {"const": "supertrend_pullback_v1"},
+        "mode": {"const": "PAPER_ONLY"},
+        "paper_only": {"const": true}
+      }
+    },
+    "evidence_lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ledger_version",
+        "campaign_version",
+        "source_sha256",
+        "trade_ids",
+        "record_count"
+      ],
+      "properties": {
+        "ledger_version": {"const": "forex_p1_supervised_paper_evidence_pipeline_v1"},
+        "campaign_version": {"const": "forex_p1_supervised_paper_campaign_v1"},
+        "source_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "trade_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "record_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "observed_facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "campaign_status",
+        "campaign_started_utc",
+        "campaign_updated_utc",
+        "campaign_completed_utc",
+        "campaign_stop_reason",
+        "p1_status"
+      ],
+      "properties": {
+        "campaign_status": {
+          "type": "string",
+          "enum": ["COMPLETE", "STOPPED", "WAITING_FOR_NEXT_RUN"]
+        },
+        "campaign_started_utc": {"type": "string", "format": "date-time"},
+        "campaign_updated_utc": {"type": "string", "format": "date-time"},
+        "campaign_completed_utc": {"type": ["string", "null"], "format": "date-time"},
+        "campaign_stop_reason": {"type": ["string", "null"]},
+        "p1_status": {"type": ["string", "null"]}
+      }
+    },
+    "calculated_metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trade_count",
+        "wins",
+        "losses",
+        "breakevens",
+        "realized_paper_pl",
+        "expectancy",
+        "profit_factor",
+        "maximum_drawdown"
+      ],
+      "properties": {
+        "trade_count": {"$ref": "#/$defs/requiredIntegerMetric"},
+        "wins": {"$ref": "#/$defs/requiredIntegerMetric"},
+        "losses": {"$ref": "#/$defs/requiredIntegerMetric"},
+        "breakevens": {"$ref": "#/$defs/requiredIntegerMetric"},
+        "realized_paper_pl": {"$ref": "#/$defs/requiredNumberMetric"},
+        "expectancy": {"$ref": "#/$defs/requiredNumberMetric"},
+        "profit_factor": {"$ref": "#/$defs/optionalNumberMetric"},
+        "maximum_drawdown": {"$ref": "#/$defs/requiredNumberMetric"}
+      }
+    },
+    "unavailable_information": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["field", "reason"],
+        "properties": {
+          "field": {"enum": ["profit_factor"]},
+          "reason": {
+            "enum": ["NO_LOSING_TRADES", "NO_PROFIT_OR_LOSS_OBSERVED"]
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "safety_flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "paper_only",
+        "broker_call_performed",
+        "broker_write_performed",
+        "credentials_loaded",
+        "network_call_performed",
+        "oanda_request_performed",
+        "scheduler_action_performed",
+        "live_order_action_performed",
+        "live_execution_allowed",
+        "order_submission_allowed",
+        "money_movement_allowed"
+      ],
+      "properties": {
+        "paper_only": {"const": true},
+        "broker_call_performed": {"const": false},
+        "broker_write_performed": {"const": false},
+        "credentials_loaded": {"const": false},
+        "network_call_performed": {"const": false},
+        "oanda_request_performed": {"const": false},
+        "scheduler_action_performed": {"const": false},
+        "live_order_action_performed": {"const": false},
+        "live_execution_allowed": {"const": false},
+        "order_submission_allowed": {"const": false},
+        "money_movement_allowed": {"const": false}
+      }
+    },
+    "disposition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "automatic_promotion_allowed", "next_safe_action"],
+      "properties": {
+        "status": {"const": "OWNER_REVIEW_REQUIRED"},
+        "automatic_promotion_allowed": {"const": false},
+        "next_safe_action": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "$defs": {
+    "requiredIntegerMetric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value", "reason"],
+      "properties": {
+        "status": {"const": "CALCULATED"},
+        "value": {"type": "integer", "minimum": 0},
+        "reason": {"const": null}
+      }
+    },
+    "requiredNumberMetric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "value", "reason"],
+      "properties": {
+        "status": {"const": "CALCULATED"},
+        "value": {"type": "number"},
+        "reason": {"const": null}
+      }
+    },
+    "optionalNumberMetric": {
+      "type": "object",
+      "unevaluatedProperties": false,
+      "required": ["status", "value", "reason"],
+      "oneOf": [
+        {
+          "properties": {
+            "status": {"const": "CALCULATED"},
+            "value": {"type": "number"},
+            "reason": {"const": null}
+          }
+        },
+        {
+          "properties": {
+            "status": {"const": "UNAVAILABLE"},
+            "value": {"const": null},
+            "reason": {
+              "enum": ["NO_LOSING_TRADES", "NO_PROFIT_OR_LOSS_OBSERVED"]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

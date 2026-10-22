@@ -1,0 +1,102 @@
+[
+  {
+    "merge_commit_sha": "493ad71fa80b43ebe98fd896098c4cd00c107a83",
+    "merged_at": "2026-08-05T22:38:11-04:00",
+    "pr_number": 1364,
+    "provenance": "LOCAL_GIT_COMMIT",
+    "state": "MERGED",
+    "title": "Build AIOS engineering velocity and completion forecast engine",
+    "validated": false,
+    "validation_status": "UNAVAILABLE_LOCALLY"
+  },
+  {
+    "merge_commit_sha": "5c5ad417a248d67e2b4063ce49f28bc765a8eaff",
+    "merged_at": "2026-08-05T22:17:21-04:00",
+    "pr_number": 1363,
+    "provenance": "LOCAL_GIT_COMMIT",
+    "state": "MERGED",
+    "title": "Build P1 supervised paper capture and replay workflow",
+    "validated": false,
+    "validation_status": "UNAVAILABLE_LOCALLY"
+  },
+  {
+    "merge_commit_sha": "0f3fb7d0b20069eea6e1f385af022492f2915eba",
+    "merged_at": "2026-08-05T21:57:55-04:00",
+    "pr_number": 1362,
+    "provenance": "LOCAL_GIT_COMMIT",
+    "state": "MERGED",
+    "title": "Build P1 supervised paper evidence pipeline",
+    "validated": false,
+    "validation_status": "UNAVAILABLE_LOCALLY"
+  },
+  {
+    "merge_commit_sha": "fe9080e0e50c04056f0bf7db1cdfab45e200512e",
+    "merged_at": "2026-08-05T20:38:48-04:00",
+    "pr_number": 1361,
+    "provenance": "LOCAL_GIT_COMMIT",
+    "state": "MERGED",
+    "title": "Build Profit Track P1 strategy evidence",
+    "validated": false,
+    "validation_status": "UNAVAILABLE_LOCALLY"
+  },
+  {
+    "merge_commit_sha": "238531fa18f2802efd0f56f56297a6261233077f",
+    "merged_at": "2026-08-05T17:23:25-04:00",
+    "pr_number": 1360,
+    "provenance": "LOCAL_GIT_COMMIT",
+    "state": "MERGED",
+    "title": "Complete repository-fixable Forex autonomy and readiness closure",
+    "validated": false,
+    "validation_status": "UNAVAILABLE_LOCALLY"
+  },
+  {
+    "merge_commit_sha": "09357bb3f955fbf587968aa01af528bbbb5f2ccc",
+    "merged_at": "2026-08-05T17:01:07-04:00",
+    "pr_number": 1359,
+    "provenance": "LOCAL_GIT_COMMIT",
+    "state": "MERGED",
+    "title": "Add Forex pre-live blocker batch gate",
+    "validated": false,
+    "validation_status": "UNAVAILABLE_LOCALLY"
+  },
+  {
+    "merge_commit_sha": "9acd7727f5edf42b41e5c5f5a409278855630726",
+    "merged_at": "2026-08-05T16:50:45-04:00",
+    "pr_number": 1358,
+    "provenance": "LOCAL_GIT_COMMIT",
+    "state": "MERGED",
+    "title": "Refresh pre-live forex readiness reports",
+    "validated": false,
+    "validation_status": "UNAVAILABLE_LOCALLY"
+  },
+  {
+    "merge_commit_sha": "7c8b18db3c4e7582f127b567850807c3d228c1a3",
+    "merged_at": "2026-08-05T16:44:35-04:00",
+    "pr_number": 1357,
+    "provenance": "LOCAL_GIT_COMMIT",
+    "state": "MERGED",
+    "title": "Close Forex autonomy evidence refresh batch",
+    "validated": false,
+    "validation_status": "UNAVAILABLE_LOCALLY"
+  },
+  {
+    "merge_commit_sha": "acb6d327352e0542dcbcc8a521891fbc7ade8648",
+    "merged_at": "2026-08-05T16:33:43-04:00",
+    "pr_number": 1356,
+    "provenance": "LOCAL_GIT_COMMIT",
+    "state": "MERGED",
+    "title": "Repair Forex test infrastructure",
+    "validated": false,
+    "validation_status": "UNAVAILABLE_LOCALLY"
+  },
+  {
+    "merge_commit_sha": "9e7c2bae3e8fdb2e16c5c42535574efd75018fb6",
+    "merged_at": "2026-08-05T16:04:25-04:00",
+    "pr_number": 1355,
+    "provenance": "LOCAL_GIT_COMMIT",
+    "state": "MERGED",
+    "title": "Build Forex autonomy self-audit and repair routing cycle",
+    "validated": false,
+    "validation_status": "UNAVAILABLE_LOCALLY"
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aios_github_pr_validation_receipt_v1",
+  "type": "object",
+  "required": ["schema", "receipt_type", "provenance"],
+  "properties": {
+    "schema": {"const": "AIOS_GITHUB_PR_VALIDATION_RECEIPT.v1"},
+    "receipt_type": {"enum": ["WORKFLOW_VALIDATION", "PR_CLOSED"]},
+    "repository": {"type": ["string", "null"]},
+    "workflow_name": {"type": ["string", "null"]},
+    "workflow_run_id": {"type": ["integer", "null"]},
+    "workflow_conclusion": {"type": ["string", "null"]},
+    "head_sha": {"type": ["string", "null"]},
+    "associated_pr_numbers": {"type": "array", "items": {"type": "integer"}, "uniqueItems": true},
+    "validation_passed": {"type": "boolean"},
+    "validation_available": {"type": "boolean"},
+    "pr_number": {"type": ["integer", "null"]},
+    "created_at": {"type": ["string", "null"], "format": "date-time"},
+    "closed_at": {"type": ["string", "null"], "format": "date-time"},
+    "merged_at": {"type": ["string", "null"], "format": "date-time"},
+    "merged": {"type": "boolean"},
+    "provenance": {"const": "GITHUB_EVENT_PAYLOAD"}
+  },
+  "additionalProperties": true
+}

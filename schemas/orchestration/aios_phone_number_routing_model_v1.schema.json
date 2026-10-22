@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aios.local/schemas/orchestration/aios_phone_number_routing_model_v1.schema.json",
+  "title": "AIOS Phone Number Routing Model V1",
+  "description": "Declarative Phase 4 design. It grants no route activation or owner authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "route_version",
+    "route_id",
+    "route_state",
+    "provider_class",
+    "number_reference_id",
+    "number_classification",
+    "inbound_policy",
+    "outbound_policy",
+    "source_binding_policy",
+    "forwarding_policy",
+    "failover_policy",
+    "recovery_policy",
+    "change_control_state",
+    "verification_state",
+    "authority_state",
+    "privacy_classification",
+    "provenance",
+    "integrity_reference"
+  ],
+  "properties": {
+    "route_version": {"const": "aios.phone_number_routing_model.v1"},
+    "route_id": {"$ref": "#/$defs/opaqueIdentifier"},
+    "route_state": {
+      "enum": [
+        "UNCONFIGURED",
+        "DESIGN_ONLY",
+        "PENDING_OWNER_AUTHORITY",
+        "PENDING_PROVIDER_VERIFICATION",
+        "VERIFIED_NOT_ACTIVE",
+        "BLOCKED",
+        "REVOKED"
+      ]
+    },
+    "provider_class": {
+      "enum": ["CELLULAR_CARRIER", "HOSTED_TELEPHONY", "ENTERPRISE_TELEPHONY", "UNKNOWN"]
+    },
+    "number_reference_id": {"$ref": "#/$defs/opaqueIdentifier"},
+    "number_classification": {
+      "enum": ["OPAQUE_OWNER_ROUTE_REFERENCE", "OPAQUE_RECOVERY_ROUTE_REFERENCE", "UNKNOWN"]
+    },
+    "inbound_policy": {"$ref": "#/$defs/policyState"},
+    "outbound_policy": {"$ref": "#/$defs/policyState"},
+    "source_binding_policy": {"$ref": "#/$defs/policyState"},
+    "forwarding_policy": {"$ref": "#/$defs/policyState"},
+    "failover_policy": {"$ref": "#/$defs/policyState"},
+    "recovery_policy": {"$ref": "#/$defs/policyState"},
+    "change_control_state": {"enum": ["UNCONFIGURED", "PENDING_CURRENT_OWNER_APPROVAL", "VERIFIED_NOT_CONSUMED", "CONSUMED", "BLOCKED", "REVOKED"]},
+    "verification_state": {"enum": ["UNVERIFIED", "PENDING", "VERIFIED_NOT_ACTIVE", "FAILED", "EXPIRED", "REVOKED"]},
+    "authority_state": {"const": "BLOCKED"},
+    "privacy_classification": {"enum": ["MINIMIZED_INTERNAL", "RESTRICTED", "REDACTED", "QUARANTINED", "UNKNOWN"]},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_class", "capture_classification", "sanitization_state"],
+      "properties": {
+        "source_class": {"enum": ["DECLARATIVE_DESIGN", "SANITIZED_PROVIDER_EVIDENCE", "SANITIZED_OWNER_EVIDENCE", "UNKNOWN"]},
+        "capture_classification": {"enum": ["DESIGN_ONLY", "EXTERNAL_EVIDENCE_REFERENCE", "UNKNOWN"]},
+        "sanitization_state": {"enum": ["SANITIZED", "REDACTED", "QUARANTINED"]}
+      }
+    },
+    "integrity_reference": {"$ref": "#/$defs/integrityReference"}
+  },
+  "$defs": {
+    "opaqueIdentifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{7,127}$"
+    },
+    "policyState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "enforcement"],
+      "properties": {
+        "mode": {"enum": ["DESIGN_ONLY", "DENY", "REQUIRE_EXACT_BINDING", "UNKNOWN"]},
+        "enforcement": {"const": "FAIL_CLOSED"}
+      }
+    },
+    "integrityReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "digest_reference"],
+      "properties": {
+        "algorithm": {"enum": ["SHA-256", "SHA-384", "SHA-512"]},
+        "digest_reference": {"$ref": "#/$defs/opaqueIdentifier"}
+      }
+    }
+  },
+  "x-aios-phase": 4,
+  "x-aios-phase-name": "Phone Number Routing Model",
+  "x-aios-owner-authority": "PHONE_NUMBER",
+  "x-aios-owner-bundle": "OWNER-BUNDLE-2-DEVICE-IDENTITY",
+  "x-aios-preparation-mode": "PREPARE_BEHIND_GATE",
+  "x-aios-protected-transition": "BLOCKED"
+}

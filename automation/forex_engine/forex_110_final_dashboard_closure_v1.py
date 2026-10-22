@@ -77,7 +77,11 @@ def run_forex_110_final_dashboard_closure_v1(
     )
 
     dashboard_user_sections = _dashboard_user_sections()
-    clickable_emoji_windows = _clickable_emoji_windows()
+    clickable_emoji_windows = _clickable_emoji_windows(
+        proof_chain_ready,
+        profit_proof_status,
+        str(truth_lock.get("top_candidate_id") or "NONE"),
+    )
     critical_only_display_rules = _critical_only_display_rules()
     hidden_heavy_data_rules = _hidden_heavy_data_rules()
     end_user_overwhelm_prevention_rules = _overwhelm_prevention_rules()
@@ -180,7 +184,11 @@ def build_completion_index_markdown(result: Mapping[str, Any]) -> str:
     lines = [
         "# AIOS Forex 110 Completion Index V1",
         "",
-        "Forex 110 repo-safe proof chain is review-ready.",
+        (
+            "Forex 110 repo-safe proof chain is review-ready."
+            if result.get("closure_status") == "READY_FOR_OWNER_REVIEW"
+            else "Forex 110 repo-safe proof chain remains blocked."
+        ),
         "",
         "## Review State",
         f"- Closure status: `{result['closure_status']}`",
@@ -370,12 +378,20 @@ def _dashboard_user_sections() -> list[str]:
     ]
 
 
-def _clickable_emoji_windows() -> list[dict[str, str]]:
+def _clickable_emoji_windows(
+    proof_chain_ready: bool,
+    profit_proof_status: str,
+    top_candidate_id: str,
+) -> list[dict[str, str]]:
     return [
         {
             "label": "🏛 Command Center",
             "target": "command_center",
-            "default_summary": "Forex 110 review-ready state and next safe action.",
+            "default_summary": (
+                "Forex 110 review-ready state and next safe action."
+                if proof_chain_ready
+                else "Forex 110 blocked state and next safe action."
+            ),
             "hidden_detail": "Full proof-chain internals stay behind report links.",
         },
         {
@@ -387,7 +403,13 @@ def _clickable_emoji_windows() -> list[dict[str, str]]:
         {
             "label": "🎯 Candidate",
             "target": "candidate",
-            "default_summary": "Top candidate is review-ready only.",
+            "default_summary": (
+                "No top candidate is available for owner review."
+                if top_candidate_id == "NONE"
+                else "Top candidate is review-ready only."
+                if proof_chain_ready
+                else "Top candidate has not cleared the proof chain."
+            ),
             "hidden_detail": "Candidate scoring internals stay behind report links.",
         },
         {
@@ -399,7 +421,7 @@ def _clickable_emoji_windows() -> list[dict[str, str]]:
         {
             "label": "💰 Profit Proof",
             "target": "profit_proof",
-            "default_summary": "Profit proof is proven for owner review only.",
+            "default_summary": f"Profit proof is {profit_proof_status.lower()} for owner review only.",
             "hidden_detail": "No profit guarantee; detailed math stays behind report links.",
         },
         {

@@ -8,10 +8,13 @@ or:  python3 automation/orchestration/night_supervisor/test_night_supervisor.py
 from __future__ import annotations
 
 import json
+import secrets
+import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
+import unittest.mock as mock
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -82,9 +85,9 @@ class NightSupervisorChainTest(unittest.TestCase):
         self.assertEqual(sc["forbidden_write_attempts"], 0)
 
     def test_emit_writes_only_inside_sandbox(self):
-        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as td:
-            repo_root = Path(td)
-            subprocess.run(["git", "init"], cwd=repo_root, check=True, capture_output=True, text=True)
+        repo_root = Path(tempfile.gettempdir()) / f"night_supervisor_{secrets.token_hex(8)}"
+        repo_root.mkdir(parents=True, exist_ok=False)
+        try:
             (repo_root / "automation" / "orchestration" / "approval_inbox").mkdir(parents=True)
             (repo_root / "automation" / "orchestration" / "policy").mkdir(parents=True)
             (repo_root / "automation" / "orchestration" / "work_packets" / "active").mkdir(parents=True)
@@ -98,7 +101,35 @@ class NightSupervisorChainTest(unittest.TestCase):
                 }) + "\n",
                 encoding="utf-8",
             )
-            report = nsh.run_night_supervision(repo_root=repo_root, emit=True)
+            def fake_git(_repo_root, *args):
+                if args == ("rev-parse", "--abbrev-ref", "HEAD"):
+                    return subprocess.CompletedProcess(["git", *args], 0, stdout="main\n", stderr="")
+                if args == ("rev-parse", "--short", "HEAD"):
+                    return subprocess.CompletedProcess(["git", *args], 0, stdout="abc1234\n", stderr="")
+                if args == ("rev-parse", "HEAD"):
+                    return subprocess.CompletedProcess(["git", *args], 0, stdout="abc1234567890abcdef\n", stderr="")
+                if args == ("rev-parse", "--is-inside-work-tree"):
+                    return subprocess.CompletedProcess(["git", *args], 0, stdout="true\n", stderr="")
+                if args == ("status", "--porcelain"):
+                    return subprocess.CompletedProcess(["git", *args], 0, stdout="", stderr="")
+                if args == ("rev-list", "--count", "@{u}..HEAD"):
+                    return subprocess.CompletedProcess(["git", *args], 0, stdout="0\n", stderr="")
+                if args == ("diff", "--check"):
+                    return subprocess.CompletedProcess(["git", *args], 0, stdout="", stderr="")
+                raise AssertionError(f"unexpected git call: {args!r}")
+
+            with mock.patch.object(nsh, "_git", side_effect=fake_git), mock.patch.object(
+                nsh,
+                "_powershell_parse_proof",
+                return_value={
+                    "status": "PASS",
+                    "details": "stubbed for sandbox-write test",
+                    "executable": "",
+                    "scripts_checked": [],
+                    "failures": [],
+                },
+            ):
+                report = nsh.run_night_supervision(repo_root=repo_root, emit=True)
 
             repo_root = Path(report["repo"]["repo_root"])
             sandbox = (repo_root / nsh.RUNTIME_WRITE_ROOT).resolve()
@@ -119,6 +150,8 @@ class NightSupervisorChainTest(unittest.TestCase):
             report_path = (repo_root / nsh.RUNTIME_WRITE_ROOT / report["_written_report_path"].split(nsh.RUNTIME_WRITE_ROOT + "/")[-1])
             self.assertTrue(report_path.is_file())
             json.loads(report_path.read_text(encoding="utf-8"))
+        finally:
+            shutil.rmtree(repo_root, ignore_errors=True)
 
     def test_forbidden_write_is_blocked(self):
         repo_root = nsh.resolve_repo_root()

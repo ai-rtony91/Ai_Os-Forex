@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aios_engineering_velocity_forecast_v1.schema.json",
+  "additionalProperties": true,
+  "properties": {
+    "HEAD": {"type": "string"},
+    "confidence_label": {"enum": ["INSUFFICIENT_DATA", "LOW", "MODERATE", "HIGH"]},
+    "confidence_score": {"maximum": 100, "minimum": 0, "type": "integer"},
+    "estimated_active_engineering_minutes": {"required": ["low", "best", "high"], "type": "object"},
+    "forecast_target": {"type": "string"},
+    "generated_at_utc": {"format": "date-time", "type": "string"},
+    "protected_actions": {"type": "object"},
+    "schema": {"const": "AIOS_ENGINEERING_VELOCITY_FORECAST.v1"}
+  },
+  "required": ["schema", "generated_at_utc", "repository_fingerprint", "branch", "HEAD", "forecast_target", "hierarchy", "data_sources_used", "data_sources_missing", "event_counts", "valid_sample_counts", "excluded_event_counts", "exclusion_reasons", "observed_velocity", "remaining_work", "critical_path", "low_estimate", "best_estimate", "high_estimate", "estimated_tasks_remaining", "estimated_active_engineering_minutes", "estimated_calendar_completion_range", "confidence_score", "confidence_label", "assumptions", "warnings", "evidence_provenance", "next_safe_action"],
+  "title": "AIOS Engineering Velocity Forecast V1",
+  "type": "object"
+}

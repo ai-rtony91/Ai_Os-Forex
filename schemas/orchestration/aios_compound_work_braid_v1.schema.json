@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aios.local/schemas/orchestration/aios_compound_work_braid_v1.schema.json",
+  "title": "AI_OS Compound Work-Braid V1",
+  "type": "object",
+  "required": ["schema", "mode", "status", "repository", "strands", "braids", "cables", "dependency_graph", "programs", "counts", "permissions", "protected_actions", "continuation_packet"],
+  "properties": {
+    "schema": {"const": "AIOS_COMPOUND_WORK_BRAID.v1"},
+    "mode": {"const": "LOCAL_PLANNING_ONLY"},
+    "status": {"enum": ["READY", "NO_EXECUTABLE_CABLE"]},
+    "repository": {"type": "object", "required": ["repository_root", "branch", "head", "worktree_fingerprint"]},
+    "strands": {"type": "array", "items": {"$ref": "#/$defs/strand"}},
+    "braids": {"type": "array", "items": {"type": "object", "required": ["braid_id", "strand_ids", "execution_order", "required_paths", "validator_chain", "readiness_status"]}},
+    "cables": {"type": "array", "items": {"type": "object", "required": ["cable_id", "braid_ids", "internal_execution_blocks", "exact_write_boundary", "validator_chain", "repair_budget", "deterministic_priority_score", "readiness_status"]}},
+    "selected_cable": {"type": ["object", "null"]},
+    "dependency_graph": {"type": "object", "required": ["nodes", "edges", "cycles", "missing_dependencies", "critical_path", "graph_hash"]},
+    "pr_reconciliation": {"type": "array", "minItems": 3},
+    "programs": {"type": "array", "minItems": 9, "maxItems": 9},
+    "counts": {"type": "object", "required": ["strand_count", "braid_count", "cable_count", "duplicate_count", "superseded_count"]},
+    "permissions": {"$ref": "#/$defs/disabledActions"},
+    "protected_actions": {"$ref": "#/$defs/disabledActions"},
+    "continuation_packet": {"type": "string", "pattern": "^CODEX-ONLY PROMPT"}
+  },
+  "$defs": {
+    "disabledActions": {"type": "object", "additionalProperties": {"const": false}},
+    "strand": {
+      "type": "object",
+      "required": ["strand_id", "title", "source_type", "source_reference", "component", "observed_status", "normalized_status", "observed_evidence", "root_cause", "dependencies", "reverse_dependencies", "required_paths", "forbidden_paths", "validator_chain", "completion_definition", "repository_actionable", "risk_class", "closure_evidence", "reason_codes"],
+      "properties": {"normalized_status": {"enum": ["CLOSED_VERIFIED", "OPEN_ACTIONABLE", "BLOCKED_INTERNAL", "BLOCKED_EXTERNAL", "OWNER_DECISION_REQUIRED", "SUPERSEDED", "DUPLICATE", "INVALID", "UNKNOWN_REQUIRES_DISCOVERY"]}}
+    }
+  }
+}

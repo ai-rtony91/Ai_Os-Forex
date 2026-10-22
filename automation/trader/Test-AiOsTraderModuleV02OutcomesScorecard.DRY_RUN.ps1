@@ -101,11 +101,8 @@ for term in forbidden:
 print("PASS: AIOS Trader Module v0.2 outcomes scorecard DRY_RUN validation passed.")
 '@
 
-$TempScript = New-TemporaryFile
-try {
-    Set-Content -Path $TempScript -Value $PythonScript -Encoding UTF8
-    python $TempScript
-}
-finally {
-    Remove-Item -Path $TempScript -Force
+# Run from stdin; -B prevents Python from creating __pycache__ files.
+$PythonScript | python -B -
+if ($LASTEXITCODE -ne 0) {
+    exit $LASTEXITCODE
 }

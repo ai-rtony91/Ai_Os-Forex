@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "aios_p1_eurusd_signal_decision_v1.schema.json",
+  "title": "AIOS P1 paper-only EUR_USD signal decision", "type": "object", "additionalProperties": false,
+  "required": ["schema", "signal_id", "strategy_id", "instrument", "direction", "status", "generated_at_utc", "history_first_utc", "history_last_utc", "candle_count", "granularity", "entry_reference", "stop_price", "target_price", "stop_distance", "target_distance", "reward_to_risk", "volatility", "regime", "rationale", "blockers", "provenance", "paper_only", "owner_supervision_required", "broker_call_performed", "credentials_loaded", "account_access_performed", "order_submission_allowed", "demo_execution_allowed", "live_execution_allowed", "money_movement_allowed"],
+  "properties": {
+    "schema": {"const": "AIOS_P1_EURUSD_SIGNAL_DECISION.v1"}, "signal_id": {"type": "string"}, "strategy_id": {"const": "sprint_4_intraday_trend_follow_v1"},
+    "instrument": {"const": "EUR_USD"}, "direction": {"type": ["string", "null"], "enum": ["BUY", null]},
+    "status": {"enum": ["BUY", "NO_SIGNAL", "REQUIRE_MORE_HISTORY", "REGIME_REJECTED", "RISK_REJECTED"]},
+    "generated_at_utc": {"type": "string", "format": "date-time"}, "history_first_utc": {"type": "string", "format": "date-time"}, "history_last_utc": {"type": "string", "format": "date-time"},
+    "candle_count": {"type": "integer", "minimum": 1}, "granularity": {"const": "M5"},
+    "entry_reference": {"type": ["number", "null"]}, "stop_price": {"type": ["number", "null"]}, "target_price": {"type": ["number", "null"]},
+    "stop_distance": {"type": ["number", "null"]}, "target_distance": {"type": ["number", "null"]}, "reward_to_risk": {"type": ["number", "null"]},
+    "volatility": {"type": "object"}, "regime": {"type": "object"}, "rationale": {"type": "string"}, "blockers": {"type": "array", "items": {"type": "string"}},
+    "provenance": {"const": "GENUINE_OBSERVED_MARKET_DATA"}, "paper_only": {"const": true}, "owner_supervision_required": {"const": true},
+    "broker_call_performed": {"const": false}, "credentials_loaded": {"const": false}, "account_access_performed": {"const": false},
+    "order_submission_allowed": {"const": false}, "demo_execution_allowed": {"const": false}, "live_execution_allowed": {"const": false}, "money_movement_allowed": {"const": false}
+  }
+}

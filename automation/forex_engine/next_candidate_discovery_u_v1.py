@@ -1,8 +1,9 @@
 """Paper-only deterministic next-candidate discovery and replacement ranking."""
 from __future__ import annotations
 
+import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 from automation.forex_engine import failure_regime_analysis_s_v1
 from automation.forex_engine import profit_objective_accelerator_l_v1 as accelerator
@@ -10,6 +11,7 @@ from automation.forex_engine import profit_objective_accelerator_l_v1 as acceler
 MODE = "FOREX_NEXT_CANDIDATE_DISCOVERY_U_V1"
 PACKET_ID = "AIOS_FOREX_NEXT_CANDIDATE_DISCOVERY_PACKET_U_V1"
 REPORTS_DIR = Path("Reports/forex_delivery")
+DEFAULT_REPORT_ROOT = Path(__file__).resolve().parents[2] / REPORTS_DIR
 REPORT_PACKET = "AIOS_FOREX_NEXT_CANDIDATE_DISCOVERY_PACKET_U_V1_REPORT.md"
 REPORT_LEADERBOARD = "AIOS_FOREX_CANDIDATE_LEADERBOARD_V1.md"
 REPORT_REPLACEMENT = "AIOS_FOREX_CANDIDATE_REPLACEMENT_ANALYSIS_V1.md"
@@ -17,6 +19,10 @@ REPORT_REPLACEMENT = "AIOS_FOREX_CANDIDATE_REPLACEMENT_ANALYSIS_V1.md"
 ANCHOR_CANDIDATE_ID = "c1-eur-buy"
 ANCHOR_STRATEGY_ID = "paper_long_run_supervisor_v2"
 ANCHOR_DIRECTION = "LONG"
+CAMPAIGN_STATE_PATHS = (
+    REPORTS_DIR / "AIOS_FOREX_P1_30_TRADE_CAMPAIGN_V1_STATE.json",
+    REPORTS_DIR / "AIOS_FOREX_SUPERTREND_30_TRADE_CAMPAIGN_STATE.json",
+)
 
 
 def _safety() -> dict[str, bool]:
@@ -42,49 +48,63 @@ def _safe_float(value: Any, default: float = 0.0) -> float:
     return num
 
 
+def _load_campaign_state(report_root: Path = DEFAULT_REPORT_ROOT) -> dict[str, Any]:
+    for name in CAMPAIGN_STATE_PATHS:
+        path = report_root / name.name
+        if not path.exists():
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if isinstance(payload, dict):
+            return payload
+    return {}
+
+
 def _deterministic_candidate_profiles() -> list[dict[str, Any]]:
-    return [
+    profiles = [
         {
             "candidate_id": ANCHOR_CANDIDATE_ID,
             "strategy_id": ANCHOR_STRATEGY_ID,
             "direction": ANCHOR_DIRECTION,
-            "trade_pnl_list": [200.0] * 30,
+            "trade_pnl_list": [],
             "candidate_label": "baseline_anchor",
         },
         {
             "candidate_id": "c2-usd-buy",
             "strategy_id": "paper_momentum_supervisor_v3",
             "direction": "LONG",
-            "trade_pnl_list": [40.0, -6.0, 38.0, -12.0, 44.0, -8.0, 31.0, 33.0, -7.0, 50.0, 45.0, -4.0, 20.0, -3.0, 25.0, 35.0, -5.0, 42.0, 18.0, 30.0],
+            "trade_pnl_list": [],
             "candidate_label": "new_candidate_long_a",
         },
         {
             "candidate_id": "c3-eur-sell",
             "strategy_id": "paper_mean_reversion_v2",
             "direction": "SHORT",
-            "trade_pnl_list": [28.0, 11.0, 10.0, 9.0, -5.0, 6.0, 8.0, 17.0, 14.0, -4.0, 12.0, 13.0, 7.0, 8.0, 9.0, 6.0],
+            "trade_pnl_list": [],
             "candidate_label": "new_candidate_short_a",
         },
         {
             "candidate_id": "c4-jpy-buy",
             "strategy_id": "paper_breakout_supervisor_v2",
             "direction": "LONG",
-            "trade_pnl_list": [12.0, -18.0, 9.0, -20.0, 10.0, -15.0, 14.0, -16.0, 11.0, -12.0, 13.0, -10.0, 15.0, -9.0, 16.0, -7.0],
+            "trade_pnl_list": [],
             "candidate_label": "new_candidate_long_b",
         },
         {
             "candidate_id": "c5-gbp-buy",
             "strategy_id": "paper_continuation_supervisor_v2",
             "direction": "LONG",
-            "trade_pnl_list": [220.0, 30.0, 45.0, 60.0, 150.0, 90.0, -100.0, 75.0, 130.0, 50.0, 110.0, 180.0, 95.0, 80.0, 20.0],
+            "trade_pnl_list": [],
             "candidate_label": "new_candidate_long_c",
         },
     ]
+    return profiles
 
 
 def build_candidate_profiles() -> list[dict[str, Any]]:
-    profiles = _deterministic_candidate_profiles()
-    return [dict(item) for item in profiles]
+    return _deterministic_candidate_profiles()
 
 
 def score_candidates(candidates: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -197,7 +217,12 @@ def build_replacement_analysis(
     }
 
 
-def run_next_candidate_discovery(*, write_reports: bool = True) -> dict[str, Any]:
+def run_next_candidate_discovery(
+    *, write_reports: bool = True, report_root: str | Path = DEFAULT_REPORT_ROOT
+) -> dict[str, Any]:
+    root = Path(report_root)
+    campaign_state = _load_campaign_state(root)
+    evidence_available = False
     profile_candidates = build_candidate_profiles()
     scored_candidates = score_candidates(profile_candidates)
     leaderboard = build_leaderboard(scored_candidates)
@@ -213,6 +238,13 @@ def run_next_candidate_discovery(*, write_reports: bool = True) -> dict[str, Any
         "champion": leaderboard.get("champion", {}),
         "runner_up": leaderboard.get("runner_up", {}),
         "candidate_count": len(scored_candidates),
+        "campaign_state": {
+            "accepted_qualifying_trades": int(_safe_float(campaign_state.get("accepted_qualifying_trades"), 0.0)),
+            "campaign_status": str(campaign_state.get("campaign_status", "")),
+            "p1_status": str(campaign_state.get("p1_status", "")),
+            "target_qualifying_trades": int(_safe_float(campaign_state.get("target_qualifying_trades"), 0.0)),
+        },
+        "genuine_campaign_evidence": evidence_available,
         "accelerator_mode": accelerator.MODE,
         "failure_context": {
             "last_packet": failure_payload.get("packet_id"),
@@ -222,12 +254,14 @@ def run_next_candidate_discovery(*, write_reports: bool = True) -> dict[str, Any
     }
 
     if write_reports:
-        result["report_paths"] = write_reports_fn(result)
+        result["report_paths"] = write_reports_fn(result, root)
     return result
 
 
-def write_reports_fn(payload: dict[str, Any]) -> dict[str, Path]:
-    report_dir = Path(REPORTS_DIR)
+def write_reports_fn(
+    payload: dict[str, Any], report_root: str | Path = DEFAULT_REPORT_ROOT
+) -> dict[str, Path]:
+    report_dir = Path(report_root)
     report_dir.mkdir(parents=True, exist_ok=True)
     packet_path = report_dir / REPORT_PACKET
     leaderboard_path = report_dir / REPORT_LEADERBOARD

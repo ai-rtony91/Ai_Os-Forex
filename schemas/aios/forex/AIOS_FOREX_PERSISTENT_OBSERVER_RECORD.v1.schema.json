@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "AIOS_FOREX_PERSISTENT_OBSERVER_RECORD.v1",
+  "title": "AIOS Forex Persistent Observer Record",
+  "type": "object",
+  "required": [
+    "schema",
+    "record_type",
+    "paper_only",
+    "broker_write_performed",
+    "practice_order_performed",
+    "live_trade_performed",
+    "money_movement_performed"
+  ],
+  "properties": {
+    "schema": {"const": "AIOS_FOREX_PERSISTENT_OBSERVER_RECORD.v1"},
+    "record_type": {"enum": ["OBSERVER_CYCLE", "CANDIDATE_DECISION", "OBSERVER_HEALTH", "OBSERVER_HEARTBEAT", "PAPER_OUTCOME"]},
+    "paper_only": {"const": true},
+    "broker_write_performed": {"const": false},
+    "practice_order_performed": {"const": false},
+    "live_trade_performed": {"const": false},
+    "money_movement_performed": {"const": false},
+    "credentials_persisted": {"const": false},
+    "lookahead_used": {"const": false},
+    "instrument": {"pattern": "^[A-Z]{3}_[A-Z]{3}$"},
+    "candidate_status": {"enum": ["PAPER_ELIGIBLE", "REJECTED", "DEGRADED_RATE_LIMIT", "UNAVAILABLE"]}
+  },
+  "additionalProperties": true
+}

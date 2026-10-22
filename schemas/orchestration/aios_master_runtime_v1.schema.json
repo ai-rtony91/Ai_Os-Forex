@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aios.local/schemas/orchestration/aios_master_runtime_v1.schema.json",
+  "title": "AIOS Master Runtime V1",
+  "type": "object",
+  "required": ["schema", "status", "repository", "identity", "capabilities", "entry_points", "environment", "dependency_graph", "composition", "owner_report", "protected_actions", "permissions", "stages", "normalized_fingerprint"],
+  "properties": {
+    "schema": {"const": "AIOS_MASTER_RUNTIME.v1"},
+    "status": {"enum": ["PASS", "BLOCKED"]},
+    "repository": {"type": "object", "required": ["root", "branch", "head"]},
+    "identity": {"type": "object"},
+    "capabilities": {"type": "array"},
+    "entry_points": {"type": "object"},
+    "environment": {"type": "object"},
+    "dependency_graph": {"type": "object"},
+    "composition": {"type": "object"},
+    "owner_report": {"type": "object"},
+    "protected_actions": {"type": "object", "additionalProperties": {"const": false}},
+    "permissions": {"type": "object", "additionalProperties": {"const": false}},
+    "stages": {"type": "array", "minItems": 13, "maxItems": 13, "uniqueItems": true, "items": {"$ref": "#/$defs/stage"}},
+    "normalized_fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  },
+  "$defs": {"stage": {"type": "object", "required": ["stage_id", "capability_id", "dependencies", "mode", "input_fingerprint", "output_fingerprint", "validator_ids", "retry_limit", "approval_required", "protected_action", "status", "reason_codes", "completion_receipt"]}}
+}

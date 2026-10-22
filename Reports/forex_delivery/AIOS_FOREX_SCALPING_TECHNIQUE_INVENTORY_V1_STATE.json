@@ -1,0 +1,237 @@
+{
+  "all_major_supported_scalping_families_classified": true,
+  "families": [
+    {
+      "behavior_fingerprint": "ab3a9da19469a6db5a75d47beba3de00060b8a390c607ba4f562621a18b2ff51",
+      "data_requirement": "OHLC_BID_ASK",
+      "family_id": "A",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "TREND_PULLBACK_CONTINUATION",
+      "status": "CLASSIFIED_OHLC_SUPPORTED",
+      "technique_count": 6,
+      "techniques": [
+        "A1_EMA_PULLBACK",
+        "A2_EMA_RIBBON_PULLBACK",
+        "A3_SUPERTREND_PULLBACK",
+        "A4_MACD_CONTINUATION",
+        "A5_ADX_DMI_CONTINUATION",
+        "A6_HTF_LTF_PULLBACK"
+      ]
+    },
+    {
+      "behavior_fingerprint": "ab580010cdf7f6b570b742c7d56cf4af0da9de8cdba6dee4cbffc4cc0dfef5cd",
+      "data_requirement": "OHLC_BID_ASK",
+      "family_id": "B",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "MOMENTUM_BREAKOUT",
+      "status": "CLASSIFIED_OHLC_SUPPORTED",
+      "technique_count": 8,
+      "techniques": [
+        "B1_OPENING_RANGE_BREAKOUT",
+        "B2_SESSION_RANGE_BREAKOUT",
+        "B3_DONCHIAN_BREAKOUT",
+        "B4_INSIDE_BAR_BREAKOUT",
+        "B5_SQUEEZE_EXPANSION",
+        "B6_MACD_ACCELERATION",
+        "B7_SUPERTREND_FLIP",
+        "B8_ADX_EXPANSION"
+      ]
+    },
+    {
+      "behavior_fingerprint": "6c0b88e8a2d190c5c9a037ae4aa9f95c9c5cd684e835d4f77f59ec9b654820f0",
+      "data_requirement": "OHLC_BID_ASK_RANGE_GATE",
+      "family_id": "C",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "RANGE_MEAN_REVERSION",
+      "status": "CLASSIFIED_OHLC_SUPPORTED",
+      "technique_count": 8,
+      "techniques": [
+        "C1_BOLLINGER_REVERSION",
+        "C2_KELTNER_REVERSION",
+        "C3_RSI_REVERSION",
+        "C4_STOCHASTIC_REVERSION",
+        "C5_RSI_STOCHASTIC_CONFIRMATION",
+        "C6_SESSION_VWAP_REVERSION",
+        "C7_CAUSAL_RANGE_BOUNDARY_REVERSION",
+        "C8_SHORT_HORIZON_REVERSAL"
+      ]
+    },
+    {
+      "behavior_fingerprint": "0a356c2cdb4091c7005406e6dddf13aaabb32367e20a73b32faffbb4cd5ee94f",
+      "data_requirement": "OHLC_PRICE_COUNT_PROXY",
+      "family_id": "D",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "VWAP_AVERAGE_PRICE_SCALPING",
+      "status": "CLASSIFIED_OHLC_SUPPORTED",
+      "technique_count": 4,
+      "techniques": [
+        "D1_SESSION_VWAP_PULLBACK_CONTINUATION",
+        "D2_SESSION_VWAP_MEAN_REVERSION",
+        "D3_ANCHORED_VWAP_CAUSAL",
+        "D4_VWAP_MACD_ADX_CONFIRMATION"
+      ]
+    },
+    {
+      "behavior_fingerprint": "fcb10ea1ff322e981e4a60ad6931fe2db2d142eeb2193db46462467354415113",
+      "data_requirement": "OHLC_BID_ASK",
+      "family_id": "E",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "PRICE_ACTION_MARKET_STRUCTURE",
+      "status": "CLASSIFIED_OHLC_SUPPORTED",
+      "technique_count": 9,
+      "techniques": [
+        "E1_SWING_BREAK_RETEST",
+        "E2_PRIOR_LEVEL_BOUNCE",
+        "E3_PIVOT_REACTION",
+        "E4_FALSE_BREAKOUT_REVERSAL",
+        "E5_LIQUIDITY_SWEEP_PROXY",
+        "E6_INSIDE_BAR",
+        "E7_ENGULFING_BAR",
+        "E8_PIN_BAR_PROXY",
+        "E9_IMBALANCE_FVG_PROXY"
+      ]
+    },
+    {
+      "behavior_fingerprint": "940401276119ff9cf3c9c477523945a174d817f05faa640f8a5f062afcb47f24",
+      "data_requirement": "OHLC_BID_ASK_UTC_CALENDAR",
+      "family_id": "F",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "SESSION_TIME_OF_DAY",
+      "status": "CLASSIFIED_OHLC_SUPPORTED",
+      "technique_count": 9,
+      "techniques": [
+        "F1_ASIA_RANGE",
+        "F2_LONDON_OPEN",
+        "F3_NEW_YORK_OPEN",
+        "F4_LONDON_NY_OVERLAP",
+        "F5_OPENING_RANGE_30_60_90",
+        "F6_SESSION_TRANSITION",
+        "F7_DAY_OF_WEEK",
+        "F8_MONTH_QUARTER_END",
+        "F9_ROLLOVER_AVOIDANCE"
+      ]
+    },
+    {
+      "behavior_fingerprint": "a81ca70b3facadcd0768cbd6e9df56249427a7f14033e163da4236fbc58360cc",
+      "data_requirement": "OHLC_BID_ASK_SPREAD",
+      "family_id": "G",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "VOLATILITY_LIQUIDITY",
+      "status": "CLASSIFIED_OHLC_SUPPORTED",
+      "technique_count": 8,
+      "techniques": [
+        "G1_ATR_PERCENTILE",
+        "G2_RV_COMPRESSION_EXPANSION",
+        "G3_SPREAD_PERCENTILE",
+        "G4_SPREAD_COMPRESSION_IMPULSE",
+        "G5_PRICE_COUNT_ACCELERATION_PROXY",
+        "G6_VOL_NORMALIZED_BREAKOUT",
+        "G7_VOL_NORMALIZED_PULLBACK",
+        "G8_ABNORMAL_SPREAD_GAP_NO_TRADE"
+      ]
+    },
+    {
+      "behavior_fingerprint": "563d38bc62aeae992d3297ecea6984c6424854ce2fa81ca85093fc3caf6b8b64",
+      "data_requirement": "OFFICIAL_EVENT_TIMESTAMPS",
+      "family_id": "H",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "EVENT_DRIVEN_SCALPING",
+      "status": "CLASSIFIED_OHLC_SUPPORTED",
+      "technique_count": 6,
+      "techniques": [
+        "H1_CB_CONTINUATION",
+        "H2_CB_REVERSAL",
+        "H3_BLS_BREAKOUT",
+        "H4_BLS_FAILED_BREAKOUT",
+        "H5_POST_RELEASE_SPREAD_NORMALIZATION",
+        "H6_EVENT_RISK_ABSTENTION"
+      ]
+    },
+    {
+      "behavior_fingerprint": "d967a049021238d43f1160afa091630d8d55d4e7692a4cd920257c4f0a96088b",
+      "data_requirement": "MULTIPAIR_SYNCHRONIZED_OHLC",
+      "family_id": "I",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "RELATIVE_STRENGTH_CROSS_SECTIONAL",
+      "status": "CLASSIFIED_OHLC_SUPPORTED",
+      "technique_count": 5,
+      "techniques": [
+        "I1_CURRENCY_STRENGTH_RANK",
+        "I2_STRONGEST_WEAKEST_PAIR",
+        "I3_MOMENTUM_RANK",
+        "I4_CARRY_POLICY_RANK",
+        "I5_SHORT_HORIZON_CROSS_SECTIONAL_REVERSAL"
+      ]
+    },
+    {
+      "behavior_fingerprint": "25f8c87c81a8473eac1bb026a90f8c618578a9dddc2ccc29133ac6a973531411",
+      "data_requirement": "SYNCHRONIZED_MULTI_LEG_BID_ASK",
+      "family_id": "J",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "RELATIVE_VALUE_PAIR_SPREAD",
+      "status": "CLASSIFIED_OHLC_SUPPORTED",
+      "technique_count": 5,
+      "techniques": [
+        "J1_ROLLING_RESIDUAL_REVERSION",
+        "J2_CROSS_RATE_RESIDUAL",
+        "J3_CURRENCY_FACTOR_RESIDUAL",
+        "J4_TRIANGULAR_CONSISTENCY_RESIDUAL",
+        "J5_CORRELATED_PAIR_DIVERGENCE"
+      ]
+    },
+    {
+      "behavior_fingerprint": "aeb73579ab1ff9eef645ad0a2569451c72adc9401235cc0d8b4dafa964b5e481",
+      "data_requirement": "SECOND_OR_SUBMINUTE_HISTORY",
+      "family_id": "K",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "MICROSTRUCTURE_PROXIES",
+      "status": "INELIGIBLE_ORDER_FLOW_OR_SUBMINUTE_DATA_NOT_AVAILABLE",
+      "technique_count": 8,
+      "techniques": [
+        "K1_MICRO_MOMENTUM_BURST",
+        "K2_MICRO_REVERSAL",
+        "K3_SPREAD_EXPECTED_MOVE_RATIO",
+        "K4_PRICE_COUNT_ACCELERATION",
+        "K5_MICRO_RANGE_BREAKOUT",
+        "K6_MICRO_FALSE_BREAKOUT",
+        "K7_SIGNAL_HALF_LIFE",
+        "K8_LATENCY_SENSITIVITY"
+      ]
+    },
+    {
+      "behavior_fingerprint": "2be07dc775efa0b2c20d29e7e94e0260c3ab980016008ee0737562775bc6e736",
+      "data_requirement": "ORDER_BOOK_OR_TRADE_TAPE",
+      "family_id": "L",
+      "long_short_separate": true,
+      "mechanical_definition_required": true,
+      "name": "ORDER_FLOW_DOM_FOOTPRINT",
+      "status": "INELIGIBLE_ORDER_FLOW_OR_SUBMINUTE_DATA_NOT_AVAILABLE",
+      "technique_count": 6,
+      "techniques": [
+        "ORDER_BOOK_IMBALANCE",
+        "DEPTH_OF_MARKET_SCALPING",
+        "FOOTPRINT_IMBALANCE",
+        "CVD",
+        "TAPE_FLOW",
+        "VOLUME_PROFILE"
+      ]
+    }
+  ],
+  "family_count": 12,
+  "inventory_hash": "f23e7e735303f7aa72e7c09f809a8447c8b09228142beaefda4099c3e5989b2a",
+  "packet_id": "PKT-EAST-FOREX-ALL-TIMEFRAME-SCALPING-EDGE-033",
+  "schema": "AIOS_FOREX_SCALPING_TECHNIQUE_INVENTORY.v1",
+  "status": "SCALPING_TECHNIQUE_INVENTORY_COMPLETE",
+  "technique_count": 82
+}

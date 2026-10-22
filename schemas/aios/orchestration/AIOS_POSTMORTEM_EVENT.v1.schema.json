@@ -1,0 +1,271 @@
+{
+  "$id": "https://aios.local/schemas/AIOS_POSTMORTEM_EVENT.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "$defs": {
+    "typedEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_type", "reference", "evidence_hash"],
+      "properties": {
+        "evidence_type": {"enum": ["trade_execution", "signal", "market_condition", "campaign_runtime", "validation", "human_review"]},
+        "reference": {"type": "string", "minLength": 1},
+        "evidence_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "source": {"type": ["string", "null"]}
+      }
+    },
+    "normalizedTrade": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trade_id", "instrument", "side", "entry_timestamp", "exit_timestamp", "entry_price", "exit_price", "signal_trigger", "strategy", "supertrend_period", "supertrend_multiplier", "stop_loss", "take_profit", "realized_pnl", "fees", "net_pnl", "duration", "market_condition", "evidence_references", "evidence_hashes", "qualification_status", "classification"],
+      "properties": {
+        "trade_id": {"type": "string", "minLength": 1}, "instrument": {"type": "string", "minLength": 1},
+        "side": {"enum": ["BUY", "SELL"]}, "entry_timestamp": {"type": "string", "format": "date-time"},
+        "exit_timestamp": {"type": "string", "format": "date-time"}, "entry_price": {"type": "number"},
+        "exit_price": {"type": "number"}, "realized_pnl": {"type": "number"}, "fees": {"type": ["number", "null"]},
+        "signal_trigger": {"type": ["string", "null"]}, "strategy": {"type": ["string", "null"]},
+        "supertrend_period": {"type": ["number", "null"]}, "supertrend_multiplier": {"type": ["number", "null"]},
+        "stop_loss": {"type": ["number", "null"]}, "take_profit": {"type": ["number", "null"]},
+        "net_pnl": {"type": "number"}, "duration": {"type": "number", "minimum": 0}, "market_condition": {"type": ["string", "null"]},
+        "qualification_status": {"const": "QUALIFYING"}, "evidence_references": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "evidence_hashes": {"type": "array", "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "uniqueItems": true},
+        "classification": {"type": "array", "items": {"$ref": "AIOS_POSTMORTEM_PATTERN.v1.schema.json#/$defs/patternClassification"}}
+      }
+    },
+    "rejection": {
+      "type": "object", "required": ["trade_id", "reason"], "additionalProperties": false,
+      "properties": {"trade_id": {"type": "string"}, "reason": {"enum": ["OPEN", "NONQUALIFYING", "UNPROVEN_CLOSED_STATE", "MALFORMED", "DUPLICATE", "MISSING_REQUIRED_EVIDENCE"]}}
+    },
+    "statistics": {
+      "type": "object",
+      "required": ["total_trades", "wins", "losses", "breakeven", "win_rate", "average_win", "average_loss", "gross_profit", "gross_loss", "net_pnl", "profit_factor", "expectancy", "cumulative_pnl", "max_drawdown"],
+      "properties": {"total_trades": {"type": "integer", "minimum": 0}, "wins": {"type": "integer", "minimum": 0}, "losses": {"type": "integer", "minimum": 0}, "breakeven": {"type": "integer", "minimum": 0},
+        "win_rate": {"type": ["number", "null"]}, "average_win": {"type": ["number", "null"]}, "average_loss": {"type": ["number", "null"]},
+        "gross_profit": {"type": "number"}, "gross_loss": {"type": "number"}, "net_pnl": {"type": "number"},
+        "profit_factor": {"oneOf": [{"type": ["number", "null"]}, {"const": "INFINITE"}]}, "expectancy": {"type": ["number", "null"]},
+        "cumulative_pnl": {"type": "array", "items": {"type": "number"}}, "max_drawdown": {"type": "number", "minimum": 0}}
+    },
+    "progress": {
+      "type": "object", "required": ["software_complete", "evidence_complete", "trade_analysis_complete", "release_ready", "qualifying_trades", "target_trades"],
+      "properties": {"software_complete": {"type": "number", "minimum": 0, "maximum": 100},
+        "evidence_complete": {"oneOf": [{"type": "number"}, {"const": "NOT_PROVEN"}]}, "trade_analysis_complete": {"oneOf": [{"type": "number"}, {"const": "NOT_PROVEN"}]},
+        "release_ready": {"oneOf": [{"type": "number"}, {"const": "NOT_PROVEN"}]}, "qualifying_trades": {"oneOf": [{"type": "integer"}, {"const": "NOT_PROVEN"}]},
+        "target_trades": {"const": 30}}
+    },
+    "analysisResult": {
+      "type": "object", "additionalProperties": false,
+      "required": ["trade_records", "qualification_results", "performance_statistics", "losing_patterns", "winning_patterns", "recommendations", "progress"],
+      "properties": {
+        "trade_records": {"type": "array", "items": {"$ref": "#/$defs/normalizedTrade"}},
+        "qualification_results": {"type": "array", "items": {"$ref": "#/$defs/rejection"}},
+        "performance_statistics": {"$ref": "#/$defs/statistics"},
+        "losing_patterns": {"type": "array", "items": {"$ref": "AIOS_POSTMORTEM_PATTERN.v1.schema.json#/$defs/rankedPattern"}},
+        "winning_patterns": {"type": "array", "items": {"$ref": "AIOS_POSTMORTEM_PATTERN.v1.schema.json#/$defs/rankedPattern"}},
+        "recommendations": {"type": "array", "maxItems": 3, "items": {"$ref": "AIOS_POSTMORTEM_PATTERN.v1.schema.json#/$defs/recommendation"}},
+        "progress": {"$ref": "#/$defs/progress"}
+      }
+    }
+  },
+  "properties": {
+    "base_sha": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "branch": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "durability_state": {
+      "enum": [
+        "REMOTE_VERIFIED",
+        "USER_VISIBLE_CAPSULE_VERIFIED",
+        "AT_RISK"
+      ]
+    },
+    "event_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "evidence_hashes": {
+      "items": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "evidence_references": {
+      "items": {"oneOf": [{"type": "string"}, {"$ref": "#/$defs/typedEvidence"}]},
+      "type": "array",
+      "uniqueItems": true
+    },
+    "failing_stage": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "head_sha": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "hypotheses": {
+      "type": "array",
+      "uniqueItems": true
+    },
+    "incident_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lane": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lesson_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "next_safe_action": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "outcome_classification": {
+      "enum": [
+        "SUCCESS",
+        "RECOVERED",
+        "BLOCKED_GOVERNANCE",
+        "BLOCKED_EXTERNAL",
+        "REPOSITORY_STATE_MISMATCH",
+        "DIRTY_WORKTREE",
+        "ORIGIN_ABSENT",
+        "ORIGIN_INCORRECT",
+        "AUTHORIZATION_UNAVAILABLE",
+        "LOCAL_COMMIT_AT_RISK",
+        "MISSING_COMMIT",
+        "MISSING_BRANCH",
+        "WORKER_LEASE_EXPIRED",
+        "WORKER_STILL_ACTIVE",
+        "STALE_APPLICATION_LOCK",
+        "GIT_LOCK_REVIEW_REQUIRED",
+        "ORPHANED_APPLY",
+        "DUPLICATE_APPLY",
+        "PACKET_COLLISION",
+        "MALFORMED_PACKET",
+        "VALIDATION_FAILURE",
+        "CI_FAILURE",
+        "CORRUPT_STATE",
+        "QUARANTINED",
+        "UNSAFE_TO_CONTINUE"
+      ]
+    },
+    "packet_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "promotion_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "recovery_attempts": {
+      "type": "array",
+      "uniqueItems": true
+    },
+    "recovery_result": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "remote_state": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "repository_identity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "root_cause_status": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "run_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "sanitized_detection_signature": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "supervisor_identity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "task_id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "timestamp": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "tree_sha": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "validators_after_recovery": {
+      "type": "array",
+      "uniqueItems": true
+    },
+    "verified_root_cause": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "worker_identity": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "worktree": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "worktree_state": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "event_id",
+    "incident_id",
+    "packet_id",
+    "task_id",
+    "run_id",
+    "worker_identity",
+    "supervisor_identity",
+    "lane",
+    "timestamp",
+    "repository_identity",
+    "worktree",
+    "branch",
+    "base_sha",
+    "head_sha",
+    "tree_sha",
+    "worktree_state",
+    "remote_state",
+    "failing_stage",
+    "sanitized_detection_signature",
+    "evidence_references",
+    "evidence_hashes",
+    "outcome_classification",
+    "root_cause_status",
+    "verified_root_cause",
+    "hypotheses",
+    "recovery_attempts",
+    "recovery_result",
+    "validators_after_recovery",
+    "durability_state",
+    "lesson_status",
+    "promotion_status",
+    "next_safe_action"
+  ],
+  "description": "Closed, sanitized operational-evidence event; never governance authority.",
+  "title": "AIOS Post-Mortem Event v1",
+  "type": "object"
+}

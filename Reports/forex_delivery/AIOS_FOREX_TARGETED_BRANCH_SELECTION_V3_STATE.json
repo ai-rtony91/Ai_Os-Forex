@@ -1,0 +1,16 @@
+{
+  "branches": [
+    "M5_DAY_TRADING_MTF",
+    "REGIME_ROUTER"
+  ],
+  "packet_id": "PKT-EAST-FOREX-TRACE-BACKED-FIDELITY-030",
+  "rejected_branches": [],
+  "schema": "AIOS_FOREX_TARGETED_BRANCH_SELECTION_V3_STATE",
+  "selection_basis": {
+    "affected_evidence_status": "AFFECTED_PACKET027_EVIDENCE_RERUN_COMPLETE",
+    "failure_decomposition_status": "FAILURE_DECOMPOSITION_COMPLETE_WITH_PACKET027_GROSS_COST_LIMITATION",
+    "m5_bridge_status": "M5_DAY_TRADING_BRIDGE_CERTIFIED"
+  },
+  "state_hash": "13505575cbe753243d57cdcd67398343230835ed282b8fdce440f2bc79656f49",
+  "status": "TARGETED_BRANCH_FROZEN"
+}

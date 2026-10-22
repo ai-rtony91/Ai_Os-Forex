@@ -1,0 +1,53 @@
+{
+  "allowed_path_hashes": {
+    "automation/orchestration/bootstrap/Start-AiOsDay.ps1": "1c2562d71f2111f227fd3feb5c6ccc211786d0a2e242bf337ef32166279ac6ac",
+    "automation/orchestration/operator/AIOS_OPERATOR_RULES.json": "15f6f38d60d71ac02058245c0917421226c66dcf39acabf64e8a1a6f6c3b1185",
+    "automation/orchestration/supervisor/Resolve-AiOsSupervisorAssignment.DRY_RUN.ps1": "33436b85c22f216095d9f9300fa8eea38bd1ba2ff87b8fdd160122fd859fbfd1",
+    "automation/orchestration/work_packets/complete/PKT-CREW-CAMPAIGN-BRIDGE-DRYRUN.md": "a65909e691b2f71d6b9d8d5c5fa8b5cca06784ffb33850b7e9255aff9ce7d14b",
+    "automation/orchestration/work_packets/complete/PKT-FOREX-FIRST-DOLLAR-COUNTDOWN-CLI-EVIDENCE-V1.md": "fe49eaf55796910ea2bc1521474c49faac65e2286f87c98cf2be5cf94cb71fb3",
+    "docs/workflows/aios-operator-workflows.md": "016b6f10af9a79cf83980e1b0119f221df05975724b591bea8dce62b562424f9"
+  },
+  "branch": "work",
+  "completed_braids": [],
+  "completed_cable_stages": [
+    "preflight",
+    "state_discovery",
+    "dependency_verification",
+    "implementation",
+    "targeted_validation",
+    "regression_validation",
+    "evidence_generation",
+    "artifact_accounting",
+    "checkpoint_generation",
+    "execution_receipt",
+    "continuation_generation",
+    "commit_readiness_report",
+    "pr_readiness_report",
+    "owner_handoff"
+  ],
+  "completed_strands": [],
+  "conditions_permitting_direct_continuation": [
+    "HEAD, allowed paths, dependency graph, and governance are unchanged"
+  ],
+  "conditions_requiring_fresh_discovery": [
+    "HEAD changed",
+    "allowed-path content changed",
+    "dependency graph changed",
+    "governance changed"
+  ],
+  "current_hard_gate": "HUMAN_OWNER_REVIEW",
+  "dependency_graph_hash": "4a569d6f2b580c62e47b0f8c1e320948438075f992d2b51643fc57455386435e",
+  "exact_restart_command": "python scripts/run_aios_compound_work_braid_v1.py --repo-root . --resume --pretty",
+  "failed_attempts": [],
+  "head": "5ae40aadedd80f39163f18bf58206e60a786ac4f",
+  "remaining_stages": [
+    "bounded_self_repair"
+  ],
+  "repair_pass_count": 0,
+  "repository_root": "/workspace/Ai_Os",
+  "schema": "AIOS_COMPOUND_WORK_BRAID_CHECKPOINT.v1",
+  "selected_cable_id": "CABLE-1896B284C185",
+  "validation_receipts": [],
+  "worktree_fingerprint": "b3a9c4aa308beeec7902fd6a6ae8d26df636eb75b0f59b212b207494ff214a02",
+  "worktree_status": "M automation/orchestration/README.md\n M automation/orchestration/platform.py\n?? Reports/orchestration/AIOS_COMPOUND_WORK_BRAID_V1_CHECKPOINT.json\n?? Reports/orchestration/AIOS_COMPOUND_WORK_BRAID_V1_NEXT_CODEX_PROMPT.md\n?? Reports/orchestration/AIOS_COMPOUND_WORK_BRAID_V1_REPORT.md\n?? Reports/orchestration/AIOS_COMPOUND_WORK_BRAID_V1_STATE.json\n?? automation/orchestration/aios_compound_work_braid_v1.py\n?? docs/orchestration/AIOS_COMPOUND_WORK_BRAID_V1.md\n?? schemas/orchestration/aios_compound_work_braid_v1.schema.json\n?? scripts/run_aios_compound_work_braid_v1.py\n?? tests/orchestration/test_aios_compound_work_braid_v1.py"
+}

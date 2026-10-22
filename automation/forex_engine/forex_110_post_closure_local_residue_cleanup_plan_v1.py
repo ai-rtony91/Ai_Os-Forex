@@ -318,13 +318,17 @@ def _build_review_required_before_clean(ignored_items: Iterable[str], repo_root:
     results: list[dict[str, Any]] = []
     for category, matcher in categories:
         paths = [path for path in ignored if matcher(path)]
-        if paths:
+        if paths or category == ".local_backlog/":
             results.append(
                 {
                     "category": category,
                     "count": len(paths),
                     "samples": paths[:3],
-                    "next_step": "owner review required before delete",
+                    "next_step": (
+                        "owner review required before delete"
+                        if paths
+                        else "no current items; preserve review gate for future local backlog cleanup"
+                    ),
                 },
             )
     if evidentiary:

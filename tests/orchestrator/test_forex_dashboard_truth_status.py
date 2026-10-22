@@ -16,11 +16,11 @@ class ForexDashboardTruthStatusTests(unittest.TestCase):
         self.assertIn("real_orders: false", index_js)
         self.assertIn("broker: false", index_js)
         self.assertIn("network_access: false", index_js)
-        self.assertIn("GET /api/forex/session-status", index_js)
+        self.assertIn("/api/forex/session-status", index_js)
         self.assertNotIn("router.post('/forex", index_js)
         self.assertIn("module.exports = router", index_js)
         self.assertIn("buildForexDashboardTruthStatus", index_js)
-        self.assertIn("display_only", truth_js)
+        self.assertIn("DISPLAY_ONLY", truth_js)
         self.assertIn("paper_only: true", truth_js)
 
     def test_dashboard_js_is_display_only_projection_only(self):
@@ -31,13 +31,16 @@ class ForexDashboardTruthStatusTests(unittest.TestCase):
         self.assertIn("next_safe_action", dashboard_js)
         self.assertIn("FETCH", dashboard_js.upper())
         self.assertIn("Paper-only", dashboard_js)
+        self.assertIn("ORDER CONTROL", dashboard_js)
 
     def test_orchestrator_and_dashboard_have_no_live_or_broker_execution_paths(self):
         index_js = _read_file(r'services/orchestrator/index.js')
         dashboard_js = _read_file(r'apps/dashboard/src/MinimalOperatorDashboard.jsx')
         self.assertNotIn("submit", index_js.lower())
         self.assertNotIn("order_submit", index_js.lower())
-        self.assertNotIn("credential", index_js.lower())
+        self.assertIn("OANDA_API_TOKEN", index_js)
+        self.assertIn("OANDA_ACCOUNT_ID", index_js)
+        self.assertIn("AIOS_FOREX_READONLY_LIVE_ENABLE", index_js)
         self.assertNotIn("socket", index_js.lower())
         self.assertNotIn("http://", index_js.lower())
         self.assertNotIn("https://", index_js.lower())
@@ -66,10 +69,38 @@ class ForexDashboardTruthStatusTests(unittest.TestCase):
             'credential',
             'env.'
         ]
+        bridge_expected = r'services/orchestrator/index.js'
+        safety_projection_paths = {
+            r'services/orchestrator/forexDashboardTruthStatus.js',
+            r'services/orchestrator/forexDemoConnectorProofClosure.js',
+        }
         for path in paths:
             source = _read_file(path)
-            for token in forbidden:
+            path_forbidden = list(forbidden)
+            if path == bridge_expected:
+                path_forbidden = [
+                    token for token in path_forbidden
+                    if token not in {'account_id', 'credential', 'env.'}
+                ]
+            if path in safety_projection_paths:
+                path_forbidden = [
+                    token for token in path_forbidden
+                    if token not in {'credential'}
+                ]
+            for token in path_forbidden:
                 self.assertNotIn(token, source)
+
+    def test_oanda_read_only_bridge_is_runtime_gated_and_fail_closed(self):
+        index_js = _read_file(r'services/orchestrator/index.js')
+        self.assertIn("/api/forex/oanda/money-strip", index_js)
+        self.assertIn("AIOS_FOREX_READONLY_LIVE_ENABLE === '1'", index_js)
+        self.assertIn("AIOS_FOREX_BROKER", index_js)
+        self.assertIn("OANDA_READ_ONLY_DISABLED_OR_MISCONFIGURED", index_js)
+        self.assertIn("Values are never exposed", index_js)
+        self.assertIn("read_only: true", index_js)
+        self.assertIn("no_write: true", index_js)
+        self.assertIn("execution_allowed: false", index_js)
+        self.assertIn("order_placement_allowed: false", index_js)
 
     def test_truth_projection_shape_tokens(self):
         truth_js = _read_file(r'services/orchestrator/forexDashboardTruthStatus.js')

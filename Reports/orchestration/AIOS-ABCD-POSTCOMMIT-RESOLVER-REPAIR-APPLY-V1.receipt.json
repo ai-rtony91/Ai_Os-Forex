@@ -1,0 +1,25 @@
+{
+  "schema_version": "AIOS_RESOLVER_REPAIR_RECEIPT.v1",
+  "packet_id": "AIOS-ABCD-POSTCOMMIT-RESOLVER-REPAIR-APPLY-V1",
+  "starting_commit": "a1a451bb3fe49aaf90fdf52de0a5146ee077758b",
+  "root_cause_classification": "D. DEPENDENCY_REGRESSION",
+  "root_cause": "The canonical packet builder added task-delivery instrumentation paths to write_scope, while the resolver still compared an existing packet's canonical write_scope to the queue item's narrower allowed_paths.",
+  "repair": "Rebuild the expected canonical packet from current validated inputs and reuse only an exact canonical match.",
+  "safety_invariants": [
+    "identity must validate before reuse",
+    "canonical builder output must match exactly",
+    "tampered scope, validators, authority, state, or prompt content remains blocked",
+    "duplicate canonical packets remain blocked"
+  ],
+  "validation": {
+    "target_test": "passed",
+    "resolver_suite": "13 passed",
+    "affected_tests": "30 passed, 14 skipped",
+    "full_orchestration_suite": "1624 passed, 724 skipped"
+  },
+  "publication_status": "PUBLICATION_BLOCKED_BY_ENVIRONMENT",
+  "publication_blockers": [
+    "GitHub CLI is not authenticated",
+    "repository has no configured remote"
+  ]
+}

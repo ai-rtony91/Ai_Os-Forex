@@ -1,0 +1,6 @@
+{
+  "confidence": "LOW",
+  "minimum_measured_samples_to_override": 5,
+  "provenance": "HUMAN_OWNER_REPORTED",
+  "typical_task_duration_minutes": 20
+}

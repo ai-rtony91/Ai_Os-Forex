@@ -1,0 +1,150 @@
+{
+  "created_utc": "2026-10-09T20:54:19+00:00",
+  "entries": [
+    {
+      "path": "automation/forex_engine/live_runtime_executor_v1.py",
+      "sha256": "7654a0bed67a87bfc4f2f720723084abc9a90275550eef0de9903ad98be4ea8c",
+      "size_bytes": 16850
+    },
+    {
+      "path": "automation/forex_engine/forex_owner_safety_evidence_intake_verification_prep_v1.py",
+      "sha256": "1d7e9e1362ad1b19d27f87268e9895802b2d7ec7ae38b9a8cc0bc48aa5d839ef",
+      "size_bytes": 38685
+    },
+    {
+      "path": "automation/forex_engine/forex_owner_safety_evidence_artifact_verifier_v1.py",
+      "sha256": "81b50b105e861fac54a305249b29d3396fe9b24ee0bfe203f4efb7c969cb59a6",
+      "size_bytes": 22481
+    },
+    {
+      "path": "tests/forex_engine/test_live_runtime_executor_v1.py",
+      "sha256": "3578f64db268d776bf32795957083965d659cfd544a95b97b8fc84f676dcf973",
+      "size_bytes": 9960
+    },
+    {
+      "path": "tests/forex_engine/test_forex_owner_safety_evidence_intake_verification_prep_v1.py",
+      "sha256": "ee9ed23e04534a23532f23b85bdc7e684873cd5f37a99a1a5c4ab44f9beedbf3",
+      "size_bytes": 43618
+    },
+    {
+      "path": "tests/forex_engine/test_forex_owner_safety_evidence_artifact_verifier_v1.py",
+      "sha256": "f84762eaec28dd0d97eb7d7592946f944351bea047337d64c2446963c6821622",
+      "size_bytes": 11130
+    },
+    {
+      "path": "automation/forex_engine/forex_a_lane_owner_control_intake_validator_v1.py",
+      "sha256": "d81468a3269476d39b4a42cab60f76a716b1855c820552043a082e9335c7421b",
+      "size_bytes": 6254
+    },
+    {
+      "path": "tests/forex_engine/test_forex_a_lane_owner_control_intake_validator_v1.py",
+      "sha256": "fa47306523d05d54a0a4f1d47d68e92e51cddf06cfa80e57cb1928183be84b4b",
+      "size_bytes": 5857
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_V1_STATE.json",
+      "sha256": "b66dfdd3f3fc769f00be0c571535f2cf84aac18dfd6d694eaafdc0aa47df3582",
+      "size_bytes": 4927
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_V1_REPORT.md",
+      "sha256": "016e86b4b94114e0683ec35edee16516dc94a844b968b9446d842b2082488aeb",
+      "size_bytes": 3756
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_NEXT_CODEX_PACKET_V1.md",
+      "sha256": "3a9a077c8056ca435f1abc839a1b28c68154341bca7eddd298a35e3d7c32264b",
+      "size_bytes": 6025
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_ARTIFACT_VERIFIER_V1_STATE.json",
+      "sha256": "eea9dbedc690549195c7494e579dd65e6cfdcad8eb12d23131e7b97eb429061f",
+      "size_bytes": 6510
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_ARTIFACT_VERIFIER_V1_REPORT.md",
+      "sha256": "7722d2eca28c8ebee37f37a29aa801c6e8fa1765ddbeeb5bd072e464b4d3ef50",
+      "size_bytes": 2894
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_ARTIFACT_VERIFIER_NEXT_CODEX_PACKET_V1.md",
+      "sha256": "53bb482566bbaca6f28903aa1b2e0438f5d55abfb683adb2f9f54b3663ffba89",
+      "size_bytes": 4082
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_A_LANE_INSTALLATION_POLICY_RECEIPT_V1.json",
+      "sha256": "05f7cd4d0d12a74e17974d048bab11e857183f52f9452d4000650446d3c87177",
+      "size_bytes": 2869
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_A_LANE_INSTALLATION_POLICY_RECEIPT_V1.md",
+      "sha256": "416d817692ef7462e3112ec75cd823a36a99a890a1aadaeae7af9cbca5ff790f",
+      "size_bytes": 937
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_A_B_LANE_COLLISION_BOUNDARY_RECEIPT_V1.json",
+      "sha256": "b58c0868e52fc1291b586c2ed7aeac96297a3449d2a0319d33dbd83685d4c202",
+      "size_bytes": 13429
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_A_B_LANE_COLLISION_BOUNDARY_RECEIPT_V1.md",
+      "sha256": "30be8212a4eb1624b166bd804a539833e4800479b7a6b0068d12f73a1c644ec3",
+      "size_bytes": 7576
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_A_LANE_CONTROL_REPAIR_DIFF_20261009.patch",
+      "sha256": "13467fd6fbcad2d13b09b11cd227dbeabdceab15e7f5ca4b060abb409f459156",
+      "size_bytes": 60040
+    },
+    {
+      "path": "Reports/forex_delivery/build_a_lane_installation_policy_receipt_20261009.py",
+      "sha256": "d9a0f61ac06d96b9f466de1e004b592c132b2e5a4e669793b8f0472c4346dfd0",
+      "size_bytes": 5707
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_A_LANE_REMAINING_CONTROL_GATE_PROBE_V1.json",
+      "sha256": "5bff73958a12a872e60907ff6ff2117f17a678b82bfd0bde3101ea03dbcd0471",
+      "size_bytes": 13630
+    },
+    {
+      "path": "Reports/forex_delivery/probe_a_lane_remaining_control_gates_20261009.py",
+      "sha256": "2dbd4cbdb4bcda8bdc40326981cfc985c2caa0df015dc0622c92a910db1a1b1f",
+      "size_bytes": 1473
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_A_LANE_OWNER_CONTROL_INTAKE_PACKET_V1.json",
+      "sha256": "e1fcb1652825406b8b5b0a251fea621de7d84f0c48f1ba23f86a2e36f52fc9c3",
+      "size_bytes": 3428
+    },
+    {
+      "path": "Reports/forex_delivery/AIOS_FOREX_A_LANE_OWNER_CONTROL_INTAKE_PACKET_V1.md",
+      "sha256": "467dc997cd086b0f33c3ed971fb02614ef89450f8878bc80f40c711d287fab8a",
+      "size_bytes": 2161
+    },
+    {
+      "path": "Reports/forex_delivery/build_a_lane_owner_control_intake_packet_20261009.py",
+      "sha256": "42e7fe7c5edb86f8a0042f19b1a8ec8c02a8b085e7eaedddb3afeba5590983f8",
+      "size_bytes": 5125
+    },
+    {
+      "path": "Reports/forex_delivery/build_a_b_lane_collision_boundary_receipt_20261009.py",
+      "sha256": "f15e9bf77e31441ad94a2775b8a6f3a430451e02ecace1d52fecaf2f9f9360ae",
+      "size_bytes": 5879
+    }
+  ],
+  "manifest_schema": "AIOS_FOREX_A_LANE_CONTROL_REPAIR_PACKAGE_20261009_MANIFEST",
+  "protected_actions_not_taken": [
+    "no broker API",
+    "no credentials",
+    "no orders",
+    "no execution policy change",
+    "no script signing",
+    "no claim script execution"
+  ],
+  "scope": "A-lane platform/control/safety only; excludes Friend B data/strategy/PAPER lane files",
+  "verification": {
+    "governance_packets": "PASS",
+    "native_broader_a_lane_tests": "211 passed",
+    "native_focused_tests": "76 passed"
+  }
+}

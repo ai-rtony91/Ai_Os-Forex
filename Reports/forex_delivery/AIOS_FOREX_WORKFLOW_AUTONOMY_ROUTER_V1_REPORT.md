@@ -1,8 +1,8 @@
 # AIOS Forex Workflow Autonomy Router V1 Report
 
 Workflow status: WORKFLOW_BLOCKED_ON_OWNER_SAFETY_EVIDENCE
-Current branch: main
-Current head: 29b53f21e411ced485084060e2bf59b76edc15c8
+Current branch: work
+Current head: acb6d327352e0542dcbcc8a521891fbc7ade8648
 Active lane: OWNER_SAFETY_EVIDENCE_CLOSURE
 Active phase: SAFETY_EVIDENCE_CLOSURE_PENDING
 Active blocker: kill_switch_state

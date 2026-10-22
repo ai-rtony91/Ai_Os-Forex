@@ -1,0 +1,417 @@
+{
+  "candidate_count": 32,
+  "class_counts": {
+    "DRAWDOWN_GATE_FAILURE": 31,
+    "FAILED_REQUIRED_DEVELOPMENT_GATE": 1,
+    "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER": 31,
+    "REGIME_INSTABILITY": 31,
+    "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE": 18
+  },
+  "gross_cost_decomposition_status": "LIMITED_BY_PACKET027_SCORER_NET_R_ONLY",
+  "packet_id": "PKT-EAST-FOREX-TRACE-BACKED-FIDELITY-030",
+  "rows": [
+    {
+      "accepted_trades": 3373,
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_LONG_TSMOM_1M_TRAIL_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "A_TIME_SERIES_MOMENTUM",
+      "net_expectancy": -0.163939
+    },
+    {
+      "accepted_trades": 3297,
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_SHORT_TSMOM_1M_TRAIL_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "A_TIME_SERIES_MOMENTUM",
+      "net_expectancy": -0.14767
+    },
+    {
+      "accepted_trades": 3412,
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_LONG_TSMOM_3M_TIME_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "A_TIME_SERIES_MOMENTUM",
+      "net_expectancy": -0.288424
+    },
+    {
+      "accepted_trades": 3315,
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_SHORT_TSMOM_3M_TIME_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "A_TIME_SERIES_MOMENTUM",
+      "net_expectancy": -0.368921
+    },
+    {
+      "accepted_trades": 2974,
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_LONG_XS_MOM_TOPBOT_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "B_CROSS_SECTIONAL_FACTOR",
+      "net_expectancy": -0.150247
+    },
+    {
+      "accepted_trades": 2833,
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_SHORT_XS_MOM_TOPBOT_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "B_CROSS_SECTIONAL_FACTOR",
+      "net_expectancy": -0.109396
+    },
+    {
+      "accepted_trades": 3390,
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_LONG_XS_SPREAD_EFFICIENT_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "B_CROSS_SECTIONAL_FACTOR",
+      "net_expectancy": -0.135398
+    },
+    {
+      "accepted_trades": 3261,
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_SHORT_XS_SPREAD_EFFICIENT_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "B_CROSS_SECTIONAL_FACTOR",
+      "net_expectancy": -0.111801
+    },
+    {
+      "accepted_trades": 2147,
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_LONG_MOM_CARRY_AVAILABLE_ONLY_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "C_CARRY_VALUE_MOMENTUM",
+      "net_expectancy": -0.272167
+    },
+    {
+      "accepted_trades": 2108,
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_SHORT_MOM_CARRY_AVAILABLE_ONLY_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "C_CARRY_VALUE_MOMENTUM",
+      "net_expectancy": -0.331445
+    },
+    {
+      "accepted_trades": 4279,
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_LONG_VALUE_COMPONENT_INELIGIBLE_MOM_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "C_CARRY_VALUE_MOMENTUM",
+      "net_expectancy": -0.364551
+    },
+    {
+      "accepted_trades": 4190,
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_SHORT_VALUE_COMPONENT_INELIGIBLE_MOM_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "C_CARRY_VALUE_MOMENTUM",
+      "net_expectancy": -0.355423
+    },
+    {
+      "accepted_trades": 2840,
+      "candidate_id": "D_RELATIVE_VALUE_LONG_ROLLING_RESIDUAL_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "D_RELATIVE_VALUE",
+      "net_expectancy": -0.196371
+    },
+    {
+      "accepted_trades": 2854,
+      "candidate_id": "D_RELATIVE_VALUE_SHORT_ROLLING_RESIDUAL_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "D_RELATIVE_VALUE",
+      "net_expectancy": -0.200461
+    },
+    {
+      "accepted_trades": 3518,
+      "candidate_id": "D_RELATIVE_VALUE_LONG_CROSS_RATE_RESIDUAL_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "D_RELATIVE_VALUE",
+      "net_expectancy": -0.205729
+    },
+    {
+      "accepted_trades": 3565,
+      "candidate_id": "D_RELATIVE_VALUE_SHORT_CROSS_RATE_RESIDUAL_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "D_RELATIVE_VALUE",
+      "net_expectancy": -0.163838
+    },
+    {
+      "accepted_trades": 240,
+      "candidate_id": "E_EVENT_DRIVEN_LONG_POST_BLS_CONTINUATION_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "E_EVENT_DRIVEN",
+      "net_expectancy": -0.281055
+    },
+    {
+      "accepted_trades": 153,
+      "candidate_id": "E_EVENT_DRIVEN_SHORT_POST_BLS_CONTINUATION_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "E_EVENT_DRIVEN",
+      "net_expectancy": -0.322386
+    },
+    {
+      "accepted_trades": 153,
+      "candidate_id": "E_EVENT_DRIVEN_LONG_POST_EVENT_REVERSAL_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "E_EVENT_DRIVEN",
+      "net_expectancy": -0.308908
+    },
+    {
+      "accepted_trades": 240,
+      "candidate_id": "E_EVENT_DRIVEN_SHORT_POST_EVENT_REVERSAL_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "FAILED_REQUIRED_DEVELOPMENT_GATE"
+      ],
+      "family": "E_EVENT_DRIVEN",
+      "net_expectancy": 0.538571
+    },
+    {
+      "accepted_trades": 765,
+      "candidate_id": "F_LIQUIDITY_SESSION_LONG_LONDON_NY_TRANSITION_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "F_LIQUIDITY_SESSION",
+      "net_expectancy": -0.122596
+    },
+    {
+      "accepted_trades": 756,
+      "candidate_id": "F_LIQUIDITY_SESSION_SHORT_LONDON_NY_TRANSITION_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "F_LIQUIDITY_SESSION",
+      "net_expectancy": -0.122884
+    },
+    {
+      "accepted_trades": 3649,
+      "candidate_id": "F_LIQUIDITY_SESSION_LONG_SPREAD_NORMALIZATION_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "F_LIQUIDITY_SESSION",
+      "net_expectancy": -0.11157
+    },
+    {
+      "accepted_trades": 3622,
+      "candidate_id": "F_LIQUIDITY_SESSION_SHORT_SPREAD_NORMALIZATION_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "F_LIQUIDITY_SESSION",
+      "net_expectancy": -0.126453
+    },
+    {
+      "accepted_trades": 4550,
+      "candidate_id": "G_REGIME_SWITCHING_LONG_TREND_VOL_STATE_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "G_REGIME_SWITCHING",
+      "net_expectancy": -0.235115
+    },
+    {
+      "accepted_trades": 4401,
+      "candidate_id": "G_REGIME_SWITCHING_SHORT_TREND_VOL_STATE_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "G_REGIME_SWITCHING",
+      "net_expectancy": -0.257583
+    },
+    {
+      "accepted_trades": 4830,
+      "candidate_id": "G_REGIME_SWITCHING_LONG_NO_TRADE_VOL_GATE_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "G_REGIME_SWITCHING",
+      "net_expectancy": -0.237593
+    },
+    {
+      "accepted_trades": 4689,
+      "candidate_id": "G_REGIME_SWITCHING_SHORT_NO_TRADE_VOL_GATE_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "G_REGIME_SWITCHING",
+      "net_expectancy": -0.271732
+    },
+    {
+      "accepted_trades": 2728,
+      "candidate_id": "H_META_LABEL_ROUTER_LONG_LOW_COST_TAKE_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "H_META_LABEL_ROUTER",
+      "net_expectancy": -0.167045
+    },
+    {
+      "accepted_trades": 2598,
+      "candidate_id": "H_META_LABEL_ROUTER_SHORT_LOW_COST_TAKE_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY"
+      ],
+      "family": "H_META_LABEL_ROUTER",
+      "net_expectancy": -0.107502
+    },
+    {
+      "accepted_trades": 4275,
+      "candidate_id": "H_META_LABEL_ROUTER_LONG_VOL_CALIBRATED_TAKE_V1",
+      "direction": "LONG",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "H_META_LABEL_ROUTER",
+      "net_expectancy": -0.18325
+    },
+    {
+      "accepted_trades": 4148,
+      "candidate_id": "H_META_LABEL_ROUTER_SHORT_VOL_CALIBRATED_TAKE_V1",
+      "direction": "SHORT",
+      "failure_classes": [
+        "NO_GROSS_SIGNAL_EDGE_UNDER_PACKET027_NET_R_SCORER",
+        "DRAWDOWN_GATE_FAILURE",
+        "REGIME_INSTABILITY",
+        "TARGET_UNREACHABLE_OR_EXIT_CAPTURE_FAILURE"
+      ],
+      "family": "H_META_LABEL_ROUTER",
+      "net_expectancy": -0.192346
+    }
+  ],
+  "schema": "AIOS_FOREX_FAILURE_DECOMPOSITION_V3_STATE",
+  "state_hash": "50b7e8b6d33990ece1c2c9c0851a66ecaa51ff077526007a2ea2bdacdd9e21f5",
+  "status": "FAILURE_DECOMPOSITION_COMPLETE_WITH_PACKET027_GROSS_COST_LIMITATION"
+}

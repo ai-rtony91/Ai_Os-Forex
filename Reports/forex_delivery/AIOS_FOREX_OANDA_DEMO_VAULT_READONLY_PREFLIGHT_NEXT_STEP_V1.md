@@ -12,7 +12,7 @@ The next lane proves that owner-run saved DEMO credentials can be loaded from se
 
 - owner-run Windows vault save/load proof;
 - OANDA DEMO only;
-- token-visible demo account `101-001-38382514-001`;
+- token-visible demo account `[REDACTED_DEMO_ACCOUNT_ID]`;
 - no live credentials;
 - no `.env` file;
 - no repo credential material.

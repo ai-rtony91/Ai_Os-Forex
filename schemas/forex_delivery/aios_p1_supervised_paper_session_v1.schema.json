@@ -1,0 +1,5 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "aios_p1_supervised_paper_session_v1.schema.json",
+  "properties": {"schema": {"const": "AIOS_P1_SUPERVISED_PAPER_SESSION.v1"}, "status": {"const": "ACTIVE"}, "direction": {"const": "BUY"}, "units": {"minimum": 1, "maximum": 1000000, "type": "integer"}, "owner_supervision_confirmed": {"const": true}},
+  "required": ["schema", "status", "strategy_id", "candidate_id", "instrument", "direction", "units", "entry_timestamp", "entry_price", "stop_price", "target_price", "risk_amount", "entry_rationale", "owner_supervision_confirmed"], "type": "object"
+}

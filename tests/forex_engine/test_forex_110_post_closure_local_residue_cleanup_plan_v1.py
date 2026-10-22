@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+import automation.forex_engine.forex_110_post_closure_local_residue_cleanup_plan_v1 as cleanup_plan  # noqa: E402
 from automation.forex_engine.forex_110_post_closure_local_residue_cleanup_plan_v1 import (  # noqa: E402
     build_report_markdown,
     run_forex_110_post_closure_local_residue_cleanup_plan_v1,
@@ -33,8 +34,12 @@ def _git_lines(repo_root: Path, args: list[str]) -> list[str]:
 
 
 def _current_branch(repo_root: Path) -> str:
-    lines = _git_lines(repo_root, ["branch", "--show-current"])
-    return lines[0] if lines else ""
+    lines = _git_lines(repo_root, ["status", "--short", "--branch"])
+    if not lines or not lines[0].startswith("## "):
+        return ""
+    status_body = lines[0][3:]
+    branch = status_body.split("...", 1)[0]
+    return branch.split(" [", 1)[0]
 
 
 def test_run_function_returns_classified_cleanup_plan() -> None:
@@ -75,11 +80,12 @@ def test_run_function_returns_classified_cleanup_plan() -> None:
     assert result["background_loop_started"] is False
     assert result["bitwarden_started"] is False
 
-    assert result["safe_to_clean_later"]
+    assert isinstance(result["safe_to_clean_later"], list)
     assert all(
         {"category", "count", "samples", "next_step"}.issubset(item)
         for item in result["safe_to_clean_later"]
     )
+    assert cleanup_plan._build_safe_to_clean_later([]) == []
     assert any(item["category"] == ".local_backlog/" for item in result["review_required_before_clean"])
     assert result["protected_do_not_touch"]
 

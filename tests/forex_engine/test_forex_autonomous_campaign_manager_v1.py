@@ -14,6 +14,8 @@ from automation.forex_engine.forex_autonomous_campaign_manager_v1 import (
     build_default_forex_campaign_stages,
     build_next_codex_prompt,
     collect_campaign_state,
+    build_final_repository_completion_snapshot,
+    build_non_executing_pre_live_package,
     select_next_campaign_stage,
 )
 
@@ -224,3 +226,27 @@ def test_state_file_default_snapshot_has_expected_fields():
     assert loaded["campaign_id"] == CAMPAIGN_ID
     assert isinstance(loaded["dirty_files"], list)
     assert isinstance(loaded["completed_stage_ids"], list)
+
+
+def test_final_repository_completion_snapshot_separates_external_blockers():
+    snapshot = build_final_repository_completion_snapshot()
+
+    assert snapshot["repository_fixable_completion_percent"] == 100
+    assert snapshot["repository_fixable_blockers_remaining"] == []
+    assert "current_broker_account_evidence" in snapshot["external_evidence_blockers"]
+    assert "broker_connectivity" in snapshot["broker_runtime_blockers"]
+    assert snapshot["autonomy_safety_flags"]["live_execution_allowed"] is False
+    assert snapshot["autonomy_safety_flags"]["order_placement_allowed"] is False
+    assert snapshot["profitability_proven"] is False
+    assert snapshot["withdrawal_proven"] is False
+    assert snapshot["next_generated_packet"].startswith("CODEX-ONLY PROMPT")
+
+
+def test_pre_live_package_is_non_executing_and_sealed():
+    package = build_non_executing_pre_live_package()
+
+    assert package["package_status"] == "SEALED_FOR_OWNER_REVIEW_ONLY"
+    for value in package["required_flags"].values():
+        assert value is False
+    assert "protected_one_shot_command_package_sealed" in package["artifacts"]
+    assert "first_realized_profitable_withdrawable_dollar_evidence_contract" in package["artifacts"]

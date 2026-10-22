@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aios_forex_historical_dataset_validation_receipt_v1.schema.json",
+  "title": "AIOS Forex Historical Dataset Validation Receipt V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "schema_version", "tool_version", "status", "generated_utc", "source_root",
+    "source_head", "scope_fingerprint", "requested_start_utc", "requested_end_utc",
+    "manifest_path", "manifest_sha256", "source_state_sha256", "dataset_sha256",
+    "series_expected", "series_complete", "series_partial", "series_missing", "series_invalid",
+    "complete_series", "partial_series", "missing_series", "invalid_series", "duplicate_count",
+    "overlap_count", "unexplained_gap_count", "legitimate_closure_gap_count",
+    "legitimate_closure_gaps", "end_bound_confirmed_count", "checkpoint_count",
+    "batch_file_count", "nonzero_file_count", "total_candle_count", "series_inventory",
+    "file_inventory", "defect_count", "defects", "defects_truncated", "collector_provenance",
+    "reproducibility_commands"
+  ],
+  "properties": {
+    "schema": {"const": "AIOS_FOREX_HISTORICAL_DATASET_VALIDATION_RECEIPT.v1"},
+    "schema_version": {"const": "1.0.0"},
+    "tool_version": {"type": "string", "minLength": 1},
+    "status": {"enum": ["PASS", "FAIL", "BLOCKED"]},
+    "generated_utc": {"type": "string", "format": "date-time"},
+    "source_root": {"type": "string", "minLength": 1},
+    "source_head": {"type": "string", "minLength": 1},
+    "scope_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "requested_start_utc": {"type": "string", "format": "date-time"},
+    "requested_end_utc": {"type": "string", "format": "date-time"},
+    "manifest_path": {"type": "string", "minLength": 1},
+    "manifest_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "source_state_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "dataset_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "series_expected": {"const": 21},
+    "series_complete": {"type": "integer", "minimum": 0, "maximum": 21},
+    "series_partial": {"type": "integer", "minimum": 0, "maximum": 21},
+    "series_missing": {"type": "integer", "minimum": 0, "maximum": 21},
+    "series_invalid": {"type": "integer", "minimum": 0, "maximum": 21},
+    "complete_series": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "partial_series": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "missing_series": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "invalid_series": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "duplicate_count": {"type": "integer", "minimum": 0},
+    "overlap_count": {"type": "integer", "minimum": 0},
+    "unexplained_gap_count": {"type": "integer", "minimum": 0},
+    "legitimate_closure_gap_count": {"type": "integer", "minimum": 0},
+    "legitimate_closure_gaps": {"type": "array", "items": {"type": "object"}},
+    "end_bound_confirmed_count": {"type": "integer", "minimum": 0, "maximum": 21},
+    "checkpoint_count": {"type": "integer", "minimum": 0},
+    "batch_file_count": {"type": "integer", "minimum": 0},
+    "nonzero_file_count": {"type": "integer", "minimum": 0},
+    "total_candle_count": {"type": "integer", "minimum": 0},
+    "series_inventory": {"type": "array", "items": {"$ref": "#/$defs/series"}},
+    "file_inventory": {"type": "array", "items": {"$ref": "#/$defs/file"}},
+    "defect_count": {"type": "integer", "minimum": 0},
+    "defects": {"type": "array", "items": {"type": "object"}},
+    "defects_truncated": {"type": "boolean"},
+    "collector_provenance": {"type": "object"},
+    "reproducibility_commands": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "series": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["instrument", "granularity", "requested_start_utc", "requested_end_utc", "first_candle_utc", "last_candle_utc", "candle_count", "batch_count", "checkpoint_relative_path", "end_bound_confirmed"],
+      "properties": {
+        "instrument": {"type": "string"}, "granularity": {"type": "string"},
+        "requested_start_utc": {"type": "string"}, "requested_end_utc": {"type": "string"},
+        "first_candle_utc": {"type": ["string", "null"]}, "last_candle_utc": {"type": ["string", "null"]},
+        "candle_count": {"type": "integer", "minimum": 0}, "batch_count": {"type": "integer", "minimum": 0},
+        "checkpoint_relative_path": {"type": "string"}, "end_bound_confirmed": {"type": "boolean"}
+      }
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relative_path", "bytes", "sha256", "role", "instrument", "granularity", "batch_number"],
+      "properties": {
+        "relative_path": {"type": "string"}, "bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "role": {"type": "string"},
+        "instrument": {"type": ["string", "null"]}, "granularity": {"type": ["string", "null"]},
+        "batch_number": {"type": ["integer", "null"], "minimum": 0}
+      }
+    }
+  }
+}

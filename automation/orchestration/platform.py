@@ -20,6 +20,7 @@ from automation.orchestration.aios_work_countdown_v1 import (
     build_work_countdown,
     load_canonical_work_packet_inventory,
 )
+from automation.orchestration.aios_compound_work_braid_v1 import CompoundWorkBraidController
 from automation.orchestration.runtime_queue.aios_development_dispatcher import build_dispatch_plan
 from automation.orchestration.runtime_queue.aios_execution_packet_resolver import resolve_execution_packet
 
@@ -62,6 +63,24 @@ class OrchestrationPlatform:
     def countdown(self, evidence: Any | None = None, **options: Any) -> dict[str, Any]:
         source = evidence if evidence is not None else load_canonical_work_packet_inventory(self.repo_root)
         return build_work_countdown(source, **options)
+
+    def compound_work_braid(self, **options: Any) -> dict[str, Any]:
+        """Build a deterministic, non-executing compound work plan."""
+        return CompoundWorkBraidController(self.repo_root).build(**options)
+
+    def govern_autonomy(
+        self, evidence: dict[str, Any], *, generated_at_utc: str | None = None
+    ) -> dict[str, Any]:
+        """Return a non-mutating decision from the canonical autonomy governor."""
+        from automation.orchestration.aios_autonomy_decision_governor import choose_next_decision
+
+        return choose_next_decision(evidence, generated_at_utc=generated_at_utc)
+
+    def master_runtime(self, **options: Any) -> dict[str, Any]:
+        """Run the registered master-runtime coordinator through this facade."""
+        from automation.orchestration.aios_master_runtime_v1 import AIOSMasterRuntime
+
+        return AIOSMasterRuntime(self.repo_root, platform=self).execute(**options)
 
     def validate(self, state: dict[str, Any]) -> dict[str, Any]:
         """Validate the shared platform contract without granting execution authority."""

@@ -1,0 +1,37 @@
+{
+  "chronology": "SIGNAL_ON_COMPLETED_T_ENTRY_AT_T_PLUS_1_OPEN",
+  "controls_required": 16,
+  "controls_status": "PASS_AFTER_PYTEST",
+  "cost_forensics": {
+    "legacy_double_count_risk": "YES: adjusted entry/exit and apply_cost_to_pnl both charge spread/slippage",
+    "legacy_entry": 1.1001,
+    "legacy_exit": 1.1019,
+    "legacy_explicit_cost_usd": 2.0,
+    "legacy_net_pnl_usd": 16.0,
+    "model_0": "MIDPOINT_NO_COST_DIAGNOSTIC",
+    "model_1": "OBSERVED_BID_ASK_REFERENCE",
+    "model_2": "OBSERVED_BID_ASK_PLUS_ADVERSE_SLIPPAGE",
+    "model_3": "LEGACY_SYNTHETIC_COST"
+  },
+  "drawdown_contract": "100*(running_peak-current_equity)/running_peak",
+  "generated_utc": "2026-08-29T05:09:08.667119+00:00",
+  "historical_drawdown_comparability": "PARTIAL",
+  "initial_r": "FROZEN_AT_ENTRY",
+  "packet_id": "PKT-EAST-FOREX-FORENSIC-EDGE-PROGRAM-011F",
+  "prior_reclassification": {
+    "BREAKOUT": "NEGATIVE_EDGE_CONFIRMED",
+    "MEAN_REVERSION": "NEGATIVE_EDGE_CONFIRMED",
+    "MOVING_AVERAGE_TREND": "NEGATIVE_EDGE_CONFIRMED",
+    "SUPERTREND": "NEGATIVE_EDGE_CONFIRMED"
+  },
+  "production_equivalence": "PACKET_009_010_DIRECT_BID_ASK_CONFIRMED;SHARED_LEGACY_HELPER_REPAIR_REQUIRED",
+  "reference_executor_hash": "6dd60fb853a088636f2367a0f58e2a0c305f68ac72f83bd20e9ae6114f2aeba5",
+  "safety": {
+    "broker_write": false,
+    "live": false,
+    "money_movement": false,
+    "practice_order": false
+  },
+  "same_bar_policy": "STOP_FIRST",
+  "schema": "AIOS_FOREX_RESEARCH_CERTIFICATION_V1"
+}

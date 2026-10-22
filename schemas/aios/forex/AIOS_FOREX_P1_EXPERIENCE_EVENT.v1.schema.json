@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "AIOS_FOREX_P1_EXPERIENCE_EVENT.v1",
+  "type": "object",
+  "required": ["schema", "experience_id", "event_type", "strategy_name", "strategy_config_hash", "git_commit", "dataset_hash", "decision_utc", "production_decision", "shadow_classification", "outcome_classification", "safety"],
+  "properties": {
+    "schema": {"const": "AIOS_FOREX_P1_EXPERIENCE_EVENT.v1"},
+    "experience_id": {"type": "string", "minLength": 1},
+    "event_type": {"type": "string", "minLength": 1},
+    "strategy_name": {"type": "string", "minLength": 1},
+    "strategy_config_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "git_commit": {"type": "string", "minLength": 1},
+    "dataset_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "shadow_classification": {"enum": ["ACTUAL_PAPER", "SHADOW_COUNTERFACTUAL"]},
+    "outcome_classification": {"enum": ["TRUE_POSITIVE", "FALSE_POSITIVE", "TRUE_NEGATIVE", "FALSE_NEGATIVE", "BREAKEVEN", "UNRESOLVED", "AMBIGUOUS", "INSUFFICIENT_FUTURE_DATA"]},
+    "safety": {"type": "object", "additionalProperties": {"const": false}}
+  },
+  "additionalProperties": true
+}

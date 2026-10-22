@@ -12,7 +12,8 @@ Trading Lab / Forex is the first production vertical. AI_OS may support paper si
 
 ## Current Status
 
-- GitHub repo: `ai-rtony91/Ai_Os`
+- GitHub repo: `ai-rtony91/Ai_Os-Forex`
+- GitHub repository ID: `1227385337`
 - Active branch: `main`
 - Active repo path: `C:\Dev\Ai.Os`
 - Legacy inactive paths:
@@ -69,7 +70,8 @@ Ai.Os is the active local folder name, not a separate GitHub repository.
 
 Current identity:
 
-- GitHub repo: `ai-rtony91/Ai_Os`
+- GitHub repo: `ai-rtony91/Ai_Os-Forex`
+- GitHub repository ID: `1227385337`
 - Active branch: `main`
 - Current local folder: `C:\Dev\Ai.Os`
 - Legacy inactive local folders:
@@ -91,9 +93,9 @@ Do not search for or assume:
 - `Ai.Os`
 - `ai-rtony91_Ai_Os_CLEAN`
 
-Any AI, Codex, Claude, or assistant inspecting AI_OS must target repo `ai-rtony91/Ai_Os` on branch `main` unless the user explicitly says otherwise.
+Any AI, Codex, Claude, or assistant inspecting AI_OS must target repo `ai-rtony91/Ai_Os-Forex` on branch `main` unless the user explicitly says otherwise.
 
-If a tool only sees `ai-rtony91/Ai_Os`, that is correct. It must switch/check branch `main` before judging project state.
+If a tool only sees `ai-rtony91/Ai_Os-Forex`, that is correct. It must switch/check branch `main` before judging project state.
 
 The old `v2/aios` branch is legacy/reference unless the operator explicitly instructs otherwise.
 

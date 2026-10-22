@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aios_p1_supervised_paper_market_snapshot_v1.schema.json",
+  "additionalProperties": false,
+  "properties": {
+    "account_identifier_included": {"const": false}, "ask": {"exclusiveMinimum": 0, "type": "number"},
+    "bid": {"exclusiveMinimum": 0, "type": "number"}, "broker_write_performed": {"const": false},
+    "credentials_included": {"const": false}, "evidence_type": {"const": "SANITIZED_READ_ONLY_MARKET_SNAPSHOT"},
+    "instrument": {"enum": ["EUR_USD", "GBP_USD", "USD_JPY", "AUD_USD", "USD_CAD", "USD_CHF", "NZD_USD"]},
+    "mid": {"exclusiveMinimum": 0, "type": "number"}, "observed_at_utc": {"format": "date-time", "type": "string"},
+    "provenance": {"const": "GENUINE_OBSERVED_MARKET_DATA"}, "raw_payload_included": {"const": false},
+    "read_only": {"const": true}, "schema": {"const": "AIOS_P1_SUPERVISED_PAPER_MARKET_SNAPSHOT.v1"},
+    "source_status": {"const": "VALID"}, "spread": {"minimum": 0, "type": "number"}, "stale_status": {"const": "VALID"}
+  },
+  "required": ["schema", "evidence_type", "provenance", "instrument", "observed_at_utc", "bid", "ask", "mid", "spread", "source_status", "stale_status", "read_only", "broker_write_performed", "credentials_included", "account_identifier_included", "raw_payload_included"],
+  "type": "object"
+}

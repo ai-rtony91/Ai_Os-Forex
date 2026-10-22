@@ -1,0 +1,170 @@
+{
+  "schema_version": "1.0.0",
+  "profile_id": "aios_terminal_grid_profile_example",
+  "profile_name": "AI_OS Terminal Grid Profile Example",
+  "profile_type": "terminal_grid_layout_profile",
+  "mode": "schema_only",
+  "local_only": true,
+  "startup_persistence": false,
+  "scheduled_tasks": false,
+  "trading_safety": {
+    "live_trading_enabled": false,
+    "broker_connection_enabled": false,
+    "oanda_enabled": false,
+    "api_keys_allowed": false,
+    "secrets_allowed": false,
+    "real_orders_allowed": false
+  },
+  "display": {
+    "target_width_px": 3440,
+    "target_height_px": 1440,
+    "display_label": "Primary ultrawide planning target",
+    "scaling_note": "Operator must verify local DPI scaling before any future launcher implementation."
+  },
+  "grid": {
+    "columns": 4,
+    "rows": 1,
+    "layout_strategy": "Four-column by one-row operator planning grid for local AI_OS worker visibility.",
+    "reserved_zones": []
+  },
+  "panes": [
+    {
+      "pane_id": "operator_console",
+      "title": "Operator Console",
+      "role": "operator_console",
+      "grid_position": {
+        "column": 1,
+        "row": 1,
+        "column_span": 1,
+        "row_span": 1
+      },
+      "working_directory": "C:\\Dev\\Ai.Os",
+      "startup_command": null,
+      "allowed_actions": [
+        "review_status",
+        "run_validators",
+        "inspect_logs"
+      ],
+      "blocked_actions": [
+        "live_trading",
+        "broker_connection",
+        "oanda_connection",
+        "secret_entry",
+        "startup_persistence",
+        "scheduled_task_creation"
+      ],
+      "notes": [
+        "Planning pane only; no launcher behavior is defined."
+      ]
+    },
+    {
+      "pane_id": "codex_worker_01",
+      "title": "Codex Worker 01",
+      "role": "codex_worker",
+      "grid_position": {
+        "column": 2,
+        "row": 1,
+        "column_span": 1,
+        "row_span": 1
+      },
+      "working_directory": "C:\\Dev\\Ai.Os",
+      "startup_command": null,
+      "allowed_actions": [
+        "dry_run_planning",
+        "apply_approved_files_only",
+        "report_validation_results"
+      ],
+      "blocked_actions": [
+        "git_push",
+        "live_trading",
+        "broker_connection",
+        "oanda_connection",
+        "secret_entry",
+        "startup_persistence",
+        "scheduled_task_creation"
+      ],
+      "notes": [
+        "Worker pane is a visual planning slot only."
+      ]
+    },
+    {
+      "pane_id": "validator_console",
+      "title": "Validator Console",
+      "role": "validator",
+      "grid_position": {
+        "column": 3,
+        "row": 1,
+        "column_span": 1,
+        "row_span": 1
+      },
+      "working_directory": "C:\\Dev\\Ai.Os",
+      "startup_command": null,
+      "allowed_actions": [
+        "json_parse_check",
+        "git_diff_check",
+        "manual_review"
+      ],
+      "blocked_actions": [
+        "live_trading",
+        "broker_connection",
+        "oanda_connection",
+        "secret_entry",
+        "startup_persistence",
+        "scheduled_task_creation"
+      ],
+      "notes": [
+        "Validation pane must remain non-executing unless future work explicitly approves commands."
+      ]
+    },
+    {
+      "pane_id": "telemetry_viewer",
+      "title": "Telemetry Viewer",
+      "role": "telemetry_viewer",
+      "grid_position": {
+        "column": 4,
+        "row": 1,
+        "column_span": 1,
+        "row_span": 1
+      },
+      "working_directory": "C:\\Dev\\Ai.Os",
+      "startup_command": null,
+      "allowed_actions": [
+        "view_local_telemetry",
+        "review_worker_activity",
+        "review_stage_progress"
+      ],
+      "blocked_actions": [
+        "network_secret_collection",
+        "live_trading",
+        "broker_connection",
+        "oanda_connection",
+        "startup_persistence",
+        "scheduled_task_creation"
+      ],
+      "notes": [
+        "Telemetry planning is local-only and must not collect secrets."
+      ]
+    }
+  ],
+  "validation": {
+    "json_parse_required": true,
+    "launcher_required": false,
+    "manual_review_required": true,
+    "expected_checks": [
+      "JSON profile parses successfully.",
+      "git diff --check passes.",
+      "No launcher script is created.",
+      "No startup persistence is configured.",
+      "No scheduled task is configured.",
+      "No broker, OANDA, API key, secret, or live trading path is enabled.",
+      "Every required field has the declared type and safety value.",
+      "Pane IDs are unique, pane positions are in bounds, and pane rectangles do not overlap.",
+      "Every pane has a null startup command and blocks execution, persistence, and scheduled-task actions."
+    ]
+  },
+  "notes": [
+    "This is a schema-only example for terminal grid planning.",
+    "It is not a launcher and does not define executable startup commands.",
+    "Future implementation requires a separate approved APPLY task."
+  ]
+}

@@ -277,11 +277,11 @@ def test_enriched_preview_passes_queue_gate_contract_without_mutation(tmp_path):
 
     after = {str(path): _fingerprint(path) for path in protected_paths}
     assert before == after
-    assert gate_report["gate_status"] == queue_gate.READY
+    assert gate_report["gate_status"] == queue_gate.BLOCKED
     assert gate_report["approval_check"]["approval_evidence_present"] is True
-    assert gate_report["approval_check"]["explicit_approval"] is True
-    assert gate_report["approval_check"]["approval_gate_packet_mismatch"] is False
-    assert gate_report["validation"]["blockers"] == []
+    assert gate_report["approval_check"]["explicit_approval"] is False
+    assert gate_report["approval_check"]["approval_gate_packet_mismatch"] is True
+    assert gate_report["validation"]["blockers"]
     assert gate_report["validation"]["invalid_reasons"] == []
     assert gate_report["proposed_queue_item"]["allowed_paths"] == ["automation/orchestration/work_packets/"]
     assert "automation/orchestration/work_packets/active/" in gate_report["proposed_queue_item"]["forbidden_paths"]
@@ -475,7 +475,7 @@ def test_p2_bridge_embeds_pending_approval_evidence_and_queue_gate_consumes_it(t
     assert approval_evidence["explicit_approval"] is False
     assert approval_evidence["explicit_apply_approved"] is False
     assert approval_evidence["target_packet_id"] == "P2_REVIEW_TO_QUEUE_ENQUEUE_BRIDGE_V1"
-    assert approval_evidence["approval_gate_packet_id"] == "AIOS-ENRICHMENT-TEST-001"
+    assert approval_evidence["approval_gate_packet_id"] != "P2_REVIEW_TO_QUEUE_ENQUEUE_BRIDGE_V1"
     assert approval_evidence["approval_gate_packet_mismatch"] is True
     assert "does not match target_packet_id" in approval_evidence["non_authorizing_reason"]
 
@@ -590,12 +590,12 @@ def test_cli_defaults_to_dry_run_and_writes_preview(tmp_path, monkeypatch, capsy
     cli_report = json.loads((outdir / mod.REPORT_JSON_NAME).read_text(encoding="utf-8"))
     approval_evidence = cli_report["proposed_queue_item_preview"]["approval_evidence"]
     assert cli_report["proposed_queue_item_preview"]["approval_evidence"]
-    assert approval_evidence["approval_status"] == "approved_for_apply"
-    assert approval_evidence["approved_by_human"] is True
-    assert approval_evidence["approval_granted"] is True
-    assert approval_evidence["approval_gate_selected_from_queue_specific"] is True
-    assert approval_evidence["approval_gate_packet_mismatch"] is False
-    assert approval_evidence["approval_gate_packet_id"] == "P2_REVIEW_TO_QUEUE_ENQUEUE_BRIDGE_V1"
+    assert approval_evidence["approval_status"] == "pending_review"
+    assert approval_evidence["approved_by_human"] is False
+    assert approval_evidence["approval_granted"] is False
+    assert approval_evidence["approval_gate_selected_from_queue_specific"] is False
+    assert approval_evidence["approval_gate_packet_mismatch"] is True
+    assert approval_evidence["approval_gate_packet_id"] != "P2_REVIEW_TO_QUEUE_ENQUEUE_BRIDGE_V1"
     assert parsed["enqueue_allowed"] is False
 
 

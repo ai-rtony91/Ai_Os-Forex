@@ -1,11 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
   <title id="title">AIOS core</title>
-  <desc id="desc">Abstract orbital command core with cyan and violet AIOS lens geometry.</desc>
-  <rect width="96" height="96" rx="24" fill="#08101a"/>
-  <circle cx="48" cy="48" r="27" fill="none" stroke="#75bfff" stroke-width="2.5"/>
-  <ellipse cx="48" cy="48" rx="38" ry="14" fill="none" stroke="#7c5cff" stroke-width="2" transform="rotate(-28 48 48)"/>
-  <ellipse cx="48" cy="48" rx="38" ry="14" fill="none" stroke="#49c18f" stroke-width="2" transform="rotate(28 48 48)"/>
-  <path d="M48 22 62 48 48 74 34 48Z" fill="#0d1a2b" stroke="#edf7ff" stroke-width="2"/>
-  <circle cx="48" cy="48" r="7" fill="#75bfff"/>
-  <path d="M48 10v10M48 76v10M10 48h10M76 48h10" stroke="#edf7ff" stroke-width="2" stroke-linecap="round"/>
+  <desc id="desc">AIOS monogram with slanted A, signal tower I, orbital globe O, and coin S.</desc>
+  <rect width="96" height="96" rx="22" fill="#05070a"/>
+  <path d="M11 70 24 27h11L48 70h-9l-3-11H22l-3 11Zm13-19h10l-5-18Z" fill="#f4f7fb"/>
+  <path d="M50 34h7v36h-7Zm3.5-13 8 9h-16Z" fill="#70d6ff"/>
+  <path d="M47 24q6-9 13 0" fill="none" stroke="#9b7bff" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="73" cy="48" r="16" fill="#091827" stroke="#70d6ff" stroke-width="2"/>
+  <ellipse cx="73" cy="48" rx="9" ry="16" fill="none" stroke="#9b7bff" stroke-width="1.5"/>
+  <path d="M57 48h32M73 32v32" stroke="#70d6ff" stroke-width="1" opacity=".8"/>
+  <path d="M91 36c-5-12-20-18-32-11M55 69c12 8 29 4 36-9" fill="none" stroke="#9b7bff" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="84" cy="72" r="11" fill="#101522" stroke="#9b7bff" stroke-width="2"/>
+  <text x="84" y="77" text-anchor="middle" fill="#f4f7fb" font-size="15" font-weight="700">$</text>
 </svg>

@@ -51,6 +51,27 @@ def test_existing_packet_is_reused() -> None:
     result = resolve_execution_packet(item(), state(), existing_packets=[created])
     assert result["status"] == "REUSED"
     assert result["packet"] == created
+    assert created["write_scope"][:1] == item()["allowed_paths"]
+    assert "Reports/orchestration/AIOS_CODEX_TASK_DELIVERY_METADATA_V1.json" in created["write_scope"]
+
+
+def test_existing_packet_with_tampered_canonical_content_is_blocked() -> None:
+    created = resolve_execution_packet(item(), state())["packet"]
+    created["validator_chain"] = ["python -c 'bypass validation'"]
+    result = resolve_execution_packet(item(), state(), existing_packets=[created])
+    assert result["status"] == "BLOCKED"
+    assert result["reason_code"] == "existing_packet_canonical_mismatch"
+
+
+def test_existing_packet_is_not_reused_for_changed_identity() -> None:
+    created = resolve_execution_packet(item(), state())["packet"]
+    changed_identity = identity()
+    changed_identity["worker_identity"] = "EAST_OCC_02"
+    result = resolve_execution_packet(
+        item(packet_identity=changed_identity), state(), existing_packets=[created]
+    )
+    assert result["status"] == "BLOCKED"
+    assert result["reason_code"] == "existing_packet_canonical_mismatch"
 
 
 def test_duplicate_packets_block_resolution() -> None:

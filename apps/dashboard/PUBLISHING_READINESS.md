@@ -4,6 +4,10 @@ This file is a planning note for future mobile and static-web publishing. It doe
 
 ## Current Working Dashboard
 
+- The local React/Vite entry is the Obsidian Liquid Terminal integrated preview.
+- The local Node server exposes only the authorized versioned read-only and strategy-draft validation API.
+- Authentication providers, production private media, Cloudflare, DNS, deployment, broker connectivity, and credentials remain not configured.
+
 - `index.html` is the safe static hosting entry for website publishing.
 - `AIOS_STATIC_PREVIEW.html` is the current static dashboard preview.
 - `css/aios-static-preview.css` contains the visual system and mobile layout rules.
@@ -22,7 +26,7 @@ The working dashboard preview remains:
 
 `apps/dashboard/AIOS_STATIC_PREVIEW.html`
 
-No backend, API calls, persistence, credentials, broker/trading automation, or live order path are approved by this note.
+No deployment, external authentication, credentials, broker/trading automation, or live order path is approved by this note. Local sanitized read-only APIs and non-persistent strategy-draft validation are implemented for local preview only.
 
 ## Azure Static Web Apps Path
 

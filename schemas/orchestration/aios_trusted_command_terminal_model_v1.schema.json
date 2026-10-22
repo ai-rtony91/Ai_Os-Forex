@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aios.local/schemas/orchestration/aios_trusted_command_terminal_model_v1.schema.json",
+  "title": "AIOS Trusted Command Terminal Model V1",
+  "description": "Declarative Phase 5 design. Device evidence grants no owner authority or operational trust.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "device_record_version",
+    "device_reference_id",
+    "device_class",
+    "device_state",
+    "ownership_state",
+    "enrollment_state",
+    "attestation_state",
+    "integrity_state",
+    "os_security_state",
+    "screen_lock_state",
+    "biometric_policy_state",
+    "passkey_readiness_state",
+    "revocation_state",
+    "recovery_state",
+    "authority_state",
+    "privacy_classification",
+    "provenance",
+    "integrity_reference"
+  ],
+  "properties": {
+    "device_record_version": {"const": "aios.trusted_command_terminal_model.v1"},
+    "device_reference_id": {"$ref": "#/$defs/opaqueIdentifier"},
+    "device_class": {"enum": ["OWNER_COMMAND_TERMINAL", "RECOVERY_TERMINAL", "UNKNOWN"]},
+    "device_state": {"enum": ["UNREGISTERED", "DESIGN_ONLY", "PENDING_OWNER_AUTHORITY", "PENDING_ENROLLMENT", "PENDING_ATTESTATION", "VERIFIED_NOT_ACTIVE", "BLOCKED", "REVOKED", "LOST", "COMPROMISED"]},
+    "ownership_state": {"enum": ["UNVERIFIED", "PENDING_CURRENT_OWNER_APPROVAL", "VERIFIED_NOT_ACTIVE", "DISPUTED", "REVOKED"]},
+    "enrollment_state": {"enum": ["NOT_ENROLLED", "PENDING", "VERIFIED_NOT_ACTIVE", "FAILED", "EXPIRED", "REVOKED"]},
+    "attestation_state": {"enum": ["NOT_REQUESTED", "PENDING", "EVIDENCE_ONLY", "FAILED", "EXPIRED", "REVOKED"]},
+    "integrity_state": {"enum": ["UNKNOWN", "EVIDENCE_ONLY", "FAILED", "COMPROMISED"]},
+    "os_security_state": {"enum": ["UNKNOWN", "EVIDENCE_ONLY", "POLICY_FAILED", "COMPROMISED"]},
+    "screen_lock_state": {"enum": ["UNKNOWN", "EVIDENCE_ONLY", "POLICY_FAILED", "REVOKED"]},
+    "biometric_policy_state": {"enum": ["NOT_CONFIGURED", "LOCAL_UNLOCK_EVIDENCE_ONLY", "POLICY_FAILED", "PROHIBITED"]},
+    "passkey_readiness_state": {"enum": ["NOT_ASSESSED", "DESIGN_READY_NOT_ENROLLED", "BLOCKED", "PHASE_9_REQUIRED"]},
+    "revocation_state": {"enum": ["NOT_APPLICABLE", "REVOCATION_READY", "BLOCKED", "REVOKED"]},
+    "recovery_state": {"enum": ["NOT_CONFIGURED", "INDEPENDENT_PATH_REQUIRED", "PENDING_OWNER_AUTHORITY", "BLOCKED"]},
+    "authority_state": {"const": "BLOCKED"},
+    "privacy_classification": {"enum": ["MINIMIZED_INTERNAL", "RESTRICTED", "REDACTED", "QUARANTINED", "UNKNOWN"]},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_class", "capture_classification", "sanitization_state"],
+      "properties": {
+        "source_class": {"enum": ["DECLARATIVE_DESIGN", "SANITIZED_DEVICE_EVIDENCE", "SANITIZED_OWNER_EVIDENCE", "UNKNOWN"]},
+        "capture_classification": {"enum": ["DESIGN_ONLY", "EXTERNAL_EVIDENCE_REFERENCE", "UNKNOWN"]},
+        "sanitization_state": {"enum": ["SANITIZED", "REDACTED", "QUARANTINED"]}
+      }
+    },
+    "integrity_reference": {"$ref": "#/$defs/integrityReference"}
+  },
+  "$defs": {
+    "opaqueIdentifier": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]{7,127}$"},
+    "integrityReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "digest_reference"],
+      "properties": {
+        "algorithm": {"enum": ["SHA-256", "SHA-384", "SHA-512"]},
+        "digest_reference": {"$ref": "#/$defs/opaqueIdentifier"}
+      }
+    }
+  },
+  "x-aios-phase": 5,
+  "x-aios-phase-name": "Z Fold 6 Trusted Command Terminal Model",
+  "x-aios-owner-authority": "DEVICE",
+  "x-aios-owner-bundle": "OWNER-BUNDLE-2-DEVICE-IDENTITY",
+  "x-aios-preparation-mode": "PREPARE_BEHIND_GATE",
+  "x-aios-protected-transition": "BLOCKED",
+  "x-aios-phase-3-threat-bindings": ["GW-T023"]
+}

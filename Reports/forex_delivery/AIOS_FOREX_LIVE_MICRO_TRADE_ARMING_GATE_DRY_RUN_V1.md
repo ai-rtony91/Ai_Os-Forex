@@ -147,7 +147,7 @@ This report placed no live trade, no live buy, no live sell, and no live close. 
     "take_profit_policy_present": true,
     "take_profit_policy_required": true
   },
-  "generated_at_utc": "2026-06-19T16:03:20Z",
+  "generated_at_utc": "2026-08-05T20:45:34Z",
   "human_owner_arming": {
     "blocked_reasons": [
       "required_human_phrase_not_provided"
@@ -206,7 +206,7 @@ This report placed no live trade, no live buy, no live sell, and no live close. 
     "evidence_present": [
       "read_only_live_data_bridge_evidence"
     ],
-    "freshness_utc": "2026-06-19T14:33:27Z",
+    "freshness_utc": "2026-08-05T20:45:33Z",
     "live_execution_allowed": false,
     "pl_available": false,
     "positions_reconciled": false,

@@ -1,0 +1,21 @@
+{
+  "account_access_performed": false,
+  "active_session": null,
+  "broker_call_performed": false,
+  "broker_write_performed": false,
+  "continuous_execution_allowed": false,
+  "credentials_loaded": false,
+  "daemon_created": false,
+  "demo_execution_allowed": false,
+  "genuine_paper_trades_recorded": 0,
+  "live_execution_allowed": false,
+  "margin_use_allowed": false,
+  "money_movement_allowed": false,
+  "order_close_allowed": false,
+  "order_modification_allowed": false,
+  "order_submission_allowed": false,
+  "scheduler_created": false,
+  "session_controller_status": "READY",
+  "version": "forex_p1_supervised_paper_session_v1",
+  "webhook_created": false
+}

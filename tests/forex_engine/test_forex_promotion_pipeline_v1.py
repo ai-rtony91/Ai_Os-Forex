@@ -18,6 +18,7 @@ from automation.forex_engine.forex_promotion_pipeline_v1 import (
     build_state_payload,
     collect_available_promotion_evidence,
     evaluate_promotion_pipeline,
+    evaluate_and_write_artifacts,
     DECISION_STATUS_BLOCKED,
     DECISION_STATUS_BROKER_REQUIRED,
     DECISION_STATUS_COMPLETE,
@@ -143,6 +144,29 @@ def test_human_gate_requires_owner_approval(tmp_path: Path):
     assert decision.status == DECISION_STATUS_OWNER_REQUIRED
     assert decision.selected_gate_id == "OWNER_APPROVAL_GATE"
 
+
+
+def test_evaluate_and_write_does_not_mark_owner_gate_passed_without_owner_approval(tmp_path: Path):
+    root = tmp_path / "repo"
+    _create_all_gate_evidence_paths(root=root)
+
+    state, decision, _available = evaluate_and_write_artifacts(
+        repo_root=root,
+        state_path=tmp_path / "state.json",
+        checkpoint_path=tmp_path / "checkpoint.md",
+        owner_approval_card_path=tmp_path / "owner-card.md",
+        next_codex_packet_path=tmp_path / "next-packet.md",
+        report_path=tmp_path / "report.md",
+        owner_approved=False,
+        broker_ready=True,
+    )
+
+    assert decision.status == DECISION_STATUS_OWNER_REQUIRED
+    assert decision.selected_gate_id == "OWNER_APPROVAL_GATE"
+    assert "OWNER_APPROVAL_GATE" not in state.passed_gates
+    checkpoint = (tmp_path / "checkpoint.md").read_text(encoding="utf-8")
+    owner_section = checkpoint.split("- OWNER_APPROVAL_GATE:", 1)[1].split("- LIVE_ARMING_REVIEW:", 1)[0]
+    assert "status: pending" in owner_section
 
 def test_complete_when_all_gates_passed(tmp_path: Path):
     root = tmp_path

@@ -1,0 +1,126 @@
+{
+  "schema": "AIOS_FOREX_PRACTICE_HISTORY_HUMAN_HANDOFF_V1_STATE",
+  "packet_id": "PKT-EAST-FOREX-PRACTICE-HISTORY-RESUME-REPAIR-026-R1",
+  "status": "REPAIR_R1_PASS_WAITING_HUMAN_RERUN",
+  "last_physical_validation_utc": "2026-08-30T00:00:00Z",
+  "practice_host": "api-fxpractice.oanda.com",
+  "method": "GET",
+  "intended_instrument_count": 58,
+  "completed_instrument_count": 29,
+  "completed_instruments": [
+    "AUD_CAD",
+    "AUD_CHF",
+    "AUD_HKD",
+    "AUD_JPY",
+    "AUD_NZD",
+    "AUD_SGD",
+    "AUD_USD",
+    "CAD_CHF",
+    "CAD_HKD",
+    "CAD_JPY",
+    "CAD_SGD",
+    "CHF_HKD",
+    "CHF_JPY",
+    "CHF_ZAR",
+    "EUR_AUD",
+    "EUR_CAD",
+    "EUR_CHF",
+    "EUR_CZK",
+    "EUR_GBP",
+    "EUR_HKD",
+    "EUR_HUF",
+    "EUR_JPY",
+    "EUR_NZD",
+    "EUR_PLN",
+    "EUR_SEK",
+    "EUR_SGD",
+    "EUR_USD",
+    "EUR_ZAR",
+    "GBP_AUD"
+  ],
+  "partially_completed_instrument": "GBP_CAD",
+  "last_validated_batch": {
+    "instrument": "GBP_CAD",
+    "batch_number": 1,
+    "first_candle_time": "2005-01-02T18:00:00.000000000Z",
+    "last_candle_time": "2005-10-10T22:00:00.000000000Z",
+    "candle_count": 5000,
+    "artifact_hash": "51751ed8497e0c6b3aaf18a3e63ef00225c827490a8b7c7d8a014fa62b10d59c"
+  },
+  "first_missing_batch": {
+    "instrument": "GBP_CAD",
+    "batch_number": 2,
+    "request_start_time": "2005-10-10T23:00:00Z"
+  },
+  "validated_candle_count": 4118548,
+  "completed_instrument_candle_count": 3973548,
+  "partial_or_incomplete_instrument_candle_count": 145000,
+  "manifest_hash": "607db8eb44ce100f7f6587ed4e7282a1317e5438b680d6b4054bcfe13c9a03d4",
+  "helper_sha256": "a1bcd8d062bc82050cfd848e23bbc8db1634dad5cb0a0c188eebc2155f97ffbd",
+  "observed_failure_after_initial_repair": {
+    "instrument": "GBP_CAD",
+    "batch_number": 2,
+    "status": 504,
+    "classification": "Transient upstream/network failure where PowerShell exposed status in the full error record shape.",
+    "promoted_data_corrupted": false,
+    "manifest_hash_unchanged_after_failure": true
+  },
+  "retry_policy": {
+    "max_attempts_per_exact_batch": 5,
+    "retry_http_statuses": [
+      408,
+      425,
+      429,
+      500,
+      502,
+      503,
+      504
+    ],
+    "retry_equivalents": [
+      "timeout",
+      "connection reset",
+      "temporary receive failure"
+    ],
+    "backoff_seconds": [
+      2,
+      5,
+      10,
+      20,
+      30
+    ],
+    "jitter": true,
+    "honor_retry_after": true,
+    "max_delay_seconds": 30
+  },
+  "r1_retry_classifier": {
+    "reads_exception_response_status": true,
+    "reads_error_record_exception_response_status": true,
+    "reads_error_details_message": true,
+    "reads_sanitized_error_record_text": true,
+    "invoke_restmethod_erroraction_stop": true
+  },
+  "checkpoint_resume": {
+    "checkpoint_schema": "AIOS_OANDA_PRACTICE_HISTORY_CHECKPOINT_V1",
+    "checkpoint_root": ".aios/runtime/forex_practice_history_human_inbox/checkpoints",
+    "sanitized": true,
+    "token_persisted": false,
+    "authorization_header_persisted": false,
+    "resume_strategy": "Validate existing artifact and matching checkpoint hash when available; otherwise derive next_start_time from last validated candle."
+  },
+  "validation": {
+    "powershell_parser": "PASS",
+    "focused_pytest": "PASS_15",
+    "artifact_audit": "PASS",
+    "active_lock_count": 0,
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "secret_scan": "PASS",
+    "live_order_scan": "PASS"
+  },
+  "secret_value_exposed": false,
+  "live_host_contacted": false,
+  "order_attempted": false,
+  "broker_mutation": false,
+  "funding_attempted": false,
+  "human_resume_command": "cd C:\\Dev\\Ai.Os; powershell -NoProfile -ExecutionPolicy Bypass -File .\\scripts\\forex_delivery\\Run-AiOsProfitabilityDataClosure.HUMAN_ONLY.ps1"
+}

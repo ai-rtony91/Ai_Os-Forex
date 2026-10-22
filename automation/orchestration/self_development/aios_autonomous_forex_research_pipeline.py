@@ -392,7 +392,9 @@ def _main() -> int:
     if args.payload_base64:
         payload_text = base64.b64decode(args.payload_base64.encode("ascii")).decode("utf-8")
     else:
-        payload_text = sys.stdin.read()
+        # Decode the wire bytes independently of the host's console/code page.
+        # Accept a BOM from older UTF-8 callers without weakening JSON parsing.
+        payload_text = sys.stdin.buffer.read().decode("utf-8-sig")
     result = build_autonomous_forex_research_run_result(json.loads(payload_text))
     print(json.dumps(result, indent=2, sort_keys=True))
     return 0 if result["safety"]["status"] == "PASS" else 1

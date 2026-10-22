@@ -28,7 +28,7 @@
     "vacation_mode": true
   },
   "next_safe_action": "Owner must provide or repair owner-sanitized evidence for kill_switch_state, daily_stop_state, max_loss_state, monitoring_ready; keep broker, demo, live micro, live trading, and vacation modes locked.",
-  "next_packet_path": "C:\\Dev\\Ai.Os\\Reports\\forex_delivery\\AIOS_FOREX_WORKFLOW_AUTONOMY_ROUTER_NEXT_CODEX_PACKET_V1.md",
+  "next_packet_path": "/workspace/Ai_Os/Reports/forex_delivery/AIOS_FOREX_WORKFLOW_AUTONOMY_ROUTER_NEXT_CODEX_PACKET_V1.md",
   "safety_boundary": {
     "order_execution_allowed": false,
     "broker_api_allowed": false,
@@ -56,8 +56,8 @@
     "Discovery candidate weak for max_loss_state: status=DISCOVERED_WEAK_CANDIDATE, safe_to_cite=false",
     "Discovery candidate weak for monitoring_ready: status=DISCOVERED_WEAK_CANDIDATE, safe_to_cite=false"
   ],
-  "current_branch": "main",
-  "current_head": "29b53f21e411ced485084060e2bf59b76edc15c8",
+  "current_branch": "work",
+  "current_head": "acb6d327352e0542dcbcc8a521891fbc7ade8648",
   "validator_chain": [
     "python -m py_compile automation/forex_engine/forex_workflow_autonomy_router_v1.py scripts/forex_delivery/run_forex_workflow_autonomy_router_v1.py",
     "python -m pytest tests/forex_engine/test_forex_workflow_autonomy_router_v1.py -q",

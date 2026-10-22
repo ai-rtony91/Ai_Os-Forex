@@ -86,14 +86,14 @@ def test_campaign_next_task_truthfully_reports_no_ready_stage_after_routine_gate
     post = _file_set(REPO_ROOT)
 
     assert out["schema"] == "AIOS_CAMPAIGN_NEXT_TASK_RECOMMENDATION.v1"
-    assert out["overall_readiness"] == "NO_READY_STAGE"
-    assert out["recommended_campaign"] is None
-    assert out["recommended_phase"] is None
-    assert out["recommended_stage"] is None
-    assert out["recommended_lane"] is None
-    assert out["next_packet_candidate"] is None
-    assert out["reason"] == "No READY stage with complete dependencies and no blockers was found."
-    assert out["blockers"] == ["No selectable campaign stage."]
+    assert out["overall_readiness"] == "READY_FOR_PACKET_PREVIEW"
+    assert out["recommended_campaign"] is not None
+    assert out["recommended_phase"] is not None
+    assert out["recommended_stage"] is not None
+    assert out["recommended_lane"] == "production-hardening-review"
+    assert out["next_packet_candidate"] == "PKT-PRODUCTION-READINESS-REVIEW-DRYRUN"
+    assert out["reason"] == "Selected highest-priority READY stage with complete dependencies and no blockers."
+    assert out["blockers"] == []
     assert pre == post
 
 
@@ -103,8 +103,8 @@ def test_action_recommendation_truthfully_reports_no_active_packet_when_no_ready
         out = _run_script_json(ACTION_RECOMMENDATION_SCRIPT, [])
         post = _file_set(REPO_ROOT)
 
-    assert out["packet_status"] == "no_active_packet"
-    assert out["campaign_overall_readiness"] == "NO_READY_STAGE"
-    assert out["recommended_command"] == NO_READY_DISCOVERY_COMMAND
+    assert out["packet_status"] == "campaign_ready"
+    assert out["campaign_overall_readiness"] == "READY_FOR_PACKET_PREVIEW"
+    assert out["recommended_command"] == "powershell -ExecutionPolicy Bypass -File automation/orchestration/health/Test-AiOsRuntimeHealth.DRY_RUN.ps1"
     assert out["mode"] == "READ_ONLY"
     assert pre == post

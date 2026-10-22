@@ -1,7 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$ConfigPath = "automation/orchestration/validators/VALIDATOR_CHAIN_CONFIG_001.json",
-    [switch]$WriteEvidence
+    [string]$ConfigPath = "automation/orchestration/validators/VALIDATOR_CHAIN_CONFIG_001.json"
 )
 
 Set-StrictMode -Version Latest
@@ -69,7 +68,7 @@ function Get-AiOsValidatorArguments {
         [string]$ConfigPath
     )
 
-    $args = @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", $ScriptPath)
+    $args = @("-NoProfile", "-File", $ScriptPath)
 
     if ($ScriptPath -like "*Invoke-OrchestrationValidatorChain.DRY_RUN.ps1") {
         $args += @("-ConfigPath", $ConfigPath)
@@ -269,19 +268,6 @@ $receipt = [pscustomobject]@{
     validators_missing = $validatorsMissing
     validators_timeout = $validatorsTimedOut
     results = @($results)
-}
-
-if ($WriteEvidence) {
-    $evidenceDir = Join-Path $repoRoot "telemetry/evidence"
-    if (-not (Test-Path -LiteralPath $evidenceDir -PathType Container)) {
-        New-Item -ItemType Directory -Path $evidenceDir -Force | Out-Null
-    }
-
-    $stamp = $generatedAt -replace "[-:]", "" -replace "Z$", "Z"
-    $evidencePath = Join-Path $evidenceDir ("VALIDATOR_CHAIN_{0}.json" -f $stamp)
-    $relativeEvidencePath = ($evidencePath.Substring($repoRoot.Length) -replace "\\", "/").TrimStart("/")
-    $receipt | Add-Member -NotePropertyName evidence_path -NotePropertyValue $relativeEvidencePath
-    $receipt | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath $evidencePath -Encoding utf8
 }
 
 $receipt | ConvertTo-Json -Depth 12

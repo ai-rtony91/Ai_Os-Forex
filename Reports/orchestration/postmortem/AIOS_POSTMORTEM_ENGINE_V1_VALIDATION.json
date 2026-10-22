@@ -1,0 +1,8 @@
+{
+  "authority": "OPERATIONAL_EVIDENCE_ONLY",
+  "focused_tests": {"passed": 49, "failed": 0, "skipped": 0},
+  "packet_id": "PKT-EAST-POSTMORTEM-PRODUCT-GAPS-026",
+  "regression_tests": {"passed": 35, "failed": 0, "skipped": 0},
+  "schema_version": "1.0",
+  "status": "PASS"
+}

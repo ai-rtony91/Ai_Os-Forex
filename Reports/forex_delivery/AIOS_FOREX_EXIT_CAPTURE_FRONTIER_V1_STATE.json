@@ -1,0 +1,205 @@
+{
+  "candidate_count": 2,
+  "diagnostic_only": true,
+  "exit_branch_supported": false,
+  "packet_id": "PKT-EAST-FOREX-EDGE-EXISTENCE-CLOSURE-031",
+  "rows": [
+    {
+      "average_mfe_r": 0.29560297,
+      "best_diagnostic_exit": "30m",
+      "best_expectancy": -0.26549669,
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_LONG",
+      "classification": "FAVORABLE_EXCURSION_NOT_PREDICTABLE",
+      "metrics": {
+        "120m": {
+          "expectancy": -0.28622684,
+          "max_drawdown_r": 1992.63320874,
+          "net_r": -1992.13882672,
+          "profit_factor": 0.42493784,
+          "trades": 6960,
+          "win_rate": 0.29568966
+        },
+        "1R": {
+          "expectancy": -0.26889869,
+          "max_drawdown_r": 1872.58073236,
+          "net_r": -1871.53487622,
+          "profit_factor": 0.33605378,
+          "trades": 6960,
+          "win_rate": 0.28965517
+        },
+        "240m": {
+          "expectancy": -0.3483364,
+          "max_drawdown_r": 2425.34719434,
+          "net_r": -2424.42135164,
+          "profit_factor": 0.43268302,
+          "trades": 6960,
+          "win_rate": 0.26810345
+        },
+        "2R": {
+          "expectancy": -0.27210213,
+          "max_drawdown_r": 1894.40778056,
+          "net_r": -1893.83082809,
+          "profit_factor": 0.33139155,
+          "trades": 6960,
+          "win_rate": 0.28505747
+        },
+        "30m": {
+          "expectancy": -0.26549669,
+          "max_drawdown_r": 1848.67344279,
+          "net_r": -1847.85698583,
+          "profit_factor": 0.22480035,
+          "trades": 6960,
+          "win_rate": 0.23663793
+        },
+        "3R": {
+          "expectancy": -0.272655,
+          "max_drawdown_r": 1898.25575307,
+          "net_r": -1897.6788006,
+          "profit_factor": 0.33034068,
+          "trades": 6960,
+          "win_rate": 0.28477011
+        },
+        "480m": {
+          "expectancy": -0.38651457,
+          "max_drawdown_r": 2690.14140021,
+          "net_r": -2690.14140021,
+          "profit_factor": 0.45824196,
+          "trades": 6960,
+          "win_rate": 0.22643678
+        },
+        "60m": {
+          "expectancy": -0.27359354,
+          "max_drawdown_r": 1904.78799851,
+          "net_r": -1904.21104604,
+          "profit_factor": 0.32803556,
+          "trades": 6960,
+          "win_rate": 0.28477011
+        },
+        "atr_trailing_exit": {
+          "expectancy": -0.2716682,
+          "max_drawdown_r": 1891.50336148,
+          "net_r": -1890.81070175,
+          "profit_factor": 0.32585385,
+          "trades": 6960,
+          "win_rate": 0.29051724
+        },
+        "original": {
+          "expectancy": -0.27210213,
+          "max_drawdown_r": 1894.40778056,
+          "net_r": -1893.83082809,
+          "profit_factor": 0.33139155,
+          "trades": 6960,
+          "win_rate": 0.28505747
+        },
+        "structural_exit": {
+          "expectancy": -0.2716682,
+          "max_drawdown_r": 1891.50336148,
+          "net_r": -1890.81070175,
+          "profit_factor": 0.32585385,
+          "trades": 6960,
+          "win_rate": 0.29051724
+        }
+      }
+    },
+    {
+      "average_mfe_r": 0.29377821,
+      "best_diagnostic_exit": "30m",
+      "best_expectancy": -0.26603075,
+      "candidate_id": "ELIGIBLE_M5_INFORMATION_SURFACE_SHORT",
+      "classification": "FAVORABLE_EXCURSION_NOT_PREDICTABLE",
+      "metrics": {
+        "120m": {
+          "expectancy": -0.31512303,
+          "max_drawdown_r": 2193.4279228,
+          "net_r": -2193.25626288,
+          "profit_factor": 0.3793628,
+          "trades": 6960,
+          "win_rate": 0.28376437
+        },
+        "1R": {
+          "expectancy": -0.27620887,
+          "max_drawdown_r": 1922.75758663,
+          "net_r": -1922.41372091,
+          "profit_factor": 0.3193143,
+          "trades": 6960,
+          "win_rate": 0.28275862
+        },
+        "240m": {
+          "expectancy": -0.37763338,
+          "max_drawdown_r": 2628.32831035,
+          "net_r": -2628.32831035,
+          "profit_factor": 0.39617884,
+          "trades": 6960,
+          "win_rate": 0.25718391
+        },
+        "2R": {
+          "expectancy": -0.28341026,
+          "max_drawdown_r": 1972.87925332,
+          "net_r": -1972.5353876,
+          "profit_factor": 0.30638019,
+          "trades": 6960,
+          "win_rate": 0.27672414
+        },
+        "30m": {
+          "expectancy": -0.26603075,
+          "max_drawdown_r": 1851.5740059,
+          "net_r": -1851.5740059,
+          "profit_factor": 0.21891809,
+          "trades": 6960,
+          "win_rate": 0.24051724
+        },
+        "3R": {
+          "expectancy": -0.28424011,
+          "max_drawdown_r": 1978.6550249,
+          "net_r": -1978.31115918,
+          "profit_factor": 0.30459373,
+          "trades": 6960,
+          "win_rate": 0.27658046
+        },
+        "480m": {
+          "expectancy": -0.45180051,
+          "max_drawdown_r": 3144.53151892,
+          "net_r": -3144.53151892,
+          "profit_factor": 0.38220981,
+          "trades": 6960,
+          "win_rate": 0.20933908
+        },
+        "60m": {
+          "expectancy": -0.28610939,
+          "max_drawdown_r": 1991.66518663,
+          "net_r": -1991.32132091,
+          "profit_factor": 0.3000252,
+          "trades": 6960,
+          "win_rate": 0.27643678
+        },
+        "atr_trailing_exit": {
+          "expectancy": -0.28130376,
+          "max_drawdown_r": 1958.21802111,
+          "net_r": -1957.87415539,
+          "profit_factor": 0.30212839,
+          "trades": 6960,
+          "win_rate": 0.28462644
+        },
+        "original": {
+          "expectancy": -0.28341026,
+          "max_drawdown_r": 1972.87925332,
+          "net_r": -1972.5353876,
+          "profit_factor": 0.30638019,
+          "trades": 6960,
+          "win_rate": 0.27672414
+        },
+        "structural_exit": {
+          "expectancy": -0.28130376,
+          "max_drawdown_r": 1958.21802111,
+          "net_r": -1957.87415539,
+          "profit_factor": 0.30212839,
+          "trades": 6960,
+          "win_rate": 0.28462644
+        }
+      }
+    }
+  ],
+  "schema": "AIOS_FOREX_EXIT_CAPTURE_FRONTIER_V1_STATE",
+  "state_hash": "f5438b06231cc801b266c4d34ebd948ee791c78f45fbaa27b29691d63374f412",
+  "status": "EXIT_CAPTURE_FRONTIER_COMPLETE"
+}

@@ -78,6 +78,8 @@ def run_c2_real_walkforward_oos_harness(
     """Evaluate C2 walk-forward and OOS windows into a sanitized source state."""
 
     raw = dict(payload or build_default_c2_harness_input())
+    # Match both automatic fallback and caller-supplied copies of the deterministic fixture.
+    uses_default_fixture = not payload or _payload_matches_default_fixture(raw)
     candidate = str(raw.get("candidate") or "")
     strategy_name = str(raw.get("strategy_name") or "paper_long_run_supervisor_v2")
     strategy_version = str(raw.get("strategy_version") or "c2-real-oos-v1")
@@ -129,6 +131,11 @@ def run_c2_real_walkforward_oos_harness(
     oos_evaluation = evaluate_walk_forward_oos_evidence(summary)
     candidate_alignment = "ALIGNED" if candidate == TARGET_CANDIDATE_ID else "BLOCKED_CANDIDATE_MISMATCH"
     blockers = _blockers(candidate_alignment, walkforward, oos_results, oos_evaluation)
+    if uses_default_fixture:
+        blockers = _dedupe([*blockers, "default walk-forward/OOS inputs are synthetic sample data"])
+    # Numeric outcomes and caller labels cannot authenticate their own source.
+    # This interface has no independent raw-receipt verifier; keep proof closed.
+    blockers = _dedupe([*blockers, "source authenticity is not independently verified"])
     status = HARNESS_PROVEN if not blockers else HARNESS_BLOCKED
 
     return {
@@ -139,9 +146,14 @@ def run_c2_real_walkforward_oos_harness(
         "candidate_alignment": candidate_alignment,
         "harness_status": status,
         "walkforward_oos_status": oos_evaluation.get("walk_forward_oos_status"),
-        "source_is_real_sanitized_local": status == HARNESS_PROVEN,
-        "source_is_test_or_sample": False,
-        "source_classification": "REAL_SANITIZED_LOCAL_HARNESS" if status == HARNESS_PROVEN else "BLOCKED",
+        "source_authentication_status": "UNVERIFIED",
+        "source_is_real_sanitized_local": status == HARNESS_PROVEN and not uses_default_fixture,
+        "source_is_test_or_sample": uses_default_fixture,
+        "source_classification": (
+            "REAL_SANITIZED_LOCAL_HARNESS"
+            if status == HARNESS_PROVEN and not uses_default_fixture
+            else "BLOCKED"
+        ),
         "windows_total": windows_total,
         "windows_passed": windows_passed,
         "oos_segments_total": oos_segments_total,
@@ -167,6 +179,21 @@ def run_c2_real_walkforward_oos_harness(
 
 
 def build_report_markdown(result: Mapping[str, Any]) -> str:
+    # Rendering a historical or caller-supplied label is not source verification.
+    result = dict(result)
+    result["source_authentication_status"] = "UNVERIFIED"
+    result["source_is_real_sanitized_local"] = False
+    result["permissions"] = dict(PROTECTED_PERMISSION_FLAGS)
+    result["blockers"] = list(dict.fromkeys([
+        *(result.get("blockers") or []), "NO_INDEPENDENT_VERIFIER_CONNECTED"
+    ]))
+    result["next_safe_action"] = (
+        "Provide independently verified candidate-bound source, trades and costs "
+        "through the existing evidence owner. Do not trade."
+    )
+    result["harness_status"] = HARNESS_BLOCKED
+    result["walkforward_oos_status"] = "UNVERIFIED_DIAGNOSTIC"
+
     lines = [
         "# AIOS Forex 110 C2 Real Walk-Forward OOS Harness V1",
         "",
@@ -201,31 +228,19 @@ def build_report_markdown(result: Mapping[str, Any]) -> str:
 
 
 def build_source_markdown(result: Mapping[str, Any]) -> str:
-    if result.get("harness_status") != HARNESS_PROVEN:
-        raise ValueError("source markdown requires proven harness evidence")
-    return "\n".join(
-        [
-            "# AIOS Forex 110 C2 Real Walk-Forward OOS Harness Source V1",
-            "",
-            f"- candidate: `{result.get('candidate')}`",
-            f"- windows_total: {result.get('windows_total')}",
-            f"- windows_passed: {result.get('windows_passed')}",
-            f"- oos_segments_total: {result.get('oos_segments_total')}",
-            f"- oos_segments_passed: {result.get('oos_segments_passed')}",
-            f"- min_pass_rate: {result.get('min_pass_rate')}",
-            f"- max_drawdown: {result.get('max_drawdown')}",
-            f"- max_allowed_drawdown: {result.get('max_allowed_drawdown')}",
-            f"- sanitized: {str(result.get('sanitized')).lower()}",
-            f"- evidence_age_days: {result.get('evidence_age_days')}",
-            f"- max_evidence_age_days: {result.get('max_evidence_age_days')}",
-            "- candidate_alignment: `ALIGNED`",
-            "",
-            "This artifact is repo-local, deterministic, sanitized, and review-only.",
-            "It grants no broker, credential, demo, live, order, money, commit, push, PR, or merge authority.",
-            "",
-        ]
+    """Refuse proof export until an independent source verifier exists."""
+
+    # Historical and caller-supplied result labels cannot authenticate evidence.
+    raise ValueError(
+        "source markdown requires proven harness evidence; "
+        "independent source verifier is unavailable"
     )
 
+
+
+def _payload_matches_default_fixture(raw: Mapping[str, Any]) -> bool:
+    default = build_default_c2_harness_input()
+    return all(raw.get(key) == value for key, value in default.items())
 
 def _as_window_matrix(value: Any) -> list[list[Any]]:
     if not isinstance(value, list):

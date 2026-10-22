@@ -31,7 +31,7 @@ Final validators are recorded in the packet completion response.
 
 Run `AIOS-FOREX-OANDA-DEMO-VAULT-READONLY-PREFLIGHT-V1`.
 
-That packet must prove owner-run vault save/load, then perform GET-only read-only OANDA DEMO preflight using account `101-001-38382514-001`.
+That packet must prove owner-run vault save/load, then perform GET-only read-only OANDA DEMO preflight using account `[REDACTED_DEMO_ACCOUNT_ID]`.
 
 ## Trading Status
 

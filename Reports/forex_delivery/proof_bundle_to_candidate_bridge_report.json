@@ -3,10 +3,6 @@
   "canonical_review_bundle": {
     "blockers": [
       "missing_sample_size",
-      "missing_expectancy",
-      "missing_profit_factor",
-      "missing_max_drawdown",
-      "missing_win_rate",
       "paper_evidence_not_ready",
       "walk_forward_pending"
     ],
@@ -53,13 +49,9 @@
   "mode": "LOCAL_APPLY",
   "next_safe_action": "Reject candidate and re-optimize candidate metrics.",
   "packet_id": "AIOS_FOREX_PROOF_BUNDLE_TO_CANDIDATE_BRIDGE_V1",
-  "proof_bundle_ready_for_candidate_bridge": true,
+  "proof_bundle_ready_for_candidate_bridge": false,
   "remaining_blockers": [
     "missing_sample_size",
-    "missing_expectancy",
-    "missing_profit_factor",
-    "missing_max_drawdown",
-    "missing_win_rate",
     "paper_evidence_not_ready",
     "walk_forward_pending"
   ],

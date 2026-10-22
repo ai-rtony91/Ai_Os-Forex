@@ -1,0 +1,29 @@
+{
+  "branch_supported": false,
+  "directions": {
+    "LONG": {
+      "all_expectancy": -0.28157411,
+      "empirical_p": 0.28166667,
+      "event_count": 6960,
+      "null_95pct": -0.25667366,
+      "null_campaigns": 3000,
+      "result": "NO_INCREMENTAL_PREDICTIVE_INFORMATION",
+      "selected_count": 1392,
+      "selected_expectancy": -0.27254616
+    },
+    "SHORT": {
+      "all_expectancy": -0.29279244,
+      "empirical_p": 0.93533333,
+      "event_count": 6960,
+      "null_95pct": -0.26953704,
+      "null_campaigns": 3000,
+      "result": "NO_INCREMENTAL_PREDICTIVE_INFORMATION",
+      "selected_count": 1392,
+      "selected_expectancy": -0.31392449
+    }
+  },
+  "packet_id": "PKT-EAST-FOREX-EDGE-EXISTENCE-CLOSURE-031",
+  "schema": "AIOS_FOREX_M5_PREDICTIVE_INFORMATION_SURFACE_V1_STATE",
+  "state_hash": "9d526c102c4976ab8c6d239f5c52d94bf39f31a191bd0ff51e190371e76fdcd5",
+  "status": "PREDICTIVE_INFORMATION_SURFACE_COMPLETE"
+}

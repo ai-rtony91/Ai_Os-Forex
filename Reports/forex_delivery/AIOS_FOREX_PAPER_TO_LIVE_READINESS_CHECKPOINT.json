@@ -1,0 +1,91 @@
+{
+  "active_session": {
+    "candidate_id": "1250d1b4b476eb2347027ecd",
+    "direction": "BUY",
+    "instrument": "GBP_USD",
+    "status": "ACTIVE"
+  },
+  "branch": "main",
+  "completed_work": [
+    "Loaded repo authority stack",
+    "Confirmed branch and remote state",
+    "Verified OANDA Practice GET-only preflight succeeded",
+    "Verified completed candles were received and ordered",
+    "Checked runtime lock ownership",
+    "Checked runtime evidence and campaign state",
+    "Resumed the canonical paper runner for 1 cycle",
+    "Observed a truthful active-session hold on duplicate_position_guard",
+    "Identified the prior 30-cycle run as manually interrupted after 20 completed cycles",
+    "Diagnosed the localhost proxy trap in the process environment",
+    "Cleared the proxy vars in-process and restarted the canonical runner",
+    "Confirmed the attached runner is actively advancing through fresh hold cycles"
+  ],
+  "current_objective": "Complete paper certification and prepare governed live-engaged readiness",
+  "dirty_files": [
+    "Reports/forex_delivery/AIOS_FOREX_SUPERTREND_30_TRADE_CAMPAIGN_REPORT.md",
+    "Reports/forex_delivery/AIOS_FOREX_SUPERTREND_30_TRADE_CAMPAIGN_STATE.json",
+    "Reports/forex_delivery/proof_bundle_to_candidate_bridge_report.json",
+    "automation/forex_engine/canonical_demo_review_evidence_bridge.py",
+    "automation/forex_engine/forex_p1_multipair_normalization_v1.py",
+    "automation/forex_engine/forex_p1_multipair_normalized_paper_campaign_v1.py",
+    "automation/forex_engine/forex_p1_supervised_paper_campaign_v1.py",
+    "automation/forex_engine/next_candidate_discovery_u_v1.py",
+    "automation/forex_engine/proof_bundle_to_candidate_bridge.py",
+    "automation/forex_engine/readiness_state_recalculation_v1.py",
+    "automation/forex_engine/replay_reconciliation_proof_bundle.py",
+    "scripts/forex_delivery/run_forex_p1_multipair_normalized_paper_campaign_v1.py",
+    "tests/forex_engine/test_canonical_demo_review_evidence_bridge.py",
+    "tests/forex_engine/test_forex_p1_multipair_normalization_v1.py",
+    "tests/forex_engine/test_forex_p1_multipair_normalized_paper_campaign_v1.py",
+    "tests/forex_engine/test_forex_p1_supervised_paper_campaign_v1.py",
+    "tests/forex_engine/test_next_candidate_discovery_u_v1.py",
+    "tests/forex_engine/test_proof_bundle_to_candidate_bridge.py",
+    "tests/forex_engine/test_readiness_state_recalculation_v1.py",
+    "tests/forex_engine/test_replay_reconciliation_proof_bundle.py",
+    "tests/forex_engine/test_run_forex_replay_reconciliation_proof_bundle_cli.py"
+  ],
+  "exact_resume_command": "Remove-Item Env:HTTP_PROXY,Env:HTTPS_PROXY,Env:ALL_PROXY,Env:NO_PROXY,Env:http_proxy,Env:https_proxy,Env:all_proxy,Env:no_proxy -ErrorAction SilentlyContinue; python scripts\\forex_delivery\\run_forex_p1_multipair_normalized_paper_campaign_v1.py --repo-root 'C:\\Dev\\Ai.Os' --runtime-root 'C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_p1_multipair_normalized_paper_campaign_v1' --cycles 30 --reviewer 'Human Owner Anthony' --report-json",
+  "external_blockers": [
+    "No genuine completed qualifying PAPER trades yet",
+    "Runtime experience ledger has 60 events but 0 trade-like closes",
+    "Paper certification target of 30 qualifying trades is unmet",
+    "Open active position is truthfully held until market movement closes it"
+  ],
+  "failures": [
+    "tests/forex_engine/test_consolidated_readiness_blocker_closure_v1.py::test_current_evidence_remains_demo_review_ready",
+    "tests/forex_engine/test_consolidated_readiness_blocker_closure_v1.py::test_current_final_status_remains_blocked_by_broker_gate_without_broker_proof",
+    "tests/forex_engine/test_long_only_autonomous_supervisor_v1.py::test_current_long_only_demo_supervisor_can_prepare_but_not_execute",
+    "tests/forex_engine/test_oanda_long_only_broker_proof_intake_v1.py::test_integrated_supervisor_remains_prepare_only_and_execution_false"
+  ],
+  "head": "b86c65140ed03d53d6c8d6c3618e50da0502f51b",
+  "ledger_count": 60,
+  "next_safe_action": "Keep the attached canonical runner running while market movement is awaited",
+  "last_segment": {
+    "cycles_completed": 4,
+    "latest_action": "PAPER_SESSION_HELD",
+    "latest_rejection_reason": "duplicate_position_guard",
+    "segment_status": "COMPLETE",
+    "segment_stop_reason": "BOUNDED_CYCLE_LIMIT"
+  },
+  "origin_main_sha": "815b18a6a03823e33db78a2f920870ce6e2af235",
+  "paper_metrics": {
+    "expectancy": 0,
+    "max_drawdown": 0,
+    "net_paper_pl": 0,
+    "profit_factor": null,
+    "profitability_proven": false,
+    "ready_for_live": false,
+    "ready_for_p2": false
+  },
+  "pending_work": [
+    "Accumulate genuine completed PAPER trades",
+    "Re-run the governed paper campaign",
+    "Reconcile campaign state and report outputs"
+  ],
+  "stop_reason": "EXTERNAL_MARKET_EVIDENCE_BLOCKER",
+  "validation": {
+    "practice_get_preflight": "PASS",
+    "pytest_forex_engine": "4 FAILURES",
+    "runtime_ledger_parse": "PASS"
+  }
+}

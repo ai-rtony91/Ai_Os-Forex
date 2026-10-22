@@ -177,7 +177,12 @@ def _sample_approval(now: str) -> ApprovalRecord:
     )
 
 
-def phase2(repo_root: Path, now: str, report_root: Path, approval_output_root: Path) -> dict[str, object]:
+def phase2(
+    repo_root: Path,
+    now: str,
+    report_root: Path = Path("Reports/phase_0_to_4_bridge"),
+    approval_output_root: Path = DEFAULT_APPROVAL_OUTPUT_ROOT,
+) -> dict[str, object]:
     valid_decision = compress_approval(_sample_approval(now))
     blocked_decision = compress_approval(
         ApprovalRecord.from_dict(

@@ -1,0 +1,53 @@
+{
+  "BIDIRECTIONAL_PAPER": {
+    "evidence": "NOT_STARTED",
+    "missing_evidence": "LONG and SHORT Paper PASS",
+    "score": 0,
+    "unlock_condition": "BIDIRECTIONAL_PAPER_PROFITABILITY_CERTIFIED"
+  },
+  "DATA_GATE_CLOSURE": {
+    "evidence": "Human package prepared",
+    "missing_evidence": {
+      "official_items": 3,
+      "practice_artifacts_missing": true
+    },
+    "score": 0,
+    "unlock_condition": "Human-only official and Practice artifacts present and validated"
+  },
+  "EXTERNAL_INFORMATION_CORPUS": {
+    "evidence": "HUMAN_OFFICIAL_DATA_DOWNLOAD_REQUIRED",
+    "missing_evidence": 3,
+    "score": 86,
+    "unlock_condition": "External Information Corpus V3 frozen"
+  },
+  "FUNDING_READINESS": {
+    "evidence": "NOT_REACHED",
+    "missing_evidence": "profitability/publication/live-safety/credentials/funding gates",
+    "score": 0,
+    "unlock_condition": "downstream only after bidirectional Paper profitability"
+  },
+  "LONG_EDGE": {
+    "evidence": "NOT_PROVEN",
+    "missing_evidence": "Development/Validation/Holdout/recent/Forward/Paper",
+    "score": 0,
+    "unlock_condition": "independent LONG chain PASS"
+  },
+  "MULTI_REGIME_CORPUS": {
+    "evidence": "HUMAN_PRACTICE_DATA_ACQUISITION_REQUIRED",
+    "missing_evidence": "Human-only OANDA Practice GET-only acquisition is required; Codex must not receive the Practice token or authorization header.",
+    "score": 0,
+    "unlock_condition": "Corpus V3 frozen"
+  },
+  "RESEARCH_PIPELINE_FALSIFIABILITY": {
+    "evidence": "NOT_RUN_DATA_BLOCKED",
+    "missing_evidence": "positive/negative controls",
+    "score": 0,
+    "unlock_condition": "data gates closed"
+  },
+  "SHORT_EDGE": {
+    "evidence": "NOT_PROVEN",
+    "missing_evidence": "Development/Validation/Holdout/recent/Forward/Paper",
+    "score": 0,
+    "unlock_condition": "independent SHORT chain PASS"
+  }
+}

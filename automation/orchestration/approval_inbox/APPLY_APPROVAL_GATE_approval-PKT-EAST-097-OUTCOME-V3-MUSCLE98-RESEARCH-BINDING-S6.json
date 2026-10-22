@@ -1,0 +1,1526 @@
+{
+  "algorithm": "HMAC-SHA256",
+  "allowed_paths": [
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6"
+  ],
+  "approval_authority": "Anthony, Human Owner",
+  "approval_evidence": {
+    "type": "HMAC_SHA256",
+    "status": "SIGNED_BY_HUMAN_OWNER",
+    "canonical_payload_schema": "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v2",
+    "canonical_payload_sha256": "ff62e61c9ac605a8cf10527c7d3ef4a98b84b7d2054063c35e8a01a8ccffa032",
+    "approval_hmac_sha256": "b3763cde6b0279f06dcfd1af69961efb0889da47829e4363ed29e611add0a4d2",
+    "approval_nonce": "61cf4b001fca4113a9ec7cfd0f97feca",
+    "key_id": "AIOS-HUMAN-OWNER-PRIMARY-V1",
+    "key_version": 1,
+    "key_fingerprint_sha256": "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786"
+  },
+  "approval_gate_id": "approval-PKT-EAST-097-OUTCOME-V3-MUSCLE98-RESEARCH-BINDING-S6",
+  "approval_request_id": "approval-PKT-EAST-097-OUTCOME-V3-MUSCLE98-RESEARCH-BINDING-S6",
+  "approval_status": "approved_for_apply",
+  "approval_timestamp_utc": "2026-10-01T03:36:37.4480600+00:00",
+  "approved_by_human": true,
+  "approved_mode": "APPLY",
+  "authority_bundle_sha256": "eab101541067933c877671f15a341d31a240eeab29680b71c851e2d809248c0a",
+  "blocked_paths": [
+    "C:\\Dev\\Ai.Os\\.git",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89"
+  ],
+  "budget_identity_sha256": "a198e8d1e282c7259cf2b302ef9956cab3f0a3efc1adb969493a18dc08168217",
+  "capabilities": {
+    "broker": false,
+    "commit": false,
+    "live": false,
+    "merge": false,
+    "paper": false,
+    "push": false
+  },
+  "closure_reserve_hours": 4,
+  "commit_package_required": true,
+  "cost_identity": {
+    "S6_FOMC_FIRST_POST_RELEASE_M5_H3_PILOT": "57552fbe6fe3b1b7394c08e349a956e0119f7745ae3af3bee426ee73a93046fd"
+  },
+  "created_at_utc": "2026-10-01T03:11:41.064842+00:00",
+  "data_hashes": {
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_institutional_edge_program_v1\\hypothesis_registry_preview.json": "3b01fd55d784a419374ccbe29123d02d9e24419f9ede14e367d9dd50038d93f2",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-01.jsonl.gz": "a334b9f7d099ea8bc1dd0b305e80c4228003bc412b16df311971e258c4551a81",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-02.jsonl.gz": "4f97c6c9d76c52cb4717dafd2f908ca127ebaf616422a9b2c65fc149ee296e83",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-03.jsonl.gz": "3161ed07ea2ef30ffc642338c25a3bad3b9438b29d1d9a9f31040b379d0a90df",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-04.jsonl.gz": "5423085eff87361027666d5c8a48a054c59b995a793ab94d6a6e491ec625ced1",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-05.jsonl.gz": "71b089c76b7e889b9775ad953a551853bbe9534b91699809e8c54b7f1a9e6bba",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-06.jsonl.gz": "d6e303635d809bdb4105294846adea1ac978640b4b50cd10055f74ac6d68f4e8",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-07.jsonl.gz": "36d9ea9c014cbcb115c6a91db7902186d283e0766bf96552a3467c115dac0a0d",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-08.jsonl.gz": "56657b8af5a629dcfaa094bbee407323c6e83e9508b93fc57e833833491ed1de",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-09.jsonl.gz": "37eaee0cd10e885b25222f2f2c4d639aa42c66457876cea4a187f99017db3b98",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-10.jsonl.gz": "6bf42e67a64699b1448eafacb2a09ec10e2a4dc75becac59baba7af218a12b52",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-11.jsonl.gz": "97162fbf7e8f922bbcb20cc5173740773271561147e98a0d7bd6f80bad0c2f2a",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-12.jsonl.gz": "515a69a70bb779a15ffe916eb3b24bb898be99f31b67b0197b4bb902d22d9640",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2025-01.jsonl.gz": "332c33ab3d5c29ba3423af983aea6244774e0371c3ad8657f92abe6524fcab96",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2025-02.jsonl.gz": "0b966b4bb088f9430674e80373dd74b0f756d8f77877da6f98eaaf7bf45f671f",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2025-03.jsonl.gz": "06a9962072607774cc2ceb09ad8543b7c3ad3ad05d6fd8f5657dfa705d8bbe61",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-01.jsonl.gz": "e9349c4c6b95ec39c6d9150b8607310713ea8ed7ca8ffe3a8ef9985c4b846583",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-02.jsonl.gz": "0d08a1de0d52233ed568de1a6c53a2103cd7d8348fd8bb66cf96ba7101b8a8ba",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-03.jsonl.gz": "ca77acbf64647e8a375137be7812eaa75f52eff2b049aa258bf67066ae8e91c0",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-04.jsonl.gz": "d808487c6e1aff3002766111c27cafba5800e43862cdaa23e8523615fc57ec9e",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-05.jsonl.gz": "e8bc27ec90e60445f9607a47617ae959a5b6227a720e4c2e84c7fa15b88f8e13",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-06.jsonl.gz": "2a2f329599861689c9ba942ef8b02aa8822a5370aee9f3625a79ab3f51931580",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-07.jsonl.gz": "73962749427c08697ce8bb04fbf8a16201d6043aeae4a282a283f1a04d334126",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-08.jsonl.gz": "62453ecd3f74c52e074fa75e6e03688c984cba6bbb3a0f2655e9911563aa43d5",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-09.jsonl.gz": "598d7b03690f3ed2aa9949ccac71b40bb84cc868f293e2ce71e5c23469cedd91",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-10.jsonl.gz": "ff81d55dc5441b9db2050c6cc62d50b3f339ef1a8f7c261dbbfe35ff34156cdf",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-11.jsonl.gz": "6403549ec23b54b066ba2293ae54653d8a11a03f2dfb06e374f32755d13e0fa2",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-12.jsonl.gz": "863530244f6dac251a7479e5238e3fced8c27faea7a269313c517c2f91f73f31",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-01.jsonl.gz": "c2468108b091d155b1259dda040ba66df9a7d39f1560ff80d07e1c8d644e04ac",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-02.jsonl.gz": "284fa2843403ce44a84603a021a87a5e0e24407a29b282f3bed2d153b20fca61",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-03.jsonl.gz": "3ad7334757fbf5a490f392104037c0533fe11eabd9f4d05c8572eb994c3563ca",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-01.jsonl.gz": "c1b9d3b2f226d7193879ebf330fa36a73adc455284af9ca41867c862efc0b92c",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-02.jsonl.gz": "242c232c716ec00c5a2cfb8c3e86b9760aab802ce6df63db698361ff53c5ca8b",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-03.jsonl.gz": "09c2820a3a9b6df4dafe6f4dd73f664da689cda3086920eba41d8b31886ee7d9",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-04.jsonl.gz": "e82f1a23c20473d3e49a6b7843f4e9b9b07b985ded8d5939cf8c623a8feaccda",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-05.jsonl.gz": "dad5940f1fb8cc2951b0cc5dd4bc1cc37e1c15a569c2ab7a413b3ed80ddca78b",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-06.jsonl.gz": "2a628b8c02d0eb8d439913037c0ab297f9a443685ed9e34a2f0201d46e0f45d9",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-07.jsonl.gz": "309b52c3aee86b268ad9c80aceccc01b9ab5d702907fc205a8c3c1bb1c7ccc9f",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-08.jsonl.gz": "f5eae796530ccd402bcabb437fea5107a074f463d9446b6b32e67549fafb42d7",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-09.jsonl.gz": "46fe31bf0462e4e99a8390f0bd82cf5ad50ee63d26730a557489122ad5e03780",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-10.jsonl.gz": "f294e862919e015757b2a119d0476e89465985b8f804a9358af5dfcec3155652",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-11.jsonl.gz": "5b2d63aee26242bce7561ad59dfe6b978029af4110bb24f003f2a37346cd197b",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-12.jsonl.gz": "092cf336e7c45d5b6a93c1c6fcffb2312fca250e647d3c5bec18c5ad5b60073c",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2025-01.jsonl.gz": "324963c3724595e01c155e2465c6feebf23a70a8e189170ce3248cdd173ef628",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2025-02.jsonl.gz": "35859d5364291721fef568f61522b2cc4f34329a0e5b7c0da9be620acb1cfbb9",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2025-03.jsonl.gz": "bc023e2bcbe7106bdefee4c28811f799d5049a0e947c3e183f3042e8bd417741",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-01.jsonl.gz": "d4db0bc0fbedaed7374141085c2ebbc7cc828fda0f9ac8c604d834558c628688",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-02.jsonl.gz": "82d473d2b786047bc59a925c7b1ee14d0f21b8e8213a053f779c9fe15928c459",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-03.jsonl.gz": "c846045cda18c8215249a728faa2ce509439093e78ec7af27e72edbbb7392a17",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-04.jsonl.gz": "c5a1e1a159f5991ee42dca812add0d48bdc33d7447a0e5af6b9f72caa5c5aab5",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-05.jsonl.gz": "a8d47d271f2cde094685a52605863303d2a3bf2566663e8a8e612133c0174101",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-06.jsonl.gz": "f66812bbbd9c8bbe76310242e8d8091ab48c20d1897d37cb1a1869103a185a1d",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-07.jsonl.gz": "471b13a786f393ed31b9184963e8480f1237747395ccbd78cc36846b52539042",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-08.jsonl.gz": "544e7970b16992b811bfe5cb0f7af4f65b90a0da9f65524472890bcc3df336a0",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-09.jsonl.gz": "e92cfc0634299d0b4b482fd0ff6ea9dc5c90a0e8a1f9d8b1c11c92be5182e532",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-10.jsonl.gz": "36bdd6227abaad884a9b705c58d46fb71314f2019777eeb518618e226c00d98c",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-11.jsonl.gz": "33642e9a96aadc2574e76c848ef28cae5e5382808e80f667eb11137742dd66ce",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-12.jsonl.gz": "6bf3b307e8e8aeeb7be49c250455c7d4ca1bd948903264dff9c835e08c1d999c",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2025-01.jsonl.gz": "5117c2ec1684b1aff69080ead25bf74d91ab1103bf44faa7802b67a4e5b352a2",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2025-02.jsonl.gz": "5cdc37d44aef08e8261ec77391063a722eb4b5b56d489fbfee53f65b5ecdc5d3",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2025-03.jsonl.gz": "c0e10938dae36cd6a08bbd20b9e3e6570d81e5affc9db31f10e28b63a9f39017",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\GAP_MATRIX.json": "c89a7dc2555a4e7ad6afffbd8cf24ee2fea61b5efe2700fbf21256f9de94477d",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_030\\PKT_FOREX_030_COMPLETION.json": "164c50032ada25a4220d0ca23e5d30d95fca536fe6d7fb345084b6000949d601",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_032\\PKT_FOREX_032_COMPLETION.json": "b78bc202b4e2726c9c16796f53ba187d1428a1a2b36c65b486a3449d0f908eac",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_034\\PKT_FOREX_034_COMPLETION.json": "66f1808cda6e21b2a32b6f53ccd71c2ee16b3ec46d591bd59d9423ef9f5c4141",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_037\\PKT_FOREX_037_COMPLETION.json": "642e779d61e7820fec0b3aa4222db2ebb553ea99c7fb5eaf6587549a812efc70",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_038\\final_reproduction2\\AIOS_FOREX_EDGE_TOURNAMENT_RECEIPT.json": "ab9c730254813d5c25e55cd8bd8a17066ab846744b00091a164ae5cf23a2c7c3",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_039\\final_run2\\AIOS_FOREX_EDGE_TOURNAMENT_STAGE1_RECEIPT.json": "15c36af6dd8752390f3838cde6415d06d34fab8a2b32677632e4c3e567297919",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_042\\final_run2\\AIOS_FOREX_PKT039_CORRECTIVE_RECEIPT.json": "eb736e732099f6c929e85f54e4edc64a58aba54b08b30be60a08aaab0c614a9e",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_043\\run2\\AIOS_FOREX_FACTOR_COMPONENT_STAGE0_RECEIPT.json": "b33dbd5cde8d61928b6759ab43a9c2995a9e398f259c3126ded9e5eb7426728b",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\20240131.html": "6f4a9adc862e60b8c681373bd3ef7394e00f41435646ef8a08cc57bdaa57712c",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\20240320.html": "c1011652177c4cef752dc9410246c96958d76b5b89dbea27bbe51c8148a87e58",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\20240501.html": "765bed7ddb0e17a0848b1efe8f6426514a11fb2edbc4070276be822f90b8b146",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\20240612.html": "e6f60281c8071a59101f15db2c5197e9e3804f364508e5700f62e5aa15c1b340",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\20240731.html": "e36f51e84e22d3a5cf508e496268a2813bb640477495de803dae350d24ec7ef2",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\20240918.html": "5773416413f558edc90116c45e196427b049e3b699ea31c54c78cba295613769",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\20241107.html": "76d2344c3dee793d809b9b45bae66478d55ba4bdc32d3eb1df388b137313062e",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\20241218.html": "cbee79751fdd229a4d53334c9f6716230c2cef1b370652e05058262d740bb4a9",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\20250129.html": "77d2d051e3bee98de243a66e6f542eecf21c95197b67957ce55df578f7622720",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\20250319.html": "61c87a9f398ea5a64f4fba4d5ffc1534cb89e019ac70c871e38b177a4f860e39",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_15f007b8cf9349b5a55d4e303d840e2c_ACQUISITION.json": "13729d1beb4727cadaec549925ee5634c0bf943d1fba8728de139e86d156e7d4",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_CALENDAR_498864cfd6e9486f8f7f8277e6b9908d_ACQUISITION.json": "365e2e014f2b33afcc822b9a0afeef9bcb2d8b3b75f1f5e2503eca86d7b029bc",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_INPUT_CONTRACT.json": "c9bfda479d353a652a1203ba7be99e6b2e8c35a8c239fa2437dd20c4dd4db169",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_JOB.json": "1579ba6a4fced4e6925ca32200412d27e9b18eb7e67875b86272152587c45c42",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\TEST_RESULTS.json": "3b7d19015a39e37a76a71ddb44f075462433ad967277d4e8fc1ea72efc568088",
+    "C:\\Dev\\Ai.Os\\Reports\\forex_delivery\\AIOS_FOREX_INFORMATION_EDGE_PROGRAM_V1_STATE.json": "38204879cabf26e8613cd510dace5e810f4770b53ca92949f60feae9c70ffb0f",
+    "C:\\Dev\\Ai.Os\\Reports\\forex_delivery\\AIOS_FOREX_INSTITUTIONAL_EDGE_PROGRAM_V1_STATE.json": "b065e6eace43ae68368f7e5b8021610dc13857ee860674a610c06f8c437304b8"
+  },
+  "execution_contract_sha256": "3b084081982b2f3c3e150ddfb9b0d0d9d382905773c1870166894b3766d0e87f",
+  "expires_at_utc": "2026-10-03T18:38:26.339270Z",
+  "gate_id": "approval-PKT-EAST-097-OUTCOME-V3-MUSCLE98-RESEARCH-BINDING-S6",
+  "goal_id": "OUTCOME_CAMPAIGN_V3",
+  "lane": "FOREX_STRATEGY_INTELLIGENCE_EXPLORATORY_RESEARCH",
+  "latest_entry_utc": "2026-10-03T14:38:26.339270Z",
+  "not_before_utc": "2026-10-01T03:11:41.064842+00:00",
+  "output_roots": {
+    "run": "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6"
+  },
+  "owner_identity": "Anthony, Human Owner",
+  "package_sha256": "971f23d15b8e611771e189b494ec7ba4a574289f45f79ba767c0bf98c68e86ba",
+  "packet_id": "PKT-EAST-097-OUTCOME-V3-MUSCLE98-RESEARCH-BINDING-S6",
+  "purpose": "AIOS_APPLY_APPROVAL_RUNTIME_ADMISSION",
+  "push_blocked_until_final_review": true,
+  "request_id": "approval-PKT-EAST-097-OUTCOME-V3-MUSCLE98-RESEARCH-BINDING-S6",
+  "request_revision": "IN_PLACE_REPAIR_20260930_R1",
+  "requested_action": "RUN_OUTCOME_V3_ADMITTED_OFFLINE_RESEARCH_S6",
+  "requested_mode": "APPLY",
+  "research_scope": {
+    "bindings": {
+      "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6"
+    },
+    "experiment_list_sha256": "3b084081982b2f3c3e150ddfb9b0d0d9d382905773c1870166894b3766d0e87f",
+    "jobs": [
+      {
+        "baselines": [
+          "NO_TRADE",
+          "SAME_EVENTS_OPPOSITE_DIRECTION"
+        ],
+        "blockers": [],
+        "candidate_id": "S6_FOMC_FIRST_POST_RELEASE_M5_H3_PILOT",
+        "configuration_count": 8,
+        "contracts": {
+          "costs": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\GAP_MATRIX.json": "c89a7dc2555a4e7ad6afffbd8cf24ee2fea61b5efe2700fbf21256f9de94477d",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_15f007b8cf9349b5a55d4e303d840e2c_ACQUISITION.json": "13729d1beb4727cadaec549925ee5634c0bf943d1fba8728de139e86d156e7d4",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_CALENDAR_498864cfd6e9486f8f7f8277e6b9908d_ACQUISITION.json": "365e2e014f2b33afcc822b9a0afeef9bcb2d8b3b75f1f5e2503eca86d7b029bc",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_INPUT_CONTRACT.json": "c9bfda479d353a652a1203ba7be99e6b2e8c35a8c239fa2437dd20c4dd4db169",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\TEST_RESULTS.json": "3b7d19015a39e37a76a71ddb44f075462433ad967277d4e8fc1ea72efc568088"
+            },
+            "scope": "Specific execution pilot inputs/rules, not strategy proof or historical tariff certification",
+            "verified": true
+          },
+          "dependence_uncertainty": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\GAP_MATRIX.json": "c89a7dc2555a4e7ad6afffbd8cf24ee2fea61b5efe2700fbf21256f9de94477d",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_15f007b8cf9349b5a55d4e303d840e2c_ACQUISITION.json": "13729d1beb4727cadaec549925ee5634c0bf943d1fba8728de139e86d156e7d4",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_CALENDAR_498864cfd6e9486f8f7f8277e6b9908d_ACQUISITION.json": "365e2e014f2b33afcc822b9a0afeef9bcb2d8b3b75f1f5e2503eca86d7b029bc",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_INPUT_CONTRACT.json": "c9bfda479d353a652a1203ba7be99e6b2e8c35a8c239fa2437dd20c4dd4db169",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\TEST_RESULTS.json": "3b7d19015a39e37a76a71ddb44f075462433ad967277d4e8fc1ea72efc568088"
+            },
+            "scope": "Specific execution pilot inputs/rules, not strategy proof or historical tariff certification",
+            "verified": true
+          },
+          "execution_paths": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\GAP_MATRIX.json": "c89a7dc2555a4e7ad6afffbd8cf24ee2fea61b5efe2700fbf21256f9de94477d",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_15f007b8cf9349b5a55d4e303d840e2c_ACQUISITION.json": "13729d1beb4727cadaec549925ee5634c0bf943d1fba8728de139e86d156e7d4",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_CALENDAR_498864cfd6e9486f8f7f8277e6b9908d_ACQUISITION.json": "365e2e014f2b33afcc822b9a0afeef9bcb2d8b3b75f1f5e2503eca86d7b029bc",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_INPUT_CONTRACT.json": "c9bfda479d353a652a1203ba7be99e6b2e8c35a8c239fa2437dd20c4dd4db169",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\TEST_RESULTS.json": "3b7d19015a39e37a76a71ddb44f075462433ad967277d4e8fc1ea72efc568088"
+            },
+            "scope": "Specific execution pilot inputs/rules, not strategy proof or historical tariff certification",
+            "verified": true
+          },
+          "pair_conversion": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\GAP_MATRIX.json": "c89a7dc2555a4e7ad6afffbd8cf24ee2fea61b5efe2700fbf21256f9de94477d",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_15f007b8cf9349b5a55d4e303d840e2c_ACQUISITION.json": "13729d1beb4727cadaec549925ee5634c0bf943d1fba8728de139e86d156e7d4",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_CALENDAR_498864cfd6e9486f8f7f8277e6b9908d_ACQUISITION.json": "365e2e014f2b33afcc822b9a0afeef9bcb2d8b3b75f1f5e2503eca86d7b029bc",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_INPUT_CONTRACT.json": "c9bfda479d353a652a1203ba7be99e6b2e8c35a8c239fa2437dd20c4dd4db169",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\TEST_RESULTS.json": "3b7d19015a39e37a76a71ddb44f075462433ad967277d4e8fc1ea72efc568088"
+            },
+            "scope": "Specific execution pilot inputs/rules, not strategy proof or historical tariff certification",
+            "verified": true
+          },
+          "publication_vintages": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\GAP_MATRIX.json": "c89a7dc2555a4e7ad6afffbd8cf24ee2fea61b5efe2700fbf21256f9de94477d",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_15f007b8cf9349b5a55d4e303d840e2c_ACQUISITION.json": "13729d1beb4727cadaec549925ee5634c0bf943d1fba8728de139e86d156e7d4",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_CALENDAR_498864cfd6e9486f8f7f8277e6b9908d_ACQUISITION.json": "365e2e014f2b33afcc822b9a0afeef9bcb2d8b3b75f1f5e2503eca86d7b029bc",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_INPUT_CONTRACT.json": "c9bfda479d353a652a1203ba7be99e6b2e8c35a8c239fa2437dd20c4dd4db169",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\TEST_RESULTS.json": "3b7d19015a39e37a76a71ddb44f075462433ad967277d4e8fc1ea72efc568088"
+            },
+            "scope": "Specific execution pilot inputs/rules, not strategy proof or historical tariff certification",
+            "verified": true
+          },
+          "quarantine": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\GAP_MATRIX.json": "c89a7dc2555a4e7ad6afffbd8cf24ee2fea61b5efe2700fbf21256f9de94477d",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_15f007b8cf9349b5a55d4e303d840e2c_ACQUISITION.json": "13729d1beb4727cadaec549925ee5634c0bf943d1fba8728de139e86d156e7d4",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_CALENDAR_498864cfd6e9486f8f7f8277e6b9908d_ACQUISITION.json": "365e2e014f2b33afcc822b9a0afeef9bcb2d8b3b75f1f5e2503eca86d7b029bc",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_INPUT_CONTRACT.json": "c9bfda479d353a652a1203ba7be99e6b2e8c35a8c239fa2437dd20c4dd4db169",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\TEST_RESULTS.json": "3b7d19015a39e37a76a71ddb44f075462433ad967277d4e8fc1ea72efc568088"
+            },
+            "scope": "Specific execution pilot inputs/rules, not strategy proof or historical tariff certification",
+            "verified": true
+          },
+          "risk_units": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\GAP_MATRIX.json": "c89a7dc2555a4e7ad6afffbd8cf24ee2fea61b5efe2700fbf21256f9de94477d",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_15f007b8cf9349b5a55d4e303d840e2c_ACQUISITION.json": "13729d1beb4727cadaec549925ee5634c0bf943d1fba8728de139e86d156e7d4",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_CALENDAR_498864cfd6e9486f8f7f8277e6b9908d_ACQUISITION.json": "365e2e014f2b33afcc822b9a0afeef9bcb2d8b3b75f1f5e2503eca86d7b029bc",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_INPUT_CONTRACT.json": "c9bfda479d353a652a1203ba7be99e6b2e8c35a8c239fa2437dd20c4dd4db169",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\TEST_RESULTS.json": "3b7d19015a39e37a76a71ddb44f075462433ad967277d4e8fc1ea72efc568088"
+            },
+            "scope": "Specific execution pilot inputs/rules, not strategy proof or historical tariff certification",
+            "verified": true
+          },
+          "rollover": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\GAP_MATRIX.json": "c89a7dc2555a4e7ad6afffbd8cf24ee2fea61b5efe2700fbf21256f9de94477d",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_15f007b8cf9349b5a55d4e303d840e2c_ACQUISITION.json": "13729d1beb4727cadaec549925ee5634c0bf943d1fba8728de139e86d156e7d4",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_CALENDAR_498864cfd6e9486f8f7f8277e6b9908d_ACQUISITION.json": "365e2e014f2b33afcc822b9a0afeef9bcb2d8b3b75f1f5e2503eca86d7b029bc",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_INPUT_CONTRACT.json": "c9bfda479d353a652a1203ba7be99e6b2e8c35a8c239fa2437dd20c4dd4db169",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\TEST_RESULTS.json": "3b7d19015a39e37a76a71ddb44f075462433ad967277d4e8fc1ea72efc568088"
+            },
+            "scope": "Specific execution pilot inputs/rules, not strategy proof or historical tariff certification",
+            "verified": true
+          },
+          "selection_history": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\GAP_MATRIX.json": "c89a7dc2555a4e7ad6afffbd8cf24ee2fea61b5efe2700fbf21256f9de94477d",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_15f007b8cf9349b5a55d4e303d840e2c_ACQUISITION.json": "13729d1beb4727cadaec549925ee5634c0bf943d1fba8728de139e86d156e7d4",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_CALENDAR_498864cfd6e9486f8f7f8277e6b9908d_ACQUISITION.json": "365e2e014f2b33afcc822b9a0afeef9bcb2d8b3b75f1f5e2503eca86d7b029bc",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_INPUT_CONTRACT.json": "c9bfda479d353a652a1203ba7be99e6b2e8c35a8c239fa2437dd20c4dd4db169",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\TEST_RESULTS.json": "3b7d19015a39e37a76a71ddb44f075462433ad967277d4e8fc1ea72efc568088"
+            },
+            "scope": "Specific execution pilot inputs/rules, not strategy proof or historical tariff certification",
+            "verified": true
+          },
+          "stage2_gates": {
+            "evidence_hashes": {
+              "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\GAP_MATRIX.json": "c89a7dc2555a4e7ad6afffbd8cf24ee2fea61b5efe2700fbf21256f9de94477d",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_15f007b8cf9349b5a55d4e303d840e2c_ACQUISITION.json": "13729d1beb4727cadaec549925ee5634c0bf943d1fba8728de139e86d156e7d4",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_CALENDAR_498864cfd6e9486f8f7f8277e6b9908d_ACQUISITION.json": "365e2e014f2b33afcc822b9a0afeef9bcb2d8b3b75f1f5e2503eca86d7b029bc",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\FOMC_INPUT_CONTRACT.json": "c9bfda479d353a652a1203ba7be99e6b2e8c35a8c239fa2437dd20c4dd4db169",
+              "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\119e7d7277784a189abb2bc6ee9c8d4d\\TEST_RESULTS.json": "3b7d19015a39e37a76a71ddb44f075462433ad967277d4e8fc1ea72efc568088"
+            },
+            "scope": "Specific execution pilot inputs/rules, not strategy proof or historical tariff certification",
+            "verified": true
+          }
+        },
+        "cost_risk_hash": "57552fbe6fe3b1b7394c08e349a956e0119f7745ae3af3bee426ee73a93046fd",
+        "costs": {
+          "BASE": {
+            "commission_usd_per_million_per_side": 35.0,
+            "label": "DECLARED_RESEARCH_SCENARIO",
+            "slippage_pips_per_side": 0.1
+          },
+          "SEVERE_BUT_PLAUSIBLE": {
+            "commission_usd_per_million_per_side": 70.0,
+            "label": "DECLARED_RESEARCH_SCENARIO",
+            "slippage_pips_per_side": 1.0
+          },
+          "STRESSED": {
+            "commission_usd_per_million_per_side": 52.5,
+            "label": "DECLARED_RESEARCH_SCENARIO",
+            "slippage_pips_per_side": 0.5
+          }
+        },
+        "data_hash": "1b89a561a6916d62476c8f4b6339cb504b28aca60881dc4a7a54ddabeb177878",
+        "data_history": "DEVELOPMENT_USED_2024_AND_2025_Q1_NOT_CLEAN_CONFIRMATION",
+        "data_use_history": {
+          "2024": "Previously used across many families",
+          "2025_Q1": "Previously development-used",
+          "clean_confirmation": false,
+          "label": "DEVELOPMENT_USED",
+          "protected_later_prices_opened": 0
+        },
+        "economic_reason": "A timed public release changes available information; no consensus or surprise is fabricated",
+        "events_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\policy_source_intake\\FOMC_PUBLICATION_RECORD_e1857c2be3c026fae0d79c817b4e00f61157317bfb0e43eb001096315996790f.json",
+        "events_sha256": "5a5179f860d37600dd88eede9909fd58e68a0b0878118ff92ff329e86fe3bd80",
+        "execution_policy": "CONTIGUOUS_M5_STOP_FIRST_NO_ROLLOVER_NO_INTERPOLATION",
+        "gates": {
+          "beat_opposite_control": true,
+          "maximum_dd": 0.1,
+          "minimum_positive_blocks": 3,
+          "minimum_trades": 200,
+          "positive_all_costs": true,
+          "positive_largest_block_removed": true,
+          "positive_november_removed": true,
+          "positive_top5_removed": true,
+          "stressed_pf": 1.1,
+          "unknown_outcomes": 0
+        },
+        "handler": "policy_announcement_response_v1",
+        "history": {
+          "covered": {
+            "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_institutional_edge_program_v1\\hypothesis_registry_preview.json": "3b01fd55d784a419374ccbe29123d02d9e24419f9ede14e367d9dd50038d93f2",
+            "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_030\\PKT_FOREX_030_COMPLETION.json": "164c50032ada25a4220d0ca23e5d30d95fca536fe6d7fb345084b6000949d601",
+            "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_032\\PKT_FOREX_032_COMPLETION.json": "b78bc202b4e2726c9c16796f53ba187d1428a1a2b36c65b486a3449d0f908eac",
+            "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_034\\PKT_FOREX_034_COMPLETION.json": "66f1808cda6e21b2a32b6f53ccd71c2ee16b3ec46d591bd59d9423ef9f5c4141",
+            "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_037\\PKT_FOREX_037_COMPLETION.json": "642e779d61e7820fec0b3aa4222db2ebb553ea99c7fb5eaf6587549a812efc70",
+            "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_038\\final_reproduction2\\AIOS_FOREX_EDGE_TOURNAMENT_RECEIPT.json": "ab9c730254813d5c25e55cd8bd8a17066ab846744b00091a164ae5cf23a2c7c3",
+            "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_039\\final_run2\\AIOS_FOREX_EDGE_TOURNAMENT_STAGE1_RECEIPT.json": "15c36af6dd8752390f3838cde6415d06d34fab8a2b32677632e4c3e567297919",
+            "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_042\\final_run2\\AIOS_FOREX_PKT039_CORRECTIVE_RECEIPT.json": "eb736e732099f6c929e85f54e4edc64a58aba54b08b30be60a08aaab0c614a9e",
+            "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_043\\run2\\AIOS_FOREX_FACTOR_COMPONENT_STAGE0_RECEIPT.json": "b33dbd5cde8d61928b6759ab43a9c2995a9e398f259c3126ded9e5eb7426728b",
+            "C:\\Dev\\Ai.Os\\Reports\\forex_delivery\\AIOS_FOREX_INFORMATION_EDGE_PROGRAM_V1_STATE.json": "38204879cabf26e8613cd510dace5e810f4770b53ca92949f60feae9c70ffb0f",
+            "C:\\Dev\\Ai.Os\\Reports\\forex_delivery\\AIOS_FOREX_INSTITUTIONAL_EDGE_PROGRAM_V1_STATE.json": "b065e6eace43ae68368f7e5b8021610dc13857ee860674a610c06f8c437304b8"
+          },
+          "limits": "Bounded recorded history, not proof of clean data or absence outside covered scope",
+          "prior_negative_evidence": "PKT030 and Supertrend/grammar/calendar domains remain closed; no tuning authorized",
+          "revisit_reason": "New official publication-time population, not a renamed price-only grid",
+          "semantic_matches": "Prior policy/macro registry rows were data blocked; settlement-calendar, cross-price, round-number and price-feature trials are distinct mechanisms. No matching post-FOMC first-completed-M5 pilot found in named final receipts.",
+          "status": "NEW_WITHIN_CHECKED_HISTORY"
+        },
+        "market_outcomes_viewed": false,
+        "mechanism_fingerprint": "e329655ad71e4719083661b2a75fbfbc32d73a039635f8e0bad13d89b60f348a",
+        "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\tests\\market_output_FOMC_e36d4ddf2090b861a023da57",
+        "pairs": [
+          "AUD_USD",
+          "EUR_USD",
+          "GBP_USD",
+          "NZD_USD"
+        ],
+        "period": {
+          "end_exclusive": "2025-04-01T00:00:00Z",
+          "start": "2024-01-01T00:00:00Z",
+          "warmup": "2024-01-01T00:00:00Z"
+        },
+        "physical_call_reservation": 6,
+        "pip_size": 0.0001,
+        "population": "All 10 regular FOMC decision statements in 2024 and 2025 Q1",
+        "price_shards": [
+          {
+            "month": "2024-01",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-01.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6360
+            },
+            "sha256": "a334b9f7d099ea8bc1dd0b305e80c4228003bc412b16df311971e258c4551a81"
+          },
+          {
+            "month": "2024-02",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-02.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6048
+            },
+            "sha256": "4f97c6c9d76c52cb4717dafd2f908ca127ebaf616422a9b2c65fc149ee296e83"
+          },
+          {
+            "month": "2024-03",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-03.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 10,
+                "weekend_or_market_close": 5
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6050
+            },
+            "sha256": "3161ed07ea2ef30ffc642338c25a3bad3b9438b29d1d9a9f31040b379d0a90df"
+          },
+          {
+            "month": "2024-04",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-04.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6335
+            },
+            "sha256": "5423085eff87361027666d5c8a48a054c59b995a793ab94d6a6e491ec625ced1"
+          },
+          {
+            "month": "2024-05",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-05.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 8,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6545
+            },
+            "sha256": "71b089c76b7e889b9775ad953a551853bbe9534b91699809e8c54b7f1a9e6bba"
+          },
+          {
+            "month": "2024-06",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-06.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 3,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 5793
+            },
+            "sha256": "d6e303635d809bdb4105294846adea1ac978640b4b50cd10055f74ac6d68f4e8"
+          },
+          {
+            "month": "2024-07",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-07.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 8,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6616
+            },
+            "sha256": "36d9ea9c014cbcb115c6a91db7902186d283e0766bf96552a3467c115dac0a0d"
+          },
+          {
+            "month": "2024-08",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-08.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6299
+            },
+            "sha256": "56657b8af5a629dcfaa094bbee407323c6e83e9508b93fc57e833833491ed1de"
+          },
+          {
+            "month": "2024-09",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-09.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 2,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6082
+            },
+            "sha256": "37eaee0cd10e885b25222f2f2c4d639aa42c66457876cea4a187f99017db3b98"
+          },
+          {
+            "month": "2024-10",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-10.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6624
+            },
+            "sha256": "6bf42e67a64699b1448eafacb2a09ec10e2a4dc75becac59baba7af218a12b52"
+          },
+          {
+            "month": "2024-11",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-11.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2945,
+              "record_count": 6012
+            },
+            "sha256": "97162fbf7e8f922bbcb20cc5173740773271561147e98a0d7bd6f80bad0c2f2a"
+          },
+          {
+            "month": "2024-12",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2024-12.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 4,
+                "weekend_or_market_close": 5
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6044
+            },
+            "sha256": "515a69a70bb779a15ffe916eb3b24bb898be99f31b67b0197b4bb902d22d9640"
+          },
+          {
+            "month": "2025-01",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2025-01.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6336
+            },
+            "sha256": "332c33ab3d5c29ba3423af983aea6244774e0371c3ad8657f92abe6524fcab96"
+          },
+          {
+            "month": "2025-02",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2025-02.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 3,
+                "weekend_or_market_close": 3
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 5756
+            },
+            "sha256": "0b966b4bb088f9430674e80373dd74b0f756d8f77877da6f98eaaf7bf45f671f"
+          },
+          {
+            "month": "2025-03",
+            "pair": "AUD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\AUD_USD\\2025-03.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 3,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6080
+            },
+            "sha256": "06a9962072607774cc2ceb09ad8543b7c3ad3ad05d6fd8f5657dfa705d8bbe61"
+          },
+          {
+            "month": "2024-01",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-01.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6359
+            },
+            "sha256": "e9349c4c6b95ec39c6d9150b8607310713ea8ed7ca8ffe3a8ef9985c4b846583"
+          },
+          {
+            "month": "2024-02",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-02.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6047
+            },
+            "sha256": "0d08a1de0d52233ed568de1a6c53a2103cd7d8348fd8bb66cf96ba7101b8a8ba"
+          },
+          {
+            "month": "2024-03",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-03.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 5
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6060
+            },
+            "sha256": "ca77acbf64647e8a375137be7812eaa75f52eff2b049aa258bf67066ae8e91c0"
+          },
+          {
+            "month": "2024-04",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-04.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6335
+            },
+            "sha256": "d808487c6e1aff3002766111c27cafba5800e43862cdaa23e8523615fc57ec9e"
+          },
+          {
+            "month": "2024-05",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-05.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6587
+            },
+            "sha256": "e8bc27ec90e60445f9607a47617ae959a5b6227a720e4c2e84c7fa15b88f8e13"
+          },
+          {
+            "month": "2024-06",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-06.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 2,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 5794
+            },
+            "sha256": "2a2f329599861689c9ba942ef8b02aa8822a5370aee9f3625a79ab3f51931580"
+          },
+          {
+            "month": "2024-07",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-07.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6623
+            },
+            "sha256": "73962749427c08697ce8bb04fbf8a16201d6043aeae4a282a283f1a04d334126"
+          },
+          {
+            "month": "2024-08",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-08.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6299
+            },
+            "sha256": "62453ecd3f74c52e074fa75e6e03688c984cba6bbb3a0f2655e9911563aa43d5"
+          },
+          {
+            "month": "2024-09",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-09.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6084
+            },
+            "sha256": "598d7b03690f3ed2aa9949ccac71b40bb84cc868f293e2ce71e5c23469cedd91"
+          },
+          {
+            "month": "2024-10",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-10.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6623
+            },
+            "sha256": "ff81d55dc5441b9db2050c6cc62d50b3f339ef1a8f7c261dbbfe35ff34156cdf"
+          },
+          {
+            "month": "2024-11",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-11.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2945,
+              "record_count": 6011
+            },
+            "sha256": "6403549ec23b54b066ba2293ae54653d8a11a03f2dfb06e374f32755d13e0fa2"
+          },
+          {
+            "month": "2024-12",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2024-12.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 5
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6047
+            },
+            "sha256": "863530244f6dac251a7479e5238e3fced8c27faea7a269313c517c2f91f73f31"
+          },
+          {
+            "month": "2025-01",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-01.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6336
+            },
+            "sha256": "c2468108b091d155b1259dda040ba66df9a7d39f1560ff80d07e1c8d644e04ac"
+          },
+          {
+            "month": "2025-02",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-02.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 3
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 5759
+            },
+            "sha256": "284fa2843403ce44a84603a021a87a5e0e24407a29b282f3bed2d153b20fca61"
+          },
+          {
+            "month": "2025-03",
+            "pair": "EUR_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\EUR_USD\\2025-03.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6084
+            },
+            "sha256": "3ad7334757fbf5a490f392104037c0533fe11eabd9f4d05c8572eb994c3563ca"
+          },
+          {
+            "month": "2024-01",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-01.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6359
+            },
+            "sha256": "c1b9d3b2f226d7193879ebf330fa36a73adc455284af9ca41867c862efc0b92c"
+          },
+          {
+            "month": "2024-02",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-02.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6048
+            },
+            "sha256": "242c232c716ec00c5a2cfb8c3e86b9760aab802ce6df63db698361ff53c5ca8b"
+          },
+          {
+            "month": "2024-03",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-03.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 5
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6059
+            },
+            "sha256": "09c2820a3a9b6df4dafe6f4dd73f664da689cda3086920eba41d8b31886ee7d9"
+          },
+          {
+            "month": "2024-04",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-04.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6336
+            },
+            "sha256": "e82f1a23c20473d3e49a6b7843f4e9b9b07b985ded8d5939cf8c623a8feaccda"
+          },
+          {
+            "month": "2024-05",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-05.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6553
+            },
+            "sha256": "dad5940f1fb8cc2951b0cc5dd4bc1cc37e1c15a569c2ab7a413b3ed80ddca78b"
+          },
+          {
+            "month": "2024-06",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-06.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 5796
+            },
+            "sha256": "2a628b8c02d0eb8d439913037c0ab297f9a443685ed9e34a2f0201d46e0f45d9"
+          },
+          {
+            "month": "2024-07",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-07.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 2,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6621
+            },
+            "sha256": "309b52c3aee86b268ad9c80aceccc01b9ab5d702907fc205a8c3c1bb1c7ccc9f"
+          },
+          {
+            "month": "2024-08",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-08.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6300
+            },
+            "sha256": "f5eae796530ccd402bcabb437fea5107a074f463d9446b6b32e67549fafb42d7"
+          },
+          {
+            "month": "2024-09",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-09.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6083
+            },
+            "sha256": "46fe31bf0462e4e99a8390f0bd82cf5ad50ee63d26730a557489122ad5e03780"
+          },
+          {
+            "month": "2024-10",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-10.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6623
+            },
+            "sha256": "f294e862919e015757b2a119d0476e89465985b8f804a9358af5dfcec3155652"
+          },
+          {
+            "month": "2024-11",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-11.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2945,
+              "record_count": 6012
+            },
+            "sha256": "5b2d63aee26242bce7561ad59dfe6b978029af4110bb24f003f2a37346cd197b"
+          },
+          {
+            "month": "2024-12",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2024-12.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 2,
+                "weekend_or_market_close": 5
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6046
+            },
+            "sha256": "092cf336e7c45d5b6a93c1c6fcffb2312fca250e647d3c5bec18c5ad5b60073c"
+          },
+          {
+            "month": "2025-01",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2025-01.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6336
+            },
+            "sha256": "324963c3724595e01c155e2465c6feebf23a70a8e189170ce3248cdd173ef628"
+          },
+          {
+            "month": "2025-02",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2025-02.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 3
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 5759
+            },
+            "sha256": "35859d5364291721fef568f61522b2cc4f34329a0e5b7c0da9be620acb1cfbb9"
+          },
+          {
+            "month": "2025-03",
+            "pair": "GBP_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\GBP_USD\\2025-03.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6084
+            },
+            "sha256": "bc023e2bcbe7106bdefee4c28811f799d5049a0e947c3e183f3042e8bd417741"
+          },
+          {
+            "month": "2024-01",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-01.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 3,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6367
+            },
+            "sha256": "d4db0bc0fbedaed7374141085c2ebbc7cc828fda0f9ac8c604d834558c628688"
+          },
+          {
+            "month": "2024-02",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-02.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 4,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2895,
+              "record_count": 6015
+            },
+            "sha256": "82d473d2b786047bc59a925c7b1ee14d0f21b8e8213a053f779c9fe15928c459"
+          },
+          {
+            "month": "2024-03",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-03.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 5,
+                "weekend_or_market_close": 5
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6055
+            },
+            "sha256": "c846045cda18c8215249a728faa2ce509439093e78ec7af27e72edbbb7392a17"
+          },
+          {
+            "month": "2024-04",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-04.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6335
+            },
+            "sha256": "c5a1e1a159f5991ee42dca812add0d48bdc33d7447a0e5af6b9f72caa5c5aab5"
+          },
+          {
+            "month": "2024-05",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-05.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 7,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6547
+            },
+            "sha256": "a8d47d271f2cde094685a52605863303d2a3bf2566663e8a8e612133c0174101"
+          },
+          {
+            "month": "2024-06",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-06.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 5,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 5790
+            },
+            "sha256": "f66812bbbd9c8bbe76310242e8d8091ab48c20d1897d37cb1a1869103a185a1d"
+          },
+          {
+            "month": "2024-07",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-07.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 4,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6620
+            },
+            "sha256": "471b13a786f393ed31b9184963e8480f1237747395ccbd78cc36846b52539042"
+          },
+          {
+            "month": "2024-08",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-08.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 3,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6297
+            },
+            "sha256": "544e7970b16992b811bfe5cb0f7af4f65b90a0da9f65524472890bcc3df336a0"
+          },
+          {
+            "month": "2024-09",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-09.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 2,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6081
+            },
+            "sha256": "e92cfc0634299d0b4b482fd0ff6ea9dc5c90a0e8a1f9d8b1c11c92be5182e532"
+          },
+          {
+            "month": "2024-10",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-10.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 2,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6621
+            },
+            "sha256": "36bdd6227abaad884a9b705c58d46fb71314f2019777eeb518618e226c00d98c"
+          },
+          {
+            "month": "2024-11",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-11.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2945,
+              "record_count": 6012
+            },
+            "sha256": "33642e9a96aadc2574e76c848ef28cae5e5382808e80f667eb11137742dd66ce"
+          },
+          {
+            "month": "2024-12",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2024-12.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 2,
+                "weekend_or_market_close": 5
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6037
+            },
+            "sha256": "6bf3b307e8e8aeeb7be49c250455c7d4ca1bd948903264dff9c835e08c1d999c"
+          },
+          {
+            "month": "2025-01",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2025-01.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 0,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6336
+            },
+            "sha256": "5117c2ec1684b1aff69080ead25bf74d91ab1103bf44faa7802b67a4e5b352a2"
+          },
+          {
+            "month": "2025-02",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2025-02.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 3
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 5759
+            },
+            "sha256": "5cdc37d44aef08e8261ec77391063a722eb4b5b56d489fbfee53f65b5ecdc5d3"
+          },
+          {
+            "month": "2025-03",
+            "pair": "NZD_USD",
+            "path": "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\partitions\\NZD_USD\\2025-03.jsonl.gz",
+            "retained_quality": {
+              "chronological": true,
+              "duplicate_timestamps": 0,
+              "gap_counts": {
+                "unexpected": 1,
+                "weekend_or_market_close": 4
+              },
+              "largest_gap_minutes": 2885,
+              "record_count": 6083
+            },
+            "sha256": "c0e10938dae36cd6a08bbd20b9e3e6570d81e5affc9db31f10e28b63a9f39017"
+          }
+        ],
+        "quarantine_intervals": [
+          {
+            "end_exclusive": "2024-06-19T18:30:00Z",
+            "pair": "EUR_USD",
+            "start": "2024-06-19T18:25:00Z"
+          }
+        ],
+        "question": "Does the first completed post-publication displacement continue after executable costs?",
+        "refinement": "NONE",
+        "risk": {
+          "account_currency": "USD",
+          "basket_fraction": 0.0025,
+          "fraction": 0.0005,
+          "initial_equity_usd": 100000.0,
+          "minimum_units": 1,
+          "notional_multiple": 2.0,
+          "sizing": "FIXED_INITIAL_EQUITY"
+        },
+        "rules": {
+          "arm": "CONTINUATION",
+          "atr_bars": 20,
+          "body_min_atr": 0.5,
+          "entry_rule": "NEXT_M5_OPEN_AFTER_FIRST_POST_RELEASE_BAR_CLOSE",
+          "hold_bars": 3,
+          "stop_atr": 1.0,
+          "target": null
+        },
+        "rules_hash": "ec1a535459bac92d57ef8d41f05dbd353b79abe306435d4eae513b4ec5e7bd6b",
+        "sample_limit": "10 FOMC events can prove a pipeline only; four pairs per event are dependent, not 40 independent events",
+        "source_hash": "44ec59aa979d5526bbb8893faf9166c1c248320974cc8734abf29d43611e3098",
+        "spread_limit_pips": 2.0,
+        "stage": "EXECUTION_PILOT",
+        "status": "READY",
+        "time_blocks": [
+          {
+            "end_exclusive": "2024-04-01T00:00:00Z",
+            "id": "2024Q1",
+            "start": "2024-01-01T00:00:00Z"
+          },
+          {
+            "end_exclusive": "2024-07-01T00:00:00Z",
+            "id": "2024Q2",
+            "start": "2024-04-01T00:00:00Z"
+          },
+          {
+            "end_exclusive": "2024-10-01T00:00:00Z",
+            "id": "2024Q3",
+            "start": "2024-07-01T00:00:00Z"
+          },
+          {
+            "end_exclusive": "2025-01-01T00:00:00Z",
+            "id": "2024Q4",
+            "start": "2024-10-01T00:00:00Z"
+          },
+          {
+            "end_exclusive": "2025-04-01T00:00:00Z",
+            "id": "2025Q1",
+            "start": "2025-01-01T00:00:00Z"
+          }
+        ],
+        "timeout_seconds": 1800,
+        "uncertainty": {
+          "lower_95_above_zero": true,
+          "method": "PERCENTILE_CLUSTER_BOOTSTRAP",
+          "minimum_events": 30,
+          "samples": 1000,
+          "seed": 97,
+          "unit": "SHARED_RELEASE_EVENT"
+        }
+      }
+    ],
+    "manifest_sha256": "88bc6a1e7ed3cd4cb137f793e72a8802d6ec3196db14fdc357adca4645d762e6",
+    "revision": "IN_PLACE_REPAIR_20260930_R1"
+  },
+  "research_scope_sha256": "eab101541067933c877671f15a341d31a240eeab29680b71c851e2d809248c0a",
+  "resource_limits": {
+    "ac_required": true,
+    "closure_deadline_epoch": 1791052706.3392699,
+    "free_disk_bytes": 10737418240,
+    "output_bytes": 5368709120,
+    "ram_bytes": 4294967296,
+    "research_deadline_epoch": 1791038306.3392699,
+    "workers": 1
+  },
+  "resume_policy": {
+    "same_deadline": true,
+    "same_pins": true,
+    "uncertain_attempt_retry": false
+  },
+  "schema": "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v2",
+  "source_hashes": {
+    "C:\\Dev\\Ai.Os.worktrees\\pkt-gov-001-human-owner-approval-trust-root-v1\\automation\\orchestration\\approval_inbox\\Set-AiOsHumanApprovalDecision.HUMAN_ONLY.ps1": "7049c8d5a95e96a6a10c680d872e180dc3305cbd7c5af41dbaf3b643b616b49d",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\__init__.py": "3c3c0b72f98d8ecdb17c5cee95bf77fb59041c85b595ff04af6ca16b0c2e92d9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\adapters.py": "b432a01b67113342186d8210269957cc23002cefaecf22c098bb03ecac4a8a83",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\allocation.py": "a100d5f599e7c8420a391d3c234abf668ac8184a51623defe681a34621b05de9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\approval.py": "8937317b2ae698216378bff6ad47b8db5e4915830821ce9f6831dde9dab6cd11",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\errors.py": "237d90c349dcc62f77535440ae9aac18801164cdd0cfb397b22fec6b3fe806e7",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\executors.py": "c9b03bfe19f33e57b5561a98b79a8e207438057d5a2dcdea6c1a29752b0640e6",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\goal_continuation.py": "c52965ab0ba720d54efb51401176b27cb2cfa4b0dcf378ce0f2db59aa8002a6c",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\handoff.py": "e236d075e76aacf9f91662cb6ea63d73f7d5adf65c923a1344cb0b8589a09e5a",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\lifecycle.py": "cd65f824120e2b04fa83dad1ed65b0bf37fe7a96118bd200a896e16a10b88193",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\models.py": "b747f13f568f32c4b0d431838df91a459dbb4d5685b3c6929d4a6f571bc9ddc3",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\optimizer.py": "20f27ab8b66612dca57805e49f51beb7d25379ab812f6d7fdd519b2e2586cdf8",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_binding.py": "238123b31ec8b99546cffb32d6d03eff4c5b6eaf88ea6cd6e687b1f986ada7d9",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_continuation_cli.py": "333b34a78d54be8f41173891c0fdaeb72055c4e1143b564dbb40920bdbd4c0b6",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_research_consumer.py": "89b02c90648ee4ae457de8a862691a6f31f09bae9f0da28eda5a92773afa123f",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\progress.py": "931b8ca126633bb9cab5e6a1f7e167ec76150756915dec2585766747bfdf5b85",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\resource.py": "7d1ea2d8658f72a008e880d7737387c2e7de5c328e52357b2894943a0c50d50f",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\schemas.py": "be62997a4a67b6cd95b9d0ef5ce13244a213fee34cb4c39995ede819725e071d",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\source_identity.py": "c362a5c256c12a2871b31846b64a1c9f714fbcae20adc2aa31a7bca2357d0e88",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\storage.py": "543d9890abce0bb02780f110354aaeeb00921c88620f61ffcb47dd64de2a8886",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\supervisor.py": "b50dc8e62996c76742771a398b27ddcd724ae83fe7c1817e758bc55acd3b3e80",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_m5_immutable_corpus_v2\\manifest.json": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_030\\PKT_FOREX_030_COMPLETION.json": "164c50032ada25a4220d0ca23e5d30d95fca536fe6d7fb345084b6000949d601",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_035\\revision2\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_PREREGISTRATION.json": "f7c5f709dc11fa74ee69de8526051e889cbfb237ecd6ba2a3a97c39b21fea595",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\PKT_FOREX_036_COMPLETION.json": "c641f3d1b255f8f6a01e2a2e7739c780c78da6e9f09876b0dbacd3e365e31c50",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\PKT_FOREX_036_EXPANSION58_COMPLETION.json": "8bdb2b2e23e7fdc7812ba07f39d7183e9c4a5e603403e96491f95a9a09187dcc",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_ACCEPTANCE.json": "3d8ce4e698910dcbca6dbd1eb36ce98e4ad10bf80f7a1fa575fd9229e5dff456",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_BASELINE_AUDIT.json": "57028817b6bc7dab296c1194c2359808dd2b0d2610767a4637d3325f99d41241",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_CAPACITY.json": "ebefe5766a13d6420b5a5fa1f7dc9c1a544f0505e0863704091e4dacee360444",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_CHECKPOINT.json": "6504ed34801364567ee09c1018ef23cb6f9448f4e48a2d601ca6836fa6ae4b7d",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_MANIFEST.json": "5b4f19783648704d8c902d930c670baf9e4cfd21d88a2b6c1f73f443113bf5f6",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_POSTMORTEM.json": "07fc4d14894c1e2fd705f163f873840caf1d491b9c1410629a3fb524b253253c",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_RECEIPT.json": "a91276d5d4c5a4c3d5bdad97d1b106cbb62d3e5045258bca6c011314f23a08fd",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_RESULTS.json": "7e677e40b67e8881d641a0c685d659f9cc31d63d9b616666a2892d7005f3ae24",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_REVERSE_AUDIT.json": "e71d67c654b32556c1267d0b600a953d994967a74b480cd51d0bb79bb85d5711",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_036\\revision3\\run2\\AIOS_FOREX_CFTC_ASSET_MANAGER_WEEKLY_CHANGE_TRADE_JOURNAL.jsonl": "ac516c3de21cc7942261f23c787889620f8d294ae79c5933baef80ddbefbc61f",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_037\\PKT_FOREX_037_COMPLETION.json": "642e779d61e7820fec0b3aa4222db2ebb553ea99c7fb5eaf6587549a812efc70",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\EXISTING_PROVISIONAL_LEADS.json": "b1ea91f68418f33e85a226b5160afdef4e6d0378e4ccb9e8507aa27bb41c86d3",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\FINAL_OUTPUT_HASHES.json": "f8892121d5dd72c8d6c1753f57b150338268378b64319503486a5a7bf179c364",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\FINAL_REPORT.md": "8de4e238c8b061ec834b1d38de7eee5a218f090e9fcdd9da0a741b2d9e72a419",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\HISTORY_CHECK.json": "f628e313be0f6aef64383499504cc9a37db5c666c4c5c9409f16d086190a75a7",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\POSTMORTEM.json": "b216e20ce65cd928d2834bd0a06fde3936ac95683b692c575627df1b84315e24",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\PROTECTED_HANDOFF.json": "ce64d0a2ec64bb0c98ca31230df2c2f9ff96ff6d07871cf06bba950d51f79181",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\SOURCE_ADMISSION_DECISIONS.json": "acd345f415543dc5db59cd153db56a97a8a8aeeae4c18faa079ecf12f0d93755",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\SOURCE_REGISTRY.json": "5b7a7b38994005fb9082f66e958522458f1a96590b1a05d73ebf0d6d0e436ab3",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\STATUS_CHECKPOINT.json": "a27d82e6867861cd0256b25665de0049ce356aeb0e19ad12b9fd2ed2fdb6027a",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\continuation_adapter.py": "2883bcf411ada951811439f8b8800f6661c9323a74354d91f5f34c3ceb0a7d3a",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\master_continuation_s5\\publish_and_seal.py": "5b2be7dabed1fb36f5b6416a5fc087c07603ab722f6fb604bc4a26af109e7027",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\acquire_policy_sources.ps1": "9bd56c5d2b59dd4b42e2a2bccc0aeaa9809b3b9c85e89ad55e45d9709d1eedab",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\finalize_evidence.py": "65af3c70bb6d9103780cb06f07977af67c3db6f1b800c75334a3f77decf860d0",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\research_binding.py": "dda69f3356ad23f33e81d1bb7980867f3685a30ecddbf2a8941d2060219cc2e9",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\research_consumer.py": "44ec59aa979d5526bbb8893faf9166c1c248320974cc8734abf29d43611e3098",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\run_research.py": "c3c8372de4c3b54fd558a2cf4df19fb3758d02ec6599b606c3e324844d850f19",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_master_tournament_v1\\outcome_campaign_v3\\research_binding_s6\\test_research_binding.py": "b5f626f7b30ce9d127201578dd72ca6ff29350654fdafa3fed28b0c457882cb1",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\forex_edge_ops_v1\\ops_state.py": "3cc8e3a9ddc180d61beccf33d9408604a1fb582c08c774a0418c89a0fd2ab6d7",
+    "C:\\Dev\\Ai.Os\\automation\\forex_engine\\edge_research\\features.py": "f2dd6949977ba6d8d9c483eb16e7c084e076c160b94659b8c87f84eb3d8a667a",
+    "C:\\Dev\\Ai.Os\\automation\\forex_engine\\forex_cftc_asset_manager_weekly_change_stage1_v1.py": "2ad9789896d337b0581f5fdc8a1f9dcf784339a39a3b9d13df296fc0e189d3e9",
+    "C:\\Dev\\Ai.Os\\automation\\forex_engine\\paper_position_sizing.py": "2fd4822839e92ffd1676a7356c5ecc606f9001b467ee6cc1c6eb2857533039f8",
+    "C:\\Dev\\Ai.Os\\automation\\validators\\aios_approval_authority_integrity_validator.py": "c1bb6664a6ba93afdad27e8bf9f09ff5be8d929229948ccaa2fa42f7205fe5b2",
+    "C:\\Dev\\Ai.Os\\automation\\validators\\aios_approval_contract_v2.py": "d110ae39d97edb63e78beebeede26bfb6a9c5716029486547944407579118dc5"
+  },
+  "source_map_sha256": "ac833f9686ebc514940689dafeb33ab398088b2edee58f43c2d783fc2cff7bbe",
+  "stop_point": "Frozen batch settled or genuine stop gate",
+  "strategy_identity": {
+    "strategy_id": "S6_FROZEN_EVENT_RESPONSE_BATCH",
+    "strategy_version": "IN_PLACE_REPAIR_20260930_R1"
+  },
+  "trial_allocation": {
+    "new_configurations_reserved": 8,
+    "physical_calls_reserved": 6,
+    "prior_configuration_exposures": 2070,
+    "prior_physical_call_upper_bound": 6546
+  },
+  "trust_root_id": "AIOS-HUMAN-OWNER-APPROVAL-TRUST-ROOT-V1",
+  "validator_chain": [
+    "history",
+    "inputs",
+    "genuine_signature",
+    "row_identity",
+    "causal_replay",
+    "receipt",
+    "postmortem"
+  ],
+  "validator_chain_required": true,
+  "worker": "EAST_OCC_97",
+  "worker_identity": "EAST_OCC_97",
+  "worktree": "C:\\Dev\\Ai.Os",
+  "approved_by": "Anthony, Human Owner",
+  "key_id": "AIOS-HUMAN-OWNER-PRIMARY-V1",
+  "key_version": 1,
+  "key_fingerprint_sha256": "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786",
+  "approval_nonce": "61cf4b001fca4113a9ec7cfd0f97feca"
+}

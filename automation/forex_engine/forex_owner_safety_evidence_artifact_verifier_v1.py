@@ -110,8 +110,8 @@ def run_artifact_verifier(
 ) -> dict[str, Any]:
     """Verify all four sanitized owner artifact files structurally."""
 
-    current_time = now_utc or datetime.now(timezone.utc)
     intake = _load_json_mapping(Path(intake_path))
+    current_time = now_utc or _default_verification_time(intake)
     prep_state = _load_json_mapping(Path(prep_state_path))
 
     controls_payload = _mapping(intake.get("controls"))
@@ -188,6 +188,12 @@ def run_artifact_verifier(
         _write_text(Path(next_packet_output_path), build_next_codex_packet(result))
 
     return result
+
+
+def _default_verification_time(intake: Mapping[str, Any]) -> datetime:
+    """Use the actual verifier runtime when no review timestamp is supplied."""
+
+    return datetime.now(timezone.utc)
 
 
 def _verify_control(

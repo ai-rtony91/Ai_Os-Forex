@@ -40,7 +40,10 @@
     "walk_forward_oos_status": "WALK_FORWARD_OOS_READY"
   },
   "bank_movement_allowed": false,
-  "blockers": [],
+  "blockers": [
+    "default walk-forward/OOS inputs are synthetic sample data",
+    "source authenticity is not independently verified"
+  ],
   "broker_action_allowed": false,
   "candidate": "c2-eur-buy-stronger-review-ready",
   "candidate_alignment": "ALIGNED",
@@ -48,14 +51,14 @@
   "credential_access_allowed": false,
   "engine_version": "forex_110_c2_real_walkforward_oos_harness_v1",
   "evidence_age_days": 1.0,
-  "harness_status": "PROVEN_REAL_WALKFORWARD_OOS_HARNESS",
+  "harness_status": "BLOCKED_REAL_WALKFORWARD_OOS_HARNESS",
   "live_trading_allowed": false,
   "max_allowed_drawdown": 0.5,
   "max_drawdown": 0.22,
   "max_evidence_age_days": 7,
   "min_pass_rate": 0.75,
   "next_demo_trade_allowed": false,
-  "next_safe_action": "Rerun C2 source collection and sufficiency truth lock. Do not trade.",
+  "next_safe_action": "Repair harness blockers before rerunning C2 source collection. Do not trade.",
   "oos_segment_results": [
     {
       "aggregate_drawdown": 0.13,
@@ -636,9 +639,10 @@
   },
   "real_money_allowed": false,
   "sanitized": true,
-  "source_classification": "REAL_SANITIZED_LOCAL_HARNESS",
-  "source_is_real_sanitized_local": true,
-  "source_is_test_or_sample": false,
+  "source_authentication_status": "UNVERIFIED",
+  "source_classification": "BLOCKED",
+  "source_is_real_sanitized_local": false,
+  "source_is_test_or_sample": true,
   "target_candidate_id": "c2-eur-buy-stronger-review-ready",
   "walkforward_oos_status": "WALK_FORWARD_OOS_READY",
   "walkforward_result": {

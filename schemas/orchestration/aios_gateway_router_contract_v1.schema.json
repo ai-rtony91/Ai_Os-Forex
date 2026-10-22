@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aios.local/schemas/orchestration/aios_gateway_router_contract_v1.schema.json",
+  "title": "AIOS AIOS Gateway Router Contract V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "request_id",
+    "state",
+    "authority_state",
+    "action_binding",
+    "issued_at",
+    "expires_at",
+    "provenance"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "aios.gateway_router_contract.v1"
+    },
+    "request_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{7,127}$"
+    },
+    "state": {
+      "enum": [
+        "DESIGN_ONLY",
+        "PREVIEW_ONLY",
+        "VALIDATED_NOT_EXECUTED",
+        "BLOCKED",
+        "REVOKED",
+        "EXPIRED"
+      ]
+    },
+    "authority_state": {
+      "const": "BLOCKED"
+    },
+    "action_binding": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{7,127}$"
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "sanitized"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "LOCAL_DETERMINISTIC",
+            "SANITIZED_HANDOFF",
+            "UNKNOWN"
+          ]
+        },
+        "sanitized": {
+          "const": true
+        }
+      }
+    }
+  },
+  "x-aios-phase": 13,
+  "x-aios-phase-name": "AIOS Gateway Router Contract",
+  "x-aios-owner-authority": "NONE",
+  "x-aios-owner-bundle": null,
+  "x-aios-preparation-mode": "PREPARE_BEHIND_GATE",
+  "x-aios-protected-transition": "BLOCKED",
+  "x-aios-execution-capability": false
+}

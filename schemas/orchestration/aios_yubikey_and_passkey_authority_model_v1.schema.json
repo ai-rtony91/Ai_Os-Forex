@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aios.local/schemas/orchestration/aios_yubikey_and_passkey_authority_model_v1.schema.json",
+  "title": "AIOS YubiKey and Passkey Authority Model V1",
+  "description": "Declarative Phase 9 fail-closed design; no operational authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "record_version",
+    "record_id",
+    "phase",
+    "state",
+    "authority_state",
+    "issued_at",
+    "expires_at",
+    "action_binding",
+    "subject_reference",
+    "provenance",
+    "integrity_reference"
+  ],
+  "properties": {
+    "record_version": {
+      "const": "aios.yubikey_and_passkey_authority_model.v1"
+    },
+    "record_id": {
+      "$ref": "#/$defs/opaqueIdentifier"
+    },
+    "phase": {
+      "const": 9
+    },
+    "state": {
+      "enum": [
+        "DESIGN_ONLY",
+        "PENDING_ENROLLMENT",
+        "VERIFIED_NOT_ACTIVE",
+        "STALE",
+        "REVOKED",
+        "BLOCKED"
+      ]
+    },
+    "authority_state": {
+      "const": "BLOCKED"
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "action_binding": {
+      "$ref": "#/$defs/opaqueIdentifier"
+    },
+    "subject_reference": {
+      "$ref": "#/$defs/opaqueIdentifier"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "sanitization_state"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "DECLARATIVE_DESIGN",
+            "SANITIZED_EVIDENCE",
+            "UNKNOWN"
+          ]
+        },
+        "sanitization_state": {
+          "enum": [
+            "SANITIZED",
+            "REDACTED",
+            "QUARANTINED"
+          ]
+        }
+      }
+    },
+    "integrity_reference": {
+      "$ref": "#/$defs/opaqueIdentifier"
+    }
+  },
+  "$defs": {
+    "opaqueIdentifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{7,127}$"
+    }
+  },
+  "x-aios-phase": 9,
+  "x-aios-phase-name": "YubiKey and Passkey Authority Model",
+  "x-aios-owner-authority": "PHYSICAL_DEVICE",
+  "x-aios-owner-bundle": "OWNER-BUNDLE-2-DEVICE-IDENTITY",
+  "x-aios-preparation-mode": "PREPARE_BEHIND_GATE",
+  "x-aios-protected-transition": "BLOCKED",
+  "x-aios-operational-capability": false
+}

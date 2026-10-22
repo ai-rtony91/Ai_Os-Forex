@@ -9,7 +9,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT = REPO_ROOT / "automation/orchestration/autonomy_loop/Invoke-AiOsAutonomyLoop.DRY_RUN.ps1"
-PROPOSED_DIR = REPO_ROOT / "automation/orchestration/work_packets/proposed"
+PROPOSED_DIR = REPO_ROOT / "Reports/autonomy_loop/proposed"
 
 
 def run_autonomy_loop(goal_text: str, *, extra_args: list[str] | None = None) -> subprocess.CompletedProcess[str]:
@@ -126,7 +126,8 @@ def test_autonomy_loop_stops_on_validator_failure(tmp_path: Path) -> None:
     )
 
     assert result.returncode != 0
-    assert "REVIEW_REQUIRED: governance validation failed" in result.stderr
+    stderr = " ".join(result.stderr.split())
+    assert "REVIEW_REQUIRED: governance validation failed" in stderr
     failure_reports = list(report_root.glob("*.json"))
     assert len(failure_reports) == 1
 

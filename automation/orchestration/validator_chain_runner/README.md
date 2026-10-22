@@ -1,40 +1,21 @@
 # AI_OS Validator Chain Runner
 
-This folder contains a DRY_RUN scaffold for running safe validation checks from one place.
+This runner prints a JSON validation receipt to stdout. It does not write evidence files or modify repository state.
 
-The runner reports one of three outcomes:
+The receipt reports one of three outcomes:
 
 - `PASS`: all validators passed.
 - `REVIEW`: at least one validator needs operator review.
-- `BLOCKED`: at least one validator found a hard stop.
+- `BLOCKED`: a required validator is missing, failed, or timed out.
 
-The runner is read-only. It does not edit dispatcher runtime, dashboard files, approvals, locks, staged files, commits, pushes, pulls, rebases, or merges.
+The registered chain checks execution registry state, repository cleanliness, allowed and blocked paths, JSON and PowerShell syntax, required Markdown, sensitive paths, live-trading enablement, approval gates, commit-package review, and final Git status.
 
-Validators included:
-
-- `git diff --check`
-- PowerShell parse for changed `.ps1` files
-- JSON parse for changed `.json` files
-- clean-state verifier if available
-- approval runner if available
-- post-push verifier only when on `main`
-
-Example beginner command:
+Run with the host's current PowerShell policy:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File automation/orchestration/validator_chain_runner/Invoke-AiOsValidatorChain.DRY_RUN.ps1
+powershell -NoProfile -File automation/orchestration/validator_chain_runner/Invoke-AiOsValidatorChain.DRY_RUN.ps1
 ```
 
-JSON-only output:
+The command prints JSON to stdout when it can start. It does not override the host policy. If policy blocks the runner or a validator, stop and request the policy owner's approved resolution.
 
-```powershell
-powershell -ExecutionPolicy Bypass -File automation/orchestration/validator_chain_runner/Invoke-AiOsValidatorChain.DRY_RUN.ps1 -Json
-```
-
-Optional context:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File automation/orchestration/validator_chain_runner/Invoke-AiOsValidatorChain.DRY_RUN.ps1 -WorkerLanePath automation/orchestration -ValidationEvidencePath Reports/validation/example.json -WorkerReportPath Reports/operator/worker-reports/example.md -ApprovalReason "Review scaffold validation"
-```
-
-Next safe action: run this chain before any future APPLY, commit, or push approval.
+Next safe action: review the receipt. A passing report does not grant approval for APPLY, commit, or push.

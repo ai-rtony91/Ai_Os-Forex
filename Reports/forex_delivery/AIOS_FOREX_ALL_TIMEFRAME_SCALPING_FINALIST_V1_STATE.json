@@ -1,0 +1,11 @@
+{
+  "compounding_opened": false,
+  "forward_opened": false,
+  "gross_status": "HUMAN_SCALPING_TIMEFRAME_DATA_ACQUISITION_REQUIRED",
+  "live_opened": false,
+  "packet_id": "PKT-EAST-FOREX-ALL-TIMEFRAME-SCALPING-EDGE-033",
+  "paper_opened": false,
+  "schema": "AIOS_FOREX_ALL_TIMEFRAME_SCALPING_FINALIST.v1",
+  "status": "NO_FINALISTS_TO_VALIDATE",
+  "validation_opened": false
+}

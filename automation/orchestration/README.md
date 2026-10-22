@@ -9,6 +9,12 @@ backward-compatible implementation and CLI surfaces. New callers should use the
 facade rather than duplicating component composition. See
 `docs/orchestration/AIOS_ORCHESTRATION_PLATFORM_V1_MIGRATION.md`.
 
+`OrchestrationPlatform.compound_work_braid()` composes the canonical work-packet
+inventory into deterministic strands, braids, and execution cables. The
+controller is local planning only: it does not mutate a queue, dispatch a worker,
+execute its continuation packet, or grant protected authority. See
+`docs/orchestration/AIOS_COMPOUND_WORK_BRAID_V1.md`.
+
 This folder holds safe control files for AI_OS worker coordination.
 
 The goal is simple: before a worker starts, AI_OS should know which packet the worker is allowed to handle, which paths are allowed, which paths are blocked, which approval gate applies, and which validation is required.
@@ -134,3 +140,6 @@ Do not delete or move orchestration files blindly. Before archiving any file, ve
 - `.github/`
 
 When uncertain, write an audit note instead of changing files.
+# Master runtime
+
+Use `python aios.py status|plan|run|resume|validate` from the repository root. The V1 master runtime is a deterministic coordinator over the existing `OrchestrationPlatform`, not a replacement for its component algorithms. Runtime checkpoints are local-only under `.aios/runtime/`.

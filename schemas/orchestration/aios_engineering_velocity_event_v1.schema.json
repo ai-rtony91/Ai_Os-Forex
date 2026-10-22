@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aios_engineering_velocity_event_v1.schema.json",
+  "additionalProperties": true,
+  "properties": {
+    "event_id": {"minLength": 1, "type": "string"},
+    "event_type": {"enum": ["TASK_STARTED", "TASK_COMPLETED", "TASK_BLOCKED", "COMMIT_CREATED", "PR_CREATED", "PR_MERGED", "PR_CLOSED_UNMERGED", "VALIDATION_PASSED", "VALIDATION_FAILED", "BLOCKER_DISCOVERED", "BLOCKER_CLOSED", "RUNTIME_MILESTONE_VERIFIED", "EXTERNAL_GATE_OPENED", "EXTERNAL_GATE_CLOSED"]},
+    "timestamp_utc": {"format": "date-time", "type": "string"}
+  },
+  "required": ["event_type", "timestamp_utc"],
+  "title": "AIOS Engineering Velocity Event V1",
+  "type": "object"
+}

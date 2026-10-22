@@ -1,0 +1,53 @@
+{
+  "cost_treatment": "Raw atlas uses executable bid/ask entry/exit sides but is not a full financing/cost-stressed strategy ledger.",
+  "denominator": "Unconditional sampled H1 bars from eligible pairs in the Development window, capped by development_indices sampling per pair.",
+  "eligible_pair_count": 58,
+  "equivalent_to_fixed_full_win_loss_contract": false,
+  "event_contract": "+nR before -1R barrier outcome, not a complete candidate trade system and not conditioned on a frozen opportunity event.",
+  "horizon": "96 H1 bars.",
+  "idealized_zero_cost_breakeven": {
+    "2R": 0.333333,
+    "3R": 0.25,
+    "4R": 0.2,
+    "5R": 0.166667,
+    "6R": 0.142857
+  },
+  "initial_stop_definition": "3x trailing 24-hour midpoint range at entry, minimum 0.0001.",
+  "interpretation": "The atlas is a diagnostic opportunity map. If naively compared to fixed full-win/full-loss breakeven, all 2R-6R raw reach rates are negative before additional costs; because the denominator is unconditional sampled bars, this does not by itself reject conditional event strategies.",
+  "long_2r6r": {
+    "2R": 0.224735,
+    "3R": 0.116645,
+    "4R": 0.058156,
+    "5R": 0.027785,
+    "6R": 0.013329
+  },
+  "long_excess_over_idealized_breakeven": {
+    "2R": -0.108598,
+    "3R": -0.133355,
+    "4R": -0.141844,
+    "5R": -0.138882,
+    "6R": -0.129528
+  },
+  "null": "Packet 026 atlas state did not include a separate dependence-preserving null reach-rate table; Packet 027 treats this as an interpretation limitation, not as proof of edge.",
+  "packet_id": "PKT-EAST-FOREX-NEXT-GENERATION-PROFITABILITY-027",
+  "same_bar_ordering": "stop-first in barrier_result.",
+  "schema": "AIOS_FOREX_RR_ATLAS_DEFINITION_AUDIT_V1_STATE",
+  "selected_long_target": 2,
+  "selected_short_target": 2,
+  "short_2r6r": {
+    "2R": 0.225332,
+    "3R": 0.117838,
+    "4R": 0.056698,
+    "5R": 0.028846,
+    "6R": 0.014456
+  },
+  "short_excess_over_idealized_breakeven": {
+    "2R": -0.108001,
+    "3R": -0.132162,
+    "4R": -0.143302,
+    "5R": -0.137821,
+    "6R": -0.128401
+  },
+  "state_hash": "28441158ef471eefabcc4e6e829e4e286bd7ca5e0ee907b024a4ce22b0302a06",
+  "status": "COMPLETE"
+}

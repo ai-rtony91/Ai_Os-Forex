@@ -16,7 +16,7 @@ def _payload() -> dict[str, Any]:
         "source_review_chain_status": "REVIEW_CHAIN_INCOMPLETE",
         "source_journey_final_verdict": "JOURNEY_INCOMPLETE",
         "proof_bundle_status": "PROOF_BUNDLE_COMPLETE",
-        "proof_bundle_ready_for_candidate_bridge": True,
+        "proof_bundle_ready_for_candidate_bridge": False,
         "replay_proof_status": True,
         "reconciliation_proof_status": True,
         "rollback_proof_status": True,
@@ -61,7 +61,7 @@ def test_json_output_parsable(monkeypatch: Any) -> None:
     assert code == 0
     assert parsed["selected_candidate_id"] == "c1-eur-buy"
     assert parsed["proof_bundle_status"] == "PROOF_BUNDLE_COMPLETE"
-    assert parsed["proof_bundle_ready_for_candidate_bridge"] is True
+    assert parsed["proof_bundle_ready_for_candidate_bridge"] is False
 
 
 def test_write_report_calls_bundle_with_report(monkeypatch: Any) -> None:

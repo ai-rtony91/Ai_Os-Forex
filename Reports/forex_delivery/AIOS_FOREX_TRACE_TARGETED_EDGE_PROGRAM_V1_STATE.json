@@ -1,0 +1,719 @@
+{
+  "bootstrap_overfit": {
+    "status": "NOT_RUN_DEVELOPMENT_PENDING"
+  },
+  "candidate_count": 20,
+  "development": {
+    "candidate_count": 20,
+    "long_passers": [],
+    "passers": [],
+    "rows": [
+      {
+        "candidate_id": "M5_MTF_LONG_01_V1",
+        "direction": "LONG",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_02_V1",
+        "direction": "LONG",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_03_V1",
+        "direction": "LONG",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_04_V1",
+        "direction": "LONG",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_05_V1",
+        "direction": "LONG",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_06_V1",
+        "direction": "LONG",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_07_V1",
+        "direction": "LONG",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_08_V1",
+        "direction": "LONG",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_09_V1",
+        "direction": "LONG",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_10_V1",
+        "direction": "LONG",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_01_V1",
+        "direction": "SHORT",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_02_V1",
+        "direction": "SHORT",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_03_V1",
+        "direction": "SHORT",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_04_V1",
+        "direction": "SHORT",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_05_V1",
+        "direction": "SHORT",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_06_V1",
+        "direction": "SHORT",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_07_V1",
+        "direction": "SHORT",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_08_V1",
+        "direction": "SHORT",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_09_V1",
+        "direction": "SHORT",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_10_V1",
+        "direction": "SHORT",
+        "family": "M5_DAY_TRADING_MTF",
+        "summary": {
+          "average_loss_r": 0.0,
+          "average_win_r": 0.0,
+          "expectancy": 0.0,
+          "folds": {
+            "fold_count": 0,
+            "positive_expectancy_folds": 0,
+            "positive_fold_share": 0.0
+          },
+          "losses": 0,
+          "max_drawdown_percent": 0.0,
+          "max_drawdown_r": 0.0,
+          "max_pair_share": 0.0,
+          "max_year_share": 0.0,
+          "net_r": 0,
+          "pair_count": 0,
+          "pass": false,
+          "profit_factor": 0.0,
+          "trades": 0,
+          "win_rate": 0.0,
+          "wins": 0,
+          "year_count": 0
+        }
+      }
+    ],
+    "short_passers": [],
+    "status": "NO_DEVELOPMENT_PASSERS"
+  },
+  "forward": {
+    "status": "NOT_STARTED"
+  },
+  "holdout": {
+    "status": "NOT_OPENED"
+  },
+  "multiple_testing": {
+    "best_null_95pct": 0.0,
+    "campaigns": 2500,
+    "rows": [
+      {
+        "candidate_id": "M5_MTF_LONG_01_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_02_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_03_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_04_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_05_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_06_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_07_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_08_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_09_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_LONG_10_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_01_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_02_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_03_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_04_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_05_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_06_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_07_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_08_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_09_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      },
+      {
+        "candidate_id": "M5_MTF_SHORT_10_V1",
+        "expectancy": 0.0,
+        "family_wise_empirical_p": 1.0,
+        "pass": false
+      }
+    ],
+    "status": "NULL_CAMPAIGNS_COMPLETE"
+  },
+  "packet_id": "PKT-EAST-FOREX-TRACE-BACKED-FIDELITY-030",
+  "paper": {
+    "status": "NOT_REACHED"
+  },
+  "profitability_milestone": "NOT_CERTIFIED",
+  "schema": "AIOS_FOREX_TRACE_TARGETED_EDGE_PROGRAM_V1_STATE",
+  "state_hash": "80688208b42c983050b847504bbd0c4551df0d4ce1534585ec94591194ddb4d0",
+  "status": "TARGETED_RESEARCH_EXHAUSTED_NO_EDGE",
+  "validation": {
+    "status": "NOT_OPENED"
+  }
+}

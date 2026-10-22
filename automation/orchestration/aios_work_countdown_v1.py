@@ -212,6 +212,7 @@ def build_work_countdown(
     pr_state: Mapping[str, Any] | None = None,
     campaign_registry_context: Mapping[str, Any] | None = None,
     first_withdrawable_dollar_state: Mapping[str, Any] | None = None,
+    engineering_velocity_forecast: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     inventory = _explicit_inventory(candidate_packet_evidence)
     if inventory is None and candidate_packet_evidence is None and repo_root is not None:
@@ -299,6 +300,7 @@ def build_work_countdown(
         "owner_intervention_required": fwd_state.get("owner_action_required", True),
         "owner_view": {"status": data_quality, "inventory_status": inventory_status, "current_task": active[0] if active else None, "next_task": next_task, "next_verified_blocker": next_blocker},
         "protected_actions": _protected_actions(),
+        "engineering_velocity_forecast": dict(engineering_velocity_forecast or {}),
     }
 
 

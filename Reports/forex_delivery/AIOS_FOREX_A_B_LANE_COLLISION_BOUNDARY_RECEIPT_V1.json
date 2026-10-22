@@ -1,0 +1,359 @@
+{
+  "a_lane_allow": [
+    "automation/forex_engine/live_runtime_executor_v1.py",
+    "automation/forex_engine/oanda_live_runtime_connector_v2.py",
+    "automation/forex_engine/forex_owner_safety_evidence_intake_verification_prep_v1.py",
+    "automation/forex_engine/forex_owner_safety_evidence_artifact_verifier_v1.py",
+    "tests/forex_engine/test_live_runtime_executor_v1.py",
+    "tests/forex_engine/test_oanda_live_runtime_connector_v2.py",
+    "tests/forex_engine/test_forex_owner_safety_evidence_intake_verification_prep_v1.py",
+    "tests/forex_engine/test_forex_owner_safety_evidence_artifact_verifier_v1.py",
+    "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_V1_STATE.json",
+    "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_V1_REPORT.md",
+    "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_NEXT_CODEX_PACKET_V1.md",
+    "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_ARTIFACT_VERIFIER_V1_STATE.json",
+    "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_ARTIFACT_VERIFIER_V1_REPORT.md",
+    "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_ARTIFACT_VERIFIER_NEXT_CODEX_PACKET_V1.md",
+    "Reports/forex_delivery/AIOS_FOREX_A_LANE_INSTALLATION_POLICY_RECEIPT_V1.json",
+    "Reports/forex_delivery/AIOS_FOREX_A_LANE_INSTALLATION_POLICY_RECEIPT_V1.md"
+  ],
+  "a_lane_scope": "P01/P02/P03/P04/P09/P10/P11/P12/P13 platform, installation, runtime safety, broker boundary, controls",
+  "branch": "codex/forex-edge-autopilot-20261008",
+  "collision_policy": [
+    "A-lane will not modify Friend B classified data/strategy/PAPER files without exact returned evidence and explicit integration point",
+    "Friend B should not modify A-lane source/control files listed in a_lane_allow without a patch handoff",
+    "Shared governance files require explicit task ID and source hash before any edit"
+  ],
+  "counts": {
+    "A_LANE_CONTROL": 18,
+    "FRIEND_B_DATA_STRATEGY_PAPER": 36,
+    "SHARED_GOVERNANCE_DO_NOT_TOUCH_WITHOUT_EXPLICIT_SCOPE": 2,
+    "UNCLASSIFIED_REVIEW_BEFORE_TOUCH": 8
+  },
+  "created_utc": "2026-10-09T20:50:38+00:00",
+  "friend_b_scope": "P05/P06/P07/P08/P14 accounting, data, strategy, independent PAPER verifier, PAPER observations",
+  "head": "4fdf30619fa7c29f0dd9adbd710a1b04526ccdd0",
+  "receipt_schema": "AIOS_FOREX_A_B_LANE_COLLISION_BOUNDARY_RECEIPT_V1",
+  "working_tree_classification": [
+    {
+      "lane": "SHARED_GOVERNANCE_DO_NOT_TOUCH_WITHOUT_EXPLICIT_SCOPE",
+      "path": "AGENTS.md",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_ALL_TIMEFRAME_SCALPING_FINALIST_V1_STATE.json",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_ALL_TIMEFRAME_SCALPING_GROSS_EDGE_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_ALL_TIMEFRAME_SCALPING_GROSS_EDGE_V1_STATE.json",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_ALL_TIMEFRAME_SCALPING_SEARCH_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_ALL_TIMEFRAME_SCALPING_SEARCH_V1_STATE.json",
+      "status": " M"
+    },
+    {
+      "lane": "UNCLASSIFIED_REVIEW_BEFORE_TOUCH",
+      "path": "Reports/forex_delivery/AIOS_FOREX_ATTACK_TO_FINISH_V11_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "UNCLASSIFIED_REVIEW_BEFORE_TOUCH",
+      "path": "Reports/forex_delivery/AIOS_FOREX_ATTACK_TO_FINISH_V11_STATE.json",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_CANDIDATE_INTAKE_DEMO_REVIEW_BRIDGE_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_CANDIDATE_LEADERBOARD_V1.md",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_CANDIDATE_REPLACEMENT_ANALYSIS_V1.md",
+      "status": " M"
+    },
+    {
+      "lane": "UNCLASSIFIED_REVIEW_BEFORE_TOUCH",
+      "path": "Reports/forex_delivery/AIOS_FOREX_CRITICAL_SAFETY_EVIDENCE_CLOSURE_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_EDGE_AUTOPILOT_V1_STATE.json",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_NEXT_CANDIDATE_DISCOVERY_PACKET_U_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_ARTIFACT_VERIFIER_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_ARTIFACT_VERIFIER_V1_STATE.json",
+      "status": " M"
+    },
+    {
+      "lane": "UNCLASSIFIED_REVIEW_BEFORE_TOUCH",
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_COLLECTION_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_NEXT_CODEX_PACKET_V1.md",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/AIOS_FOREX_OWNER_SAFETY_EVIDENCE_INTAKE_VERIFICATION_PREP_V1_STATE.json",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_P1_30_TRADE_CAMPAIGN_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_P1_30_TRADE_CAMPAIGN_V1_STATE.json",
+      "status": " M"
+    },
+    {
+      "lane": "UNCLASSIFIED_REVIEW_BEFORE_TOUCH",
+      "path": "Reports/forex_delivery/AIOS_FOREX_REVIEW_READY_CANDIDATE_SELECTOR_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_SCALPING_DATA_HUMAN_HANDOFF_V1.md",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_SCALPING_DATA_HUMAN_HANDOFF_V1_STATE.json",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_SCALPING_TIMEFRAME_CORPUS_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_SCALPING_TIMEFRAME_CORPUS_V1_STATE.json",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_SCALPING_TIMEFRAME_COVERAGE_V1_REPORT.md",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_SCALPING_TIMEFRAME_COVERAGE_V1_STATE.json",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/proof_bundle_to_candidate_bridge_report.json",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "automation/forex_engine/candidate_intake_demo_review_bridge.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "automation/forex_engine/canonical_demo_review_evidence_bridge.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "automation/forex_engine/forex_directed_anchor_cross_lead_lag_stage1_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "automation/forex_engine/forex_edge_discovery_tournament_stage0_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "automation/forex_engine/forex_high_throughput_edge_factory_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "automation/forex_engine/forex_intraday_of_week_usd_settlement_flow_stage1_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "automation/forex_engine/forex_owner_safety_evidence_artifact_verifier_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "automation/forex_engine/forex_owner_safety_evidence_intake_verification_prep_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "automation/forex_engine/forex_scalping_timeframe_coverage_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "automation/forex_engine/live_runtime_executor_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "automation/forex_engine/next_candidate_discovery_u_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "SHARED_GOVERNANCE_DO_NOT_TOUCH_WITHOUT_EXPLICIT_SCOPE",
+      "path": "docs/governance/AI_OS_REPO_MEMORY.md",
+      "status": " M"
+    },
+    {
+      "lane": "UNCLASSIFIED_REVIEW_BEFORE_TOUCH",
+      "path": "scripts/run_forex_proof_bundle_to_candidate_bridge.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "tests/forex_engine/test_candidate_intake_demo_review_bridge.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "tests/forex_engine/test_canonical_demo_review_evidence_bridge.py",
+      "status": " M"
+    },
+    {
+      "lane": "UNCLASSIFIED_REVIEW_BEFORE_TOUCH",
+      "path": "tests/forex_engine/test_consolidated_readiness_blocker_closure_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "tests/forex_engine/test_forex_all_timeframe_scalping_search_controller_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "tests/forex_engine/test_forex_owner_safety_evidence_artifact_verifier_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "tests/forex_engine/test_forex_owner_safety_evidence_intake_verification_prep_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "tests/forex_engine/test_live_runtime_executor_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "tests/forex_engine/test_next_candidate_discovery_u_v1.py",
+      "status": " M"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "tests/forex_engine/test_proof_bundle_to_candidate_bridge.py",
+      "status": " M"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/AIOS_FOREX_A_LANE_INSTALLATION_POLICY_RECEIPT_V1.json",
+      "status": "??"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/AIOS_FOREX_A_LANE_INSTALLATION_POLICY_RECEIPT_V1.md",
+      "status": "??"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_P1_30_TRADE_CAMPAIGN_V1_LEDGER.json.lkg",
+      "status": "??"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_P1_30_TRADE_CAMPAIGN_V1_REPLAY_STATE.json.lkg",
+      "status": "??"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_P1_SUPERVISED_PAPER_EVIDENCE_LEDGER_V1.json.lkg",
+      "status": "??"
+    },
+    {
+      "lane": "FRIEND_B_DATA_STRATEGY_PAPER",
+      "path": "Reports/forex_delivery/AIOS_FOREX_P1_SUPERVISED_PAPER_EVIDENCE_PIPELINE_V1_STATE.json.lkg",
+      "status": "??"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/apply_a_lane_source_repairs_20261009.py",
+      "status": "??"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/apply_a_lane_test_repairs_20261009.py",
+      "status": "??"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/build_a_b_lane_collision_boundary_receipt_20261009.py",
+      "status": "??"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/build_a_lane_installation_policy_receipt_20261009.py",
+      "status": "??"
+    },
+    {
+      "lane": "UNCLASSIFIED_REVIEW_BEFORE_TOUCH",
+      "path": "Reports/forex_delivery/manifest_mismatch_probe_20261009.py",
+      "status": "??"
+    },
+    {
+      "lane": "A_LANE_CONTROL",
+      "path": "Reports/forex_delivery/patch_policy_receipt_generator_20261009.py",
+      "status": "??"
+    }
+  ]
+}

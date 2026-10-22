@@ -526,18 +526,19 @@ def test_report_path_under_reports():
     assert report_path.name.endswith(".md") or report_path.name.endswith(".json")
 
 
-def test_current_evidence_remains_demo_review_ready():
+def test_current_evidence_remains_blocked_for_incomplete_evidence():
     result = run_candidate_intake_demo_review_bridge(write_reports=False)
-    assert result["verdict"] == "DEMO_REVIEW_READY"
-    assert result["normalized_candidate"]["sample_size"] >= 30
+    assert result["verdict"] == "BLOCKED_INCOMPLETE_EVIDENCE"
+    assert result["normalized_candidate"]["sample_size"] < 30
+    assert "insufficient_sample" in result["blockers"]
 
 
-def test_current_final_status_remains_blocked_by_broker_gate_without_broker_proof():
+def test_current_final_status_remains_blocked_by_evidence_gate_without_broker_proof():
     result = build_profitable_live_bot_final_status()
-    assert result["status"] == BLOCKED_BY_BROKER_GATE
-    assert result["evidence_gate_cleared"] is True
-    assert result["risk_gate_cleared"] is True
-    assert "missing_broker_demo_or_sandbox_proof" in result["blockers"]["broker"]
+    assert result["status"] == REQUIRE_MORE_EVIDENCE
+    assert result["evidence_gate_cleared"] is False
+    assert result["risk_gate_cleared"] is False
+    assert "insufficient_sample" in result["blockers"]["evidence"]
 
 
 def test_final_status_blocks_insufficient_sample_until_depth_exists():

@@ -1,0 +1,72 @@
+{
+  "$id": "https://aios.local/schemas/AIOS_POSTMORTEM_PATTERN.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "$defs": {
+    "tradePattern": {
+      "enum": ["FALSE_FLIP", "LOW_VOLATILITY_WHIPSAW", "RAPID_REVERSAL", "MULTIPLIER_SENSITIVITY", "INSUFFICIENT_TREND_PERSISTENCE", "WINNER_TREND_PERSISTENCE", "FAVORABLE_VOLATILITY_REGIME", "NOT_PROVEN"]
+    },
+    "patternClassification": {
+      "type": "object", "required": ["pattern", "status", "reason", "required_evidence_type", "supporting_trade_id"], "additionalProperties": false,
+      "properties": {"pattern": {"$ref": "#/$defs/tradePattern"}, "status": {"enum": ["PROVEN", "NOT_PROVEN"]},
+        "reason": {"enum": ["MISSING_METRICS", "MALFORMED_METRICS", "MISSING_TYPED_EVIDENCE", "CONDITION_NOT_MET", null]},
+        "required_evidence_type": {"enum": ["signal", "market_condition"]}, "supporting_trade_id": {"type": ["string", "null"]}}
+    },
+    "recommendation": {
+      "type": "object", "required": ["experiment_class", "observed_pattern", "supporting_trade_ids", "supporting_evidence_refs", "proposed_test", "evidence_status", "authority"], "additionalProperties": false,
+      "properties": {"experiment_class": {"enum": ["SUPERTREND_MULTIPLIER", "ATR_VOLATILITY_FLOOR", "CONFIRMATION_BAR", "POST_FLIP_COOLDOWN", "TREND_PERSISTENCE"]},
+        "observed_pattern": {"$ref": "#/$defs/tradePattern"}, "supporting_trade_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "supporting_evidence_refs": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}, "proposed_test": {"type": "string", "minLength": 1},
+        "evidence_status": {"enum": ["ELIGIBLE", "BLOCKED_BELOW_THRESHOLD"]}, "authority": {"const": "ANALYSIS_ONLY"}}
+    },
+    "rankedPattern": {
+      "type": "object", "required": ["pattern", "frequency", "pnl_impact"], "additionalProperties": false,
+      "properties": {"pattern": {"$ref": "#/$defs/tradePattern"}, "frequency": {"type": "integer", "minimum": 1}, "pnl_impact": {"type": "number"}}
+    }
+  },
+  "properties": {
+    "authority": {
+      "const": "OPERATIONAL_EVIDENCE_ONLY"
+    },
+    "duplicate_suppressed": {
+      "type": "boolean"
+    },
+    "human_owner_review_required": {
+      "type": "boolean"
+    },
+    "incident_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "independent_incident_count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "promotion_eligible": {
+      "type": "boolean"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "signature": {
+      "minLength": 1,
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "signature",
+    "incident_ids",
+    "independent_incident_count",
+    "duplicate_suppressed",
+    "promotion_eligible",
+    "human_owner_review_required",
+    "authority"
+  ],
+  "description": "Independent-incident recurrence evidence with fail-closed promotion metadata.",
+  "title": "AIOS Post-Mortem Pattern v1",
+  "type": "object"
+}

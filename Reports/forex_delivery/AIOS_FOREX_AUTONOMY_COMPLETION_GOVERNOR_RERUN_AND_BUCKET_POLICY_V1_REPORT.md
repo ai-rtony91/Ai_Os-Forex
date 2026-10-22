@@ -1,9 +1,9 @@
 # AIOS Forex Autonomy Completion Governor Rerun + Bucket Policy V1 Report
 
 Status: AUTONOMY_BLOCKED
-Current branch: main
-Current head: 807c0e058297875325713e537455e14f204d3c82
-Input files used: C:\Dev\Ai.Os\Reports\forex_delivery\AIOS_FOREX_AUTONOMY_COMPLETION_STATE_MODEL_V1.json, C:\Dev\Ai.Os\Reports\forex_delivery\AIOS_FOREX_LIVE_MICRO_EXCEPTION_GOVERNOR_INPUT_TEMPLATE_V1.json
+Current branch: work
+Current head: acb6d327352e0542dcbcc8a521891fbc7ade8648
+Input files used: /workspace/Ai_Os/Reports/forex_delivery/AIOS_FOREX_AUTONOMY_COMPLETION_STATE_MODEL_V1.json, /workspace/Ai_Os/Reports/forex_delivery/AIOS_FOREX_LIVE_MICRO_EXCEPTION_GOVERNOR_INPUT_TEMPLATE_V1.json
 
 Governor status: AUTONOMY_BLOCKED
 Bucket status: BUCKET_MAX_LOSS_HOLD

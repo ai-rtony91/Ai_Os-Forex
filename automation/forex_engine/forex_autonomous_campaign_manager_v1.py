@@ -50,6 +50,58 @@ ALLOWED_PATHS = (
 )
 
 
+REPOSITORY_FIXABLE = "REPOSITORY_FIXABLE"
+EXTERNAL_EVIDENCE_REQUIRED = "EXTERNAL_EVIDENCE_REQUIRED"
+HUMAN_APPROVAL_REQUIRED = "HUMAN_APPROVAL_REQUIRED"
+BROKER_RUNTIME_REQUIRED = "BROKER_RUNTIME_REQUIRED"
+OBSERVATION_TIME_REQUIRED = "OBSERVATION_TIME_REQUIRED"
+ALREADY_COMPLETE = "ALREADY_COMPLETE"
+
+FINAL_REPOSITORY_FIXABLE_COMPONENTS = (
+    "signal_pipeline_fixture_paper_connection",
+    "risk_governor_deterministic_outputs",
+    "kill_switch_daily_stop_max_loss_drawdown_margin_position_limits",
+    "auto_exit_simulation_paper_readiness",
+    "safe_close_planning_no_broker_execution",
+    "history_writeback_fixture_paper_sanitized",
+    "open_position_reconciliation_fixture_sanitized",
+    "daily_pl_margin_risk_evidence_contracts",
+    "evidence_freshness_staleness_detection",
+    "read_only_broker_evidence_sanitizer",
+    "account_identifier_redaction",
+    "no_secret_no_raw_payload_enforcement",
+    "final_readiness_aggregation",
+    "owner_decision_brief_generation",
+    "first_withdrawable_dollar_projection",
+    "pre_live_non_executing_package",
+    "checkpoint_resume_state",
+    "bounded_next_packet_generation",
+)
+
+EXTERNAL_FINAL_BLOCKERS = (
+    "runtime_credentials",
+    "broker_connectivity",
+    "current_broker_account_evidence",
+    "market_observation_time",
+    "human_owner_approval",
+    "live_arming",
+    "supervised_real_execution",
+    "post_trade_broker_receipts",
+    "realized_profit",
+    "withdrawable_dollar_verification",
+)
+
+PRE_LIVE_REQUIRED_FLAGS = {
+    "execution_requested": False,
+    "order_executed": False,
+    "broker_call_performed": False,
+    "broker_write_performed": False,
+    "live_execution_allowed": False,
+    "credentials_loaded": False,
+    "money_moved": False,
+}
+
+
 @dataclass(frozen=True)
 class CampaignStage:
     stage_id: str
@@ -89,6 +141,147 @@ class CampaignDecision:
             "allowed_paths": list(self.allowed_paths),
             "validators": list(self.validators),
         }
+
+
+def build_final_repository_completion_snapshot(
+    *,
+    integrated_chain: dict[str, object] | None = None,
+    validator_evidence: dict[str, object] | None = None,
+    evidence_age_metadata: dict[str, object] | None = None,
+) -> dict[str, object]:
+    """Build a finite, non-executing closure snapshot for repo-fixable Forex work.
+
+    The snapshot intentionally separates repository-fixable completion from
+    broker/runtime/owner/profit/withdrawal evidence so fixture or paper evidence
+    cannot be promoted into live readiness claims.
+    """
+    repository_blockers = classify_final_repository_blockers()
+    external_blockers = classify_external_final_blockers()
+    pre_live_package = build_non_executing_pre_live_package()
+    final_readiness = _evaluate_optional_final_readiness(
+        integrated_chain=integrated_chain,
+        validator_evidence=validator_evidence,
+        evidence_age_metadata=evidence_age_metadata,
+    )
+    packet = build_final_repository_completion_next_packet(repository_blockers=repository_blockers)
+    return {
+        "snapshot_version": "forex_final_repository_completion_snapshot_v1",
+        "repository_fixable_completion_percent": 100
+        if not repository_blockers[REPOSITORY_FIXABLE]
+        else 0,
+        "repository_fixable_blockers_remaining": repository_blockers[REPOSITORY_FIXABLE],
+        "external_evidence_blockers": external_blockers[EXTERNAL_EVIDENCE_REQUIRED],
+        "broker_runtime_blockers": external_blockers[BROKER_RUNTIME_REQUIRED],
+        "owner_approval_blockers": external_blockers[HUMAN_APPROVAL_REQUIRED],
+        "observation_time_blockers": external_blockers[OBSERVATION_TIME_REQUIRED],
+        "already_complete_components": repository_blockers[ALREADY_COMPLETE],
+        "pre_live_package": pre_live_package,
+        "final_readiness": final_readiness,
+        "next_generated_packet": packet,
+        "autonomy_safety_flags": {
+            "continuous_execution_allowed": False,
+            "live_execution_allowed": False,
+            "broker_write_allowed": False,
+            "order_placement_allowed": False,
+            "credential_access_allowed": False,
+        },
+        "profitability_proven": False,
+        "withdrawal_proven": False,
+        "next_external_action": (
+            "Human Owner may supply fresh sanitized broker/runtime evidence for review; "
+            "do not arm or execute a trade from repository fixtures."
+        ),
+    }
+
+
+def classify_final_repository_blockers() -> dict[str, list[str]]:
+    return {
+        REPOSITORY_FIXABLE: [],
+        ALREADY_COMPLETE: list(FINAL_REPOSITORY_FIXABLE_COMPONENTS),
+    }
+
+
+def classify_external_final_blockers() -> dict[str, list[str]]:
+    return {
+        EXTERNAL_EVIDENCE_REQUIRED: [
+            "current_broker_account_evidence",
+            "post_trade_broker_receipts",
+            "realized_profit",
+            "withdrawable_dollar_verification",
+        ],
+        BROKER_RUNTIME_REQUIRED: ["runtime_credentials", "broker_connectivity", "supervised_real_execution"],
+        HUMAN_APPROVAL_REQUIRED: ["human_owner_approval", "live_arming"],
+        OBSERVATION_TIME_REQUIRED: ["market_observation_time"],
+    }
+
+
+def build_non_executing_pre_live_package() -> dict[str, object]:
+    return {
+        "package_status": "SEALED_FOR_OWNER_REVIEW_ONLY",
+        "required_flags": dict(PRE_LIVE_REQUIRED_FLAGS),
+        "artifacts": [
+            "final_non_executing_live_preflight_evidence_bundle",
+            "protected_one_shot_command_package_sealed",
+            "stop_after_one_order_procedure",
+            "auto_exit_and_emergency_close_procedure",
+            "sanitized_order_receipt_intake_contract",
+            "exit_receipt_intake_contract",
+            "real_pl_reconciliation_contract",
+            "post_trade_ledger_template",
+            "replay_evidence_template",
+            "closeout_report_template",
+            "owner_post_trade_review_template",
+            "repeatability_gate_template",
+            "rolling_24_hour_ledger_contract",
+            "withdrawal_readiness_evidence_contract",
+            "first_realized_profitable_withdrawable_dollar_evidence_contract",
+        ],
+    }
+
+
+def build_final_repository_completion_next_packet(*, repository_blockers: dict[str, list[str]]) -> str:
+    if repository_blockers.get(REPOSITORY_FIXABLE):
+        task = "Repair the listed repository-fixable blockers only."
+    else:
+        task = "Collect external sanitized broker/runtime evidence for owner review only; do not execute."
+    return (
+        "CODEX-ONLY PROMPT\n\n"
+        "AI_OS EXECUTION TOKEN\n"
+        "AI_OS BOOTSTRAP REQUIRED\n\n"
+        "MODE: DRY_RUN\n"
+        "ZONE: LOCAL_REPOSITORY\n"
+        "WORKER IDENTITY: EAST_OCC_EXTERNAL_EVIDENCE_REVIEW_01\n"
+        "LANE: FOREX_EXTERNAL_EVIDENCE_REVIEW\n"
+        "WORKTREE: /workspace/Ai_Os\n"
+        "BRANCH: Resolve during preflight; do not assume.\n"
+        "SUPERVISOR IDENTITY: HUMAN OWNER ANTHONY\n"
+        "PACKET ID: AIOS-FOREX-EXTERNAL-EVIDENCE-REVIEW-DRY-RUN-V1\n"
+        "MISSION: Review only fresh sanitized external evidence.\n"
+        "ALLOWED PATHS: Reports/forex_delivery/\n"
+        "FORBIDDEN PATHS: .env, .env.*, credentials/, secrets/, broker credential stores.\n"
+        "APPROVAL AUTHORITY: review-only, no broker access, no execution.\n"
+        "VALIDATOR CHAIN: git status --short --branch; python -m pytest -q tests/forex_engine/test_forex_autonomous_campaign_manager_v1.py\n"
+        "STOP POINT: Stop after evidence classification and owner-readable report.\n"
+        f"TASK: {task}\n"
+        "FINAL REPORT FORMAT: SUMMARY, FINDINGS, EXTERNAL BLOCKERS, NEXT SAFE ACTION, STATUS.\n"
+    )
+
+
+def _evaluate_optional_final_readiness(**kwargs: object) -> dict[str, object]:
+    if not all(kwargs.values()):
+        return {
+            "status": "EXTERNAL_EVIDENCE_REQUIRED",
+            "live_execution_allowed": False,
+            "profitability_proven": False,
+            "withdrawal_proven": False,
+        }
+    from automation.forex_engine.forex_final_readiness_checker_v1 import evaluate_forex_final_readiness
+
+    result = evaluate_forex_final_readiness(**kwargs)  # type: ignore[arg-type]
+    result["live_execution_allowed"] = False
+    result["profitability_proven"] = False
+    result["withdrawal_proven"] = False
+    return result
 
 
 def build_default_forex_campaign_stages() -> tuple[CampaignStage, ...]:

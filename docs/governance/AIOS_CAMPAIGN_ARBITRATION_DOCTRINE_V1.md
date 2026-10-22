@@ -132,3 +132,79 @@ If arbitration detects a true governance gate, the AEE campaign must stop and ha
 - `docs/workflows/AIOS_LONG_CAMPAIGN_CODEX_OPERATING_MODE_V1.md`
 - `docs/workflows/AI_OS_PR_LANE_RUNNER.md`
 - `docs/governance/aios-identity-and-lane-governance.md`
+
+## Master Roadmap Continuity Rule
+
+Every governed AIOS Program must maintain an ordered dependency path from
+current work through downstream milestones. The canonical roadmap for a
+Program is planning authority for order and return coordinates; it does not
+approve APPLY, protected actions, trading, broker access, or money movement.
+
+Temporary side jobs may interrupt the active roadmap when justified by
+safety, recovery, evidence integrity, infrastructure, maintenance, backup,
+authentication, deployment, research, or another owner-authorized need. A
+side job does not become the master roadmap merely because it is newer or
+more recent.
+
+When an interruption reaches its stop condition, the worker must:
+
+1. read the last verified master roadmap;
+2. identify the first unfinished dependency;
+3. verify that dependency against current repository and runtime evidence;
+4. resume the first valid unfinished dependency;
+5. skip milestones already proven complete; and
+6. preserve deferred milestones in their original dependency order.
+
+Recency alone must never select the next master task. AIOS must not silently
+abandon an older unfinished milestone because a newer task appeared.
+
+Human Owner Anthony may explicitly reprioritize, insert, remove, replace, or
+supersede dependencies. That explicit reprioritization overrides automatic
+return-to-path resolution. Current repository and runtime evidence overrides
+stale roadmap assumptions; a conflict requires inspection, reconciliation,
+roadmap status update, and then return to the first valid unfinished
+dependency.
+
+Completed milestones must not be rerun without an evidence-backed reason.
+If return coordinates cannot be safely resolved, the worker must inspect the
+canonical roadmap and must not guess.
+
+### Packet Continuity Metadata
+
+Every major packet must classify its path as one of:
+
+- `MASTER_PATH`
+- `SIDE_JOB`
+- `RECOVERY`
+- `MAINTENANCE`
+- `RESEARCH`
+
+`SIDE_JOB`, `RECOVERY`, `MAINTENANCE`, and `RESEARCH` packets must record,
+where resolvable:
+
+- `RETURN_TO_PROGRAM`
+- `RETURN_TO_EPIC`
+- `RETURN_TO_BUCKET`
+
+Packets that propose skipping an unfinished upstream dependency fail closed
+unless the Human Owner explicitly reprioritizes the roadmap. The packet
+generator and reviewer must check these fields before large new work.
+
+Side-job completion reports must include:
+
+```text
+INTERRUPTED PROGRAM:
+INTERRUPTED BUCKET:
+SIDE JOB:
+SIDE JOB STATUS:
+RETURN POINT:
+FIRST UNFINISHED DEPENDENCY:
+NEXT MASTER ACTION:
+```
+
+The canonical current Forex return path is maintained in:
+
+`docs/roadmap/AIOS_FOREX_PROGRAM_B_MASTER_ROADMAP_V1.md`
+
+The existing Strategic Campaign Registry remains the planning registry for
+campaign selection. It is not replaced or duplicated by the Program roadmap.

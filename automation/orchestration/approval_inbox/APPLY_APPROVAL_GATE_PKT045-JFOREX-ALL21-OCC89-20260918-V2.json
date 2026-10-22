@@ -1,0 +1,43 @@
+{
+    "allowed_paths":  [
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\jforex_history_pilot\\v1\\execution_v2"
+                      ],
+    "approval_authority":  "Anthony, Human Owner",
+    "approval_evidence":  {
+                              "type":  "HMAC_SHA256",
+                              "status":  "SIGNED_BY_HUMAN_OWNER",
+                              "canonical_payload_schema":  "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v1",
+                              "canonical_payload_sha256":  "a5ac309b4af173b566012b3530e2b1b0784cbde29498b2a0c33cc36c954a5c7d",
+                              "approval_hmac_sha256":  "d8877421bc1a4b9bfc0a65d96b5df8523ee609350b00881589bdfae543fe5121",
+                              "approval_nonce":  "a50788f66bb5445e8131cf88dbf80eba",
+                              "key_id":  "AIOS-HUMAN-OWNER-PRIMARY-V1",
+                              "key_version":  1,
+                              "key_fingerprint_sha256":  "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786"
+                          },
+    "approval_gate_id":  "PKT045-JFOREX-ALL21-OCC89-20260918-V2",
+    "approval_request_id":  "PKT045-JFOREX-ALL21-OCC89-20260918-V2",
+    "approval_status":  "approved_for_apply",
+    "approval_timestamp_utc":  "2026-09-18T17:50:43.9380932+00:00",
+    "approved_by_human":  true,
+    "approved_mode":  "APPLY",
+    "blocked_paths":  [
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045\\stage1_occ84",
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045\\postacq_occ89_20260916\\certification_stage",
+                          "C:\\Dev\\Ai.Os\\AGENTS.md",
+                          "C:\\Dev\\Ai.Os\\RISK_POLICY.md",
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\historical_version_recovery\\overnight_continuation\\v1\\jforex_history_pilot\\v1\\runtime_setup",
+                          "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine"
+                      ],
+    "commit_package_required":  true,
+    "expires_at_utc":  "2026-09-18T21:38:53.380920+00:00",
+    "packet_id":  "PKT-AIOS-ADAPTIVE-WORKFORCE-001",
+    "push_blocked_until_final_review":  true,
+    "requested_action":  "One bounded headless DEMO JForex session for 21 evidence-bound gaps and controls; truthful derived whole-object reconstruction, frozen normalization, regressions, two identical canonical certifications when eligible, disabled Muscle98 research handoff; no orders or scoring.",
+    "requested_mode":  "APPLY",
+    "risk_level":  "HIGH",
+    "schema":  "AIOS_PACKET_APPROVAL_REQUEST.v1",
+    "validator_chain":  [
+                            "PKT045_JFOREX_ALL21_PLAN_SHA256=e4b2e5d1fe9f6ea7a906c7d1df0a8481878c01dddb9c8f8b9bb7e1066012f9f2"
+                        ],
+    "approved_by":  "Anthony, Human Owner"
+}

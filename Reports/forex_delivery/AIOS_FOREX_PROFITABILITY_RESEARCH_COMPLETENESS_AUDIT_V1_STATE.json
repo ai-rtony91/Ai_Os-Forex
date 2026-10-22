@@ -1,0 +1,107 @@
+{
+  "behavior_unique_candidates": 10,
+  "candidate_labels_generated": [
+    "LONG_SLOW_TREND_CONTINUATION_H1_V1",
+    "LONG_TREND_PULLBACK_REENTRY_H1_V1",
+    "LONG_VOLATILITY_EXPANSION_H1_V1",
+    "LONG_FAILED_BREAKOUT_REVERSAL_H1_V1",
+    "LONG_LIQUIDITY_NORMALIZED_MOMENTUM_H1_V1",
+    "SHORT_SLOW_TREND_CONTINUATION_H1_V1",
+    "SHORT_TREND_PULLBACK_REENTRY_H1_V1",
+    "SHORT_VOLATILITY_EXPANSION_H1_V1",
+    "SHORT_FAILED_BREAKOUT_REVERSAL_H1_V1",
+    "SHORT_LIQUIDITY_NORMALIZED_MOMENTUM_H1_V1"
+  ],
+  "candidates_scored": 10,
+  "candidates_with_zero_trades": [],
+  "data_eligible_candidate_families": [
+    "failed-breakout reversal",
+    "liquidity-normalized setup",
+    "slow trend continuation",
+    "trend pullback reentry",
+    "volatility expansion"
+  ],
+  "families_rejected_before_scoring": [],
+  "families_skipped": [
+    {
+      "classification": "NOT_IMPLEMENTED",
+      "family": "cross-sectional strongest-vs-weakest",
+      "reason": "Packet 026 implementation generated only five H1 transparent families across two directions; this broader family was authorized by packet text but absent from candidate_registry()."
+    },
+    {
+      "classification": "NOT_IMPLEMENTED",
+      "family": "carry + momentum",
+      "reason": "Packet 026 implementation generated only five H1 transparent families across two directions; this broader family was authorized by packet text but absent from candidate_registry()."
+    },
+    {
+      "classification": "NOT_IMPLEMENTED",
+      "family": "policy divergence",
+      "reason": "Packet 026 implementation generated only five H1 transparent families across two directions; this broader family was authorized by packet text but absent from candidate_registry()."
+    },
+    {
+      "classification": "NOT_IMPLEMENTED",
+      "family": "CFTC crowding unwind",
+      "reason": "Packet 026 implementation generated only five H1 transparent families across two directions; this broader family was authorized by packet text but absent from candidate_registry()."
+    },
+    {
+      "classification": "NOT_IMPLEMENTED",
+      "family": "macro-event reaction",
+      "reason": "Packet 026 implementation generated only five H1 transparent families across two directions; this broader family was authorized by packet text but absent from candidate_registry()."
+    },
+    {
+      "classification": "NOT_IMPLEMENTED",
+      "family": "structural reversal",
+      "reason": "Packet 026 implementation generated only five H1 transparent families across two directions; this broader family was authorized by packet text but absent from candidate_registry()."
+    },
+    {
+      "classification": "NOT_IMPLEMENTED",
+      "family": "transparent regime router",
+      "reason": "Packet 026 implementation generated only five H1 transparent families across two directions; this broader family was authorized by packet text but absent from candidate_registry()."
+    },
+    {
+      "classification": "NOT_IMPLEMENTED",
+      "family": "meta-label TAKE/DO_NOT_TAKE",
+      "reason": "Packet 026 implementation generated only five H1 transparent families across two directions; this broader family was authorized by packet text but absent from candidate_registry()."
+    }
+  ],
+  "implemented_candidate_families": [
+    "failed-breakout reversal",
+    "liquidity-normalized setup",
+    "slow trend continuation",
+    "trend pullback reentry",
+    "volatility expansion"
+  ],
+  "implemented_family_count": 5,
+  "long_candidates": 5,
+  "packet026_program_sha256": "ad000938098801d657f214e9566bd946acb52fd5fd71a2bebb6c670f840e4abc",
+  "packet026_state_status": "PROFITABILITY_RESEARCH_EXHAUSTED_NO_EDGE",
+  "packet_id": "PKT-EAST-FOREX-NEXT-GENERATION-PROFITABILITY-027",
+  "planned_candidate_cap": 60,
+  "planned_candidate_families": [
+    "slow trend continuation",
+    "trend pullback reentry",
+    "cross-sectional strongest-vs-weakest",
+    "carry + momentum",
+    "policy divergence",
+    "CFTC crowding unwind",
+    "macro-event reaction",
+    "volatility expansion",
+    "failed-breakout reversal",
+    "structural reversal",
+    "liquidity-normalized setup",
+    "transparent regime router",
+    "meta-label TAKE/DO_NOT_TAKE"
+  ],
+  "planned_family_count": 13,
+  "reason_registry_contained_10": "Packet 026 candidate_registry() hard-coded five H1 family definitions and emitted each in LONG and SHORT directions. No shared/router, cross-sectional, carry, CFTC, macro-event, structural reversal, or meta-label candidates were generated.",
+  "schema": "AIOS_FOREX_PROFITABILITY_RESEARCH_COMPLETENESS_AUDIT_V1_STATE",
+  "shared_portfolio_candidates": 0,
+  "short_candidates": 5,
+  "source_audit": {
+    "candidate_registry_function_present": true,
+    "hardcoded_definitions_present": true,
+    "max_registry_limit_enforced_by_code": 10
+  },
+  "state_hash": "fab574ec1ab141f6c47404a9e4e44650147fd6522b9ca2153e70d29239f6019e",
+  "status": "COMPLETE"
+}

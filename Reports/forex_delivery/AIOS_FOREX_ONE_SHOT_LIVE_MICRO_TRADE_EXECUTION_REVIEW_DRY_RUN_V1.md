@@ -14,7 +14,6 @@
 - read_only_source_type_present
 - read_only_source_label_present
 - read_only_freshness_present
-- broker_account_reachable
 - paper_signal_execution_loop_evidence_report
 - paper_signal_side_recorded
 - paper_risk_gate_approved
@@ -47,12 +46,14 @@
 - required_future_execution_phrase_documented
 
 ## Evidence Missing
+- daily_pl_availability
 - future_execution_human_phrase
 
 ## Blockers
+- read_only_bridge_fixture_source_not_live_permitted
 - read_only_data_not_approved_for_future_live_execution
+- broker_account_not_reachable_in_read_only_evidence
 - open_positions_not_reconciled_in_read_only_evidence
-- daily_pl_not_available_in_read_only_evidence
 - real_trading_history_unavailable_or_blocked
 - live_micro_trade_arming_gate_not_armable
 - open_live_position_state_not_reconciled
@@ -81,9 +82,10 @@ Do not execute. Resolve blocked evidence, refresh sanitized read-only bridge and
 {
   "EXECUTION_REVIEW_READY": false,
   "blocked_reasons": [
+    "read_only_bridge_fixture_source_not_live_permitted",
     "read_only_data_not_approved_for_future_live_execution",
+    "broker_account_not_reachable_in_read_only_evidence",
     "open_positions_not_reconciled_in_read_only_evidence",
-    "daily_pl_not_available_in_read_only_evidence",
     "real_trading_history_unavailable_or_blocked",
     "live_micro_trade_arming_gate_not_armable",
     "open_live_position_state_not_reconciled",
@@ -94,8 +96,8 @@ Do not execute. Resolve blocked evidence, refresh sanitized read-only bridge and
   ],
   "broker_write_calls_allowed": false,
   "close_trade_allowed": false,
-  "evidence_path": "Reports\\forex_delivery\\AIOS_FOREX_ONE_SHOT_LIVE_MICRO_TRADE_EXECUTION_REVIEW_DRY_RUN_V1.md",
-  "generated_at_utc": "2026-06-19T16:43:00Z",
+  "evidence_path": "Reports/forex_delivery/AIOS_FOREX_ONE_SHOT_LIVE_MICRO_TRADE_EXECUTION_REVIEW_DRY_RUN_V1.md",
+  "generated_at_utc": "2026-08-05T20:45:34Z",
   "live_execution_allowed": false,
   "live_trade_placed": false,
   "next_packet_candidate": "AIOS-FOREX-ONE-SHOT-LIVE-MICRO-TRADE-EXECUTION-V1",

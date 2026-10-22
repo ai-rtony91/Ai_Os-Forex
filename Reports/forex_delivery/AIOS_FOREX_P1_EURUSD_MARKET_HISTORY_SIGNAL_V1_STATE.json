@@ -1,0 +1,15 @@
+{
+  "account_access_performed": false,
+  "broker_call_performed": false,
+  "candidate_generated": false,
+  "credentials_loaded": false,
+  "demo_execution_allowed": false,
+  "genuine_history_consumed": false,
+  "genuine_signal_generated": false,
+  "live_execution_allowed": false,
+  "money_movement_allowed": false,
+  "order_submission_allowed": false,
+  "paper_session_opened": false,
+  "schema": "AIOS_FOREX_P1_EURUSD_MARKET_HISTORY_SIGNAL_STATE.v1",
+  "status": "BUILD_VALIDATED_OFFLINE"
+}

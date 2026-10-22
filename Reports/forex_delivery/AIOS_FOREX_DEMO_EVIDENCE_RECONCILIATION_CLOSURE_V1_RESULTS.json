@@ -1,0 +1,969 @@
+{
+  "account_identifiers_persisted": false,
+  "audit_execution_count": 1,
+  "broker_calls": false,
+  "broker_writes": false,
+  "credentials_accessed": false,
+  "demo_evidence_completeness_contract": [
+    "demo_trade_id",
+    "strategy_config_sha256",
+    "instrument",
+    "side",
+    "units",
+    "intent_timestamp",
+    "order_timestamp",
+    "fill_timestamp",
+    "fill_price",
+    "stop_loss",
+    "take_profit",
+    "sanitized_position_presence",
+    "sanitized_order_presence",
+    "exit_timestamp",
+    "exit_price",
+    "realized_pl",
+    "realized_r",
+    "reconciliation_status",
+    "reconciliation_score",
+    "stale_data"
+  ],
+  "demo_infrastructure_ready": true,
+  "demo_reconciliation_engine_ready": true,
+  "demo_reconciliation_fail_closed": true,
+  "demo_result_quality_gate_ready": true,
+  "demo_result_quality_proof": {
+    "demo_result_quality_gate_ready": true,
+    "profitable_mismatched_result": {
+      "demo_result_complete": true,
+      "demo_result_profitable": true,
+      "demo_result_reconciled": false,
+      "demo_result_safe": false,
+      "profit_proof_accepted": false
+    },
+    "reconciled_losing_result": {
+      "demo_result_complete": true,
+      "demo_result_profitable": false,
+      "demo_result_reconciled": true,
+      "demo_result_safe": true,
+      "profit_proof_accepted": false
+    }
+  },
+  "evidence_inventory": {
+    "classification_counts": {
+      "GENUINE_HISTORICAL_DEMO_EVIDENCE": 0,
+      "PLANNING_ONLY": 2,
+      "READ_ONLY_BROKER_EVIDENCE": 1,
+      "STALE_OR_LEGACY": 0,
+      "SYNTHETIC_VALIDATION": 3,
+      "UNRESOLVED": 0
+    },
+    "genuine_demo_evidence_count": 0,
+    "genuine_demo_records_insufficient": 1,
+    "genuine_demo_records_reconciled": 0,
+    "historical_candidates": [
+      {
+        "classification": "READ_ONLY_BROKER_EVIDENCE",
+        "match_score": null,
+        "matched": null,
+        "missing_fields": [
+          "demo_trade_id",
+          "strategy_config_sha256",
+          "instrument",
+          "side",
+          "units",
+          "intent_timestamp",
+          "order_timestamp",
+          "fill_timestamp",
+          "fill_price",
+          "stop_loss",
+          "take_profit",
+          "sanitized_position_presence",
+          "sanitized_order_presence",
+          "exit_timestamp",
+          "exit_price",
+          "realized_pl",
+          "realized_r",
+          "reconciliation_status",
+          "reconciliation_score",
+          "stale_data"
+        ],
+        "order_seen": null,
+        "pair_match": null,
+        "position_seen": null,
+        "price_within_tolerance": null,
+        "reconciliation_status": "INSUFFICIENT_FOR_RECONCILIATION",
+        "record_reference": "trade_320",
+        "side_match": null,
+        "source_artifact": "Reports/forex_delivery/AIOS_FOREX_DEMO_READINESS_SPINE_V1_REPORT.md",
+        "stale_data": null,
+        "stop_loss_match": null,
+        "take_profit_match": null,
+        "units_match": null
+      }
+    ],
+    "items": [
+      {
+        "basis": "contract_and_test_plan_with_validators_not_run_in_report",
+        "classification": "PLANNING_ONLY",
+        "eligible_for_profit_proof": false,
+        "genuine_demo_trade_record": false,
+        "source_artifact": "Reports/forex_delivery/AIOS_FOREX_DEMO_RECONCILIATION_V1_REPORT.md",
+        "source_sha256": "6df83152c81a69c2383bc069cea7170d464a68a89b42419b233e26d636de89ab"
+      },
+      {
+        "basis": "read_only_preflight_and_trade_320_history_without_complete_reconciliation_fields",
+        "classification": "READ_ONLY_BROKER_EVIDENCE",
+        "eligible_for_profit_proof": false,
+        "genuine_demo_trade_record": false,
+        "source_artifact": "Reports/forex_delivery/AIOS_FOREX_DEMO_READINESS_SPINE_V1_REPORT.md",
+        "source_sha256": "8e56d821f14799dfbb1dc38008b30ecf932aa1260a23ab60f6c826d664d86af2"
+      },
+      {
+        "basis": "catalog_and_index_evidence_not_a_demo_trade_record",
+        "classification": "PLANNING_ONLY",
+        "eligible_for_profit_proof": false,
+        "genuine_demo_trade_record": false,
+        "source_artifact": "Reports/forex_delivery/AIOS_FOREX_EVIDENCE_INDEX_V1_REPORT.md",
+        "source_sha256": "3d6ff3bacc37f8ef6be93494ab3b0dde04b4991504f21e31bc0edca314bf9876"
+      },
+      {
+        "basis": "synthetic_reconciliation_proof_explicitly_marked_non_genuine",
+        "classification": "SYNTHETIC_VALIDATION",
+        "eligible_for_profit_proof": false,
+        "genuine_demo_trade_record": false,
+        "source_artifact": "Reports/forex_delivery/AIOS_FOREX_OWNER_RISK_AUTHORITY_V1_RESULTS.json",
+        "source_sha256": "2ab88db3e1a6ab335b61199a9ebc0fc5f92c165413dd779ea61f275801fe10df"
+      },
+      {
+        "basis": "local_synthetic_trade_reconciliation_and_stress_proof",
+        "classification": "SYNTHETIC_VALIDATION",
+        "eligible_for_profit_proof": false,
+        "genuine_demo_trade_record": false,
+        "source_artifact": "Reports/forex_delivery/AIOS_FOREX_LIVE_READINESS_HARDENING_V1_RESULTS.json",
+        "source_sha256": "51c9f13748c551984a090cf8b699a0e96a3bfa46669fef14b10f7f8a81ab20a3"
+      },
+      {
+        "basis": "synthetic_demo_reconciliation_with_real_demo_evidence_complete_false",
+        "classification": "SYNTHETIC_VALIDATION",
+        "eligible_for_profit_proof": false,
+        "genuine_demo_trade_record": false,
+        "source_artifact": "Reports/forex_delivery/AIOS_FOREX_LIVE_READINESS_BLOCKER_CLOSURE_V1_RESULTS.json",
+        "source_sha256": "349307484fc95b9645992c834757a4c002ea36c2283ecdfd84b299a59d8acbd3"
+      }
+    ],
+    "planning_only_count": 2,
+    "read_only_demo_evidence_count": 1,
+    "synthetic_demo_evidence_count": 3
+  },
+  "forward_paper30_count_post": 0,
+  "forward_paper30_count_pre": 0,
+  "genuine_demo_evidence_complete": false,
+  "genuine_demo_evidence_count": 0,
+  "genuine_demo_records_insufficient": 1,
+  "genuine_demo_records_reconciled": 0,
+  "human_live_approval": false,
+  "live_execution_enabled": false,
+  "live_orders": false,
+  "live_readiness_blockers_after": [
+    "human_approval_missing",
+    "paper_evidence_insufficient",
+    "demo_evidence_insufficient"
+  ],
+  "live_readiness_score_after": 0.6,
+  "live_readiness_score_before": 0.6,
+  "lock_id": "LOCK_EAST_FOREX_LIVE_READINESS_RESEARCH_EAST_OCC_01",
+  "money_movement": false,
+  "network_calls": false,
+  "next_demo_evidence_action": "COLLECT_OWNER_APPROVED_SANITIZED_PRACTICE_DEMO_TRADE_EVIDENCE_WHEN_MARKET_OPEN",
+  "packet_id": "PKT-EAST-FOREX-DEMO-EVIDENCE-RECONCILIATION-021",
+  "paper30_forward_state_unchanged": true,
+  "paper30_invariant_post_sha256": {
+    "paper30_ledger": "3e50632ff433ee9b72ea5b1a23258d78197519ddb06463e33f4b4a9a5bb51297",
+    "paper30_runtime": "52daf4f540a583e3bdad66c17c729cc2d5eb21abc5d334ef8df5bad5ea8366f8",
+    "paper30_state": "e892b0b3200ec745fa2266ef9943037f6671ef2effb3ef7f1bca66467d1d819d"
+  },
+  "paper30_invariant_pre_sha256": {
+    "paper30_ledger": "3e50632ff433ee9b72ea5b1a23258d78197519ddb06463e33f4b4a9a5bb51297",
+    "paper30_runtime": "52daf4f540a583e3bdad66c17c729cc2d5eb21abc5d334ef8df5bad5ea8366f8",
+    "paper30_state": "e892b0b3200ec745fa2266ef9943037f6671ef2effb3ef7f1bca66467d1d819d"
+  },
+  "paper30_strategy_config_sha256": "13b96b3e227a2b5873ba5916a4987cf571868626339d1a89e2cd6e0e25bd1435",
+  "practice_orders": false,
+  "read_only_demo_evidence_count": 1,
+  "readiness_fail_count_after": 0,
+  "readiness_pass_count_after": 19,
+  "readiness_pass_count_before": 19,
+  "readiness_pending_count_after": 8,
+  "repeated_demo_evidence_pipeline_ready": true,
+  "repeated_demo_profit_proof_complete": false,
+  "requires_broker_action": true,
+  "requires_credentials_at_runtime": true,
+  "requires_market_open": true,
+  "requires_owner_approval": true,
+  "source_head": "d85fce1a88e73cd9863e2b400b48bf42f52d2c27",
+  "status": "DEMO_RECONCILIATION_INFRASTRUCTURE_READY_GENUINE_EVIDENCE_PENDING",
+  "synthetic_demo_evidence_count": 3,
+  "synthetic_reconciliation_proof": {
+    "broker_calls": false,
+    "demo_reconciliation_engine_ready": true,
+    "demo_reconciliation_fail_closed": true,
+    "negative_cases": {
+      "account_identifier_material": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [
+          "account_identifier_material"
+        ],
+        "engine_result": {
+          "allowed": false,
+          "blocked_reason": "account_id_present",
+          "blocked_reasons": [
+            "account_id_present"
+          ],
+          "decision": "blocked",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "BUY",
+            "observed_stop_loss": 1.095,
+            "observed_take_profit": 1.11,
+            "observed_units": 1000.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 1.0,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "fix_demo_reconciliation_inputs",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": true,
+          "stale_data": false,
+          "stop_loss_match": true,
+          "take_profit_match": true,
+          "units_match": true,
+          "warnings": []
+        }
+      },
+      "broker_write_true": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [
+          "broker_write_true"
+        ],
+        "engine_result": {
+          "allowed": false,
+          "blocked_reason": "broker_write_enabled",
+          "blocked_reasons": [
+            "broker_write_enabled"
+          ],
+          "decision": "blocked",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "BUY",
+            "observed_stop_loss": 1.095,
+            "observed_take_profit": 1.11,
+            "observed_units": 1000.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 1.0,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "fix_demo_reconciliation_inputs",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": true,
+          "stale_data": false,
+          "stop_loss_match": true,
+          "take_profit_match": true,
+          "units_match": true,
+          "warnings": []
+        }
+      },
+      "credentials_true": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [
+          "credentials_true"
+        ],
+        "engine_result": {
+          "allowed": true,
+          "blocked_reason": "none",
+          "blocked_reasons": [],
+          "decision": "allowed",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "BUY",
+            "observed_stop_loss": 1.095,
+            "observed_take_profit": 1.11,
+            "observed_units": 1000.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 1.0,
+          "matched": true,
+          "metadata": {},
+          "mismatches": [],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "record_reconciliation_evidence",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": true,
+          "stale_data": false,
+          "stop_loss_match": true,
+          "take_profit_match": true,
+          "units_match": true,
+          "warnings": []
+        }
+      },
+      "live_trading_true": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [
+          "live_trading_true"
+        ],
+        "engine_result": {
+          "allowed": false,
+          "blocked_reason": "live_trading_enabled",
+          "blocked_reasons": [
+            "live_trading_enabled"
+          ],
+          "decision": "blocked",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "BUY",
+            "observed_stop_loss": 1.095,
+            "observed_take_profit": 1.11,
+            "observed_units": 1000.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 1.0,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "fix_demo_reconciliation_inputs",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": true,
+          "stale_data": false,
+          "stop_loss_match": true,
+          "take_profit_match": true,
+          "units_match": true,
+          "warnings": []
+        }
+      },
+      "network_submit_true": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [
+          "network_submit_true"
+        ],
+        "engine_result": {
+          "allowed": false,
+          "blocked_reason": "network_submit_enabled",
+          "blocked_reasons": [
+            "network_submit_enabled"
+          ],
+          "decision": "blocked",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "BUY",
+            "observed_stop_loss": 1.095,
+            "observed_take_profit": 1.11,
+            "observed_units": 1000.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 1.0,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "fix_demo_reconciliation_inputs",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": true,
+          "stale_data": false,
+          "stop_loss_match": true,
+          "take_profit_match": true,
+          "units_match": true,
+          "warnings": []
+        }
+      },
+      "order_submit_true": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [
+          "order_submit_true"
+        ],
+        "engine_result": {
+          "allowed": false,
+          "blocked_reason": "order_submit_enabled",
+          "blocked_reasons": [
+            "order_submit_enabled"
+          ],
+          "decision": "blocked",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "BUY",
+            "observed_stop_loss": 1.095,
+            "observed_take_profit": 1.11,
+            "observed_units": 1000.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 1.0,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "fix_demo_reconciliation_inputs",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": true,
+          "stale_data": false,
+          "stop_loss_match": true,
+          "take_profit_match": true,
+          "units_match": true,
+          "warnings": []
+        }
+      },
+      "price_outside_tolerance": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [],
+        "engine_result": {
+          "allowed": true,
+          "blocked_reason": "none",
+          "blocked_reasons": [],
+          "decision": "allowed",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.2,
+            "observed_side": "BUY",
+            "observed_stop_loss": 1.095,
+            "observed_take_profit": 1.11,
+            "observed_units": 1000.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 0.857143,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [
+            "price_within_tolerance"
+          ],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "record_reconciliation_evidence",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": false,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": true,
+          "stale_data": false,
+          "stop_loss_match": true,
+          "take_profit_match": true,
+          "units_match": true,
+          "warnings": []
+        }
+      },
+      "stale_snapshot": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [],
+        "engine_result": {
+          "allowed": false,
+          "blocked_reason": "stale_data",
+          "blocked_reasons": [
+            "stale_data"
+          ],
+          "decision": "blocked",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "BUY",
+            "observed_stop_loss": 1.095,
+            "observed_take_profit": 1.11,
+            "observed_units": 1000.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 1.0,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "fix_demo_reconciliation_inputs",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": true,
+          "stale_data": true,
+          "stop_loss_match": true,
+          "take_profit_match": true,
+          "units_match": true,
+          "warnings": []
+        }
+      },
+      "wrong_pair": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [],
+        "engine_result": {
+          "allowed": true,
+          "blocked_reason": "none",
+          "blocked_reasons": [],
+          "decision": "allowed",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "GBP_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "",
+            "observed_stop_loss": null,
+            "observed_take_profit": null,
+            "observed_units": null,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 0.142857,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [
+            "pair_match",
+            "side_match",
+            "units_match",
+            "stop_loss_match",
+            "take_profit_match",
+            "position_seen",
+            "order_seen"
+          ],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "record_reconciliation_evidence",
+          "order_seen": false,
+          "pair_match": false,
+          "paper_only": true,
+          "position_seen": false,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": false,
+          "stale_data": false,
+          "stop_loss_match": false,
+          "take_profit_match": false,
+          "units_match": false,
+          "warnings": []
+        }
+      },
+      "wrong_side": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [],
+        "engine_result": {
+          "allowed": true,
+          "blocked_reason": "none",
+          "blocked_reasons": [],
+          "decision": "allowed",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "SELL",
+            "observed_stop_loss": 1.095,
+            "observed_take_profit": 1.11,
+            "observed_units": 1000.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 0.857143,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [
+            "side_match"
+          ],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "record_reconciliation_evidence",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": false,
+          "stale_data": false,
+          "stop_loss_match": true,
+          "take_profit_match": true,
+          "units_match": true,
+          "warnings": []
+        }
+      },
+      "wrong_stop_loss": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [],
+        "engine_result": {
+          "allowed": true,
+          "blocked_reason": "none",
+          "blocked_reasons": [],
+          "decision": "allowed",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "BUY",
+            "observed_stop_loss": 1.09,
+            "observed_take_profit": 1.11,
+            "observed_units": 1000.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 0.857143,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [
+            "stop_loss_match"
+          ],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "record_reconciliation_evidence",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": true,
+          "stale_data": false,
+          "stop_loss_match": false,
+          "take_profit_match": true,
+          "units_match": true,
+          "warnings": []
+        }
+      },
+      "wrong_take_profit": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [],
+        "engine_result": {
+          "allowed": true,
+          "blocked_reason": "none",
+          "blocked_reasons": [],
+          "decision": "allowed",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "BUY",
+            "observed_stop_loss": 1.095,
+            "observed_take_profit": 1.12,
+            "observed_units": 1000.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 0.857143,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [
+            "take_profit_match"
+          ],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "record_reconciliation_evidence",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": true,
+          "stale_data": false,
+          "stop_loss_match": true,
+          "take_profit_match": false,
+          "units_match": true,
+          "warnings": []
+        }
+      },
+      "wrong_units": {
+        "closure_accepted": false,
+        "closure_blocked_reasons": [],
+        "engine_result": {
+          "allowed": true,
+          "blocked_reason": "none",
+          "blocked_reasons": [],
+          "decision": "allowed",
+          "demo_readonly": true,
+          "evidence": {
+            "intent_entry_price": 1.1,
+            "intent_pair": "EUR_USD",
+            "intent_side": "BUY",
+            "intent_units": 1000.0,
+            "lifecycle_present": false,
+            "observed_price": 1.1,
+            "observed_side": "BUY",
+            "observed_stop_loss": 1.095,
+            "observed_take_profit": 1.11,
+            "observed_units": 999.0,
+            "paper_fill_present": false,
+            "snapshot_mode": "DEMO_READONLY"
+          },
+          "match_score": 0.857143,
+          "matched": false,
+          "metadata": {},
+          "mismatches": [
+            "units_match"
+          ],
+          "mode": "DEMO_RECONCILIATION_ONLY",
+          "next_safe_action": "record_reconciliation_evidence",
+          "order_seen": true,
+          "pair_match": true,
+          "paper_only": true,
+          "position_seen": true,
+          "price_within_tolerance": true,
+          "safety": {
+            "broker_write": false,
+            "credentials": false,
+            "demo_readonly": true,
+            "live_trading": false,
+            "network_submit": false,
+            "paper_only": true,
+            "real_orders": false
+          },
+          "side_match": true,
+          "stale_data": false,
+          "stop_loss_match": true,
+          "take_profit_match": true,
+          "units_match": false,
+          "warnings": []
+        }
+      }
+    },
+    "network_calls": false,
+    "success": {
+      "closure_accepted": true,
+      "closure_blocked_reasons": [],
+      "engine_result": {
+        "allowed": true,
+        "blocked_reason": "none",
+        "blocked_reasons": [],
+        "decision": "allowed",
+        "demo_readonly": true,
+        "evidence": {
+          "intent_entry_price": 1.1,
+          "intent_pair": "EUR_USD",
+          "intent_side": "BUY",
+          "intent_units": 1000.0,
+          "lifecycle_present": false,
+          "observed_price": 1.1,
+          "observed_side": "BUY",
+          "observed_stop_loss": 1.095,
+          "observed_take_profit": 1.11,
+          "observed_units": 1000.0,
+          "paper_fill_present": false,
+          "snapshot_mode": "DEMO_READONLY"
+        },
+        "match_score": 1.0,
+        "matched": true,
+        "metadata": {},
+        "mismatches": [],
+        "mode": "DEMO_RECONCILIATION_ONLY",
+        "next_safe_action": "record_reconciliation_evidence",
+        "order_seen": true,
+        "pair_match": true,
+        "paper_only": true,
+        "position_seen": true,
+        "price_within_tolerance": true,
+        "safety": {
+          "broker_write": false,
+          "credentials": false,
+          "demo_readonly": true,
+          "live_trading": false,
+          "network_submit": false,
+          "paper_only": true,
+          "real_orders": false
+        },
+        "side_match": true,
+        "stale_data": false,
+        "stop_loss_match": true,
+        "take_profit_match": true,
+        "units_match": true,
+        "warnings": []
+      }
+    }
+  }
+}

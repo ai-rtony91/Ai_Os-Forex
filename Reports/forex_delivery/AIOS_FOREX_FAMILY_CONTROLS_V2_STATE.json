@@ -1,0 +1,20 @@
+{
+  "schema": "AIOS_FOREX_FAMILY_CONTROLS_V2_STATE",
+  "packet_id": "PKT-EAST-FOREX-FIDELITY-TO-COMPOUNDING-029",
+  "status": "RESEARCH_FIDELITY_REPAIR_REQUIRED",
+  "family_count": 8,
+  "positive_controls_passed": 0,
+  "negative_controls_passed": 0,
+  "reason": "No V2 family control is marked PASS because executable integration evidence has not yet proven the real adapter, execution, cost, metric, chronology, leakage, direction-isolation, and deterministic paths.",
+  "required_next_repair": "Implement controls that derive PASS from executable traces and assertions, not from static or hard-coded status fields.",
+  "rows": [
+    {"family": "A_TIME_SERIES_MOMENTUM", "control_status": "NOT_PROVEN"},
+    {"family": "B_CROSS_SECTIONAL_FACTOR", "control_status": "NOT_PROVEN"},
+    {"family": "C_CARRY_VALUE_MOMENTUM", "control_status": "NOT_PROVEN"},
+    {"family": "D_RELATIVE_VALUE", "control_status": "NOT_PROVEN"},
+    {"family": "E_EVENT_DRIVEN", "control_status": "NOT_PROVEN"},
+    {"family": "F_LIQUIDITY_SESSION", "control_status": "NOT_PROVEN"},
+    {"family": "G_REGIME_SWITCHING", "control_status": "NOT_PROVEN"},
+    {"family": "H_META_LABEL_ROUTER", "control_status": "NOT_PROVEN"}
+  ]
+}

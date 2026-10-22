@@ -278,18 +278,19 @@ def test_valid_proof_keeps_live_autonomy_allowed_false():
 def test_integrated_supervisor_remains_prepare_only_and_execution_false():
     result = intake.build_oanda_long_only_autonomous_supervisor_contract(_valid_proof())
     assert result["oanda_broker_proof_status"] == intake.OANDA_LONG_ONLY_BROKER_PROOF_READY
-    assert result["status"] == "AUTONOMOUS_BLOCKED_BY_POLICY"
-    assert result["readiness_gates"]["evidence_gate_cleared"] is True
-    assert result["readiness_gates"]["risk_gate_cleared"] is True
+    assert result["status"] == "AUTONOMOUS_REQUIRE_MORE_EVIDENCE"
+    assert result["readiness_gates"]["evidence_gate_cleared"] is False
+    assert result["readiness_gates"]["risk_gate_cleared"] is False
     assert result["readiness_gates"]["broker_gate_cleared"] is True
     assert result["readiness_gates"]["policy_gate_cleared"] is False
-    assert result["can_prepare_demo_plan"] is True
+    assert result["can_prepare_demo_plan"] is False
     assert result["execution_allowed"] is False
     assert result["ready_to_execute"] is False
     assert result["live_autonomy_allowed"] is False
     assert result["safety"]["network_used"] is False
     assert result["safety"]["broker_mutation"] is False
     assert result["safety"]["order_execution"] is False
+    assert result["next_safe_action"] == "restore_profitable_evidence_and_walk_forward_gate"
 
 
 def test_invalid_integrated_supervisor_stays_broker_blocked():

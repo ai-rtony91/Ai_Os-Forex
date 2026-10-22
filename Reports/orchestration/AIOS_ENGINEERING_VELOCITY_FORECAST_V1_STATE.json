@@ -1,0 +1,151 @@
+{
+  "HEAD": "493ad71fa80b43ebe98fd896098c4cd00c107a83",
+  "assumptions": [
+    "Task-duration source: REPOSITORY_PERT_BASELINE.",
+    "External waiting is excluded from active engineering time."
+  ],
+  "best_estimate": {
+    "active_engineering_minutes": 41.67
+  },
+  "branch": "work",
+  "completion_credit": {
+    "merged_and_validated": 0,
+    "unverified_uncredited": 10
+  },
+  "confidence_label": "LOW",
+  "confidence_score": 25,
+  "critical_path": [
+    "BUILD_FORECAST",
+    "VALIDATE_FORECAST"
+  ],
+  "data_sources_missing": [
+    "MEASURED_TASK_DURATION"
+  ],
+  "data_sources_used": [
+    "CODEX_TASK_METADATA",
+    "EVENT_LOG",
+    "GITHUB_PR_METADATA",
+    "GIT_COMMIT_METADATA",
+    "REPOSITORY_PERT_BASELINE"
+  ],
+  "estimated_active_engineering_minutes": {
+    "best": 41.67,
+    "high": 60.0,
+    "low": 30.0
+  },
+  "estimated_calendar_completion_range": {
+    "best": "UNKNOWN",
+    "high": "UNKNOWN",
+    "low": "UNKNOWN"
+  },
+  "estimated_tasks_remaining": 2,
+  "event_counts": {
+    "BLOCKER_CLOSED": 0,
+    "BLOCKER_DISCOVERED": 0,
+    "COMMIT_CREATED": 0,
+    "EXTERNAL_GATE_CLOSED": 0,
+    "EXTERNAL_GATE_OPENED": 0,
+    "PR_CLOSED_UNMERGED": 0,
+    "PR_CREATED": 0,
+    "PR_MERGED": 0,
+    "RUNTIME_MILESTONE_VERIFIED": 0,
+    "TASK_BLOCKED": 0,
+    "TASK_COMPLETED": 1,
+    "TASK_STARTED": 0,
+    "VALIDATION_FAILED": 0,
+    "VALIDATION_PASSED": 0
+  },
+  "evidence_provenance": {
+    "measured_task_ids": [],
+    "open_or_unmerged_work": "UNVERIFIED_UNCREDITED",
+    "owner_calibration": {
+      "confidence": "LOW",
+      "minimum_measured_samples_to_override": 5,
+      "provenance": "HUMAN_OWNER_REPORTED",
+      "typical_task_duration_minutes": 20
+    }
+  },
+  "excluded_event_counts": {
+    "zero_or_subsecond_task_duration": 1
+  },
+  "exclusion_reasons": [
+    "Subsecond durations are automation receipts, not engineering-duration evidence."
+  ],
+  "first_withdrawable_dollar_status": "DISTINCT_MILESTONE_NOT_INFERRED",
+  "forecast_target": "AIOS engineering velocity forecast V1 completion",
+  "generated_at_utc": "2026-08-06T12:00:00Z",
+  "hierarchy": {
+    "bucket": "AIOS-VELOCITY-FORECAST-V1",
+    "epic": "AIOS-VELOCITY-FORECAST",
+    "mission": "AIOS-ENGINEERING-FORECASTING",
+    "packet": "AIOS-ENGINEERING-VELOCITY-COMPLETION-FORECAST-V1-APPLY",
+    "program": "AIOS-ORCHESTRATION"
+  },
+  "high_estimate": {
+    "active_engineering_minutes": 60.0
+  },
+  "highest_blocker": "BUILD_FORECAST",
+  "low_estimate": {
+    "active_engineering_minutes": 30.0
+  },
+  "next_safe_action": "Collect five measured task-duration events and sanitized GitHub check validation metadata.",
+  "observed_velocity": {
+    "PRs_merged_per_active_day": 0.0,
+    "blocker_closure_rate": 0.0,
+    "blocker_discovery_rate": 0.0,
+    "merged_pr_lead_time_minutes": {
+      "maximum": null,
+      "median": null,
+      "median_absolute_deviation": null,
+      "minimum": null,
+      "outlier_count": 0,
+      "p25": null,
+      "p75": null,
+      "p90": null,
+      "sample_count": 0
+    },
+    "rework_rate": 0.0,
+    "selected_duration_source": "REPOSITORY_PERT_BASELINE",
+    "task_duration_minutes": {
+      "maximum": null,
+      "median": null,
+      "median_absolute_deviation": null,
+      "minimum": null,
+      "outlier_count": 0,
+      "p25": null,
+      "p75": null,
+      "p90": null,
+      "sample_count": 0
+    },
+    "tasks_completed_per_active_day": 1.0,
+    "validation_failure_rate": 0.0
+  },
+  "protected_actions": {
+    "broker": false,
+    "daemon": false,
+    "merge": false,
+    "network": false,
+    "order": false,
+    "push": false,
+    "scheduler": false,
+    "webhook": false
+  },
+  "remaining_work": {
+    "broker_runtime": 0,
+    "external_evidence": 1,
+    "observation_time": 0,
+    "owner_action": 0,
+    "repository_fixable": 2,
+    "unknown": 0
+  },
+  "repository_fingerprint": "98dbec4628218071aa2b224b979c4efe7522192b7d91c1d7eb8fd609d28fd613",
+  "schema": "AIOS_ENGINEERING_VELOCITY_FORECAST.v1",
+  "valid_sample_counts": {
+    "merged_pr_lead_time": 0,
+    "selected_task_duration": 0,
+    "task_duration": 0
+  },
+  "warnings": [
+    "An external wait is unconstrained; calendar completion is UNKNOWN."
+  ]
+}

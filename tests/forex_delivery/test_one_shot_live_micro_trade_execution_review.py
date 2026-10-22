@@ -240,11 +240,11 @@ def test_dashboard_references_execution_review_without_browser_broker_calls():
         encoding="utf-8"
     )
 
-    assert "READ ONLY" in source
+    assert "DISPLAY_ONLY" in source
     assert "EXEC OFF" in source
     assert "BROKER LOCKED" in source
-    assert "Trading execution remains locked" in source
-    assert "no order controls" in source
+    assert "trading execution stays locked" in source
+    assert "ORDER CONTROL remains absent" in source
     for forbidden in (
         "fetch(",
         "XMLHttpRequest",

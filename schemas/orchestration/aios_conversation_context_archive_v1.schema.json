@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aios.local/schemas/orchestration/aios_conversation_context_archive_v1.schema.json",
+  "title": "AIOS Full Conversation Context Archive Record V1",
+  "description": "Declarative Phase 2 record contract. Validation conveys no approval or execution authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "archive_version", "conversation_id", "session_id", "message_id", "sequence",
+    "role", "timestamp", "source", "content", "content_classification",
+    "authority_classification", "sensitivity_classification",
+    "retention_classification", "provenance", "integrity_reference",
+    "sanitization_state"
+  ],
+  "properties": {
+    "archive_version": {"const": "aios.conversation_context_archive.v1"},
+    "conversation_id": {"$ref": "#/$defs/opaqueIdentifier"},
+    "session_id": {"$ref": "#/$defs/opaqueIdentifier"},
+    "message_id": {"$ref": "#/$defs/opaqueIdentifier"},
+    "sequence": {"type": "integer", "minimum": 1},
+    "role": {"enum": ["owner", "assistant", "system", "tool", "unknown"]},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "source": {"enum": ["owner_gateway", "aios", "tool", "imported_sanitized", "unknown"]},
+    "content": {"type": "string", "maxLength": 100000},
+    "content_classification": {
+      "enum": ["conversation", "authority_bearing_historical", "execution_instruction_historical", "sanitized_evidence", "unknown"]
+    },
+    "authority_classification": {
+      "enum": ["non_authoritative", "owner_authored_historical", "approval_claim_historical", "execution_instruction_historical", "unknown"]
+    },
+    "sensitivity_classification": {"enum": ["public", "internal", "private", "restricted", "unknown"]},
+    "retention_classification": {"enum": ["ephemeral", "short_term_operational", "long_term_governance", "prohibited_from_archive", "unknown"]},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["producer", "capture_method", "observed_at"],
+      "properties": {
+        "producer": {"type": "string", "minLength": 1, "maxLength": 128},
+        "capture_method": {"enum": ["native", "sanitized_import", "derived_evidence", "unknown"]},
+        "observed_at": {"type": "string", "format": "date-time"}
+      }
+    },
+    "integrity_reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "digest", "canonicalization"],
+      "properties": {
+        "algorithm": {"const": "sha256"},
+        "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "canonicalization": {"const": "utf8-json-sorted-keys-v1"}
+      }
+    },
+    "sanitization_state": {"enum": ["raw_prohibited", "pending", "sanitized", "redacted", "quarantined"]},
+    "references": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {"$ref": "#/$defs/referenceMetadata"}
+    }
+  },
+  "$defs": {
+    "opaqueIdentifier": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "referenceMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference_id", "display_name", "media_type", "byte_size", "digest", "source_classification"],
+      "properties": {
+        "reference_id": {"$ref": "#/$defs/opaqueIdentifier"},
+        "display_name": {"type": "string", "minLength": 1, "maxLength": 255},
+        "media_type": {"type": "string", "minLength": 1, "maxLength": 127},
+        "byte_size": {"type": "integer", "minimum": 0},
+        "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+        "source_classification": {"enum": ["internal", "external_unfetched", "unknown"]},
+        "locator_classification": {"enum": ["none", "opaque_internal", "external_unfetched", "unknown"]}
+      }
+    }
+  }
+}

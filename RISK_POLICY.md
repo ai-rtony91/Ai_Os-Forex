@@ -32,10 +32,10 @@ The following are blocked unless a future explicit, reviewed policy changes the 
 
 - live trading.
 - broker execution.
-- OANDA or live order execution.
+- OANDA live-host access, OANDA order execution, order-capable OANDA clients, and any non-GET OANDA or broker request.
 - real webhook execution.
-- real orders.
-- broker credentials, account identifiers, API keys, tokens, passwords, private keys, recovery keys, or other secrets.
+- real orders, including OANDA Practice orders, unless a separate explicit Human Owner-approved policy exception applies.
+- broker credentials, account identifiers, API keys, tokens, passwords, private keys, recovery keys, or other secrets, except runtime-only in-memory OANDA Practice credentials used under the Bounded OANDA Practice Read-Only Market Data Exception below.
 - destructive actions without explicit approval, including delete, move, rename, overwrite, reset, clean, and force push.
 - runtime mutation without validation.
 - hidden automation, startup tasks, scheduled tasks, or background execution paths.
@@ -96,19 +96,34 @@ Allowed when explicitly scoped:
 - signal validation.
 - paper route previews.
 - local-only telemetry that does not collect secrets or live execution data.
+- owner-approved OANDA Practice GET-only sanitized market-data retrieval under the bounded exception below.
 
 Blocked:
 
 - live broker connections.
 - live order routing.
 - real order placement.
-- OANDA API clients or live broker adapters.
-- broker credentials or live account data.
+- OANDA live-host clients, order-capable OANDA clients, non-GET broker methods, and live broker adapters.
+- broker credentials or live account data, except runtime-only in-memory OANDA Practice credentials used under the bounded exception below.
 - LLMs directly in live order execution paths.
+
+### Bounded OANDA Practice Read-Only Market Data Exception
+
+AIOS may use an explicitly Human Owner-approved OANDA Practice client for GET-only retrieval of sanitized Forex market data when the sole purpose is PAPER simulation, PAPER evidence collection, signal validation, or market-data freshness validation.
+
+This exception permits runtime-only, in-memory loading of the OANDA Practice API token and Practice account identifier solely for the owner-started GET-only process. Those values must never be printed, logged, persisted, committed, included in prompts or reports, written to telemetry, exposed through exceptions or object representations, or retained outside process memory.
+
+Approved runtime-only credential presence is not itself an emergency-stop condition. Exposure, persistence, unapproved access, wrong-environment use, live-host use, non-GET use, order capability, private-data leakage, or authority mismatch remains an immediate fail-closed condition.
+
+This exception grants no broker execution authority, order authority, position-mutation authority, account-mutation authority, live-host authority, money-movement authority, autonomous-execution authority, deployment authority, scheduler authority, or future-trade authority. Read-only market data is evidence input only and never execution authority.
+
+Any OANDA client capable of non-GET methods, order submission, order modification, order cancellation, position mutation, account mutation, live-host access, or money movement remains prohibited unless a separate explicit Human Owner-approved policy exception applies.
 
 ## Secrets / Credentials / Private Data
 
 Secrets, credentials, and private data must not be committed, persisted, exposed in generated reports, or embedded in scripts.
+
+The bounded OANDA Practice read-only exception permits approved runtime-only credential presence in process memory; it does not permit credential or private account-data persistence or disclosure.
 
 Sensitive data includes:
 
@@ -116,7 +131,7 @@ Sensitive data includes:
 - broker account identifiers, live account data, live market execution data, order details, or live order path data.
 - browser profile paths, credential stores, private user data, and screenshots containing private data.
 
-Any suspected sensitive data must fail closed as `BLOCKED` until human review and verified evidence clarify the path forward.
+Any suspected sensitive-data exposure, persistence, unapproved access, or private-data leakage must fail closed as `BLOCKED` until human review and verified evidence clarify the path forward.
 
 ## Approval Gate Doctrine
 
@@ -136,8 +151,9 @@ Approval must identify the intended files, intended change, validation expectati
 
 Stop immediately and report when any of the following are detected:
 
-- suspected secret, credential, private data, broker data, or live execution data.
-- live trading, broker execution, OANDA, real webhook, or real order path.
+- suspected secret, credential, private data, broker data, or live execution data exposure, persistence, or unapproved access.
+- live trading, broker execution, OANDA live-host use, non-GET OANDA use, OANDA order capability, real webhook execution, or a real order path.
+- use of OANDA Practice credentials or private account data outside the Bounded OANDA Practice Read-Only Market Data Exception.
 - unapproved runtime mutation.
 - unapproved destructive action.
 - protected file edit without explicit approval.
@@ -215,4 +231,4 @@ Draft risk-control and governance matrices may inform future updates, but they d
 
 ## Last Verified
 
-Updated on 2026-05-22 for AI_OS active repo authority on branch `main`. Historical AI_OS V2 terminology is migration context only.
+Updated on 2026-08-10 for AI_OS active repo authority on branch `main`. Historical AI_OS V2 terminology is migration context only.

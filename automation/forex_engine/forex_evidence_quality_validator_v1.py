@@ -94,8 +94,15 @@ def validate_evidence_text(
     }
 
 
+def _normalize_cross_platform_path(path: str | Path) -> Path:
+    text = str(path)
+    if "\\" in text:
+        text = text.replace("\\", "/")
+    return Path(text)
+
+
 def validate_evidence_file(path: str | Path, **kwargs: Any) -> dict[str, Any]:
-    path_obj = Path(path)
+    path_obj = _normalize_cross_platform_path(path)
     payload = path_obj.read_text(encoding="utf-8", errors="ignore")
     result = validate_evidence_text(payload, **kwargs)
     result["path"] = str(path_obj)

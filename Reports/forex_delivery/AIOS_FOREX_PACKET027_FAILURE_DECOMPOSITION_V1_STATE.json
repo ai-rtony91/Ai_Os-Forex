@@ -1,0 +1,244 @@
+{
+  "best_candidate_per_family_direction": [
+    {
+      "accepted_trade_count": 3373,
+      "architecture_family": "A_TIME_SERIES_MOMENTUM",
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_LONG_TSMOM_1M_TRAIL_V1",
+      "direction": "LONG",
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.163939,
+      "net_pf": 0.618623
+    },
+    {
+      "accepted_trade_count": 3297,
+      "architecture_family": "A_TIME_SERIES_MOMENTUM",
+      "candidate_id": "A_TIME_SERIES_MOMENTUM_SHORT_TSMOM_1M_TRAIL_V1",
+      "direction": "SHORT",
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.14767,
+      "net_pf": 0.640738
+    },
+    {
+      "accepted_trade_count": 3390,
+      "architecture_family": "B_CROSS_SECTIONAL_FACTOR",
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_LONG_XS_SPREAD_EFFICIENT_V1",
+      "direction": "LONG",
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.135398,
+      "net_pf": 0.811546
+    },
+    {
+      "accepted_trade_count": 2833,
+      "architecture_family": "B_CROSS_SECTIONAL_FACTOR",
+      "candidate_id": "B_CROSS_SECTIONAL_FACTOR_SHORT_XS_MOM_TOPBOT_V1",
+      "direction": "SHORT",
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.109396,
+      "net_pf": 0.844469
+    },
+    {
+      "accepted_trade_count": 2147,
+      "architecture_family": "C_CARRY_VALUE_MOMENTUM",
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_LONG_MOM_CARRY_AVAILABLE_ONLY_V1",
+      "direction": "LONG",
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.272167,
+      "net_pf": 0.675832
+    },
+    {
+      "accepted_trade_count": 2108,
+      "architecture_family": "C_CARRY_VALUE_MOMENTUM",
+      "candidate_id": "C_CARRY_VALUE_MOMENTUM_SHORT_MOM_CARRY_AVAILABLE_ONLY_V1",
+      "direction": "SHORT",
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.331445,
+      "net_pf": 0.613218
+    },
+    {
+      "accepted_trade_count": 2840,
+      "architecture_family": "D_RELATIVE_VALUE",
+      "candidate_id": "D_RELATIVE_VALUE_LONG_ROLLING_RESIDUAL_V1",
+      "direction": "LONG",
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.196371,
+      "net_pf": 0.549496
+    },
+    {
+      "accepted_trade_count": 3565,
+      "architecture_family": "D_RELATIVE_VALUE",
+      "candidate_id": "D_RELATIVE_VALUE_SHORT_CROSS_RATE_RESIDUAL_V1",
+      "direction": "SHORT",
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.163838,
+      "net_pf": 0.614607
+    },
+    {
+      "accepted_trade_count": 240,
+      "architecture_family": "E_EVENT_DRIVEN",
+      "candidate_id": "E_EVENT_DRIVEN_LONG_POST_BLS_CONTINUATION_V1",
+      "direction": "LONG",
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "PAIR_OR_CURRENCY_CONCENTRATION",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.281055,
+      "net_pf": 0.541126
+    },
+    {
+      "accepted_trade_count": 240,
+      "architecture_family": "E_EVENT_DRIVEN",
+      "candidate_id": "E_EVENT_DRIVEN_SHORT_POST_EVENT_REVERSAL_V1",
+      "direction": "SHORT",
+      "failure_classification": [
+        "PAIR_OR_CURRENCY_CONCENTRATION"
+      ],
+      "net_expectancy_r_after_cost": 0.538571,
+      "net_pf": 2.164262
+    },
+    {
+      "accepted_trade_count": 3649,
+      "architecture_family": "F_LIQUIDITY_SESSION",
+      "candidate_id": "F_LIQUIDITY_SESSION_LONG_SPREAD_NORMALIZATION_V1",
+      "direction": "LONG",
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.11157,
+      "net_pf": 0.759858
+    },
+    {
+      "accepted_trade_count": 756,
+      "architecture_family": "F_LIQUIDITY_SESSION",
+      "candidate_id": "F_LIQUIDITY_SESSION_SHORT_LONDON_NY_TRANSITION_V1",
+      "direction": "SHORT",
+      "failure_classification": [
+        "NO_GROSS_SIGNAL_EDGE",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.122884,
+      "net_pf": 0.680584
+    },
+    {
+      "accepted_trade_count": 4550,
+      "architecture_family": "G_REGIME_SWITCHING",
+      "candidate_id": "G_REGIME_SWITCHING_LONG_TREND_VOL_STATE_V1",
+      "direction": "LONG",
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.235115,
+      "net_pf": 0.703457
+    },
+    {
+      "accepted_trade_count": 4401,
+      "architecture_family": "G_REGIME_SWITCHING",
+      "candidate_id": "G_REGIME_SWITCHING_SHORT_TREND_VOL_STATE_V1",
+      "direction": "SHORT",
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.257583,
+      "net_pf": 0.676369
+    },
+    {
+      "accepted_trade_count": 2728,
+      "architecture_family": "H_META_LABEL_ROUTER",
+      "candidate_id": "H_META_LABEL_ROUTER_LONG_LOW_COST_TAKE_V1",
+      "direction": "LONG",
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.167045,
+      "net_pf": 0.769449
+    },
+    {
+      "accepted_trade_count": 2598,
+      "architecture_family": "H_META_LABEL_ROUTER",
+      "candidate_id": "H_META_LABEL_ROUTER_SHORT_LOW_COST_TAKE_V1",
+      "direction": "SHORT",
+      "failure_classification": [
+        "FAMILY_ADAPTER_FIDELITY_FAILURE",
+        "NO_GROSS_SIGNAL_EDGE",
+        "OVERTRADING_COST_DOMINATED",
+        "REGIME_INSTABILITY"
+      ],
+      "net_expectancy_r_after_cost": -0.107502,
+      "net_pf": 0.847025
+    }
+  ],
+  "branch_implications": {
+    "BRANCH_COST": false,
+    "BRANCH_DAY_TRADING_MTF": true,
+    "BRANCH_EVENT": true,
+    "BRANCH_EXIT": false,
+    "BRANCH_FAMILY_FIDELITY_REPAIR": true
+  },
+  "dominant_failure_classes": [
+    "NO_GROSS_SIGNAL_EDGE",
+    "REGIME_INSTABILITY",
+    "OVERTRADING_COST_DOMINATED",
+    "FAMILY_ADAPTER_FIDELITY_FAILURE",
+    "PAIR_OR_CURRENCY_CONCENTRATION"
+  ],
+  "failure_class_counts": {
+    "FAMILY_ADAPTER_FIDELITY_FAILURE": 20,
+    "NO_GROSS_SIGNAL_EDGE": 31,
+    "OVERTRADING_COST_DOMINATED": 26,
+    "PAIR_OR_CURRENCY_CONCENTRATION": 4,
+    "REGIME_INSTABILITY": 31
+  },
+  "packet_id": "PKT-EAST-FOREX-RESEARCH-FIDELITY-EDGE-CLOSURE-028",
+  "schema": "AIOS_FOREX_PACKET027_FAILURE_DECOMPOSITION_V1_STATE",
+  "state_hash": "e5c9009132bcb68dc4579fc819ad060d5529bc9157b05d7bee8841cb03a05417",
+  "status": "COMPLETE"
+}

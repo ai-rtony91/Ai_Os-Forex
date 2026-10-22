@@ -1,5 +1,5 @@
 {
-  "as_of_utc": "2026-07-28T00:00:00Z",
+  "as_of_utc": "2026-08-05T00:00:00Z",
   "conflicting_records": [],
   "criteria_evidence": [
     {
@@ -79,7 +79,7 @@
       "evidence_date": "2000-01-01T00:00:00Z",
       "finite_numeric_fields": true,
       "fixture_markers_present": false,
-      "freshness_days": 9705,
+      "freshness_days": 9713,
       "paper_markers_present": false,
       "raw_broker_payload_present": false,
       "record_type": "NON_EVIDENCE_SCHEMA_EXAMPLE",
@@ -271,7 +271,7 @@
       "evidence_date": "2000-01-01T00:00:00Z",
       "finite_numeric_fields": true,
       "fixture_markers_present": false,
-      "freshness_days": 9705,
+      "freshness_days": 9713,
       "paper_markers_present": false,
       "raw_broker_payload_present": false,
       "record_type": "NON_EVIDENCE_SCHEMA_EXAMPLE",

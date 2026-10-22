@@ -1,0 +1,29 @@
+name: AIOS Delivery Validation Receipts V1
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+  pull_request:
+    types: [closed]
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+jobs:
+  receipt:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.name != 'AIOS Delivery Validation Receipts V1'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate sanitized event receipt
+        run: python scripts/run_aios_delivery_receipt_instrumentation_v1.py github-event --output Reports/orchestration/github-receipt.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aios-delivery-validation-receipt-${{ github.run_id }}
+          path: Reports/orchestration/github-receipt.json
+          if-no-files-found: ignore

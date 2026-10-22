@@ -8,7 +8,9 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Mapping, Sequence
+
+from automation.forex_engine.profit_proof_ledger_v1 import ProfitProofCandidateEvidence
 
 from automation.forex_engine.forex_110_profit_evidence_truth_lock_v1 import (
     run_profit_evidence_truth_lock,
@@ -25,6 +27,7 @@ PACKET_ID = "PKT-FOREX-110-WALKFORWARD-OOS-SUFFICIENCY-TRUTH-LOCK-V1"
 ENGINE_VERSION = "forex_110_walkforward_oos_sufficiency_truth_lock_v1"
 
 WALK_FORWARD_OOS_PROVEN = "PROVEN"
+WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY = "BLOCKED_SOURCE_AUTHENTICITY"
 WALK_FORWARD_OOS_BLOCKED_MISSING_EVIDENCE = "BLOCKED_MISSING_EVIDENCE"
 WALK_FORWARD_OOS_BLOCKED_INSUFFICIENT_EVIDENCE = "BLOCKED_INSUFFICIENT_EVIDENCE"
 WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH = "BLOCKED_TOP_CANDIDATE_MISMATCH"
@@ -67,12 +70,13 @@ RUNNER_SCRIPT = "scripts/forex_delivery/run_forex_110_walkforward_oos_sufficienc
 
 def run_walkforward_oos_sufficiency_truth_lock(
     report_root: str | Path = DEFAULT_REPORT_ROOT,
+    candidates: Sequence[ProfitProofCandidateEvidence | Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Return the Forex 110 walk-forward/OOS sufficiency truth state."""
 
     root = Path(report_root)
     intake = intake_result_to_jsonable_dict(intake_walk_forward_evidence(root))
-    profit_lock = run_profit_evidence_truth_lock(root)
+    profit_lock = run_profit_evidence_truth_lock(root, candidates)
     top_candidate_id = str(profit_lock.get("top_candidate_id") or "NONE")
     source_files = list(intake.get("source_files") or [])
     source_candidates = _candidate_ids_from_sources(root, source_files)
@@ -81,13 +85,16 @@ def run_walkforward_oos_sufficiency_truth_lock(
     blockers = _dedupe(
         list(intake.get("blockers") or [])
         + [f"missing evidence field: {field}" for field in missing_fields]
+        + list(profit_lock.get("blockers") or [])
+        + ["NO_INDEPENDENT_VERIFIER_CONNECTED"]
     )
 
     if intake.get("status") == WALK_FORWARD_OOS_READY and alignment["aligned"]:
-        walk_forward_oos_status = WALK_FORWARD_OOS_PROVEN
-        truth_lock_status = TRUTH_LOCK_PROVEN
-        profit_persistence_unlocked = True
-        blockers = []
+        # Aligned IDs and passing summary fields do not establish provenance,
+        # untouched custody, or independent acceptance. No verifier is connected.
+        walk_forward_oos_status = WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY
+        truth_lock_status = TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_BLOCKED
+        profit_persistence_unlocked = False
     elif not alignment["aligned"]:
         walk_forward_oos_status = WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH
         truth_lock_status = TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_CANDIDATE_MISMATCH
@@ -103,6 +110,8 @@ def run_walkforward_oos_sufficiency_truth_lock(
         profit_persistence_unlocked = False
 
     missing_evidence_field = _missing_evidence_field(missing_fields, alignment)
+    if missing_evidence_field == "NONE":
+        missing_evidence_field = "source_authentication"
     attack_to_finish = _attack_to_finish(
         walk_forward_oos_status=walk_forward_oos_status,
         missing_evidence_field=missing_evidence_field,
@@ -112,6 +121,7 @@ def run_walkforward_oos_sufficiency_truth_lock(
         "packet_id": PACKET_ID,
         "engine_version": ENGINE_VERSION,
         "walk_forward_oos_status": walk_forward_oos_status,
+        "source_authentication_status": "UNVERIFIED",
         "profit_persistence_unlocked": profit_persistence_unlocked,
         "truth_lock_status": truth_lock_status,
         "top_candidate_alignment": alignment,
@@ -138,8 +148,42 @@ def run_walkforward_oos_sufficiency_truth_lock(
 def build_report_markdown(result: Mapping[str, Any]) -> str:
     """Build an operator-readable truth-lock report."""
 
-    blockers = result.get("blockers") or ["none"]
-    attack = result.get("attack_to_finish") or {}
+    # Do not re-export historical or self-asserted proof as current evidence.
+    result = dict(result)
+    if result.get("walk_forward_oos_status") == WALK_FORWARD_OOS_PROVEN:
+        result["walk_forward_oos_status"] = WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY
+    if result.get("truth_lock_status") == TRUTH_LOCK_PROVEN:
+        result["truth_lock_status"] = TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_BLOCKED
+    result["profit_persistence_unlocked"] = False
+    result["permissions"] = dict(PROTECTED_PERMISSION_FLAGS)
+    result["next_safe_action"] = _next_safe_action(WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY)
+    blockers = _dedupe([
+        *(result.get("blockers") or []), "NO_INDEPENDENT_VERIFIER_CONNECTED"
+    ])
+    original_attack = result.get("attack_to_finish")
+    if not isinstance(original_attack, Mapping):
+        original_attack = {}
+    original_missing = str(original_attack.get("missing_evidence_field") or "")
+    known_fields = set(REQUIRED_SUFFICIENCY_FIELDS) | {
+        "candidate_alignment", "candidate_id", "top_candidate_id", "source_authentication"
+    }
+    original_fields = set(original_missing.split(","))
+    negative_statuses = {
+        WALK_FORWARD_OOS_BLOCKED_MISSING_EVIDENCE,
+        WALK_FORWARD_OOS_BLOCKED_INSUFFICIENT_EVIDENCE,
+        WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH,
+    }
+    missing_field = (
+        original_missing
+        if result.get("walk_forward_oos_status") in negative_statuses
+        and original_fields <= known_fields
+        else "source_authentication"
+    )
+    attack = _attack_to_finish(
+        walk_forward_oos_status=str(result.get("walk_forward_oos_status") or "BLOCKED"),
+        missing_evidence_field=missing_field,
+        exact_blocker="; ".join(blockers),
+    )
     lines = [
         "# AIOS Forex 110 Walk-Forward/OOS Sufficiency Truth Lock V1",
         "",
@@ -288,7 +332,12 @@ def _attack_to_finish(
         blocker_status = "BLOCKED"
         unlock_status_required = "PROVEN"
         next_packet_name = "PKT-FOREX-110-TOP-CANDIDATE-WALKFORWARD-OOS-EVIDENCE-COLLECTION-V1"
-        owner_action_required = "provide missing field " + missing_evidence_field
+        owner_action_required = (
+            "Provide independent candidate/source/custody verification through the existing "
+            "admitted evidence owner; metadata flags do not authenticate evidence."
+            if missing_evidence_field == "source_authentication"
+            else "provide missing field " + missing_evidence_field
+        )
         stop_condition = "walk-forward/OOS sufficiency not proven"
     return {
         "blocker_id": blocker_id,
@@ -307,6 +356,12 @@ def _attack_to_finish(
 
 
 def _next_safe_action(walk_forward_oos_status: str) -> str:
+    if walk_forward_oos_status == WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY:
+        return (
+            "Obtain independent frozen-candidate/source/custody verification through the "
+            "existing admitted evidence owner. Preserve source and failure history. "
+            "Do not expose protected proof data or trade without separate admission."
+        )
     if walk_forward_oos_status == WALK_FORWARD_OOS_PROVEN:
         return (
             "Use this as review-only evidence for the persistent profitability "
@@ -339,6 +394,7 @@ __all__ = [
     "TRUTH_LOCK_PROVEN",
     "TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_BLOCKED",
     "TRUTH_LOCK_REVIEW_READY_WALKFORWARD_OOS_CANDIDATE_MISMATCH",
+    "WALK_FORWARD_OOS_BLOCKED_SOURCE_AUTHENTICITY",
     "WALK_FORWARD_OOS_BLOCKED_INSUFFICIENT_EVIDENCE",
     "WALK_FORWARD_OOS_BLOCKED_MISSING_EVIDENCE",
     "WALK_FORWARD_OOS_BLOCKED_TOP_CANDIDATE_MISMATCH",
