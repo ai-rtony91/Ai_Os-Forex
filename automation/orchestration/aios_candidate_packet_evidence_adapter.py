@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from copy import deepcopy
 import json
 from typing import Any
 
@@ -179,6 +180,7 @@ def _normalized_candidate(record: dict[str, Any], index: int) -> dict[str, Any]:
         "blocked_files": _as_text_list(record.get("blocked_files")),
         "required_approvals": _as_text_list(record.get("required_approvals")),
         "validators": _as_text_list(record.get("validators")),
+        "repository_state": deepcopy(record.get("repository_state")),
         "dependencies": _as_items(record.get("dependencies")),
         "conflicts": _as_text_list(record.get("conflicts")),
         "safety_flags": seen_flags,

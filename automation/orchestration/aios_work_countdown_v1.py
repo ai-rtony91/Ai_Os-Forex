@@ -6,6 +6,7 @@ import argparse
 import json
 import re
 from collections import Counter
+from copy import deepcopy
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -68,6 +69,7 @@ def _record(path: Path, root: Path, folder_state: str, payload: Mapping[str, Any
         "blocked_files": list(payload.get("blocked_files") or []),
         "required_approvals": list(payload.get("required_approvals") or []),
         "validators": list(payload.get("validators") or ([payload["validator"]] if payload.get("validator") else [])),
+        "repository_state": deepcopy(payload.get("repository_state")),
         "dependencies": list(payload.get("dependencies") or payload.get("blocked_by") or []),
         "conflicts": list(payload.get("conflicts") or []),
         "safety_flags": list(payload.get("safety_flags") or []),

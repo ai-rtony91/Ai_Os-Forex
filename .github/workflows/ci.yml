@@ -115,6 +115,23 @@ jobs:
       - name: Check project test collection and package imports
         run: python -m pytest --collect-only -q
 
+      - name: Test autonomous task producers and process ownership
+        timeout-minutes: 5
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          python -c "import os; assert os.name == 'posix' and hasattr(os, 'fork'), 'Real POSIX fork is required for these checks'"
+          python -m pytest -p no:cacheprovider --noconftest \
+            tests/orchestration/test_task_details_producer_path.py \
+            tests/orchestration/test_aios_candidate_packet_evidence_adapter.py \
+            tests/orchestration/test_aios_packet_queue_planner.py \
+            tests/orchestration/test_aios_work_countdown_v1.py \
+            tests/orchestration/test_aios_canonical_orchestration_spine_v1.py \
+            tests/orchestration/test_claim_process_thread_ownership.py \
+            tests/orchestration/test_aios_task_claim_control.py \
+            tests/orchestration/test_aios_self_build_one_action_local_apply_executor.py -q
+
       - name: Test Forex-first research controller and watchdog
         run: |
           python -m pytest \

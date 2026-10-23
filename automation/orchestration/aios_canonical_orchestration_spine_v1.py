@@ -6,6 +6,7 @@ import json
 import re
 import sys
 from collections import Counter, defaultdict
+from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -99,6 +100,11 @@ def build_task_catalog(records: Iterable[dict[str, Any]]) -> list[dict[str, Any]
             "classification": classification, "controller_owner": _owner(source),
             "dependencies": list(source.get("dependencies") or []), "priority": source.get("priority", "normal"),
             "risk_level": source.get("risk_level", "low"), "protected_action_requirements": list(source.get("required_approvals") or []),
+            "repository_state": deepcopy(source.get("repository_state")),
+            "required_files": list(source.get("required_files") or []),
+            "blocked_files": list(source.get("blocked_files") or []),
+            "conflicts": list(source.get("conflicts") or []),
+            "safety_flags": list(source.get("safety_flags") or []),
             "completion_evidence": completion, "validation_evidence": list(source.get("validators") or []),
             "economic_milestone_contribution": "REPOSITORY_LOCAL_WORK",
         })
@@ -155,7 +161,17 @@ def build_queue_plan(catalog: list[dict[str, Any]], graph: dict[str, Any]) -> di
     candidates = []
     for task in catalog:
         if task["task_id"] in graph["ready_nodes"]:
-            candidates.append({"packet_id": task["packet_id"], "title": task["title"], "status": "ready", "priority": task["priority"], "risk_level": task["risk_level"], "required_files": [task["source_path"]], "dependencies": [], "required_approvals": []})
+            candidates.append({
+                "packet_id": task["packet_id"], "title": task["title"],
+                "status": "ready", "priority": task["priority"], "risk_level": task["risk_level"],
+                "required_files": list(task.get("required_files") or []),
+                "blocked_files": list(task.get("blocked_files") or []),
+                "validators": list(task.get("validation_evidence") or []),
+                "repository_state": deepcopy(task.get("repository_state")),
+                "conflicts": list(task.get("conflicts") or []),
+                "safety_flags": list(task.get("safety_flags") or []),
+                "dependencies": [], "required_approvals": [],
+            })
     planner = build_packet_queue_planner({"candidates": candidates})
     selected = planner.get("selected_packet")
     return {"selected_task": selected, "ready_queue": graph["ready_nodes"], "blocked_queue": graph["blocked_nodes"],
