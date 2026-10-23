@@ -14,6 +14,7 @@ import tempfile
 import uuid
 import shlex
 import sys
+import threading
 from contextlib import ExitStack, contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -231,9 +232,24 @@ def collisions(candidate: Mapping[str, Any], active: Sequence[Mapping[str, Any]]
     return sorted(set(found))
 
 
-LOCK_SCHEMA = "AIOS_TASK_CLAIM_BOARD_LOCK.v1"
+LOCK_SCHEMA = "AIOS_TASK_CLAIM_BOARD_LOCK.v2"
+LEGACY_LOCK_SCHEMA = "AIOS_TASK_CLAIM_BOARD_LOCK.v1"
 RELEASE_SCHEMA = "AIOS_TASK_CLAIM_RELEASE.v1"
 LOCK_BYTE = 65536  # separate from readable bounded ownership metadata
+_PROCESS_LOCK_GUARD = threading.Lock()
+_PROCESS_LOCKS: set[str] = set()
+
+
+def _reset_process_locks() -> None:
+    # A child opens its own descriptors when acquiring a new lock. It must
+    # not inherit the parent's Python guard mutex or local ownership table.
+    global _PROCESS_LOCK_GUARD, _PROCESS_LOCKS
+    _PROCESS_LOCK_GUARD = threading.Lock()
+    _PROCESS_LOCKS = set()
+
+
+if hasattr(os, "register_at_fork"):
+    os.register_at_fork(after_in_child=_reset_process_locks)
 
 
 def _json_bytes(value: Mapping[str, Any]) -> bytes:
@@ -248,6 +264,17 @@ def _region_lock(descriptor: int, *, unlock: bool = False) -> None:
     else:
         import fcntl
         fcntl.lockf(descriptor, fcntl.LOCK_UN if unlock else fcntl.LOCK_EX | fcntl.LOCK_NB, 1, LOCK_BYTE)
+
+
+def _claim_file_lock(descriptor: int, *, unlock: bool = False) -> None:
+    if os.name == "nt":
+        _region_lock(descriptor, unlock=unlock)
+    else:
+        import fcntl
+        # Unlike process-owned lockf, flock survives metadata reads through
+        # other descriptors. Only versioned claim locks use this protocol;
+        # the master controller's separate lease retains _region_lock.
+        fcntl.flock(descriptor, fcntl.LOCK_UN if unlock else fcntl.LOCK_EX | fcntl.LOCK_NB)
 
 
 def _write_lock_record(descriptor: int, record: Mapping[str, Any]) -> None:
@@ -267,6 +294,27 @@ def _write_lock_record(descriptor: int, record: Mapping[str, Any]) -> None:
 
 @contextmanager
 def _exclusive_lock(board_path: Path) -> Iterator[None]:
+    # lockf is process-owned: another thread or nested descriptor can acquire
+    # it, and closing that descriptor can release the original owner's lock.
+    # Refuse local contenders before opening any descriptor for this path.
+    identity = os.path.normcase(str(board_path.with_suffix(board_path.suffix + ".lock").resolve()))
+    owner_pid = os.getpid()
+    with _PROCESS_LOCK_GUARD:
+        if identity in _PROCESS_LOCKS:
+            raise ClaimError("claim board is locked by an in-process owner")
+        _PROCESS_LOCKS.add(identity)
+    try:
+        with _exclusive_file_lock(board_path):
+            yield
+    finally:
+        if os.getpid() == owner_pid:
+            with _PROCESS_LOCK_GUARD:
+                _PROCESS_LOCKS.remove(identity)
+
+
+@contextmanager
+def _exclusive_file_lock(board_path: Path) -> Iterator[None]:
+    owner_pid = os.getpid()
     lock = board_path.with_suffix(board_path.suffix + ".lock")
     board_path.parent.mkdir(parents=True, exist_ok=True)
     created = False
@@ -276,11 +324,12 @@ def _exclusive_lock(board_path: Path) -> Iterator[None]:
     except FileExistsError:
         descriptor = os.open(lock, os.O_RDWR | getattr(os, "O_BINARY", 0))
     acquired = False
+    legacy_acquired = False
     metadata_owned = False
     body_error = None
     try:
         try:
-            _region_lock(descriptor)
+            _claim_file_lock(descriptor)
             acquired = True
         except OSError as exc:
             raise ClaimError("claim board is locked by an OS-held owner") from exc
@@ -290,12 +339,13 @@ def _exclusive_lock(board_path: Path) -> Iterator[None]:
                 raise ClaimError("oversized claim lock metadata; preserve for owner review")
             os.lseek(descriptor, 0, os.SEEK_SET)
             try:
-                previous = json.loads(os.read(descriptor, LOCK_BYTE))
+                previous_bytes = os.read(descriptor, LOCK_BYTE)
+                previous = json.loads(previous_bytes)
             except (ValueError, UnicodeError) as exc:
                 raise ClaimError("unknown legacy claim lock; preserve for owner review") from exc
             required = {"schema", "board_path", "owner_pid", "owner_token", "acquired_at", "state"}
             if (not isinstance(previous, dict) or set(previous) != required
-                    or previous["schema"] != LOCK_SCHEMA or previous["board_path"] != board_identity
+                    or previous["schema"] not in (LOCK_SCHEMA, LEGACY_LOCK_SCHEMA) or previous["board_path"] != board_identity
                     or type(previous["owner_pid"]) is not int or previous["owner_pid"] <= 0
                     or not isinstance(previous["owner_token"], str)
                     or re.fullmatch(r"[0-9a-f]{32}", previous["owner_token"]) is None
@@ -303,12 +353,30 @@ def _exclusive_lock(board_path: Path) -> Iterator[None]:
                     or previous["state"] not in {"HELD", "RELEASED"}):
                 raise ClaimError("unbound claim lock ownership; preserve for owner review")
             _utc(previous["acquired_at"])
-            # Successful exclusive OS locking proves no holder remains. Neither
-            # the recorded PID nor elapsed time is used as inactivity proof.
+            if previous["schema"] == LEGACY_LOCK_SCHEMA:
+                if os.name != "nt":
+                    try:
+                        # A legacy lockf owner may still be acquiring while
+                        # its metadata says RELEASED. Hold both protocols
+                        # until v2 is saved; old readers then refuse v2.
+                        _region_lock(descriptor)
+                        legacy_acquired = True
+                    except OSError as error:
+                        raise ClaimError("legacy claim lock is held; preserve for owner review") from error
+                    os.lseek(descriptor, 0, os.SEEK_SET)
+                    if os.read(descriptor, LOCK_BYTE) != previous_bytes:
+                        raise ClaimError("legacy claim lock metadata changed; preserve for owner review")
+                if previous["state"] != "RELEASED":
+                    raise ClaimError("legacy HELD claim lock; preserve for owner review")
+            # The matching OS protocol proves no holder remains. Neither PID
+            # nor elapsed time is used as inactivity proof.
         record = {"schema": LOCK_SCHEMA, "board_path": board_identity,
                   "owner_pid": os.getpid(), "owner_token": uuid.uuid4().hex,
                   "acquired_at": datetime.now(timezone.utc).isoformat(), "state": "HELD"}
         _write_lock_record(descriptor, record)
+        if legacy_acquired:
+            _region_lock(descriptor, unlock=True)
+            legacy_acquired = False
         metadata_owned = True
         try:
             yield
@@ -316,7 +384,7 @@ def _exclusive_lock(board_path: Path) -> Iterator[None]:
             body_error = error
             raise
         finally:
-            if metadata_owned:
+            if metadata_owned and os.getpid() == owner_pid:
                 try:
                     _write_lock_record(descriptor, {**record, "state": "RELEASED"})
                 except OSError as error:
@@ -326,8 +394,8 @@ def _exclusive_lock(board_path: Path) -> Iterator[None]:
                         raise ClaimError("claim lock release metadata could not be saved") from error
     finally:
         try:
-            if acquired:
-                _region_lock(descriptor, unlock=True)
+            if acquired and os.getpid() == owner_pid:
+                _claim_file_lock(descriptor, unlock=True)
         finally:
             os.close(descriptor)
 

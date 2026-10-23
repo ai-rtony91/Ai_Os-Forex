@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import argparse
 import json
+from copy import deepcopy
 from typing import Any
 
 
 SCHEMA = "AIOS_CANDIDATE_PACKET_EVIDENCE_ADAPTER.v1"
+_UNOBSERVED = object()
 
 FOREX_MILESTONE = (
     "AIOS self-building machine -> first proof target: industrial-grade forex bot builder "
@@ -179,6 +181,7 @@ def _normalized_candidate(record: dict[str, Any], index: int) -> dict[str, Any]:
         "blocked_files": _as_text_list(record.get("blocked_files")),
         "required_approvals": _as_text_list(record.get("required_approvals")),
         "validators": _as_text_list(record.get("validators")),
+        "repository_state": deepcopy(record.get("repository_state")),
         "dependencies": _as_items(record.get("dependencies")),
         "conflicts": _as_text_list(record.get("conflicts")),
         "safety_flags": seen_flags,
@@ -274,7 +277,10 @@ def _archive_noise(path: str, record: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def build_candidate_packet_evidence(raw_evidence: Any | None = None) -> dict[str, Any]:
+def build_candidate_packet_evidence(raw_evidence: Any | None = None, *, repository_state: Any = _UNOBSERVED) -> dict[str, Any]:
+    explicit_observation = repository_state is not _UNOBSERVED
+    if not explicit_observation:
+        repository_state = raw_evidence.get("repository_state") if isinstance(raw_evidence, dict) else None
     records = _raw_records(raw_evidence)
     candidates: list[dict[str, Any]] = []
     archive_noise: list[dict[str, Any]] = []
@@ -299,10 +305,13 @@ def build_candidate_packet_evidence(raw_evidence: Any | None = None) -> dict[str
                     }
                 )
             continue
-        candidates.append(_normalized_candidate(record, index))
+        bound = {"repository_state": repository_state, **record}
+        if explicit_observation:
+            bound["repository_state"] = repository_state
+        candidates.append(_normalized_candidate(bound, index))
 
     if not candidates and _goal_requires_self_build(raw_evidence):
-        candidates.append(_default_candidate())
+        candidates.append({**_default_candidate(), "repository_state": deepcopy(repository_state)})
 
     return {
         "schema": SCHEMA,
@@ -323,6 +332,7 @@ def build_candidate_packet_evidence(raw_evidence: Any | None = None) -> dict[str
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Normalize AIOS candidate packet evidence.")
     parser.add_argument("--evidence", default="{}", help="JSON candidate evidence.")
+    parser.add_argument("--repo-root", default=".", help="Worktree to inspect for preview identity.")
     return parser
 
 
@@ -332,7 +342,12 @@ def main(argv: list[str] | None = None) -> int:
         evidence = json.loads(args.evidence)
     except json.JSONDecodeError:
         evidence = {}
-    result = build_candidate_packet_evidence(evidence)
+    try:
+        from automation.orchestration.aios_repo_state_evidence import collect_planner_repository_state
+    except ModuleNotFoundError:
+        from aios_repo_state_evidence import collect_planner_repository_state
+    observed = collect_planner_repository_state(args.repo_root) or {}
+    result = build_candidate_packet_evidence(evidence, repository_state=observed)
     print(json.dumps(result, indent=2, sort_keys=False))
     return 0
 

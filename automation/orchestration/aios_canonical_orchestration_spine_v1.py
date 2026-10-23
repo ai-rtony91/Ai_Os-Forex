@@ -151,11 +151,11 @@ def build_dependency_graph(catalog: list[dict[str, Any]]) -> dict[str, Any]:
             "ready_nodes": ready, "completed_nodes": completed, "critical_path": ready[:1], "next_executable_task": ready[0] if ready else None}
 
 
-def build_queue_plan(catalog: list[dict[str, Any]], graph: dict[str, Any]) -> dict[str, Any]:
+def build_queue_plan(catalog: list[dict[str, Any]], graph: dict[str, Any], *, repository_state: dict[str, Any] | None = None) -> dict[str, Any]:
     candidates = []
     for task in catalog:
         if task["task_id"] in graph["ready_nodes"]:
-            candidates.append({"packet_id": task["packet_id"], "title": task["title"], "status": "ready", "priority": task["priority"], "risk_level": task["risk_level"], "required_files": [task["source_path"]], "dependencies": [], "required_approvals": []})
+            candidates.append({"packet_id": task["packet_id"], "title": task["title"], "status": "ready", "priority": task["priority"], "risk_level": task["risk_level"], "required_files": [task["source_path"]], "dependencies": [], "required_approvals": [], "repository_state": repository_state, "validators": task["validation_evidence"]})
     planner = build_packet_queue_planner({"candidates": candidates})
     selected = planner.get("selected_packet")
     return {"selected_task": selected, "ready_queue": graph["ready_nodes"], "blocked_queue": graph["blocked_nodes"],
@@ -170,11 +170,11 @@ def _load_json(path: Path) -> dict[str, Any]:
     except (OSError, ValueError): return {}
 
 
-def build_orchestration_spine(repo_root: str | Path, as_of_utc: str | None = None) -> dict[str, Any]:
+def build_orchestration_spine(repo_root: str | Path, as_of_utc: str | None = None, *, repository_state: dict[str, Any] | None = None) -> dict[str, Any]:
     root = Path(repo_root).resolve(); components = discover_canonical_components(root)
     if components["missing"]: raise FileNotFoundError("BLOCKED_CANONICAL_COMPONENT_MISSING: " + ", ".join(components["missing"]))
     inventory = load_canonical_work_packet_inventory(root); catalog = build_task_catalog(inventory["records"])
-    registry = build_controller_registry(root, catalog); graph = build_dependency_graph(catalog); queue = build_queue_plan(catalog, graph)
+    registry = build_controller_registry(root, catalog); graph = build_dependency_graph(catalog); queue = build_queue_plan(catalog, graph, repository_state=repository_state)
     unclassified = [t for t in catalog if t["classification"] == "UNCLASSIFIED"]
     ownership = [t["task_id"] for t in catalog if not t["controller_owner"]]
     classified = len(catalog) - len(unclassified); coverage_percent = round(classified * 100 / len(catalog), 2) if catalog else 100.0
@@ -267,7 +267,8 @@ def _parser() -> argparse.ArgumentParser:
 
 
 def main() -> int:
-    args = _parser().parse_args(); state = build_orchestration_spine(args.repo_root, args.as_of_utc)
+    from automation.orchestration.aios_repo_state_evidence import collect_planner_repository_state
+    args = _parser().parse_args(); state = build_orchestration_spine(args.repo_root, args.as_of_utc, repository_state=collect_planner_repository_state(args.repo_root))
     output = stable_json(state, args.pretty); print(output, end="")
     if args.state_output: Path(args.state_output).write_text(output, encoding="utf-8")
     if args.report_output: Path(args.report_output).write_text(render_orchestration_report(state), encoding="utf-8")

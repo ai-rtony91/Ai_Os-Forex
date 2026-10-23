@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+from copy import deepcopy
 from typing import Any
 
 
@@ -1166,8 +1167,12 @@ def _conditional_repair_routing(evidence: Any | None) -> dict[str, Any]:
     }
 
 
-def build_forex_builder_roadmap(_evidence: Any | None = None) -> dict[str, Any]:
+def build_forex_builder_roadmap(_evidence: Any | None = None, *, repository_state: Any = None) -> dict[str, Any]:
+    if repository_state is None and isinstance(_evidence, dict):
+        repository_state = _evidence.get("repository_state")
     candidates = _roadmap_candidates()
+    for candidate in candidates:
+        candidate["repository_state"] = deepcopy(repository_state)
     next_candidate = candidates[0]
     repair_routing = _conditional_repair_routing(_evidence)
 
@@ -1236,6 +1241,7 @@ def build_forex_builder_roadmap(_evidence: Any | None = None) -> dict[str, Any]:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Emit safe AIOS forex-builder roadmap candidates.")
     parser.add_argument("--evidence", default="{}", help="Optional JSON evidence reserved for future roadmap filtering.")
+    parser.add_argument("--repo-root", default=".", help="Worktree to inspect for preview identity.")
     return parser
 
 
@@ -1245,7 +1251,11 @@ def main(argv: list[str] | None = None) -> int:
         evidence = json.loads(args.evidence)
     except json.JSONDecodeError:
         evidence = {}
-    result = build_forex_builder_roadmap(evidence)
+    try:
+        from automation.orchestration.aios_repo_state_evidence import collect_planner_repository_state
+    except ModuleNotFoundError:
+        from aios_repo_state_evidence import collect_planner_repository_state
+    result = build_forex_builder_roadmap(evidence, repository_state=collect_planner_repository_state(args.repo_root) or {})
     print(json.dumps(result, indent=2, sort_keys=False))
     return 0
 

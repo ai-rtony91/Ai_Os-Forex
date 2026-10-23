@@ -233,7 +233,8 @@ def build_work_countdown(
     active = sorted((_task(item) for item in packets if _normalized_status(item.get("status")) in ACTIVE), key=lambda item: item["packet_id"])
     blocked = sorted((_task(item) for item in packets if _normalized_status(item.get("status")) in BLOCKED), key=lambda item: item["packet_id"])
     ready = [item for item in packets if _normalized_status(item.get("status")) in READY]
-    normalized = build_candidate_packet_evidence({"packets": ready, "disable_default_candidate": True})
+    state_options = {"repository_state": repository_state} if repository_state is not None else {}
+    normalized = build_candidate_packet_evidence({"packets": ready, "disable_default_candidate": True}, **state_options)
     queue_plan = build_packet_queue_planner(normalized)
 
     inventory_blocked = inventory_status == "BLOCKED"
@@ -340,9 +341,11 @@ def main(argv: list[str] | None = None) -> int:
         first_dollar_evidence = json.loads(args.first_withdrawable_dollar_evidence)
     else:
         first_dollar_evidence = None
+    from automation.orchestration.aios_repo_state_evidence import collect_planner_repository_state
     result = build_work_countdown(
         evidence,
         repo_root=args.repo_root,
+        repository_state=collect_planner_repository_state(args.repo_root or ".") or {},
         first_withdrawable_dollar_state=first_dollar_evidence,
     )
     rendered = stable_json(result)
