@@ -3,7 +3,6 @@ from __future__ import annotations
 import importlib.util
 from pathlib import Path
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 MODULE_PATH = REPO_ROOT / "automation" / "orchestration" / "aios_codex_packet_builder.py"
 
@@ -161,3 +160,44 @@ def test_repository_aligned_builder_rejects_incomplete_identity():
     assert packet["packet_ready"] is False
     assert packet["reason_code"] == "identity_fields_missing"
     assert packet["missing_identity_fields"] == ["bucket_id"]
+
+
+def test_repository_aligned_builder_blocks_forbidden_receipt_destination():
+    module = load_module()
+    packet = module.build_repository_aligned_apply_packet(
+        repository_state={"worktree": "/owned-memory", "branch": "owned", "status_lines": []},
+        packet_identity=repository_identity(), mission="Check composed source scope.",
+        allowed_paths=["docs/owned.md"], validators=["owned validation label"],
+        forbidden_paths=[module.DELIVERY_RECEIPT_PATHS[1]],
+    )
+    assert packet["packet_ready"] is False
+    assert packet["codex_prompt_text"] == ""
+    assert packet["reason_code"] == "composed_scope_conflict"
+
+
+def test_campaign_builder_actual_consumer_and_exact_task_scope(tmp_path, monkeypatch):
+    from automation.orchestration.aios_codex_packet_builder import (
+        build_repository_aligned_apply_packet,
+    )
+    from automation.orchestration.relay.aios_codex_prompt_consumer_v1 import (
+        validate_prompt,
+    )
+    from tests.orchestration.test_aios_repo_state_evidence import _campaign_fixture
+    _, item, state, profile, reader, _, _, _ = _campaign_fixture(tmp_path, monkeypatch)
+    result = build_repository_aligned_apply_packet(repository_state=state, packet_identity=item["packet_identity"],
+        mission=item["mission"], allowed_paths=item["allowed_paths"], forbidden_paths=item["forbidden_paths"],
+        validators=item["validators"], approval_authority=item["approval_authority"], campaign_profile=profile,
+        campaign_admission_reader=reader, campaign_selection=profile.selection)
+    assert result["packet_ready"] is True and result["write_scope"] == item["allowed_paths"]
+    prompt = tmp_path / "campaign-prompt.md"; prompt.write_text(result["codex_prompt_text"], encoding="utf-8")
+    assert list(validate_prompt(prompt).allowed_paths) == item["allowed_paths"]
+    assert "Observed is_clean: false; legacy safe_for_apply: false" in result["codex_prompt_text"]
+    assert "$(" not in result["codex_prompt_text"] and "TASK TIMING START:" not in result["codex_prompt_text"]
+    assert ".aios/runtime/engineering_timing/" not in result["write_scope"]
+    assert result["delivery_tracking"]["runtime_admission_qualified"] is False
+    assert not (tmp_path / "relay").exists()
+    missing = build_repository_aligned_apply_packet(repository_state=state, packet_identity=item["packet_identity"],
+        mission=item["mission"], allowed_paths=item["allowed_paths"], forbidden_paths=item["forbidden_paths"],
+        validators=item["validators"], approval_authority=item["approval_authority"], campaign_profile=profile,
+        campaign_selection=profile.selection)
+    assert missing["packet_ready"] is False

@@ -1,0 +1,20 @@
+{
+  "validator_name": "aios_governance_validator",
+  "validator_version": "1.0",
+  "packet_id": "PKT-FOREX-014-R1",
+  "packet_path": "C:\\Users\\mylab\\AppData\\Local\\Temp\\AIOS_FOREX_PACKET_RECOVERY_20260903\\PKT-FOREX-014-R1.txt",
+  "packet_sha256": "262912df73074636eecec0494ca942ab5e4c123538fc394d88c8ebcd3d24bc18",
+  "packet_bytes": 12558,
+  "packet_valid": true,
+  "status": "PASS",
+  "state_alignment": true,
+  "semantic_diff": "PASS",
+  "missing_required_fields": [],
+  "errors": [],
+  "warnings": [],
+  "predecessor_receipt_sha256": "08c967e13c8afb11021ac5bee4e8a3bc7f1f5da7122b4a7ebede8a75e8ca6d2d",
+  "validated_registry_records": 50,
+  "validated_registry_sha256": "c942032fe1499144bd1add9ca388ae980b7aac42e90eacab2796086b32b58957",
+  "final_holdout": "SEALED_AND_UNOPENED",
+  "timestamp_utc": "2026-09-03T21:38:31Z"
+}

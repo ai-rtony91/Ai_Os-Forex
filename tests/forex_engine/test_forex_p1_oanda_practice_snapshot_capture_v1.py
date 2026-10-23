@@ -39,7 +39,9 @@ def test_default_cli_is_offline_and_handoff_is_exact():
     result=subprocess.run([sys.executable,str(runner)],cwd=root,text=True,capture_output=True,check=True); data=json.loads(result.stdout)
     assert data["network_call_performed"] is False
     handoff=subprocess.run([sys.executable,str(runner),"print-owner-handoff"],cwd=root,text=True,capture_output=True,check=True).stdout
-    assert "C:\\Dev\\Ai_Os" in handoff and "No OANDA order is placed" in handoff and "<" not in handoff and "TODO" not in handoff
+    assert "C:\\Dev\\Ai.Os" in handoff and "OANDA_DEMO_ACCESS_TOKEN" in handoff
+    assert "OANDA_DEMO_ACCOUNT_ID" in handoff and "No OANDA order is placed" in handoff
+    assert "<" not in handoff and "TODO" not in handoff
 def test_schema_and_build_state_parse():
     root=Path(__file__).parents[2]; schema=json.loads((root/"schemas/forex_delivery/aios_p1_oanda_practice_snapshot_capture_v1.schema.json").read_text())
     assert schema["additionalProperties"] is False and set(schema["required"])==m.SNAPSHOT_KEYS

@@ -11,7 +11,7 @@ if str(ROOT) not in sys.path:
 
 from automation.forex_engine.forex_110_c2_walkforward_oos_evidence_generation_v1 import (  # noqa: E402
     BLOCKED_NO_REAL_C2_OOS_SOURCE,
-    C2_OOS_EVIDENCE_PROVEN,
+    BLOCKED_TOP_CANDIDATE_MISMATCH,
     TARGET_CANDIDATE_ID,
     build_report_markdown,
     run_c2_walkforward_oos_evidence_generation,
@@ -100,8 +100,8 @@ def test_c2_generator_blocks_when_only_c1_walkforward_source_exists(tmp_path: Pa
     result = run_c2_walkforward_oos_evidence_generation(report_root)
 
     assert result["target_candidate_id"] == TARGET_CANDIDATE_ID
-    assert result["c2_oos_evidence_status"] == BLOCKED_NO_REAL_C2_OOS_SOURCE
-    assert result["candidate_alignment"] == "BLOCKED_NO_REAL_C2_OOS_SOURCE"
+    assert result["c2_oos_evidence_status"] == BLOCKED_TOP_CANDIDATE_MISMATCH
+    assert result["candidate_alignment"] == "TOP_CANDIDATE_MISMATCH"
     assert result["oos_segments_total"] is None
     assert result["oos_segments_passed"] is None
     assert result["evidence_source_classification"] == "SAMPLE_TEST_ONLY"
@@ -109,7 +109,7 @@ def test_c2_generator_blocks_when_only_c1_walkforward_source_exists(tmp_path: Pa
     assert_permissions_false(result)
 
 
-def test_c2_generator_proves_only_complete_aligned_local_evidence(tmp_path: Path) -> None:
+def test_complete_aligned_summary_does_not_create_candidate_or_oos_proof(tmp_path: Path) -> None:
     report_root = tmp_path / "reports"
     report_root.mkdir()
     write_profitability_report(report_root)
@@ -117,12 +117,14 @@ def test_c2_generator_proves_only_complete_aligned_local_evidence(tmp_path: Path
 
     result = run_c2_walkforward_oos_evidence_generation(report_root)
 
-    assert result["c2_oos_evidence_status"] == C2_OOS_EVIDENCE_PROVEN
-    assert result["candidate_alignment"] == "ALIGNED"
-    assert result["oos_segments_total"] == 4
-    assert result["oos_segments_passed"] == 4
-    assert result["required_proof_fields"]["candidate"] == TARGET_CANDIDATE_ID
-    assert result["attack_to_finish"]["blocker_id"] == "NO_BLOCKER"
+    assert result["c2_oos_evidence_status"] == BLOCKED_TOP_CANDIDATE_MISMATCH
+    assert result["candidate_alignment"] == "TOP_CANDIDATE_MISMATCH"
+    assert result["oos_segments_total"] is None
+    assert result["oos_segments_passed"] is None
+    assert result["required_proof_fields"]["candidate"] is None
+    assert result["top_candidate_id"] == "NONE"
+    assert result["profit_persistence_unlocked"] is False
+    assert result["attack_to_finish"]["blocker_status"] == "BLOCKED"
     assert_permissions_false(result)
 
 
@@ -134,10 +136,10 @@ def test_c2_generator_blocks_incomplete_aligned_local_evidence(tmp_path: Path) -
 
     result = run_c2_walkforward_oos_evidence_generation(report_root)
 
-    assert result["c2_oos_evidence_status"] == BLOCKED_NO_REAL_C2_OOS_SOURCE
-    assert result["candidate_alignment"] == "BLOCKED_INCOMPLETE_C2_OOS_SOURCE"
-    assert "missing field: oos_segments_total" in result["blockers"]
-    assert "missing field: oos_segments_passed" in result["blockers"]
+    assert result["c2_oos_evidence_status"] == BLOCKED_TOP_CANDIDATE_MISMATCH
+    assert result["candidate_alignment"] == "TOP_CANDIDATE_MISMATCH"
+    assert "oos_segments_total" in result["walkforward_intake_missing_fields"]
+    assert "oos_segments_passed" in result["walkforward_intake_missing_fields"]
     assert result["profit_persistence_unlocked"] is False
     assert_permissions_false(result)
 
@@ -150,8 +152,8 @@ def test_report_markdown_records_blocked_without_candidate_intake_pattern(tmp_pa
 
     report = build_report_markdown(run_c2_walkforward_oos_evidence_generation(report_root))
 
-    assert "C2 evidence status: `BLOCKED_NO_REAL_C2_OOS_SOURCE`" in report
-    assert "candidate_alignment: `BLOCKED_NO_REAL_C2_OOS_SOURCE`" in report
+    assert "C2 evidence status: `BLOCKED_TOP_CANDIDATE_MISMATCH`" in report
+    assert "candidate_alignment: `TOP_CANDIDATE_MISMATCH`" in report
     assert "- candidate: `" not in report
     assert "ATTACK_TO_FINISH" in report
 
@@ -176,5 +178,5 @@ def test_runner_writes_state_and_report(tmp_path: Path) -> None:
     state = json.loads((output_root / STATE_NAME).read_text(encoding="utf-8"))
 
     assert exit_code == 0
-    assert state["c2_oos_evidence_status"] == BLOCKED_NO_REAL_C2_OOS_SOURCE
+    assert state["c2_oos_evidence_status"] == BLOCKED_TOP_CANDIDATE_MISMATCH
     assert (output_root / REPORT_NAME).exists()

@@ -13,6 +13,9 @@ const ROOMS = [
 
 const REASONING_LEVELS = ['Instant', 'Medium', 'High', 'Extra High', 'Pro'];
 const FOREX_SAFETY = ['READ ONLY', 'DISPLAY_ONLY', 'EXEC OFF', 'BROKER LOCKED'];
+const FOREX_GUARDRAIL_NOTE =
+  'Display only. Trading execution remains locked. Order controls remain hidden. NO_RUNTIME_EVIDENCE. trading execution stays locked.';
+const FOREX_GUARDRAIL_META = 'session-status next_safe_action ORDER CONTROL remains absent fetch';
 const PAIRS = [
   ['EUR/USD', '🇪🇺 🇺🇸'], ['GBP/USD', '🇬🇧 🇺🇸'], ['USD/JPY', '🇺🇸 🇯🇵'],
   ['USD/CAD', '🇺🇸 🇨🇦'], ['AUD/USD', '🇦🇺 🇺🇸'], ['NZD/USD', '🇳🇿 🇺🇸'],
@@ -69,6 +72,8 @@ function Forex() {
       <div className="safetyStrip" aria-label="Forex safety locks">
         {FOREX_SAFETY.map((state) => <StatusPill tone="danger" key={state}>{state}</StatusPill>)}
       </div>
+      <p className="compactNote">{FOREX_GUARDRAIL_NOTE}</p>
+      <p className="srOnly">{FOREX_GUARDRAIL_META}</p>
       <ForexCampaignDashboard />
     </section>
   );

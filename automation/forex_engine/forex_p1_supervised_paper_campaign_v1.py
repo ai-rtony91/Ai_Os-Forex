@@ -43,6 +43,14 @@ WAIT_FOR_NEXT_CYCLE = "WAIT_FOR_NEXT_CYCLE"
 WAIT_FOR_DATA = "WAIT_FOR_DATA"
 WAIT_ACTIONS = frozenset({WAIT_FOR_NEXT_CYCLE, WAIT_FOR_DATA})
 WAITING_FOR_NEXT_RUN = "WAITING_FOR_NEXT_RUN"
+LATEST_BLOCKER_DATA_UNAVAILABLE = "DATA_UNAVAILABLE"
+LATEST_BLOCKER_MARKET_NOT_ELIGIBLE = "MARKET_NOT_ELIGIBLE"
+DATA_UNAVAILABLE_REASONS = frozenset({
+    "data_unavailable",
+    "insufficient_candles",
+    "stale_history",
+    "stale_snapshot",
+})
 SUPERTREND_REJECTION_REASONS = (
     "insufficient_candles",
     "no_supertrend_flip",
@@ -56,6 +64,9 @@ SUPERTREND_REJECTION_REASONS = (
     "unknown_no_signal",
 )
 _SUPERTREND_REJECTION_REASON_SET = frozenset(SUPERTREND_REJECTION_REASONS)
+_MARKET_ELIGIBILITY_REASONS = frozenset(
+    reason for reason in _SUPERTREND_REJECTION_REASON_SET if reason not in DATA_UNAVAILABLE_REASONS
+)
 
 
 def _new_york_timestamp(value: datetime) -> str:
@@ -155,6 +166,40 @@ def _active_position_snapshot(active_position: Any) -> str:
     if isinstance(active_position, Mapping):
         return json.dumps(active_position, sort_keys=True)
     return str(active_position)
+
+
+def _latest_rejection_reasons(state: Mapping[str, Any]) -> list[str]:
+    raw = state.get("latest_rejection_reasons")
+    if isinstance(raw, str):
+        values = [raw]
+    elif isinstance(raw, (list, tuple)):
+        values = list(raw)
+    else:
+        values = []
+    return [
+        str(reason).strip()
+        for reason in values
+        if str(reason).strip()
+    ]
+
+
+def latest_paper_blocker_classification(state: Mapping[str, Any]) -> str:
+    """Classify the latest blocker without letting historical counts override it."""
+    last_action = str(state.get("last_action") or "").strip()
+    latest_reason = str(state.get("latest_rejection_reason") or "").strip()
+    latest_reasons = _latest_rejection_reasons(state)
+
+    if last_action == WAIT_FOR_DATA:
+        return LATEST_BLOCKER_DATA_UNAVAILABLE
+    if latest_reason in DATA_UNAVAILABLE_REASONS:
+        return LATEST_BLOCKER_DATA_UNAVAILABLE
+    if any(reason in DATA_UNAVAILABLE_REASONS for reason in latest_reasons):
+        return LATEST_BLOCKER_DATA_UNAVAILABLE
+    if latest_reason in _MARKET_ELIGIBILITY_REASONS:
+        return LATEST_BLOCKER_MARKET_NOT_ELIGIBLE
+    if any(reason in _MARKET_ELIGIBILITY_REASONS for reason in latest_reasons):
+        return LATEST_BLOCKER_MARKET_NOT_ELIGIBLE
+    return "NONE"
 
 
 def load_active_position_projection(path: Path | None) -> dict[str, Any] | None:
@@ -516,6 +561,9 @@ def _write_outputs(paths: CampaignPaths, state: Mapping[str, Any]) -> None:
         f"- DATA_UNAVAILABLE_COUNT: {state['data_unavailable_count']}",
         f"- LAST_DATA_UNAVAILABLE_UTC: {state['last_data_unavailable_utc'] or 'NONE'}",
         f"- LAST_ACTION: {state['last_action'] or 'NONE'}",
+        f"- LATEST_BLOCKER_CLASSIFICATION: {latest_paper_blocker_classification(state)}",
+        f"- LATEST_BLOCKER_REASON: {state.get('latest_rejection_reason') or 'NONE'}",
+        f"- HISTORICAL_SIGNAL_REJECTIONS: {json.dumps(state.get('rejection_reason_counts', {}), sort_keys=True)}",
         f"- ACTIVE_POSITION_STATUS: {state.get('active_position_status', 'NONE')}",
         f"- ACTIVE_POSITION: {_active_position_snapshot(state.get('active_position'))}",
         f"- STOP_REASON: {state['stop_reason'] or 'NONE'}",

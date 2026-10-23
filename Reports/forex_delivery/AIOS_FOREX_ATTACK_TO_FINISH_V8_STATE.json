@@ -1,0 +1,35 @@
+{
+  "blockers": [
+    {
+      "blocker_id": "P0-016",
+      "can_codex_resolve": true,
+      "canonical_owner_file": "automation/forex_engine/forex_trace_targeted_edge_program_v1.py",
+      "chosen_action": "Run targeted Development and null campaigns; do not claim profitability.",
+      "direction": "BOTH",
+      "exact_blocker": "LONG_EDGE_NOT_PROVEN / SHORT_EDGE_NOT_PROVEN",
+      "external_time_required": false,
+      "failure_signature": "",
+      "family": "M5_DAY_TRADING_MTF",
+      "human_action_required": false,
+      "missing_evidence": "Validation, Holdout/Forward, and Paper are unavailable without Development plus null passers.",
+      "next_action": "Implement targeted Development scorer inside the same authorized module.",
+      "no_bloat_guard": "No candidate 33; no Paper/LIVE without gates.",
+      "phase": "TARGETED_DEVELOPMENT",
+      "priority": "P0",
+      "proof_of_unlock": "TARGETED_RESEARCH_EXHAUSTED_NO_EDGE",
+      "repair_options": [
+        "preserve no-edge result",
+        "design a future separately authorized research packet if owner wants new hypotheses"
+      ],
+      "retry_count": 0,
+      "runner_or_validator": "python -B automation/forex_engine/forex_trace_targeted_edge_program_v1.py --execute",
+      "status": "TERMINAL_UNRESOLVABLE",
+      "test_file": "tests/forex_engine/test_forex_trace_targeted_edge_program_v1.py",
+      "unlock_condition": "Development plus statistical controls identify valid passers.",
+      "why_it_matters": "Frozen targeted candidates require Development, nulls, bootstrap, Validation, Forward, and Paper before any profitability claim."
+    }
+  ],
+  "packet_id": "PKT-EAST-FOREX-TRACE-BACKED-FIDELITY-030",
+  "schema": "AIOS_FOREX_ATTACK_TO_FINISH_V8_STATE",
+  "status": "TARGETED_RESEARCH_EXHAUSTED_NO_EDGE"
+}

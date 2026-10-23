@@ -1,6 +1,12 @@
 from __future__ import annotations
 
+import json
+import os
 from pathlib import Path
+import subprocess
+import sys
+
+import pytest
 
 from automation.orchestration.self_development.aios_autonomous_forex_research_pipeline import (
     APPROVAL,
@@ -137,3 +143,28 @@ def test_apply_writes_only_run_ledger_when_approved(tmp_path: Path) -> None:
     assert result["safety"]["status"] == "PASS"
     assert result["run_ledger"]["written"] is True
     assert result["safety"]["writes_only_approved_run_ledger"] is True
+
+
+@pytest.mark.parametrize("wire_encoding", ["utf-8", "utf-8-sig"])
+def test_cli_decodes_utf8_payload_independently_of_process_locale(wire_encoding: str) -> None:
+    repo_root = Path(__file__).resolve().parents[2]
+    pipeline = repo_root / "automation/orchestration/self_development/aios_autonomous_forex_research_pipeline.py"
+    env = os.environ.copy()
+    env["PYTHONPATH"] = str(repo_root)
+    env["PYTHONIOENCODING"] = "ascii"
+    payload_bytes = json.dumps(_payload(strategy_profile="CAFÉ"), ensure_ascii=False).encode(wire_encoding)
+
+    result = subprocess.run(
+        [sys.executable, str(pipeline)],
+        cwd=repo_root,
+        input=payload_bytes,
+        capture_output=True,
+        env=env,
+        check=False,
+    )
+
+    assert result.returncode == 0, result.stderr.decode("ascii", errors="replace")
+    parsed = json.loads(result.stdout)
+    assert parsed["strategy_profile"] == "CAFÉ"
+    assert parsed["run_ledger"]["written"] is False
+    assert parsed["safety"]["valid_for_live_trading"] is False

@@ -65,8 +65,8 @@ def test_discovery_script_is_dry_run_read_only() -> None:
 def test_current_registry_reports_no_ready_stage_detected() -> None:
     out = _run_script_json(DISCOVERY_SCRIPT)
 
-    assert out["overall_readiness"] == "NO_READY_STAGE"
-    assert out["no_ready_stage_detected"] is True
+    assert out["overall_readiness"] == "READY_FOR_PACKET_PREVIEW"
+    assert out["no_ready_stage_detected"] is False
     assert out["candidate_gap_summary"]["supervised_autonomy_no_next_selectable_stage"] is True
 
 
@@ -118,7 +118,7 @@ def test_discovery_output_includes_safe_planning_recommended_next_action() -> No
     out = _run_script_json(DISCOVERY_SCRIPT)
 
     recommended = out["recommended_next_action"].lower()
-    assert "idle cleanly" in recommended or "review campaign registry gaps" in recommended or "review and repair campaign registry" in recommended
+    assert "campaign next-task selector output" in recommended
 
 
 def test_discovery_recommended_next_action_omits_forbidden_action_language() -> None:
@@ -158,8 +158,8 @@ def test_action_recommendation_surfaces_discovery_router_for_no_ready_stage() ->
     out = _run_script_json(ACTION_RECOMMENDATION_SCRIPT)
 
     assert out["mode"] == "READ_ONLY"
-    assert out["packet_status"] == "no_active_packet"
-    assert out["campaign_overall_readiness"] == "NO_READY_STAGE"
-    assert out["no_ready_stage_classification"] in ALLOWED_CLASSIFICATIONS
-    assert out["recommended_command"] == DISCOVERY_COMMAND
+    assert out["packet_status"] == "campaign_ready"
+    assert out["campaign_overall_readiness"] == "READY_FOR_PACKET_PREVIEW"
+    assert out["no_ready_stage_classification"] == ""
+    assert out["recommended_command"] == "powershell -ExecutionPolicy Bypass -File automation/orchestration/health/Test-AiOsRuntimeHealth.DRY_RUN.ps1"
     assert "no command recommended" not in out["orchestration_result_contract"]["next_safe_action"].lower()

@@ -1,0 +1,20 @@
+{
+  "get_only": true,
+  "human_action_required": true,
+  "live_host_allowed": false,
+  "orders_allowed": false,
+  "packet_id": "PKT-EAST-FOREX-ALL-TIMEFRAME-SCALPING-EDGE-033",
+  "practice_host_only": true,
+  "requested_granularities": [
+    "S5",
+    "S10",
+    "S15",
+    "S30",
+    "M1",
+    "M2",
+    "M4"
+  ],
+  "schema": "AIOS_FOREX_SCALPING_DATA_HUMAN_HANDOFF.v1",
+  "secret_persistence_allowed": false,
+  "status": "HUMAN_SCALPING_TIMEFRAME_DATA_ACQUISITION_REQUIRED"
+}

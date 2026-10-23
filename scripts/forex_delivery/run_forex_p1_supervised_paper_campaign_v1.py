@@ -140,8 +140,12 @@ def main(argv: list[str] | None = None) -> int:
     if not args.owner_local_runtime:
         print("RUNTIME_CREDENTIAL_OR_PRACTICE_DATA_REQUIRED")
         return 2
-    token = _runtime_environment_value("OANDA_API_TOKEN")
-    account = _runtime_environment_value("OANDA_ACCOUNT_ID")
+    token = _runtime_environment_value("OANDA_API_TOKEN") or _runtime_environment_value(
+        "OANDA_DEMO_ACCESS_TOKEN"
+    )
+    account = _runtime_environment_value("OANDA_ACCOUNT_ID") or _runtime_environment_value(
+        "OANDA_DEMO_ACCOUNT_ID"
+    )
     if not token or not account:
         print("RUNTIME_CREDENTIAL_OR_PRACTICE_DATA_REQUIRED")
         return 2
@@ -170,9 +174,7 @@ def main(argv: list[str] | None = None) -> int:
         kill_switch_active=args.kill_switch_file.exists(),
         risk_halt_active=args.risk_halt_file.exists(),
         maximum_session_loss=args.maximum_session_loss,
-        active_session_path=(
-            runtime_path if selected_signal_source == SUPERTREND_SIGNAL_SOURCE else None
-        ),
+        active_session_path=runtime_path,
         qualifying_strategy_name=(
             SUPERTREND_PULLBACK_V1
             if selected_signal_source == SUPERTREND_SIGNAL_SOURCE

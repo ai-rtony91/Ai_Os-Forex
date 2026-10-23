@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import re
 import tempfile
@@ -115,6 +116,52 @@ def _nonnegative_int(value: Any, default: int) -> int:
     return normalized if normalized >= 0 else default
 
 
+def _constraint_evidence(value: Any) -> Any:
+    """Retain malformed source fields as finite JSON evidence, without changing input."""
+    if isinstance(value, float) and not math.isfinite(value):
+        return {"invalid_number": str(value)}
+    if isinstance(value, dict):
+        return {str(key): _constraint_evidence(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [_constraint_evidence(item) for item in value]
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    return {"invalid_type": type(value).__name__, "representation": str(value)}
+
+def _valid_counter(value: Any, minimum: int) -> bool:
+    if isinstance(value, bool) or not isinstance(value, (int, float, str)):
+        return False
+    try:
+        normalized = int(value)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    return normalized >= minimum and (not isinstance(value, float) or value == normalized)
+
+def _scheduling_errors(raw: dict) -> list[str]:
+    errors: list[str] = []
+    for key in ("depends_on", "dependencies"):
+        if key in raw and (not isinstance(raw[key], list) or any(
+            not isinstance(item, str) or not item.strip() for item in raw[key]
+        )):
+            errors.append(f"invalid_dependencies:{key}")
+    for key in ("attempt", "attempt_count", "max_attempts"):
+        if key in raw and not _valid_counter(raw[key], 1 if key == "max_attempts" else 0):
+            errors.append(f"invalid_retry_counter:{key}")
+    if (
+        not any(error.startswith("invalid_dependencies:") for error in errors)
+        and "depends_on" in raw and "dependencies" in raw
+        and set(raw["depends_on"]) != set(raw["dependencies"])
+    ):
+        errors.append("invalid_dependencies:conflicting_aliases")
+    if (
+        not any(error in errors for error in ("invalid_retry_counter:attempt", "invalid_retry_counter:attempt_count"))
+        and "attempt" in raw and "attempt_count" in raw
+        and int(raw["attempt"]) != int(raw["attempt_count"])
+    ):
+        errors.append("invalid_retry_counter:attempt")
+    return errors
+
+
 def normalize_item(raw: Any, source: str, index: int) -> dict[str, object]:
     """Normalize one raw source record into a canonical queue item. Read-only."""
     raw = raw if isinstance(raw, dict) else {"value": raw}
@@ -142,9 +189,21 @@ def normalize_item(raw: Any, source: str, index: int) -> dict[str, object]:
     if approval_state not in CANONICAL_APPROVAL_STATES:
         approval_state = default_approval
 
-    attempt = _nonnegative_int(_first(raw, "attempt", "attempt_count"), 0)
-    max_attempts = max(1, _nonnegative_int(raw.get("max_attempts"), 1))
-    dependencies = _string_list(_first(raw, "depends_on", "dependencies"))
+    errors = _scheduling_errors(raw)
+    attempt = (
+        None if any(error in errors for error in ("invalid_retry_counter:attempt", "invalid_retry_counter:attempt_count"))
+        else _nonnegative_int(_first(raw, "attempt", "attempt_count"), 0)
+    )
+    max_attempts = (
+        None if "invalid_retry_counter:max_attempts" in errors
+        else max(1, _nonnegative_int(raw.get("max_attempts"), 1))
+    )
+    dependencies = (
+        None if any(error.startswith("invalid_dependencies:") for error in errors)
+        else _string_list(_first(raw, "depends_on", "dependencies"))
+    )
+    if errors:
+        norm_state = "BLOCKED"
     forbidden_paths = _string_list(raw.get("forbidden_paths"))
     packet_id = _first(raw, "packet_id", "task_id", "command_id")
     branch = _first(raw, "branch", "target_branch")
@@ -173,6 +232,14 @@ def normalize_item(raw: Any, source: str, index: int) -> dict[str, object]:
         "forbidden_paths": forbidden_paths,
         "protected_action": protected,
         "created_utc": str(created) if created is not None else None,
+        **({
+            "normalization_errors": errors,
+            "source_scheduling_constraints": {
+                key: _constraint_evidence(raw[key]) for key in (
+                    "depends_on", "dependencies", "attempt", "attempt_count", "max_attempts"
+                ) if key in raw
+            },
+        } if errors else {}),
     }
 
 

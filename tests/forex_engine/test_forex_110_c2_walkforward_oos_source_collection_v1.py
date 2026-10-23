@@ -156,7 +156,7 @@ def test_source_collection_records_sample_test_only_without_promotion(tmp_path: 
     assert_permissions_false(result)
 
 
-def test_source_collection_accepts_complete_non_test_c2_source(tmp_path: Path) -> None:
+def test_complete_non_test_summary_is_unverified_without_source_receipts(tmp_path: Path) -> None:
     report_root = tmp_path / "reports"
     source_root = tmp_path / "evidence"
     report_root.mkdir()
@@ -171,14 +171,17 @@ def test_source_collection_accepts_complete_non_test_c2_source(tmp_path: Path) -
         repo_root=tmp_path,
     )
 
-    assert result["evidence_source_classification"] == REAL_SANITIZED_LOCAL_SOURCE_FOUND
-    assert result["c2_source_found"] is True
-    assert result["source_path"] == source_path.relative_to(tmp_path).as_posix()
-    assert result["candidate_alignment"] == "ALIGNED"
-    assert result["oos_segments_total"] == 4
-    assert result["source_is_real_sanitized_local"] is True
-    assert result["attack_to_finish"]["blocker_id"] == "NO_BLOCKER"
-    assert "candidate: `c2-eur-buy-stronger-review-ready`" in build_source_markdown(result)
+    assert result["evidence_source_classification"] == "UNVERIFIED_LOCAL_SUMMARY"
+    assert result["c2_source_found"] is False
+    assert result["source_path"] is None
+    assert source_path.relative_to(tmp_path).as_posix() in result["diagnostic_source_paths"]
+    assert result["candidate_alignment"] == "BLOCKED_NO_REAL_C2_OOS_SOURCE"
+    assert result["oos_segments_total"] is None
+    assert result["source_is_real_sanitized_local"] is False
+    assert "NO_INDEPENDENT_VERIFIER_CONNECTED" in result["blockers"]
+    import pytest
+    with pytest.raises(ValueError, match="independent source verifier is unavailable"):
+        build_source_markdown(result)
     assert_permissions_false(result)
 
 
@@ -220,3 +223,32 @@ def test_runner_writes_state_report_and_only_real_source_report(tmp_path: Path) 
     assert state["c2_source_found"] is False
     assert (output_root / REPORT_NAME).exists()
     assert not (output_root / SOURCE_REPORT_NAME).exists()
+
+
+def test_collector_source_formatter_rejects_forged_real_classification():
+    import pytest
+    result = {"evidence_source_classification": REAL_SANITIZED_LOCAL_SOURCE_FOUND,
+              "source_is_real_sanitized_local": True,
+              "source_authentication_status": "VERIFIED"}
+    with pytest.raises(ValueError, match="independent source verifier is unavailable"):
+        build_source_markdown(result)
+
+
+def test_report_formatter_blocks_historical_and_forged_proof_labels():
+    import copy
+    historical = json.loads((Path(__file__).with_name("fixtures") / "c2_historical_false_proven_state.json").read_text())
+    historical.update(source_collection_status="PROVEN_REAL_SANITIZED_LOCAL_C2_SOURCE",
+                      evidence_source_classification="REAL_SANITIZED_LOCAL_SOURCE_FOUND",
+                      c2_source_found=True, c2_source_generated=True,
+                      walkforward_oos_status_after_rerun="PROVEN", profit_persistence_unlocked=True)
+    historical["source_authentication_status"] = "VERIFIED"
+    for key in historical.get("permissions", {}):
+        historical["permissions"][key] = True
+    before = copy.deepcopy(historical)
+    report = build_report_markdown(historical)
+    for forbidden in ['PROVEN_REAL_SANITIZED_LOCAL_C2_SOURCE', 'C2 source found: `true`', 'C2 source generated: `true`', 'Source is real sanitized local: `true`', 'Profit persistence unlocked: `true`']:
+        assert forbidden not in report
+    assert "NO_INDEPENDENT_VERIFIER_CONNECTED" in report
+    for flag in PROTECTED_FLAGS:
+        assert f"{flag}: `false`" in report
+    assert historical == before

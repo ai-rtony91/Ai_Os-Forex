@@ -1,0 +1,58 @@
+{
+  "allowed_paths": [
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_edge_validation_pipeline_v1\\AIOS_FOREX_GLOBAL_TRIAL_LEDGER_V1.jsonl",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_edge_validation_pipeline_v1\\AIOS_FOREX_FINGERPRINT_INDEX_V1.json"
+  ],
+  "approval_authority": "Anthony, Human Owner",
+  "approval_evidence": {
+    "status": "UNSIGNED"
+  },
+  "approval_gate_id": "PKT045-RESEARCH-V5-OCC89-20260919",
+  "approval_request_id": "PKT045-RESEARCH-V5-OCC89-20260919",
+  "approval_status": "pending_review",
+  "approval_timestamp_utc": null,
+  "approved_by_human": false,
+  "approved_mode": "NONE",
+  "blocked_paths": [
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045",
+    "C:\\Dev\\Ai.Os\\AGENTS.md",
+    "C:\\Dev\\Ai.Os\\RISK_POLICY.md",
+    "C:\\Dev\\Ai.Os\\docs\\governance",
+    "C:\\Dev\\Ai.Os\\data",
+    "C:\\Dev\\Ai.Os\\datasets",
+    "C:\\Dev\\Ai.Os\\broker",
+    "C:\\Dev\\Ai.Os\\oanda",
+    "C:\\Dev\\Ai.Os\\secrets",
+    "C:\\Dev\\Ai.Os\\credentials",
+    "C:\\Dev\\Ai.Os\\.git"
+  ],
+  "bucket_id": "BKT-FOREX-003",
+  "bucket_name": "Strategy Validation V1",
+  "commit_package_required": false,
+  "created_at_utc": "2026-09-19T05:15:47.342440+00:00",
+  "epic_id": "EPC-FOREX-002",
+  "epic_name": "Strategy Intelligence V1",
+  "expires_at_utc": "2026-09-19T10:20:00+00:00",
+  "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+  "mission_id": "MISSION-AIOS-001",
+  "mission_name": "AIOS Governed Self-Building Operating System",
+  "packet_id": "PKT-FOREX-045",
+  "packet_name": "V5 restricted offline research: preserved original FAIL",
+  "program_id": "PRG-FOREX-001",
+  "program_name": "AIOS Forex Supervised Operational Validation Program V1",
+  "push_blocked_until_final_review": true,
+  "requested_action": "RUN_PKT045_RESTRICTED_OFFLINE_RESEARCH_V5",
+  "requested_mode": "APPLY",
+  "schema": "AIOS_PACKET_APPROVAL_REQUEST.v1",
+  "stop_point": "Complete the exact V5 restricted A/B population and replay; persist existing Goal and stop at unsupported successor, signature, scope, integrity or resource boundary. No broker/PAPER/LIVE activation.",
+  "validator_chain": [
+    "Original frozen evidence and failure preservation",
+    "Versioned conditional research policy and eligibility before scoring",
+    "Pinned code, metadata, partition provenance, mask and receipt",
+    "Focused regression and real dispatcher fixture evidence",
+    "PKT045_CONTINUATION_BUNDLE_SHA256=b6da59951c1140ee4f944e5b040e00560a2ba5d608d588ef287dc45c4881b654"
+  ],
+  "worker_identity": "EAST_OCC_89",
+  "zone": "EAST"
+}

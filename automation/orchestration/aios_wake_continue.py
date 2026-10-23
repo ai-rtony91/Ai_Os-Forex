@@ -3,6 +3,10 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import json
+import hashlib
+import uuid
+from contextlib import nullcontext
+from copy import deepcopy
 import subprocess
 import sys
 import tempfile
@@ -900,6 +904,7 @@ def build_continuation_controller(
     mode_registry: dict[str, Any],
     *,
     user_goal: str,
+    autonomous_job_state: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     controller_path = Path(__file__).with_name("aios_continuation_controller.py")
     spec = importlib.util.spec_from_file_location("aios_continuation_controller", controller_path)
@@ -930,11 +935,18 @@ def build_continuation_controller(
         bounded_executor_ready=bounded_executor_ready,
         mode_registry=mode_registry,
         user_goal=user_goal,
+        autonomous_job_state=autonomous_job_state,
     )
     if (
         bounded_executor_handoff.get("allowed_action")
         in {"build_forex_portfolio_state", "build_forex_paper_session_controller"}
         and bounded_executor_ready.get("status") == "ready_for_human_review"
+        and controller.get("continuation_status") != "blocked"
+        and controller.get("sos_required") is not True
+        and not controller.get("invalid_evidence_fields")
+        and controller.get("action_type") == "build_executor_support_packet"
+        and controller.get("stop_reason_class") is None
+        and bounded_executor_handoff.get("handoff_status") == "ready"
     ):
         action = str(bounded_executor_handoff.get("allowed_action"))
         next_component = str(bounded_executor_handoff.get("next_component", "unknown"))
@@ -954,6 +966,11 @@ def build_continuation_controller(
                 ),
             }
         )
+    if (controller.get("continuation_status") == "blocked" or controller.get("sos_required") is True
+            or controller.get("invalid_evidence_fields")):
+        controller["local_runner_available"] = False
+        controller["productive_executor_available"] = False
+        controller["codex_packet_required"] = False
     return controller
 
 
@@ -1102,8 +1119,397 @@ def base_report(goal: str) -> dict[str, Any]:
 
 
 def write_state(path: Path, report: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(report, indent=2, sort_keys=False) + "\n", encoding="utf-8")
+    owner = resume_owner()
+    owner.atomic_write(path, owner.serialized_bytes(report))
+
+
+
+def resume_owner():
+    spec = importlib.util.spec_from_file_location("aios_resume_state", Path(__file__).with_name("aios_resume_state.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def execution_input_snapshot(repo_root: Path) -> dict[str, Any]:
+    owner = resume_owner()
+    inputs = {}
+    for name, relative in globals().items():
+        if name.endswith("_PATH") and isinstance(relative, Path) and not relative.is_absolute():
+            path = owner.bounded_path(repo_root, relative)
+            inputs[relative.as_posix()] = owner.file_hash(path) if path.is_file() else None
+    return {"source_hashes": owner.source_identity(), "input_hashes": inputs}
+
+
+def execution_identity(repo_root: Path, report: dict[str, Any], command: list[str], result: dict[str, Any]) -> dict[str, Any]:
+    owner = resume_owner()
+    inputs = execution_input_snapshot(repo_root)["input_hashes"]
+    successful = owner._sanitize(result)
+    return {
+        "repo_root": str(owner._resolved_path(repo_root)), "goal": report["goal"],
+        "selected_action": report["selected_action"],
+        "task_id": owner.content_hash({"goal": report["goal"], "action": report["selected_action"]}),
+        "attempt_id": uuid.uuid4().hex, "command": command,
+        "source_hashes": owner.source_identity(), "input_hashes": inputs,
+        "successful_result": successful, "successful_result_sha256": owner.content_hash(successful),
+    }
+
+
+def _failure(report: dict[str, Any], stage: str, exc: Exception) -> None:
+    report["result"] = "BLOCKED"
+    if not report.get("finalization", {}).get("errors"):
+        report["blocked_reason"] = f"finalization_{stage}_failed"
+    report["next_safe_action"] = "Recover only missing finalization from the saved source-bound successful attempt."
+    report.setdefault("finalization", {}).setdefault("errors", []).append({"stage": stage, "type": type(exc).__name__, "message": str(exc)})
+
+
+def finalization_request(repo_root: Path, *, state_path: Path, write_resume: bool, resume_dir: Path | None,
+                         write_control: bool, control_dir: Path | None, emit_continuation_controller: bool) -> dict[str, Any]:
+    owner = resume_owner()
+    requested = {"state_path": owner.bounded_path(repo_root, state_path).relative_to(repo_root).as_posix(),
+                 "write_resume": write_resume, "resume_dir": owner._resolve_output_dir(repo_root, resume_dir).relative_to(repo_root).as_posix(),
+                 "write_control": write_control, "control_dir": owner.bounded_path(repo_root, control_dir or "Reports/aios_control_plane").relative_to(repo_root).as_posix(),
+                 "emit_continuation_controller": emit_continuation_controller}
+    owner.requested_projections(repo_root, requested)
+    return requested
+
+
+def capture_finalization(repo_root: Path, report: dict[str, Any], requested: dict[str, Any]) -> dict[str, Any]:
+    owner = resume_owner()
+    minimal = {key: deepcopy(report[key]) for key in ("schema", "goal", "selected_action", "commands_run", "validators_run", "repair_attempts", "execution_identity", "approval_required", "safety") if key in report}
+    # Keep the D03 schema-bound typed flags; redact all payload/bulk output.
+    minimal = owner._sanitize(minimal)
+    for key in ("approval_required", "safety"):
+        minimal[key] = owner._sanitize(report.get(key, {}), typed_metadata=report.get("schema") == SCHEMA, path=(key,))
+    path, record = owner.capture_successful_attempt(repo_root, minimal, report["execution_identity"], requested)
+    report["finalization"] = {"status": "pending", "errors": [], "candidate_path": path.relative_to(repo_root).as_posix(),
+                              "successful_attempt_path": path.relative_to(repo_root).as_posix()}
+    return {**record, "attempt_path": path.relative_to(repo_root).as_posix()}
+
+
+def record_finalization_failure(repo_root: Path, report: dict[str, Any], publication: dict[str, Any] | None,
+                                stage: str, exc: Exception, *, _locked=False, _immutable_only=False) -> dict[str, Any]:
+    owner = resume_owner()
+    _failure(report, stage, exc)
+    report.setdefault("finalization", {})["status"] = "incomplete"
+    requested = publication["requested"] if publication else None
+    if not requested:
+        return report
+    target = owner._resolve_output_dir(repo_root, requested["resume_dir"])
+    try:
+        with (nullcontext() if _locked else owner.publication_lock(target)):
+            # Never let an outdated attempt's fallback diagnostic damage a newer
+            # accepted attempt. The immutable attempt remains usable for diagnosis.
+            frontier_valid = False
+            try:
+                if not _immutable_only:
+                    owner.validate_frontier(repo_root, target)
+                    frontier_valid = True
+            except (OSError, ValueError, TypeError, KeyError) as secondary:
+                _failure(report, "failure_frontier", secondary)
+            if not _immutable_only and frontier_valid and owner.accepted_revision(target) == publication["predecessor_sha256"]:
+                diagnostic = {key: value for key, value in report.items() if key not in {"control_plane_status", "self_build_loop_readiness", "codex_packet_preview"}}
+                try:
+                    write_state(owner.bounded_path(repo_root, requested["state_path"]), diagnostic)
+                except (OSError, ValueError, TypeError, KeyError) as secondary:
+                    _failure(report, "failure_state", secondary)
+            try:
+                diagnostic = {key: value for key, value in report.items() if key not in {"control_plane_status", "self_build_loop_readiness", "codex_packet_preview"}}
+                data = owner.serialized_bytes(owner._sanitize(diagnostic))
+                failure_path = target / f"AIOS_RESUME_FAILURE_{hashlib.sha256(data).hexdigest()}.json"
+                owner.immutable_write(failure_path, data)
+                report["finalization"]["failure_path"] = failure_path.relative_to(repo_root).as_posix()
+            except (OSError, ValueError, TypeError, KeyError) as secondary:
+                _failure(report, "failure_evidence", secondary)
+    except Exception as secondary:
+        # No fallback write without the owner lock. The prebuilder immutable
+        # successful attempt survives even if every later lock/write fails.
+        _failure(report, "failure_lock", secondary)
+
+    return report
+
+
+def persist_finalization(repo_root: Path, report: dict[str, Any], *, state_path: Path,
+                         write_resume: bool, resume_dir: Path | None,
+                         write_control: bool, control_dir: Path | None,
+                         emit_continuation_controller: bool = False,
+                         publication: dict[str, Any] | None = None, _locked=False) -> dict[str, Any]:
+    owner = resume_owner()
+    if publication is None:
+        requested = finalization_request(repo_root, state_path=state_path, write_resume=write_resume, resume_dir=resume_dir,
+            write_control=write_control, control_dir=control_dir, emit_continuation_controller=emit_continuation_controller)
+        publication = capture_finalization(repo_root, report, requested)
+    stage = "resume_state"
+    target = owner._resolve_output_dir(repo_root, publication["requested"]["resume_dir"])
+    try:
+        with (nullcontext() if _locked else owner.publication_lock(target)):
+            try:
+                owner.assert_predecessor(target, publication["predecessor_sha256"], repo_root=repo_root)
+                if write_resume:
+                    candidate_input = deepcopy(report["resume_state"])
+                    candidate_input["publication"] = publication
+
+                    def write_projections(candidate):
+                        nonlocal stage
+                        report["resume_state"] = candidate
+                        report["resume_state_paths"] = candidate["resume_state_paths"]
+                        report["finalization"]["candidate_path"] = candidate["resume_state_paths"]["timestamped"]
+                        outputs = []
+                        archive = repo_root / candidate["resume_state_paths"]["timestamped"]
+                        for index, output in enumerate(owner.requested_projections(repo_root, publication["requested"])):
+                            path = owner.bounded_path(repo_root, output["path"])
+                            if path.exists():
+                                data = path.read_bytes()
+                                owner.immutable_write(archive.with_name(f"{archive.stem}.prior-{index}-{hashlib.sha256(data).hexdigest()}.json"), data)
+                        if write_control:
+                            stage = "control_plane"
+                            report["control_plane_status"] = write_control_plane_status(repo_root, report["control_plane_status"], control_dir)
+                            report["control_plane_status_path"] = report["control_plane_status"]["control_plane_status_path"]
+                            path = repo_root / report["control_plane_status_path"]
+                            outputs.append({"role": "control", "path": str(path), "sha256": owner.file_hash(path)})
+                        stage = "generic_state"
+                        report["finalization"]["status"] = "complete"
+                        write_state(state_path, report)
+                        outputs.append({"role": "generic", "path": str(state_path), "sha256": owner.file_hash(state_path)})
+                        stage = "accepted_resume_commit"
+                        return outputs
+
+                    accepted = owner.publish_resume_state(repo_root, candidate_input, write_projections, output_dir=resume_dir, _locked=True)
+                    report["resume_state"] = accepted
+                    report["resume_state_paths"] = accepted["resume_state_paths"]
+                else:
+                    if write_control:
+                        stage = "control_plane"
+                        report["control_plane_status"] = write_control_plane_status(repo_root, report["control_plane_status"], control_dir)
+                        report["control_plane_status_path"] = report["control_plane_status"]["control_plane_status_path"]
+                    stage = "generic_state"
+                    report["finalization"]["status"] = "complete"
+                    write_state(state_path, report)
+                return report
+            except (OSError, ValueError, TypeError, KeyError) as exc:
+                return record_finalization_failure(repo_root, report, publication, stage, exc, _locked=True)
+    except Exception as exc:
+        return record_finalization_failure(repo_root, report, publication, "publication_lock", exc, _locked=_locked)
+
+
+def recover_finalization(repo_root: Path, candidate_path: Path, *, expected_identity: dict[str, Any]) -> dict[str, Any]:
+    """Verify archive/current frontier before every write; never run an action."""
+    owner = resume_owner()
+    try:
+        owner.require_object(expected_identity, "checkpoint_expected_identity_invalid")
+        path = owner.bounded_path(repo_root, candidate_path)
+        path.relative_to(owner._resolve_output_dir(repo_root))
+        saved = owner.require_object(json.loads(path.read_bytes()), "checkpoint_recovery_envelope_invalid")
+        if saved.get("record_type") == "successful_attempt":
+            record = owner.load_successful_attempt(repo_root, path)
+            publication = {**record, "attempt_path": path.relative_to(repo_root).as_posix()}
+        else:
+            archive, _ = owner.checkpoint_bytes(repo_root, saved)
+            if archive != path:
+                raise ValueError("checkpoint_archive_path_mismatch")
+            publication = owner.publication_record(repo_root, saved)
+        identity = publication["execution_identity"]
+        if identity != expected_identity:
+            raise ValueError("checkpoint_expected_identity_mismatch")
+        owner.verify_execution_identity(repo_root, identity)
+        requested = publication["requested"]
+        target = owner._resolve_output_dir(repo_root, requested["resume_dir"])
+        with owner.publication_lock(target, create=False):
+            latest_path = target / owner.LATEST_FILENAME
+            if latest_path.is_file():
+                latest = owner.require_object(json.loads(latest_path.read_bytes()), "checkpoint_envelope_invalid")
+                current_publication = owner.require_object(latest.get("publication"), "checkpoint_publication_unbound")
+                if current_publication.get("execution_identity") == identity:
+                    current = owner.load_resume_state(repo_root, output_dir=target, _locked=True)
+                    if path.relative_to(repo_root).as_posix() not in {
+                            current["resume_state_paths"]["timestamped"], current_publication.get("pending_checkpoint"), current_publication.get("attempt_path")}:
+                        raise ValueError("checkpoint_current_candidate_mismatch")
+                    generic = next(item for item in current_publication["accepted_outputs"] if item["role"] == "generic")
+                    report = owner.require_object(json.loads(owner.bounded_path(repo_root, generic["path"]).read_bytes()), "checkpoint_generic_envelope_invalid")
+                    report["resume_state"] = current
+                    report["resume_state_paths"] = current["resume_state_paths"]
+                    return report
+            owner.assert_predecessor(target, publication["predecessor_sha256"], repo_root=repo_root)
+            report = deepcopy(publication["finalization_input"])
+            report["state_path"] = str(owner.bounded_path(repo_root, requested["state_path"]))
+            report["finalization"] = {"status": "pending", "errors": [], "candidate_path": path.relative_to(repo_root).as_posix(),
+                                      "successful_attempt_path": publication["attempt_path"]}
+            try:
+                report = finalize_success(repo_root, report, identity["successful_result"], emit_continuation_controller=requested["emit_continuation_controller"])
+            except Exception as exc:
+                return record_finalization_failure(repo_root, report, publication, "builders", exc, _locked=True)
+            # An accepted archive is never republished; current accepted was
+            # handled above and an old accepted archive must fail predecessor.
+            clean_publication = {key: value for key, value in publication.items() if key not in {"pending_checkpoint", "accepted_outputs"}}
+            return persist_finalization(repo_root, report,
+                state_path=owner.bounded_path(repo_root, requested["state_path"]),
+                write_resume=requested["write_resume"], resume_dir=Path(requested["resume_dir"]),
+                write_control=requested["write_control"], control_dir=Path(requested["control_dir"]),
+                emit_continuation_controller=requested["emit_continuation_controller"], publication=clean_publication, _locked=True)
+    except (OSError, ValueError, TypeError, KeyError) as exc:
+        goal = expected_identity.get("goal", "unknown") if isinstance(expected_identity, dict) else "unknown"
+        report = base_report(str(goal))
+        report["result"] = "BLOCKED"
+        report["blocked_reason"] = str(exc)
+        report["next_safe_action"] = "Preserve the candidate and revalidate its source/input/attempt identity before recovery."
+        return report
+
+
+def finalize_success(repo_root: Path, report: dict[str, Any], command_result: dict[str, Any], *, emit_continuation_controller: bool = False) -> dict[str, Any]:
+    goal = report["goal"]
+    selected_action = report["selected_action"]
+    repo_state = read_repo_state(repo_root)
+    cli_result_ingest = build_cli_result_ingest(command_result)
+    report["cli_result_ingest"] = cli_result_ingest
+    goal_decision = build_goal_decision(repo_root, goal)
+    report["goal_decision"] = goal_decision
+    if not goal_decision.get("decision_bridge_passed", False):
+        report["result"] = "blocked"
+        report["blocked_reason"] = goal_decision.get("reason_code", "goal_decision_bridge_failed")
+        report["next_safe_action"] = goal_decision.get(
+            "next_safe_action",
+            "Inspect the blocked Forex goal decision bridge output.",
+        )
+        return report
+    if selected_action in {
+        "validate_all_forex_with_risk_controls",
+        "validate_all_forex_with_risk_controls_and_execution_simulator",
+        "validate_all_forex_with_execution_ledger_integration",
+        "validate_all_forex_with_portfolio_state",
+        "validate_all_forex_with_session_controller",
+    }:
+        component_inventory = component_inventory_from_repo_state(repo_state)
+        post_risk_decision = build_post_risk_decision(component_inventory, goal)
+        report["post_risk_decision"] = post_risk_decision
+        if (
+            selected_action == "validate_all_forex_with_risk_controls_and_execution_simulator"
+            and not component_inventory["forex_execution_ledger_integration"]
+        ):
+            next_build_plan = build_execution_ledger_integration_plan(goal)
+        elif (
+            selected_action == "validate_all_forex_with_execution_ledger_integration"
+            and not component_inventory["forex_portfolio_state"]
+        ):
+            next_build_plan = build_portfolio_state_plan(goal)
+        elif (
+            selected_action == "validate_all_forex_with_portfolio_state"
+            and not component_inventory["forex_paper_session_controller"]
+        ):
+            next_build_plan = build_session_controller_plan(goal)
+        else:
+            next_build_plan = build_next_build_plan(post_risk_decision)
+    else:
+        next_build_plan = build_next_build_plan(goal_decision)
+    report["next_build_plan"] = next_build_plan
+    bounded_executor_handoff = build_bounded_executor_handoff(next_build_plan)
+    report["bounded_executor_handoff"] = bounded_executor_handoff
+    local_runner_bridge = build_local_runner_bridge(bounded_executor_handoff)
+    report["local_runner_bridge"] = local_runner_bridge
+    bounded_executor_ready = build_bounded_executor_ready(bounded_executor_handoff)
+    report["bounded_executor_ready"] = bounded_executor_ready
+    handoff_status = bounded_executor_handoff.get("handoff_status")
+    if (
+        handoff_status == "ready"
+        and local_runner_bridge.get("runner_status") == "preview_ready"
+        and bounded_executor_ready.get("status") == "ready_for_human_review"
+    ):
+        report["result"] = "DONE_FOR_CURRENT_GOAL"
+    elif handoff_status == "stopped":
+        report["result"] = "REVIEW_REQUIRED"
+    else:
+        report["result"] = "BLOCKED"
+        report["blocked_reason"] = bounded_executor_ready.get(
+            "reason_code",
+            bounded_executor_handoff.get("reason_code", "bounded_executor_handoff_blocked"),
+        )
+    report["next_safe_action"] = bounded_executor_handoff["next_safe_action"]
+    resume_state = build_resume_state(report)
+    report["resume_state"] = resume_state
+    operator_relay = build_operator_relay(resume_state, cli_result_ingest, next_build_plan)
+    report["operator_relay"] = operator_relay
+    control_plane_status = build_control_plane_status(
+        resume_state,
+        cli_result_ingest,
+        operator_relay,
+        local_runner_bridge,
+        bounded_executor_ready,
+    )
+    report["control_plane_status"] = control_plane_status
+    report["next_safe_action"] = control_plane_status.get(
+        "next_action",
+        bounded_executor_handoff["next_safe_action"],
+    )
+    if report["result"] == "DONE_FOR_CURRENT_GOAL" and control_plane_status.get("dashboard_ready") is not True:
+        report["result"] = "BLOCKED"
+        report["blocked_reason"] = "control_plane_not_dashboard_ready"
+        resume_state = build_resume_state(report)
+        report["resume_state"] = resume_state
+        operator_relay = build_operator_relay(resume_state, cli_result_ingest, next_build_plan)
+        report["operator_relay"] = operator_relay
+        control_plane_status = build_control_plane_status(
+            resume_state,
+            cli_result_ingest,
+            operator_relay,
+            local_runner_bridge,
+            bounded_executor_ready,
+        )
+        report["control_plane_status"] = control_plane_status
+        report["next_safe_action"] = control_plane_status.get(
+            "next_action",
+            bounded_executor_handoff["next_safe_action"],
+        )
+    if emit_continuation_controller:
+        mode_capability_registry = build_mode_capability_registry()
+        report["mode_capability_registry"] = mode_capability_registry
+        intent_route = build_intent_route(
+            goal,
+            resume_state,
+            report["control_plane_status"],
+            mode_capability_registry,
+        )
+        report["build_intent_route"] = intent_route
+        continuation_controller = build_continuation_controller(
+            resume_state,
+            report["control_plane_status"],
+            bounded_executor_handoff,
+            bounded_executor_ready,
+            mode_capability_registry,
+            user_goal=goal,
+            autonomous_job_state=report.get("autonomous_job_state"),
+        )
+        report["continuation_controller"] = continuation_controller
+        sos_escalation = build_sos_escalation(
+            {
+                "wake_result": report["result"],
+                "blocked_reason": report.get("blocked_reason"),
+                "build_intent_route": intent_route,
+                "continuation_controller": continuation_controller,
+                "control_plane_status": report["control_plane_status"],
+                "bounded_executor_ready": bounded_executor_ready,
+            }
+        )
+        report["sos_escalation"] = sos_escalation
+        if sos_escalation.get("sos_required") is True:
+            report["result"] = "BLOCKED"
+            report["blocked_reason"] = sos_escalation.get("stop_reason", "sos_required")
+            report["next_safe_action"] = sos_escalation.get(
+                "next_safe_action",
+                continuation_controller.get("next_safe_action", report["next_safe_action"]),
+            )
+        else:
+            report["next_safe_action"] = continuation_controller.get(
+                "next_safe_action",
+                report["next_safe_action"],
+            )
+        if continuation_controller.get("codex_packet_required") is True:
+            report["codex_packet_preview"] = build_codex_packet_preview(
+                continuation_controller,
+                mode_capability_registry,
+                bounded_executor_handoff,
+            )
+    attach_self_build_loop_readiness(report)
+
+    return report
 
 
 def run_wake_continue(
@@ -1120,8 +1526,33 @@ def run_wake_continue(
     write_control_plane_status_requested: bool = False,
     control_plane_dir: Path | None = None,
     emit_continuation_controller: bool = False,
+    autonomous_job_state: dict[str, Any] | None = None,
+    continuation_inputs: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     report = base_report(goal)
+    # Current stop evidence is a veto, never positive execution authority.
+    # Evaluate it before state discovery, command adapters or output writes.
+    if autonomous_job_state is not None or continuation_inputs is not None:
+        context = continuation_inputs if isinstance(continuation_inputs, dict) else {}
+        controller = build_continuation_controller(
+            context.get("resume_state", {}),
+            context.get("control_plane_status", {}),
+            context.get("bounded_executor_handoff", {}),
+            context.get("bounded_executor_ready", {}),
+            context.get("mode_registry", {}),
+            user_goal=goal, autonomous_job_state=autonomous_job_state,
+        )
+        report["continuation_controller"] = controller
+        if controller.get("stop_reason_class") or controller.get("action_type") in {"human_review", "sos_stop"}:
+            report["result"] = "blocked"
+            report["blocked_reason"] = controller.get("reason_code", "continuation_preflight_blocked")
+            report["stop_reason_class"] = controller.get("stop_reason_class") or "SAFETY_INTEGRITY_BLOCK"
+            report["next_safe_action"] = controller.get("next_safe_action", "Reconcile current stop evidence.")
+            return report
+        # Existing report persistence/recovery owns these immutable input bytes.
+        # No finalization request/profile or native API contract is extended.
+        report["autonomous_job_state"] = json.loads(json.dumps(autonomous_job_state))
+        report["continuation_inputs"] = json.loads(json.dumps(context))
     state_path = state_path or default_state_path()
     report["state_path"] = str(state_path)
 
@@ -1154,206 +1585,54 @@ def run_wake_continue(
             return report
 
         command = command_for_action(selected_action, max_repairs)
+        validated_snapshot = execution_input_snapshot(repo_root)
         command_result = runner(command, repo_root)
         report["commands_run"].append(command_result)
         if selected_action.startswith("validate_"):
             report["validators_run"].append(command_result)
 
-        if command_result.get("passed", False):
-            if selected_action.startswith("build_"):
-                continue
-            cli_result_ingest = build_cli_result_ingest(command_result)
-            report["cli_result_ingest"] = cli_result_ingest
-            goal_decision = build_goal_decision(repo_root, goal)
-            report["goal_decision"] = goal_decision
-            if not goal_decision.get("decision_bridge_passed", False):
-                report["result"] = "blocked"
-                report["blocked_reason"] = goal_decision.get("reason_code", "goal_decision_bridge_failed")
-                report["next_safe_action"] = goal_decision.get(
-                    "next_safe_action",
-                    "Inspect the blocked Forex goal decision bridge output.",
-                )
-                write_state(state_path, report)
-                return report
-            if selected_action in {
-                "validate_all_forex_with_risk_controls",
-                "validate_all_forex_with_risk_controls_and_execution_simulator",
-                "validate_all_forex_with_execution_ledger_integration",
-                "validate_all_forex_with_portfolio_state",
-                "validate_all_forex_with_session_controller",
-            }:
-                component_inventory = component_inventory_from_repo_state(repo_state)
-                post_risk_decision = build_post_risk_decision(component_inventory, goal)
-                report["post_risk_decision"] = post_risk_decision
-                if (
-                    selected_action == "validate_all_forex_with_risk_controls_and_execution_simulator"
-                    and not component_inventory["forex_execution_ledger_integration"]
-                ):
-                    next_build_plan = build_execution_ledger_integration_plan(goal)
-                elif (
-                    selected_action == "validate_all_forex_with_execution_ledger_integration"
-                    and not component_inventory["forex_portfolio_state"]
-                ):
-                    next_build_plan = build_portfolio_state_plan(goal)
-                elif (
-                    selected_action == "validate_all_forex_with_portfolio_state"
-                    and not component_inventory["forex_paper_session_controller"]
-                ):
-                    next_build_plan = build_session_controller_plan(goal)
-                else:
-                    next_build_plan = build_next_build_plan(post_risk_decision)
-            else:
-                next_build_plan = build_next_build_plan(goal_decision)
-            report["next_build_plan"] = next_build_plan
-            bounded_executor_handoff = build_bounded_executor_handoff(next_build_plan)
-            report["bounded_executor_handoff"] = bounded_executor_handoff
-            local_runner_bridge = build_local_runner_bridge(bounded_executor_handoff)
-            report["local_runner_bridge"] = local_runner_bridge
-            bounded_executor_ready = build_bounded_executor_ready(bounded_executor_handoff)
-            report["bounded_executor_ready"] = bounded_executor_ready
-            handoff_status = bounded_executor_handoff.get("handoff_status")
-            if (
-                handoff_status == "ready"
-                and local_runner_bridge.get("runner_status") == "preview_ready"
-                and bounded_executor_ready.get("status") == "ready_for_human_review"
-            ):
-                report["result"] = "DONE_FOR_CURRENT_GOAL"
-            elif handoff_status == "stopped":
-                report["result"] = "REVIEW_REQUIRED"
-            else:
-                report["result"] = "BLOCKED"
-                report["blocked_reason"] = bounded_executor_ready.get(
-                    "reason_code",
-                    bounded_executor_handoff.get("reason_code", "bounded_executor_handoff_blocked"),
-                )
-            report["next_safe_action"] = bounded_executor_handoff["next_safe_action"]
-            resume_state = build_resume_state(report)
-            report["resume_state"] = resume_state
-            operator_relay = build_operator_relay(resume_state, cli_result_ingest, next_build_plan)
-            report["operator_relay"] = operator_relay
-            control_plane_status = build_control_plane_status(
-                resume_state,
-                cli_result_ingest,
-                operator_relay,
-                local_runner_bridge,
-                bounded_executor_ready,
-            )
-            report["control_plane_status"] = control_plane_status
-            report["next_safe_action"] = control_plane_status.get(
-                "next_action",
-                bounded_executor_handoff["next_safe_action"],
-            )
-            if report["result"] == "DONE_FOR_CURRENT_GOAL" and control_plane_status.get("dashboard_ready") is not True:
-                report["result"] = "BLOCKED"
-                report["blocked_reason"] = "control_plane_not_dashboard_ready"
-                resume_state = build_resume_state(report)
-                report["resume_state"] = resume_state
-                operator_relay = build_operator_relay(resume_state, cli_result_ingest, next_build_plan)
-                report["operator_relay"] = operator_relay
-                control_plane_status = build_control_plane_status(
-                    resume_state,
-                    cli_result_ingest,
-                    operator_relay,
-                    local_runner_bridge,
-                    bounded_executor_ready,
-                )
-                report["control_plane_status"] = control_plane_status
-                report["next_safe_action"] = control_plane_status.get(
-                    "next_action",
-                    bounded_executor_handoff["next_safe_action"],
-                )
-            if emit_continuation_controller:
-                mode_capability_registry = build_mode_capability_registry()
-                report["mode_capability_registry"] = mode_capability_registry
-                intent_route = build_intent_route(
-                    goal,
-                    resume_state,
-                    report["control_plane_status"],
-                    mode_capability_registry,
-                )
-                report["build_intent_route"] = intent_route
-                continuation_controller = build_continuation_controller(
-                    resume_state,
-                    report["control_plane_status"],
-                    bounded_executor_handoff,
-                    bounded_executor_ready,
-                    mode_capability_registry,
-                    user_goal=goal,
-                )
-                report["continuation_controller"] = continuation_controller
-                sos_escalation = build_sos_escalation(
-                    {
-                        "wake_result": report["result"],
-                        "blocked_reason": report.get("blocked_reason"),
-                        "build_intent_route": intent_route,
-                        "continuation_controller": continuation_controller,
-                        "control_plane_status": report["control_plane_status"],
-                        "bounded_executor_ready": bounded_executor_ready,
-                    }
-                )
-                report["sos_escalation"] = sos_escalation
-                if sos_escalation.get("sos_required") is True:
-                    report["result"] = "BLOCKED"
-                    report["blocked_reason"] = sos_escalation.get("stop_reason", "sos_required")
-                    report["next_safe_action"] = sos_escalation.get(
-                        "next_safe_action",
-                        continuation_controller.get("next_safe_action", report["next_safe_action"]),
-                    )
-                else:
-                    report["next_safe_action"] = continuation_controller.get(
-                        "next_safe_action",
-                        report["next_safe_action"],
-                    )
-                if continuation_controller.get("codex_packet_required") is True:
-                    report["codex_packet_preview"] = build_codex_packet_preview(
-                        continuation_controller,
-                        mode_capability_registry,
-                        bounded_executor_handoff,
-                    )
-            attach_self_build_loop_readiness(report)
-            if write_resume_state_requested:
-                try:
-                    resume_state = write_resume_state(repo_root, resume_state, resume_state_dir)
-                except (FileExistsError, ValueError) as exc:
-                    report["result"] = "BLOCKED"
-                    report["blocked_reason"] = str(exc)
-                    report["next_safe_action"] = "Stop and repair resume-state persistence before continuing."
-                    write_state(state_path, report)
-                    return report
-                report["resume_state"] = resume_state
-                report["resume_state_paths"] = resume_state.get("resume_state_paths")
-            if write_control_plane_status_requested:
-                try:
-                    control_plane_status = write_control_plane_status(
-                        repo_root,
-                        report["control_plane_status"],
-                        control_plane_dir,
-                    )
-                except ValueError as exc:
-                    report["result"] = "BLOCKED"
-                    report["blocked_reason"] = str(exc)
-                    report["next_safe_action"] = "Stop and repair control-plane status persistence before continuing."
-                    write_state(state_path, report)
-                    return report
-                report["control_plane_status"] = control_plane_status
-                report["control_plane_status_path"] = control_plane_status.get("control_plane_status_path")
-            write_state(state_path, report)
-            return report
-
-        while report["repair_attempts"] < max_repairs:
+        successful_result = command_result if command_result.get("passed") is True and command_result.get("returncode") == 0 else None
+        while successful_result is None and report["repair_attempts"] < max_repairs:
             report["repair_attempts"] += 1
             repair_command = command_for_action("build_forex_decision_policy", max_repairs)
             repair_result = runner(repair_command, repo_root)
             report["commands_run"].append(repair_result)
+            if repair_result.get("passed") is not True or repair_result.get("returncode") != 0:
+                continue
+            validated_snapshot = execution_input_snapshot(repo_root)
             retry_result = runner(command, repo_root)
             report["commands_run"].append(retry_result)
             if selected_action.startswith("validate_"):
                 report["validators_run"].append(retry_result)
-            if retry_result.get("passed", False):
-                report["result"] = "passed"
-                report["next_safe_action"] = "Review local changes. Commit and push still require approval."
+            if retry_result.get("passed") is True and retry_result.get("returncode") == 0:
+                successful_result = retry_result
+
+        if successful_result is not None:
+            if selected_action.startswith("build_"):
+                continue
+            if execution_input_snapshot(repo_root) != validated_snapshot:
+                report["result"] = "BLOCKED"
+                report["blocked_reason"] = "execution_inputs_changed_during_validation"
+                report["next_safe_action"] = "Revalidate the changed inputs before accepting this attempt."
                 write_state(state_path, report)
                 return report
+            report["execution_identity"] = execution_identity(repo_root, report, command, successful_result)
+            publication = None
+            try:
+                requested = finalization_request(repo_root, state_path=state_path, write_resume=write_resume_state_requested,
+                    resume_dir=resume_state_dir, write_control=write_control_plane_status_requested, control_dir=control_plane_dir,
+                    emit_continuation_controller=emit_continuation_controller)
+                publication = capture_finalization(repo_root, report, requested)
+            except (OSError, ValueError, TypeError, KeyError) as exc:
+                return record_finalization_failure(repo_root, report, publication, "attempt_capture", exc)
+            try:
+                report = finalize_success(repo_root, report, successful_result, emit_continuation_controller=emit_continuation_controller)
+            except Exception as exc:
+                return record_finalization_failure(repo_root, report, publication, "builders", exc)
+            return persist_finalization(repo_root, report, state_path=state_path,
+                write_resume=write_resume_state_requested, resume_dir=resume_state_dir,
+                write_control=write_control_plane_status_requested, control_dir=control_plane_dir,
+                emit_continuation_controller=emit_continuation_controller, publication=publication)
 
         report["result"] = "failed"
         report["next_safe_action"] = "Inspect command output before another bounded repair."
@@ -1403,6 +1682,135 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(json.dumps(report, indent=2, sort_keys=False))
     return 0 if report["result"] in {"DONE_FOR_CURRENT_GOAL", "REVIEW_REQUIRED", "passed", "preview_only", "blocked", "BLOCKED", "max_cycles_reached"} else 1
+
+
+def capture_native_finalization(repo_root, *, admitted_context, validation_record, requested, native_admission_reader):
+    """Capture complete authenticated validation before any projection builder."""
+    from automation.orchestration.relay import aios_self_consuming_codex_cycle_v1 as cycle
+    owner = resume_owner()
+    data = cycle._native_admitted(admitted_context, native_admission_reader)
+    if not cycle.strict_json_equal(requested, data["requested"]) or requested.get("write_resume") is not True:
+        raise ValueError("native_projection_admission_mismatch")
+    owner._native_selected_owner(repo_root, admitted_context, native_admission_reader)
+    cycle._verify_native_result(data, validation_record)
+    identity = None
+    try:
+        identity = cycle.native_execution_identity(repo_root, admitted_context, validation_record,
+            native_admission_reader=native_admission_reader, live=True)
+        minimal = {"schema": "AIOS_NATIVE_FINALIZATION.v1", "execution_identity": identity,
+                   "requirement_request": identity["requirement_request"]}
+        path, _ = owner.capture_successful_attempt(repo_root, minimal, identity, requested,
+            admitted_context=admitted_context, native_admission_reader=native_admission_reader)
+    except Exception as exc:
+        prepared = getattr(exc, "native_prepared_attempt", None)
+        report = {"schema": "AIOS_NATIVE_FINALIZATION.v1", "result": "BLOCKED", "execution_identity": identity,
+                  "validation_record": validation_record, "native_context_json": admitted_context.context_json,
+                  "finalization": {"status": "incomplete", "errors": []}, "prepared_native_attempt": prepared}
+        report = record_finalization_failure(repo_root, report, prepared or {"requested": requested},
+            "native_attempt_capture", exc, _immutable_only=True)
+        exc.native_failure_report = report
+        raise
+    return path
+
+
+def _build_native_projection(attempt):
+    return resume_owner()._native_state_semantic(attempt)
+
+
+def _persist_native_finalization(repo_root, path, *, admitted_context, native_admission_reader):
+    owner = resume_owner()
+    from automation.orchestration.relay import aios_self_consuming_codex_cycle_v1 as cycle
+    attempt = owner._load_native_attempt(repo_root, path, admitted_context=admitted_context,
+        native_admission_reader=native_admission_reader, live=False)
+    publication = {**attempt, "attempt_path": Path(path).relative_to(repo_root).as_posix()}
+    report = {"schema": "AIOS_NATIVE_FINALIZATION.v1", "result": "PENDING",
+        "execution_identity": attempt["execution_identity"],
+        "finalization": {"status": "pending", "errors": [], "candidate_path": publication["attempt_path"],
+                         "successful_attempt_path": publication["attempt_path"]}}
+    target = owner._resolve_output_dir(repo_root, attempt["requested"]["resume_dir"])
+    try:
+        # Readback/noop before freshness checks: historical A must not recheck
+        # old target bytes after B legitimately replaced them.
+        accepted = owner.load_native_requirement(repo_root, output_dir=target, expected_request=admitted_context.request,
+            admitted_context=admitted_context, native_admission_reader=native_admission_reader)
+        if accepted is not None:
+            report.update(result="COMPLETE", resume_state=accepted)
+            report["finalization"]["status"] = "complete"
+            return report
+        with owner.publication_lock(target):
+            owner._native_assert_predecessor(repo_root, target, attempt["predecessor_sha256"])
+            owner._verify_native_identity(repo_root, attempt["execution_identity"], admitted_context, native_admission_reader, live=True)
+            state = _build_native_projection(attempt)
+            state["publication"] = publication
+            def write_projections(candidate):
+                outputs = []
+                projection = owner._native_generic_projection(attempt, candidate)
+                for output in owner.requested_projections(repo_root, attempt["requested"]):
+                    if output["role"] != "generic":
+                        raise ValueError("native_initial_projection_profile_invalid")
+                    destination = cycle._native_nonprivate_path(str(repo_root / output["path"]), anchor=cycle.bound_path(str(repo_root)))
+                    owner.atomic_write(destination, owner.serialized_bytes(projection))
+                    outputs.append({**output, "sha256": owner.file_hash(destination)})
+                return outputs
+            accepted = owner.publish_resume_state(repo_root, state, write_projections, output_dir=target, _locked=True,
+                admitted_context=admitted_context, native_admission_reader=native_admission_reader)
+        verified = owner.load_native_requirement(repo_root, output_dir=target, expected_request=admitted_context.request,
+            admitted_context=admitted_context, native_admission_reader=native_admission_reader)
+        if not cycle.strict_json_equal(accepted, verified):
+            raise ValueError("native_committed_readback_mismatch")
+        report.update(result="COMPLETE", resume_state=verified)
+        report["finalization"]["status"] = "complete"
+        return report
+    except Exception as exc:
+        return record_finalization_failure(repo_root, report, publication, "native_publication", exc, _immutable_only=True)
+
+
+def publish_native_requirement(repo_root, *, admitted_context, execution_capture_path, execution_capture_sha256,
+                               validation_record, requested, native_admission_reader):
+    """Finalize only; this function runs neither a provider nor a validator."""
+    from automation.orchestration.relay import aios_self_consuming_codex_cycle_v1 as cycle
+    owner = resume_owner()
+    data = cycle._native_admitted(admitted_context, native_admission_reader)
+    expected = data["evidence"]["capture"]
+    if str(owner.bounded_path(repo_root, execution_capture_path)) != expected["path"] or execution_capture_sha256 != expected["sha256"]:
+        raise ValueError("native_capture_argument_mismatch")
+    # This entry receives the caller's complete authentic process/result, not a
+    # receipt filename from which process success could be reconstructed.
+    path = owner._existing_native_attempt(repo_root, admitted_context=admitted_context, native_admission_reader=native_admission_reader)
+    if path is None:
+        try:
+            path = capture_native_finalization(repo_root, admitted_context=admitted_context, validation_record=validation_record,
+                requested=requested, native_admission_reader=native_admission_reader)
+        except Exception as exc:
+            if hasattr(exc, "native_failure_report"):
+                return exc.native_failure_report
+            raise
+    return _persist_native_finalization(repo_root, path, admitted_context=admitted_context, native_admission_reader=native_admission_reader)
+
+
+def recover_native_finalization(repo_root, candidate_path, *, admitted_context, native_admission_reader):
+    owner = resume_owner()
+    cycle = owner._native_cycle()
+    target = owner._native_selected_owner(repo_root, admitted_context, native_admission_reader)
+    kind = "failure" if Path(candidate_path).name.startswith("AIOS_RESUME_FAILURE_") else "attempt"
+    path = owner._native_owner_path(repo_root, candidate_path, target, kind)
+    if kind == "failure":
+        raw = cycle._native_file(path)
+        if path.name != "AIOS_RESUME_FAILURE_" + hashlib.sha256(raw).hexdigest() + ".json":
+            raise ValueError("native_failure_evidence_content_mismatch")
+        failure = cycle._native_json(raw)
+        prepared = failure.get("prepared_native_attempt") if type(failure) is dict else None
+        if type(prepared) is not dict or type(prepared.get("attempt_path")) is not str:
+            raise ValueError("native_failure_complete_attempt_missing_no_replay")
+        record = {key: value for key, value in prepared.items() if key != "attempt_path"}
+        path = owner._native_owner_path(repo_root, prepared["attempt_path"], target, "attempt")
+        owner._validate_native_attempt_record(repo_root, record, path, admitted_context=admitted_context,
+            native_admission_reader=native_admission_reader, live=True)
+        with owner.publication_lock(target):
+            owner._native_assert_predecessor(repo_root, target, record["predecessor_sha256"])
+            owner.immutable_write(path, owner.serialized_bytes(record))
+    return _persist_native_finalization(repo_root, path,
+        admitted_context=admitted_context, native_admission_reader=native_admission_reader)
 
 
 if __name__ == "__main__":

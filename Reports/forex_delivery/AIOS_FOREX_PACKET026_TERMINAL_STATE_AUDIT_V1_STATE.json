@@ -1,0 +1,19 @@
+{
+  "architecture_expansion_required": true,
+  "common_scorer_defect_verdict": "COMMON_SCORER_DEFECT_NOT_FOUND_BY_STATIC_AND_FIXTURE_AUDIT",
+  "packet026_exact_registry_valid": true,
+  "packet_id": "PKT-EAST-FOREX-NEXT-GENERATION-PROFITABILITY-027",
+  "rationale": "Packet 026 terminal state is supported for the exact 10 candidates scored, but the implemented registry under-produced relative to the wider architecture space authorized for Packet 027.",
+  "schema": "AIOS_FOREX_PACKET026_TERMINAL_STATE_AUDIT_V1_STATE",
+  "scorer_audit": {
+    "common_defect_found": false,
+    "direction_mapping": "LONG ask/bid and SHORT bid/ask path present",
+    "entry_timing": "next-bar style simulation path inspected in Packet 026 scorer",
+    "partition_routing": "Development 2005-2018, Validation 2019-2021, Holdout 2022-2023, Recent 2024-2026 path present",
+    "same_bar_precedence": "stop-first barrier order present",
+    "warmup": "warmup guard present"
+  },
+  "state_hash": "ca5cd71d97e8262ffaecf142393ee0c662ab6cc3017befa1b86469ae19615bd4",
+  "status": "COMPLETE",
+  "verdict": "TERMINAL_STATE_VALID_FOR_PACKET026_REGISTRY_ONLY"
+}

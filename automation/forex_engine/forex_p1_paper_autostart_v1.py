@@ -64,6 +64,7 @@ LOCK_RECOVERY_RECEIPT_FIELDS = frozenset(
         "owner_state", "recovery_reason",
     }
 )
+_BOOT_IDENTITY_CACHE: str | None = None
 
 
 @dataclass(frozen=True)
@@ -197,11 +198,21 @@ def _host_identity() -> str:
 
 
 def _boot_identity() -> str:
+    global _BOOT_IDENTITY_CACHE
+    if _BOOT_IDENTITY_CACHE is not None:
+        return _BOOT_IDENTITY_CACHE
     if os.name == "nt":
         script = (
             "$ErrorActionPreference='Stop';"
-            "(Get-CimInstance Win32_OperatingSystem -ErrorAction Stop)."
-            "LastBootUpTime.ToUniversalTime().ToString('o')"
+            "try {"
+            "$boot=(Get-CimInstance Win32_OperatingSystem -ErrorAction Stop)."
+            "LastBootUpTime.ToUniversalTime();"
+            "$boot.ToString('o')"
+            "} catch {"
+            "try {$uptime=[int64]([Environment]::TickCount64)} catch {"
+            "$uptime=[int64]([uint32]([Environment]::TickCount))};"
+            "[DateTime]::UtcNow.Subtract([TimeSpan]::FromMilliseconds($uptime)).ToString('o')"
+            "}"
         )
         try:
             result = subprocess.run(
@@ -214,12 +225,14 @@ def _boot_identity() -> str:
         if result.returncode != 0 or not result.stdout.strip():
             raise RuntimeError("RUNTIME_LOCK_BOOT_IDENTITY_UNAVAILABLE")
         try:
-            return _stamp(_parse_lock_utc(result.stdout.strip()))
+            _BOOT_IDENTITY_CACHE = _stamp(_parse_lock_utc(result.stdout.strip()))
+            return _BOOT_IDENTITY_CACHE
         except ValueError:
             raise RuntimeError("RUNTIME_LOCK_BOOT_IDENTITY_UNAVAILABLE") from None
     for line in Path("/proc/stat").read_text(encoding="utf-8").splitlines():
         if line.startswith("btime "):
-            return line.split(maxsplit=1)[1]
+            _BOOT_IDENTITY_CACHE = line.split(maxsplit=1)[1]
+            return _BOOT_IDENTITY_CACHE
     raise RuntimeError("RUNTIME_LOCK_BOOT_IDENTITY_UNAVAILABLE")
 
 

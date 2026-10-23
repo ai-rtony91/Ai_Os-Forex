@@ -4,7 +4,7 @@
   "description": "Owns workflow state, dispatch, approvals, audit logs.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test ../../tests/services/*.test.js ../../tests/orchestrator/*.test.js"
   },
   "keywords": [],
   "author": "",
@@ -12,7 +12,7 @@
   "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.6",
-    "express": "^5.2.1",
-    "multer": "^2.4.0"
+    "express": "^5.3.0",
+    "multer": "^2.5.0"
   }
 }

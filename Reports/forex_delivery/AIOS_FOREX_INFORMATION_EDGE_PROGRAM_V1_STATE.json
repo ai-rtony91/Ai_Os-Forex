@@ -1,0 +1,128 @@
+{
+  "alternate_safe_actions": [],
+  "bootstrap": {},
+  "candidate_count": 0,
+  "completed_work_units": 0,
+  "continuation_active": false,
+  "current_action": "information-edge exhaustion",
+  "current_phase": "TERMINAL_REPORT",
+  "deferred_blockers": [],
+  "development": {},
+  "development_passers": [],
+  "dominant_failure": "NO_INCREMENTAL_INFORMATION_FAMILY",
+  "external_time_dependency": false,
+  "family_screening": {
+    "A_POLICY_CARRY": {
+      "eligible": false,
+      "pass": false,
+      "reason": "All frozen policy series timed out; no lawful substitute used"
+    },
+    "B_CFTC_POSITIONING": {
+      "eligible": true,
+      "fold_lift": [
+        -0.11647639679980896,
+        0.12513511625993898,
+        -0.2291368888648386,
+        0.06588340240429477,
+        0.015462663528309334,
+        0.026550898856034955,
+        -0.07346018469879591,
+        -0.05369628913998723
+      ],
+      "mean_signed_future_atr": -0.017443241090414712,
+      "pass": false,
+      "positive_folds": 4,
+      "samples": 21950
+    },
+    "C_MACRO_EVENT_STATE": {
+      "eligible": false,
+      "pass": false,
+      "reason": "No frozen first-release vintage archive"
+    },
+    "D_GLOBAL_RISK_LIQUIDITY": {
+      "eligible": true,
+      "fold_lift": [
+        -1.0482988802582172,
+        0.08710952341756738,
+        -0.29993869927056377,
+        -0.09368736453287625,
+        0.41567869026362736,
+        0.10974604985544088,
+        -0.2799497413180278,
+        0.13095796760318315
+      ],
+      "mean_signed_future_atr": 0.0071023586755683535,
+      "pass": false,
+      "positive_folds": 4,
+      "samples": 7253
+    },
+    "E_LONG_HORIZON": {
+      "eligible": true,
+      "fold_lift": [
+        -0.14268062007561308,
+        0.07533555749078139,
+        -0.051026167216347555,
+        -0.17792584426482186,
+        0.14193947195312484,
+        -0.09619452926067354,
+        0.11899518048809585,
+        -0.05185871824555696
+      ],
+      "mean_signed_future_atr": -0.0068558521585890785,
+      "pass": false,
+      "positive_folds": 3,
+      "samples": 25462
+    },
+    "F_COMBINED_INFORMATION": {
+      "eligible": false,
+      "pass": false,
+      "reason": "Fewer than two individual information families passed"
+    }
+  },
+  "feature_hash": "ee3bfce8e5a87431de4f0bfa03e2ca6576f3b2646550b8d3a8103fa8e6a46c33",
+  "finalists": [],
+  "hard_stop_certificate": {
+    "alternate_safe_actions": [],
+    "continuation_queue_empty": true,
+    "distinct_repair_attempts": 1,
+    "external_dependency": false,
+    "pre_terminal_audit_status": "PASS",
+    "protected_owner_action": false,
+    "remaining_authorized_work_count": 0,
+    "same_packet_resume_command": "NONE",
+    "terminal_state": "INFORMATION_EDGE_NOT_FOUND",
+    "terminal_state_evidence": "Every frozen eligible information family failed the predeclared Development screening threshold; zero candidates were eligible for construction.",
+    "why_same_run_cannot_continue": "Candidate construction from a falsified information family is prohibited; unavailable sources cannot be replaced with non-point-in-time data."
+  },
+  "information_corpus_hash": "57da729226ebd675d7c79f182510f0612fc2f93cd0f20a05abed64243163d854",
+  "last_material_state_change_utc": "2026-08-29T15:14:56.862040+00:00",
+  "lock_id": "AIOS-LOCK-f1b2dccc1a1c40c98ec4af8c9012de39",
+  "market_hash": "44bad0bb22fa88771c824c2c91551fef7116a458d5d7fee7039f5f87c76dac6a",
+  "next_action": "NONE",
+  "next_three_actions": [],
+  "packet_id": "PKT-EAST-FOREX-INFORMATION-EDGE-TO-FUNDING-013",
+  "pre_terminal_audit_status": "PASS",
+  "protected_owner_action_dependency": false,
+  "registry_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "registry_null": {
+    "best_expectancy_95pct": 0,
+    "repetitions": 500
+  },
+  "remaining_authorized_work_count": 0,
+  "remaining_work_units": 0,
+  "safety": {
+    "broker_write": false,
+    "credentials": false,
+    "funding": false,
+    "live": false,
+    "money_movement": false,
+    "practice_order": false
+  },
+  "same_packet_resume_command": "NONE",
+  "schema": "AIOS_FOREX_INFORMATION_EDGE_PROGRAM_V1",
+  "sealed_holdout": {},
+  "shortlist_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "status": "INFORMATION_EDGE_NOT_FOUND",
+  "terminal_state_candidate": "INFORMATION_EDGE_NOT_FOUND",
+  "validation": {}
+}

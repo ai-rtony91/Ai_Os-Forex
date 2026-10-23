@@ -3,7 +3,7 @@
 from automation.forex_engine.analytics import ForexAnalytics
 from automation.forex_engine.confidence import ConfidenceEngine
 from automation.forex_engine.config import ForexEngineConfig
-from automation.forex_engine.costs import TradeCostAssumptions, apply_cost_to_pnl, conservative_entry_price
+from automation.forex_engine.costs import CostApplicationModel, TradeCostAssumptions, apply_cost_to_pnl
 from automation.forex_engine.market_data import load_fixture_candles, validate_candle_sequence
 from automation.forex_engine.metrics import calculate_edge_metrics
 from automation.forex_engine.models import (
@@ -275,14 +275,19 @@ def run_supertrend_edge_backtest(
             index += 1
             continue
         position_size_units = risk_per_trade_usd / risk_distance
-        entry_price = conservative_entry_price(signal.direction, signal.entry_price, cost_assumptions)
+        entry_price = signal.entry_price
         exit_index, exit_price, close_reason = _find_supertrend_exit(source_candles, index + 1, signal)
         if exit_index is None:
             exit_index = len(source_candles) - 1
             exit_price = source_candles[-1].close
             close_reason = END_OF_BACKTEST
         raw_pnl = _raw_pnl(signal.direction, entry_price, exit_price, position_size_units)
-        pnl = apply_cost_to_pnl(raw_pnl, position_size_units, cost_assumptions)
+        pnl = apply_cost_to_pnl(
+            raw_pnl,
+            position_size_units,
+            cost_assumptions,
+            CostApplicationModel.RAW_REFERENCE_EXPLICIT_COST,
+        )
         trades.append(
             {
                 "strategy_name": SUPERTREND_PULLBACK_V1,

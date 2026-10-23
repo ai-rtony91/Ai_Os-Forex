@@ -1,0 +1,62 @@
+{
+    "schema":  "AIOS_PACKET_APPROVAL_REQUEST.v1",
+    "approval_gate_id":  "PKT045-CERTIFICATION-OCC89-20260916",
+    "approval_request_id":  "PKT045-CERTIFICATION-OCC89-20260916",
+    "packet_id":  "PKT-FOREX-045",
+    "packet_name":  "Existing PKT-045 local certification only",
+    "zone":  "EAST",
+    "worker_identity":  "EAST_OCC_89",
+    "lane":  "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+    "requested_action":  "RUN_PKT045_POST_ACQUISITION_CERTIFICATION",
+    "requested_mode":  "APPLY",
+    "approved_mode":  "APPLY",
+    "approval_status":  "approved_for_apply",
+    "approved_by_human":  true,
+    "approval_authority":  "Anthony, Human Owner",
+    "created_at_utc":  "2026-09-16T19:12:31.668255+00:00",
+    "expires_at_utc":  "2026-09-17T01:12:31.668255+00:00",
+    "allowed_paths":  [
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045\\postacq_occ89_20260916\\certification_stage",
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045\\postacq_occ89_20260916\\shared_allocation"
+                      ],
+    "blocked_paths":  [
+                          "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045\\stage1_occ84",
+                          "C:\\Dev\\Ai.Os\\data",
+                          "C:\\Dev\\Ai.Os\\datasets",
+                          "C:\\Dev\\Ai.Os\\broker",
+                          "C:\\Dev\\Ai.Os\\oanda",
+                          "C:\\Dev\\Ai.Os\\secrets",
+                          "C:\\Dev\\Ai.Os\\credentials",
+                          "C:\\Dev\\Ai.Os\\docs\\governance"
+                      ],
+    "validator_chain":  [
+                            "Pinned existing Human Owner verifier",
+                            "Exact input and code hashes; raw receipt-set seal",
+                            "Canonical output ownership and resource limits",
+                            "PKT045_CONTINUATION_BUNDLE_SHA256=324872303a10b86c64a5ba07c740b9bb63d1e2957000511c29704f9b78b7412c"
+                        ],
+    "stop_point":  "Certification finished or authority, identity, integrity, resource, or deadline failure; no scoring or later stages",
+    "approval_evidence":  {
+                              "type":  "HMAC_SHA256",
+                              "status":  "SIGNED_BY_HUMAN_OWNER",
+                              "canonical_payload_schema":  "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v1",
+                              "canonical_payload_sha256":  "d851d5528c10c6451dbc97727ffadc79cfd6e3f2fedaa8bf6dc061c3d5c148a0",
+                              "approval_hmac_sha256":  "0f5d63fd12b163a2d6c60d95bcf49fc3defea0c4af063b6cad17c6a2d1d4a2de",
+                              "approval_nonce":  "44ba530109ce4ca8b3ebcb38c1ab410b",
+                              "key_id":  "AIOS-HUMAN-OWNER-PRIMARY-V1",
+                              "key_version":  1,
+                              "key_fingerprint_sha256":  "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786"
+                          },
+    "commit_package_required":  false,
+    "push_blocked_until_final_review":  true,
+    "mission_id":  "MISSION-AIOS-001",
+    "mission_name":  "AIOS Governed Self-Building Operating System",
+    "program_id":  "PRG-FOREX-001",
+    "program_name":  "AIOS Forex Supervised Operational Validation Program V1",
+    "epic_id":  "EPC-FOREX-002",
+    "epic_name":  "Strategy Intelligence V1",
+    "bucket_id":  "BKT-FOREX-003",
+    "bucket_name":  "Strategy Validation V1",
+    "approval_timestamp_utc":  "2026-09-16T19:37:24.2588890+00:00",
+    "approved_by":  "Anthony, Human Owner"
+}

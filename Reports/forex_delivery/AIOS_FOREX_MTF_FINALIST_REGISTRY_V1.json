@@ -1,0 +1,13 @@
+{
+  "finalist_count": 0,
+  "finalists": [],
+  "live_opened": false,
+  "max_long_finalists": 6,
+  "max_short_finalists": 6,
+  "packet_id": "PKT-EAST-FOREX-MTF-GROSS-EDGE-DISCOVERY-032",
+  "paper_opened": false,
+  "registry_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "schema": "AIOS_FOREX_MTF_FINALIST_REGISTRY.v1",
+  "status": "NO_FINALISTS",
+  "validation_opened": false
+}

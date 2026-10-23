@@ -1,18 +1,21 @@
 {
   "candidate_bridge_status": "PROOF_BUNDLE_COMPLETE",
   "candidate_bridge_verdict": "REJECTED",
-  "candidate_demo_review_blockers": [],
-  "candidate_demo_review_next_safe_action": "Prepare demo-review packet with consolidated proof bundle.",
-  "candidate_demo_review_verdict": "DEMO_REVIEW_READY",
+  "candidate_demo_review_blockers": [
+    "missing_replay_proof",
+    "missing_reconciliation_proof",
+    "missing_rollback_proof",
+    "missing_demo_validation_proof",
+    "paper_evidence_not_ready",
+    "insufficient_sample"
+  ],
+  "candidate_demo_review_next_safe_action": "Collect missing/valid proofs and refresh stale evidence before rerunning review.",
+  "candidate_demo_review_verdict": "BLOCKED_INCOMPLETE_EVIDENCE",
   "candidate_journey_state": "REVIEW_CHAIN_INCOMPLETE",
-  "candidate_selection_reason": "champion_better_than_anchor",
+  "candidate_selection_reason": "fallback_scored_sorted",
   "canonical_review_bundle": {
     "blockers": [
       "missing_sample_size",
-      "missing_expectancy",
-      "missing_profit_factor",
-      "missing_max_drawdown",
-      "missing_win_rate",
       "paper_evidence_not_ready",
       "walk_forward_pending"
     ],
@@ -79,6 +82,8 @@
     },
     "warnings": []
   },
+  "demo_validation_evidence_consumed": false,
+  "demo_validation_evidence_source": "none",
   "enriched_candidate": {
     "candidate_id": "c1-eur-buy",
     "demo_validation_proof": false,
@@ -328,17 +333,13 @@
     "warnings": []
   },
   "packet_id": "AIOS_FOREX_REVIEW_READY_STAGE_CHAIN_CONTINUITY_V1",
-  "proof_bundle_ready_for_candidate_bridge": true,
+  "proof_bundle_ready_for_candidate_bridge": false,
   "remaining_blockers": [
     "missing_demo_validation_proof",
     "missing_reconciliation_proof",
     "missing_replay_proof",
     "missing_rollback_proof",
     "missing_sample_size",
-    "missing_expectancy",
-    "missing_profit_factor",
-    "missing_max_drawdown",
-    "missing_win_rate",
     "paper_evidence_not_ready",
     "walk_forward_pending",
     "missing_validation_results",
@@ -371,10 +372,6 @@
       "missing_risk_proof",
       "missing_demo_validation_proof",
       "missing_sample_size",
-      "missing_expectancy",
-      "missing_profit_factor",
-      "missing_max_drawdown",
-      "missing_win_rate",
       "paper_evidence_not_ready",
       "walk_forward_pending"
     ],

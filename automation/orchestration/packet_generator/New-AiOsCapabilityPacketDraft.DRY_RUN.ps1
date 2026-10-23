@@ -7,6 +7,11 @@ param(
     [ValidateSet("DRY_RUN", "APPLY")]
     [string]$Mode = "DRY_RUN",
     [string]$Worktree = "C:\Dev\Ai.Os",
+    [string]$MissionId = "", [string]$MissionName = "",
+    [string]$ProgramId = "", [string]$ProgramName = "",
+    [string]$EpicId = "", [string]$EpicName = "",
+    [string]$BucketId = "", [string]$BucketName = "",
+    [string]$LockIdentity = "",
     [switch]$OutputJson,
     [switch]$AsPromptBlock
 )
@@ -47,7 +52,7 @@ function Load-RelayActors {
     }
 
     try {
-        $raw = Get-Content -LiteralPath $ActorRegistryPath -Raw
+        $raw = Get-Content -LiteralPath $ActorRegistryPath -Raw -Encoding UTF8
         $json = $raw | ConvertFrom-Json
         return @($json.actors)
     }
@@ -552,7 +557,7 @@ if ([string]::IsNullOrWhiteSpace($branchSuffix)) {
     $branchSuffix = "capability"
 }
 
-$safeApprovalAuthority = "Anthony approves this draft for analysis only. No live integration, network call, or execution rights are granted by this packet."
+$safeApprovalAuthority = "Anthony is the approval authority. This draft grants no approval, integration, network call, or execution rights."
 $safeSupervisorIdentity = "ChatGPT Planning Supervisor under Anthony Human Owner"
 $safeWorkerIdentity = "Codex CLI local executor inside C:\Dev\Ai.Os"
 $exactNextAction = if ($safetyTier -eq "REQUIRES_SECRET_REVIEW" -or $safetyTier -eq "BLOCKED_HIGH_RISK") {
@@ -561,15 +566,39 @@ $exactNextAction = if ($safetyTier -eq "REQUIRES_SECRET_REVIEW" -or $safetyTier 
     "Run a RESEARCH review of the generated packet through AGENTS-compliant relay flow and review output first."
 }
 
+# Read actual branch state. A missing branch stays empty and fails validation.
+$observedBranch = ""
+try {
+    $branchOutput = & git -C $RepoRoot branch --show-current 2>$null
+    if ($LASTEXITCODE -eq 0) { $observedBranch = ([string]$branchOutput).Trim() }
+}
+catch { $observedBranch = "" }
+. (Join-Path $ScriptRoot "AiOsCodexPacketContract.ps1")
+$packetContract = Get-AiOsCodexPacketContract
+
 $generatorArgs = @{
+    MissionId = $MissionId; MissionName = $MissionName
+    ProgramId = $ProgramId; ProgramName = $ProgramName
+    EpicId = $EpicId; EpicName = $EpicName
+    BucketId = $BucketId; BucketName = $BucketName
+    PacketName = $nameText
+    IdentityMarker = "AIOS_CAPABILITY_RESEARCH_DRAFT"
+    LockIdentity = $LockIdentity
+    Preflight = @($packetContract.required_repository_state_commands)
+    FinalReportFormat = @("SUMMARY", "FILES INSPECTED", "VALIDATION", "UNKNOWNS", "SAFE NEXT ACTION", "STATUS")
+    StagingAuthority = "NOT AUTHORIZED."
+    CommitAuthority = "NOT AUTHORIZED."
+    PushAuthority = "NOT AUTHORIZED."
+    PullRequestAuthority = "NOT AUTHORIZED."
+    MergeAuthority = "NOT AUTHORIZED."
     PacketId           = $generatedPacketId
     Mode               = "DRY_RUN"
     Zone               = $zone
     Lane               = $lane
     Mission            = $safeMission
     Worktree           = $RepoRoot
-    StartBranch        = "main"
-    Branch             = "feature/$branchSuffix"
+    StartBranch        = $observedBranch
+    Branch             = $observedBranch
     ApprovalAuthority  = $safeApprovalAuthority
     SupervisorIdentity = $safeSupervisorIdentity
     WorkerIdentity     = $safeWorkerIdentity
@@ -581,64 +610,34 @@ $generatorArgs = @{
     OutputJson          = $true
 }
 
-$generatedRaw = & $GeneratorScript @generatorArgs
-
-if ([string]::IsNullOrWhiteSpace($generatedRaw)) {
-    throw "Generator did not return any output."
+$generatedPacketText = ""
+$generatorValid = $false
+$generatorMissing = @()
+$generatorDefects = @()
+try {
+    $generatedRaw = & $GeneratorScript @generatorArgs
+    $generatedJson = $generatedRaw | ConvertFrom-Json -ErrorAction Stop
+    $generatorValid = Test-AiOsCodexPacketReport -Report $generatedJson -ExpectedSchema "AIOS_CODEX_PACKET_GENERATOR.v2"
+    $generatorMissing = @($generatedJson.missing_required_fields)
+    $generatorDefects = @($generatedJson.validation_defects)
+    $generatedPacketText = [string]$generatedJson.generated_packet_text
 }
-
-$generatedJson = $generatedRaw | ConvertFrom-Json -ErrorAction Stop
-$generatedPacketText = [string]$generatedJson.generated_packet_text
+catch { $generatorDefects = @("GENERATOR_INVOCATION_ERROR") }
 
 try {
-    $validationOutput = & powershell -NoProfile -ExecutionPolicy Bypass -File $ValidatorScript -PacketText $generatedPacketText -OutputJson 2>$null
-    if (-not [string]::IsNullOrWhiteSpace($validationOutput)) {
-        $packetValidation = $validationOutput | ConvertFrom-Json -ErrorAction Stop
-    }
-    else {
-        $packetValidation = @{ packet_valid = $false; missing_required_fields = @("EMPTY_VALIDATOR_RESPONSE") }
-    }
+    # Use the current host and the canonical validator. Never replace rejection
+    # with the old header-only check, even if the validator is unavailable.
+    $validationOutput = & $ValidatorScript -PacketText $generatedPacketText -OutputJson
+    $packetValidation = $validationOutput | ConvertFrom-Json -ErrorAction Stop
+    if ($null -eq $packetValidation) { throw "EMPTY_VALIDATOR_RESPONSE" }
+    $packetValidation.packet_valid = ($generatorValid -and (Test-AiOsCodexPacketReport -Report $packetValidation -ExpectedSchema "AIOS_CODEX_PACKET_VALIDATOR.v2"))
+    $packetValidation.missing_required_fields = @($generatorMissing + @($packetValidation.missing_required_fields) | Select-Object -Unique)
+    $packetValidation.validation_defects = @($generatorDefects + @($packetValidation.validation_defects) | Select-Object -Unique)
 }
 catch {
-    $packetValidation = @{ packet_valid = $false; missing_required_fields = @("VALIDATOR_INVOCATION_ERROR") }
+    $packetValidation = @{ packet_valid = $false; missing_required_fields = @($generatorMissing); validation_defects = @($generatorDefects + "VALIDATOR_INVOCATION_ERROR") }
 }
-
-if ($null -eq $packetValidation -or -not $packetValidation.packet_valid) {
-$requiredPacketHeaders = @(
-    "CODEX-ONLY PROMPT",
-        "AI_OS EXECUTION TOKEN",
-        "AI_OS BOOTSTRAP REQUIRED",
-        "IDENTITY MARKER",
-        "SUPERVISOR IDENTITY",
-        "WORKER IDENTITY",
-        "PACKET ID",
-        "MODE",
-        "ZONE",
-        "LANE",
-        "APPROVAL AUTHORITY",
-        "MISSION",
-        "PREFLIGHT",
-        "BRANCH PLAN",
-        "READ FIRST",
-        "ALLOWED MUTATION FILES ONLY",
-        "FORBIDDEN PATHS",
-        "IMPLEMENTATION",
-        "VALIDATOR CHAIN",
-        "COMMIT",
-        "STOP POINT",
-        "COMPLETION REPORT FORMAT",
-        "execution_allowed: false",
-        "can_continue_without_anthony: false"
-    )
-    $missingHeaders = @()
-    foreach ($header in $requiredPacketHeaders) {
-        if (-not $generatedPacketText.Contains($header)) {
-            $missingHeaders += $header
-        }
-    }
-    $packetValidation.packet_valid = ($missingHeaders.Count -eq 0)
-    $packetValidation.missing_required_fields = $missingHeaders
-}
+if (-not $packetValidation.packet_valid) { $generatedPacketText = "" }
 
 $normalizedMissingFields = @()
 if ($null -ne $packetValidation.missing_required_fields) {
@@ -673,9 +672,10 @@ $result = [ordered]@{
     validators = @($validators)
     stop_point = $stopPoint
     missing_required_fields = @($normalizedMissingFields)
+    validation_defects = @($packetValidation.validation_defects)
 }
 
-if ($AsPromptBlock) {
+if ($AsPromptBlock -and $packetValidation.packet_valid) {
     Write-Output $generatedPacketText
     exit 0
 }

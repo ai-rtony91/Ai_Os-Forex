@@ -26,12 +26,14 @@ def load(value: str) -> dict:
     return result
 
 def handoff() -> str:
-    return r'''Set-Location 'C:\Dev\Ai_Os'
+    return r'''Set-Location 'C:\Dev\Ai.Os'
 python --version
+if ([string]::IsNullOrWhiteSpace($env:OANDA_API_TOKEN) -and -not [string]::IsNullOrWhiteSpace($env:OANDA_DEMO_ACCESS_TOKEN)) { $env:OANDA_API_TOKEN = $env:OANDA_DEMO_ACCESS_TOKEN }
+if ([string]::IsNullOrWhiteSpace($env:OANDA_ACCOUNT_ID) -and -not [string]::IsNullOrWhiteSpace($env:OANDA_DEMO_ACCOUNT_ID)) { $env:OANDA_ACCOUNT_ID = $env:OANDA_DEMO_ACCOUNT_ID }
 $HasToken = -not [string]::IsNullOrWhiteSpace($env:OANDA_API_TOKEN)
 $HasAccount = -not [string]::IsNullOrWhiteSpace($env:OANDA_ACCOUNT_ID)
-Write-Host "OANDA_API_TOKEN present: $HasToken"
-Write-Host "OANDA_ACCOUNT_ID present: $HasAccount"
+Write-Host "OANDA demo/practice token present: $HasToken"
+Write-Host "OANDA demo/practice account present: $HasAccount"
 if (-not ($HasToken -and $HasAccount)) { throw 'Required runtime environment variables are missing.' }
 python scripts/forex_delivery/run_forex_p1_oanda_practice_snapshot_capture_v1.py preflight
 $Candidate = Get-ChildItem '.aios/runtime/forex_candidates' -Filter '*.json' -File -ErrorAction SilentlyContinue | Where-Object { $j = Get-Content $_.FullName -Raw | ConvertFrom-Json; $j.status -eq 'PAPER_ELIGIBLE' -and $j.instrument -eq 'EUR_USD' -and $j.current -eq $true -and $j.sanitized -eq $true } | Sort-Object LastWriteTimeUtc -Descending | Select-Object -First 1
@@ -40,7 +42,7 @@ if ($Candidate) {
 } else {
   python scripts/forex_delivery/run_forex_p1_oanda_practice_snapshot_capture_v1.py capture --owner-local-runtime --environment practice --instrument EUR_USD --snapshot-output .aios/runtime/forex_market_snapshots/EUR_USD_latest.json
 }
-Write-Host 'Snapshot: C:\Dev\Ai_Os\.aios\runtime\forex_market_snapshots\EUR_USD_latest.json'
+Write-Host 'Snapshot: C:\Dev\Ai.Os\.aios\runtime\forex_market_snapshots\EUR_USD_latest.json'
 python scripts/forex_delivery/run_forex_p1_oanda_practice_snapshot_capture_v1.py status
 Write-Host 'No OANDA order is placed.'
 '''
@@ -62,7 +64,8 @@ def main(argv=None):
     if command=="validate-snapshot": print(stable_json(validate_sanitized_snapshot(load(args.snapshot))),end=""); return 0
     if command=="preflight": print(stable_json({"status":"PRACTICE_READ_ONLY_PREFLIGHT_READY","network_call_performed":False,"canonical_transport":f"{resolve_canonical_practice_transport().__module__}.{resolve_canonical_practice_transport().__name__}","capture_requires_owner_local_runtime":True,"no_oanda_order_placed":True}),end=""); return 0
     validate_practice_runtime_configuration(environment=args.environment,instrument=args.instrument,owner_local_runtime=args.owner_local_runtime)
-    token=os.environ.get("OANDA_API_TOKEN"); account=os.environ.get("OANDA_ACCOUNT_ID")
+    token=os.environ.get("OANDA_API_TOKEN") or os.environ.get("OANDA_DEMO_ACCESS_TOKEN")
+    account=os.environ.get("OANDA_ACCOUNT_ID") or os.environ.get("OANDA_DEMO_ACCOUNT_ID")
     if not token or not account: raise ValueError("runtime_credentials_missing")
     client=resolve_canonical_practice_transport()(api_token=token,account_id=account,environment="practice")
     raw=client.pricing((args.instrument,))

@@ -1,0 +1,62 @@
+{
+  "repository_fixable_blockers": 0,
+  "validation": {
+    "pytest": "PASS",
+    "compileall": "PASS",
+    "powershell_parse": "PASS",
+    "json_parse": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "remaining_blockers": [
+    {
+      "blocker": "Canonical runner ownership cannot be re-proven from the current process table",
+      "class": "BLOCKED_HOST_RUNTIME_AUTHORITY",
+      "evidence": "The runtime lock still names PID 25208, the relaunch PID 35912 could not be verified, and process metadata access returned Access denied in this host session.",
+      "repository_fixable": false,
+      "fix_completed": false,
+      "protected_action": false,
+      "owner_action": "None",
+      "next_command": "Get-CimInstance Win32_Process -Filter \"ProcessId=25208 or ProcessId=35912\" | Select-Object ProcessId,ParentProcessId,CreationDate,Name,CommandLine | Format-List; Get-Content -LiteralPath .aios/runtime/forex_p1_multipair_normalized_paper_campaign_v1/active.json.runtime.lock; Get-Content -LiteralPath .aios/runtime/forex_p1_multipair_normalized_paper_campaign_v1/AIOS_FOREX_MULTIPAIR_NORMALIZED_CYCLE_PROVENANCE.jsonl -Tail 5"
+    },
+    {
+      "blocker": "PAPER evidence is still below certification threshold",
+      "class": "BLOCKED_MARKET_EVIDENCE",
+      "evidence": "Genuine completed qualifying trades remain 0/30.",
+      "repository_fixable": false,
+      "fix_completed": false,
+      "protected_action": false,
+      "owner_action": "None",
+      "next_command": "Continue bounded PAPER evidence collection."
+    },
+    {
+      "blocker": "Protected publishing remains unexecuted",
+      "class": "BLOCKED_PROTECTED_ACTION",
+      "evidence": "Commit, push, PR creation, and merge have not been performed.",
+      "repository_fixable": false,
+      "fix_completed": false,
+      "protected_action": true,
+      "owner_action": "Approve exact stage files first, then commit and publish after each later exact-scope approval.",
+      "next_command": "Wait for the exact stage approval marker and then run the named-file stage command."
+    },
+    {
+      "blocker": "Practice/demo execution is not authorized yet",
+      "class": "BLOCKED_OWNER_APPROVAL",
+      "evidence": "Demo execution still requires owner approval and future broker-side action.",
+      "repository_fixable": false,
+      "fix_completed": false,
+      "protected_action": true,
+      "owner_action": "Approve the practice/demo packet later.",
+      "next_command": "Present the practice packet for owner review."
+    },
+    {
+      "blocker": "LIVE execution is not authorized yet",
+      "class": "BLOCKED_OWNER_APPROVAL",
+      "evidence": "Live execution remains governed by RISK_POLICY.md and requires separate owner authorization.",
+      "repository_fixable": false,
+      "fix_completed": false,
+      "protected_action": true,
+      "owner_action": "Approve the live canary package later.",
+      "next_command": "Present the live canary packet for owner review."
+    }
+  ]
+}

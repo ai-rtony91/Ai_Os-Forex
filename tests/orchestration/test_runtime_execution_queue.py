@@ -224,3 +224,13 @@ def test_write_report_only_under_reports(tmp_path):
     assert Path(out["json_path"]).exists() and Path(out["md_path"]).exists()
     leftovers = [p.name for p in (tmp_path / "Reports" / "runtime_queue").iterdir() if p.name.startswith(".") or p.name.endswith(".tmp")]
     assert leftovers == []
+
+
+def test_source_normalization_preserves_invalid_scheduling_constraints_as_blocked():
+    q, v = _q(), _v()
+    for changes in ({"depends_on": "PRIOR"}, {"attempt": -1}, {"max_attempts": 0}):
+        item = q.normalize_item({"id": "bad", "state": "QUEUED", **changes}, "owned", 0)
+        assert item["state"] == "BLOCKED"
+        assert item["source_scheduling_constraints"] == changes
+        result = v.validate_queue_view({"schema": q.SCHEMA, "contract": {"purpose": "autonomous_development_workflow"}, "items": [item], "id_collisions": []})
+        assert result["status"] == "BLOCK"

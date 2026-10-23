@@ -1,0 +1,100 @@
+{
+  "schema": "AIOS_FOREX_OFFICIAL_SOURCE_CONTRACT_REPAIR_V1_STATE",
+  "packet_id": "PKT-EAST-FOREX-SOURCE-CONTRACT-REPAIR-025",
+  "status": "HUMAN_DATA_ACQUISITION_REQUIRED",
+  "created_utc": "2026-08-30T04:20:00Z",
+  "network_baseline": {
+    "human_reported_winhttp_proxy": "DIRECT / NO PROXY",
+    "human_reported_environment_proxy": "none set",
+    "human_reported_fred_tcp_443": true,
+    "human_reported_fred_homepage_http": 200,
+    "codex_sandbox_proxy_result": "INVALID_FOR_SITE_DIAGNOSIS: sandbox curl attempted proxy 127.0.0.1",
+    "escalated_exact_route_probe": "completed against public official endpoints only"
+  },
+  "source_contracts": [
+    {
+      "source_id": "CENTRAL_BANK_POLICY_HISTORY",
+      "configured_uri_before": "https://fred.stlouisfed.org/series/IUDERB",
+      "configured_identifier_before": "IUDERB",
+      "official_owner_before": "Bank of England / FRED",
+      "diagnosis": "SOURCE_IDENTIFIER_INVALID_OR_STALE",
+      "probe_evidence": {
+        "fred_series_http_status": 404,
+        "fred_graph_csv_http_status": 404,
+        "bank_of_england_csv_get": "PASS",
+        "bank_of_england_csv_header": "DATE,IUDBEDR"
+      },
+      "current_official_owner": "Bank of England",
+      "current_identifier": "IUDBEDR",
+      "current_official_uri": "https://www.bankofengland.co.uk/boeapps/database/_iadb-fromshowcolumns.asp?csv.x=yes&Datefrom=01/Jan/2005&Dateto=now&SeriesCodes=IUDBEDR&UsingCodes=Y&CSVF=TN",
+      "expected_format": "text/csv",
+      "expected_schema": "DATE,IUDBEDR",
+      "criticality": "CRITICAL",
+      "terminal_source_status": "OFFICIAL_ROUTE_REPLACED_WITH_CURRENT_OFFICIAL_ROUTE"
+    },
+    {
+      "source_id": "CFTC_POSITIONING_HISTORY",
+      "configured_uri_before": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm",
+      "configured_identifier_before": "CFTC historical compressed index page",
+      "official_owner_before": "CFTC",
+      "diagnosis": "HTML_INDEX_WAS_NOT_EXACT_ARCHIVE_ARTIFACT",
+      "probe_evidence": {
+        "deacot_2005_2026_head_status": "HTTP 200 for every annual file checked",
+        "content_type": "application/zip"
+      },
+      "current_official_owner": "CFTC",
+      "current_identifier": "CFTC_FUTURES_ONLY_DEACOT_2005_2026",
+      "current_official_uri_template": "https://www.cftc.gov/files/dea/history/deacot{year}.zip",
+      "expected_format": "application/zip",
+      "expected_schema": "PK ZIP archive",
+      "criticality": "CRITICAL",
+      "terminal_source_status": "OFFICIAL_ROUTE_REPLACED_WITH_CURRENT_OFFICIAL_ROUTE"
+    },
+    {
+      "source_id": "OFFICIAL_MACRO_RELEASE_SCHEDULES",
+      "configured_uri_before": "https://www.bls.gov/bls/news-release/home.htm",
+      "configured_identifier_before": "BLS public release archive page",
+      "official_owner_before": "U.S. Bureau of Labor Statistics",
+      "diagnosis": "OFFICIAL_ROUTE_AUTOMATION_CHALLENGED",
+      "probe_evidence": {
+        "bls_ics_http_status": 403,
+        "actual_response": "text/html Access Denied page referencing BLS bot policy"
+      },
+      "current_official_owner": "U.S. Bureau of Labor Statistics",
+      "current_identifier": "BLS_RELEASE_CALENDAR",
+      "current_official_uri": "https://www.bls.gov/schedule/news_release/bls.ics",
+      "manual_official_page": "https://www.bls.gov/schedule/news_release/",
+      "expected_format": "text/calendar",
+      "expected_schema": "BEGIN:VCALENDAR",
+      "criticality": "CRITICAL",
+      "terminal_source_status": "HUMAN_MANUAL_OFFICIAL_DOWNLOAD_REQUIRED"
+    }
+  ],
+  "manifest": {
+    "path": "Reports/forex_delivery/AIOS_FOREX_OFFICIAL_DATA_HUMAN_DOWNLOAD_MANIFEST_V1.json",
+    "hash_excluding_self_field": "2e0da895120d362f7495e92692c0e40e5a3602634a2bfaee0763564c3994c8cd",
+    "source_family_count": 3,
+    "expanded_download_item_count": 24
+  },
+  "download_validation": {
+    "official_acquired_artifact_count": 23,
+    "official_missing_artifact_count": 1,
+    "boe_csv_header": "DATE,IUDBEDR",
+    "cftc_zip_bad_signature_count": 0,
+    "temp_file_count": 0,
+    "remaining_missing_artifact": "OFFICIAL_MACRO_RELEASE_SCHEDULES_BLS_RELEASE_CALENDAR.ics"
+  },
+  "safety": {
+    "tls_weakened": false,
+    "certificate_bypass": false,
+    "anti_bot_bypass": false,
+    "unofficial_mirror_used": false,
+    "oanda_live_contacted": false,
+    "practice_order_attempted": false,
+    "live_order_attempted": false,
+    "credential_read_or_output": false,
+    "money_movement": false,
+    "compounding": false
+  },
+  "next_action": "Human manually downloads the BLS ICS file to the stated inbox path, then runs the existing one-session data closure wrapper for official reuse plus OANDA Practice GET-only history acquisition."
+}

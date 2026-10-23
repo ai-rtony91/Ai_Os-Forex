@@ -1,32 +1,5 @@
-:root {
-  color-scheme: dark;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  line-height: 1.5;
-  text-rendering: geometricPrecision;
-}
+@import './design/aios-design-tokens.css';
+@import './design/aios-motion.css';
+@import './design/aios-accessibility.css';
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-body {
-  margin: 0;
-  min-width: 320px;
-  overflow-x: hidden;
-  overscroll-behavior-x: none;
-}
-
-button,
-input,
-select {
-  font: inherit;
-}
-
-button {
-  -webkit-tap-highlight-color: transparent;
-}
+*{box-sizing:border-box}html{max-width:100%;overflow-x:hidden;background:var(--aios-void)}body{margin:0;min-width:320px;overflow-x:hidden;overscroll-behavior-x:none;background:var(--aios-void);color:var(--aios-text)}button,input,select,textarea{font:inherit}button{-webkit-tap-highlight-color:transparent}.fatalState{align-content:center;min-height:100dvh;padding:40px;text-align:center;background:radial-gradient(circle at 50% 30%,rgba(112,214,255,.08),transparent 32%),var(--aios-void)}.fatalState h1{font-size:clamp(2rem,6vw,5rem);letter-spacing:.08em}.fatalState p{color:var(--aios-muted);letter-spacing:.12em}.fatalState button{padding:10px 18px}

@@ -1,0 +1,1150 @@
+{
+  "automated_route_results": [
+    {
+      "attempts": [
+        {
+          "byte_count": 126565,
+          "content_type": "application/csv",
+          "hash": "deb4b33a2f30097bdbe77e9282440b5e347599b0710970ac7ec87f4e3f034df3",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFF&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:37:56.481532+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "CENTRAL_BANK_POLICY_HISTORY",
+      "records": 7909,
+      "requirement": {
+        "currency_or_country": "USD",
+        "family": "CENTRAL_BANK_POLICY_HISTORY",
+        "frequency": "daily",
+        "minimum_coverage": "six major currencies, ten years preferred",
+        "official_domain": "fred.stlouisfed.org",
+        "publication_time_rule": "publication day plus one calendar day",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "current official values; ALFRED route where available",
+        "routes": [
+          {
+            "artifact_name": "DFF official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DFF&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "DFF official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/DFF/downloaddata/DFF.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED DFF public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=DFF",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for DFF",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/DFF",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "DFF",
+        "source_owner": "Federal Reserve / FRED"
+      },
+      "series_or_artifact": "DFF",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 129552,
+          "content_type": "application/csv",
+          "hash": "453fc3ef2e4ae1c6588e4ab36baf10cb2559bf72197e2eb7343c6f3df4a1133e",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=ECBDFR&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:37:58.683016+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "CENTRAL_BANK_POLICY_HISTORY",
+      "records": 7910,
+      "requirement": {
+        "currency_or_country": "EUR",
+        "family": "CENTRAL_BANK_POLICY_HISTORY",
+        "frequency": "daily",
+        "minimum_coverage": "six major currencies, ten years preferred",
+        "official_domain": "fred.stlouisfed.org",
+        "publication_time_rule": "publication day plus one calendar day",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "current official values; ALFRED route where available",
+        "routes": [
+          {
+            "artifact_name": "ECBDFR official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=ECBDFR&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "ECBDFR official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/ECBDFR/downloaddata/ECBDFR.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED ECBDFR public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=ECBDFR",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for ECBDFR",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/ECBDFR",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "ECBDFR",
+        "source_owner": "European Central Bank / FRED"
+      },
+      "series_or_artifact": "ECBDFR",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 0,
+          "content_type": "text/csv",
+          "hash": null,
+          "http_status": null,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IUDERB&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:38:02.331961+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": "HTTPError: HTTP Error 404: Not Found",
+          "timeout_seconds": 8
+        },
+        {
+          "byte_count": 0,
+          "content_type": "text/csv",
+          "hash": null,
+          "http_status": null,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/series/IUDERB/downloaddata/IUDERB.csv",
+          "request_time_utc": "2026-08-30T00:38:02.745147+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "B",
+          "sanitized_error": "URLError: <urlopen error [Errno 11001] getaddrinfo failed>",
+          "timeout_seconds": 8
+        },
+        {
+          "byte_count": 0,
+          "content_type": "text/csv",
+          "hash": null,
+          "http_status": null,
+          "next_route": null,
+          "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=IUDERB",
+          "request_time_utc": "2026-08-30T00:38:03.144130+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "C",
+          "sanitized_error": "HTTPError: HTTP Error 404: Not Found",
+          "timeout_seconds": 8
+        },
+        {
+          "byte_count": 0,
+          "content_type": "text/html",
+          "hash": null,
+          "http_status": null,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/series/IUDERB",
+          "request_time_utc": "2026-08-30T00:38:03.746116+00:00",
+          "retrieval_client": "human_only_verified_official_artifact",
+          "route_id": "D",
+          "sanitized_error": "Reserved for Human-only deterministic official download.",
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "CENTRAL_BANK_POLICY_HISTORY",
+      "records": 0,
+      "requirement": {
+        "currency_or_country": "GBP",
+        "family": "CENTRAL_BANK_POLICY_HISTORY",
+        "frequency": "daily",
+        "minimum_coverage": "six major currencies, ten years preferred",
+        "official_domain": "fred.stlouisfed.org",
+        "publication_time_rule": "publication day plus one calendar day",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "current official values; ALFRED route where available",
+        "routes": [
+          {
+            "artifact_name": "IUDERB official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IUDERB&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "IUDERB official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/IUDERB/downloaddata/IUDERB.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED IUDERB public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=IUDERB",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for IUDERB",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/IUDERB",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "IUDERB",
+        "source_owner": "Bank of England / FRED"
+      },
+      "series_or_artifact": "IUDERB",
+      "status": "SOURCE_UNAVAILABLE_AUTOMATED"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 5031,
+          "content_type": "application/csv",
+          "hash": "298c261d9b21818e338e0699b4ba2fb808fcfd73154ba0085815b4b8b368bb51",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01JPM156N&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:38:03.747103+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "CENTRAL_BANK_POLICY_HISTORY",
+      "records": 258,
+      "requirement": {
+        "currency_or_country": "JPY",
+        "family": "CENTRAL_BANK_POLICY_HISTORY",
+        "frequency": "monthly",
+        "minimum_coverage": "six major currencies, five years minimum",
+        "official_domain": "fred.stlouisfed.org",
+        "publication_time_rule": "month end plus 32 calendar days",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "current official values; use only after conservative lag",
+        "routes": [
+          {
+            "artifact_name": "IRSTCI01JPM156N official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01JPM156N&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "IRSTCI01JPM156N official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/IRSTCI01JPM156N/downloaddata/IRSTCI01JPM156N.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED IRSTCI01JPM156N public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=IRSTCI01JPM156N",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for IRSTCI01JPM156N",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/IRSTCI01JPM156N",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "IRSTCI01JPM156N",
+        "source_owner": "OECD / FRED"
+      },
+      "series_or_artifact": "IRSTCI01JPM156N",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 7314,
+          "content_type": "application/csv",
+          "hash": "43942809997626363d910e6209189dad0605b52e15fb81100ef1648b0ff14e20",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01CHM156N&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:38:04.283319+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "CENTRAL_BANK_POLICY_HISTORY",
+      "records": 231,
+      "requirement": {
+        "currency_or_country": "CHF",
+        "family": "CENTRAL_BANK_POLICY_HISTORY",
+        "frequency": "monthly",
+        "minimum_coverage": "six major currencies, five years minimum",
+        "official_domain": "fred.stlouisfed.org",
+        "publication_time_rule": "month end plus 32 calendar days",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "current official values; use only after conservative lag",
+        "routes": [
+          {
+            "artifact_name": "IRSTCI01CHM156N official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01CHM156N&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "IRSTCI01CHM156N official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/IRSTCI01CHM156N/downloaddata/IRSTCI01CHM156N.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED IRSTCI01CHM156N public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=IRSTCI01CHM156N",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for IRSTCI01CHM156N",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/IRSTCI01CHM156N",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "IRSTCI01CHM156N",
+        "source_owner": "OECD / FRED"
+      },
+      "series_or_artifact": "IRSTCI01CHM156N",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 7515,
+          "content_type": "application/csv",
+          "hash": "ccabc864078f95204f105abc2dae71b181d2549f5858886eceb4e4a1d13ad224",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01CAM156N&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:38:04.974399+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "CENTRAL_BANK_POLICY_HISTORY",
+      "records": 258,
+      "requirement": {
+        "currency_or_country": "CAD",
+        "family": "CENTRAL_BANK_POLICY_HISTORY",
+        "frequency": "monthly",
+        "minimum_coverage": "six major currencies, five years minimum",
+        "official_domain": "fred.stlouisfed.org",
+        "publication_time_rule": "month end plus 32 calendar days",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "current official values; use only after conservative lag",
+        "routes": [
+          {
+            "artifact_name": "IRSTCI01CAM156N official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01CAM156N&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "IRSTCI01CAM156N official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/IRSTCI01CAM156N/downloaddata/IRSTCI01CAM156N.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED IRSTCI01CAM156N public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=IRSTCI01CAM156N",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for IRSTCI01CAM156N",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/IRSTCI01CAM156N",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "IRSTCI01CAM156N",
+        "source_owner": "OECD / FRED"
+      },
+      "series_or_artifact": "IRSTCI01CAM156N",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 7257,
+          "content_type": "application/csv",
+          "hash": "79b8f5815e3924a24daadbaee27f7799674fa754890895ae9a1de071179fc985",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01AUM156N&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:38:05.614976+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "CENTRAL_BANK_POLICY_HISTORY",
+      "records": 258,
+      "requirement": {
+        "currency_or_country": "AUD",
+        "family": "CENTRAL_BANK_POLICY_HISTORY",
+        "frequency": "monthly",
+        "minimum_coverage": "six major currencies, five years minimum",
+        "official_domain": "fred.stlouisfed.org",
+        "publication_time_rule": "month end plus 32 calendar days",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "current official values; use only after conservative lag",
+        "routes": [
+          {
+            "artifact_name": "IRSTCI01AUM156N official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IRSTCI01AUM156N&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "IRSTCI01AUM156N official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/IRSTCI01AUM156N/downloaddata/IRSTCI01AUM156N.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED IRSTCI01AUM156N public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=IRSTCI01AUM156N",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for IRSTCI01AUM156N",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/IRSTCI01AUM156N",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "IRSTCI01AUM156N",
+        "source_owner": "OECD / FRED"
+      },
+      "series_or_artifact": "IRSTCI01AUM156N",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 89482,
+          "content_type": "application/csv",
+          "hash": "464797175387ceaf4c1fd7c280ba818117b12b9567738cdd5b17bc42cca894bd",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS2&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:38:06.134889+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "GOVERNMENT_OFFICIAL_YIELD_CURVES",
+      "records": 5418,
+      "requirement": {
+        "currency_or_country": "USD",
+        "family": "GOVERNMENT_OFFICIAL_YIELD_CURVES",
+        "frequency": "daily",
+        "minimum_coverage": "four major regions plus global risk",
+        "official_domain": "fred.stlouisfed.org",
+        "publication_time_rule": "publication day plus one calendar day",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "current official values; use only after conservative lag",
+        "routes": [
+          {
+            "artifact_name": "DGS2 official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS2&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "DGS2 official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/DGS2/downloaddata/DGS2.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED DGS2 public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=DGS2",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for DGS2",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/DGS2",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "DGS2",
+        "source_owner": "U.S. Treasury / FRED"
+      },
+      "series_or_artifact": "DGS2",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 89483,
+          "content_type": "application/csv",
+          "hash": "a14279a8712918d5ab09753835bff1cb2a9554c9fc38779d33d0ca848cefc1e4",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:38:07.973687+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "GOVERNMENT_OFFICIAL_YIELD_CURVES",
+      "records": 5418,
+      "requirement": {
+        "currency_or_country": "USD",
+        "family": "GOVERNMENT_OFFICIAL_YIELD_CURVES",
+        "frequency": "daily",
+        "minimum_coverage": "four major regions plus global risk",
+        "official_domain": "fred.stlouisfed.org",
+        "publication_time_rule": "publication day plus one calendar day",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "current official values; use only after conservative lag",
+        "routes": [
+          {
+            "artifact_name": "DGS10 official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "DGS10 official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/DGS10/downloaddata/DGS10.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED DGS10 public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=DGS10",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for DGS10",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/DGS10",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "DGS10",
+        "source_owner": "U.S. Treasury / FRED"
+      },
+      "series_or_artifact": "DGS10",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 95144,
+          "content_type": "application/csv",
+          "hash": "01fb4a6665143c8639fa0b540bc4d5b215420816f428462db5d2c18e63228376",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:38:10.059160+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "OFFICIAL_VOLATILITY_RISK_SERIES",
+      "records": 5479,
+      "requirement": {
+        "currency_or_country": "GLOBAL",
+        "family": "OFFICIAL_VOLATILITY_RISK_SERIES",
+        "frequency": "daily",
+        "minimum_coverage": "one global risk series",
+        "official_domain": "fred.stlouisfed.org",
+        "publication_time_rule": "publication day plus one calendar day",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "current official values; use only after conservative lag",
+        "routes": [
+          {
+            "artifact_name": "VIXCLS official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=VIXCLS&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "VIXCLS official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/VIXCLS/downloaddata/VIXCLS.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED VIXCLS public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=VIXCLS",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for VIXCLS",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/VIXCLS",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "VIXCLS",
+        "source_owner": "Cboe / FRED"
+      },
+      "series_or_artifact": "VIXCLS",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 4940,
+          "content_type": "application/csv",
+          "hash": "2ad47b9cd374f838935731057390986d6c338fb088af80b505cb5026716abec5",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:38:12.214430+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "POINT_IN_TIME_MACRO_FIRST_RELEASES",
+      "records": 258,
+      "requirement": {
+        "currency_or_country": "USD",
+        "family": "POINT_IN_TIME_MACRO_FIRST_RELEASES",
+        "frequency": "monthly",
+        "minimum_coverage": "first-release where lawful and available",
+        "official_domain": "alfred.stlouisfed.org",
+        "publication_time_rule": "release day plus one calendar day unless vintage timestamp available",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "ALFRED vintage route preferred",
+        "routes": [
+          {
+            "artifact_name": "CPIAUCSL official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "CPIAUCSL official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/CPIAUCSL/downloaddata/CPIAUCSL.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED CPIAUCSL public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=CPIAUCSL",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for CPIAUCSL",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/CPIAUCSL",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "CPIAUCSL",
+        "source_owner": "BLS / ALFRED"
+      },
+      "series_or_artifact": "CPIAUCSL",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 4686,
+          "content_type": "application/csv",
+          "hash": "764f75377d6b3c8e0f3721859d4578fc7144ebecd4de07bdd8e9a8a86cb43dd4",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PAYEMS&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:38:12.738662+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "POINT_IN_TIME_MACRO_FIRST_RELEASES",
+      "records": 259,
+      "requirement": {
+        "currency_or_country": "USD",
+        "family": "POINT_IN_TIME_MACRO_FIRST_RELEASES",
+        "frequency": "monthly",
+        "minimum_coverage": "first-release where lawful and available",
+        "official_domain": "alfred.stlouisfed.org",
+        "publication_time_rule": "release day plus one calendar day unless vintage timestamp available",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "ALFRED vintage route preferred",
+        "routes": [
+          {
+            "artifact_name": "PAYEMS official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PAYEMS&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "PAYEMS official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/PAYEMS/downloaddata/PAYEMS.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED PAYEMS public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=PAYEMS",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for PAYEMS",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/PAYEMS",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "PAYEMS",
+        "source_owner": "BLS / ALFRED"
+      },
+      "series_or_artifact": "PAYEMS",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 34734,
+          "content_type": "application/csv",
+          "hash": "6487480ddeed6c024938be766b698612721fa7300b4a3861a8de3328e0df2a1b",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR&cosd=2005-01-01&coed=2026-08-29",
+          "request_time_utc": "2026-08-30T00:38:13.615274+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "OFFICIAL_LIQUIDITY_FUNDING_PROXIES",
+      "records": 2099,
+      "requirement": {
+        "currency_or_country": "USD",
+        "family": "OFFICIAL_LIQUIDITY_FUNDING_PROXIES",
+        "frequency": "daily",
+        "minimum_coverage": "official funding/liquidity proxy where lawful",
+        "official_domain": "fred.stlouisfed.org",
+        "publication_time_rule": "publication day plus one calendar day",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "current official values; use only after conservative lag",
+        "routes": [
+          {
+            "artifact_name": "SOFR official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR&cosd=2005-01-01&coed=2026-08-29",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "SOFR official CSV/public page",
+            "expected_content_type": "text/csv",
+            "official_url": "https://fred.stlouisfed.org/series/SOFR/downloaddata/SOFR.csv",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "ALFRED SOFR public vintage graph",
+            "expected_content_type": "text/csv",
+            "official_url": "https://alfred.stlouisfed.org/graph/alfredgraph.csv?id=SOFR",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "FRED public series page for SOFR",
+            "expected_content_type": "text/html",
+            "official_url": "https://fred.stlouisfed.org/series/SOFR",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "SOFR",
+        "source_owner": "Federal Reserve / FRED"
+      },
+      "series_or_artifact": "SOFR",
+      "status": "ACQUIRED_USABLE"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 2302771,
+          "content_type": "application/zip",
+          "hash": "3a33564a5677a4dad90b2513b07a81d8d55308318f9dcd6c8e80690a25c6b768",
+          "http_status": 200,
+          "next_route": null,
+          "official_url": "https://www.cftc.gov/files/dea/history/deacot2024.zip",
+          "request_time_utc": "2026-08-30T00:38:14.684452+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": null,
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "CFTC_POSITIONING_HISTORY",
+      "records": 0,
+      "requirement": {
+        "currency_or_country": "USD/EUR/GBP/JPY/CHF/CAD/AUD/NZD",
+        "family": "CFTC_POSITIONING_HISTORY",
+        "frequency": "weekly",
+        "minimum_coverage": "material extension beyond 2024-2026",
+        "official_domain": "cftc.gov",
+        "publication_time_rule": "Friday report publication; strategy availability next complete trading day",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "official annual historical compressed files; no revised early use",
+        "routes": [
+          {
+            "artifact_name": "CFTC 2024 annual compressed futures-only report",
+            "expected_content_type": "application/zip",
+            "official_url": "https://www.cftc.gov/files/dea/history/deacot2024.zip",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "CFTC 2025 annual compressed futures-only report",
+            "expected_content_type": "application/zip",
+            "official_url": "https://www.cftc.gov/files/dea/history/deacot2025.zip",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "CFTC 2026 annual compressed futures-only report",
+            "expected_content_type": "application/zip",
+            "official_url": "https://www.cftc.gov/files/dea/history/deacot2026.zip",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "CFTC historical compressed reports index",
+            "expected_content_type": "text/html",
+            "official_url": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "CFTC historical compressed futures-only Commitments of Traders",
+        "source_owner": "CFTC"
+      },
+      "series_or_artifact": "CFTC historical compressed futures-only Commitments of Traders",
+      "status": "ACQUIRED_RAW_ONLY"
+    },
+    {
+      "attempts": [
+        {
+          "byte_count": 0,
+          "content_type": "text/calendar",
+          "hash": null,
+          "http_status": null,
+          "next_route": null,
+          "official_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+          "request_time_utc": "2026-08-30T00:38:19.211368+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "A",
+          "sanitized_error": "HTTPError: HTTP Error 403: Forbidden",
+          "timeout_seconds": 8
+        },
+        {
+          "byte_count": 0,
+          "content_type": "text/html",
+          "hash": null,
+          "http_status": null,
+          "next_route": null,
+          "official_url": "https://www.bls.gov/schedule/news_release/",
+          "request_time_utc": "2026-08-30T00:38:19.975442+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "B",
+          "sanitized_error": "HTTPError: HTTP Error 403: Forbidden",
+          "timeout_seconds": 8
+        },
+        {
+          "byte_count": 0,
+          "content_type": "text/html",
+          "hash": null,
+          "http_status": null,
+          "next_route": null,
+          "official_url": "https://www.bls.gov/news.release/",
+          "request_time_utc": "2026-08-30T00:38:20.199707+00:00",
+          "retrieval_client": "python_urllib_get",
+          "route_id": "C",
+          "sanitized_error": "HTTPError: HTTP Error 403: Forbidden",
+          "timeout_seconds": 8
+        },
+        {
+          "byte_count": 0,
+          "content_type": "text/html",
+          "hash": null,
+          "http_status": null,
+          "next_route": null,
+          "official_url": "https://www.bls.gov/bls/news-release/home.htm",
+          "request_time_utc": "2026-08-30T00:38:20.418744+00:00",
+          "retrieval_client": "human_only_verified_official_artifact",
+          "route_id": "D",
+          "sanitized_error": "Reserved for Human-only deterministic official download.",
+          "timeout_seconds": 8
+        }
+      ],
+      "family": "OFFICIAL_MACRO_RELEASE_SCHEDULES",
+      "records": 0,
+      "requirement": {
+        "currency_or_country": "USD",
+        "family": "OFFICIAL_MACRO_RELEASE_SCHEDULES",
+        "frequency": "event",
+        "minimum_coverage": "at least one macro-event class usable",
+        "official_domain": "bls.gov",
+        "publication_time_rule": "scheduled release timestamp; unknown timestamp uses conservative later availability",
+        "required_end": "2026-08-29",
+        "required_start": "2005-01-01",
+        "revision_vintage_rule": "schedule records only; no consensus or private estimate",
+        "routes": [
+          {
+            "artifact_name": "BLS public news release calendar ICS",
+            "expected_content_type": "text/calendar",
+            "official_url": "https://www.bls.gov/schedule/news_release/bls.ics",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "A"
+          },
+          {
+            "artifact_name": "BLS release schedule page",
+            "expected_content_type": "text/html",
+            "official_url": "https://www.bls.gov/schedule/news_release/",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "B"
+          },
+          {
+            "artifact_name": "BLS release archive",
+            "expected_content_type": "text/html",
+            "official_url": "https://www.bls.gov/news.release/",
+            "retrieval_client": "python_urllib_get",
+            "route_id": "C"
+          },
+          {
+            "artifact_name": "BLS economic news releases page",
+            "expected_content_type": "text/html",
+            "official_url": "https://www.bls.gov/bls/news-release/home.htm",
+            "retrieval_client": "human_only_verified_official_artifact",
+            "route_id": "D"
+          }
+        ],
+        "series_or_artifact": "BLS public release calendars and archive",
+        "source_owner": "U.S. Bureau of Labor Statistics"
+      },
+      "series_or_artifact": "BLS public release calendars and archive",
+      "status": "SOURCE_UNAVAILABLE_AUTOMATED"
+    }
+  ],
+  "external_information_coverage_score": 86,
+  "market_corpus_v2_hash": "44bad0bb22fa88771c824c2c91551fef7116a458d5d7fee7039f5f87c76dac6a",
+  "packet_id": "PKT-EAST-FOREX-OFFICIAL-DATA-TO-FUNDING-016",
+  "point_in_time_integrity_score": 90,
+  "quality": {
+    "family_status": {
+      "CENTRAL_BANK_POLICY_HISTORY": {
+        "blocked": 1,
+        "raw_only": 0,
+        "requirements": 7,
+        "usable": 6
+      },
+      "CFTC_POSITIONING_HISTORY": {
+        "blocked": 0,
+        "raw_only": 1,
+        "requirements": 1,
+        "usable": 0
+      },
+      "GOVERNMENT_OFFICIAL_YIELD_CURVES": {
+        "blocked": 0,
+        "raw_only": 0,
+        "requirements": 2,
+        "usable": 2
+      },
+      "OFFICIAL_LIQUIDITY_FUNDING_PROXIES": {
+        "blocked": 0,
+        "raw_only": 0,
+        "requirements": 1,
+        "usable": 1
+      },
+      "OFFICIAL_MACRO_RELEASE_SCHEDULES": {
+        "blocked": 1,
+        "raw_only": 0,
+        "requirements": 1,
+        "usable": 0
+      },
+      "OFFICIAL_VOLATILITY_RISK_SERIES": {
+        "blocked": 0,
+        "raw_only": 0,
+        "requirements": 1,
+        "usable": 1
+      },
+      "POINT_IN_TIME_MACRO_FIRST_RELEASES": {
+        "blocked": 0,
+        "raw_only": 0,
+        "requirements": 2,
+        "usable": 2
+      }
+    },
+    "policy_major_currency_count": 6,
+    "usable_families": [
+      "CENTRAL_BANK_POLICY_HISTORY",
+      "CFTC_POSITIONING_HISTORY",
+      "GOVERNMENT_OFFICIAL_YIELD_CURVES",
+      "OFFICIAL_LIQUIDITY_FUNDING_PROXIES",
+      "OFFICIAL_VOLATILITY_RISK_SERIES",
+      "POINT_IN_TIME_MACRO_FIRST_RELEASES"
+    ]
+  },
+  "reference_executor_hash": "6dd60fb853a088636f2367a0f58e2a0c305f68ac72f83bd20e9ae6114f2aeba5",
+  "remaining_human_download_items": [
+    {
+      "expected_content_type": "text/html",
+      "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/CENTRAL_BANK_POLICY_HISTORY_IUDERB",
+      "expected_time_period": "2005-01-01 through 2026-08-29",
+      "official_url": "https://fred.stlouisfed.org/series/IUDERB",
+      "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+      "private_account_required": false,
+      "secret_required": false,
+      "source_family_purpose": "CENTRAL_BANK_POLICY_HISTORY",
+      "source_owner": "Bank of England / FRED",
+      "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+    },
+    {
+      "expected_content_type": "text/html",
+      "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/CFTC_POSITIONING_HISTORY_CFTC_historical_compressed_futures_only_Commitments_of_Traders",
+      "expected_time_period": "2005-01-01 through 2026-08-29",
+      "official_url": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm",
+      "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+      "private_account_required": false,
+      "secret_required": false,
+      "source_family_purpose": "CFTC_POSITIONING_HISTORY",
+      "source_owner": "CFTC",
+      "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+    },
+    {
+      "expected_content_type": "text/html",
+      "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/OFFICIAL_MACRO_RELEASE_SCHEDULES_BLS_public_release_calendars_and_archive",
+      "expected_time_period": "2005-01-01 through 2026-08-29",
+      "official_url": "https://www.bls.gov/bls/news-release/home.htm",
+      "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+      "private_account_required": false,
+      "secret_required": false,
+      "source_family_purpose": "OFFICIAL_MACRO_RELEASE_SCHEDULES",
+      "source_owner": "U.S. Bureau of Labor Statistics",
+      "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+    }
+  ],
+  "safety": {
+    "credentials_read": false,
+    "funding": false,
+    "live": false,
+    "orders": false
+  },
+  "schema": "AIOS_FOREX_OFFICIAL_DATA_BREAKTHROUGH_V1_STATE",
+  "source_matrix_hash": "95481af15a9a6722b87e199fc9ff943ccc4ab75b68fe0ba218c7a7a168083687",
+  "state_hash": "c75fb205d55b7f0f50f9b1049723694ef3cf705e78f38bb9471e90fabe1f8f6a",
+  "status": "HUMAN_OFFICIAL_DATA_DOWNLOAD_REQUIRED"
+}

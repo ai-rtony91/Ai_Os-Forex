@@ -14,12 +14,7 @@ if ($RepoName -ne $ExpectedRootName) {
 }
 
 $Timestamp = Get-Date -Format "yyyy-MM-dd_HHmmss"
-$ReportDir = Join-Path $RepoRoot "Reports\health"
-$ReportPath = Join-Path $ReportDir "TRADING_LAB_LEDGER_VALIDATION_DRY_RUN_$Timestamp.md"
-
-if (-not (Test-Path -LiteralPath $ReportDir -PathType Container)) {
-    throw "Reports\health does not exist. DRY_RUN will not create folders except its report file."
-}
+$ReportPath = Join-Path $RepoRoot "Reports\health\TRADING_LAB_LEDGER_VALIDATION_DRY_RUN_$Timestamp.md"
 
 $PlannedFolders = @(
     "docs/AI_OS/trading_laboratory/validation"
@@ -87,7 +82,7 @@ $Report += ""
 $Report += "- Mode: DRY_RUN"
 $Report += "- Repo root: $RepoRoot"
 $Report += "- Timestamp: $Timestamp"
-$Report += "- Report path: $ReportPath"
+$Report += "- Proposed report path: $ReportPath"
 $Report += "- Would-create count: $WouldCreateCount"
 $Report += "- Skipped-existing count: $SkippedExistingCount"
 $Report += "- Blocked-parent-missing count: $BlockedParentMissingCount"
@@ -107,14 +102,14 @@ foreach ($Row in $FileRows) {
 $Report += ""
 $Report += "## Boundary"
 $Report += ""
-$Report += "DRY_RUN made no validation scaffold changes. The only write performed by this script is this report."
+$Report += "DRY_RUN made no validation scaffold changes. This report is emitted to stdout; no files are written."
 $Report += ""
 $Report += "DRY_RUN COMPLETE - REVIEW BEFORE APPLY"
 
-Set-Content -LiteralPath $ReportPath -Value ($Report -join [Environment]::NewLine) -Encoding UTF8
+Write-Output ($Report -join [Environment]::NewLine)
 
 Write-Host "Repo root: $RepoRoot"
-Write-Host "Report path: $ReportPath"
+Write-Host "Proposed report path: $ReportPath"
 Write-Host "Would-create count: $WouldCreateCount"
 Write-Host "Skipped-existing count: $SkippedExistingCount"
 Write-Host "Blocked-parent-missing count: $BlockedParentMissingCount"

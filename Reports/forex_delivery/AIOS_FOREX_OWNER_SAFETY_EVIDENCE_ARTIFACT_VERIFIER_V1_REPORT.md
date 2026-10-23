@@ -1,29 +1,37 @@
 # AIOS Forex Owner Safety Evidence Artifact Verifier V1 Report
 
-Status: OWNER_SAFETY_EVIDENCE_ARTIFACTS_STRUCTURALLY_VERIFIED
-Current branch: main
-Current head: e6762a98
+Status: OWNER_SAFETY_EVIDENCE_ARTIFACTS_STRUCTURE_REVIEW_REQUIRED
+Current branch: codex/forex-edge-autopilot-20261008
+Current head: 4fdf3061
 
 Artifact verification scope:
 Local structural verification of owner-sanitized artifact files, metadata freshness, approved path boundary, and no-secret/no-account declarations only.
 
 Verified controls:
+- none
+
+Failed controls:
 - kill_switch_state
 - daily_stop_state
 - max_loss_state
 - monitoring_ready
 
-Failed controls:
-- none
-
 Warning controls:
 - none
 
 Control results:
-- kill_switch_state: STRUCTURALLY_VERIFIED
-- daily_stop_state: STRUCTURALLY_VERIFIED
-- max_loss_state: STRUCTURALLY_VERIFIED
-- monitoring_ready: STRUCTURALLY_VERIFIED
+- kill_switch_state: FAILED
+  - control status is not PRESENT_UNVERIFIED in intake verification state
+  - evidence_timestamp_utc is outside freshness_window_hours
+- daily_stop_state: FAILED
+  - control status is not PRESENT_UNVERIFIED in intake verification state
+  - evidence_timestamp_utc is outside freshness_window_hours
+- max_loss_state: FAILED
+  - control status is not PRESENT_UNVERIFIED in intake verification state
+  - evidence_timestamp_utc is outside freshness_window_hours
+- monitoring_ready: FAILED
+  - control status is not PRESENT_UNVERIFIED in intake verification state
+  - evidence_timestamp_utc is outside freshness_window_hours
 
 Operational control verified: False
 Owner intake modified: False
@@ -34,7 +42,7 @@ Credentials used: False
 Order execution: False
 Live trading authorized: False
 
-Next safe action: Route structurally verified sanitized owner artifacts to a finish-line safety-closure consumer update while keeping broker, demo, live micro, live trading, scheduler, daemon, webhook, and order execution locked.
+Next safe action: Repair failed sanitized owner artifact metadata or files, then rerun this structural verifier before any safety-closure consumer update.
 
 Validators:
 - python -m py_compile automation/forex_engine/forex_owner_safety_evidence_artifact_verifier_v1.py scripts/forex_delivery/run_forex_owner_safety_evidence_artifact_verifier_v1.py

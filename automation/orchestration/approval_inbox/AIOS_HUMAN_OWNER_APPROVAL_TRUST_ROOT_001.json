@@ -1,0 +1,17 @@
+{
+    "schema":  "AIOS_HUMAN_OWNER_APPROVAL_TRUST_ROOT.v1",
+    "trust_root_id":  "AIOS-HUMAN-OWNER-APPROVAL-TRUST-ROOT-V1",
+    "authority":  "Anthony, Human Owner",
+    "environment":  "PRODUCTION",
+    "state":  "ACTIVE",
+    "current_key_version":  1,
+    "keys":  [
+                 {
+                     "key_id":  "AIOS-HUMAN-OWNER-PRIMARY-V1",
+                     "key_fingerprint_sha256":  "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786",
+                     "key_version":  1,
+                     "status":  "ACTIVE",
+                     "created_at_utc":  "2026-09-11T12:17:33.4956447+00:00"
+                 }
+             ]
+}

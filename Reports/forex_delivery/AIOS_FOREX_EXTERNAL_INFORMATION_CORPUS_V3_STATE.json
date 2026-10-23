@@ -1,0 +1,201 @@
+{
+  "acquisition_state_hash": "5b2f509974f98cc3bd9b3ee7576a4a063f5d6eaf05d22a4527f16ea6df850e28",
+  "aggregate_hash": "09ec912b180b3f3e5d62faddfbfbf991ff65edfa5bfb889195b31b9683212bbc",
+  "corpus_id": "AIOS_FOREX_EXTERNAL_INFORMATION_CORPUS_V3",
+  "external_information_coverage_score": 86,
+  "frozen": true,
+  "human_inbox": ".aios/runtime/forex_official_data_human_inbox",
+  "official_artifacts": {
+    "artifact_count": 24,
+    "artifacts": [
+      {
+        "bytes": 93914,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CENTRAL_BANK_POLICY_HISTORY_BOE_IUDBEDR.csv",
+        "sha256": "499ea2d45877f479ebe700e090490f60119f731a2d711ae83b8da394f33a9346",
+        "source_id": "CENTRAL_BANK_POLICY_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 718285,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2005.zip",
+        "sha256": "af1d5fdfe6994d33afda5b2c3ff3941f84ea18f9e5f3167969bf2598835624c1",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 871821,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2006.zip",
+        "sha256": "9e1dfcd978321cc93303f37d3f7f13c5e10b965c72afa6862d93243b87de0901",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 868266,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2007.zip",
+        "sha256": "5c82366a086509465478014b269f90266e38a82f41c23136e964d71cd7b794a9",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 893057,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2008.zip",
+        "sha256": "97a76edebe3cf7cc93a6fa862799076e9863fb7cbc42e8dba4c8762c07249fb9",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 959612,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2009.zip",
+        "sha256": "5558e169e558ee15a861fb623e2a986aaafcdc178d7ab2eaf7dc628ed217b32b",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1021288,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2010.zip",
+        "sha256": "ba52af024b2cc24f4bf7699950b70b0ae70ce2a123fca63e88c93f5d67561253",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1046419,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2011.zip",
+        "sha256": "8872d6e7d43cc09d5d5834122dcbf4dd426dc0590faa394d041f603234e8d16a",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1103492,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2012.zip",
+        "sha256": "018de1a8b9c8c87ccdcac31652f56828f9af3b44f89df2de474fd460a0dfd6de",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1336525,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2013.zip",
+        "sha256": "881bed5906e156c23dc2036f6b4312f3c2215a7b9aebe51ee7973458ec0bf845",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1545256,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2014.zip",
+        "sha256": "65e8c7111bc628c1bc2801a246e7872c574fdead67f210a5dd58303b384dba1a",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1598000,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2015.zip",
+        "sha256": "768b7be61d0f9895dd6c3ddcef9f1449c85773bd61dc8cc656fd43d30531871b",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1710723,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2016.zip",
+        "sha256": "186c95a12c71fdbd241b83679afcfff2cc900c779b67bfe9bcd091d16a7ca0ce",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1711091,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2017.zip",
+        "sha256": "5e910b93b5af5e1c8f4006eaeee10109754ee5dd2c7f9d04520bd9770c8ece2b",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1900546,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2018.zip",
+        "sha256": "adaecbfadf54f117308cc8a135cd9ba827deac3eb1489a5febc642c403728527",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1904592,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2019.zip",
+        "sha256": "3f2707b5fcab1491329684c82cc03759ab66899839f533e09ff0a5dcf517b0c5",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1838852,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2020.zip",
+        "sha256": "8c83c820e5f6fd193a0923aa02cfe520d20dbe74bba571a576c92baf7a186317",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1882568,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2021.zip",
+        "sha256": "423d20412ec3fb629500fcbfbaa7b6973c5868965000d13963e9b63700c90952",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1983765,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2022.zip",
+        "sha256": "206364f467eb0013b0a5f8e9526426cc6fcfc5bad4e4f91b25e00311a0184cfa",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 2116244,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2023.zip",
+        "sha256": "fd17a44cb7c9acb068515380f5c9ff450052d4a89f45d6b97f0d71ca2d69425c",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 2302771,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2024.zip",
+        "sha256": "3a33564a5677a4dad90b2513b07a81d8d55308318f9dcd6c8e80690a25c6b768",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 2392119,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2025.zip",
+        "sha256": "e5ae323dadda5ebbf69b6989af0d912fb1a4aebd954372f999eccb3a692352f9",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 1675263,
+        "path": ".aios/runtime/forex_official_data_human_inbox/CFTC_POSITIONING_HISTORY_DEACOT_2026.zip",
+        "sha256": "ddaffa2c2ebf84fcb41cee099bed21453d933c5b9fced3cef97d8d6e608e1a91",
+        "source_id": "CFTC_POSITIONING_HISTORY",
+        "validation": "PASS"
+      },
+      {
+        "bytes": 80672,
+        "path": ".aios/runtime/forex_official_data_human_inbox/OFFICIAL_MACRO_RELEASE_SCHEDULES_BLS_RELEASE_CALENDAR.ics",
+        "sha256": "92a350111ace106deaab5584e4084366bd367b594a0d0bad116008d82d63e501",
+        "source_id": "OFFICIAL_MACRO_RELEASE_SCHEDULES",
+        "validation": "PASS"
+      }
+    ],
+    "failures": [],
+    "status": "PASS"
+  },
+  "packet_id": "PKT-EAST-FOREX-POST-HUMAN-DATA-CONTINUATION-026",
+  "pending_human_download_items": 0,
+  "quality": {
+    "duplicate_count": 0,
+    "pass": true,
+    "record_count": 35755,
+    "violations": []
+  },
+  "record_count": 35755,
+  "safety": {
+    "broker_write": false,
+    "credentials_read": false,
+    "funding": false,
+    "live": false,
+    "orders": false
+  },
+  "schema": "AIOS_FOREX_EXTERNAL_INFORMATION_CORPUS_V3_STATE",
+  "status": "FROZEN_VALID"
+}

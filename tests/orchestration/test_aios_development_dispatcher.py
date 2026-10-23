@@ -88,3 +88,12 @@ def test_dispatcher_rejects_negative_or_boolean_capacity() -> None:
         build_dispatch_plan(_queue(), worker_capacity=-1)
     with pytest.raises(ValueError):
         build_dispatch_plan(_queue(), worker_capacity=True)
+
+
+def test_dispatcher_cannot_claim_invalid_explicit_constraints() -> None:
+    retry = build_dispatch_plan(_queue(_item("invalid", attempt=-1)))
+    assert retry["claims"] == []
+    assert "INVALID_RETRY_CONTRACT" in retry["evaluated_items"][0]["blockers"]
+    dependency = build_dispatch_plan(_queue(_item("False", state="DONE"), _item("next", depends_on=[False])))
+    assert dependency["claims"] == []
+    assert "INVALID_DEPENDENCIES" in dependency["evaluated_items"][1]["blockers"]

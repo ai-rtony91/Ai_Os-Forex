@@ -1,0 +1,257 @@
+{
+  "append_only": true,
+  "entries": [
+    {
+      "ended_at_utc": "2026-08-31T13:20:07Z",
+      "entry_hash": "94f12404d9d44e649d4eddcf24a05e73932f2fc02a3adc3bec8f9a94a0d4d2fa",
+      "entry_id": "R5-0001",
+      "evidence": [
+        "HEAD=b86c65140ed03d53d6c8d6c3618e50da0502f51b",
+        "LOCK_A_DRY_RUN=READY_TO_CLAIM"
+      ],
+      "evidence_hash": "d14ded0cbc68cc0f258218c81190aa9f2a08468a05a388beeb869559e4e42e18",
+      "previous_entry_hash": "GENESIS",
+      "productive_seconds": 0.0,
+      "started_at_utc": "2026-08-31T13:20:07Z",
+      "status": "COMPLETE",
+      "task_id": "T01"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:20:07Z",
+      "entry_hash": "9b165f101dfd1b7359bf0df17baa49003df8fe3529e8e92527ede78e9505d439",
+      "entry_id": "R5-0002",
+      "evidence": [
+        "R3_REGRESSION=19_PASSED",
+        "PRACTICE_GET_ONLY_NO_SECRET_OUTPUT"
+      ],
+      "evidence_hash": "af577d8bb14a8828c11a102ff40f41ee4a3d2caec787eebd102a25b5f6162915",
+      "previous_entry_hash": "94f12404d9d44e649d4eddcf24a05e73932f2fc02a3adc3bec8f9a94a0d4d2fa",
+      "productive_seconds": 0.0,
+      "started_at_utc": "2026-08-31T13:20:07Z",
+      "status": "COMPLETE",
+      "task_id": "T02"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:32:07Z",
+      "entry_hash": "d5dd3d44f18141e7f88081ebe565646eaea43c3c86707479c531795b0f1e60ed",
+      "entry_id": "R5-0003",
+      "evidence": [
+        "AST_PASS=4",
+        "R5_CONTROLLER_TESTS=21_PASSED"
+      ],
+      "evidence_hash": "dbb054db37df6824c929c7ccfa20aadd5fee04c2329ec18e8802b454728d3a4f",
+      "previous_entry_hash": "9b165f101dfd1b7359bf0df17baa49003df8fe3529e8e92527ede78e9505d439",
+      "productive_seconds": 720.0,
+      "started_at_utc": "2026-08-31T13:20:07Z",
+      "status": "COMPLETE",
+      "task_id": "T03"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:33:07Z",
+      "entry_hash": "0d1d9bc87569bdc0d19d12abf2e0761c93f3cde8a4fa34ec918c233ef1058f22",
+      "entry_id": "R5-0004",
+      "evidence": [
+        "PHYSICAL_ARTIFACT_VALIDATOR_FIXTURES=PASS"
+      ],
+      "evidence_hash": "afd9ea03a3e503526756de07d009f692269117b46b7bbbd00ece2e0ebda4a45f",
+      "previous_entry_hash": "d5dd3d44f18141e7f88081ebe565646eaea43c3c86707479c531795b0f1e60ed",
+      "productive_seconds": 60.0,
+      "started_at_utc": "2026-08-31T13:32:07Z",
+      "status": "COMPLETE",
+      "task_id": "T04"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:34:07Z",
+      "entry_hash": "b5d988f6aa67d15f9aaa71f86c88b4ba24e1fb4c8b9e69613f04cba0458036d9",
+      "entry_id": "R5-0005",
+      "evidence": [
+        "CORPUS_FREEZE_READINESS_FIXTURES=PASS"
+      ],
+      "evidence_hash": "a924f92e4f17243054ac217939ff5a54a5123a9a9b6c918592d7813fdcaf3cc5",
+      "previous_entry_hash": "0d1d9bc87569bdc0d19d12abf2e0761c93f3cde8a4fa34ec918c233ef1058f22",
+      "productive_seconds": 60.0,
+      "started_at_utc": "2026-08-31T13:33:07Z",
+      "status": "COMPLETE",
+      "task_id": "T05"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:35:07Z",
+      "entry_hash": "eb9687e51d3295b728f17496096cd8ff4b5f00b53069f6ee657ce324a0b7ea03",
+      "entry_id": "R5-0006",
+      "evidence": [
+        "TIMEFRAME_MAPPING_24=PASS"
+      ],
+      "evidence_hash": "36bc88f7d76da6aff187b23974ba8036cd22fc6b355fd8708be40bde7d196efe",
+      "previous_entry_hash": "b5d988f6aa67d15f9aaa71f86c88b4ba24e1fb4c8b9e69613f04cba0458036d9",
+      "productive_seconds": 60.0,
+      "started_at_utc": "2026-08-31T13:34:07Z",
+      "status": "COMPLETE",
+      "task_id": "T06"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:36:37Z",
+      "entry_hash": "f44a08df8af2c9ed08d3b3b15c0f01f5324cd62f226d497778ba6de12ad8f095",
+      "entry_id": "R5-0007",
+      "evidence": [
+        "STATE_INTEGRITY_912_263_2_1_82=PASS"
+      ],
+      "evidence_hash": "ce0ae4477bee32c755aa17832d3805491f57ed2e434dd9bac042ebb399fc0a17",
+      "previous_entry_hash": "eb9687e51d3295b728f17496096cd8ff4b5f00b53069f6ee657ce324a0b7ea03",
+      "productive_seconds": 90.0,
+      "started_at_utc": "2026-08-31T13:35:07Z",
+      "status": "COMPLETE",
+      "task_id": "T07"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:38:07Z",
+      "entry_hash": "680ddb2eca4399b82d8d10f4c5255c9bb6bbb768d6aa7ec62a78fd3d7bcf9852",
+      "entry_id": "R5-0008",
+      "evidence": [
+        "TECHNIQUE_INVENTORY_82=PASS"
+      ],
+      "evidence_hash": "a629c095717d27d9dcd75cee05a345637717c906cfbe34a56c921e1ef3f143d4",
+      "previous_entry_hash": "f44a08df8af2c9ed08d3b3b15c0f01f5324cd62f226d497778ba6de12ad8f095",
+      "productive_seconds": 90.0,
+      "started_at_utc": "2026-08-31T13:36:37Z",
+      "status": "COMPLETE",
+      "task_id": "T08"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:39:07Z",
+      "entry_hash": "69278db5f373bac95d0d195f9a515e3fa0024f8daf4bd8bed7d553bb6e7047e9",
+      "entry_id": "R5-0009",
+      "evidence": [
+        "DETERMINISTIC_SHARD_PLANNER=PASS"
+      ],
+      "evidence_hash": "22cb129df513d1a641b4e9da503ede058a9bd78c0de64843126e147c63efb36a",
+      "previous_entry_hash": "680ddb2eca4399b82d8d10f4c5255c9bb6bbb768d6aa7ec62a78fd3d7bcf9852",
+      "productive_seconds": 60.0,
+      "started_at_utc": "2026-08-31T13:38:07Z",
+      "status": "COMPLETE",
+      "task_id": "T09"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:40:37Z",
+      "entry_hash": "4c900a224a2252cf3649422101722cb8e267ec44bcd5411e12eb10d1566cac30",
+      "entry_id": "R5-0010",
+      "evidence": [
+        "HYPOTHESIS_LEDGER_263=PASS"
+      ],
+      "evidence_hash": "ae1b22e84c69e9eff4bba77c9b3536f8cb8452d1b0da1158d24a22ffde87c266",
+      "previous_entry_hash": "69278db5f373bac95d0d195f9a515e3fa0024f8daf4bd8bed7d553bb6e7047e9",
+      "productive_seconds": 90.0,
+      "started_at_utc": "2026-08-31T13:39:07Z",
+      "status": "COMPLETE",
+      "task_id": "T10"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:41:37Z",
+      "entry_hash": "c8fc0455e053c074bb0bb7e7a61d651c2168dca290e42b1c48de12fa3f72c364",
+      "entry_id": "R5-0011",
+      "evidence": [
+        "GROSS_EDGE_POSITIVE_NEGATIVE_GATES=PASS"
+      ],
+      "evidence_hash": "7bf91a4277c3e5806f31b0f98defbd436d414ae66ca7e35c5b241a72976364fc",
+      "previous_entry_hash": "4c900a224a2252cf3649422101722cb8e267ec44bcd5411e12eb10d1566cac30",
+      "productive_seconds": 60.0,
+      "started_at_utc": "2026-08-31T13:40:37Z",
+      "status": "COMPLETE",
+      "task_id": "T11"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:42:07Z",
+      "entry_hash": "e0d0052ead56768e559b957b1e813e09f695ea9772fe4b79ae10eaea381cae13",
+      "entry_id": "R5-0012",
+      "evidence": [
+        "M30_MACD_2_LONG_1_SHORT=PASS"
+      ],
+      "evidence_hash": "594a8224b61a21d1e1e87769927753de504f0eb2c19d5369b0efae770c62b104",
+      "previous_entry_hash": "c8fc0455e053c074bb0bb7e7a61d651c2168dca290e42b1c48de12fa3f72c364",
+      "productive_seconds": 30.0,
+      "started_at_utc": "2026-08-31T13:41:37Z",
+      "status": "COMPLETE",
+      "task_id": "T12"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:42:37Z",
+      "entry_hash": "a18f050eeab59e400a139a9e62f33c016c2cf2f86fc9d1e61b2e794ea09bb15d",
+      "entry_id": "R5-0013",
+      "evidence": [
+        "FINALIST_FORWARD_V13_READINESS=PASS"
+      ],
+      "evidence_hash": "f3dc37538a44a94e8ede0eec0a8a0087cce8bf0a0f65e12ae05bdaf126621514",
+      "previous_entry_hash": "e0d0052ead56768e559b957b1e813e09f695ea9772fe4b79ae10eaea381cae13",
+      "productive_seconds": 30.0,
+      "started_at_utc": "2026-08-31T13:42:07Z",
+      "status": "COMPLETE",
+      "task_id": "T13"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:43:07Z",
+      "entry_hash": "74ceebd306daca28d7f6c1f96b76ac3cb2383859b5623a9aabfd0a7bb44d9a4b",
+      "entry_id": "R5-0014",
+      "evidence": [
+        "EXACT_ACQUISITION_LOAD_PLAN=PASS"
+      ],
+      "evidence_hash": "379af636792cec64701c0d104f24178125e25bb4c50a9419b49c2346e84d5f69",
+      "previous_entry_hash": "a18f050eeab59e400a139a9e62f33c016c2cf2f86fc9d1e61b2e794ea09bb15d",
+      "productive_seconds": 30.0,
+      "started_at_utc": "2026-08-31T13:42:37Z",
+      "status": "COMPLETE",
+      "task_id": "T14"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:47:34.3652011Z",
+      "entry_hash": "11cad9876179bd5ed076005dd509f7cba2a0c3cf4500a8891853efc7396622f4",
+      "entry_id": "R5-0015",
+      "evidence": [
+        "P1_MISSING_82_PER_TECHNIQUE_OBJECTIVE_CONTRACTS"
+      ],
+      "evidence_hash": "175267612e45427aea3c7d2e39a703586a95482978965813a2c8129f025588c3",
+      "previous_entry_hash": "74ceebd306daca28d7f6c1f96b76ac3cb2383859b5623a9aabfd0a7bb44d9a4b",
+      "productive_seconds": 0.0,
+      "started_at_utc": "2026-08-31T13:47:34.3652011Z",
+      "status": "BLOCKED",
+      "task_id": "T08"
+    },
+    {
+      "ended_at_utc": "2026-08-31T13:52:26Z",
+      "entry_hash": "fa94bcff650c74b3d54b2dc4c0b2bf1f51b530cc53da3fd91f1a1a7f8874e17d",
+      "entry_id": "R5-0016",
+      "evidence": [
+        "P1_82_TECHNIQUE_CONTRACT_GAP_REPAIRED",
+        "LOCK_C_RELATED_TESTS=15_PASSED",
+        "T08_REAL_STATE_AUDIT=PASS"
+      ],
+      "evidence_hash": "50b614df5be2064d5b9e11448d86785d6ca991656f6d547b5b6519b17c876149",
+      "previous_entry_hash": "11cad9876179bd5ed076005dd509f7cba2a0c3cf4500a8891853efc7396622f4",
+      "prior_task_status": "BLOCKED",
+      "productive_seconds": 180.0,
+      "reopened_task_resolution": true,
+      "started_at_utc": "2026-08-31T13:49:26Z",
+      "status": "COMPLETE",
+      "task_id": "T08"
+    },
+    {
+      "ended_at_utc": "2026-08-31T14:26:14.762Z",
+      "entry_hash": "d42657bc873ed0a6b91ca533f6e2b7a06f1ec2434b03888205983ca1cd7af992",
+      "entry_id": "R5-0017",
+      "evidence": [
+        "affected pytest:76 PASS",
+        "focused R5 pytest:41 PASS",
+        "AST:6 PASS; JSON:7 PASS; PowerShell parse:PASS",
+        "state hash, exact lock scope, diff check, safety AST scan:PASS"
+      ],
+      "evidence_hash": "394cc13f78e74384f4d2afb3dd408e1f78c9ec856ffe163dc5f802ba56938f0e",
+      "previous_entry_hash": "fa94bcff650c74b3d54b2dc4c0b2bf1f51b530cc53da3fd91f1a1a7f8874e17d",
+      "prior_task_status": "PENDING",
+      "productive_seconds": 2016.0,
+      "reopened_task_resolution": false,
+      "started_at_utc": "2026-08-31T13:52:26Z",
+      "status": "COMPLETE",
+      "task_id": "T15"
+    }
+  ],
+  "packet_id": "PKT-EAST-FOREX-PACKET033-R5-CONTINUATION-CONSTITUTION",
+  "schema": "AIOS_FOREX_PACKET033_R5_CONTINUATION.v1.task-ledger"
+}

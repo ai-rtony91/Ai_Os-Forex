@@ -1,0 +1,31 @@
+# AIOS Forex P1 30-Trade Paper Campaign V1
+
+- CAMPAIGN_STATUS: STOPPED
+- TARGET: 30
+- ACCEPTED: 0
+- QUALIFYING_STRATEGY: supertrend_pullback_v1
+- STRATEGY_COUNTS: {}
+- REJECTED: 0
+- CUMULATIVE_PAPER_PNL: 0
+- PROFIT_FACTOR: None
+- DRAWDOWN: 0.0
+- LOSS_STREAK: 0
+- EXPECTANCY: 0.0
+- P1_STATUS: NO_EVIDENCE
+- DATA_UNAVAILABLE_COUNT: 38
+- LAST_DATA_UNAVAILABLE_UTC: 2026-08-27T00:03:41.805340Z
+- LAST_ACTION: WAIT_FOR_NEXT_CYCLE
+- LATEST_BLOCKER_CLASSIFICATION: MARKET_NOT_ELIGIBLE
+- LATEST_BLOCKER_REASON: volatility_filter_failed
+- HISTORICAL_SIGNAL_REJECTIONS: {"data_unavailable": 38, "pullback_not_confirmed": 34, "trend_not_aligned": 2, "volatility_filter_failed": 45}
+- ACTIVE_POSITION_STATUS: NONE
+- ACTIVE_POSITION: NONE
+- STOP_REASON: OWNER_SESSION_CYCLE_LIMIT
+- COMPLETED_UTC: 2026-08-27T02:33:09.442395+00:00
+- NEXT_ACTION: Review the stop reason before a new owner-started campaign.
+
+## PAPER_PNL_BY_TRADE
+
+- NONE
+
+All results are local PAPER P/L. No broker order, live trade, or money movement occurred.

@@ -1,0 +1,91 @@
+{
+  "chronology_integrity": "PASS",
+  "cost_integrity": "PASS",
+  "duplicate_behavior_detection": "PASS",
+  "leakage_rejection": "PASS",
+  "long_short_isolation": "PASS",
+  "negative_controls": {
+    "DUPLICATE_BEHAVIOR": {
+      "reason": "duplicate_behavior_hash_rejected",
+      "rejected": true
+    },
+    "FUTURE_LEAKAGE": {
+      "reason": "future_timestamp_feature_rejected",
+      "rejected": true
+    },
+    "HIGH_WINRATE_NEGATIVE_EXPECTANCY": {
+      "reason": "net_r_negative_after_costs",
+      "rejected": true
+    },
+    "MIDPOINT_FILL_FANTASY": {
+      "reason": "bid_ask_cost_enforcement_rejected_midpoint_fills",
+      "rejected": true
+    },
+    "ONE_WINNER_ILLUSION": {
+      "reason": "single_winner_dominance_rejected",
+      "rejected": true
+    },
+    "RANDOM_WALK": {
+      "reason": "expectancy_not_distinguishable_from_zero",
+      "rejected": true
+    },
+    "TARGET_ONLY_CURVE_FIT": {
+      "reason": "target_only_selection_rejected_before_validation",
+      "rejected": true
+    }
+  },
+  "packet_id": "PKT-EAST-FOREX-FULL-ATTACK-PROFITABILITY-022",
+  "positive_controls": {
+    "KNOWN_BIDIRECTIONAL_3R_EDGE": {
+      "expectancy": 2.0,
+      "max_drawdown_r": 1.0,
+      "net_r": 144,
+      "profit_factor": 9.0,
+      "promoted": true,
+      "trades": 72
+    },
+    "KNOWN_INTERACTION_3R_EDGE": {
+      "expectancy": 1.4,
+      "max_drawdown_r": 1.0,
+      "net_r": 98,
+      "profit_factor": 4.5,
+      "promoted": true,
+      "trades": 70
+    },
+    "KNOWN_LONG_3R_EDGE": {
+      "expectancy": 1.666667,
+      "max_drawdown_r": 1.0,
+      "net_r": 120,
+      "profit_factor": 6.0,
+      "promoted": true,
+      "trades": 72
+    },
+    "KNOWN_REGIME_5R_EDGE": {
+      "expectancy": 2.0,
+      "max_drawdown_r": 2.0,
+      "net_r": 96,
+      "profit_factor": 5.0,
+      "promoted": true,
+      "trades": 48
+    },
+    "KNOWN_SHORT_3R_EDGE": {
+      "expectancy": 1.666667,
+      "max_drawdown_r": 1.0,
+      "net_r": 120,
+      "profit_factor": 6.0,
+      "promoted": true,
+      "trades": 72
+    },
+    "KNOWN_SPARSE_4R_EDGE": {
+      "expectancy": 1.5,
+      "max_drawdown_r": 2.0,
+      "net_r": 90,
+      "profit_factor": 4.0,
+      "promoted": true,
+      "trades": 60
+    }
+  },
+  "schema": "AIOS_FOREX_RESEARCH_PIPELINE_FALSIFIABILITY_V3_STATE",
+  "state_hash": "069dd2ed1b7a6bac5962eadb8d1641ae910ff686d3d64fe6b318b5d3e90215d5",
+  "status": "PASS"
+}

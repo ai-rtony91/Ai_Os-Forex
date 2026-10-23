@@ -1,0 +1,339 @@
+{
+  "inventory_hash": "c098e7016a3e9b3913ff07ba96eaa08a994370e9f711ac30bcbe1795e936d1a3",
+  "lock_id": "AIOS-LOCK-8505e053699e4e73b8f484781efd3463",
+  "packet_id": "PKT-EAST-FOREX-FULL-SPECTRUM-FUNDING-015",
+  "remaining_data_families": [],
+  "remaining_source_routes": [],
+  "results": [
+    {
+      "attempts": [
+        {
+          "attempt_utc": "2026-08-29T16:58:03.451853+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 2,
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:58:23.725457+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 3,
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:58:43.892472+00:00",
+          "error_class": "TimeoutError",
+          "next_route": null,
+          "route": 3,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "family": "POLICY_CARRY",
+      "source_id": "FRED_DFF"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_utc": "2026-08-29T17:00:05.249260+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 2,
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T17:00:25.684041+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 3,
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T17:00:46.190352+00:00",
+          "error_class": "TimeoutError",
+          "next_route": null,
+          "route": 3,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "family": "RISK_VOLATILITY",
+      "source_id": "FRED_DGS10"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_utc": "2026-08-29T17:00:05.249260+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 2,
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T17:00:25.636532+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 3,
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T17:00:46.191365+00:00",
+          "error_class": "TimeoutError",
+          "next_route": null,
+          "route": 3,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "family": "RISK_VOLATILITY",
+      "source_id": "FRED_DGS2"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_utc": "2026-08-29T16:58:03.452849+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 2,
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:58:23.771453+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 3,
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:58:43.938715+00:00",
+          "error_class": "TimeoutError",
+          "next_route": null,
+          "route": 3,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "family": "POLICY_CARRY",
+      "source_id": "FRED_ECBDFR"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_utc": "2026-08-29T16:59:04.385539+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 2,
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:59:24.909171+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 3,
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:59:45.025361+00:00",
+          "error_class": "TimeoutError",
+          "next_route": null,
+          "route": 3,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "family": "POLICY_CARRY",
+      "source_id": "FRED_IRSTCI01AUM156N"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_utc": "2026-08-29T16:59:04.352984+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 2,
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:59:24.848860+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 3,
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:59:45.042349+00:00",
+          "error_class": "TimeoutError",
+          "next_route": null,
+          "route": 3,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "family": "POLICY_CARRY",
+      "source_id": "FRED_IRSTCI01CAM156N"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_utc": "2026-08-29T16:59:04.352984+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 2,
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:59:24.848860+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 3,
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:59:45.056359+00:00",
+          "error_class": "TimeoutError",
+          "next_route": null,
+          "route": 3,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "family": "POLICY_CARRY",
+      "source_id": "FRED_IRSTCI01CHM156N"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_utc": "2026-08-29T16:58:03.463852+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 2,
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:58:23.771453+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 3,
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:58:43.969019+00:00",
+          "error_class": "TimeoutError",
+          "next_route": null,
+          "route": 3,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "family": "POLICY_CARRY",
+      "source_id": "FRED_IRSTCI01JPM156N"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_utc": "2026-08-29T16:59:04.401507+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 2,
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:59:24.894666+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 3,
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:59:45.041360+00:00",
+          "error_class": "TimeoutError",
+          "next_route": null,
+          "route": 3,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "family": "POLICY_CARRY",
+      "source_id": "FRED_IRSTCI01NZM156N"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_utc": "2026-08-29T16:58:03.453848+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 2,
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:58:23.787457+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 3,
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T16:58:43.937705+00:00",
+          "error_class": "TimeoutError",
+          "next_route": null,
+          "route": 3,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "family": "POLICY_CARRY",
+      "source_id": "FRED_IUDERB"
+    },
+    {
+      "attempts": [
+        {
+          "attempt_utc": "2026-08-29T17:00:05.202774+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 2,
+          "route": 1,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T17:00:25.684041+00:00",
+          "error_class": "TimeoutError",
+          "next_route": 3,
+          "route": 2,
+          "sanitized_error": "The read operation timed out"
+        },
+        {
+          "attempt_utc": "2026-08-29T17:00:46.174860+00:00",
+          "error_class": "TimeoutError",
+          "next_route": null,
+          "route": 3,
+          "sanitized_error": "The read operation timed out"
+        }
+      ],
+      "classification": "SOURCE_UNAVAILABLE",
+      "family": "RISK_VOLATILITY",
+      "source_id": "FRED_VIXCLS"
+    },
+    {
+      "attempts": [],
+      "classification": "UNTESTABLE_WITH_CURRENT_LAWFUL_PUBLIC_DATA",
+      "family": "MACRO_FIRST_RELEASE",
+      "reason": "No bounded multi-country first-release vintage archive established",
+      "source_id": "OFFICIAL_FIRST_RELEASE_VINTAGES"
+    },
+    {
+      "attempts": [],
+      "classification": "UNTESTABLE_WITH_CURRENT_LAWFUL_PUBLIC_DATA",
+      "family": "MACRO_EVENT_TIMING",
+      "reason": "No reproducible credential-free point-in-time historical schedule archive established",
+      "source_id": "OFFICIAL_MACRO_SCHEDULE_ARCHIVE"
+    }
+  ],
+  "safety": {
+    "broker_write": false,
+    "credentials": false,
+    "live": false
+  },
+  "schema": "AIOS_FOREX_EXTERNAL_INFORMATION_ACQUISITION_V2",
+  "status": "ACQUISITION_COMPLETE",
+  "successes": []
+}

@@ -1,0 +1,80 @@
+{
+  "schema": "AIOS_FOREX_OFFICIAL_DATA_TRANSPORT_REPAIR_V1_STATE",
+  "packet_id": "PKT-EAST-FOREX-FULL-ATTACK-PRO-REPAIR-024",
+  "identity_marker": "AIOS_FOREX_FULL_ATTACK_PROFITABILITY_CLOSURE_PRO_REPAIR_V1",
+  "worker": "EAST_OCC_01",
+  "lane": "FOREX_FULL_ATTACK_PROFITABILITY_CLOSURE",
+  "status": "HUMAN_DATA_ACQUISITION_REQUIRED",
+  "transport_repair_status": "REPAIRED_PENDING_HUMAN_RUN",
+  "observed_failure": {
+    "source": "Human-reported wrapper execution and bounded Codex smoke test",
+    "failure_signature": "Invoke-WebRequest / public HTTPS transport transient receive failure",
+    "classification": "TRANSIENT_TRANSPORT_FAILURE",
+    "not_classified_as": [
+      "OANDA_PRACTICE_TOKEN_FAILURE",
+      "OANDA_AUTHENTICATION_FAILURE",
+      "PRACTICE_HISTORY_FAILURE",
+      "PROFITABILITY_ENGINE_FAILURE",
+      "LIVE_FAILURE"
+    ]
+  },
+  "root_cause": "The official public-data helper had a single Invoke-WebRequest transport path and no bounded fallback, no atomic temp-file promotion, and no reusable existing-artifact validation before retry.",
+  "repair": {
+    "owner_file": "scripts/forex_delivery/Download-AiOsOfficialForexResearchData.HUMAN_ONLY.ps1",
+    "script_sha256": "b99db3278ddcd65a35ac60e78095cbdc2949702c3c5d3d09e978c4dc4439e5f6",
+    "transport_ladder": [
+      "IWR",
+      "CURL",
+      "HTTPCLIENT"
+    ],
+    "bounded_attempts_per_transport": 3,
+    "connect_timeout_seconds_default": 20,
+    "total_timeout_seconds_default": 180,
+    "atomic_downloads": true,
+    "existing_valid_artifact_reuse": true,
+    "partial_file_promotion_blocked": true,
+    "certificate_validation_bypass": false,
+    "insecure_curl": false,
+    "broker_request": false,
+    "live_host_contacted": false,
+    "order_attempted": false,
+    "credential_required": false
+  },
+  "smoke_test": {
+    "command": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/forex_delivery/Download-AiOsOfficialForexResearchData.HUMAN_ONLY.ps1 -MaxAttemptsPerTransport 1 -ConnectTimeoutSeconds 5 -TotalTimeoutSeconds 30",
+    "sandbox_result": "FAILED_TRANSIENT_AFTER_IWR_CURL_HTTPCLIENT",
+    "outside_sandbox_result": "FAILED_TRANSIENT_AFTER_IWR_CURL_HTTPCLIENT",
+    "artifact_promoted": false,
+    "official_inbox_file_count_after_smoke": 0,
+    "meaning": "The transport ladder and fail-closed behavior executed, but this runtime still could not complete the public official download. Human-side execution remains required."
+  },
+  "wrapper": {
+    "path": "scripts/forex_delivery/Run-AiOsProfitabilityDataClosure.HUMAN_ONLY.ps1",
+    "sha256": "9d35f676f75078d02073463375ac6af6bb4fcd366ecd3cbbea7f3714a26b070e",
+    "single_human_command": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/forex_delivery/Run-AiOsProfitabilityDataClosure.HUMAN_ONLY.ps1",
+    "official_step_first": true,
+    "practice_step_second": true,
+    "practice_token_command_line_argument": false
+  },
+  "validation": {
+    "powershell_parse_download_helper": "PASS",
+    "powershell_parse_wrapper": "PASS",
+    "focused_pytest": "PASS",
+    "focused_pytest_result": "11 passed",
+    "json_validation": "PASS",
+    "diff_check": "PASS",
+    "secret_scan": "PASS"
+  },
+  "next_action": "Human Owner runs the consolidated data closure wrapper outside Codex.",
+  "human_command": "cd C:\\Dev\\Ai.Os; powershell -NoProfile -ExecutionPolicy Bypass -File scripts/forex_delivery/Run-AiOsProfitabilityDataClosure.HUMAN_ONLY.ps1",
+  "expected_human_return_status": {
+    "PROFITABILITY_DATA_CLOSURE_COMPLETE": true,
+    "OFFICIAL_DATA_READY": true,
+    "PRACTICE_HISTORY_READY": true,
+    "SECRET_VALUE_EXPOSED": false,
+    "LIVE_HOST_CONTACTED": false,
+    "ORDER_ATTEMPTED": false
+  },
+  "pre_terminal_audit_status": "PASS",
+  "remaining_codex_resolvable_p0_p1_before_human_data": 0
+}

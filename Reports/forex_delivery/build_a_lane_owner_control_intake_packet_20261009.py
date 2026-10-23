@@ -1,0 +1,126 @@
+from __future__ import annotations
+
+import json
+from datetime import datetime, timezone
+from pathlib import Path
+
+ROOT = Path(r"C:\Dev\Ai.Os")
+REPORT_DIR = ROOT / "Reports" / "forex_delivery"
+OUT_JSON = REPORT_DIR / "AIOS_FOREX_A_LANE_OWNER_CONTROL_INTAKE_PACKET_V1.json"
+OUT_MD = REPORT_DIR / "AIOS_FOREX_A_LANE_OWNER_CONTROL_INTAKE_PACKET_V1.md"
+
+packet = {
+    "packet_schema": "AIOS_FOREX_A_LANE_OWNER_CONTROL_INTAKE_PACKET_V1",
+    "created_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    "purpose": "Collect only sanitized owner-provided facts needed to unblock A-lane install/control gates before PAPER/LIVE consideration.",
+    "do_not_include": [
+        "API tokens",
+        "passwords",
+        "full broker account IDs",
+        "banking details",
+        "private legal identifiers",
+        "screenshots containing secrets or account numbers",
+    ],
+    "required_sections": {
+        "execution_policy_resolution": {
+            "status": "UNKNOWN",
+            "fields": {
+                "approved_execution_policy_route": "",
+                "policy_scope": "CurrentUser or approved enterprise route",
+                "reviewed_claim_script_sha256": "33a8eb24a4113abb3126a5b0e65ff595dc2f8c16d6857afd185c6a915007f087",
+                "reviewed_release_script_sha256": "9b829a7c292a991f39891594efe5d2d0fd151e9a0a444bc9a85ff07ae2d395b6",
+                "trusted_signer_name": "",
+                "post_sign_claim_script_sha256": "",
+                "post_sign_release_script_sha256": "",
+                "owner_attestation": "",
+                "evidence_timestamp_utc": "",
+            },
+        },
+        "daily_loss_authority": {
+            "status": "UNKNOWN",
+            "fields": {
+                "daily_loss_cap_value": "",
+                "daily_loss_cap_unit": "USD or ACCOUNT_PERCENT",
+                "trading_day_timezone": "",
+                "rollover_cutoff_time": "",
+                "restart_persistence_required": True,
+                "owner_attestation": "",
+                "evidence_timestamp_utc": "",
+            },
+        },
+        "kill_switch_authority": {
+            "status": "UNKNOWN",
+            "fields": {
+                "manual_operator_stop_path": "",
+                "credential_revoke_path": "",
+                "notification_path": "",
+                "max_daily_loss_stop_declared": True,
+                "max_drawdown_stop_declared": True,
+                "audit_logging_declared": True,
+                "owner_attestation": "",
+                "evidence_timestamp_utc": "",
+            },
+        },
+        "broker_permission_boundary": {
+            "status": "UNKNOWN",
+            "fields": {
+                "broker_name_sanitized": "OANDA",
+                "broker_environment": "practice",
+                "asset_class": "forex",
+                "account_type_sanitized": "",
+                "account_currency": "",
+                "margin_available_confirmed": "",
+                "effective_leverage_limit": "",
+                "long_permission": "",
+                "short_permission": "",
+                "fifo_required": "",
+                "hedging_available": "",
+                "instrument_tradable": "",
+                "max_units": "",
+                "stop_loss_supported": "",
+                "take_profit_supported": "",
+                "order_type_supported": "market",
+                "one_order_only_supported": "",
+                "demo_sandbox_order_preview_supported": "",
+                "broker_house_restrictions": [],
+                "proof_source_sanitized": "",
+                "evidence_timestamp_utc": "",
+            },
+        },
+        "owner_safety_controls_refresh": {
+            "status": "UNKNOWN",
+            "fields": {
+                "kill_switch_state_artifact": "",
+                "daily_stop_state_artifact": "",
+                "max_loss_state_artifact": "",
+                "monitoring_ready_artifact": "",
+                "freshness_window_hours": 24,
+                "owner_attestation": "",
+                "evidence_timestamp_utc": "",
+            },
+        },
+    },
+    "protected_actions_not_taken": [
+        "no broker API",
+        "no credentials",
+        "no orders",
+        "no execution policy changes",
+        "no script signing",
+        "no claim script execution",
+    ],
+}
+OUT_JSON.write_text(json.dumps(packet, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+lines = [
+    "# AIOS Forex A-Lane Owner Control Intake Packet V1",
+    "",
+    f"Created UTC: {packet['created_utc']}",
+    "",
+    "Fill only sanitized facts. Do not include API tokens, passwords, full account IDs, banking details, or screenshots containing secrets.",
+]
+for section, data in packet["required_sections"].items():
+    lines.extend(["", f"## {section}", "", f"Status: {data['status']}", ""])
+    for key, value in data["fields"].items():
+        lines.append(f"- {key}: {value}")
+lines.append("")
+OUT_MD.write_text("\n".join(lines), encoding="utf-8")
+print(json.dumps({"json": str(OUT_JSON), "md": str(OUT_MD), "sections": list(packet["required_sections"].keys())}, indent=2))

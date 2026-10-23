@@ -17,7 +17,6 @@ from automation.orchestration.aios_codex_packet_builder import (
     build_repository_aligned_apply_packet,
 )
 
-
 SCHEMA = "AIOS_EXECUTION_PACKET_RESOLUTION.v1"
 QUEUE_SCHEMA = "AIOS_RUNTIME_EXECUTION_QUEUE.v1"
 PACKET_SCHEMA = "AIOS_REPOSITORY_ALIGNED_APPLY_PACKET.v1"
@@ -85,9 +84,11 @@ def _valid_scope(paths: Any, forbidden: Any) -> tuple[bool, list[str]]:
 def _dependency_blockers(item: dict[str, Any], repository_state: dict[str, Any]) -> list[str]:
     states = repository_state.get("dependency_states", {})
     dependencies = item.get("depends_on", [])
-    if not isinstance(dependencies, list):
+    if not isinstance(dependencies, list) or any(
+        not isinstance(dependency, str) or not dependency.strip() for dependency in dependencies
+    ):
         return ["invalid_dependencies"]
-    return [f"dependency_not_done:{dependency}" for dependency in dependencies if states.get(str(dependency)) != "DONE"]
+    return [f"dependency_not_done:{dependency}" for dependency in dependencies if states.get(dependency) != "DONE"]
 
 
 def resolve_execution_packet(
@@ -95,6 +96,9 @@ def resolve_execution_packet(
     repository_state: dict[str, Any] | None,
     *,
     existing_packets: list[dict[str, Any]] | None = None,
+    campaign_profile=None,
+    campaign_admission_reader=None,
+    campaign_selection=None,
 ) -> dict[str, Any]:
     """Return a deterministic packet resolution without performing any action."""
     item = copy.deepcopy(queue_item) if isinstance(queue_item, dict) else {}
@@ -110,7 +114,25 @@ def resolve_execution_packet(
     )
     if item.get("protected_action") is True or PROTECTED_TERMS.search(protected_surface):
         return _result("BLOCKED", "protected_action")
-    if state.get("status_lines"):
+    campaign = any(value is not None for value in (campaign_profile, campaign_admission_reader, campaign_selection))
+    if campaign:
+        from automation.orchestration.aios_repo_state_evidence import (
+            campaign_json,
+            verify_campaign_packet_profile,
+        )
+        try:
+            verify_campaign_packet_profile(campaign_profile, admission_reader=campaign_admission_reader,
+                selection=campaign_selection, repository_state=state, queue_item=item)
+        except (ValueError, TypeError, OSError, UnicodeError, AttributeError) as exc:
+            return _result("BLOCKED", "campaign_source_blocked", reason=str(exc))
+        if existing_packets is not None:
+            try:
+                if type(existing_packets) is not list:
+                    raise ValueError("campaign existing packet collection raw type invalid")
+                campaign_json(packets)
+            except (ValueError, TypeError, RecursionError):
+                return _result("BLOCKED", "existing_packet_canonical_mismatch")
+    if state.get("status_lines") and not campaign:
         return _result("BLOCKED", "repository_dirty", dirty_files=list(state["status_lines"]))
     if not str(state.get("worktree", "")).strip() or not str(state.get("branch", "")).strip():
         return _result("BLOCKED", "repository_state_missing")
@@ -122,8 +144,16 @@ def resolve_execution_packet(
     if dependency_blockers:
         return _result("BLOCKED", "dependencies_failed", blockers=dependency_blockers)
     try:
-        attempt, maximum = int(item.get("attempt", 0)), int(item.get("max_attempts", 1))
-    except (TypeError, ValueError):
+        counters = (item.get("attempt", 0), item.get("max_attempts", 1))
+        if any(isinstance(value, bool) or not isinstance(value, (int, float, str)) for value in counters):
+            raise ValueError("invalid_retry_contract")
+        attempt, maximum = (int(value) for value in counters)
+        if attempt < 0 or maximum < 1 or any(
+            isinstance(value, float) and value != normalized
+            for value, normalized in zip(counters, (attempt, maximum))
+        ):
+            raise ValueError("invalid_retry_contract")
+    except (TypeError, ValueError, OverflowError):
         return _result("BLOCKED", "invalid_retry_contract")
     if attempt >= maximum:
         return _result("BLOCKED", "retries_exhausted")
@@ -131,9 +161,9 @@ def resolve_execution_packet(
         return _result("BLOCKED", "apply_approval_required")
     if not str(item.get("approval_authority", "")).strip():
         return _result("BLOCKED", "approval_authority_missing")
-    if not str(item.get("commit_message", "")).strip():
+    if not campaign and not str(item.get("commit_message", "")).strip():
         return _result("BLOCKED", "commit_message_missing")
-    if not str(item.get("pr_authority", "")).strip():
+    if not campaign and not str(item.get("pr_authority", "")).strip():
         return _result("BLOCKED", "pr_authority_missing")
 
     packet_id = str(item.get("packet_id", "")).strip()
@@ -153,15 +183,18 @@ def resolve_execution_packet(
         forbidden_paths=item.get("forbidden_paths"),
         validators=validators if isinstance(validators, list) else [],
         approval_authority=str(item.get("approval_authority", "")).strip(),
+        **({"campaign_profile": campaign_profile, "campaign_admission_reader": campaign_admission_reader,
+            "campaign_selection": campaign_selection} if campaign else {}),
     )
     if not packet.get("packet_ready"):
         return _result("BLOCKED", str(packet.get("reason_code", "packet_builder_blocked")), builder_result=packet)
-    packet["commit_message"] = str(item["commit_message"]).strip()
-    packet["pr_authority"] = str(item["pr_authority"]).strip()
-    packet["codex_prompt_text"] = packet["codex_prompt_text"].replace(
-        "\nSTOP POINT:",
-        f"\nEXACT COMMIT MESSAGE: {packet['commit_message']}\nPR AUTHORITY: {packet['pr_authority']}\n\nSTOP POINT:",
-    )
+    if not campaign:
+        packet["commit_message"] = str(item["commit_message"]).strip()
+        packet["pr_authority"] = str(item["pr_authority"]).strip()
+        packet["codex_prompt_text"] = packet["codex_prompt_text"].replace(
+            "\nSTOP POINT:",
+            f"\nEXACT COMMIT MESSAGE: {packet['commit_message']}\nPR AUTHORITY: {packet['pr_authority']}\n\nSTOP POINT:",
+        )
 
     matches = [existing for existing in packets if str(existing.get("packet_id", "")).strip() == packet_id]
     if len(matches) > 1:
@@ -173,7 +206,14 @@ def resolve_execution_packet(
         # Rebuild from the current canonical inputs before reuse.  This preserves
         # builder-owned instrumentation paths while rejecting stale or tampered
         # identity, scope, validator, authority, state, and prompt content.
-        if existing != packet:
+        if campaign:
+            try:
+                matches_current = campaign_json(existing) == campaign_json(packet)
+            except (ValueError, TypeError, RecursionError):
+                return _result("BLOCKED", "existing_packet_canonical_mismatch")
+        else:
+            matches_current = existing == packet
+        if not matches_current:
             return _result("BLOCKED", "existing_packet_canonical_mismatch")
         return _result("REUSED", "existing_packet_reused", packet=existing)
 

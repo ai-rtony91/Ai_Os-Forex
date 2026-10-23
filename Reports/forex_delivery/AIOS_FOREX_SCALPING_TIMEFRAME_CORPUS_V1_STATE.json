@@ -1,0 +1,34 @@
+{
+  "broker_or_live_api_work": "NO",
+  "corpus_hash": "3de374cbd8f16e292cf187bafc268ce561dbe9a6726a795da86fe1a60651ab00",
+  "corpus_mutation_performed": false,
+  "frozen_current_evidence_timeframes": [
+    "M5",
+    "M10",
+    "M15",
+    "M30",
+    "H1",
+    "H2",
+    "H3",
+    "H4",
+    "H6",
+    "H8",
+    "H12",
+    "D1",
+    "W1",
+    "MN1",
+    "MO6"
+  ],
+  "missing_scientifically_relevant_native_timeframes": [
+    "S5",
+    "S10",
+    "S15",
+    "S30",
+    "M1",
+    "M2",
+    "M4"
+  ],
+  "packet_id": "PKT-EAST-FOREX-ALL-TIMEFRAME-SCALPING-EDGE-033",
+  "schema": "AIOS_FOREX_SCALPING_TIMEFRAME_CORPUS.v1",
+  "status": "HUMAN_SCALPING_TIMEFRAME_DATA_ACQUISITION_REQUIRED"
+}

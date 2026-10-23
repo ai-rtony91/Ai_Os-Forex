@@ -109,11 +109,20 @@ def test_path_traversal_and_symlink_escape_fail_closed(
             checkout_root=tmp_path, external_runtime_root=traversal
         )
     escaped = tmp_path / "escaped"
-    try:
-        escaped.symlink_to(approved, target_is_directory=True)
-    except OSError:
-        pytest.skip("symlink creation unavailable on this Windows test host")
-    with pytest.raises(ValueError, match="not_allowlisted"):
+    escaped.mkdir(exist_ok=True)
+    original_normalized = runtime._normalized_path_text
+    original_resolve = Path.resolve
+    monkeypatch.setattr(
+        runtime,
+        "_normalized_path_text",
+        lambda path: original_normalized(approved) if path in {escaped, approved} else original_normalized(path),
+    )
+    monkeypatch.setattr(
+        Path,
+        "resolve",
+        lambda self, *args, **kwargs: (approved.parent if self == escaped else original_resolve(self, *args, **kwargs)),
+    )
+    with pytest.raises(ValueError, match="symlink_escape"):
         runtime.resolve_m5_runtime_paths(
             checkout_root=tmp_path, external_runtime_root=escaped
         )

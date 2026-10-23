@@ -721,19 +721,20 @@
     {
       "path": "automation/orchestration/locks/Claim-AiOsFileLock.DRY_RUN.ps1",
       "classification": "HELPER",
-      "purpose": "Simulate AI_OS file lock claims and report overlap or policy-block risks without changing the lock registry.",
+      "purpose": "Preview AI_OS file lock claims by default and persist an approved claim only through the explicit gated Apply path.",
       "owner_area": "automation/orchestration/locks",
-      "execution_mode": "DRY_RUN_HELPER",
-      "writes_files": false,
+      "execution_mode": "DRY_RUN_DEFAULT_EXPLICIT_APPLY_GATED_HELPER",
+      "writes_files": true,
       "launches_process": false,
       "runs_git": false,
-      "requires_human_approval": false,
+      "requires_human_approval": true,
       "allowed_callers": [
         "operator",
         "validator_chain"
       ],
       "blocked_actions": [
-        "APPLY",
+        "APPLY_without_explicit_flag",
+        "APPLY_without_human_owner_packet_approval",
         "commit",
         "push",
         "merge",
@@ -743,16 +744,32 @@
         "scheduled_task_creation",
         "packet_mutation",
         "queue_mutation",
-        "state_mutation",
+        "state_mutation_without_human_owner_packet_approval",
         "approval_mutation",
         "process_launch",
         "git_mutation"
       ],
-      "risk_policy_notes": "Lock claim output is simulation evidence only; it does not approve a real lock claim or worker ownership change.",
-      "topology_guard_requirement": "May be consumed as a helper only; must not route APPLY or launch work.",
-      "validator_consumption": "Validators may use the simulation result as read-only collision evidence.",
-      "review_status": "registry_helper_next_batch_apply_20260524",
-      "next_safe_action": "Keep DRY_RUN simulation-only unless a separate APPLY lane authorizes lock registry mutation."
+      "risk_policy_notes": "Default invocation is non-mutating. Registry persistence requires the explicit Apply switch, a ready collision result, an approval packet ID, and separate Human Owner packet authorization for the exact registry and claimed paths.",
+      "topology_guard_requirement": "May persist only through its registered gated write function; must never launch workers, mutate runtime, or treat lock output as APPLY approval.",
+      "validator_consumption": "Validators must verify the canonical gated-mutation contract and default non-mutating behavior before accepting this helper.",
+      "review_status": "human_owner_approved_gated_lock_claim_reconciliation_20260831",
+      "next_safe_action": "Use default DRY_RUN for previews; use Apply only inside an exact Human Owner-approved lock-governance packet.",
+      "gated_mutation_contract": {
+        "contract_version": "AIOS_GATED_APPLY_HELPER.v1",
+        "default_behavior": "NON_MUTATING",
+        "write_capability": "EXPLICIT_GATED_APPLY_ONLY",
+        "explicit_apply_parameter": "Apply",
+        "apply_requires_explicit_flag": true,
+        "default_invocation_must_remain_dry_run": true,
+        "gated_write_functions": [
+          "Write-AiOsJsonAtomic"
+        ],
+        "required_apply_gate_terms": [
+          "$Apply",
+          "$claimStatus",
+          "READY_TO_CLAIM"
+        ]
+      }
     },
     {
       "path": "automation/orchestration/locks/Release-AiOsFileLock.DRY_RUN.ps1",

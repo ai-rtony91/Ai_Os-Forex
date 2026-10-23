@@ -1,0 +1,114 @@
+{
+  "development_window": "2005-01-01 through 2018-12-31",
+  "directions": {
+    "LONG": {
+      "1R": {
+        "diagnostic_expectancy_before_cost_stress": -0.177056,
+        "losses": 8604,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.411472,
+        "samples": 15080,
+        "wins": 6205
+      },
+      "2R": {
+        "diagnostic_expectancy_before_cost_stress": -0.325796,
+        "losses": 10050,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.224735,
+        "samples": 15080,
+        "wins": 3389
+      },
+      "3R": {
+        "diagnostic_expectancy_before_cost_stress": -0.533422,
+        "losses": 10362,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.116645,
+        "samples": 15080,
+        "wins": 1759
+      },
+      "4R": {
+        "diagnostic_expectancy_before_cost_stress": -0.709218,
+        "losses": 10430,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.058156,
+        "samples": 15080,
+        "wins": 877
+      },
+      "5R": {
+        "diagnostic_expectancy_before_cost_stress": -0.833289,
+        "losses": 10447,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.027785,
+        "samples": 15080,
+        "wins": 419
+      },
+      "6R": {
+        "diagnostic_expectancy_before_cost_stress": -0.906698,
+        "losses": 10457,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.013329,
+        "samples": 15080,
+        "wins": 201
+      }
+    },
+    "SHORT": {
+      "1R": {
+        "diagnostic_expectancy_before_cost_stress": -0.179576,
+        "losses": 8614,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.410212,
+        "samples": 15080,
+        "wins": 6186
+      },
+      "2R": {
+        "diagnostic_expectancy_before_cost_stress": -0.324005,
+        "losses": 10138,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.225332,
+        "samples": 15080,
+        "wins": 3398
+      },
+      "3R": {
+        "diagnostic_expectancy_before_cost_stress": -0.528647,
+        "losses": 10401,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.117838,
+        "samples": 15080,
+        "wins": 1777
+      },
+      "4R": {
+        "diagnostic_expectancy_before_cost_stress": -0.716512,
+        "losses": 10461,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.056698,
+        "samples": 15080,
+        "wins": 855
+      },
+      "5R": {
+        "diagnostic_expectancy_before_cost_stress": -0.826923,
+        "losses": 10469,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.028846,
+        "samples": 15080,
+        "wins": 435
+      },
+      "6R": {
+        "diagnostic_expectancy_before_cost_stress": -0.898806,
+        "losses": 10471,
+        "median_realized_r": -1.0,
+        "reach_probability": 0.014456,
+        "samples": 15080,
+        "wins": 218
+      }
+    }
+  },
+  "packet_id": "PKT-EAST-FOREX-POST-HUMAN-DATA-CONTINUATION-026",
+  "sampled_instrument_count": 58,
+  "schema": "AIOS_FOREX_RR_OPPORTUNITY_ATLAS_V3_STATE",
+  "selected_long_target": 2,
+  "selected_short_target": 2,
+  "source": "AIOS_FOREX_MULTI_REGIME_CORPUS_V3_H1",
+  "state_hash": "be1ef690d62e04c8691ee76dadfc7f4cffbd11c99169635ce8b3228d441bbe0f",
+  "status": "FINAL_DEVELOPMENT_ATLAS_COMPLETE",
+  "target_selection": "2R baseline unless 3R+ had positive Development diagnostic expectancy."
+}

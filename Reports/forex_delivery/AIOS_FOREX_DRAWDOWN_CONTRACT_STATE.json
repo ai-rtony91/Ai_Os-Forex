@@ -1,0 +1,13 @@
+{
+  "canonical_unit": "PERCENT_OF_RUNNING_PEAK_EQUITY",
+  "formula": "100 * (running_peak_equity - current_equity) / running_peak_equity",
+  "future_requirement": "Every candidate result must record starting equity, risk fraction, per-trade equity before/after, running peak equity, drawdown percent, and maximum drawdown percent.",
+  "gate_limit_percent": 10.0,
+  "implementation_defect": "Paper60 labeled and gated maximum_drawdown_r while the owner certification requirement is percentage drawdown.",
+  "paper60_conversion_status": "NOT_RELIABLY_CONVERTIBLE",
+  "paper60_reason": "Paper60 preserves R outcomes but does not canonically bind a starting equity and fixed per-trade equity-risk fraction in its certification artifacts.",
+  "position_risk_fraction_required": true,
+  "r_to_percent_relationship": "When each trade risks fixed fraction f of then-current equity, equity compounds by (1 + f * realized_R); drawdown percent is measured from the compounded equity curve peak.",
+  "schema": "AIOS_FOREX_DRAWDOWN_CONTRACT_V1",
+  "starting_equity_required": true
+}

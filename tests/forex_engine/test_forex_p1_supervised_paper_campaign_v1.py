@@ -10,7 +10,7 @@ import pytest
 from automation.forex_engine.forex_p1_supervised_paper_campaign_v1 import (
     CampaignHalt, CampaignPaths, CampaignWait, LONG_RUN_LIMITS, MAX_OPEN_PAPER_POSITIONS,
     SAFETY_FLAGS, SUPERTREND_REJECTION_REASONS, TARGET_QUALIFYING_TRADES,
-    WAIT_FOR_DATA, WAITING_FOR_NEXT_RUN, run_campaign,
+    WAIT_FOR_DATA, WAITING_FOR_NEXT_RUN, latest_paper_blocker_classification, run_campaign,
 )
 from automation.forex_engine.strategies import SUPERTREND_PULLBACK_V1
 from scripts.forex_delivery import run_forex_p1_supervised_paper_campaign_v1 as runtime_script
@@ -306,9 +306,15 @@ def test_rejection_telemetry_cannot_expand_into_default_campaign(paths):
 def test_practice_data_unavailable_is_recorded_as_wait_for_data(paths):
     observed_at = "2026-08-10T10:30:00Z"
     state, output = run([
-        CampaignWait(1, 2, action=WAIT_FOR_DATA, observed_at_utc=observed_at),
+        CampaignWait(
+            1,
+            2,
+            action=WAIT_FOR_DATA,
+            observed_at_utc=observed_at,
+            rejection_reasons=("data_unavailable",),
+        ),
         CampaignHalt("OWNER_SESSION_CYCLE_LIMIT"),
-    ], paths)
+    ], paths, qualifying_strategy_name=SUPERTREND_PULLBACK_V1)
     persisted = json.loads(paths.campaign_state.read_text(encoding="utf-8"))
 
     assert state["stop_reason"] == "OWNER_SESSION_CYCLE_LIMIT"
@@ -321,6 +327,86 @@ def test_practice_data_unavailable_is_recorded_as_wait_for_data(paths):
     assert persisted["data_unavailable_count"] == 1
     assert persisted["last_action"] == WAIT_FOR_DATA
     assert "ACTION: WAIT_FOR_DATA" in output
+    assert latest_paper_blocker_classification(state) == "DATA_UNAVAILABLE"
+    assert "LATEST_BLOCKER_CLASSIFICATION: DATA_UNAVAILABLE" in paths.campaign_report.read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize(
+    ("waits", "expected_classification", "expected_latest_reason"),
+    [
+        (
+            [
+                CampaignWait(
+                    1,
+                    2,
+                    action=WAIT_FOR_DATA,
+                    observed_at_utc="2026-08-10T10:30:00Z",
+                    rejection_reasons=("data_unavailable",),
+                ),
+                CampaignHalt("OWNER_SESSION_CYCLE_LIMIT"),
+            ],
+            "DATA_UNAVAILABLE",
+            "data_unavailable",
+        ),
+        (
+            [
+                CampaignWait(
+                    1,
+                    2,
+                    rejection_reasons=("pullback_not_confirmed",),
+                ),
+                CampaignHalt("OWNER_SESSION_CYCLE_LIMIT"),
+            ],
+            "MARKET_NOT_ELIGIBLE",
+            "pullback_not_confirmed",
+        ),
+        (
+            [
+                CampaignWait(
+                    1,
+                    2,
+                    rejection_reasons=("volatility_filter_failed",),
+                ),
+                CampaignHalt("OWNER_SESSION_CYCLE_LIMIT"),
+            ],
+            "MARKET_NOT_ELIGIBLE",
+            "volatility_filter_failed",
+        ),
+        (
+            [
+                CampaignWait(
+                    1,
+                    2,
+                    rejection_reasons=("pullback_not_confirmed",),
+                ),
+                CampaignWait(
+                    2,
+                    2,
+                    action=WAIT_FOR_DATA,
+                    observed_at_utc="2026-08-10T10:35:00Z",
+                    rejection_reasons=("data_unavailable",),
+                ),
+                CampaignHalt("OWNER_SESSION_CYCLE_LIMIT"),
+            ],
+            "DATA_UNAVAILABLE",
+            "data_unavailable",
+        ),
+    ],
+)
+def test_latest_paper_blocker_classification_distinguishes_wait_for_data_from_market_rejection(
+    waits, expected_classification, expected_latest_reason, paths
+):
+    state, _ = run(
+        waits,
+        paths,
+        qualifying_strategy_name=SUPERTREND_PULLBACK_V1,
+    )
+    report = paths.campaign_report.read_text(encoding="utf-8")
+
+    assert latest_paper_blocker_classification(state) == expected_classification
+    assert state["latest_rejection_reason"] == expected_latest_reason
+    assert f"LATEST_BLOCKER_CLASSIFICATION: {expected_classification}" in report
+    assert "HISTORICAL_SIGNAL_REJECTIONS:" in report
 
 
 @pytest.mark.parametrize(("kwargs", "reason"), [
@@ -583,16 +669,31 @@ def test_main_default_supervised_path_is_unmodified(monkeypatch):
         captured["cycles"] = kwargs["cycles"]
         return iter(())
 
-    def fake_campaign(_candidates, paths, **_kwargs):
+    def fake_campaign(_candidates, paths, **kwargs):
         captured["campaign_paths"] = paths
+        captured["active_session_path"] = kwargs["active_session_path"]
         return {"stop_reason": "OWNER_SESSION_CYCLE_LIMIT"}
 
-    monkeypatch.setattr(runtime_script, "OandaReadOnlyClient", lambda *_args, **_kwargs: None)
-    monkeypatch.setattr(runtime_script, "_runtime_environment_value", lambda *_args: "value")
+    client_args = {}
+
+    def fake_client(*_args, **kwargs):
+        client_args.update(kwargs)
+        return None
+
+    def fake_runtime_value(name):
+        return {
+            "OANDA_DEMO_ACCESS_TOKEN": "demo-token",
+            "OANDA_DEMO_ACCOUNT_ID": "demo-account",
+        }.get(name, "")
+
+    monkeypatch.setattr(runtime_script, "OandaReadOnlyClient", fake_client)
+    monkeypatch.setattr(runtime_script, "_runtime_environment_value", fake_runtime_value)
     monkeypatch.setattr(runtime_script, "completed_paper_records", fake_records)
     monkeypatch.setattr(runtime_script, "run_campaign", fake_campaign)
     assert runtime_script.main(["--owner-local-runtime", "--reviewer", "Human Owner Anthony", "--cycles", "288"]) == 0
+    assert client_args == {"api_token": "demo-token", "account_id": "demo-account", "environment": "practice"}
     assert captured["signal_source"] == "sprint-4"
     assert captured["runtime_path"] == runtime_script.SUPERVISED_PRACTICE_SESSION_PATH
+    assert captured["active_session_path"] == runtime_script.SUPERVISED_PRACTICE_SESSION_PATH
     assert captured["cycles"] == 288
     assert captured["campaign_paths"].campaign_state.parent == runtime_script.REPORTS

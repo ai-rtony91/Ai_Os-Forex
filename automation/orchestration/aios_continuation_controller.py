@@ -62,18 +62,42 @@ def approval_required(*, human_review: bool = True) -> dict[str, bool]:
     }
 
 
-def _collect_safety(*contracts: dict[str, Any] | None) -> dict[str, bool]:
+def _collect_safety(**contracts: dict[str, Any]) -> tuple[dict[str, bool], list[str]]:
     safety = base_safety()
-    for contract in contracts:
-        if not isinstance(contract, dict):
-            continue
-        source = contract.get("safety", contract.get("safety_summary", {}))
-        if not isinstance(source, dict):
-            continue
-        for key, value in source.items():
-            if key in safety:
-                safety[key] = safety[key] or bool(value)
-    return safety
+    known_safety_flags = set(safety) | {
+        "command_execution", "file_writes", "network_access", "runtime_launch", "delete_reset", "secrets",
+    }
+    known_approval_flags = set(approval_required()) | {
+        "human_review_before_local_apply", "local_plan_preview", "local_allowlisted_build",
+        "runtime_launch", "secrets", "destructive_action",
+    }
+    evidence_fields: list[str] = []
+    sources = list(contracts.items())
+    resume = contracts.get("resume_state", {})
+    # Inspect only the two persisted contract slots, never arbitrary nested payloads.
+    for name in ("next_build_plan", "bounded_executor_handoff"):
+        nested = resume.get(name)
+        if isinstance(nested, dict):
+            sources.append((f"resume_state.{name}", nested))
+    for contract_path, contract in sources:
+        for field in ("safety", "safety_summary", "approval_required"):
+            if field not in contract:
+                continue
+            source = contract[field]
+            field_path = f"{contract_path}.{field}"
+            if not isinstance(source, dict):
+                evidence_fields.append(field_path)
+                continue
+            known_flags = known_approval_flags if field == "approval_required" else known_safety_flags
+            for flag in sorted(known_flags):
+                if flag not in source:
+                    continue
+                value = source[flag]
+                if type(value) is not bool:
+                    evidence_fields.append(f"{field_path}.{flag}")
+                elif field != "approval_required" and flag in safety:
+                    safety[flag] = safety[flag] or value
+    return safety, evidence_fields
 
 
 def _current_mode(user_goal: str | None, mode_registry: dict[str, Any]) -> str:
@@ -153,10 +177,34 @@ def build_continuation_controller(
     allowed_action = str(handoff.get("allowed_action", "none"))
     ready_status = str(ready.get("status", "not_ready"))
     handoff_status = str(handoff.get("handoff_status", "blocked"))
-    safety = _collect_safety(resume, control, handoff, ready)
+    safety, invalid_evidence_fields = _collect_safety(
+        resume_state=resume, control_plane_status=control,
+        bounded_executor_handoff=handoff, bounded_executor_ready=ready,
+    )
     autonomous = _autonomous_job_summary(autonomous_job_state)
+    # This projection never grants signed execution authority.
+    progress_event = str(resume.get('progress_event', '')) in {
+        'unit_finished', 'batch_finished', 'candidate_dead', 'candidate_rejected',
+        'candidate_passed', 'report_written', 'checkpoint_saved', 'stage_finished',
+        'context_turn_ended', 'recoverable_retry', 'next_safe_work_ready'}
 
-    if autonomous["state"] == "SOS":
+    if any(safety.get(flag) is True for flag in HARD_SAFETY_FLAGS):
+        action_type = "sos_stop"
+        continuation_status = "blocked"
+        reason_code = "safety_blocker_present"
+        codex_packet_required = False
+        productive_available = False
+        next_action = "Stop for SOS escalation."
+        next_safe_action = "Stop and escalate safety blocker before continuing AIOS build work."
+    elif invalid_evidence_fields:
+        action_type = "human_review"
+        continuation_status = "blocked"
+        reason_code = "invalid_safety_evidence"
+        codex_packet_required = False
+        productive_available = False
+        next_action = "Stop for human review."
+        next_safe_action = "Rebuild invalid safety or approval metadata from verified source evidence before continuing."
+    elif autonomous["state"] == "SOS":
         action_type = "sos_stop"
         continuation_status = "blocked"
         reason_code = "autonomous_job_security_sos"
@@ -180,14 +228,6 @@ def build_continuation_controller(
         productive_available = False
         next_action = "Stop for human review."
         next_safe_action = autonomous["next_safe_action"]
-    elif any(safety.get(flag) is True for flag in HARD_SAFETY_FLAGS):
-        action_type = "sos_stop"
-        continuation_status = "blocked"
-        reason_code = "safety_blocker_present"
-        codex_packet_required = False
-        productive_available = False
-        next_action = "Stop for SOS escalation."
-        next_safe_action = "Stop and escalate safety blocker before continuing AIOS build work."
     elif not _mode_enabled(registry, current_mode):
         action_type = "human_review"
         continuation_status = "human_review_required"
@@ -196,6 +236,14 @@ def build_continuation_controller(
         productive_available = False
         next_action = "Stop for human review."
         next_safe_action = "Ask Anthony to approve or define the requested AIOS mode before continuing."
+    elif progress_event and autonomous['allowed']:
+        action_type = 'continue_safe_preparation'
+        continuation_status = 'ready_to_prepare_packet'
+        reason_code = 'normal_progress_is_not_a_stop'
+        codex_packet_required = False
+        productive_available = False
+        next_action = 'prepare next currently allowed work'
+        next_safe_action = autonomous['next_safe_action']
     elif handoff_status == "stopped" or next_component == "none":
         action_type = "human_review"
         continuation_status = "human_review_required"
@@ -232,8 +280,17 @@ def build_continuation_controller(
         next_action = "Stop for human review."
         next_safe_action = "Repair bounded executor readiness before continuing."
 
+    stop_class = None
+    if action_type == 'sos_stop':
+        stop_class = 'SAFETY_INTEGRITY_BLOCK'
+    elif action_type == 'human_review':
+        stop_class = 'SAFETY_INTEGRITY_BLOCK' if continuation_status == 'blocked' else 'OWNER_ACTION_REQUIRED'
     return {
         "schema": SCHEMA,
+        'stop_reason_class': stop_class,
+        'safe_preparation_required': stop_class == 'OWNER_ACTION_REQUIRED',
+        'normal_continue_prompt_required': False,
+        'execution_authority_granted': False,
         "continuation_status": continuation_status,
         "current_mode": current_mode,
         "current_goal": current_goal,
@@ -241,10 +298,11 @@ def build_continuation_controller(
         "next_action": next_action,
         "action_type": action_type,
         "codex_packet_required": codex_packet_required,
-        "local_runner_available": bool(handoff_status == "ready" and ready_status == "ready_for_human_review"),
+        "local_runner_available": bool(not invalid_evidence_fields and handoff_status == "ready" and ready_status == "ready_for_human_review"),
         "productive_executor_available": productive_available,
         "sos_required": action_type == "sos_stop",
         "reason_code": reason_code,
+        "invalid_evidence_fields": invalid_evidence_fields,
         "next_safe_action": next_safe_action,
         "autonomous_job_continuation_available": autonomous["available"],
         "autonomous_job_continuation_state": autonomous["state"],

@@ -1,0 +1,347 @@
+{
+  "daily_loss_authority": {
+    "candidates_reviewed": [
+      {
+        "authoritative": false,
+        "configured": false,
+        "disposition": "SAMPLE_FIXTURE_NOT_OPERATIONAL_CONFIGURATION",
+        "rejection_reason": "SAMPLE_FIXTURE_NOT_OPERATIONAL_CONFIGURATION",
+        "source": "automation/forex_engine/demo_trade_risk_gate_v1.py:build_sample_valid_risk_input",
+        "unit": "USD",
+        "value": 250.0
+      },
+      {
+        "authoritative": true,
+        "configured": false,
+        "disposition": "POLICY_CEILING_REQUIRES_CALLER_SUPPLIED_LIMIT",
+        "rejection_reason": "POLICY_CEILING_REQUIRES_CALLER_SUPPLIED_LIMIT",
+        "source": "automation/forex_engine/forex_basket_risk_exposure_governor_v1.py",
+        "unit": "ACCOUNT_FRACTION",
+        "value": 0.03
+      },
+      {
+        "authoritative": true,
+        "configured": false,
+        "disposition": "VALIDATION_CEILING_REQUIRES_CALLER_SUPPLIED_LIMIT",
+        "rejection_reason": "VALIDATION_CEILING_REQUIRES_CALLER_SUPPLIED_LIMIT",
+        "source": "automation/forex_engine/forex_daily_profit_execution_evidence_v1.py",
+        "unit": "ACCOUNT_FRACTION",
+        "value": 0.03
+      },
+      {
+        "authoritative": true,
+        "configured": false,
+        "disposition": "DAILY_CAP_REQUIRED_BUT_NUMERIC_VALUE_NOT_DEFINED",
+        "rejection_reason": "DAILY_CAP_REQUIRED_BUT_NUMERIC_VALUE_NOT_DEFINED",
+        "source": "RISK_POLICY.md:Single Live Micro-Trade Exception",
+        "unit": null,
+        "value": null
+      }
+    ],
+    "daily_loss_limit_found": false,
+    "daily_loss_limit_source": null,
+    "daily_loss_limit_unit": null,
+    "daily_loss_limit_value": null,
+    "daily_loss_owner_decision_required": true
+  },
+  "final_status_default": {
+    "account_permission_gate": {
+      "activation_side": "LONG",
+      "blockers": [
+        "unknown_account_permission:broker_name",
+        "unknown_account_permission:broker_environment",
+        "unknown_account_permission:asset_class",
+        "unknown_account_permission:account_type",
+        "unknown_account_permission:account_currency",
+        "unknown_account_permission:margin_available_confirmed",
+        "unknown_account_permission:effective_leverage_limit",
+        "unknown_account_permission:long_permission",
+        "unknown_account_permission:short_permission",
+        "unknown_account_permission:fifo_required",
+        "unknown_account_permission:hedging_available",
+        "unknown_account_permission:instrument_tradable",
+        "unknown_account_permission:max_units",
+        "unknown_account_permission:stop_loss_supported",
+        "unknown_account_permission:take_profit_supported",
+        "unknown_account_permission:order_type_supported",
+        "unknown_account_permission:one_order_only_supported",
+        "unknown_account_permission:demo_sandbox_order_preview_supported",
+        "unknown_account_permission:broker_house_restrictions",
+        "unknown_account_permission:proof_timestamp",
+        "unknown_account_permission:proof_source",
+        "unknown_account_permission:sanitized_evidence_only"
+      ],
+      "cleared": false,
+      "gate": "ACCOUNT_PERMISSION_GATE",
+      "long_only_status": "BLOCKED_BY_BROKER_GATE",
+      "permission_summary": {},
+      "short_side_status": "BLOCKED_BY_BROKER_GATE",
+      "status": "BLOCKED_BY_BROKER_GATE"
+    },
+    "blockers": {
+      "broker": [
+        "missing_broker_demo_or_sandbox_proof",
+        "unknown_account_permission:broker_name",
+        "unknown_account_permission:broker_environment",
+        "unknown_account_permission:asset_class",
+        "unknown_account_permission:account_type",
+        "unknown_account_permission:account_currency",
+        "unknown_account_permission:margin_available_confirmed",
+        "unknown_account_permission:effective_leverage_limit",
+        "unknown_account_permission:long_permission",
+        "unknown_account_permission:short_permission",
+        "unknown_account_permission:fifo_required",
+        "unknown_account_permission:hedging_available",
+        "unknown_account_permission:instrument_tradable",
+        "unknown_account_permission:max_units",
+        "unknown_account_permission:stop_loss_supported",
+        "unknown_account_permission:take_profit_supported",
+        "unknown_account_permission:order_type_supported",
+        "unknown_account_permission:one_order_only_supported",
+        "unknown_account_permission:demo_sandbox_order_preview_supported",
+        "unknown_account_permission:broker_house_restrictions",
+        "unknown_account_permission:proof_timestamp",
+        "unknown_account_permission:proof_source",
+        "unknown_account_permission:sanitized_evidence_only",
+        "missing_live_exception_evidence_bundle_contract"
+      ],
+      "evidence": [
+        "insufficient_sample",
+        "walk_forward_not_cleared"
+      ],
+      "policy": [
+        "missing_live_exception_request_contract",
+        "missing_live_exception_approval_contract",
+        "missing_live_exception_arming_state_contract",
+        "missing_owner_live_exception_request",
+        "missing_owner_approval"
+      ],
+      "risk": [
+        "non_positive_expectancy",
+        "profit_factor_not_above_1_20",
+        "missing_kill_switch"
+      ]
+    },
+    "broker_gate_cleared": false,
+    "broker_gate_summary": {
+      "account_currency": "UNKNOWN",
+      "account_id_persisted": false,
+      "account_permission_gate": "BLOCKED_BY_BROKER_GATE",
+      "broker_demo_or_sandbox_proof": false,
+      "broker_environment": "UNKNOWN",
+      "broker_mutation": false,
+      "credentials_persisted": false,
+      "effective_leverage_limit": "UNKNOWN",
+      "margin_available_confirmed": "UNKNOWN"
+    },
+    "candidate_id": "c1-eur-buy",
+    "evidence_gate_cleared": false,
+    "live_exception_status": {
+      "approval_contract_present": false,
+      "arming_contract_present": false,
+      "contracts_present": [],
+      "evidence_bundle_cleared": false,
+      "evidence_bundle_contract_present": false,
+      "evidence_bundle_summary": {
+        "arming_timestamp_present": false,
+        "no_action_proofs": {
+          "no_account_id_read": false,
+          "no_account_id_write": false,
+          "no_broker_mutation": false,
+          "no_credential_read": false,
+          "no_credential_write": false,
+          "no_env_read": false,
+          "no_env_write": false,
+          "no_live_order_execution": false,
+          "no_network_call": false
+        },
+        "owner_approval_present": false,
+        "owner_approval_required": false,
+        "owner_live_exception_request": false,
+        "risk_confirmations": {
+          "daily_stop_confirmed": false,
+          "kill_switch_confirmed": false,
+          "low_effective_leverage_confirmed": false,
+          "max_loss_confirmed": false,
+          "micro_size_confirmed": false,
+          "one_order_only_confirmed": false,
+          "stop_loss_confirmed": false,
+          "take_profit_confirmed": false
+        }
+      },
+      "request_contract_present": false
+    },
+    "live_for_keeps_ready": false,
+    "long_only_status": "BLOCKED_BY_BROKER_GATE",
+    "metrics": {
+      "candidate_id": "c1-eur-buy",
+      "closed_trades": 0,
+      "expectancy": 0.0,
+      "max_drawdown": 0.0,
+      "passing_walk_forward_windows": 4,
+      "profit_factor": 0.0,
+      "walk_forward_gate_cleared": true,
+      "walk_forward_status": "",
+      "walk_forward_windows": 4,
+      "win_rate": 0.0
+    },
+    "mode": "PROFITABLE_LIVE_FOREX_BOT_FINAL_STATUS_V1",
+    "next_safe_action": "resolve_require_more_evidence",
+    "policy_gate_cleared": false,
+    "risk_contract_summary": {
+      "daily_loss_cap": 2.0,
+      "effective_leverage": 0.5,
+      "low_effective_leverage_guard": true,
+      "max_effective_leverage": 2.0,
+      "max_live_micro_units": 1000,
+      "maximum_loss": 1.0,
+      "micro_size_only": true,
+      "no_scheduler_daemon_webhook_background": true,
+      "one_order_only": true,
+      "requested_units": 1,
+      "stop_loss": 1.0,
+      "take_profit": 2.0
+    },
+    "risk_gate_cleared": false,
+    "safety": {
+      "account_id_present": false,
+      "account_id_read": false,
+      "account_id_write": false,
+      "background_execution": false,
+      "broker_connected": false,
+      "broker_mutation": false,
+      "credential_read": false,
+      "credential_write": false,
+      "credentials_used": false,
+      "daemon": false,
+      "demo_trading": false,
+      "env_read": false,
+      "live_trading": false,
+      "live_trading_authorized": false,
+      "network_used": false,
+      "order_execution": false,
+      "paper_only": true,
+      "scheduler": false,
+      "webhook": false
+    },
+    "short_side_status": "BLOCKED_BY_BROKER_GATE",
+    "status": "REQUIRE_MORE_EVIDENCE",
+    "thresholds": {
+      "max_drawdown": 0.1,
+      "max_effective_leverage": 2.0,
+      "max_live_micro_units": 1000,
+      "min_closed_trades": 30,
+      "min_profit_factor_exclusive": 1.2,
+      "min_walk_forward_windows": 3
+    }
+  },
+  "kill_switch_authority": {
+    "credential_revoke_path_authority_found": false,
+    "credential_revoke_path_source": null,
+    "excluded_non_authority": [
+      "tests/forex_engine/test_live_kill_switch_readiness_engine.py fixture",
+      "boolean field names without declared operational paths"
+    ],
+    "missing_declarations": [
+      "credential_revoke_path",
+      "notification_path"
+    ],
+    "notification_path_authority_found": false,
+    "notification_path_source": null,
+    "sources_reviewed": [
+      "RISK_POLICY.md",
+      "docs/orchestration/AIOS_FOREX_LIVE_READINESS_REVIEW.md",
+      "docs/orchestration/AIOS_FOREX_FIRST_LIVE_MICRO_TRADE_PROOF.md",
+      "docs/trading_lab/forex/FOREX_EXECUTION_CONTROL_STACK_V1.md",
+      "docs/orchestration/AIOS_FOREX_RISK_GOVERNOR.md",
+      "Reports/forex_delivery/AIOS_FOREX_LIVE_KILL_SWITCH_READINESS_ENGINE_V1_REPORT.md"
+    ]
+  },
+  "kill_switch_reevaluation": {
+    "approved_controls": [
+      "audit logging declared",
+      "daily loss stop declared",
+      "drawdown stop declared",
+      "emergency disable declared",
+      "kill switch declared",
+      "manual stop declared",
+      "operator override declared",
+      "paper-only review enforced"
+    ],
+    "blocked_controls": [
+      "credential revoke path declared",
+      "notification path declared"
+    ],
+    "blocked_reasons": [
+      "kill_switch_control_failed:credential_revoke_path_declared",
+      "kill_switch_control_failed:notification_path_declared"
+    ],
+    "kill_switch_readiness_completed": true,
+    "kill_switch_ready": false,
+    "kill_switch_status": "KILL_SWITCH_BLOCKED",
+    "next_safe_action": "resolve_kill_switch_governance_blockers_before_live_candidate_advancement",
+    "operator_review_required": true,
+    "safety": {
+      "broker_connection_active": false,
+      "capital_allocation_modified": false,
+      "credentials_accessed": false,
+      "kill_switch_executed": false,
+      "live_trading_authorized": false,
+      "network_access": false,
+      "operator_review_required": true,
+      "order_execution_enabled": false,
+      "paper_only": true
+    }
+  },
+  "summary": {
+    "daily_loss_limit_found": false,
+    "daily_loss_owner_decision_required": true,
+    "final_blockers": {
+      "broker": [
+        "missing_broker_demo_or_sandbox_proof",
+        "unknown_account_permission:broker_name",
+        "unknown_account_permission:broker_environment",
+        "unknown_account_permission:asset_class",
+        "unknown_account_permission:account_type",
+        "unknown_account_permission:account_currency",
+        "unknown_account_permission:margin_available_confirmed",
+        "unknown_account_permission:effective_leverage_limit",
+        "unknown_account_permission:long_permission",
+        "unknown_account_permission:short_permission",
+        "unknown_account_permission:fifo_required",
+        "unknown_account_permission:hedging_available",
+        "unknown_account_permission:instrument_tradable",
+        "unknown_account_permission:max_units",
+        "unknown_account_permission:stop_loss_supported",
+        "unknown_account_permission:take_profit_supported",
+        "unknown_account_permission:order_type_supported",
+        "unknown_account_permission:one_order_only_supported",
+        "unknown_account_permission:demo_sandbox_order_preview_supported",
+        "unknown_account_permission:broker_house_restrictions",
+        "unknown_account_permission:proof_timestamp",
+        "unknown_account_permission:proof_source",
+        "unknown_account_permission:sanitized_evidence_only",
+        "missing_live_exception_evidence_bundle_contract"
+      ],
+      "evidence": [
+        "insufficient_sample",
+        "walk_forward_not_cleared"
+      ],
+      "policy": [
+        "missing_live_exception_request_contract",
+        "missing_live_exception_approval_contract",
+        "missing_live_exception_arming_state_contract",
+        "missing_owner_live_exception_request",
+        "missing_owner_approval"
+      ],
+      "risk": [
+        "non_positive_expectancy",
+        "profit_factor_not_above_1_20",
+        "missing_kill_switch"
+      ]
+    },
+    "final_status": "REQUIRE_MORE_EVIDENCE",
+    "kill_switch_ready": false,
+    "live_for_keeps_ready": false
+  }
+}

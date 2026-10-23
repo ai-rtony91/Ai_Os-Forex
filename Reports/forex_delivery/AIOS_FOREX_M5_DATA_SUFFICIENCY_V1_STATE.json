@@ -1,0 +1,11 @@
+{
+  "eligible_pair_count": 58,
+  "human_m5_extension_required": false,
+  "m5_corpus_status": "FROZEN_VALID",
+  "packet_id": "PKT-EAST-FOREX-EDGE-EXISTENCE-CLOSURE-031",
+  "positive_information_present": false,
+  "schema": "AIOS_FOREX_M5_DATA_SUFFICIENCY_V1_STATE",
+  "state_hash": "a0be88ade440cfde998a7fb13df4d55ea2cda6a4a82ba8c72f6c03314aebb606",
+  "status": "CURRENT_M5_HISTORY_INSUFFICIENT_BUT_NO_POSITIVE_INFORMATION",
+  "total_records": 13256535
+}

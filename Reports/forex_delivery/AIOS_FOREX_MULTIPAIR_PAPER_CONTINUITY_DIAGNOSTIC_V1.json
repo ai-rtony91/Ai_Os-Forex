@@ -1,0 +1,31 @@
+{
+  "interruption_audit": {
+    "prior_command": "python scripts\\forex_delivery\\run_forex_p1_multipair_normalized_paper_campaign_v1.py --cycles 30 --report-json",
+    "requested_cycles": 30,
+    "completed_cycles_before_interruption": 20,
+    "classification": "CODEX_COMMAND_INTERRUPTED",
+    "cause": "manual Ctrl-C during an attached wait on the open GBP_USD PAPER session",
+    "exit_code": 1,
+    "process_still_exists": false,
+    "lock_state_at_termination": "not_preserved"
+  },
+  "recovery_audit": {
+    "initial_restart_failure": "PRACTICE_NETWORK_UNAVAILABLE",
+    "proxy_trap": "http://127.0.0.1:9",
+    "proxy_cleared_in_process": true,
+    "current_attached_runner_active": true
+  },
+  "current_runner": {
+    "session_id": 28276,
+    "process_id": 25208,
+    "lock_status": "ACTIVE",
+    "cycles_observed": 4
+  },
+  "safety": {
+    "broker_write_performed": false,
+    "practice_order_performed": false,
+    "live_trade_performed": false,
+    "money_movement_performed": false,
+    "credentials_persisted": false
+  }
+}

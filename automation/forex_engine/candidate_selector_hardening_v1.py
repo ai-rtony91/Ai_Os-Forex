@@ -15,7 +15,9 @@ PACKET_ID = "PKT-FOREX-EVIDENCE-CANDIDATE-DEMO-READINESS-CONSOLIDATED-V1"
 def run_candidate_selector_hardening_v1(
     candidates: list[Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    candidate_rows = [dict(candidate) for candidate in (candidates or _default_candidates())]
+    candidate_rows = [
+        dict(candidate) for candidate in (_default_candidates() if candidates is None else candidates)
+    ]
     rejected: list[dict[str, Any]] = []
     rejection_reasons: dict[str, list[str]] = {}
     accepted: list[dict[str, Any]] = []

@@ -17,6 +17,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
       - name: Check required governance files
         shell: bash
         run: |
@@ -104,6 +109,21 @@ jobs:
             exit 1
           fi
 
+      - name: Install research workflow test dependencies
+        run: python -m pip install -r requirements-test.txt
+
+      - name: Check project test collection and package imports
+        run: python -m pytest --collect-only -q
+
+      - name: Test Forex-first research controller and watchdog
+        run: |
+          python -m pytest \
+            tests/orchestration/test_aios_research_campaign.py \
+            tests/orchestration/test_aios_research_campaign_runner.py \
+            tests/orchestration/test_aios_deadman_watchdog_campaign_health.py \
+            tests/orchestration/test_aios_research_campaign_end_to_end.py \
+            tests/orchestration/test_aios_autonomous_forex_research_pipeline.py -q
+
       - name: Python syntax check for core source
         shell: bash
         run: |
@@ -120,3 +140,35 @@ jobs:
           else
             echo "No core Python source directories found."
           fi
+
+  windows-research-guards:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install research workflow test dependencies
+        run: python -m pip install -r requirements-test.txt
+
+      - name: Verify Windows PowerShell is available
+        shell: pwsh
+        run: |
+          $null = Get-Command powershell -ErrorAction Stop
+
+      - name: Give the checked-out test commit a local branch name
+        shell: pwsh
+        run: |
+          git switch -c ci/research-guards
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Test PowerShell research runner and heartbeat guards
+        shell: pwsh
+        run: |
+          python -m pytest tests/orchestration/test_aios_autonomous_forex_research_runner.py tests/orchestration/test_runtime_heartbeat_refresh.py tests/orchestration/test_heartbeat_dirty_write_guard.py -q
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

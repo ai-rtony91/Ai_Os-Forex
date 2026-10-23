@@ -5,10 +5,13 @@ import process from 'node:process'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import crypto from 'node:crypto'
+import { createDashboardApi } from './server/dashboardApi.js'
+import { createDashboardAuth } from './server/dashboardAuth.js'
 
 const require = createRequire(import.meta.url)
 const rootDir = path.dirname(fileURLToPath(import.meta.url))
 const port = Number(process.env.PORT || 8080)
+const dashboardSourceRoot = path.basename(rootDir) === 'dist' ? path.resolve(rootDir, '..') : rootDir
 const repoRootDir = path.basename(rootDir) === 'dist'
   ? path.resolve(rootDir, '..', '..', '..')
   : path.resolve(rootDir, '..', '..')
@@ -25,12 +28,15 @@ const forexLedgerPath = path.resolve(forexCampaignRuntimeRoot, 'AIOS_FOREX_P1_EX
 const forexEventsPath = path.resolve(forexCampaignRuntimeRoot, 'AIOS_FOREX_SUPERTREND_30_TRADE_EVENTS.jsonl')
 const dashboardProjectionPath = path.resolve(repoRootDir, '.aios/runtime/dashboard_measurement/AIOS_DASHBOARD_PROJECTION_V1.json')
 const projectionLimit = 250 * 1024
+const dashboardApi = createDashboardApi({ dashboardRoot: dashboardSourceRoot })
+const dashboardAuth = createDashboardAuth()
 
 const contentTypes = new Map([
   ['.html', 'text/html; charset=utf-8'],
   ['.css', 'text/css; charset=utf-8'],
   ['.js', 'text/javascript; charset=utf-8'],
   ['.json', 'application/json; charset=utf-8'],
+  ['.md', 'text/markdown; charset=utf-8'],
   ['.svg', 'image/svg+xml'],
   ['.png', 'image/png'],
   ['.jpg', 'image/jpeg'],
@@ -370,7 +376,10 @@ function serveRuntimeVisibility(request, response) {
   }
 }
 
-const server = http.createServer((request, response) => {
+const server = http.createServer(async (request, response) => {
+  if (await dashboardAuth(request, response)) return
+  if (await dashboardApi(request, response)) return
+
   if (request.method !== 'GET' && request.method !== 'HEAD') {
     sendText(response, 405, 'Method not allowed')
     return
@@ -410,6 +419,15 @@ const server = http.createServer((request, response) => {
 
   if (isDashboardProjectionRequest(request.url)) { serveDashboardProjection(request, response); return }
 
+  const pageUrl = new URL(request.url, 'http://localhost')
+  const acceptsHtml = String(request.headers.accept || '').includes('text/html')
+  const isPublicPage = ['/', '/login', '/signup'].includes(pageUrl.pathname)
+  if (acceptsHtml && !isPublicPage && !dashboardAuth.hasValidSession(request)) {
+    response.writeHead(302, { location: '/login', 'cache-control': 'no-store' })
+    response.end()
+    return
+  }
+
   let filePath
 
   try {
@@ -426,6 +444,13 @@ const server = http.createServer((request, response) => {
 
   fs.stat(filePath, (statError, stats) => {
     if (statError || !stats.isFile()) {
+      const acceptsHtml = String(request.headers.accept || '').includes('text/html')
+      const indexPath = path.resolve(rootDir, 'index.html')
+      if (acceptsHtml && fs.existsSync(indexPath)) {
+        response.writeHead(200, { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' })
+        fs.createReadStream(indexPath).pipe(response)
+        return
+      }
       sendText(response, 404, 'Not found')
       return
     }

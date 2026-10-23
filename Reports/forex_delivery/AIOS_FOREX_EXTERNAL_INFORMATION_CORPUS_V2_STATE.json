@@ -1,0 +1,10 @@
+{
+  "aggregate_hash": null,
+  "corpus_id": "AIOS_FOREX_EXTERNAL_INFORMATION_CORPUS_V2",
+  "frozen": false,
+  "gaps": 13,
+  "provenance": "Packet 013 CFTC remains read-only prior evidence",
+  "records": 0,
+  "schema": "AIOS_FOREX_EXTERNAL_INFORMATION_CORPUS_V2_STATE",
+  "status": "NOT_CREATED_NO_NEW_USABLE_INFORMATION"
+}

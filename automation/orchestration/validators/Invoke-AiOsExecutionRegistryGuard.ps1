@@ -1,10 +1,16 @@
+[CmdletBinding(DefaultParameterSetName = "Roots")]
 param(
     [string]$RegistryPath = "automation/orchestration/execution_registry/AIOS_EXECUTION_CLASSIFICATION_REGISTRY.json",
+
+    [Parameter(ParameterSetName = "Roots")]
     [string[]]$ScanRoots = @(
         "automation/orchestration",
         "automation/startup",
         "automation/operator"
-    )
+    ),
+
+    [Parameter(Mandatory = $true, ParameterSetName = "Files")]
+    [string[]]$ScanFiles
 )
 
 Set-StrictMode -Version Latest
@@ -170,6 +176,9 @@ function Test-DryRunWriteBehavior {
         [Parameter(Mandatory = $true)]
         [string]$Content,
 
+        [AllowNull()]
+        [object]$RegistryEntry,
+
         [Parameter(Mandatory = $true)]
         [ref]$Findings
     )
@@ -178,9 +187,183 @@ function Test-DryRunWriteBehavior {
         return
     }
 
+    $writeCommands = @(
+        "Set-Content",
+        "Add-Content",
+        "Out-File",
+        "Export-Csv",
+        "New-Item",
+        "Remove-Item",
+        "Move-Item",
+        "Rename-Item",
+        "Copy-Item"
+    )
     $writePattern = "(?im)(^|[\s;&|])(?:Set-Content|Add-Content|Out-File|Export-Csv|ConvertTo-Json\s*\|[^`r`n]*Set-Content|New-Item|Remove-Item|Move-Item|Rename-Item|Copy-Item)(?:\s|$)"
-    if ($Content -match $writePattern) {
-        Add-Finding -Findings $Findings -Severity "STOP" -CheckId "dry_run_script_writes_files" -Message "DRY_RUN script appears to contain file-writing or file-mutating commands." -Evidence $RelativePath -NextSafeAction "Keep the script blocked until behavior is repaired or reclassified through approved APPLY."
+    if ($Content -notmatch $writePattern) {
+        return
+    }
+
+    $contract = $null
+    if ($null -ne $RegistryEntry -and $RegistryEntry.PSObject.Properties.Name -contains "gated_mutation_contract") {
+        $contract = $RegistryEntry.gated_mutation_contract
+    }
+
+    $contractErrors = [System.Collections.Generic.List[string]]::new()
+    if ($null -eq $RegistryEntry) {
+        $contractErrors.Add("script is not registered")
+    }
+    elseif ($null -eq $contract) {
+        $contractErrors.Add("gated_mutation_contract is missing")
+    }
+    else {
+        if ([string]$RegistryEntry.classification -ne "HELPER") {
+            $contractErrors.Add("classification must be HELPER")
+        }
+        if ([string]$RegistryEntry.execution_mode -ne "DRY_RUN_DEFAULT_EXPLICIT_APPLY_GATED_HELPER") {
+            $contractErrors.Add("execution_mode is not the canonical gated-helper mode")
+        }
+        if ($RegistryEntry.writes_files -ne $true) {
+            $contractErrors.Add("writes_files must be true")
+        }
+        if ($RegistryEntry.requires_human_approval -ne $true) {
+            $contractErrors.Add("requires_human_approval must be true")
+        }
+        if ([string]$contract.contract_version -ne "AIOS_GATED_APPLY_HELPER.v1") {
+            $contractErrors.Add("unsupported gated-mutation contract version")
+        }
+        if ([string]$contract.default_behavior -ne "NON_MUTATING") {
+            $contractErrors.Add("default behavior must be NON_MUTATING")
+        }
+        if ([string]$contract.write_capability -ne "EXPLICIT_GATED_APPLY_ONLY") {
+            $contractErrors.Add("write capability must be EXPLICIT_GATED_APPLY_ONLY")
+        }
+        if ($contract.apply_requires_explicit_flag -ne $true) {
+            $contractErrors.Add("apply_requires_explicit_flag must be true")
+        }
+        if ($contract.default_invocation_must_remain_dry_run -ne $true) {
+            $contractErrors.Add("default_invocation_must_remain_dry_run must be true")
+        }
+        if ([string]::IsNullOrWhiteSpace([string]$contract.explicit_apply_parameter)) {
+            $contractErrors.Add("explicit_apply_parameter is missing")
+        }
+        if (@($contract.gated_write_functions).Count -eq 0) {
+            $contractErrors.Add("gated_write_functions is empty")
+        }
+        if (@($contract.required_apply_gate_terms).Count -eq 0) {
+            $contractErrors.Add("required_apply_gate_terms is empty")
+        }
+
+        $blockedActions = @($RegistryEntry.blocked_actions)
+        foreach ($requiredBlock in @("APPLY_without_explicit_flag", "APPLY_without_human_owner_packet_approval", "commit", "push", "merge")) {
+            if ($blockedActions -notcontains $requiredBlock) {
+                $contractErrors.Add("blocked_actions is missing $requiredBlock")
+            }
+        }
+        if ($blockedActions -contains "APPLY") {
+            $contractErrors.Add("blocked_actions cannot prohibit the separately approved explicit APPLY path")
+        }
+    }
+
+    $tokens = $null
+    $parseErrors = $null
+    $ast = [System.Management.Automation.Language.Parser]::ParseInput($Content, [ref]$tokens, [ref]$parseErrors)
+    if (@($parseErrors).Count -gt 0) {
+        $contractErrors.Add("PowerShell parse errors prevent gated-write validation")
+    }
+
+    if ($null -ne $contract -and @($parseErrors).Count -eq 0) {
+        $applyParameter = [string]$contract.explicit_apply_parameter
+        $applyParameters = @($ast.FindAll({
+            param($node)
+            $node -is [System.Management.Automation.Language.ParameterAst] -and
+            $node.Name.VariablePath.UserPath -eq $applyParameter
+        }, $true))
+        if ($applyParameters.Count -ne 1 -or $applyParameters[0].StaticType -ne [System.Management.Automation.SwitchParameter]) {
+            $contractErrors.Add("explicit apply gate must be declared exactly once as a switch parameter")
+        }
+
+        $gatedFunctions = @($contract.gated_write_functions | ForEach-Object { [string]$_ })
+        $functionDefinitions = @($ast.FindAll({
+            param($node)
+            $node -is [System.Management.Automation.Language.FunctionDefinitionAst]
+        }, $true))
+
+        foreach ($functionName in $gatedFunctions) {
+            $definitions = @($functionDefinitions | Where-Object { $_.Name -eq $functionName })
+            if ($definitions.Count -ne 1) {
+                $contractErrors.Add("gated write function $functionName must be defined exactly once")
+                continue
+            }
+
+            $invocations = @($ast.FindAll({
+                param($node)
+                $node -is [System.Management.Automation.Language.CommandAst] -and
+                $node.GetCommandName() -eq $functionName
+            }, $true))
+            if ($invocations.Count -eq 0) {
+                $contractErrors.Add("gated write function $functionName is never invoked")
+            }
+
+            foreach ($invocation in $invocations) {
+                $insideApprovedGate = $false
+                $ancestor = $invocation.Parent
+                while ($null -ne $ancestor) {
+                    if ($ancestor -is [System.Management.Automation.Language.IfStatementAst]) {
+                        foreach ($clause in $ancestor.Clauses) {
+                            $insideClause = (
+                                $invocation.Extent.StartOffset -ge $clause.Item2.Extent.StartOffset -and
+                                $invocation.Extent.EndOffset -le $clause.Item2.Extent.EndOffset
+                            )
+                            if (-not $insideClause) {
+                                continue
+                            }
+
+                            $conditionText = $clause.Item1.Extent.Text
+                            $allTermsPresent = $true
+                            foreach ($requiredTerm in @($contract.required_apply_gate_terms)) {
+                                if ($conditionText -notlike "*$requiredTerm*") {
+                                    $allTermsPresent = $false
+                                    break
+                                }
+                            }
+                            if ($allTermsPresent) {
+                                $insideApprovedGate = $true
+                                break
+                            }
+                        }
+                    }
+                    if ($insideApprovedGate) {
+                        break
+                    }
+                    $ancestor = $ancestor.Parent
+                }
+                if (-not $insideApprovedGate) {
+                    $contractErrors.Add("gated write function $functionName is invoked outside the registered apply gate")
+                }
+            }
+        }
+
+        $mutationCommands = @($ast.FindAll({
+            param($node)
+            $node -is [System.Management.Automation.Language.CommandAst]
+        }, $true) | Where-Object { $writeCommands -contains $_.GetCommandName() })
+        foreach ($mutationCommand in $mutationCommands) {
+            $insideGatedFunction = $false
+            foreach ($definition in $functionDefinitions | Where-Object { $gatedFunctions -contains $_.Name }) {
+                if ($mutationCommand.Extent.StartOffset -ge $definition.Extent.StartOffset -and
+                    $mutationCommand.Extent.EndOffset -le $definition.Extent.EndOffset) {
+                    $insideGatedFunction = $true
+                    break
+                }
+            }
+            if (-not $insideGatedFunction) {
+                $contractErrors.Add("mutation command $($mutationCommand.GetCommandName()) exists outside a registered gated write function")
+            }
+        }
+    }
+
+    if ($contractErrors.Count -gt 0) {
+        Add-Finding -Findings $Findings -Severity "STOP" -CheckId "dry_run_script_writes_files" -Message "DRY_RUN script contains writes without a valid canonical gated-mutation contract." -Evidence "$RelativePath :: $($contractErrors -join '; ')" -NextSafeAction "Keep the script blocked until registry classification and explicit APPLY gating both validate."
     }
 }
 
@@ -264,14 +447,38 @@ if ($null -ne $registry -and ($registry.PSObject.Properties.Name -contains "scri
 }
 
 $ps1Files = @()
-foreach ($scanRoot in $ScanRoots) {
-    $resolvedScanRoot = Join-Path $repoRoot $scanRoot
-    if (-not (Test-Path -LiteralPath $resolvedScanRoot -PathType Container)) {
-        Add-Finding -Findings ([ref]$findings) -Severity "STOP" -CheckId "scan_root_missing" -Message "Configured scan root does not exist." -Evidence $scanRoot -NextSafeAction "Review scan roots before using this guard."
-        continue
+$scanDescription = ""
+if ($PSCmdlet.ParameterSetName -eq "Files") {
+    $scanDescription = "files: $($ScanFiles -join ', ')"
+    foreach ($scanFile in $ScanFiles) {
+        if ([System.IO.Path]::IsPathRooted($scanFile)) {
+            Add-Finding -Findings ([ref]$findings) -Severity "STOP" -CheckId "scan_file_must_be_repo_relative" -Message "Exact scan files must be repository-relative." -Evidence $scanFile -NextSafeAction "Use an exact repository-relative PowerShell path."
+            continue
+        }
+        $resolvedScanFile = [System.IO.Path]::GetFullPath((Join-Path $repoRoot $scanFile))
+        $repoPrefix = $repoRoot.TrimEnd("\", "/") + [System.IO.Path]::DirectorySeparatorChar
+        if (-not $resolvedScanFile.StartsWith($repoPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+            Add-Finding -Findings ([ref]$findings) -Severity "STOP" -CheckId "scan_file_outside_repo" -Message "Exact scan file resolves outside the repository." -Evidence $scanFile -NextSafeAction "Keep exact file validation inside the active repository."
+            continue
+        }
+        if (-not (Test-Path -LiteralPath $resolvedScanFile -PathType Leaf) -or [System.IO.Path]::GetExtension($resolvedScanFile) -ne ".ps1") {
+            Add-Finding -Findings ([ref]$findings) -Severity "STOP" -CheckId "scan_file_missing_or_invalid" -Message "Exact scan target must be an existing PowerShell file." -Evidence $scanFile -NextSafeAction "Provide an existing exact repository-relative .ps1 path."
+            continue
+        }
+        $ps1Files += Get-Item -LiteralPath $resolvedScanFile
     }
+}
+else {
+    $scanDescription = "roots: $($ScanRoots -join ', ')"
+    foreach ($scanRoot in $ScanRoots) {
+        $resolvedScanRoot = Join-Path $repoRoot $scanRoot
+        if (-not (Test-Path -LiteralPath $resolvedScanRoot -PathType Container)) {
+            Add-Finding -Findings ([ref]$findings) -Severity "STOP" -CheckId "scan_root_missing" -Message "Configured scan root does not exist." -Evidence $scanRoot -NextSafeAction "Review scan roots before using this guard."
+            continue
+        }
 
-    $ps1Files += Get-ChildItem -LiteralPath $resolvedScanRoot -Recurse -File -Filter "*.ps1"
+        $ps1Files += Get-ChildItem -LiteralPath $resolvedScanRoot -Recurse -File -Filter "*.ps1"
+    }
 }
 
 foreach ($file in $ps1Files | Sort-Object FullName -Unique) {
@@ -279,11 +486,15 @@ foreach ($file in $ps1Files | Sort-Object FullName -Unique) {
     $normalizedRelativePath = Normalize-RegistryPath -Path $relativePath
     $content = Get-Content -LiteralPath $file.FullName -Raw
 
+    $registryEntry = $null
     if (-not $registryByPath.ContainsKey($normalizedRelativePath)) {
         Add-Finding -Findings ([ref]$findings) -Severity "STOP" -CheckId "unregistered_executable_script" -Message "Executable PowerShell script is not registered in the execution classification registry." -Evidence $normalizedRelativePath -NextSafeAction "Classify this script in the registry through a separate approved APPLY task or keep it blocked."
     }
+    else {
+        $registryEntry = $registryByPath[$normalizedRelativePath]
+    }
 
-    Test-DryRunWriteBehavior -RelativePath $normalizedRelativePath -Content $content -Findings ([ref]$findings)
+    Test-DryRunWriteBehavior -RelativePath $normalizedRelativePath -Content $content -RegistryEntry $registryEntry -Findings ([ref]$findings)
     Test-BlockedScriptReferences -RelativePath $normalizedRelativePath -Content $content -BlockedEntries $blockedEntries -Findings ([ref]$findings)
 }
 
@@ -294,7 +505,7 @@ Write-Host "AI_OS EXECUTION REGISTRY GUARD: $status"
 Write-Host "Mode: report-only validation"
 Write-Host "Repo root: $repoRoot"
 Write-Host "Registry: $resolvedRegistryPath"
-Write-Host "Scan roots: $($ScanRoots -join ', ')"
+Write-Host "Scan scope: $scanDescription"
 Write-Host "Scripts scanned: $(@($ps1Files).Count)"
 Write-Host "Findings: $($findings.Count)"
 Write-Host "No auto-repair, runtime execution, worker launch, startup launch, commit, or push was performed."

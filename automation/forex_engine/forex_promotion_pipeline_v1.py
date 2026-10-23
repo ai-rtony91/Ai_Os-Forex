@@ -446,7 +446,7 @@ def build_owner_approval_card(
 ) -> str:
     gates = gates or build_default_promotion_gates()
     passed_gate_ids = set(state.passed_gates)
-    failed_gate_ids = {gate.gate_id for gate in gates if gate.gate_id not in passed_gate_ids}
+    failed_gate_ids = tuple(gate.gate_id for gate in gates if gate.gate_id not in passed_gate_ids)
 
     return f"""# AIOS Forex Promotion Pipeline Owner Approval Card
 
@@ -477,7 +477,7 @@ Pipeline ID: {state.pipeline_id}
 Current status: {decision.status}
 Selected gate: {decision.selected_gate_id}
 Next action: {decision.next_action}
-Failed gates (if any): {_comma_sep(tuple(failed_gate_ids))}
+Failed gates (if any): {_comma_sep(failed_gate_ids)}
 Available evidence count: {len(available_evidence)}
 
 AIOS is not authorized to place trades from this packet.
@@ -656,12 +656,20 @@ def _stop_reason(status: str) -> str:
 def _collect_default_passed_gates(
     gates: tuple[PromotionGate, ...],
     available_evidence: tuple[str, ...],
+    *,
+    owner_approved: bool = False,
+    broker_ready: bool = False,
 ) -> tuple[str, ...]:
-    return tuple(
-        gate.gate_id
-        for gate in gates
-        if not _is_gate_evidence_missing(gate, available_evidence)
-    )
+    passed_gate_ids: list[str] = []
+    for gate in gates:
+        if _is_gate_evidence_missing(gate, available_evidence):
+            continue
+        if gate.broker_gate and not broker_ready:
+            continue
+        if gate.human_gate and not owner_approved:
+            continue
+        passed_gate_ids.append(gate.gate_id)
+    return tuple(passed_gate_ids)
 
 
 def evaluate_and_write_artifacts(
@@ -680,7 +688,12 @@ def evaluate_and_write_artifacts(
     state = PromotionState(
         pipeline_id=PIPELINE_ID,
         available_evidence=available_evidence,
-        passed_gates=_collect_default_passed_gates(gates, available_evidence),
+        passed_gates=_collect_default_passed_gates(
+            gates,
+            available_evidence,
+            owner_approved=owner_approved,
+            broker_ready=broker_ready,
+        ),
         blocked_reasons=(),
         owner_approved=owner_approved,
         broker_ready=broker_ready,

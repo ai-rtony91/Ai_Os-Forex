@@ -45,7 +45,7 @@ FORBIDDEN_IMPORT_ROOTS = {
 }
 
 
-def test_router_reads_missing_owner_safety_evidence_state() -> None:
+def test_router_reads_missing_owner_safety_evidence_state(tmp_path: Path) -> None:
     discovery = (
         "# test\n"
         "## KILL_SWITCH_EVIDENCE_CANDIDATE\n"
@@ -54,7 +54,7 @@ def test_router_reads_missing_owner_safety_evidence_state() -> None:
     )
 
     with _temp_workflow_state(
-        Path(__file__).resolve().parent / "tmp_state_missing_controls",
+        tmp_path / "tmp_state_missing_controls",
         discovery,
         ["kill_switch_state"],
         [],
@@ -73,7 +73,7 @@ def test_router_reads_missing_owner_safety_evidence_state() -> None:
         assert result["active_blocker"] == "kill_switch_state"
 
 
-def test_router_reads_discovery_weak_candidates() -> None:
+def test_router_reads_discovery_weak_candidates(tmp_path: Path) -> None:
     discovery = (
         "# discovery\n"
         "## KILL_SWITCH_EVIDENCE_CANDIDATE\n"
@@ -85,7 +85,7 @@ def test_router_reads_discovery_weak_candidates() -> None:
     )
 
     with _temp_workflow_state(
-        Path(__file__).resolve().parent / "tmp_state_discovery",
+        tmp_path / "tmp_state_discovery",
         discovery,
         [],
         ["daily_stop_state"],
@@ -109,9 +109,9 @@ def test_router_reads_discovery_weak_candidates() -> None:
         )
 
 
-def test_router_selects_blocked_status_and_lane() -> None:
+def test_router_selects_blocked_status_and_lane(tmp_path: Path) -> None:
     with _temp_workflow_state(
-        Path(__file__).resolve().parent / "tmp_state_blocked_lane",
+        tmp_path / "tmp_state_blocked_lane",
         " ",
         ["daily_stop_state"],
         ["max_loss_state"],
@@ -130,9 +130,9 @@ def test_router_selects_blocked_status_and_lane() -> None:
         assert result["active_phase"]
 
 
-def test_router_locks_forbidden_modes() -> None:
+def test_router_locks_forbidden_modes(tmp_path: Path) -> None:
     with _temp_workflow_state(
-        Path(__file__).resolve().parent / "tmp_state_locked_modes",
+        tmp_path / "tmp_state_locked_modes",
         " ",
         ["kill_switch_state"],
         [],
@@ -163,9 +163,9 @@ def test_router_locks_forbidden_modes() -> None:
         assert "vacation" in action
 
 
-def test_router_never_verifies_or_invents_evidence() -> None:
+def test_router_never_verifies_or_invents_evidence(tmp_path: Path) -> None:
     with _temp_workflow_state(
-        Path(__file__).resolve().parent / "tmp_state_never_verified",
+        tmp_path / "tmp_state_never_verified",
         " ",
         ["kill_switch_state"],
         [],
@@ -183,9 +183,9 @@ def test_router_never_verifies_or_invents_evidence() -> None:
         assert result["owner_intake_modified"] is False
 
 
-def test_router_does_not_modify_intake_json() -> None:
+def test_router_does_not_modify_intake_json(tmp_path: Path) -> None:
     with _temp_workflow_state(
-        Path(__file__).resolve().parent / "tmp_state_no_modify",
+        tmp_path / "tmp_state_no_modify",
         " ",
         ["kill_switch_state"],
         [],
@@ -203,9 +203,9 @@ def test_router_does_not_modify_intake_json() -> None:
         assert before == after
 
 
-def test_router_safety_boundary_blocks_execution_modes() -> None:
+def test_router_safety_boundary_blocks_execution_modes(tmp_path: Path) -> None:
     with _temp_workflow_state(
-        Path(__file__).resolve().parent / "tmp_state_boundary",
+        tmp_path / "tmp_state_boundary",
         " ",
         ["monitoring_ready"],
         [],
@@ -283,9 +283,9 @@ def test_router_writes_state_report_and_next_packet(tmp_path: Path) -> None:
         assert "@filename" not in packet_text
 
 
-def test_generated_next_packet_passes_governance_validator() -> None:
+def test_generated_next_packet_passes_governance_validator(tmp_path: Path) -> None:
     with _temp_workflow_state(
-        Path(__file__).resolve().parent / "tmp_state_validator",
+        tmp_path / "tmp_state_validator",
         " ",
         ["kill_switch_state"],
         [],

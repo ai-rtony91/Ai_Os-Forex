@@ -1,0 +1,57 @@
+{
+  "schema": "AIOS_PACKET_APPROVAL_REQUEST.v1",
+  "approval_gate_id": "PKT045-CERTIFICATION-RECOVERY-OCC89-20260917-R2",
+  "approval_request_id": "PKT045-CERTIFICATION-RECOVERY-OCC89-20260917-R2",
+  "packet_id": "PKT-FOREX-045",
+  "packet_name": "Same PKT-045 certification attempt: validated interruption recovery",
+  "zone": "EAST",
+  "worker_identity": "EAST_OCC_89",
+  "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+  "requested_action": "RUN_PKT045_POST_ACQUISITION_CERTIFICATION",
+  "requested_mode": "APPLY",
+  "approved_mode": "NONE",
+  "approval_status": "pending_review",
+  "approved_by_human": false,
+  "approval_authority": "Anthony, Human Owner",
+  "created_at_utc": "2026-09-17T11:26:40.735009+00:00",
+  "expires_at_utc": "2026-09-17T23:26:40.735009+00:00",
+  "allowed_paths": [
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045\\postacq_occ89_20260916\\certification_stage",
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045\\postacq_occ89_20260916\\shared_allocation"
+  ],
+  "blocked_paths": [
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045\\stage1_occ84",
+    "C:\\Dev\\Ai.Os\\data",
+    "C:\\Dev\\Ai.Os\\datasets",
+    "C:\\Dev\\Ai.Os\\broker",
+    "C:\\Dev\\Ai.Os\\oanda",
+    "C:\\Dev\\Ai.Os\\secrets",
+    "C:\\Dev\\Ai.Os\\credentials",
+    "C:\\Dev\\Ai.Os\\docs\\governance"
+  ],
+  "validator_chain": [
+    "Pinned unchanged canonical Human Owner verifier",
+    "PKT045_CONTINUATION_BUNDLE_SHA256=6dfc35faca3a86d7c0a6a67b3281c1ba8e54f5c7042d145e8c4b483a2576724d",
+    "PARENT_APPROVAL_SHA256=6c52288943a1e240144cc9a5860f6c8ab4fc991c59ee6931818d4d83b668cbed",
+    "PREVIOUS_PENDING_RECOVERY_REQUEST_SHA256=7a7682c31cbcf56aa3227e7fd7e8504c229a09e58335340eec2a52b04f813239",
+    "Preserved original attempt and signed candidate; exact completed pairs and raw population",
+    "Tested missing-state/partial/lease recovery; same owner with renewed claim generation",
+    "Final code, Python runtime dependencies, exact command scope, bounded resources and 12-hour expiry; initial start requires 9.5h remaining",
+    "Both certification passes, complete manifests, final receipt and certified data identity required"
+  ],
+  "stop_point": "Same attempt certification only; stop on expiry, power loss, explicit stop, integrity/resource/owner failure, or completion. No scoring, research, PAPER, broker or LIVE authority.",
+  "approval_evidence": {
+    "status": "UNSIGNED"
+  },
+  "commit_package_required": false,
+  "push_blocked_until_final_review": true,
+  "mission_id": "MISSION-AIOS-001",
+  "mission_name": "AIOS Governed Self-Building Operating System",
+  "program_id": "PRG-FOREX-001",
+  "program_name": "AIOS Forex Supervised Operational Validation Program V1",
+  "epic_id": "EPC-FOREX-002",
+  "epic_name": "Strategy Intelligence V1",
+  "bucket_id": "BKT-FOREX-003",
+  "bucket_name": "Strategy Validation V1",
+  "approval_timestamp_utc": null
+}

@@ -1,0 +1,62 @@
+{
+  "COST_ACCOUNTING_INTEGRITY": {
+    "evidence": "single-charge cost contract and focused regressions",
+    "missing_evidence": "none",
+    "score": 98,
+    "unlock_condition": "maintain cost tests"
+  },
+  "EXECUTION_INTEGRITY": {
+    "evidence": "prior certified controls and deterministic replay evidence",
+    "missing_evidence": "none",
+    "score": 98,
+    "unlock_condition": "maintain executor hash and regressions"
+  },
+  "EXTERNAL_INFORMATION_COVERAGE": {
+    "evidence": "Packet 016 official route attempts and usable-family count",
+    "missing_evidence": "missing public official artifacts listed in one handoff",
+    "score": 86,
+    "unlock_condition": "automatic acquisition or consolidated Human-only public official download"
+  },
+  "FORWARD_PROOF": {
+    "evidence": "no finalist",
+    "missing_evidence": "forward evidence",
+    "score": 0,
+    "unlock_condition": "Holdout finalist"
+  },
+  "LIVE_AND_FUNDING_READINESS": {
+    "evidence": "not reached; live false",
+    "missing_evidence": "publication, live-safety, credential, and funding evidence",
+    "score": 0,
+    "unlock_condition": "PAPER profitability, protected publication, LIVE-safety certification, Human-only credential status"
+  },
+  "MARKET_CORPUS_REGIME_COVERAGE": {
+    "evidence": "Corpus V3 gate records no credential-readable OANDA acquisition",
+    "missing_evidence": "H1/H4/D1/W1 multi-regime OANDA data unavailable to Codex under current credential boundary",
+    "score": 0,
+    "unlock_condition": "separately governed credential-safe market-data acquisition path"
+  },
+  "MECHANISM_RESEARCH_COVERAGE": {
+    "evidence": "Packet 016 broad registry is blocked until data capability passes",
+    "missing_evidence": "48 frozen candidates not scored",
+    "score": 0,
+    "unlock_condition": "external information >=85 and multi-regime market coverage >=90, or formal untestable classification"
+  },
+  "PAPER_PROFITABILITY": {
+    "evidence": "not started",
+    "missing_evidence": "fresh PAPER PASS",
+    "score": 0,
+    "unlock_condition": "Forward PASS"
+  },
+  "POINT_IN_TIME_INTEGRITY": {
+    "evidence": "required timestamps enforced for usable records",
+    "missing_evidence": "no score for unavailable records",
+    "score": 90,
+    "unlock_condition": "freeze External Information Corpus V3"
+  },
+  "STATISTICAL_PROOF": {
+    "evidence": "prior registry-wide null capability exists",
+    "missing_evidence": "no Packet 016 Development passer",
+    "score": 90,
+    "unlock_condition": "novel registry with passer"
+  }
+}

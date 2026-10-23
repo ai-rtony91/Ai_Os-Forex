@@ -1,0 +1,655 @@
+{
+  "schema": "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v2",
+  "purpose": "AIOS_APPLY_APPROVAL_RUNTIME_ADMISSION",
+  "algorithm": "HMAC-SHA256",
+  "request_id": "approval-PKT-FOREX-045-SUPERTREND_V6_INITIAL11_V2_DIGEST_R5_20260921T1723Z",
+  "request_revision": "SUPERTREND_V6_INITIAL11_V2_DIGEST_R5_20260921T1723Z",
+  "gate_id": "approval-PKT-FOREX-045-SUPERTREND_V6_INITIAL11_V2_DIGEST_R5_20260921T1723Z",
+  "approval_request_id": "approval-PKT-FOREX-045-SUPERTREND_V6_INITIAL11_V2_DIGEST_R5_20260921T1723Z",
+  "approval_gate_id": "approval-PKT-FOREX-045-SUPERTREND_V6_INITIAL11_V2_DIGEST_R5_20260921T1723Z",
+  "packet_id": "PKT-FOREX-045",
+  "packet_name": "AIOS Adaptive Workforce Orchestrator V1",
+  "goal_id": "01a0ab12-00cd-72c2-be1b-0084edb9846a",
+  "mission_id": "MISSION-AIOS-001",
+  "program_id": "PRG-AIOS-INFRASTRUCTURE-001",
+  "epic_id": "EPC-AIOS-ADAPTIVE-WORKFORCE-001",
+  "bucket_id": "BKT-AIOS-MUSCLE-ENGINE-001",
+  "requested_action": "RUN_PKT045_RESTRICTED_OFFLINE_RESEARCH_V5",
+  "requested_mode": "APPLY",
+  "approved_mode": "APPLY",
+  "approval_status": "approved_for_apply",
+  "approved_by_human": true,
+  "owner_identity": "Anthony, Human Owner",
+  "approval_authority": "Anthony, Human Owner",
+  "trust_root_id": "AIOS-HUMAN-OWNER-APPROVAL-TRUST-ROOT-V1",
+  "created_at_utc": "2026-09-21T14:25:50.6038523-04:00",
+  "approval_timestamp_utc": "2026-09-21T18:38:28.7217153+00:00",
+  "not_before_utc": "2026-09-21T14:25:50.6053434-04:00",
+  "latest_entry_utc": "2026-09-22T13:23:29-04:00",
+  "expires_at_utc": "2026-09-23T01:23:29-04:00",
+  "closure_reserve_hours": 4,
+  "worker": "EAST_OCC_89",
+  "worker_identity": "EAST_OCC_89",
+  "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+  "worktree": "C:\\Dev\\Ai.Os.worktrees\\postacq89",
+  "allowed_paths": [
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_edge_validation_pipeline_v1\\AIOS_FOREX_GLOBAL_TRIAL_LEDGER_V1.jsonl",
+    "C:\\Dev\\Ai.Os\\.aios\\runtime\\forex_edge_validation_pipeline_v1\\AIOS_FOREX_FINGERPRINT_INDEX_V1.json"
+  ],
+  "blocked_paths": [
+    "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_FOREX_045",
+    "C:\\Dev\\Ai.Os\\AGENTS.md",
+    "C:\\Dev\\Ai.Os\\RISK_POLICY.md",
+    "C:\\Dev\\Ai.Os\\docs\\governance",
+    "C:\\Dev\\Ai.Os\\data",
+    "C:\\Dev\\Ai.Os\\datasets",
+    "C:\\Dev\\Ai.Os\\broker",
+    "C:\\Dev\\Ai.Os\\oanda",
+    "C:\\Dev\\Ai.Os\\secrets",
+    "C:\\Dev\\Ai.Os\\credentials",
+    "C:\\Dev\\Ai.Os\\.git"
+  ],
+  "validator_chain": [
+    "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD_V2_STRICT",
+    "AIOS_V6_V2_PACKAGE_SHA256=8bf6e8ade63ad582ce2162b3afbeb27827a4e6267104bcdf7f0a4176f035ca7b",
+    "PKT045_CONTINUATION_BUNDLE_SHA256=88a645eb4cf55df265c901c9b6483f1c72af9d2d4be65c27714c4bce1d4fd05c",
+    "RESEARCH_SCOPE_SHA256=beaf3b7e737fd05ed3fb386273d5155805034f3cbc90ace5d80915aba259abe5",
+    "SOURCE_MAP_SHA256=c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+    "BUDGET_IDENTITY_SHA256=74d5b71637feb2f4b630725917657322a444e1fd1612f52b261f98758ae4b59f",
+    "LATEST_ENTRY_UTC=2026-09-22T17:23:29+00:00",
+    "AIOS_V6_EXPIRY_UTC=2026-09-23T05:23:29+00:00",
+    "SEVEN_ACCEPTED_SETTINGS_REUSED_BY_HASHED_RECEIPTS_NO_RESCORING",
+    "ST_B4_14_3_5_PRESERVED_ONE_CHARGE",
+    "GRID56_CELL_6_2_0_MEMBER_ONCE",
+    "MAXIMUM_NEW_CONFIGURATIONS_ELEVEN",
+    "NO_BROKER_NO_PAPER_NO_LIVE_NO_COMMIT_NO_PUSH_NO_MERGE"
+  ],
+  "package_sha256": "8bf6e8ade63ad582ce2162b3afbeb27827a4e6267104bcdf7f0a4176f035ca7b",
+  "authority_bundle_sha256": "88a645eb4cf55df265c901c9b6483f1c72af9d2d4be65c27714c4bce1d4fd05c",
+  "execution_contract_sha256": "d2f1143e9d65b32cb4b8668f3679c99a58ea6a97cc4eaccbd31a9db86eb97cda",
+  "research_scope": {
+    "schema": "AIOS_PKT045_RESEARCH_UNIT_SCOPE_V1",
+    "bindings": {
+      "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+      "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+      "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+      "worker": "EAST_OCC_89",
+      "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+      "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+    },
+    "units": [
+      {
+        "unit_id": "GRID56_DOMAIN",
+        "kind": "GRID56_DOMAIN",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parameter_domain_identity": "GRID56_FROZEN_PROTOCOL",
+        "grid_total_cells": 56,
+        "status": "DOMAIN_BOUND_NOT_DISPATCHABLE",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_10_3_0",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 10,
+          "confirm_bars": 3,
+          "multiplier": 3.0
+        },
+        "status": "REUSED_ACCEPTED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        },
+        "reuse_receipt": {
+          "schema": "AIOS_GRID56_REUSE_RECEIPT_BINDING_V1",
+          "stage": "ST_A1",
+          "receipt_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_A1\\receipt.json",
+          "receipt_sha256": "be255246e1ae597bb262a8724e3cd8bd2f26275323eb8c3dc8278aaa1a69ecc2",
+          "scientific_result_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_A1\\scientific_result.json",
+          "scientific_result_sha256": "aef486bad694ca9d8804f692a3b8bdfb5c4b445a3fa38bc5555fc76b982621a3",
+          "execution_contract_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\RESEARCH_SCOPE_UNSIGNED.json",
+          "execution_contract_file_sha256": "28367ab428d2f76eaa29c5966ed1a6f486bd490ff5084c599265ebcb867be5ef",
+          "execution_contract_sha256": "2d813f7c8b2c8492c7e4d5aaac0add0dd8c2492c24b340414b6145721b84b9b6"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_7_3_0",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 7,
+          "confirm_bars": 3,
+          "multiplier": 3.0
+        },
+        "status": "REUSED_ACCEPTED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        },
+        "reuse_receipt": {
+          "schema": "AIOS_GRID56_REUSE_RECEIPT_BINDING_V1",
+          "stage": "ST_A2",
+          "receipt_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_A2\\receipt.json",
+          "receipt_sha256": "ba2de65ff464bd1794dd93a65b94f59944f2e313989cbd10e854217c811b5636",
+          "scientific_result_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_A2\\scientific_result.json",
+          "scientific_result_sha256": "3af108002909483910faa0b097710bf3b7178ca4df4376aed0af825ffe6d5aab",
+          "execution_contract_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\RESEARCH_SCOPE_UNSIGNED.json",
+          "execution_contract_file_sha256": "28367ab428d2f76eaa29c5966ed1a6f486bd490ff5084c599265ebcb867be5ef",
+          "execution_contract_sha256": "2d813f7c8b2c8492c7e4d5aaac0add0dd8c2492c24b340414b6145721b84b9b6"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_14_3_0",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 14,
+          "confirm_bars": 3,
+          "multiplier": 3.0
+        },
+        "status": "REUSED_ACCEPTED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        },
+        "reuse_receipt": {
+          "schema": "AIOS_GRID56_REUSE_RECEIPT_BINDING_V1",
+          "stage": "ST_A3",
+          "receipt_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_A3\\receipt.json",
+          "receipt_sha256": "7776d61d993e1c68b5720368c39a63385805f59a5858c222f2439e85aed8b44e",
+          "scientific_result_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_A3\\scientific_result.json",
+          "scientific_result_sha256": "24086593e41e7443f3dec31c708a2c0e2a3c9da339b6cda257c8b87c7f15ed68",
+          "execution_contract_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\RESEARCH_SCOPE_UNSIGNED.json",
+          "execution_contract_file_sha256": "28367ab428d2f76eaa29c5966ed1a6f486bd490ff5084c599265ebcb867be5ef",
+          "execution_contract_sha256": "2d813f7c8b2c8492c7e4d5aaac0add0dd8c2492c24b340414b6145721b84b9b6"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_10_2_5",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 10,
+          "confirm_bars": 3,
+          "multiplier": 2.5
+        },
+        "status": "REUSED_ACCEPTED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        },
+        "reuse_receipt": {
+          "schema": "AIOS_GRID56_REUSE_RECEIPT_BINDING_V1",
+          "stage": "ST_A4",
+          "receipt_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_A4\\receipt.json",
+          "receipt_sha256": "53e965a0252f01de742fa669d6da2434cad21936fc9661350d097185323860c4",
+          "scientific_result_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_A4\\scientific_result.json",
+          "scientific_result_sha256": "745cf94f126081c8ecfb23822cf4eb10ad6d5f02f2c9668a731b66662ab4f363",
+          "execution_contract_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\RESEARCH_SCOPE_UNSIGNED.json",
+          "execution_contract_file_sha256": "28367ab428d2f76eaa29c5966ed1a6f486bd490ff5084c599265ebcb867be5ef",
+          "execution_contract_sha256": "2d813f7c8b2c8492c7e4d5aaac0add0dd8c2492c24b340414b6145721b84b9b6"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_7_2_5",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 7,
+          "confirm_bars": 3,
+          "multiplier": 2.5
+        },
+        "status": "REUSED_ACCEPTED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        },
+        "reuse_receipt": {
+          "schema": "AIOS_GRID56_REUSE_RECEIPT_BINDING_V1",
+          "stage": "ST_B1",
+          "receipt_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_B1\\receipt.json",
+          "receipt_sha256": "5ca044f20bc9d29700f8d9c3ee7f63b28bcb813919d4e55f973709f11b64b052",
+          "scientific_result_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_B1\\scientific_result.json",
+          "scientific_result_sha256": "6370ae8a7f8b4e5d3e5f38d0639efffeec10b10e3dcfb311775ff84c6cab53ad",
+          "execution_contract_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\RESEARCH_SCOPE_UNSIGNED.json",
+          "execution_contract_file_sha256": "28367ab428d2f76eaa29c5966ed1a6f486bd490ff5084c599265ebcb867be5ef",
+          "execution_contract_sha256": "2d813f7c8b2c8492c7e4d5aaac0add0dd8c2492c24b340414b6145721b84b9b6"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_7_3_5",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 7,
+          "confirm_bars": 3,
+          "multiplier": 3.5
+        },
+        "status": "REUSED_ACCEPTED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        },
+        "reuse_receipt": {
+          "schema": "AIOS_GRID56_REUSE_RECEIPT_BINDING_V1",
+          "stage": "ST_B2",
+          "receipt_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_B2\\receipt.json",
+          "receipt_sha256": "7091ed2644669adbcbf0fcfb752fa2768ac54c5e5b384c100a1af754c44739a5",
+          "scientific_result_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_B2\\scientific_result.json",
+          "scientific_result_sha256": "8df844469f1a7cc260648a3b5d6290a69230782a2c30263150e9cf66b7f0260e",
+          "execution_contract_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\RESEARCH_SCOPE_UNSIGNED.json",
+          "execution_contract_file_sha256": "28367ab428d2f76eaa29c5966ed1a6f486bd490ff5084c599265ebcb867be5ef",
+          "execution_contract_sha256": "2d813f7c8b2c8492c7e4d5aaac0add0dd8c2492c24b340414b6145721b84b9b6"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_10_3_5",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 10,
+          "confirm_bars": 3,
+          "multiplier": 3.5
+        },
+        "status": "REUSED_ACCEPTED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        },
+        "reuse_receipt": {
+          "schema": "AIOS_GRID56_REUSE_RECEIPT_BINDING_V1",
+          "stage": "ST_B3",
+          "receipt_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_B3\\receipt.json",
+          "receipt_sha256": "2cfe4738c9d1ea6ab4c95d9913e5cedb8e22c100ada18e270fd477a8174208ce",
+          "scientific_result_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\historical\\supertrend\\ST_B3\\scientific_result.json",
+          "scientific_result_sha256": "ba7a6d0a7e8e81e3730314504e35855f02a0089d60750f7d69d57b13ac0dab64",
+          "execution_contract_path": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\supertrend_focused\\RESEARCH_SCOPE_UNSIGNED.json",
+          "execution_contract_file_sha256": "28367ab428d2f76eaa29c5966ed1a6f486bd490ff5084c599265ebcb867be5ef",
+          "execution_contract_sha256": "2d813f7c8b2c8492c7e4d5aaac0add0dd8c2492c24b340414b6145721b84b9b6"
+        }
+      },
+      {
+        "unit_id": "ST_B4_14_3_5_RESUME",
+        "kind": "PRESERVED_UNFINISHED_SUPERTREND_UNIT",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES",
+        "parameters": {
+          "atr": 14,
+          "confirm_bars": 3,
+          "multiplier": 3.5
+        },
+        "status": "PRESERVED_NOT_EXECUTED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_6_2_5",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 6,
+          "confirm_bars": 3,
+          "multiplier": 2.5
+        },
+        "status": "PENDING_NOT_SCORED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_7_2_0",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 7,
+          "confirm_bars": 3,
+          "multiplier": 2.0
+        },
+        "status": "PENDING_NOT_SCORED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_6_2_0",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 6,
+          "confirm_bars": 3,
+          "multiplier": 2.0
+        },
+        "status": "PENDING_NOT_SCORED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_10_2_0",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 10,
+          "confirm_bars": 3,
+          "multiplier": 2.0
+        },
+        "status": "PENDING_NOT_SCORED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_5_2_0",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 5,
+          "confirm_bars": 3,
+          "multiplier": 2.0
+        },
+        "status": "PENDING_NOT_SCORED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_3_2_0",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 3,
+          "confirm_bars": 3,
+          "multiplier": 2.0
+        },
+        "status": "PENDING_NOT_SCORED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_3_1_5",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 3,
+          "confirm_bars": 3,
+          "multiplier": 1.5
+        },
+        "status": "PENDING_NOT_SCORED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_3_2_5",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 3,
+          "confirm_bars": 3,
+          "multiplier": 2.5
+        },
+        "status": "PENDING_NOT_SCORED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_3_3_0",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 3,
+          "confirm_bars": 3,
+          "multiplier": 3.0
+        },
+        "status": "PENDING_NOT_SCORED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      },
+      {
+        "unit_id": "GRID56_CELL_3_3_5",
+        "kind": "EXPLICIT_GRID_CONFIGURATION",
+        "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+        "parent_unit_id": "GRID56_DOMAIN",
+        "parameters": {
+          "atr": 3,
+          "confirm_bars": 3,
+          "multiplier": 3.5
+        },
+        "status": "PENDING_NOT_SCORED",
+        "bindings": {
+          "source_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+          "data_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+          "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+          "worker": "EAST_OCC_89",
+          "lane": "AIOS_ADAPTIVE_WORKFORCE_ORCHESTRATION_V1",
+          "output_root": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime"
+        }
+      }
+    ]
+  },
+  "research_scope_sha256": "beaf3b7e737fd05ed3fb386273d5155805034f3cbc90ace5d80915aba259abe5",
+  "source_hashes": {
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_continuation_authority.py": "0fc868f5305ec009f68251eee581d53f7848487b396fcaf27f8e258d0d1aef0f",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_continuation_binding.py": "91b6439f9e49e76dcca612f5e46a6339918cd1a59d9d443db5d49c5a104461e0",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_research_consumer.py": "a553d92fea4ad49a2a67c0674f7dd6e74663b6b6b01ba0b27ecd433b553e49a4",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_research_dispatcher.py": "b027a3ea5a6d2368da76e79bd51b2c0562e4d083b53afd537a3268c81a506886",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\pkt045_continuation_cli.py": "37eb70b58b570951c822c2075a994d25d70d88921062efc455caf599be3e868b",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\orchestration\\adaptive_workforce\\goal_continuation.py": "729d16f860c4030d53e81a314433b9c8947d0e2e315b03bd4e886191098abb86",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\research.py": "0e5c134972a505cb94719fc2843e7e18b3dbb11c1c7364268df029e700469bae",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\pkt045_continuation.py": "1c9e74317a846fe43d8c8b975577a06767543675a5bd91dd3fb169063fc8c28a",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\automation\\forex_engine\\edge_research\\pkt045_publication.py": "de71133a5fcb1d5c76cfed750180c9d0f58133514cb64399868aa92afa30144e",
+    "C:\\Dev\\Ai.Os.worktrees\\postacq89\\scripts\\forex_delivery\\run_forex_factor_common_component_momentum_stage0_v1.py": "b2844c76bee551b72969ef8b88bc4e4605200edbb30d8334f481ada3f5704567",
+    "C:\\Dev\\Ai.Os\\automation\\validators\\aios_approval_contract_v2.py": "d110ae39d97edb63e78beebeede26bfb6a9c5716029486547944407579118dc5",
+    "C:\\Dev\\Ai.Os\\automation\\validators\\aios_approval_authority_integrity_validator.py": "c9ca39a3bb1e250c63b1f25cdf33cf8e8ba36068b57f0800344ddb64ec58efed"
+  },
+  "source_map_sha256": "c7f4be1e884fb51fc7dae79db54db47a053ce928d2999df4c55b09529c236c60",
+  "data_hashes": {
+    "supertrend_manifest_sha256": "1bd01b32c634a72fa76cb06d9b3e4392c671465469f0d8f4aa90a022cca2ae7b",
+    "supertrend_aggregate_sha256": "44bad0bb22fa88771c824c2c91551fef7116a458d5d7fee7039f5f87c76dac6a",
+    "input_hashes": {
+      "acquisition_contract": "46314788e8d9cf43168fd40695384c251c68a501dcb77a91d176858334a85e81",
+      "certification_receipt": "aa39bbb4e0342a532ca66fdac087701a95b283a9da5fcc490d49120a81ccf76d",
+      "certification_run1": "7da33d9f32806ddf23448850289b439441e474abbeca83ffeeef30b29537e830",
+      "certification_run2": "7da33d9f32806ddf23448850289b439441e474abbeca83ffeeef30b29537e830",
+      "corpus_manifest": "ae20da161ebd577bcdab382836b64a7a5bb7eba8258f4c33d3ca064620698b25",
+      "cost_gate": "df43a3420d69faec938344a4a3f90ae27bd2574ff7075a9342d4b444cbf7787d",
+      "inventory": "20794241f3ea3aa90ec2b5f83f732a66145082270ee47cbd056cbd736fa934ad",
+      "preregistration": "75b7c661ab197e5da531f0cbfedd43584176d514e67eef01ad0495f24f67dd0f",
+      "raw_manifest": "40e5110688ec1567d82b8391ccf2747a66de1d21111f0c457ec867427794f712",
+      "raw_receipt": "249b94411f28807a3b87d78babaa4496a4b4dcb4f8af8044f34ec1a721920e63"
+    }
+  },
+  "strategy_identity": {
+    "strategy_id": "SUPERTREND_ORIGINAL_RULES_GRID56",
+    "strategy_version": "V6_INITIAL11_APPROVAL_CONTRACT_V2"
+  },
+  "cost_identity": "6db77ded723c60e349e4c6f8caf1b40b857d702dda779013fc4b2decc00d5d4a",
+  "trial_allocation": {
+    "current_signed_new_configuration_limit": 11,
+    "reused_accepted_count": 7,
+    "unfinished_st_b4_count": 1,
+    "new_grid_cells_in_initial_batch": 10,
+    "admitted_chargeable_configuration_count": 11,
+    "grid_total_cells": 56,
+    "grid_complete_after_initial_batch_if_all_terminal": 18,
+    "grid_remaining_after_initial_batch_if_all_terminal": 38,
+    "grid56_cell_6_2_0_counted_once": true
+  },
+  "budget_identity_sha256": "74d5b71637feb2f4b630725917657322a444e1fd1612f52b261f98758ae4b59f",
+  "resource_limits": {
+    "workers": 1,
+    "new_scored_specifications": 11,
+    "reproductions": 1,
+    "memory_bytes": 4294967296,
+    "output_bytes": 1342177280,
+    "free_disk_reserve_bytes": 10737418240,
+    "resource_assignment": {
+      "host_budget": {
+        "cpu_percent": 25,
+        "disk_iops": 18808,
+        "memory_mb": 4096,
+        "network_kbps": 0
+      },
+      "per_attempt": {
+        "cpu_percent": 10,
+        "disk_iops": 9404,
+        "memory_mb": 4014,
+        "network_kbps": 0
+      }
+    },
+    "observed_seconds_per_configuration": 1170.5,
+    "planned_initial_compute_seconds": 12875.5,
+    "planned_compute_plus_closure_seconds": 27275.5,
+    "concurrency": 1
+  },
+  "output_roots": {
+    "research": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime",
+    "state": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime\\muscle98",
+    "allocation": "C:\\Dev\\Ai.Os\\.aios\\staging\\PKT_AIOS_ADAPTIVE_WORKFORCE_001\\post_acquisition_review_20260916\\research_v5\\v6_initial11_approval_v2_runtime\\allocation"
+  },
+  "capabilities": {
+    "broker": false,
+    "paper": false,
+    "live": false,
+    "commit": false,
+    "push": false,
+    "merge": false
+  },
+  "resume_policy": {
+    "stop_point": "Stop before signing or research dispatch without their separate exact authority.",
+    "expiry_behavior": "STOP_NEW_ADMISSION_AND_CLOSE",
+    "preserved_state": {
+      "reused_accepted_count": 7,
+      "unfinished_st_b4_count": 1,
+      "accepted_checkpoint_unit_count": 28,
+      "checkpoint_trial_count": null,
+      "historical_research_exposure_preserved": true
+    }
+  },
+  "stop_point": "Stop before signing or research dispatch without their separate exact authority.",
+  "validator_chain_required": true,
+  "commit_package_required": true,
+  "push_blocked_until_final_review": true,
+  "approval_evidence": {
+    "type": "HMAC_SHA256",
+    "status": "SIGNED_BY_HUMAN_OWNER",
+    "canonical_payload_schema": "AIOS_HUMAN_OWNER_APPROVAL_PAYLOAD.v2",
+    "canonical_payload_sha256": "75274b1f95477206b40288e3ebc03764d6d9382a2d4efdbf9950642f7da6d8f4",
+    "approval_hmac_sha256": "74f9831432f7add89446b4eb64bed3204628275b5752a0d950a1b8232a64eba3",
+    "approval_nonce": "19fc9be7dc5f4f6391a163988826a051",
+    "key_id": "AIOS-HUMAN-OWNER-PRIMARY-V1",
+    "key_version": 1,
+    "key_fingerprint_sha256": "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786"
+  },
+  "approved_by": "Anthony, Human Owner",
+  "key_id": "AIOS-HUMAN-OWNER-PRIMARY-V1",
+  "key_version": 1,
+  "key_fingerprint_sha256": "88e9ef8fb3e8ebe6f76bd000fe30ebcc0da8b2b337f0f3d17b7b049db3370786",
+  "approval_nonce": "19fc9be7dc5f4f6391a163988826a051"
+}

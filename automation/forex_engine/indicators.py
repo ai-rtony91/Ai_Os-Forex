@@ -3,6 +3,76 @@
 from automation.forex_engine.market_data import validate_candle_sequence
 
 
+def research_bars_v1(bars, interval_seconds=300):
+    """Strict closed-bar research contract. Missing/open-position data is never interpolated."""
+    from datetime import datetime, timezone
+    from math import isfinite
+    if type(interval_seconds) is not int or interval_seconds <= 0:
+        raise ValueError("RESEARCH_BAR_INTERVAL_INVALID")
+    previous = None
+    result = []
+    for bar in bars:
+        if not isinstance(bar, dict) or not {"timestamp", "o", "h", "l", "c"} <= set(bar):
+            raise ValueError("RESEARCH_BAR_MISSING")
+        timestamp = datetime.fromisoformat(bar["timestamp"].replace("Z", "+00:00"))
+        if timestamp.tzinfo is None:
+            raise ValueError("RESEARCH_BAR_TIMEZONE_REQUIRED")
+        timestamp = timestamp.astimezone(timezone.utc)
+        if previous is not None and (timestamp-previous).total_seconds() != interval_seconds:
+            raise ValueError("RESEARCH_BAR_GAP")
+        values = [bar[k] for k in ("o", "h", "l", "c")]
+        if any(type(v) not in (float, int) or not isfinite(v) or v <= 0 for v in values) or not (
+                bar["l"] <= min(bar["o"], bar["c"]) <= max(bar["o"], bar["c"]) <= bar["h"]):
+            raise ValueError("RESEARCH_BAR_PRICE_INVALID")
+        result.append({**bar, "timestamp": timestamp.isoformat()})
+        previous = timestamp
+    return result
+
+
+def supertrend_research_v1(bars, period=14, multiplier=3.0, interval_seconds=300):
+    """Independent public-math implementation: Wilder ATR, arithmetic seed.
+
+    Initial direction uses close vs HL2. Ratchets use previous close; strict
+    crossings flip. Zero ATR is neutral. No rounding feedback into the math.
+    Values at bar i become available only at its close, never its open.
+    """
+    from datetime import datetime, timedelta
+    from math import isfinite
+    if type(period) is not int or not 2 <= period <= 1000 or type(multiplier) not in (float, int) or not isfinite(multiplier) or multiplier <= 0:
+        raise ValueError("RESEARCH_SUPERTREND_PARAMETER_INVALID")
+    rows = research_bars_v1(bars, interval_seconds)
+    ranges, output = [], []
+    volatility = upper = lower = None
+    direction = 0
+    for i, row in enumerate(rows):
+        previous_close = rows[i-1]["c"] if i else row["c"]
+        ranges.append(max(row["h"]-row["l"], abs(row["h"]-previous_close), abs(row["l"]-previous_close)))
+        if i == period-1:
+            volatility = sum(ranges)/period
+        elif i >= period:
+            volatility = (volatility*(period-1)+ranges[-1])/period
+        band = None
+        if volatility is not None and volatility > 0:
+            midpoint = (row["h"]+row["l"])/2
+            basic_upper, basic_lower = midpoint+multiplier*volatility, midpoint-multiplier*volatility
+            upper = basic_upper if upper is None or basic_upper < upper or previous_close > upper else upper
+            lower = basic_lower if lower is None or basic_lower > lower or previous_close < lower else lower
+            if direction == 0:
+                direction = 1 if row["c"] >= midpoint else -1
+            elif direction == -1 and row["c"] > upper:
+                direction = 1
+            elif direction == 1 and row["c"] < lower:
+                direction = -1
+            band = lower if direction == 1 else upper
+        else:
+            direction = 0
+        output.append({"timestamp": row["timestamp"],
+            "available_at": (datetime.fromisoformat(row["timestamp"])+timedelta(seconds=interval_seconds)).isoformat(),
+            "atr": volatility, "upper": upper, "lower": lower, "band": band, "direction": direction,
+            "period": period, "multiplier": multiplier, "contract": "SUPERTREND_RESEARCH_V1"})
+    return output
+
+
 UP = 1
 DOWN = -1
 FLAT = 0

@@ -4,6 +4,20 @@ from automation.forex_engine import live_runtime_executor_v1 as executor
 from automation.forex_engine import oanda_live_runtime_connector_v2 as connector_mod
 
 
+class FakeAttemptReservation:
+    """One-use test fixture only; not a durable production implementation."""
+
+    def __init__(self) -> None:
+        self.used = False
+
+    def __call__(self) -> bool:
+        if self.used:
+            return False
+        self.used = True
+        return True
+
+
+
 class FakeTransport:
     def __init__(self) -> None:
         self.calls = []
@@ -161,7 +175,7 @@ def test_connector_blocks_without_transport() -> None:
 def test_connector_submits_exactly_one_fake_order() -> None:
     transport = FakeTransport()
     config = connector_mod.build_oanda_live_connector_config(_config())
-    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, transport)
+    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, transport, reserve_attempt=FakeAttemptReservation())
 
     result = connector.place_live_micro_order(_intent())
 
@@ -173,7 +187,7 @@ def test_connector_submits_exactly_one_fake_order() -> None:
 def test_connector_blocks_second_order() -> None:
     transport = FakeTransport()
     config = connector_mod.build_oanda_live_connector_config(_config())
-    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, transport)
+    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, transport, reserve_attempt=FakeAttemptReservation())
 
     connector.place_live_micro_order(_intent())
     result = connector.place_live_micro_order(_intent())
@@ -199,7 +213,7 @@ def test_connector_blocks_invalid_units_and_side() -> None:
 
 def test_connector_sanitizes_broker_result() -> None:
     config = connector_mod.build_oanda_live_connector_config(_config())
-    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, FakeTransport())
+    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, FakeTransport(), reserve_attempt=FakeAttemptReservation())
 
     result = connector.place_live_micro_order(_intent())
 
@@ -210,7 +224,7 @@ def test_connector_sanitizes_broker_result() -> None:
 def test_connector_integrates_with_live_runtime_executor() -> None:
     transport = FakeTransport()
     config = connector_mod.build_oanda_live_connector_config(_config())
-    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, transport)
+    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, transport, reserve_attempt=FakeAttemptReservation())
 
     execution = executor.execute_single_live_micro_trade(_runtime_request(), connector, execute_requested=True)
 
@@ -231,9 +245,40 @@ def test_readiness_packet_ready() -> None:
 
 def test_no_env_or_real_network_used() -> None:
     config = connector_mod.build_oanda_live_connector_config(_config())
-    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, FakeTransport())
+    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, FakeTransport(), reserve_attempt=FakeAttemptReservation())
     result = connector.place_live_micro_order(_intent())
 
     assert result["safety_summary"]["env_read"] is False
     assert result["safety_summary"]["credential_persistence"] is False
     assert result["safety_summary"]["no_retry"] is True
+
+
+def test_connector_defaults_to_denial_without_attempt_reservation() -> None:
+    transport = FakeTransport()
+    config = connector_mod.build_oanda_live_connector_config(_config())
+    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, transport)
+
+    result = connector.place_live_micro_order(_intent())
+
+    assert result["submitted"] is False
+    assert result["accepted"] is False
+    assert "attempt_reservation_required" in result["blockers"]
+    assert transport.calls == []
+
+
+def test_connector_empty_acknowledgement_remains_unknown() -> None:
+    class EmptyFakeTransport(FakeTransport):
+        def place_live_micro_order(self, intent: dict) -> dict:
+            self.calls.append(dict(intent))
+            return {}
+
+    transport = EmptyFakeTransport()
+    config = connector_mod.build_oanda_live_connector_config(_config())
+    connector = connector_mod.OandaLiveRuntimeConnectorV2(config, transport, reserve_attempt=FakeAttemptReservation())
+
+    result = connector.place_live_micro_order(_intent())
+
+    assert result["accepted"] is False
+    assert result["outcome_known"] is False
+    assert result["retry_allowed"] is False
+    assert len(transport.calls) == 1

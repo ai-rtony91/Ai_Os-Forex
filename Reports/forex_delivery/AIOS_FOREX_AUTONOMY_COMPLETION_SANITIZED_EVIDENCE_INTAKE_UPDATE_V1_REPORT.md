@@ -1,9 +1,9 @@
 # AIOS Forex Autonomy Completion Sanitized Evidence Intake Update V1 Report
 
 Status: NO_EVIDENCE_APPLIED
-Current branch: work
-Current head: acb6d327352e0542dcbcc8a521891fbc7ade8648
-Input files used: /workspace/Ai_Os/Reports/forex_delivery/AIOS_FOREX_AUTONOMY_COMPLETION_GOVERNOR_RERUN_AND_BUCKET_POLICY_V1_STATE.json, /workspace/Ai_Os/Reports/forex_delivery/AIOS_FOREX_LIVE_MICRO_EXCEPTION_GOVERNOR_INPUT_TEMPLATE_V1.json
+Current branch: main
+Current head: b86c65140ed03d53d6c8d6c3618e50da0502f51b
+Input files used: C:\Dev\Ai.Os\Reports\forex_delivery\AIOS_FOREX_AUTONOMY_COMPLETION_GOVERNOR_RERUN_AND_BUCKET_POLICY_V1_STATE.json, C:\Dev\Ai.Os\Reports\forex_delivery\AIOS_FOREX_LIVE_MICRO_EXCEPTION_GOVERNOR_INPUT_TEMPLATE_V1.json
 Evidence update file used: None
 
 Controller candidate status: AUTONOMY_BLOCKED

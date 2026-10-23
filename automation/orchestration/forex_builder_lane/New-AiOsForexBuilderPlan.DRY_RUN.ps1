@@ -1,8 +1,8 @@
 param(
     [Parameter(Mandatory = $true)]
     [string]$GoalText,
-    [string]$OutputJsonPath = "Reports/forex_builder_lane/forex_builder_plan.json",
-    [string]$OutputMarkdownPath = "Reports/forex_builder_lane/forex_builder_plan.md"
+    [string]$ProposedJsonPath = "Reports/forex_builder_lane/forex_builder_plan.json",
+    [string]$ProposedMarkdownPath = "Reports/forex_builder_lane/forex_builder_plan.md"
 )
 
 $ErrorActionPreference = "Stop"
@@ -28,20 +28,6 @@ function Resolve-AiOsPath {
         return [System.IO.Path]::GetFullPath($PathHint)
     }
     return [System.IO.Path]::GetFullPath((Join-Path $RepoRoot $PathHint))
-}
-
-function Write-TextAtomic {
-    param([string]$Path, [string]$Text)
-    $parent = Split-Path -Parent $Path
-    if (-not (Test-Path -LiteralPath $parent)) {
-        New-Item -ItemType Directory -Path $parent -Force | Out-Null
-    }
-    $tmp = Join-Path $parent ([guid]::NewGuid().ToString("N") + ".tmp")
-    [System.IO.File]::WriteAllText($tmp, $Text, [System.Text.UTF8Encoding]::new($false))
-    if (Test-Path -LiteralPath $Path) {
-        Remove-Item -LiteralPath $Path -Force
-    }
-    Move-Item -LiteralPath $tmp -Destination $Path -Force
 }
 
 function New-SafeCommand {
@@ -115,14 +101,14 @@ Execution intent:
 
 try {
     $repoRoot = Get-AiOsRepoRoot
-    $outputJson = Resolve-AiOsPath -PathHint $OutputJsonPath -RepoRoot $repoRoot
-    $outputMarkdown = Resolve-AiOsPath -PathHint $OutputMarkdownPath -RepoRoot $repoRoot
+    $proposedJson = Resolve-AiOsPath -PathHint $ProposedJsonPath -RepoRoot $repoRoot
+    $proposedMarkdown = Resolve-AiOsPath -PathHint $ProposedMarkdownPath -RepoRoot $repoRoot
 
     $blocked = Detect-ForbiddenKeywords -GoalText $GoalText
     $isBlocked = $blocked.Count -gt 0
     $mappedCategories = Classify-Goal -GoalText $GoalText
     $packetText = Render-PacketText -GoalText $GoalText -Categories $mappedCategories
-    $packetTextPath = Join-Path (Split-Path -Parent $outputMarkdown) "forex_builder_next_packet.md"
+    $proposedPacketPath = Join-Path (Split-Path -Parent $proposedMarkdown) "forex_builder_next_packet.md"
 
     $categoryActions = @()
     foreach ($category in $mappedCategories) {
@@ -134,6 +120,7 @@ try {
         }
     }
 
+    $nextActions = if ($isBlocked) { @() } else { @($categoryActions) }
     $forbiddenMatches = @()
     $blockedCommands = @()
 
@@ -147,10 +134,10 @@ try {
         blocked_keywords = $blocked
         blocked_commands = $blockedCommands
         can_progress = -not $isBlocked
-        next_actions = @($categoryActions)
+        next_actions = $nextActions
         packet_metadata = [ordered]@{
             packet_id = "AIOS-FOREX-BUILDER-PLAN"
-            packet_path = $packetTextPath
+            proposed_packet_path = $proposedPacketPath
             packet_text = $packetText
             safety = @(
                 "paper only",
@@ -161,12 +148,9 @@ try {
                 "no real webhook"
             )
         }
-        generated_markdown_path = $outputMarkdown
-        generated_json_path = $outputJson
+        proposed_markdown_path = $proposedMarkdown
+        proposed_json_path = $proposedJson
     }
-
-    Write-TextAtomic -Path $outputJson -Text ($report | ConvertTo-Json -Depth 20)
-    Write-TextAtomic -Path $packetTextPath -Text $packetText
 
     $markdown = @"
 # Forex Builder Lane Plan
@@ -188,7 +172,6 @@ $( $categoryActions | ForEach-Object { "- " + $_.category + ": " + $_.safe_comma
 - No credentials or secret mutation
 "@
 
-    Write-TextAtomic -Path $outputMarkdown -Text $markdown
     Write-Output ($report | ConvertTo-Json -Depth 20)
 
     if ($isBlocked -or $blockedCommands.Count -gt 0) {
@@ -210,7 +193,7 @@ $( $categoryActions | ForEach-Object { "- " + $_.category + ": " + $_.safe_comma
         next_actions = @()
         packet_metadata = [ordered]@{
             packet_id = "AIOS-FOREX-BUILDER-PLAN"
-            packet_path = ""
+            proposed_packet_path = ""
             packet_text = $errorMessage
             safety = @(
                 "paper only",
@@ -221,8 +204,8 @@ $( $categoryActions | ForEach-Object { "- " + $_.category + ": " + $_.safe_comma
                 "no real webhook"
             )
         }
-        generated_markdown_path = $outputMarkdown
-        generated_json_path = $outputJson
+        proposed_markdown_path = $proposedMarkdown
+        proposed_json_path = $proposedJson
     }
     Write-Output ($errorReport | ConvertTo-Json -Depth 20)
     exit 1

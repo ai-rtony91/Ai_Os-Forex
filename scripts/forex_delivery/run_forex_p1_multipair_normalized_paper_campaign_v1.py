@@ -56,6 +56,8 @@ def main(argv: list[str] | None = None) -> int:
     else:
         for key, value in summary.items():
             print(f"{key}: {value}")
+    if str(state.get("segment_status", "")).upper() == "FAILED" or int(state.get("segment_internal_evaluation_errors", 0) or 0) > 0:
+        return 1
     return 0
 
 

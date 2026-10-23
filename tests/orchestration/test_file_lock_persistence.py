@@ -8,6 +8,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 CLAIM_SCRIPT = REPO_ROOT / "automation/orchestration/locks/Claim-AiOsFileLock.DRY_RUN.ps1"
 RELEASE_SCRIPT = REPO_ROOT / "automation/orchestration/locks/Release-AiOsFileLock.DRY_RUN.ps1"
 STATUS_SCRIPT = REPO_ROOT / "automation/orchestration/locks/Get-AiOsWorkerLockStatus.DRY_RUN.ps1"
+INTEGRITY_SCRIPT = REPO_ROOT / "automation/orchestration/validators/Test-LockRegistryIntegrity.DRY_RUN.ps1"
 CANONICAL_REGISTRY = REPO_ROOT / "automation/orchestration/locks/FILE_LOCK_REGISTRY.json"
 
 
@@ -59,6 +60,13 @@ def active_lock(path: str, *, worker_id: str = "worker-a", lock_id: str = "lock-
         "approval_packet_id": "approval-a",
         "notes": "test fixture",
     }
+
+
+def released_lock(path: str, *, worker_id: str = "worker-a", lock_id: str = "lock-a") -> dict[str, object]:
+    lock = active_lock(path, worker_id=worker_id, lock_id=lock_id)
+    lock["status"] = "RELEASED"
+    lock["released_at_utc"] = "2026-06-08T01:00:00.0000000Z"
+    return lock
 
 
 def assert_no_temp_registry_files(registry_path: Path) -> None:
@@ -289,3 +297,98 @@ def test_no_activation_terms_enable_runtime_behavior() -> None:
     ]
     for phrase in forbidden_phrases:
         assert phrase not in lowered
+
+
+def test_integrity_accepts_zero_and_one_active_lock(tmp_path: Path) -> None:
+    registry = tmp_path / "FILE_LOCK_REGISTRY.json"
+    write_registry(registry)
+    empty = run_powershell(INTEGRITY_SCRIPT, "-LockRegistryPath", str(registry))
+    assert empty.returncode == 0
+    assert empty.stdout.startswith("PASS:")
+
+    write_registry(registry, registry_payload(locks=[active_lock("tmp/a")]))
+    one = run_powershell(INTEGRITY_SCRIPT, "-LockRegistryPath", str(registry))
+    assert one.returncode == 0
+    assert one.stdout.startswith("PASS:")
+
+
+def test_integrity_accepts_released_history_and_one_current_active(tmp_path: Path) -> None:
+    registry = tmp_path / "FILE_LOCK_REGISTRY.json"
+    history = [released_lock("tmp/a"), released_lock("tmp/b"), active_lock("tmp/c")]
+    write_registry(registry, registry_payload(locks=history))
+    result = run_powershell(INTEGRITY_SCRIPT, "-LockRegistryPath", str(registry))
+    assert result.returncode == 0
+    assert result.stdout.startswith("PASS:")
+
+
+def test_integrity_rejects_two_active_records_for_one_canonical_id(tmp_path: Path) -> None:
+    registry = tmp_path / "FILE_LOCK_REGISTRY.json"
+    locks = [active_lock("tmp/a"), active_lock("tmp/b")]
+    write_registry(registry, registry_payload(locks=locks))
+    result = run_powershell(INTEGRITY_SCRIPT, "-LockRegistryPath", str(registry))
+    assert "Multiple ACTIVE records share canonical lock_id" in result.stdout
+
+
+def test_integrity_rejects_malformed_and_unresolved_duplicate_records(tmp_path: Path) -> None:
+    registry = tmp_path / "FILE_LOCK_REGISTRY.json"
+    malformed = active_lock("tmp/a", worker_id="")
+    unresolved = active_lock("tmp/b")
+    unresolved["status"] = "EXPIRED"
+    write_registry(registry, registry_payload(locks=[malformed, released_lock("tmp/c"), unresolved]))
+    result = run_powershell(INTEGRITY_SCRIPT, "-LockRegistryPath", str(registry))
+    assert "missing worker_id" in result.stdout
+    assert "unresolved non-terminal history" in result.stdout
+
+
+def test_claim_blocks_second_active_canonical_id_even_for_disjoint_path(tmp_path: Path) -> None:
+    registry = tmp_path / "FILE_LOCK_REGISTRY.json"
+    canonical_id = "LOCK_EAST_TEST_LOCK_OCC90"
+    existing = active_lock("tmp/a", worker_id="EAST_OCC_90", lock_id=canonical_id)
+    write_registry(registry, registry_payload(locks=[existing]))
+    result = run_json(
+        CLAIM_SCRIPT,
+        "-RegistryPath", str(registry),
+        "-WorkerId", "EAST_OCC_90",
+        "-Zone", "EAST",
+        "-Lane", "TEST_LOCK",
+        "-PacketId", "packet-b",
+        "-Paths", "tmp/b",
+        "-ApprovalPacketId", "owner-approved",
+        "-Apply",
+    )
+    assert result["claim_status"] == "REVIEW_REQUIRED"
+    assert result["writes_performed"] == 0
+    assert any(item["risk_type"] == "CANONICAL_LOCK_ALREADY_ACTIVE" for item in result["review_required"])
+
+
+def test_sequential_canonical_claims_release_exact_active_lifecycle(tmp_path: Path) -> None:
+    registry = tmp_path / "FILE_LOCK_REGISTRY.json"
+    write_registry(registry)
+    common = (
+        "-RegistryPath", str(registry),
+        "-WorkerId", "EAST_OCC_90",
+        "-Zone", "EAST",
+        "-Lane", "TEST_LOCK",
+        "-ApprovalPacketId", "owner-approved",
+        "-Apply",
+    )
+    first = run_json(CLAIM_SCRIPT, *common, "-PacketId", "packet-1", "-Paths", "tmp/a")
+    first_release = run_json(RELEASE_SCRIPT, "-RegistryPath", str(registry), "-WorkerId", "EAST_OCC_90", "-LockId", first["lock"]["lock_id"], "-Apply")
+    second = run_json(CLAIM_SCRIPT, *common, "-PacketId", "packet-2", "-Paths", "tmp/b")
+    before_second_release = json.loads(registry.read_text(encoding="utf-8"))["locks"]
+    second_release = run_json(RELEASE_SCRIPT, "-RegistryPath", str(registry), "-WorkerId", "EAST_OCC_90", "-LockId", second["lock"]["lock_id"], "-Apply")
+    persisted = json.loads(registry.read_text(encoding="utf-8"))["locks"]
+    assert first_release["release_status"] == "READY_TO_RELEASE"
+    assert second["lock"]["lock_id"] == first["lock"]["lock_id"]
+    assert [item["status"] for item in before_second_release] == ["RELEASED", "ACTIVE"]
+    assert second_release["release_status"] == "READY_TO_RELEASE"
+    assert [item["status"] for item in persisted] == ["RELEASED", "RELEASED"]
+    assert persisted[0]["released_at_utc"] != persisted[1]["released_at_utc"]
+
+
+def test_current_registry_integrity_passes_without_mutation() -> None:
+    before = CANONICAL_REGISTRY.read_bytes()
+    result = run_powershell(INTEGRITY_SCRIPT, "-LockRegistryPath", str(CANONICAL_REGISTRY))
+    assert result.returncode == 0
+    assert result.stdout.startswith("PASS:")
+    assert CANONICAL_REGISTRY.read_bytes() == before

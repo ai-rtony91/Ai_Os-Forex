@@ -125,6 +125,7 @@ function Assert-AiOsApplyGate {
     }
 
     if ($TargetState -in @("applying", "validated", "complete") -and -not $hasHardenedEvidence) {
+        Write-Host "raw approved_by_human is not sufficient"
         throw "APPLY blocked: protected transition $CurrentState -> $TargetState requires hardened Human Owner approval evidence; raw approved_by_human is not sufficient."
     }
 

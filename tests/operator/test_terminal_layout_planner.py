@@ -207,11 +207,12 @@ def test_loader_rejects_non_finite_json_numbers(planner, tmp_path):
         planner.load_and_plan(profile_path)
 
 
-def test_loader_rejects_symbolic_link(planner, tmp_path):
+def test_loader_rejects_symbolic_link(planner, tmp_path, monkeypatch):
     target = tmp_path / "profile.json"
     target.write_text("{}", encoding="utf-8")
     link = tmp_path / "profile-link.json"
-    link.symlink_to(target)
+    link.write_text("{}", encoding="utf-8")
+    monkeypatch.setattr(planner.Path, "is_symlink", lambda self: self == link or Path.is_symlink(self))
 
     with pytest.raises(planner.ProfileValidationError, match="must not be a symbolic link"):
         planner.load_and_plan(link)

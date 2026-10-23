@@ -1,0 +1,93 @@
+{
+  "family_count": 8,
+  "negative_controls_passed": 0,
+  "packet_id": "PKT-EAST-FOREX-RESEARCH-FIDELITY-EDGE-CLOSURE-028",
+  "positive_controls_passed": 0,
+  "repair_required_families": [
+    "A_TIME_SERIES_MOMENTUM",
+    "B_CROSS_SECTIONAL_FACTOR",
+    "C_CARRY_VALUE_MOMENTUM",
+    "D_RELATIVE_VALUE",
+    "E_EVENT_DRIVEN",
+    "F_LIQUIDITY_SESSION",
+    "G_REGIME_SWITCHING",
+    "H_META_LABEL_ROUTER"
+  ],
+  "rows": [
+    {
+      "current_adapter_verdict": "PARTIALLY_FAITHFUL",
+      "family": "A_TIME_SERIES_MOMENTUM",
+      "fidelity_reason": "Multiple horizons and non-fixed exits exist, but implementation remains H1-only and shallow.",
+      "negative_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "positive_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "reason": "Packet 027 did not include an executable family-specific positive/negative control harness for this adapter. No PASS is claimed.",
+      "repair_required": true
+    },
+    {
+      "current_adapter_verdict": "UNFAITHFUL_IMPLEMENTATION",
+      "family": "B_CROSS_SECTIONAL_FACTOR",
+      "fidelity_reason": "Uses same-instrument momentum/spread proxies, not same-time currency-level ranking or portfolio rebalance semantics.",
+      "negative_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "positive_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "reason": "Packet 027 did not include an executable family-specific positive/negative control harness for this adapter. No PASS is claimed.",
+      "repair_required": true
+    },
+    {
+      "current_adapter_verdict": "UNFAITHFUL_IMPLEMENTATION",
+      "family": "C_CARRY_VALUE_MOMENTUM",
+      "fidelity_reason": "No point-in-time policy/yield/carry input is consumed; price-only proxy is mislabeled as carry/value.",
+      "negative_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "positive_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "reason": "Packet 027 did not include an executable family-specific positive/negative control harness for this adapter. No PASS is claimed.",
+      "repair_required": true
+    },
+    {
+      "current_adapter_verdict": "UNFAITHFUL_IMPLEMENTATION",
+      "family": "D_RELATIVE_VALUE",
+      "fidelity_reason": "Uses single-instrument residual-style signals, not synchronized multi-leg residuals with leg-level executable costs.",
+      "negative_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "positive_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "reason": "Packet 027 did not include an executable family-specific positive/negative control harness for this adapter. No PASS is claimed.",
+      "repair_required": true
+    },
+    {
+      "current_adapter_verdict": "PARTIALLY_FAITHFUL",
+      "family": "E_EVENT_DRIVEN",
+      "fidelity_reason": "Uses official calendar dates and post-date filtering, but lacks event identity depth, release-time granularity, and event-specific expectations.",
+      "negative_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "positive_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "reason": "Packet 027 did not include an executable family-specific positive/negative control harness for this adapter. No PASS is claimed.",
+      "repair_required": true
+    },
+    {
+      "current_adapter_verdict": "PARTIALLY_FAITHFUL",
+      "family": "F_LIQUIDITY_SESSION",
+      "fidelity_reason": "Uses hour/spread features, but does not implement a full UTC/DST session calendar or rollover exclusion.",
+      "negative_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "positive_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "reason": "Packet 027 did not include an executable family-specific positive/negative control harness for this adapter. No PASS is claimed.",
+      "repair_required": true
+    },
+    {
+      "current_adapter_verdict": "UNFAITHFUL_IMPLEMENTATION",
+      "family": "G_REGIME_SWITCHING",
+      "fidelity_reason": "Uses static volatility filters, not causal state transitions or frozen expert routing.",
+      "negative_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "positive_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "reason": "Packet 027 did not include an executable family-specific positive/negative control harness for this adapter. No PASS is claimed.",
+      "repair_required": true
+    },
+    {
+      "current_adapter_verdict": "UNFAITHFUL_IMPLEMENTATION",
+      "family": "H_META_LABEL_ROUTER",
+      "fidelity_reason": "Uses static filters, not chronological second-stage TAKE/DO_NOT_TAKE calibration.",
+      "negative_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "positive_control_status": "NOT_EXECUTED_CURRENT_ADAPTER_HARNESS_MISSING",
+      "reason": "Packet 027 did not include an executable family-specific positive/negative control harness for this adapter. No PASS is claimed.",
+      "repair_required": true
+    }
+  ],
+  "schema": "AIOS_FOREX_FAMILY_FALSIFIABILITY_CONTROLS_V1_STATE",
+  "state_hash": "d49b315c5657023aa4df667b49c0ff3ec5f543c531d621a4f32da66171bb8d75",
+  "status": "RESEARCH_FIDELITY_REPAIR_REQUIRED"
+}

@@ -19,7 +19,7 @@ export default function useRuntimeVisibility(config) {
 
   useEffect(() => {
     let active = true;
-    setState((current) => ({ ...current, loading: true }));
+    queueMicrotask(() => { if (active) setState((current) => ({ ...current, loading: true })); });
 
     fetchRuntimeVisibilityReadOnly(config)
       .then((result) => { if (active) setState(result); })

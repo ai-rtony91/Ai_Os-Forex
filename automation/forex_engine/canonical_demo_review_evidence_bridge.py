@@ -297,6 +297,8 @@ def build_review_bundle(
     win_rate = metrics["win_rate"]
     paper_evidence_status = metrics["paper_evidence_status"]
     mitigation_status = metrics["mitigation_status"]
+    sample_depth_sufficient = sample_size is not None and int(sample_size) >= config.min_sample_size
+    sample_depth_insufficient = sample_size is not None and int(sample_size) < config.min_sample_size
 
     if metrics["walk_forward_status"] is None:
         metric_reject_blockers.append("missing_walk_forward_status")
@@ -312,26 +314,27 @@ def build_review_bundle(
         elif not status:
             proof_blockers.append(f"missing_{proof_key}_proof")
 
-    # Reject blockers from deterministic thresholds.
-    if expectancy is None:
-        metric_reject_blockers.append("missing_expectancy")
-    elif expectancy <= config.min_expectancy:
-        metric_reject_blockers.append("negative_or_zero_expectancy")
+    # Reject blockers from deterministic thresholds only after sample depth is sufficient.
+    if sample_depth_sufficient:
+        if expectancy is None:
+            metric_reject_blockers.append("missing_expectancy")
+        elif expectancy <= config.min_expectancy:
+            metric_reject_blockers.append("negative_or_zero_expectancy")
 
-    if profit_factor is None:
-        metric_reject_blockers.append("missing_profit_factor")
-    elif profit_factor < config.min_profit_factor:
-        metric_reject_blockers.append("profit_factor_below_minimum")
+        if profit_factor is None:
+            metric_reject_blockers.append("missing_profit_factor")
+        elif profit_factor < config.min_profit_factor:
+            metric_reject_blockers.append("profit_factor_below_minimum")
 
-    if max_drawdown is None:
-        metric_reject_blockers.append("missing_max_drawdown")
-    elif max_drawdown > config.max_drawdown:
-        metric_reject_blockers.append("excessive_drawdown")
+        if max_drawdown is None:
+            metric_reject_blockers.append("missing_max_drawdown")
+        elif max_drawdown > config.max_drawdown:
+            metric_reject_blockers.append("excessive_drawdown")
 
-    if win_rate is None:
-        metric_reject_blockers.append("missing_win_rate")
-    elif win_rate < config.min_win_rate:
-        metric_reject_blockers.append("low_win_rate")
+        if win_rate is None:
+            metric_reject_blockers.append("missing_win_rate")
+        elif win_rate < config.min_win_rate:
+            metric_reject_blockers.append("low_win_rate")
 
     if _proof_key_matches(candidate, "paper_evidence") and paper_evidence_status is None:
         proof_blockers.append("missing_paper_evidence_status")
@@ -343,6 +346,9 @@ def build_review_bundle(
     elif config.require_mitigation_not_worse and isinstance(mitigation_status, str):
         if mitigation_status.strip().lower() in {"worse", "regression", "declining", "failed"}:
             continuation_blockers.append("mitigation_worsened")
+
+    if sample_depth_insufficient:
+        continuation_blockers.append("insufficient_sample")
 
     if config.require_walk_forward_pass and not walk_forward_pass:
         if wf_status_norm == "warn":
@@ -398,13 +404,13 @@ def build_review_bundle(
             "walk_forward_detail": wf_msg,
         }
 
-    if expectancy is not None and expectancy <= 0:
+    if sample_depth_sufficient and expectancy is not None and expectancy <= 0:
         verdict = REJECTED
         next_safe_action = "Reject candidate and route to strategy re-optimization."
-    elif profit_factor is not None and profit_factor < config.min_profit_factor:
+    elif sample_depth_sufficient and profit_factor is not None and profit_factor < config.min_profit_factor:
         verdict = REJECTED
         next_safe_action = "Re-optimize candidate metrics; profit factor below threshold."
-    elif max_drawdown is not None and max_drawdown > config.max_drawdown:
+    elif sample_depth_sufficient and max_drawdown is not None and max_drawdown > config.max_drawdown:
         verdict = REJECTED
         next_safe_action = "Reject candidate and reduce risk profile; drawdown exceeds cap."
     elif wf_status_norm == "fail":
@@ -433,8 +439,9 @@ def build_review_bundle(
         verdict = PAPER_CONTINUE
         next_safe_action = "Increase evidence maturity or fix weak proof gates."
 
-    # Safety net: any negative expectancy or clear loss gate remains rejected.
-    if expectancy is not None and expectancy <= 0 and verdict != REJECTED:
+    # Safety net: any negative expectancy or clear loss gate remains rejected once
+    # sample depth is sufficient enough to make the metric statistically meaningful.
+    if sample_depth_sufficient and expectancy is not None and expectancy <= 0 and verdict != REJECTED:
         verdict = REJECTED
         next_safe_action = "Reject candidate due to non-positive expectancy."
 

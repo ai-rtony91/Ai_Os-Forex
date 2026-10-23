@@ -1,401 +1,229 @@
 param(
-    [string]$PacketId = "",
-    [ValidateSet("DRY_RUN", "APPLY")]
-    [string]$Mode = "DRY_RUN",
-    [string]$Zone = "",
-    [string]$Lane = "",
-    [string]$Mission = "",
-    [string]$Worktree = "C:\Dev\Ai.Os",
-    [string]$StartBranch = "main",
-    [string]$Branch = "",
+    [string]$MissionId = "", [string]$MissionName = "",
+    [string]$ProgramId = "", [string]$ProgramName = "",
+    [string]$EpicId = "", [string]$EpicName = "",
+    [string]$BucketId = "", [string]$BucketName = "",
+    [string]$PacketId = "", [string]$PacketName = "",
+    [string]$IdentityMarker = "", [string]$SupervisorIdentity = "",
+    [string]$WorkerIdentity = "", [string]$LockIdentity = "",
+    [string]$Mode = "", [string]$Zone = "", [string]$Lane = "",
+    [string]$Worktree = "", [string]$Branch = "",
     [string]$ApprovalAuthority = "",
-    [string[]]$AllowedMutationFiles = @(),
-    [string[]]$ForbiddenPaths = @(),
-    [string[]]$ReadFirst = @(),
-    [string[]]$Validators = @(),
-    [string]$StopPoint = "",
-    [string]$SupervisorIdentity = "ChatGPT Planning Supervisor under Anthony Human Owner",
-    [string]$WorkerIdentity = "Codex CLI local executor inside C:\Dev\Ai.Os",
-    [switch]$OutputJson,
-    [switch]$AsPromptBlock,
-    [switch]$FromContinuationPlan,
-    [string]$ContinuationPlanScript = ""
+    [string[]]$AllowedPaths = @(), [string[]]$ForbiddenPaths = @(),
+    [string[]]$Preflight = @(), [string[]]$Validators = @(),
+    [string]$StopPoint = "", [string[]]$FinalReportFormat = @(),
+    [string]$StagingAuthority = "", [string]$CommitAuthority = "",
+    [string]$PushAuthority = "", [string]$PullRequestAuthority = "",
+    [string]$MergeAuthority = "",
+    [switch]$OutputJson, [switch]$AsPromptBlock,
+    # Legacy values are translated below; missing v2 safety context stays blocked.
+    [string[]]$AllowedMutationFiles = @(), [string]$StartBranch = "",
+    [string[]]$ReadFirst = @(), [string]$Mission = "",
+    [switch]$FromContinuationPlan, [string]$ContinuationPlanScript = ""
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
-
 . (Join-Path $PSScriptRoot "AiOsCodexPacketContract.ps1")
-$packetContract = Get-AiOsCodexPacketContract
+$contract = Get-AiOsCodexPacketContract
 
-function Format-List {
-    param([string[]]$Values, [string]$Fallback)
-    if ($null -eq $Values -or $Values.Count -eq 0 -or ($Values.Count -eq 1 -and [string]::IsNullOrWhiteSpace($Values[0]))) {
-        return "  - $Fallback"
-    }
-    $items = @()
-    foreach ($value in $Values) {
-        if (-not [string]::IsNullOrWhiteSpace($value)) {
-            $items += "  - $value"
-        }
-    }
-    if ($items.Count -eq 0) {
-        return "  - $Fallback"
-    }
-    return ($items -join "`r`n")
+function Format-List([string[]]$Values) {
+    return (@($Values | ForEach-Object { if (-not [string]::IsNullOrWhiteSpace($_)) { "- $_" } }) -join "`n")
 }
 
-function Ensure-TextValue {
-    param(
-        [Parameter(Mandatory = $true)]
-        [string]$Label,
-        [object]$Value,
-        [string]$Default = ""
-    )
-
-    if ($null -eq $Value) {
-        return $Default
+function Test-Placeholder([string]$Value) {
+    foreach ($pattern in @($contract.unresolved_placeholder_patterns)) {
+        if ($Value -match $pattern) { return $true }
     }
-
-    if ($Value -is [System.Array]) {
-        return $Default
-    }
-    if ($Value -is [System.Collections.IEnumerable]) {
-        if (-not ($Value -is [string])) {
-            return $Default
-        }
-    }
-
-    $text = [string]$Value
-    if ([string]::IsNullOrWhiteSpace($text)) {
-        return $Default
-    }
-
-    return $text
+    return $false
 }
 
-function Ensure-TextList {
-    param(
-        [object]$Values,
-        [string[]]$Fallback = @()
-    )
-
-    $items = @()
-    if ($null -eq $Values) {
-        return @($Fallback)
-    }
-
-    if ($Values -is [string]) {
-        if (-not [string]::IsNullOrWhiteSpace($Values)) {
-            return @([string]$Values)
-        }
-        return @($Fallback)
-    }
-
-    if ($Values -is [System.Collections.IEnumerable]) {
-        foreach ($value in @($Values)) {
-            if ($null -eq $value) {
-                continue
-            }
-            if ($value -is [System.Array]) {
-                continue
-            }
-            if ($value -is [System.Collections.IEnumerable]) {
-                if (-not ($value -is [string])) {
-                    continue
-                }
-            }
-            $normalized = [string]$value
-            if (-not [string]::IsNullOrWhiteSpace($normalized)) {
-                $items += $normalized
-            }
-        }
-        if ($items.Count -gt 0) {
-            return @($items)
-        }
-    }
-
-    return @($Fallback)
-}
-
-function Invoke-ContinuationPlan {
-    param([string]$ScriptPath)
+function Invoke-ContinuationPlan([string]$ScriptPath) {
     if ([string]::IsNullOrWhiteSpace($ScriptPath) -or -not (Test-Path -LiteralPath $ScriptPath -PathType Leaf)) {
         return $null
     }
     try {
-        # Reuse the host that launched this generator. Windows PowerShell is
-        # named powershell.exe, while PowerShell on GitHub's Linux runners is
-        # named pwsh; hard-coding either name makes the other host fail.
+        # Preserve cross-host compatibility: reuse the current PowerShell
+        # process rather than assuming either powershell.exe or pwsh exists.
         $powerShellHost = (Get-Process -Id $PID).Path
         $raw = & $powerShellHost -NoProfile -ExecutionPolicy Bypass -File $ScriptPath -OutputJson
-        if ([string]::IsNullOrWhiteSpace($raw)) {
-            return $null
-        }
+        if ([string]::IsNullOrWhiteSpace($raw)) { return $null }
         return $raw | ConvertFrom-Json
     }
-    catch {
-        return $null
+    catch { return $null }
+}
+
+$aliasDefects = @()
+if (@($AllowedMutationFiles).Count -gt 0) {
+    if (@($AllowedPaths).Count -gt 0 -and (($AllowedPaths -join "`n") -cne ($AllowedMutationFiles -join "`n"))) {
+        $aliasDefects += "conflicting_alias:AllowedMutationFiles"
     }
+    elseif (@($AllowedPaths).Count -eq 0) { $AllowedPaths = @($AllowedMutationFiles) }
+}
+if ([string]::IsNullOrWhiteSpace($Branch)) { $Branch = $StartBranch }
+if ([string]::IsNullOrWhiteSpace($MissionName)) { $MissionName = $Mission }
+if ([string]::IsNullOrWhiteSpace($Mission)) { $Mission = $MissionName }
+if ($FromContinuationPlan -or -not [string]::IsNullOrWhiteSpace($ContinuationPlanScript)) {
+    $aliasDefects += "continuation_requires_explicit_v2_inputs"
 }
 
-$fallbackAllowed = @(
-    "AGENTS.md",
-    "README.md",
-    "RISK_POLICY.md",
-    "docs/governance/source-of-truth-map.md",
-    "automation/forex_engine/paper_study_journal.py",
-    "automation/forex_engine/run_paper_study_journal_demo.py",
-    "tests/forex_engine/test_paper_study_journal.py",
-    "automation/orchestration/continuation/Get-AiOsSupervisedContinuationPlan.DRY_RUN.ps1",
-    "automation/orchestration/continuation/Convert-AiOsContinuationPlanToProposedPacket.DRY_RUN.ps1",
-    "automation/orchestration/relay_bus",
-    "automation/orchestration/review_bridge"
-)
-
-$fallbackForbidden = @(
-    "broker/OANDA/webhook/order/secrets paths",
-    "real market data paths",
-    "runtime state",
-    "scheduler",
-    "daemon",
-    "worker launch",
-    "queue",
-    "locks",
-    "approval inbox",
-    "campaign registry",
-    "telemetry",
-    "Reports",
-    "dashboard",
-    "Cloudflare",
-    "backup",
-    "work_packets/proposed",
-    "work_packets/active",
-    "work_packets/complete"
-)
-
-$fallbackValidators = @(
-    "git diff --check",
-    "python -m pytest tests/orchestration/test_codex_packet_generator.py -q -p no:cacheprovider",
-    "python -m pytest tests/orchestration/test_actor_relay_bus.py -q -p no:cacheprovider",
-    "powershell -NoProfile -ExecutionPolicy Bypass -File .\aios.ps1 -Mode status"
-)
-
-$continuation = $null
-if ($FromContinuationPlan) {
-    $planScript = if (-not [string]::IsNullOrWhiteSpace($ContinuationPlanScript)) {
-        $ContinuationPlanScript
-    }
-    else {
-        Join-Path $PSScriptRoot "..\continuation\Get-AiOsSupervisedContinuationPlan.DRY_RUN.ps1"
-    }
-    $continuation = Invoke-ContinuationPlan -ScriptPath $planScript
+$scalars = [ordered]@{
+    "MISSION ID"=$MissionId; "MISSION NAME"=$MissionName
+    "PROGRAM ID"=$ProgramId; "PROGRAM NAME"=$ProgramName
+    "EPIC ID"=$EpicId; "EPIC NAME"=$EpicName
+    "BUCKET ID"=$BucketId; "BUCKET NAME"=$BucketName
+    "PACKET ID"=$PacketId; "PACKET NAME"=$PacketName
+    "IDENTITY MARKER"=$IdentityMarker; "SUPERVISOR IDENTITY"=$SupervisorIdentity
+    "WORKER IDENTITY"=$WorkerIdentity; "LOCK IDENTITY"=$LockIdentity
+    "MODE"=$Mode; "ZONE"=$Zone; "LANE"=$Lane; "WORKTREE"=$Worktree
+    "BRANCH"=$Branch; "APPROVAL AUTHORITY"=$ApprovalAuthority; "STOP POINT"=$StopPoint
 }
-
-$resolvedPacketId = Ensure-TextValue -Label "PACKET ID" -Value $PacketId -Default ""
-if ([string]::IsNullOrWhiteSpace($resolvedPacketId) -and $continuation -and ($continuation.recommended_next_packet_id)) {
-    $resolvedPacketId = [string]$continuation.recommended_next_packet_id
+$lists = [ordered]@{
+    "ALLOWED PATHS"=@($AllowedPaths); "FORBIDDEN PATHS"=@($ForbiddenPaths)
+    "PREFLIGHT"=@($Preflight); "VALIDATOR CHAIN"=@($Validators)
+    "FINAL REPORT FORMAT"=@($FinalReportFormat)
 }
-
-$resolvedZone = Ensure-TextValue -Label "ZONE" -Value $Zone -Default ""
-if ([string]::IsNullOrWhiteSpace($resolvedZone) -and $continuation -and ($continuation.domain)) {
-    $resolvedZone = [string]$continuation.domain
+$protected = [ordered]@{
+    "STAGING AUTHORITY"=$StagingAuthority; "COMMIT AUTHORITY"=$CommitAuthority
+    "PUSH AUTHORITY"=$PushAuthority; "PULL REQUEST AUTHORITY"=$PullRequestAuthority
+    "MERGE AUTHORITY"=$MergeAuthority
 }
-
-$resolvedLane = Ensure-TextValue -Label "LANE" -Value $Lane -Default ""
-if ([string]::IsNullOrWhiteSpace($resolvedLane) -and $continuation -and ($continuation.recommended_lane)) {
-    $resolvedLane = [string]$continuation.recommended_lane
-}
-
-$resolvedMission = Ensure-TextValue -Label "MISSION" -Value $Mission -Default ""
-if ([string]::IsNullOrWhiteSpace($resolvedMission) -and $continuation -and ($continuation.recommended_next_packet_title)) {
-    $resolvedMission = "build $($continuation.recommended_next_packet_title)"
-}
-
-$resolvedWorktree = Ensure-TextValue -Label "WORKTREE" -Value $Worktree -Default "C:\Dev\Ai.Os"
-$resolvedStartBranch = Ensure-TextValue -Label "START_BRANCH" -Value $StartBranch -Default "main"
-$resolvedApprovalAuthority = Ensure-TextValue -Label "APPROVAL AUTHORITY" -Value $ApprovalAuthority -Default "Anthony approves this scoped packet. No protected action approval beyond this scope is granted."
-$resolvedSupervisorIdentity = Ensure-TextValue -Label "SUPERVISOR IDENTITY" -Value $SupervisorIdentity -Default "ChatGPT Planning Supervisor under Anthony Human Owner"
-$resolvedWorkerIdentity = Ensure-TextValue -Label "WORKER IDENTITY" -Value $WorkerIdentity -Default "Codex CLI local executor inside C:\Dev\Ai.Os"
-$resolvedMode = Ensure-TextValue -Label "MODE" -Value $Mode -Default "DRY_RUN"
-$resolvedStopPoint = Ensure-TextValue -Label "STOP POINT" -Value $StopPoint -Default ""
-$resolvedBranch = Ensure-TextValue -Label "BRANCH" -Value $Branch -Default ""
-
-$resolvedReadFirst = Ensure-TextList -Values $ReadFirst -Fallback @()
-if (@($resolvedReadFirst).Count -eq 0) {
-    $resolvedReadFirst = @($fallbackAllowed)
-}
-
-$resolvedValidators = Ensure-TextList -Values $Validators -Fallback @()
-if (@($resolvedValidators).Count -eq 0) {
-    $resolvedValidators = if ($continuation -and $continuation.required_validators) {
-        @($continuation.required_validators)
-    }
-    else {
-        @($fallbackValidators)
-    }
-}
-
-$resolvedAllowed = Ensure-TextList -Values $AllowedMutationFiles -Fallback @()
-if (@($resolvedAllowed).Count -eq 0) {
-    $resolvedAllowed = if ($continuation -and $continuation.recommended_files) {
-        @($continuation.recommended_files)
-    }
-    else {
-        @()
-    }
-}
-
-$resolvedForbidden = Ensure-TextList -Values $ForbiddenPaths -Fallback $fallbackForbidden
-$resolvedStopPoint = if ([string]::IsNullOrWhiteSpace($resolvedStopPoint) -and $continuation -and ($continuation.exact_next_safe_action)) { [string]$continuation.exact_next_safe_action } else { $resolvedStopPoint }
 
 $missing = @()
-if ([string]::IsNullOrWhiteSpace($resolvedPacketId)) { $missing += "PACKET ID" }
-if ([string]::IsNullOrWhiteSpace($resolvedZone)) { $missing += "ZONE" }
-if ([string]::IsNullOrWhiteSpace($resolvedLane)) { $missing += "LANE" }
-if ([string]::IsNullOrWhiteSpace($resolvedMission)) { $missing += "MISSION" }
-if ([string]::IsNullOrWhiteSpace($resolvedBranch)) { $missing += "BRANCH" }
+$defects = @($aliasDefects)
+foreach ($entry in $scalars.GetEnumerator()) {
+    if ([string]::IsNullOrWhiteSpace([string]$entry.Value)) { $missing += $entry.Key }
+    elseif ([string]$entry.Value -match "[\r\n\x00]") { $defects += "multiline_field:$($entry.Key)" }
+    elseif (Test-Placeholder ([string]$entry.Value)) { $defects += "unresolved_placeholder:$($entry.Key)" }
+}
+foreach ($entry in $lists.GetEnumerator()) {
+    $items = @($entry.Value | Where-Object { -not [string]::IsNullOrWhiteSpace([string]$_) })
+    if ($items.Count -eq 0) { $missing += $entry.Key }
+    elseif ($items.Count -ne @($entry.Value).Count -or @($items | Where-Object { $_ -match "[\r\n\x00]" }).Count -gt 0) { $defects += "malformed_list:$($entry.Key)" }
+    elseif (Test-Placeholder ($items -join "`n")) { $defects += "unresolved_placeholder:$($entry.Key)" }
+}
+foreach ($entry in $protected.GetEnumerator()) {
+    if ([string]::IsNullOrWhiteSpace([string]$entry.Value)) { $missing += $entry.Key }
+    elseif ([string]$entry.Value -match "[\r\n\x00]") { $defects += "multiline_field:$($entry.Key)" }
+    elseif (Test-Placeholder ([string]$entry.Value)) { $defects += "unresolved_placeholder:$($entry.Key)" }
+    elseif ([string]$entry.Value -notmatch $contract.protected_authority_pattern) { $defects += "malformed_protected_authority:$($entry.Key)" }
+}
+foreach ($value in @($ReadFirst) + @($StartBranch, $Mission)) {
+    if ($value -match "[\r\n\x00]" -or (Test-Placeholder $value)) { $defects += "invalid_legacy_value" }
+}
+if ($Mode -notin @("DRY_RUN", "APPLY")) { $defects += "invalid_mode" }
+foreach ($command in @($contract.required_repository_state_commands)) {
+    if ($Preflight -notcontains $command) { $defects += "missing_preflight_command:$command" }
+}
 
-$packetValid = $missing.Count -eq 0
-
-$schemaText = "AIOS_CODEX_PACKET_GENERATOR.v1"
-$generatedPacketText = @"
+$text = @"
 CODEX-ONLY PROMPT
-
 AI_OS EXECUTION TOKEN
+AI_OS BOOTSTRAP REQUIRED
 
-AI_OS BOOTSTRAP REQUIRED:
-Read AGENTS.md first.
-Read README.md second.
-If unavailable, stop and report missing authority context.
+$($contract.required_bootstrap_lines -join "`n")
+
+MISSION ID:
+$MissionId
+MISSION NAME:
+$MissionName
+PROGRAM ID:
+$ProgramId
+PROGRAM NAME:
+$ProgramName
+EPIC ID:
+$EpicId
+EPIC NAME:
+$EpicName
+BUCKET ID:
+$BucketId
+BUCKET NAME:
+$BucketName
+PACKET ID:
+$PacketId
+PACKET NAME:
+$PacketName
 
 IDENTITY MARKER:
-$schemaText
-
+$IdentityMarker
 SUPERVISOR IDENTITY:
-$resolvedSupervisorIdentity
-
+$SupervisorIdentity
 WORKER IDENTITY:
-$resolvedWorkerIdentity
-
-PACKET ID:
-$resolvedPacketId
-
+$WorkerIdentity
+LOCK IDENTITY:
+$LockIdentity
 MODE:
-$resolvedMode
-
+$Mode
 ZONE:
-$resolvedZone
-
+$Zone
 LANE:
-$resolvedLane
-
+$Lane
 WORKTREE:
-$resolvedWorktree
-
-START_BRANCH:
-$resolvedStartBranch
-
+$Worktree
 BRANCH:
-$resolvedBranch
-
-APPROVAL AUTHORITY:
-$resolvedApprovalAuthority
-
+$Branch
+START_BRANCH:
+$StartBranch
 MISSION:
-$resolvedMission
-
-PREFLIGHT
-1. Confirm branch and state first.
-2. Validate packet scope before apply.
-3. No runtime/state mutation or secrets usage.
-
-REQUIRED PREFLIGHT STATE:
-- path must be $resolvedWorktree
-- branch must be $resolvedStartBranch before branch creation
-- repository must be clean
-
-BRANCH PLAN:
-1. Start on $resolvedStartBranch.
-2. Verify branch safety and state.
-3. Create/switch to branch $resolvedBranch.
-4. Apply only the allowed mutation files.
-5. Validate using VALIDATOR CHAIN.
-6. Commit exact files only.
-
+$Mission
 READ FIRST:
-$(Format-List -Values $resolvedReadFirst -Fallback "None provided")
+$(Format-List $ReadFirst)
+APPROVAL AUTHORITY:
+$ApprovalAuthority
 
-ALLOWED MUTATION FILES ONLY:
-$(Format-List -Values $resolvedAllowed -Fallback "No mutation files provided")
-
+ALLOWED PATHS:
+$(Format-List $AllowedPaths)
 FORBIDDEN PATHS:
-$(Format-List -Values $resolvedForbidden -Fallback "No forbidden paths provided")
-
-IMPLEMENTATION:
-- generate a deterministic Codex-ready engineering work packet
-- use software-engineering terminology for new explanatory prose
-- no file writes from this DRY_RUN generator
-- execution_allowed = false
-- can_continue_without_anthony = false
-- writes_files = false
-- no network/API calls
-- no broker/OANDA/secret loading
-- no runtime state mutation
-- no worker/daemon/scheduler start
-
+$(Format-List $ForbiddenPaths)
+PREFLIGHT:
+$(Format-List $Preflight)
 VALIDATOR CHAIN:
-$(Format-List -Values $resolvedValidators -Fallback "No validators provided")
-
-COMMIT:
-If validation passes, commit exact files only.
-
-git add -- $($resolvedAllowed -join ' ')
-git diff --cached --name-only
-git diff --cached --check
-
-git commit -m "feat(v1): update generated Codex packet"
-
+$(Format-List $Validators)
 STOP POINT:
-$resolvedStopPoint
+$StopPoint
+FINAL REPORT FORMAT:
+$(Format-List $FinalReportFormat)
 
-COMPLETION REPORT FORMAT:
-1. CURRENT STATE
-2. FILES CHANGED
-3. TESTS
-4. VALIDATION
-5. COMMIT STATUS
-6. SAFE NEXT ACTION
+STAGING AUTHORITY:
+$StagingAuthority
+COMMIT AUTHORITY:
+$CommitAuthority
+PUSH AUTHORITY:
+$PushAuthority
+PULL REQUEST AUTHORITY:
+$PullRequestAuthority
+MERGE AUTHORITY:
+$MergeAuthority
 
-execution_allowed: false
-can_continue_without_anthony: false
-writes_files: false
-
-STATUS:
-PASS / BLOCKED
+execution_allowed=false
+can_continue_without_anthony=false
+writes_files=false
 "@
 
+# The serialized packet must also pass the same validator used by consumers.
+try {
+    $checked = & (Join-Path $PSScriptRoot "Test-AiOsCodexPacket.DRY_RUN.ps1") -PacketText $text -OutputJson | ConvertFrom-Json -ErrorAction Stop
+    if (-not (Test-AiOsCodexPacketReport -Report $checked -ExpectedSchema "AIOS_CODEX_PACKET_VALIDATOR.v2")) {
+        $missing += @($checked.missing_required_fields)
+        $defects += @($checked.validation_defects)
+        $defects += "serialized_packet_rejected"
+    }
+}
+catch { $defects += "validator_invocation_error" }
+$valid = ($missing.Count -eq 0 -and $defects.Count -eq 0)
+if (-not $valid) { $text = "" }
+
 $result = [ordered]@{
-    schema                  = $schemaText
-    contract_schema         = $packetContract.schema
-    terminology_preference  = $packetContract.terminology.preferred
-    generated_packet_text    = $generatedPacketText
-    packet_valid            = [bool]$packetValid
-    missing_required_fields = @($missing)
-    writes_files            = $false
-    execution_allowed       = $false
-    can_continue_without_anthony = $false
+    schema="AIOS_CODEX_PACKET_GENERATOR.v2"; contract_schema=$contract.schema
+    generated_packet_text=$text; packet_valid=$valid
+    missing_required_fields=@($missing); validation_defects=@($defects)
+    writes_files=$false; execution_allowed=$false; can_continue_without_anthony=$false
 }
-
-if ($OutputJson) {
-    $result | ConvertTo-Json -Depth 20
-    exit 0
-}
-
-if ($AsPromptBlock) {
-    Write-Output $generatedPacketText
-}
-else {
-    Write-Output $generatedPacketText
-}
+if ($OutputJson) { $result | ConvertTo-Json -Depth 20 }
+elseif ($valid) { Write-Output $text }
+else { Write-Output "WHAT FAILED: Packet validation.
+WHY IT FAILED: Missing or invalid safety context.
+WHAT IS MISSING: $($missing -join ', '); $($defects -join ', ')
+SAFE NEXT ACTION: Supply explicit valid inputs.
+STATUS: BLOCKED" }
 exit 0

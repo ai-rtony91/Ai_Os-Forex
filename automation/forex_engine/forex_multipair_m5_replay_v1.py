@@ -208,17 +208,37 @@ def fetch_replay_history(
     instrument: str,
     *,
     candle_count: int = DEFAULT_CANDLE_COUNT,
+    price_component: str = "M",
 ) -> dict[str, Any]:
-    payload = _as_mapping(client.observation_candles(instrument, granularity=M5_GRANULARITY, count=candle_count))
+    requested_count = candle_count + 1
+    payload = _as_mapping(
+        client.observation_candles(
+            instrument,
+            granularity=M5_GRANULARITY,
+            count=requested_count,
+            price=price_component,
+        )
+    )
+    if price_component not in {"M", "MBA"}:
+        raise ValueError("unsupported_price_component")
     candles = completed_candles(payload, instrument=instrument, granularity=M5_GRANULARITY)
     if len(candles) < candle_count:
         raise ValueError("insufficient_completed_m5_history")
+    candles = candles[-candle_count:]
+    sanitized: list[dict[str, Any]] = []
+    if price_component == "MBA":
+        for candle in payload.get("candles", []):
+            if not isinstance(candle, Mapping) or candle.get("complete") is not True:
+                continue
+            sanitized.append(_sanitize_mba_candle(candle, instrument=instrument))
     return {
         "instrument": instrument,
         "granularity": M5_GRANULARITY,
-        "requested_count": candle_count,
+        "price_component": price_component,
+        "requested_count": requested_count,
         "returned_count": len(candles),
         "candles": [item.__dict__ for item in candles],
+        "sanitized_candles": sanitized[-candle_count:],
         "complete": True,
         "sanitized": True,
         "raw_payload_included": False,
@@ -235,6 +255,7 @@ def build_replay_cache(
     *,
     runtime_root: Path = REPLAY_ROOT,
     candle_count: int = DEFAULT_CANDLE_COUNT,
+    price_component: str = "M",
 ) -> dict[str, Any]:
     universe = discover_fixed_universe(client)
     runtime_root.mkdir(parents=True, exist_ok=True)
@@ -242,7 +263,7 @@ def build_replay_cache(
     excluded: list[dict[str, Any]] = list(universe["excluded_instruments"])
     for pair in universe["discovered_pairs"]:
         try:
-            history = fetch_replay_history(client, pair, candle_count=candle_count)
+            history = fetch_replay_history(client, pair, candle_count=candle_count, price_component=price_component)
             pair_histories[pair] = history
             (runtime_root / f"{pair}_M5.json").write_text(_stable_json(history), encoding="utf-8")
         except Exception as exc:  # noqa: BLE001 - surfaced as excluded evidence
@@ -304,6 +325,52 @@ def _candle_value(item: Mapping[str, Any], field: str) -> float:
         if mid_key in mid:
             return _finite(mid[mid_key], field)
     raise ValueError(f"missing_{field}")
+
+
+def _sanitize_mba_candle(item: Mapping[str, Any], *, instrument: str) -> dict[str, Any]:
+    if not isinstance(item, Mapping):
+        raise ValueError("mba_candle_mapping_required")
+    if item.get("complete") is not True:
+        raise ValueError("mba_candle_incomplete")
+    timestamp = item.get("time") or item.get("timestamp")
+    if not isinstance(timestamp, str) or not timestamp.endswith("Z"):
+        raise ValueError("mba_candle_timestamp_required")
+    mid = item.get("mid")
+    bid = item.get("bid")
+    ask = item.get("ask")
+    if not isinstance(mid, Mapping):
+        raise ValueError("mba_mid_required")
+    if not isinstance(bid, Mapping):
+        raise ValueError("mba_bid_required")
+    if not isinstance(ask, Mapping):
+        raise ValueError("mba_ask_required")
+    record = {
+        "instrument": instrument,
+        "timestamp": timestamp,
+        "complete": True,
+        "volume": float(item.get("volume", 0.0)),
+        "mid": {
+            "open": _finite(mid.get("o"), "mid_open"),
+            "high": _finite(mid.get("h"), "mid_high"),
+            "low": _finite(mid.get("l"), "mid_low"),
+            "close": _finite(mid.get("c"), "mid_close"),
+        },
+        "bid": {
+            "open": _finite(bid.get("o"), "bid_open"),
+            "high": _finite(bid.get("h"), "bid_high"),
+            "low": _finite(bid.get("l"), "bid_low"),
+            "close": _finite(bid.get("c"), "bid_close"),
+        },
+        "ask": {
+            "open": _finite(ask.get("o"), "ask_open"),
+            "high": _finite(ask.get("h"), "ask_high"),
+            "low": _finite(ask.get("l"), "ask_low"),
+            "close": _finite(ask.get("c"), "ask_close"),
+        },
+    }
+    if not record["ask"]["close"] > record["bid"]["close"]:
+        raise ValueError("mba_ask_bid_spread_required")
+    return record
 
 
 def _trade_stats(trades: list[dict[str, Any]]) -> dict[str, Any]:
@@ -556,8 +623,14 @@ def run_multipair_m5_replay(
     *,
     runtime_root: Path = REPLAY_ROOT,
     candle_count: int = DEFAULT_CANDLE_COUNT,
+    price_component: str = "M",
 ) -> dict[str, Any]:
-    cache = build_replay_cache(client, runtime_root=runtime_root, candle_count=candle_count)
+    cache = build_replay_cache(
+        client,
+        runtime_root=runtime_root,
+        candle_count=candle_count,
+        price_component=price_component,
+    )
     universe = cache["eligible_instruments"]
     pricing_payload = _as_mapping(client.pricing(tuple(cache["discovered_pairs"])) if cache["discovered_pairs"] else {"prices": []})
     quote_mids = _quote_snapshot_map(pricing_payload)
@@ -702,7 +775,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     args = build_arg_parser().parse_args(list(argv) if argv is not None else None)
     token, account = _load_process_credentials()
     client = OandaReadOnlyClient(api_token=token, account_id=account, environment="practice")
-    result = run_multipair_m5_replay(client, runtime_root=Path(args.runtime_root), candle_count=args.candle_count)
+    result = run_multipair_m5_replay(
+        client,
+        runtime_root=Path(args.runtime_root),
+        candle_count=args.candle_count,
+    )
     summary = summarize_replay_bridge(result)
     if args.json:
         print(_stable_json(summary), end="")

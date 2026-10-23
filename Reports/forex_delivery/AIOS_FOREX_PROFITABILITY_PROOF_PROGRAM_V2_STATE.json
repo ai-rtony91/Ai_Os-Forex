@@ -1,0 +1,184 @@
+{
+  "alternate_safe_actions": [],
+  "candidate_registry": {
+    "long": 0,
+    "shared_router": 0,
+    "short": 0,
+    "status": "NOT_OPENED_DATA_BLOCKED"
+  },
+  "compounding": {
+    "enabled": false
+  },
+  "continuation_active": false,
+  "credential_readiness": {
+    "secret_exposed": false,
+    "status": "NOT_REACHED"
+  },
+  "current_action": "Human-only data acquisition handoffs prepared",
+  "current_direction": "NONE",
+  "current_phase": "HUMAN_OFFICIAL_DATA_DOWNLOAD_REQUIRED",
+  "current_profitability_truth": {
+    "bidirectional_paper": "NOT_STARTED",
+    "funding_readiness": "NOT_REACHED",
+    "long_forward": "NOT_STARTED",
+    "long_historical_edge": "NOT_PROVEN",
+    "long_paper": "NOT_STARTED",
+    "short_forward": "NOT_STARTED",
+    "short_historical_edge": "NOT_PROVEN",
+    "short_paper": "NOT_STARTED"
+  },
+  "data_blocker_closure": {
+    "official_pending_items": [
+      {
+        "expected_content_type": "text/html",
+        "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/CENTRAL_BANK_POLICY_HISTORY_IUDERB",
+        "expected_time_period": "2005-01-01 through 2026-08-29",
+        "official_url": "https://fred.stlouisfed.org/series/IUDERB",
+        "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+        "private_account_required": false,
+        "secret_required": false,
+        "source_family_purpose": "CENTRAL_BANK_POLICY_HISTORY",
+        "source_owner": "Bank of England / FRED",
+        "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+      },
+      {
+        "expected_content_type": "text/html",
+        "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/CFTC_POSITIONING_HISTORY_CFTC_historical_compressed_futures_only_Commitments_of_Traders",
+        "expected_time_period": "2005-01-01 through 2026-08-29",
+        "official_url": "https://www.cftc.gov/MarketReports/CommitmentsofTraders/HistoricalCompressed/index.htm",
+        "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+        "private_account_required": false,
+        "secret_required": false,
+        "source_family_purpose": "CFTC_POSITIONING_HISTORY",
+        "source_owner": "CFTC",
+        "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+      },
+      {
+        "expected_content_type": "text/html",
+        "expected_destination_relative_path": ".aios/runtime/forex_official_data_breakthrough_v1/human_download_inbox/OFFICIAL_MACRO_RELEASE_SCHEDULES_BLS_public_release_calendars_and_archive",
+        "expected_time_period": "2005-01-01 through 2026-08-29",
+        "official_url": "https://www.bls.gov/bls/news-release/home.htm",
+        "post_download_hash_status": "PENDING_HUMAN_DOWNLOAD",
+        "private_account_required": false,
+        "secret_required": false,
+        "source_family_purpose": "OFFICIAL_MACRO_RELEASE_SCHEDULES",
+        "source_owner": "U.S. Bureau of Labor Statistics",
+        "validation_command": "python -B automation/forex_engine/forex_external_information_corpus_v3.py --execute"
+      }
+    ],
+    "practice_history_status": "HUMAN_PRACTICE_DATA_ACQUISITION_REQUIRED"
+  },
+  "development": {
+    "long": "NOT_RUN",
+    "short": "NOT_RUN"
+  },
+  "external_time_dependency": false,
+  "finalists": {
+    "long": null,
+    "short": null
+  },
+  "forward": {
+    "long": "NOT_STARTED",
+    "resume_command": "Resume Packet 019 after Human-only data acquisition artifacts exist.",
+    "short": "NOT_STARTED"
+  },
+  "funding_readiness": {
+    "money_movement": false,
+    "status": "NOT_REACHED"
+  },
+  "last_checkpoint_utc": "2026-08-30T01:55:31.304208+00:00",
+  "live_safety": {
+    "live": false,
+    "status": "NOT_REACHED"
+  },
+  "long_short_opportunity_atlas": {
+    "reason": "Opportunity atlas waits for data blockers and falsifiability controls.",
+    "status": "NOT_RUN_DATA_BLOCKED"
+  },
+  "multiple_testing": {
+    "status": "NOT_RUN"
+  },
+  "next_action": "Human Owner completes official and Practice data acquisition outside Codex",
+  "next_three_actions": [
+    "Run official Human-only download package outside Codex",
+    "Run OANDA Practice Human-only history helper outside Codex",
+    "Resume Packet 019 after sanitized artifacts exist"
+  ],
+  "packet_id": "PKT-EAST-FOREX-PROFITABILITY-FIRST-019",
+  "paper": {
+    "long_closed_trades": 0,
+    "short_closed_trades": 0,
+    "status": "NOT_STARTED"
+  },
+  "pre_terminal_audit_status": "PASS",
+  "protected_owner_action_dependency": "Human-only data acquisition",
+  "publication": {
+    "status": "NOT_REACHED"
+  },
+  "recent_challenge": {
+    "long": "NOT_RUN",
+    "short": "NOT_RUN"
+  },
+  "recoverable_failures": [],
+  "remaining_authorized_work_count": 0,
+  "remaining_data_blockers": [
+    "official_data",
+    "practice_history"
+  ],
+  "remaining_forward_candidates": 0,
+  "remaining_holdout_candidates": 0,
+  "remaining_long_candidates": 0,
+  "remaining_paper_requirements": [],
+  "remaining_research_controls": 6,
+  "remaining_short_candidates": 0,
+  "remaining_validation_candidates": 0,
+  "research_pipeline_falsifiability": {
+    "negative_controls": [
+      "NC1_RANDOM_WALK",
+      "NC2_FUTURE_LEAKAGE",
+      "NC3_DUPLICATE_BEHAVIOR",
+      "NC4_HIGH_WIN_NEGATIVE_EXPECTANCY",
+      "NC5_ONE_WINNER_ILLUSION",
+      "NC6_MIDPOINT_FANTASY"
+    ],
+    "positive_controls": [
+      "PC1_LONG",
+      "PC2_SHORT",
+      "PC3_BIDIRECTIONAL",
+      "PC4_SPARSE",
+      "PC5_REGIME",
+      "PC6_INTERACTION"
+    ],
+    "reason": "Packet order requires official and Practice-history data blockers to close before falsifiability execution.",
+    "status": "NOT_RUN_DATA_BLOCKED"
+  },
+  "safety": {
+    "commit": false,
+    "credential_read_by_codex": false,
+    "funding": false,
+    "live": false,
+    "orders": false,
+    "push": false
+  },
+  "same_packet_resume_command": "Resume Packet 019 after Human-only official and Practice history artifacts are present; do not paste secrets into Codex.",
+  "schema": "AIOS_FOREX_PROFITABILITY_PROOF_PROGRAM_V2_STATE",
+  "sealed_holdout": {
+    "long": "UNOPENED",
+    "short": "UNOPENED"
+  },
+  "state_hash": "3f5fe0492012ce6c06a55bf9f2270d8d107a30d07394ca47b6120d152b092971",
+  "status": "HUMAN_OFFICIAL_DATA_DOWNLOAD_REQUIRED",
+  "supertrend_final_audit": {
+    "reason": "Supertrend final audit waits for data blockers and falsifiability controls.",
+    "status": "NOT_RUN_DATA_BLOCKED"
+  },
+  "terminal_state_candidate": "HUMAN_OFFICIAL_DATA_DOWNLOAD_REQUIRED",
+  "validation": {
+    "long": "UNOPENED",
+    "short": "UNOPENED"
+  },
+  "worktree_discrepancy": {
+    "actual_worktree": "C:/Dev/Ai.Os",
+    "packet_worktree": "C:.Os"
+  }
+}

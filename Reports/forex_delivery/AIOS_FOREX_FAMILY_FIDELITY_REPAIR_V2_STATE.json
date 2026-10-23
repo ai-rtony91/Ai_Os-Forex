@@ -1,0 +1,61 @@
+{
+  "schema": "AIOS_FOREX_FAMILY_FIDELITY_REPAIR_V2_STATE",
+  "packet_id": "PKT-EAST-FOREX-FIDELITY-TO-COMPOUNDING-029",
+  "status": "RESEARCH_FIDELITY_REPAIR_REQUIRED",
+  "repair_attempt_status": "BLOCKED_BY_NO_FAKE_PASS_RULE",
+  "families": [
+    {
+      "family": "A_TIME_SERIES_MOMENTUM",
+      "prior_packet028_verdict": "PARTIALLY_FAITHFUL",
+      "v2_repair_status": "NOT_PROVEN",
+      "missing_evidence": "Executable controls must prove real adapter, execution, cost, metric, chronology, leakage, and deterministic paths without hard-coded PASS fields."
+    },
+    {
+      "family": "B_CROSS_SECTIONAL_FACTOR",
+      "prior_packet028_verdict": "UNFAITHFUL_IMPLEMENTATION",
+      "v2_repair_status": "NOT_PROVEN",
+      "missing_evidence": "Currency-level ranking and portfolio mapping adapter must be implemented and proven through executable controls."
+    },
+    {
+      "family": "C_CARRY_VALUE_MOMENTUM",
+      "prior_packet028_verdict": "UNFAITHFUL_IMPLEMENTATION",
+      "v2_repair_status": "NOT_PROVEN",
+      "missing_evidence": "Point-in-time carry/policy input, availability timing, and financing treatment must be implemented and proven."
+    },
+    {
+      "family": "D_RELATIVE_VALUE",
+      "prior_packet028_verdict": "UNFAITHFUL_IMPLEMENTATION",
+      "v2_repair_status": "NOT_PROVEN",
+      "missing_evidence": "Rolling multi-leg residual adapter with executable leg-level bid/ask costs must be implemented and proven."
+    },
+    {
+      "family": "E_EVENT_DRIVEN",
+      "prior_packet028_verdict": "PARTIALLY_FAITHFUL",
+      "v2_repair_status": "NOT_PROVEN",
+      "missing_evidence": "Official publication timestamp, post-release completed-bar rule, event identity, and dedup must be implemented and proven."
+    },
+    {
+      "family": "F_LIQUIDITY_SESSION",
+      "prior_packet028_verdict": "PARTIALLY_FAITHFUL",
+      "v2_repair_status": "NOT_PROVEN",
+      "missing_evidence": "UTC/session/DST calendar, spread/liquidity mechanics, rollover exclusion, and cost-aware abstention must be implemented and proven."
+    },
+    {
+      "family": "G_REGIME_SWITCHING",
+      "prior_packet028_verdict": "UNFAITHFUL_IMPLEMENTATION",
+      "v2_repair_status": "NOT_PROVEN",
+      "missing_evidence": "Causal state inference, frozen experts, router semantics, and NO_TRADE behavior must be implemented and proven."
+    },
+    {
+      "family": "H_META_LABEL_ROUTER",
+      "prior_packet028_verdict": "UNFAITHFUL_IMPLEMENTATION",
+      "v2_repair_status": "NOT_PROVEN",
+      "missing_evidence": "Frozen directional base event, chronological TAKE/DO_NOT_TAKE calibration, and no direction reversal must be implemented and proven."
+    }
+  ],
+  "downstream_research_opened": false,
+  "paper_opened": false,
+  "live_opened": false,
+  "funding_opened": false,
+  "compounding_opened": false
+}
