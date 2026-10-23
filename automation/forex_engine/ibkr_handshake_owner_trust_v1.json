@@ -1,0 +1,119 @@
+{
+  "schema": "AIOS_HUMAN_OWNER_APPROVAL_TRUST_ROOT.v1",
+  "trust_root_id": "AIOS-HUMAN-OWNER-APPROVAL-TRUST-ROOT-V1",
+  "authority": "Anthony, Human Owner",
+  "environment": "PRODUCTION",
+  "state": "ACTIVE",
+  "current_key_version": 10,
+  "keys": [
+    {
+      "key_id": "AIOS-HUMAN-OWNER-IBKR-HANDSHAKE-V1",
+      "key_version": 1,
+      "key_fingerprint_sha256": "bbd6f9dfbdcd33965b66cf9f69f1298b60932fd3e4b980e5732920d77ef025f1",
+      "status": "REVOKED",
+      "created_at_utc": "2026-10-14T02:49:09.349353+00:00",
+      "public_key_blob_base64": "RUNTMSAAAABcIVG3sgRNGoOUy7jE2iaUgWSfBSkBJD77yzaXyOSyrnmtvlqO0CLCjbN5Zk0c3eJLTz2EZk7lJYnSHA1UYP8X",
+      "revoked_at_utc": "2026-10-14T03:11:40.524796+00:00",
+      "revocation_reason": "Version 1 owner process exited; owner-approved version 2 fingerprint replaces unavailable signing channel"
+    },
+    {
+      "key_id": "AIOS-HUMAN-OWNER-IBKR-HANDSHAKE-V1",
+      "key_version": 2,
+      "key_fingerprint_sha256": "90fc986d13fa529a46dc0602c579da8bd624a7cb087a6f0685ca842d4f5f8670",
+      "public_key_blob_base64": "RUNTMSAAAACKK4GZHXUipXY9U4RaM8pG2AHYIoVWYJv8Q3zhZr8xLixycR7DpVT2XcTNZrpWMgKunKVISlHwO88BwT51votk",
+      "status": "REVOKED",
+      "created_at_utc": "2026-10-14T03:11:40.524796+00:00",
+      "revoked_at_utc": "2026-10-14T03:30:27.430556+00:00",
+      "revocation_reason": "V2 owner session closed by oversized input; explicit owner-approved V3 fingerprint replaces unavailable signer"
+    },
+    {
+      "key_id": "AIOS-HUMAN-OWNER-IBKR-HANDSHAKE-V1",
+      "key_version": 3,
+      "key_fingerprint_sha256": "65edd6bca3bfaf229c6d6e69edb802a1c09fa2410aa4e4d36ec8d2397613161e",
+      "public_key_blob_base64": "RUNTMSAAAAAYAU5jAnTAg9m+hrhHmMI43qSz8wVW4AzGlgxMIpKKp7s3DpgjWvB2967bs0IzHJoFK/NK2NRc+6iKn9aVVfzI",
+      "status": "REVOKED",
+      "created_at_utc": "2026-10-14T03:30:27.430556+00:00",
+      "revoked_at_utc": "2026-10-14T04:56:19.684328+00:00",
+      "revocation_reason": "V3 owner signing session expired; owner-approved V4 fingerprint replaces unavailable signer"
+    },
+    {
+      "key_id": "AIOS-HUMAN-OWNER-IBKR-HANDSHAKE-V1",
+      "key_version": 4,
+      "key_fingerprint_sha256": "3279dd2afad252be8cc2c354347e11ffb869f977064f015b61476140e11f976d",
+      "public_key_blob_base64": "RUNTMSAAAAAGcuj9P/StS2Nu+GSYW1iP50oGuUkkFq7qKWb+SlSWaiERDfjodWmxEbXtybknrc8c6fAK6Rnqcl4pDOH1EWbu",
+      "status": "REVOKED",
+      "created_at_utc": "2026-10-14T04:56:19.684328+00:00",
+      "revoked_at_utc": "2026-10-14T06:14:33.822814+00:00",
+      "revocation_reason": "V4 owner signing session closed after signing refusal; owner-approved V5 fingerprint replaces unavailable signer"
+    },
+    {
+      "key_id": "AIOS-HUMAN-OWNER-IBKR-HANDSHAKE-V1",
+      "key_version": 5,
+      "key_fingerprint_sha256": "f5049f07b69bb4f0d41fe2d892a3b6b7b0844982c76887ce27c2ed14b917c278",
+      "public_key_blob_base64": "RUNTMSAAAABxKjQe4328bz/U9f3EZhVWpxqcNByMZcR8vNHk3+RyRARcNoV6dOBm+cww+iyC7OOCl+Gg1fbsbNt7g9SVD6K+",
+      "status": "REVOKED",
+      "created_at_utc": "2026-10-14T06:14:33.822814+00:00",
+      "revoked_at_utc": "2026-10-22T15:16:37.682916+00:00",
+      "revocation_reason": "Prior signing process unavailable; replacement public key is pending exact owner fingerprint review under the current direct signing request"
+    },
+    {
+      "key_id": "AIOS-HUMAN-OWNER-IBKR-HANDSHAKE-V1",
+      "key_version": 6,
+      "key_fingerprint_sha256": "c933e1e05a201eeafd8bb1b0a0ee5cf23ee5b41c9bb8dae687921ddecb7c997b",
+      "public_key_blob_base64": "RUNTMSAAAAAllqF3MeVVQ+qg3oQd9xty3Zp9Dxp+zgg4RcWun4Xdz9MmeKuWHVFDZuycFO3NmGZPXUwv48G/b6cfrxelJOrM",
+      "status": "REVOKED",
+      "created_at_utc": "2026-10-22T15:16:37.682916+00:00",
+      "revoked_at_utc": "2026-10-23T01:20:12.497100+00:00",
+      "revocation_reason": "Prior one-use private key discarded; owner requested fresh signed M8 startup pass"
+    },
+    {
+      "key_id": "AIOS-HUMAN-OWNER-IBKR-HANDSHAKE-V1",
+      "key_version": 7,
+      "key_fingerprint_sha256": "46d6970385407158c8c05b7999e40c39da9d5aa899de7726087a97f905faa5c3",
+      "public_key_blob_base64": "RUNTMSAAAAACKnlE32WBLqTS+pfhO+rFqsFdKR67yIWub9GUIuZQ8V1DNyqE5cc8W5+0RdA1AhHuYRfA8uavSstr27YaVEvc",
+      "status": "REVOKED",
+      "created_at_utc": "2026-10-23T01:20:12.497100+00:00",
+      "revoked_at_utc": "2026-10-23T02:01:19.859459+00:00",
+      "revocation_reason": "Prior version7 signer closed after its consumed one-shot pass; replacement version8 public candidate awaits exact owner review"
+    },
+    {
+      "key_id": "AIOS-HUMAN-OWNER-IBKR-HANDSHAKE-V1",
+      "key_version": 8,
+      "key_fingerprint_sha256": "3fb2359a1b540e917e27f74d5830ddbff6eea5279c0e8f7a6362daee543bcbfb",
+      "public_key_blob_base64": "RUNTMSAAAADLdsovzKormNnA+GE4GiM2UNyGLLVQd0sYYdVGEnHU24eQE1uPoOIDTZjwwj0JCsVNa6JI3edmYDlWH8tFtDiR",
+      "status": "REVOKED",
+      "created_at_utc": "2026-10-23T02:01:19.859459+00:00",
+      "revoked_at_utc": "2026-10-23T02:23:48.586992+00:00",
+      "revocation_reason": "Version8 signer closed after consumed socket-connect attempt; exact owner-approved version9 key replaces the unavailable signer"
+    },
+    {
+      "key_id": "AIOS-HUMAN-OWNER-IBKR-HANDSHAKE-V1",
+      "key_version": 9,
+      "key_fingerprint_sha256": "c2f9300f88aa05fc7cadd77b463e61aee146c1462b979eaa63af77dba743b83d",
+      "public_key_blob_base64": "RUNTMSAAAABalrR+7p9UmJLVxVF919I4O7f6JALUKsk6AGybm5b9XTYKZRLE5WzucEv3apiY+Cvbi+KFJJ7CtIEF6qNwcs73",
+      "status": "REVOKED",
+      "created_at_utc": "2026-10-23T02:23:48.586992+00:00",
+      "revoked_at_utc": "2026-10-23T10:19:31.377941+00:00",
+      "revocation_reason": "Version9 signer closed after consumed one-shot attempt; replacement version10 public candidate requires exact new owner ID review"
+    },
+    {
+      "key_id": "AIOS-HUMAN-OWNER-IBKR-HANDSHAKE-V1",
+      "key_version": 10,
+      "key_fingerprint_sha256": "05c4c25df8ebf7bdd8e02f7de7c051d4b86ee815f6fd523c64895cfc2a9f76a8",
+      "public_key_blob_base64": "RUNTMSAAAADlitP0avJ9zHrVuW5IeZhVEK7IrGMiNXFiPgdrttXPWls5lmYvHRCR+MvFHZ7rA9Na3sEQ8evpGCtRXdkBL8bw",
+      "status": "ACTIVE",
+      "created_at_utc": "2026-10-23T10:19:31.377941+00:00"
+    }
+  ],
+  "signature_algorithm": "ECDSA_P256_SHA256",
+  "scope": {
+    "packet_id": "PKT-EAST-FOREX-IBKR-FIRST-READ-ONLY-HANDSHAKE-V1",
+    "allowed_actions": [
+      "IBKR_READ_ONLY_PREFLIGHT",
+      "IBKR_READ_ONLY_HANDSHAKE"
+    ],
+    "allowed_paths": [
+      "automation/forex_engine/ibkr_sdk_privacy_binding_v1.py"
+    ]
+  }
+}

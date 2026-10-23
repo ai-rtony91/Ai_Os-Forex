@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:aios:schema:ibkr-connection-probe-receipt:v1",
+  "title": "FIXTURE_ONLY IBKR startup privacy model receipt",
+  "description": "No genuine SDK, connection, account artifact, acquisition receipt or human admission credit. Owned mutable overwrite is not forensic erasure.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cleanup_verified",
+    "error_code",
+    "evidence_kind",
+    "forbidden_envelopes",
+    "forensic_erasure_verified",
+    "genuine_effects",
+    "initialization_envelopes",
+    "live_ready",
+    "managed_accounts_seen",
+    "modeled_lifecycle_complete",
+    "next_valid_id_seen",
+    "owned_mutable_buffers_cleared",
+    "paper_ready",
+    "real_connection_verified",
+    "schema",
+    "source_admitted",
+    "status"
+  ],
+  "properties": {
+    "schema": {
+      "const": "AIOS_IBKR_CONNECTION_PROBE_RECEIPT.v1",
+      "type": "string"
+    },
+    "evidence_kind": {
+      "const": "FIXTURE_ONLY",
+      "type": "string"
+    },
+    "real_connection_verified": {
+      "const": false,
+      "type": "boolean"
+    },
+    "source_admitted": {
+      "const": false,
+      "type": "boolean"
+    },
+    "paper_ready": {
+      "const": false,
+      "type": "boolean"
+    },
+    "live_ready": {
+      "const": false,
+      "type": "boolean"
+    },
+    "forensic_erasure_verified": {
+      "const": false,
+      "type": "boolean"
+    },
+    "forbidden_envelopes": {
+      "const": 0,
+      "type": "integer"
+    },
+    "genuine_effects": {
+      "const": 0,
+      "type": "integer"
+    },
+    "modeled_lifecycle_complete": {
+      "type": "boolean"
+    },
+    "managed_accounts_seen": {
+      "type": "boolean"
+    },
+    "next_valid_id_seen": {
+      "type": "boolean"
+    },
+    "cleanup_verified": {
+      "type": "boolean"
+    },
+    "owned_mutable_buffers_cleared": {
+      "type": "boolean"
+    },
+    "status": {
+      "enum": [
+        "MODEL_COMPLETE",
+        "BLOCKED",
+        "DISCONNECT_UNVERIFIED"
+      ]
+    },
+    "error_code": {
+      "enum": [
+        "NONE",
+        "BLOCKED_PLAN",
+        "BLOCKED_TRANSPORT",
+        "BLOCKED_REUSE",
+        "BLOCKED_TIME",
+        "BLOCKED_SEND",
+        "BLOCKED_FRAME",
+        "BLOCKED_LIMIT",
+        "BLOCKED_STARTUP",
+        "BLOCKED_TERMINAL",
+        "DISCONNECT_UNVERIFIED"
+      ]
+    },
+    "initialization_envelopes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "MODEL_COMPLETE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "modeled_lifecycle_complete": {
+            "const": true
+          },
+          "managed_accounts_seen": {
+            "const": true
+          },
+          "next_valid_id_seen": {
+            "const": true
+          },
+          "cleanup_verified": {
+            "const": true
+          },
+          "owned_mutable_buffers_cleared": {
+            "const": true
+          },
+          "error_code": {
+            "const": "NONE"
+          },
+          "initialization_envelopes": {
+            "const": 2
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "modeled_lifecycle_complete": {
+            "const": false
+          },
+          "error_code": {
+            "not": {
+              "const": "NONE"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "DISCONNECT_UNVERIFIED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "cleanup_verified": {
+            "const": false
+          },
+          "error_code": {
+            "const": "DISCONNECT_UNVERIFIED"
+          }
+        }
+      }
+    }
+  ]
+}
