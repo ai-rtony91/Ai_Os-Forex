@@ -162,3 +162,61 @@ def test_spine_route_retains_bad_details_for_strict_refusal(tmp_path, state):
     assert queue["selected_task"]["repository_state"] == state
     result = planner.build_packet_queue_planner([queue["selected_task"]])
     assert result["codex_ready_packet_preview"]["packet_ready"] is False
+
+
+def full_spine(tmp_path, records):
+    for relative in spine.REQUIRED_COMPONENTS:
+        target = tmp_path / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text("# public synthetic component\n", encoding="utf-8")
+    directory = tmp_path / "automation/orchestration/work_packets/active"
+    directory.mkdir(parents=True, exist_ok=True)
+    for index, record in enumerate(records):
+        (directory / f"packet-{index}.json").write_text(json.dumps(record), encoding="utf-8")
+    return spine.build_orchestration_spine(tmp_path)
+
+
+@pytest.mark.parametrize("change", [
+    {"safety_flags": ["secret path"]},
+    {"conflicts": ["overlapping owner"]},
+    {"blocked_files": ["docs/local-format.md"]},
+    {"validators": []},
+    {"repository_state": None},
+    {"repository_state": {"worktree": "relative", "branch": "test/local-format"}},
+])
+def test_full_spine_never_advertises_planner_refusal_as_ready(tmp_path, change):
+    state = full_spine(tmp_path, [packet(tmp_path, **change)])
+    assert state["status"] == "BLOCKED"
+    assert state["next_verified_task"] is None
+    assert state["economic_anchor"]["next_verified_task"] is None
+    assert state["dependency_graph"]["next_executable_task"] is None
+    assert state["dependency_graph"]["ready_nodes"] == []
+    assert state["queue_plan"]["ready_queue"] == []
+    assert "PKT-LOCAL-DOCUMENT-CHECK" in state["queue_plan"]["blocked_queue"]
+    assert "NONE_VERIFIED" in spine.render_orchestration_report(state)
+    assert all(value is False for value in state["protected_actions"].values())
+
+
+def test_full_spine_selects_safe_task_instead_of_rejected_first_id(tmp_path):
+    rejected = packet(tmp_path, packet_id="A-REJECTED", title="Rejected task",
+                      conflicts=["overlapping owner"])
+    ready = packet(tmp_path, packet_id="Z-READY", title="Ready task",
+                   required_files=["docs/other-local-format.md"])
+    state = full_spine(tmp_path, [rejected, ready])
+    assert state["status"] == "READY"
+    assert state["next_verified_task"] == "Z-READY"
+    assert state["economic_anchor"]["next_verified_task"] == "Z-READY"
+    assert state["dependency_graph"]["next_executable_task"] == "Z-READY"
+    assert state["dependency_graph"]["ready_nodes"] == ["Z-READY"]
+    assert state["queue_plan"]["ready_queue"] == ["Z-READY"]
+    assert "A-REJECTED" in state["queue_plan"]["blocked_queue"]
+
+
+def test_full_spine_uses_actual_planner_priority_for_next_task(tmp_path):
+    low = packet(tmp_path, packet_id="A-LOW", title="Low priority task", priority="low")
+    high = packet(tmp_path, packet_id="Z-HIGH", title="High priority task",
+                  priority="high", required_files=["docs/other-local-format.md"])
+    state = full_spine(tmp_path, [low, high])
+    assert state["queue_plan"]["selected_task"]["packet_id"] == "Z-HIGH"
+    assert state["next_verified_task"] == "Z-HIGH"
+    assert state["dependency_graph"]["next_executable_task"] == "Z-HIGH"
