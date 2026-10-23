@@ -6,6 +6,7 @@ import json
 import re
 import sys
 from collections import Counter, defaultdict
+from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
@@ -99,6 +100,11 @@ def build_task_catalog(records: Iterable[dict[str, Any]]) -> list[dict[str, Any]
             "classification": classification, "controller_owner": _owner(source),
             "dependencies": list(source.get("dependencies") or []), "priority": source.get("priority", "normal"),
             "risk_level": source.get("risk_level", "low"), "protected_action_requirements": list(source.get("required_approvals") or []),
+            "repository_state": deepcopy(source.get("repository_state")),
+            "required_files": list(source.get("required_files") or []),
+            "blocked_files": list(source.get("blocked_files") or []),
+            "conflicts": list(source.get("conflicts") or []),
+            "safety_flags": list(source.get("safety_flags") or []),
             "completion_evidence": completion, "validation_evidence": list(source.get("validators") or []),
             "economic_milestone_contribution": "REPOSITORY_LOCAL_WORK",
         })
@@ -155,14 +161,35 @@ def build_queue_plan(catalog: list[dict[str, Any]], graph: dict[str, Any]) -> di
     candidates = []
     for task in catalog:
         if task["task_id"] in graph["ready_nodes"]:
-            candidates.append({"packet_id": task["packet_id"], "title": task["title"], "status": "ready", "priority": task["priority"], "risk_level": task["risk_level"], "required_files": [task["source_path"]], "dependencies": [], "required_approvals": []})
+            candidates.append({
+                "packet_id": task["packet_id"], "title": task["title"],
+                "status": "ready", "priority": task["priority"], "risk_level": task["risk_level"],
+                "required_files": list(task.get("required_files") or []),
+                "blocked_files": list(task.get("blocked_files") or []),
+                "validators": list(task.get("validation_evidence") or []),
+                "repository_state": deepcopy(task.get("repository_state")),
+                "conflicts": list(task.get("conflicts") or []),
+                "safety_flags": list(task.get("safety_flags") or []),
+                "dependencies": [], "required_approvals": [],
+            })
     planner = build_packet_queue_planner({"candidates": candidates})
     selected = planner.get("selected_packet")
-    return {"selected_task": selected, "ready_queue": graph["ready_nodes"], "blocked_queue": graph["blocked_nodes"],
+    packet_ready = planner["codex_ready_packet_preview"]["packet_ready"] is True
+    blocked = set(graph["blocked_nodes"]) | {item["packet_id"] for item in planner["blocked_packets"]}
+    ready = [item["packet_id"] for item in candidates if item["packet_id"] not in blocked
+             and build_packet_queue_planner([item])["codex_ready_packet_preview"]["packet_ready"] is True]
+    # The selected candidate's strict preview must pass before any ready work
+    # is advertised. Dependency eligibility alone cannot qualify execution.
+    if not packet_ready:
+        ready = []
+    blocked.update(set(graph["ready_nodes"]) - set(ready))
+    return {"selected_task": selected, "packet_ready": packet_ready,
+            "ready_queue": ready, "blocked_queue": sorted(blocked),
             "deferred_queue": [t["task_id"] for t in catalog if t["classification"] in {"SUPERSEDED", "ALIAS", "DUPLICATE"}],
             "completed_queue": graph["completed_nodes"], "external_wait_queue": [t["task_id"] for t in catalog if t["classification"] == "EXTERNAL_PENDING"],
             "owner_approval_queue": [t["task_id"] for t in catalog if t["protected_action_requirements"]],
-            "queue_reasoning": planner.get("next_safe_action"), "queue_mutation_performed": False, "worker_dispatch_performed": False}
+            "queue_reasoning": planner.get("next_safe_action") if packet_ready else planner["codex_ready_packet_preview"]["reason_code"],
+            "queue_mutation_performed": False, "worker_dispatch_performed": False}
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -187,7 +214,10 @@ def build_orchestration_spine(repo_root: str | Path, as_of_utc: str | None = Non
     hours = forecast.get("verified_engineering_hours_remaining")
     percent = forecast.get("verified_completion_percentage")
     highest = forecast.get("current_highest_blocker") or forecast.get("highest_blocker") or "NOT_VERIFIED"
-    next_task = graph["next_executable_task"]
+    selected = queue["selected_task"]
+    next_task = selected["packet_id"] if selected and queue["packet_ready"] else None
+    graph.update(ready_nodes=queue["ready_queue"], blocked_nodes=queue["blocked_queue"],
+                 next_executable_task=next_task, critical_path=[next_task] if next_task else [])
     economic = {"primary_operator_milestone": "FIRST_REALIZED_NET_POSITIVE_DOLLAR_SUCCESSFULLY_TRANSFERRED",
                 "repository_live_trade_milestone": "FIRST_GOVERNED_LIVE_FOREX_MICRO_TRADE",
                 "first_withdrawable_dollar_status": "NOT_VERIFIED", "live_trade_readiness_status": forecast.get("status", "NOT_VERIFIED"),
@@ -195,6 +225,8 @@ def build_orchestration_spine(repo_root: str | Path, as_of_utc: str | None = Non
                 "verified_completion_percentage": percent, "completion_percentage_status": "VERIFIED" if percent is not None else "NOT_VERIFIED",
                 "current_highest_blocker": highest, "next_verified_task": next_task}
     blockers = (["BLOCKED_UNCLASSIFIED_WORK"] if unclassified else []) + (["CONTROLLER_OWNERSHIP_CONFLICT"] if ownership else []) + (["DEPENDENCY_CYCLE"] if graph["cyclic_dependencies"] else [])
+    if next_task is None and any(task["classification"] == "ACTIVE" for task in catalog):
+        blockers.append("NO_VERIFIED_READY_TASK")
     return {"schema": SCHEMA, "mode": MODE, "generated_at_utc": as_of_utc or datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
             "status": "BLOCKED_UNCLASSIFIED_WORK" if unclassified else ("BLOCKED" if blockers else "READY"), "controller_registry": registry,
             "task_catalog": catalog, "dependency_graph": graph, "queue_plan": queue, "economic_anchor": economic, "coverage": coverage,

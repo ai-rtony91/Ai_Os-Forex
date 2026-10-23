@@ -20,6 +20,8 @@ from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Iterator, Mapping, Sequence
 
+from automation.orchestration.claims import aios_process_path_lock as process_locks
+
 
 SCHEMA_VERSION = "AIOS_ACTIVE_TASK_CLAIM.v1"
 ACTIVE_STATES = frozenset({"CLAIMING", "ACTIVE", "VERIFYING", "INTEGRATING", "RELEASING", "BLOCKED"})
@@ -267,6 +269,18 @@ def _write_lock_record(descriptor: int, record: Mapping[str, Any]) -> None:
 
 @contextmanager
 def _exclusive_lock(board_path: Path) -> Iterator[None]:
+    # Acquire before opening: POSIX closes can release another thread's OS lock.
+    try:
+        lock_path = board_path.with_suffix(board_path.suffix + ".lock")
+        with process_locks.process_path_lock(lock_path):
+            with _exclusive_os_lock(board_path):
+                yield
+    except process_locks.ProcessPathBusy as error:
+        raise ClaimError("claim board is locked by a process-held owner") from error
+
+
+@contextmanager
+def _exclusive_os_lock(board_path: Path) -> Iterator[None]:
     lock = board_path.with_suffix(board_path.suffix + ".lock")
     board_path.parent.mkdir(parents=True, exist_ok=True)
     created = False
@@ -455,6 +469,7 @@ _EXECUTION_SOURCE_PATHS = (
     "automation/orchestration/claims/aios_task_claim_control.py",
     "automation/validators/aios_approval_authority_integrity_validator.py",
     "automation/validators/aios_approval_contract_v2.py",
+    "automation/orchestration/claims/aios_process_path_lock.py",
 )
 
 
@@ -675,6 +690,7 @@ class TaskClaimController:
             _EXECUTION_SOURCE_PATHS[1]: __file__,
             _EXECUTION_SOURCE_PATHS[2]: canonical.__file__,
             _EXECUTION_SOURCE_PATHS[3]: canonical.approval_contract_v2.__file__,
+            _EXECUTION_SOURCE_PATHS[4]: process_locks.__file__,
         }
         executor = sys.modules.get("automation.orchestration.aios_self_build_one_action_local_apply_executor")
         if executor is not None:
