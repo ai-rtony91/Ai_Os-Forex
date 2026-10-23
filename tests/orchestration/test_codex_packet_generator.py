@@ -290,6 +290,56 @@ def test_validator_rejects_nul_in_raw_packet(tmp_path):
     assert "nul_character" in result["validation_defects"]
 
 
+
+@pytest.mark.parametrize("host", ["powershell.exe", "pwsh"])
+def test_validator_rejects_invalid_utf8_packet_file(host, tmp_path):
+    executable = shutil.which(host)
+    if executable is None:
+        pytest.skip(f"{host} is not installed")
+    packet = _generate()["generated_packet_text"].encode("utf-8")
+    assert b"First Dollar" in packet
+    path = tmp_path / "invalid-utf8-packet.txt"
+    path.write_bytes(packet.replace(b"First Dollar", b"First\xffDollar", 1))
+    completed = subprocess.run(
+        [executable, "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass",
+         "-File", str(VALIDATOR), "-PacketPath", str(path), "-OutputJson"],
+        capture_output=True, check=False, timeout=30,
+    )
+    assert completed.returncode != 0
+    assert b"PACKET_TEXT_INVALID_UTF8" in completed.stderr
+    assert completed.stdout.strip() == b""
+
+
+@pytest.mark.parametrize("host", ["powershell.exe", "pwsh"])
+@pytest.mark.parametrize("encoding", ["utf-8", "utf-8-sig"])
+def test_validator_packet_file_keeps_unicode_bytes(host, encoding, tmp_path):
+    import base64
+    executable = shutil.which(host)
+    if executable is None:
+        pytest.skip(f"{host} is not installed")
+    sample = "caf\u00e9 \u2014 \u6771\u4eac \U0001f916"
+    packet = _generate()["generated_packet_text"].replace("First Dollar", sample, 1)
+    path = tmp_path / "unicode-packet.txt"
+    raw = packet.encode(encoding)
+    path.write_bytes(raw)
+    # This checker is data-only. Read its decoded value back in the same scope;
+    # return base64 so console settings cannot change the text being checked.
+    command = (
+        f"$null = . {_ps_quote(str(VALIDATOR))} -PacketPath {_ps_quote(str(path))} -OutputJson; "
+        "[Console]::Write([Convert]::ToBase64String("
+        "[Text.Encoding]::UTF8.GetBytes([string]$PacketText)))"
+    )
+    completed = subprocess.run(
+        [executable, "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass",
+         "-EncodedCommand", base64.b64encode(command.encode("utf-16-le")).decode("ascii")],
+        capture_output=True, check=False, timeout=30,
+    )
+    assert completed.returncode == 0, completed.stderr.decode("utf-8", errors="replace")
+    assert base64.b64decode(completed.stdout.strip(), validate=True).decode("utf-8") == packet
+    assert path.read_bytes() == raw
+
+
+
 def test_contract_keeps_current_main_operator_delivery_rules():
     text = CONTRACT.read_text(encoding="utf-8")
     assert "operator_delivery = [ordered]@{" in text
@@ -311,3 +361,32 @@ def test_generator_includes_mandatory_bootstrap_instructions():
         result = _validate(packet.replace(line, "", 1))
         assert result["packet_valid"] is False
         assert "missing_bootstrap_instruction" in result["validation_defects"]
+
+def _checker_report_case(case):
+    record = {"schema": "AIOS_CODEX_PACKET_VALIDATOR.v2", "packet_valid": True,
+              "missing_required_fields": [], "validation_defects": [],
+              "writes_files": False, "execution_allowed": False,
+              "can_continue_without_anthony": False}
+    if case == "string_true": record["packet_valid"] = "true"
+    elif case == "integer_one": record["packet_valid"] = 1
+    elif case == "recorded_missing": record["missing_required_fields"] = ["FORCED_MISSING"]
+    elif case == "recorded_defect": record["validation_defects"] = ["FORCED_DEFECT"]
+    elif case == "missing_list": del record["validation_defects"]
+    elif case == "wrong_schema": record["schema"] = "OTHER_REPORT.v1"
+    elif case == "unsafe_flag": record["execution_allowed"] = True
+    elif case == "string_list": record["missing_required_fields"] = ""
+    return record
+
+@pytest.mark.parametrize("case", ["string_true", "integer_one", "recorded_missing", "recorded_defect", "missing_list", "wrong_schema", "unsafe_flag", "string_list"])
+def test_generator_refuses_malformed_or_self_conflicting_checker_report(tmp_path, monkeypatch, case):
+    import shutil
+    copied = tmp_path / GENERATOR.name
+    for source in (GENERATOR, CONTRACT):
+        shutil.copyfile(source, tmp_path / source.name)
+    response = json.dumps(_checker_report_case(case)).replace("'", "''")
+    (tmp_path / VALIDATOR.name).write_text(
+        "param([string]$PacketText,[switch]$OutputJson)\nWrite-Output '" + response + "'", encoding="utf-8")
+    monkeypatch.setitem(globals(), "GENERATOR", copied)
+    result = _generate()
+    assert result["packet_valid"] is False
+    assert result["generated_packet_text"] == ""

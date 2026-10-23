@@ -52,7 +52,7 @@ function Load-RelayActors {
     }
 
     try {
-        $raw = Get-Content -LiteralPath $ActorRegistryPath -Raw
+        $raw = Get-Content -LiteralPath $ActorRegistryPath -Raw -Encoding UTF8
         $json = $raw | ConvertFrom-Json
         return @($json.actors)
     }
@@ -617,7 +617,7 @@ $generatorDefects = @()
 try {
     $generatedRaw = & $GeneratorScript @generatorArgs
     $generatedJson = $generatedRaw | ConvertFrom-Json -ErrorAction Stop
-    $generatorValid = ($generatedJson.packet_valid -eq $true)
+    $generatorValid = Test-AiOsCodexPacketReport -Report $generatedJson -ExpectedSchema "AIOS_CODEX_PACKET_GENERATOR.v2"
     $generatorMissing = @($generatedJson.missing_required_fields)
     $generatorDefects = @($generatedJson.validation_defects)
     $generatedPacketText = [string]$generatedJson.generated_packet_text
@@ -630,7 +630,7 @@ try {
     $validationOutput = & $ValidatorScript -PacketText $generatedPacketText -OutputJson
     $packetValidation = $validationOutput | ConvertFrom-Json -ErrorAction Stop
     if ($null -eq $packetValidation) { throw "EMPTY_VALIDATOR_RESPONSE" }
-    $packetValidation.packet_valid = ($generatorValid -and $packetValidation.packet_valid -eq $true)
+    $packetValidation.packet_valid = ($generatorValid -and (Test-AiOsCodexPacketReport -Report $packetValidation -ExpectedSchema "AIOS_CODEX_PACKET_VALIDATOR.v2"))
     $packetValidation.missing_required_fields = @($generatorMissing + @($packetValidation.missing_required_fields) | Select-Object -Unique)
     $packetValidation.validation_defects = @($generatorDefects + @($packetValidation.validation_defects) | Select-Object -Unique)
 }

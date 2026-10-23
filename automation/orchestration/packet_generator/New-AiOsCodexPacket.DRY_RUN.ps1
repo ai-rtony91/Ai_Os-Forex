@@ -203,7 +203,7 @@ writes_files=false
 # The serialized packet must also pass the same validator used by consumers.
 try {
     $checked = & (Join-Path $PSScriptRoot "Test-AiOsCodexPacket.DRY_RUN.ps1") -PacketText $text -OutputJson | ConvertFrom-Json -ErrorAction Stop
-    if ($checked.packet_valid -ne $true) {
+    if (-not (Test-AiOsCodexPacketReport -Report $checked -ExpectedSchema "AIOS_CODEX_PACKET_VALIDATOR.v2")) {
         $missing += @($checked.missing_required_fields)
         $defects += @($checked.validation_defects)
         $defects += "serialized_packet_rejected"
