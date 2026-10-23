@@ -68,3 +68,21 @@ function Get-AiOsCodexPacketContract {
         }
     }
 }
+
+function Test-AiOsCodexPacketReport {
+    param([AllowNull()]$Report, [string]$ExpectedSchema)
+    if ($null -eq $Report -or $Report -isnot [pscustomobject]) { return $false }
+    $names = @($Report.PSObject.Properties.Name)
+    foreach ($name in @("schema", "packet_valid", "missing_required_fields", "validation_defects", "writes_files", "execution_allowed", "can_continue_without_anthony")) {
+        if ($names -notcontains $name) { return $false }
+    }
+    if ($Report.schema -isnot [string] -or $Report.schema -cne $ExpectedSchema) { return $false }
+    if ($Report.packet_valid -isnot [bool] -or $Report.packet_valid -ne $true) { return $false }
+    foreach ($name in @("missing_required_fields", "validation_defects")) {
+        if ($Report.$name -isnot [array] -or $Report.$name.Count -ne 0) { return $false }
+    }
+    foreach ($name in @("writes_files", "execution_allowed", "can_continue_without_anthony")) {
+        if ($Report.$name -isnot [bool] -or $Report.$name -ne $false) { return $false }
+    }
+    return $true
+}

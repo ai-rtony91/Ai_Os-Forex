@@ -7,7 +7,16 @@ $contract = Get-AiOsCodexPacketContract
 
 if ([string]::IsNullOrWhiteSpace($PacketText) -and -not [string]::IsNullOrWhiteSpace($PacketPath)) {
     if (-not (Test-Path -LiteralPath $PacketPath -PathType Leaf)) { throw "PacketPath not found: $PacketPath" }
-    $PacketText = Get-Content -LiteralPath $PacketPath -Raw
+    $packetBytes = [System.IO.File]::ReadAllBytes($PacketPath)
+    try {
+        $PacketText = ([System.Text.UTF8Encoding]::new($false, $true)).GetString($packetBytes)
+    }
+    catch [System.Text.DecoderFallbackException] {
+        throw "PACKET_TEXT_INVALID_UTF8: PacketPath must contain valid UTF-8."
+    }
+    if ($PacketText.Length -gt 0 -and $PacketText[0] -eq [char]0xFEFF) {
+        $PacketText = $PacketText.Substring(1)
+    }
 }
 $normalized = ($PacketText -replace "`r`n", "`n") -replace "`r", "`n"
 $lines = @($normalized -split "`n")

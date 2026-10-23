@@ -242,3 +242,47 @@ def test_validator_failure_never_falls_back_to_header_presence(tmp_path, monkeyp
     result = _run_capability_draft(CapabilityName="Local Review")
     assert result["packet_valid"] is False
     assert result["generated_packet_text"] == ""
+
+def _checker_report_case(case):
+    record = {"schema": "AIOS_CODEX_PACKET_VALIDATOR.v2", "packet_valid": True,
+              "missing_required_fields": [], "validation_defects": [],
+              "writes_files": False, "execution_allowed": False,
+              "can_continue_without_anthony": False}
+    if case == "string_true": record["packet_valid"] = "true"
+    elif case == "integer_one": record["packet_valid"] = 1
+    elif case == "recorded_missing": record["missing_required_fields"] = ["FORCED_MISSING"]
+    elif case == "recorded_defect": record["validation_defects"] = ["FORCED_DEFECT"]
+    elif case == "missing_list": del record["validation_defects"]
+    elif case == "wrong_schema": record["schema"] = "OTHER_REPORT.v1"
+    elif case == "unsafe_flag": record["execution_allowed"] = True
+    elif case == "string_list": record["missing_required_fields"] = ""
+    return record
+
+@pytest.mark.parametrize("boundary", ["generator", "validator"])
+@pytest.mark.parametrize("case", ["string_true", "integer_one", "recorded_missing", "recorded_defect", "missing_list", "wrong_schema", "unsafe_flag", "string_list"])
+def test_wrapper_refuses_malformed_or_self_conflicting_reports(tmp_path, monkeypatch, boundary, case):
+    accepted = _run_capability_draft(CapabilityName="Local Review")
+    assert accepted["packet_valid"] is True
+    copied = tmp_path / SCRIPT.name
+    shutil.copyfile(SCRIPT, copied)
+    shutil.copyfile(SCRIPT.parent / "AiOsCodexPacketContract.ps1", tmp_path / "AiOsCodexPacketContract.ps1")
+    good_generator = {"schema": "AIOS_CODEX_PACKET_GENERATOR.v2", "contract_schema": "AIOS_CODEX_PACKET_CONTRACT.v2",
+                      "packet_valid": True, "generated_packet_text": accepted["generated_packet_text"],
+                      "missing_required_fields": [], "validation_defects": [], "writes_files": False,
+                      "execution_allowed": False, "can_continue_without_anthony": False}
+    checker = _checker_report_case(case)
+    if boundary == "generator":
+        checker["schema"] = good_generator["schema"] if case != "wrong_schema" else "OTHER_REPORT.v1"
+        checker["generated_packet_text"] = good_generator["generated_packet_text"]
+        good_generator = checker
+        shutil.copyfile(VALIDATOR, tmp_path / VALIDATOR.name)
+    else:
+        response = json.dumps(checker).replace("'", "''")
+        (tmp_path / VALIDATOR.name).write_text(
+            "param([string]$PacketText,[switch]$OutputJson)\nWrite-Output '" + response + "'", encoding="utf-8")
+    response = json.dumps(good_generator).replace("'", "''")
+    (tmp_path / "New-AiOsCodexPacket.DRY_RUN.ps1").write_text("Write-Output '" + response + "'", encoding="utf-8")
+    monkeypatch.setitem(globals(), "SCRIPT", copied)
+    result = _run_capability_draft(CapabilityName="Local Review")
+    assert result["packet_valid"] is False
+    assert result["generated_packet_text"] == ""
