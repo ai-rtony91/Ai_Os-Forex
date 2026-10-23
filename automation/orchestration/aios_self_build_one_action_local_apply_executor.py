@@ -5,6 +5,8 @@ import json
 from pathlib import PurePosixPath
 from typing import Any, Callable
 
+from automation.orchestration.claims.aios_task_claim_control import ClaimError, ExecutionAdmission
+
 
 SCHEMA = "AIOS_SELF_BUILD_ONE_ACTION_LOCAL_APPLY_EXECUTOR.v1"
 LOCAL_EXECUTOR_MODE = "ONE_ACTION_LOCAL_APPLY_EXECUTOR"
@@ -378,6 +380,8 @@ def build_self_build_one_action_local_apply_executor(
     local_executor_request: dict[str, Any] | None = None,
     executor_options: dict[str, Any] | None = None,
     command_runner: CommandRunner | None = None,
+    *,
+    execution_admission: ExecutionAdmission | None = None,
 ) -> dict[str, Any]:
     queue_item = _as_dict(selected_queue_item)
     approval = _as_dict(apply_approval)
@@ -541,12 +545,32 @@ def build_self_build_one_action_local_apply_executor(
     rejection_reasons = _dedupe(rejection_reasons)
     block_reasons = _dedupe(block_reasons)
     if not rejection_reasons and not block_reasons and execute_requested and command_runner is not None:
-        runner_called = True
+        def admitted_action():
+            nonlocal runner_called
+            runner_called = True
+            return command_runner(command_to_run, working_directory)
+
         try:
-            runner_evidence = _runner_evidence(command_runner(command_to_run, working_directory))
+            if not isinstance(execution_admission, ExecutionAdmission):
+                raise ClaimError("final_authority_provider_missing")
+            invocation = {
+                "packet_id": queue_item.get("packet_id"), "goal_id": queue_item.get("goal"),
+                "requested_action": selected_action, "command": command_to_run,
+                "working_directory": working_directory, "allowed_paths": allowed_paths,
+                "blocked_paths": queue_item.get("blocked_paths"), "validator_chain": validators,
+                "resource_limits": {"max_repairs": max_repairs, "max_files_changed": max_files_changed},
+                "output_roots": queue_item.get("output_roots"), "stop_point": queue_item.get("stop_point"),
+            }
+            runner_evidence = _runner_evidence(execution_admission.execute(invocation, admitted_action))
+        except ClaimError as exc:
+            block_reasons.append("final_authority_provider_missing" if str(exc) == "final_authority_provider_missing"
+                                 else "final_authority_admission_blocked")
         except Exception as exc:  # pragma: no cover - defensive evidence path
-            runner_evidence = {"returncode": None, "stdout": "", "stderr": str(exc), "changed_files": []}
-            block_reasons.append("command_runner_failed")
+            if runner_called:
+                runner_evidence = {"returncode": None, "stdout": "", "stderr": str(exc), "changed_files": []}
+                block_reasons.append("command_runner_failed")
+            else:
+                block_reasons.append("final_authority_admission_blocked")
         if runner_called and not runner_evidence:
             block_reasons.append("command_runner_evidence_missing")
         changed_files = [str(path) for path in _as_list(runner_evidence.get("changed_files", []))]
@@ -611,6 +635,63 @@ def build_self_build_one_action_local_apply_executor(
 
 build_one_action_local_apply_executor = build_self_build_one_action_local_apply_executor
 evaluate_self_build_one_action_local_apply_executor = build_self_build_one_action_local_apply_executor
+
+
+def make_campaign_execution_connection(claim_controller, *, read_claim, read_executor_inputs,
+                                       read_verification_inputs, command_runner, read_original_selection):
+    """Compose existing owners; callers supply qualified source-code readers.
+
+    No callable or permission is loaded from report JSON. The native publication
+    reader remains a separate required connection; a passed comparison cannot
+    close an original requirement or qualify Windows enforcement.
+    """
+    from automation.orchestration.claims.aios_task_claim_control import TaskClaimController, normalize_claim, _claim_contract
+    from automation.orchestration.aios_self_build_apply_result_verifier import build_self_build_apply_result_verifier
+    from automation.orchestration.aios_repo_state_evidence import campaign_json
+    if (type(claim_controller) is not TaskClaimController or not all(callable(reader) for reader in
+            (read_claim, read_executor_inputs, read_verification_inputs, command_runner, read_original_selection))):
+        raise ClaimError("campaign execution source connections missing")
+    fields = {"selected_queue_item", "apply_approval", "local_apply_executor_bridge", "single_action_executor",
+              "one_action_execution_controller", "one_action_apply_runner", "one_action_execute_gate",
+              "apply_result_verifier", "execution_request", "local_executor_request", "executor_options"}
+    def execute(packet):
+        try:
+            original_packet_json = campaign_json(packet)
+            task = packet["packet_id"]
+            claim = normalize_claim(read_claim(task))
+            inputs = json.loads(campaign_json(read_executor_inputs(task)))
+            if type(inputs) is not dict or set(inputs) != fields:
+                raise ClaimError("campaign original executor inputs missing")
+            if claim["packet_id"] != task or inputs["selected_queue_item"].get("packet_id") != task:
+                raise ClaimError("campaign selected task identity changed")
+            selected = read_original_selection(task)
+            if (type(selected) is not dict or set(selected) != {"packet", "claim", "queue_item"}
+                    or campaign_json(selected["packet"]) != original_packet_json
+                    or campaign_json(selected["queue_item"]) != campaign_json(inputs["selected_queue_item"])
+                    or _claim_contract(normalize_claim(selected["claim"])) != _claim_contract(claim)):
+                raise ClaimError("campaign original resolver selection changed")
+            # This provider re-reads the original signed permission at dispatch;
+            # report flags never replace it, and TEST_ONLY trust stays disabled.
+            result = build_self_build_one_action_local_apply_executor(**inputs, command_runner=command_runner,
+                execution_admission=ExecutionAdmission(claim_controller, claim))
+            original_result_json = campaign_json(result)
+            result = json.loads(original_result_json)
+            if (result.get("executor_status") != "executed" or result.get("command_executed") is not True
+                    or type(result.get("command_returncode")) is not int or result["command_returncode"] != 0):
+                return {"status": "BLOCKED", "reason": "Existing local executor refused the action", "execution": result}
+            verification = read_verification_inputs(task, json.loads(original_result_json))
+            if (type(verification) is not dict
+                    or campaign_json(verification.get("selected_queue_item")) != campaign_json(inputs["selected_queue_item"])
+                    or campaign_json(verification.get("single_action_executor")) != original_result_json):
+                raise ClaimError("campaign original result inputs missing")
+            checked = build_self_build_apply_result_verifier(**verification)
+            if checked.get("verifier_status") != "passed":
+                return {"status": "VALIDATION_FAILED", "reason": "Existing result owner rejected the result", "verification": checked}
+            return {"status": "COMPLETE", "execution": result, "verification": checked,
+                    "original_requirement_closed": False}
+        except (ClaimError, KeyError, TypeError, ValueError) as error:
+            return {"status": "BLOCKED", "reason": "Campaign execution connection rejected: " + type(error).__name__}
+    return execute
 
 
 def build_parser() -> argparse.ArgumentParser:

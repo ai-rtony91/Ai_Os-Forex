@@ -40,22 +40,30 @@ def _blockers(item: dict[str, Any], states: dict[str, str]) -> list[str]:
         blockers.append("APPROVAL_REQUIRED")
 
     try:
-        attempt = int(item.get("attempt", 0))
-        max_attempts = int(item.get("max_attempts", 1))
-    except (TypeError, ValueError):
+        counters = (item.get("attempt", 0), item.get("max_attempts", 1))
+        if any(isinstance(value, bool) or not isinstance(value, (int, float, str)) for value in counters):
+            raise ValueError("invalid_retry_contract")
+        attempt, max_attempts = (int(value) for value in counters)
+        if attempt < 0 or max_attempts < 1 or any(
+            isinstance(value, float) and value != normalized
+            for value, normalized in zip(counters, (attempt, max_attempts))
+        ):
+            raise ValueError("invalid_retry_contract")
+    except (TypeError, ValueError, OverflowError):
         blockers.append("INVALID_RETRY_CONTRACT")
     else:
         if attempt >= max_attempts:
             blockers.append("RETRY_LIMIT_REACHED")
 
     dependencies = item.get("depends_on", [])
-    if not isinstance(dependencies, list):
+    if not isinstance(dependencies, list) or any(
+        not isinstance(dependency, str) or not dependency.strip() for dependency in dependencies
+    ):
         blockers.append("INVALID_DEPENDENCIES")
     else:
         for dependency in dependencies:
-            dependency_id = str(dependency)
-            if states.get(dependency_id) != "DONE":
-                blockers.append(f"DEPENDENCY_NOT_DONE:{dependency_id}")
+            if states.get(dependency) != "DONE":
+                blockers.append(f"DEPENDENCY_NOT_DONE:{dependency}")
 
     return blockers
 
