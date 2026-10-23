@@ -5,7 +5,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-
 SCHEMA = "AIOS_CODEX_PACKET_BUILDER.v1"
 REPOSITORY_ALIGNED_SCHEMA = "AIOS_REPOSITORY_ALIGNED_APPLY_PACKET.v1"
 DEFAULT_RELAY_DIR = Path("Reports/aios_relay")
@@ -51,7 +50,30 @@ DELIVERY_RECEIPT_PATHS = [
 ]
 
 
-def build_repository_aligned_apply_packet(
+def _composed_scope_conflicts(scope: list[str], forbidden: list[str]) -> list[dict[str, str]]:
+    """Compare bounded lexical scope identities; never inspect or resolve the filesystem."""
+    def key(path: str) -> str:
+        parts: list[str] = []
+        for part in path.replace("\\", "/").strip().casefold().split("/"):
+            if part in {"", "."}:
+                continue
+            if part == ".." and parts and parts[-1] != "..":
+                parts.pop()
+            else:
+                parts.append(part)
+        return "/".join(parts) or "."
+
+    conflicts: list[dict[str, str]] = []
+    for allowed in scope:
+        left = key(allowed)
+        for denied in forbidden:
+            right = key(denied)
+            if left == "." or right == "." or left == right or left.startswith(right + "/") or right.startswith(left + "/"):
+                conflicts.append({"allowed_path": allowed, "forbidden_path": denied})
+    return conflicts
+
+
+def _build_legacy_repository_aligned_apply_packet(
     *,
     repository_state: dict[str, Any] | None,
     packet_identity: dict[str, str] | None,
@@ -126,6 +148,17 @@ def build_repository_aligned_apply_packet(
         }
 
     denied = [str(path).strip() for path in (forbidden_paths or ["All paths outside ALLOWED PATHS."]) if str(path).strip()]
+    instrumented_scope = list(dict.fromkeys(scope + DELIVERY_RECEIPT_PATHS))
+    conflicts = _composed_scope_conflicts(instrumented_scope, denied)
+    if conflicts:
+        return {
+            "schema": REPOSITORY_ALIGNED_SCHEMA, "packet_ready": False, "packet_id": packet_id,
+            "reason_code": "composed_scope_conflict", "codex_prompt_text": "",
+            "repository_state": {"worktree": worktree, "branch": branch, "status_lines": []},
+            "write_scope": instrumented_scope, "forbidden_paths": denied,
+            "scope_conflicts": conflicts, "validator_chain": checks,
+            "next_safe_action": "Resolve explicit forbidden-scope conflicts before generating an APPLY packet.",
+        }
     identity_lines = [
         f"MISSION ID: {identity['mission_id']}",
         f"MISSION NAME: {identity['mission_name']}",
@@ -151,7 +184,6 @@ def build_repository_aligned_apply_packet(
         "python scripts/run_aios_delivery_receipt_instrumentation_v1.py task-blocked "
         f"--task-id {packet_id} --packet-id {packet_id} --timestamp $(date -u +%Y-%m-%dT%H:%M:%SZ) --reason RECORDED_TERMINAL_BLOCKER"
     )
-    instrumented_scope = list(dict.fromkeys(scope + DELIVERY_RECEIPT_PATHS))
     prompt = "\n".join(
         [
             "CODEX-ONLY PROMPT",
@@ -216,6 +248,94 @@ def build_repository_aligned_apply_packet(
         "safety_blocks": list(SAFETY_BLOCKS),
         "next_safe_action": "Present the repository-aligned packet for Human Owner review; do not execute it automatically.",
     }
+
+
+
+def build_repository_aligned_apply_packet(
+    *, repository_state, packet_identity, mission, allowed_paths, validators,
+    forbidden_paths=None, approval_authority=DEFAULT_APPROVAL_AUTHORITY,
+    campaign_profile=None, campaign_admission_reader=None, campaign_selection=None,
+) -> dict[str, Any]:
+    """Retain legacy output, or render an independently observed campaign candidate.
+
+    The campaign branch calls the existing evidence owner even for a direct
+    builder caller. Its reader must be source-qualified by the existing caller;
+    neither a profile instance nor this declarative candidate grants permission.
+    No delivery destination is written or added to the provider's source scope.
+    """
+    if campaign_profile is None and campaign_admission_reader is None and campaign_selection is None:
+        return _build_legacy_repository_aligned_apply_packet(
+            repository_state=repository_state, packet_identity=packet_identity, mission=mission,
+            allowed_paths=allowed_paths, validators=validators, forbidden_paths=forbidden_paths,
+            approval_authority=approval_authority,
+        )
+    from automation.orchestration.aios_repo_state_evidence import (
+        _campaign_load,
+        campaign_json,
+        verify_campaign_packet_profile,
+    )
+    try:
+        evidence = verify_campaign_packet_profile(campaign_profile, admission_reader=campaign_admission_reader,
+            selection=campaign_selection, repository_state=repository_state)
+        contract = _campaign_load(evidence.contract_json)
+        observed = _campaign_load(evidence.repository_state_json)
+        item = _campaign_load(campaign_profile.queue_item_json)
+        required = ("mission_id", "mission_name", "program_id", "program_name", "epic_id", "epic_name",
+                    "bucket_id", "bucket_name", "packet_id", "packet_name", "supervisor_identity", "zone",
+                    "worker_identity", "lane", "stop_point")
+        if (type(packet_identity) is not dict or any(type(packet_identity.get(name)) is not str
+                or not packet_identity[name].strip() or any(c in packet_identity[name] for c in "\r\n\0") for name in required)
+                or campaign_json(packet_identity) != campaign_json(item.get("packet_identity"))):
+            raise ValueError("campaign identity header changed or invalid")
+        if type(mission) is not str or not mission.strip() or mission != item.get("mission"):
+            raise ValueError("campaign mission missing or changed")
+        for actual, expected in ((allowed_paths, contract["allowed_paths"]), (forbidden_paths, contract["forbidden_paths"]),
+                                 (validators, contract["validators"]), (approval_authority, contract["approval_authority"])):
+            if campaign_json(actual) != campaign_json(expected):
+                raise ValueError("campaign builder request differs from admission")
+        if any(c in approval_authority for c in "\r\n\0"):
+            raise ValueError("campaign authority header invalid")
+    except (ValueError, TypeError, OSError, UnicodeError, AttributeError) as exc:
+        return {"schema": REPOSITORY_ALIGNED_SCHEMA, "packet_ready": False,
+                "packet_id": packet_identity.get("packet_id", "NONE") if type(packet_identity) is dict else "NONE",
+                "reason_code": "campaign_source_blocked", "reason": str(exc), "codex_prompt_text": "",
+                "write_scope": allowed_paths, "validator_chain": validators}
+    labels = (("MISSION ID", "mission_id"), ("MISSION NAME", "mission_name"), ("PROGRAM ID", "program_id"),
+              ("PROGRAM NAME", "program_name"), ("EPIC ID", "epic_id"), ("EPIC NAME", "epic_name"),
+              ("BUCKET ID", "bucket_id"), ("BUCKET NAME", "bucket_name"), ("PACKET ID", "packet_id"),
+              ("PACKET NAME", "packet_name"), ("SUPERVISOR IDENTITY", "supervisor_identity"),
+              ("ZONE", "zone"), ("WORKER IDENTITY", "worker_identity"), ("LANE", "lane"))
+    prompt = "\n".join([
+        "CODEX-ONLY PROMPT", "", "AI_OS EXECUTION TOKEN", "AI_OS BOOTSTRAP REQUIRED",
+        "IDENTITY MARKER: AIOS_GOVERNED_CAMPAIGN_CANDIDATE", *[f"{label}: {packet_identity[key]}" for label, key in labels],
+        "MODE: APPLY", f"WORKTREE: {observed['worktree']}", f"BRANCH: {observed['branch']}",
+        f"APPROVAL AUTHORITY: {approval_authority}", "", "PREFLIGHT EVIDENCE:",
+        "This is an observed campaign packet candidate. Native admission and runtime permission remain separate gates.",
+        f"Observed repository identity: {campaign_json(contract['repository_identity'])}",
+        f"Observed raw status SHA256: {observed['status_sha256']}",
+        f"Observed is_clean: {str(observed['is_clean']).lower()}; legacy safe_for_apply: {str(observed['safe_for_apply']).lower()}",
+        f"Observed status entries: {campaign_json(observed['status_entries'])}",
+        f"Admitted reference SHA256: {campaign_profile.reference_sha256}",
+        "The existing receiving owner must recheck exact current source before launch. Unknown source changes block.",
+        "Explicit inventory/status observations do not establish arbitrary ignored-file absence or write containment.",
+        "", "MISSION:", mission.strip(), "", "ALLOWED PATHS:", *[f"- {path}" for path in allowed_paths],
+        "", "FORBIDDEN PATHS:", *[f"- {path}" for path in forbidden_paths],
+        "", "VALIDATOR CHAIN:", *validators, "", "DELIVERY RECEIPT OWNER:",
+        "The existing governed controller uses aios_delivery_receipt_instrumentation_v1 with separately admitted destinations.",
+        "The controller records authentic UTC start/terminal evidence; resume reuses saved evidence. Missing timing is never estimated.",
+        "Provider scope excludes controller delivery destinations. This packet performs no timing writes.",
+        "", "FINAL REPORT FORMAT:",
+        "SUMMARY; WHAT CHANGED; FILES CHANGED; VALIDATION; REMAINING DIRTY FILES; SAFE NEXT COMMAND; STATUS.",
+        "", f"STOP POINT: {packet_identity['stop_point']}",
+        "Do not stage, commit, push, create a PR, merge, change configuration/trust/authentication, or perform protected runtime actions.",
+    ])
+    return {"schema": REPOSITORY_ALIGNED_SCHEMA, "packet_ready": True, "packet_id": packet_identity["packet_id"],
+            "reason_code": "campaign_candidate_ready", "repository_state": observed, "identity_chain": dict(packet_identity),
+            "codex_prompt_text": prompt, "write_scope": list(allowed_paths), "forbidden_paths": list(forbidden_paths),
+            "validator_chain": list(validators), "safety_blocks": list(SAFETY_BLOCKS),
+            "delivery_tracking": {"owner": "automation/orchestration/aios_delivery_receipt_instrumentation_v1.py",
+                "destinations": dict(contract["delivery"]), "controller_only": True, "runtime_admission_qualified": False},
+            "next_safe_action": "Return candidate to the existing governed caller; actual native receiving/runtime admission remains unqualified."}
 
 
 def _blank_packet(reason_code: str) -> dict[str, Any]:

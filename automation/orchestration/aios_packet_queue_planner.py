@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from typing import Any
-
 
 SCHEMA = "AIOS_PACKET_QUEUE_PLANNER.v1"
 
@@ -154,14 +154,51 @@ def _numeric_score(value: Any, fallback: float = 0.0) -> float:
     if isinstance(value, bool):
         return fallback
     if isinstance(value, (int, float)):
-        return float(value)
-    if isinstance(value, str):
-        stripped = value.strip()
         try:
-            return float(stripped)
+            score = float(value)
+        except OverflowError:
+            raise ValueError("invalid_rank_score") from None
+    elif isinstance(value, str):
+        try:
+            score = float(value.strip())
         except ValueError:
             return fallback
-    return fallback
+    elif value is None:
+        return fallback
+    else:
+        raise ValueError("invalid_rank_score")
+    if not math.isfinite(score):
+        raise ValueError("invalid_rank_score")
+    return score
+
+
+def _rank_evidence(value: Any) -> Any:
+    """Keep compatible rank evidence without leaking invalid JSON numbers."""
+    try:
+        _numeric_score(value)
+    except (ValueError, OverflowError):
+        return None
+    return value
+
+
+def _finite_evidence(value: Any) -> tuple[Any, bool]:
+    """Copy retained evidence, replacing invalid JSON numbers without mutating input."""
+    if isinstance(value, float) and not math.isfinite(value):
+        return None, False
+    if isinstance(value, dict):
+        result: dict[Any, Any] = {}
+        valid = True
+        for key, item in value.items():
+            safe_key, key_valid = _finite_evidence(key) if isinstance(key, float) else (key, True)
+            safe_item, item_valid = _finite_evidence(item)
+            result[safe_key] = safe_item
+            valid = valid and key_valid and item_valid
+        return result, valid
+    if isinstance(value, (list, tuple)):
+        items = [_finite_evidence(item) for item in value]
+        safe_items = [item for item, _ in items]
+        return (tuple(safe_items) if isinstance(value, tuple) else safe_items), all(valid for _, valid in items)
+    return value, True
 
 
 def _priority_score(value: Any) -> float:
@@ -174,14 +211,29 @@ def _priority_score(value: Any) -> float:
 def _rank_score(candidate: dict[str, Any]) -> float:
     priority = _priority_score(candidate.get("priority"))
     milestone = _numeric_score(candidate.get("milestone_value"), fallback=0.0)
-    return priority * 1000.0 + milestone
+    score = priority * 1000.0 + milestone
+    if not math.isfinite(score):
+        raise ValueError("invalid_rank_score")
+    return score
 
 
 def _normalize_path(path: str) -> str:
+    if not isinstance(path, str):
+        return ""
     normalized = path.replace("\\", "/").strip().lower()
-    while normalized.startswith("./"):
-        normalized = normalized[2:]
-    return normalized.rstrip("/")
+    if not normalized or normalized.startswith("/") or ":" in normalized or "\x00" in normalized:
+        return ""
+    components: list[str] = []
+    for part in normalized.split("/"):
+        if part in {"", "."}:
+            continue
+        if part == "..":
+            if not components:
+                return ""
+            components.pop()
+        else:
+            components.append(part)
+    return "/".join(components)
 
 
 def _paths_overlap(left: str, right: str) -> bool:
@@ -267,6 +319,19 @@ def _evaluate_candidate(candidate: dict[str, Any], index: int) -> dict[str, Any]
 
     blocked_reasons: list[str] = []
     rejected_reasons: list[str] = []
+    dependencies, dependencies_finite = _finite_evidence(_as_items(candidate.get("dependencies")))
+    safety_flags, flags_finite = _finite_evidence(candidate.get("safety_flags", []))
+    for field, finite in (("dependencies", dependencies_finite), ("safety_flags", flags_finite)):
+        if not finite:
+            blocked_reasons.append(f"nonfinite_evidence:{field}")
+    try:
+        rank_score = _rank_score(candidate)
+    except (ValueError, OverflowError):
+        rank_score = 0.0
+        blocked_reasons.append("invalid_rank_score")
+    for field in ("required_files", "blocked_files"):
+        if any(not _normalize_path(path) for path in _as_items(candidate.get(field))):
+            blocked_reasons.append(f"invalid_path:{field}")
 
     if status in REJECTED_STATUSES:
         rejected_reasons.append(f"packet_status_rejected:{status}")
@@ -311,18 +376,19 @@ def _evaluate_candidate(candidate: dict[str, Any], index: int) -> dict[str, Any]
         "packet_id": packet_id,
         "title": _text(candidate.get("title")),
         "lane": _text(candidate.get("lane")),
-        "priority": candidate.get("priority"),
-        "milestone_value": candidate.get("milestone_value"),
+        "priority": _rank_evidence(candidate.get("priority")),
+        "milestone_value": _rank_evidence(candidate.get("milestone_value")),
         "risk_level": _text(candidate.get("risk_level")),
         "status": _text(candidate.get("status")),
         "required_files": required_files,
         "blocked_files": blocked_files,
         "required_approvals": approvals,
         "validators": _as_text_list(candidate.get("validators")),
-        "dependencies": _as_items(candidate.get("dependencies")),
+        "repository_state": candidate.get("repository_state"),
+        "dependencies": dependencies,
         "conflicts": conflicts,
-        "safety_flags": candidate.get("safety_flags", []),
-        "rank_score": _rank_score(candidate),
+        "safety_flags": safety_flags,
+        "rank_score": rank_score,
         "candidate_status": candidate_status,
         "blocked_reasons": [*rejected_reasons, *blocked_reasons],
     }
@@ -370,6 +436,8 @@ def _blocked_packet_summary(item: dict[str, Any]) -> dict[str, Any]:
         "lane": item["lane"],
         "candidate_status": item["candidate_status"],
         "blocked_reasons": item["blocked_reasons"],
+        "required_files": item["required_files"],
+        "blocked_files": item["blocked_files"],
     }
 
 
@@ -388,6 +456,7 @@ def _selected_packet_summary(item: dict[str, Any] | None) -> dict[str, Any] | No
         "blocked_files": item["blocked_files"],
         "required_approvals": item["required_approvals"],
         "validators": item["validators"],
+        "repository_state": item.get("repository_state"),
         "dependencies": item["dependencies"],
         "conflicts": item["conflicts"],
         "safety_flags": item["safety_flags"],
@@ -405,6 +474,36 @@ def _codex_packet_preview(item: dict[str, Any] | None) -> dict[str, Any]:
             "validator_chain": [],
         }
 
+    state = item.get("repository_state")
+    reason = ""
+    if state is None:
+        reason = "repository_state_missing"
+    elif not isinstance(state, dict):
+        reason = "repository_state_invalid"
+    else:
+        values = [state.get("worktree"), state.get("branch")]
+        if any(value is not None and not isinstance(value, str) for value in values):
+            reason = "repository_state_invalid"
+        elif any(value is None or not value.strip() for value in values):
+            reason = "repository_state_missing"
+        elif any(not value.isprintable() or value != value.strip() for value in values):
+            reason = "repository_state_invalid"
+        else:
+            worktree, branch = values
+            absolute = (worktree.startswith(("/", "\\\\")) or
+                        (len(worktree) >= 3 and worktree[0].isalpha() and
+                         worktree[1] == ":" and worktree[2] in "/\\"))
+            unresolved = {"unknown", "tbd", "todo", "unresolved", "resolve after preflight"}
+            if not absolute or any(value.casefold() in unresolved for value in values) or any(char.isspace() for char in branch):
+                reason = "repository_state_invalid"
+    if reason:
+        return {
+            "packet_ready": False, "reason_code": reason,
+            "packet_id": item["packet_id"], "codex_prompt_text": "",
+            "write_scope": item.get("required_files", []),
+            "validator_chain": item.get("validators", []),
+        }
+    repository_state = {"worktree": state["worktree"], "branch": state["branch"]}
     validators = [str(command) for command in item.get("validators", [])]
     validation_lines = validators or ["No validators supplied in packet evidence. Stop and add validators."]
     title = str(item.get("title") or item["packet_id"])
@@ -423,8 +522,8 @@ def _codex_packet_preview(item: dict[str, Any] | None) -> dict[str, Any]:
             f"LANE: {lane}",
             "APPROVAL AUTHORITY: Anthony Meza approves local scoped APPLY edits only.",
             "MODE: APPLY",
-            "WORKTREE: C:\\Dev\\Ai.Os",
-            "BRANCH: main",
+            f"WORKTREE: {repository_state['worktree']}",
+            f"BRANCH: {repository_state['branch']}",
             f"PACKET ID: {item['packet_id']}",
             "",
             "MISSION:",
@@ -453,6 +552,7 @@ def _codex_packet_preview(item: dict[str, Any] | None) -> dict[str, Any]:
     return {
         "packet_ready": bool(validators),
         "reason_code": "packet_ready" if validators else "validators_missing",
+        "repository_state": repository_state,
         "packet_id": item["packet_id"],
         "codex_prompt_text": prompt,
         "write_scope": item.get("required_files", []),

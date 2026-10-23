@@ -1,0 +1,28 @@
+# Preserve the exact runtime source bytes checked by controller bindings.
+/.gitattributes text eol=lf
+/aios.py text eol=crlf
+/automation/orchestration/aios_abcd_autonomy_runner.py text eol=lf
+/automation/orchestration/aios_codex_packet_builder.py text eol=lf
+/automation/orchestration/aios_continuation_controller.py text eol=crlf
+/automation/orchestration/aios_master_runtime_v1.py text eol=crlf
+/automation/orchestration/aios_packet_queue_planner.py text eol=crlf
+/automation/orchestration/aios_repo_state_evidence.py text eol=lf
+/automation/orchestration/aios_resume_state.py text eol=crlf
+/automation/orchestration/aios_self_build_apply_result_verifier.py text eol=crlf
+/automation/orchestration/aios_self_build_one_action_local_apply_executor.py text eol=crlf
+/automation/orchestration/aios_wake_continue.py text eol=crlf
+/automation/orchestration/claims/aios_task_claim_control.py text eol=lf
+/automation/orchestration/cost/Add-AiOsCostLedgerEntry.ps1 text eol=lf
+/automation/orchestration/dashboard/aios_resume_visibility.py text eol=lf
+/automation/orchestration/platform.py text eol=crlf
+/automation/orchestration/preflight/Test-AiOsToolPreflight.ps1 text eol=lf
+/automation/orchestration/relay/Invoke-AiOsRelayWorker.ps1 text eol=crlf
+/automation/orchestration/relay/aios_codex_prompt_consumer_v1.py text eol=crlf
+/automation/orchestration/relay/aios_self_consuming_codex_cycle_v1.py text eol=crlf
+/automation/orchestration/runtime_queue/aios_development_dispatcher.py text eol=crlf
+/automation/orchestration/runtime_queue/aios_execution_packet_resolver.py text eol=lf
+/automation/orchestration/runtime_queue/aios_runtime_execution_queue.py text eol=crlf
+/automation/orchestration/timeout/Invoke-AiOsCliWithTimeout.ps1 text eol=lf
+/automation/orchestration/validator_chain_runner/Invoke-AiOsValidatorChain.DRY_RUN.ps1 -text
+/automation/orchestration/validators/output/Test-AiOsWorkerOutput.DRY_RUN.ps1 text eol=crlf
+/services/python_supervisor/notifier.py text eol=crlf

@@ -1,6 +1,10 @@
 from __future__ import annotations
 
-from automation.orchestration.runtime_queue.aios_execution_packet_resolver import resolve_execution_packet
+import pytest
+
+from automation.orchestration.runtime_queue.aios_execution_packet_resolver import (
+    resolve_execution_packet,
+)
 
 
 def identity() -> dict[str, str]:
@@ -43,6 +47,14 @@ def test_successful_resolution_creates_complete_candidate() -> None:
     assert result["status"] == "CREATED"
     assert result["packet"]["packet_ready"] is True
     assert result["packet"]["codex_prompt_text"].startswith("CODEX-ONLY PROMPT")
+    assert all(value is False for value in result["safety"].values())
+
+
+def test_resolution_blocks_builder_added_forbidden_scope() -> None:
+    result = resolve_execution_packet(item(forbidden_paths=["Reports/orchestration/AIOS_CODEX_TASK_DELIVERY_METADATA_V1.json"]), state())
+    assert result["status"] == "BLOCKED"
+    assert result["packet"] is None
+    assert result["reason_code"] == "composed_scope_conflict"
     assert all(value is False for value in result["safety"].values())
 
 
@@ -106,9 +118,70 @@ def test_exhausted_retries_are_blocked() -> None:
     assert resolve_execution_packet(item(attempt=2, max_attempts=2), state())["reason_code"] == "retries_exhausted"
 
 
+def test_invalid_retry_source_cannot_create_packet() -> None:
+    result = resolve_execution_packet(item(attempt=-1, max_attempts=0), state())
+    assert result["status"] == "BLOCKED" and result["reason_code"] == "invalid_retry_contract"
+    assert result["packet"] is None and all(value is False for value in result["safety"].values())
+
+
 def test_unapproved_apply_is_blocked() -> None:
     assert resolve_execution_packet(item(approval_state="PENDING"), state())["reason_code"] == "apply_approval_required"
 
 
 def test_protected_action_is_blocked() -> None:
     assert resolve_execution_packet(item(protected_action=True), state())["reason_code"] == "protected_action"
+
+
+def test_campaign_resolver_uses_current_owner_twice_and_no_git_contract(tmp_path, monkeypatch):
+    from tests.orchestration.test_aios_repo_state_evidence import _campaign_fixture
+    owner, source, observed, profile, reader, _, mutable, _ = _campaign_fixture(tmp_path, monkeypatch)
+    result = resolve_execution_packet(source, observed, campaign_profile=profile,
+        campaign_admission_reader=reader, campaign_selection=profile.selection)
+    assert result["status"] == "CREATED" and len(mutable["calls"]) == 20
+    assert "commit_message" not in result["packet"] and result["packet"]["repository_state"]["is_clean"] is False
+    changed = dict(source); changed["mission"] = "Changed source request."
+    blocked = resolve_execution_packet(changed, observed, campaign_profile=profile,
+        campaign_admission_reader=reader, campaign_selection=profile.selection)
+    assert blocked["status"] == "BLOCKED" and blocked["reason_code"] == "campaign_source_blocked"
+    assert owner.CAMPAIGN_SOURCE_SCHEMA
+
+
+@pytest.mark.parametrize("defect", ["missing_reader", "fake_profile", "changed_bytes", "wrong_claim", "wrong_task", "wrong_attempt"])
+def test_campaign_resolver_cannot_use_class_or_label_as_admission(tmp_path, monkeypatch, defect):
+    from tests.orchestration.test_aios_repo_state_evidence import _campaign_fixture
+    _, source, observed, profile, reader, _, _, _ = _campaign_fixture(tmp_path, monkeypatch)
+    selection = profile.selection
+    if defect == "missing_reader": reader = None
+    elif defect == "fake_profile": profile = {"approved": True, "dirty_allowed": True}
+    elif defect == "changed_bytes": (tmp_path / source["allowed_paths"][0]).write_text("changed after profile construction")
+    elif defect == "wrong_claim": selection = (*selection[:3], "f" * 64, selection[4])
+    elif defect == "wrong_task": selection = ("other", *selection[1:])
+    else: source["attempt"] = 1
+    result = resolve_execution_packet(source, observed, campaign_profile=profile,
+        campaign_admission_reader=reader, campaign_selection=selection)
+    assert result["status"] == "BLOCKED" and result["reason_code"] == "campaign_source_blocked"
+
+
+
+@pytest.mark.parametrize("defect", ["controller_bool_int", "runtime_bool_int", "state_bool_int", "state_float", "array", "unsupported_set", "non_string_key", "collection_object"])
+def test_campaign_reuse_requires_strict_canonical_raw_types(tmp_path, monkeypatch, defect):
+    import copy
+
+    from tests.orchestration.test_aios_repo_state_evidence import _campaign_fixture
+
+    _, item, state, profile, reader, _, _, _ = _campaign_fixture(tmp_path, monkeypatch)
+    options = {"campaign_profile": profile, "campaign_admission_reader": reader, "campaign_selection": profile.selection}
+    packet = resolve_execution_packet(item, state, **options)["packet"]
+    valid = resolve_execution_packet(item, state, existing_packets=[packet], **options)
+    assert valid["status"] == "REUSED"
+    changed = copy.deepcopy(packet)
+    if defect == "controller_bool_int": changed["delivery_tracking"]["controller_only"] = 1
+    elif defect == "runtime_bool_int": changed["delivery_tracking"]["runtime_admission_qualified"] = 0
+    elif defect == "state_bool_int": changed["repository_state"]["safe_for_apply"] = 0
+    elif defect == "state_float": changed["repository_state"]["safe_for_apply"] = 0.0
+    elif defect == "array": changed["delivery_tracking"]["controller_only"] = [True]
+    elif defect == "unsupported_set": changed["malformed"] = {"unsupported"}
+    elif defect == "non_string_key": changed[1] = "invalid key"
+    collection = {"packet": changed} if defect == "collection_object" else [changed]
+    result = resolve_execution_packet(item, state, existing_packets=collection, **options)
+    assert result["status"] == "BLOCKED" and result["reason_code"] == "existing_packet_canonical_mismatch"
