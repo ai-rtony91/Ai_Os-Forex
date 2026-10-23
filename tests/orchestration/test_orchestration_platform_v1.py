@@ -1,6 +1,32 @@
 from automation.orchestration.platform import OrchestrationPlatform, create_platform
 
 
+def test_platform_producers_observe_repository_identity(tmp_path, monkeypatch):
+    import subprocess
+    from automation.orchestration import aios_canonical_orchestration_spine_v1 as spine
+
+    subprocess.run(["git", "init", "-b", "lane/platform", str(tmp_path)], check=True, capture_output=True)
+    for relative in spine.REQUIRED_COMPONENTS:
+        path = tmp_path / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text("offline component fixture")
+    subprocess.run(["git", "-C", str(tmp_path), "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+                    "commit", "--allow-empty", "-m", "offline fixture"], check=True, capture_output=True)
+    packet = {"packet_id": "READY", "title": "Ready", "status": "ready", "folder_state": "active",
+              "source_path": "automation/orchestration/ready.py", "required_files": ["automation/orchestration/ready.py"],
+              "validators": ["python -m pytest test_fixture.py -q"]}
+    platform = OrchestrationPlatform(tmp_path)
+    countdown = platform.countdown({"authoritative_packet_inventory": True, "packets": [packet]})
+    preview = countdown["queue_plan"]["codex_ready_packet_preview"]
+    assert preview["packet_ready"] is True
+    assert preview["repository_state"] == {"worktree": str(tmp_path), "branch": "lane/platform"}
+    monkeypatch.setattr(spine, "load_canonical_work_packet_inventory", lambda root: {"records": [packet]})
+    selected = platform.spine()["queue_plan"]["selected_task"]
+    assert selected["repository_state"]["worktree"] == str(tmp_path)
+    assert selected["repository_state"]["branch"] == "lane/platform"
+    assert all(value is False for value in countdown["protected_actions"].values())
+
+
 def test_platform_consolidates_queue_and_dispatch_without_mutation(tmp_path):
     platform = create_platform(tmp_path)
     queue = platform.queue({"candidates": []})

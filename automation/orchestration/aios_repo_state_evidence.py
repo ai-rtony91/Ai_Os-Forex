@@ -138,6 +138,14 @@ def collect_repo_identity(
     return identity
 
 
+def collect_planner_repository_state(repo_root: str | Path, *, runner: Runner = subprocess.run) -> dict[str, Any] | None:
+    """Observe preview identity only; this does not assert cleanliness or grant APPLY."""
+    identity = collect_repo_identity(repo_root, runner=runner)
+    if not identity["resolved"] or identity["detached"] is not False:
+        return None
+    return {"worktree": identity["repo_root"], "branch": identity["branch"], "commit": identity["commit"]}
+
+
 def _valid_status_code(code: str) -> bool:
     ordinary = {x + y for x in "MTARC" for y in " MTD"}
     ordinary.update({" M", " T", " D", " A", " R", " C", "D "})

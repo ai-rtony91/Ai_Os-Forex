@@ -981,6 +981,58 @@ def test_n09_lock_is_persistent_and_os_owned_contention_never_unlinks_it(tmp_pat
     assert lock.is_file()
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="POSIX record-lock semantics")
+def test_local_contender_cannot_drop_owners_cross_process_lock(tmp_path):
+    import subprocess
+
+    ctl = controller(tmp_path)
+    lock = ctl.board_path.with_suffix(".json.lock")
+    child = """
+import errno, os, runpy, sys
+region_lock = runpy.run_path(sys.argv[1])["_claim_file_lock"]
+fd = os.open(sys.argv[2], os.O_RDWR)
+try:
+    region_lock(fd)
+except OSError as error:
+    if error.errno not in (errno.EACCES, errno.EAGAIN):
+        raise
+    sys.exit(23)
+finally:
+    os.close(fd)
+"""
+    with claim_control._exclusive_lock(ctl.board_path):
+        held = lock.read_bytes()
+        with pytest.raises(claim_control.ClaimError, match="locked"):
+            with claim_control._exclusive_lock(ctl.board_path):
+                pytest.fail("local contender entered")
+        result = subprocess.run([sys.executable, "-c", child, str(MODULE), str(lock)], timeout=10, check=False)
+        assert result.returncode == 23
+        assert lock.read_bytes() == held
+    assert subprocess.run([sys.executable, "-c", child, str(MODULE), str(lock)], timeout=10, check=False).returncode == 0
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="POSIX record-lock semantics")
+def test_dispatch_lease_keeps_os_lock_during_metadata_verification(tmp_path):
+    import subprocess
+
+    fixture = _auth003_owned(tmp_path)
+    target = claim_control._dispatch_lock_target(fixture["controller"].board_path, fixture["claim"])
+    child = """
+import pathlib, runpy, sys
+owner = runpy.run_path(sys.argv[1])
+try:
+    with owner["_exclusive_lock"](pathlib.Path(sys.argv[2])):
+        pass
+except owner["ClaimError"]:
+    sys.exit(23)
+"""
+    with claim_control._claim_dispatch_lease(fixture["controller"].board_path, fixture["claim"], initialize=True) as verify:
+        verify()
+        assert subprocess.run([sys.executable, "-c", child, str(MODULE), str(target)], timeout=10).returncode == 23
+        verify()
+    assert subprocess.run([sys.executable, "-c", child, str(MODULE), str(target)], timeout=10).returncode == 0
+
+
 def test_n09_unheld_versioned_lock_can_reconcile_but_legacy_empty_stays_blocked(tmp_path):
     ctl = controller(tmp_path)
     request = claim(tmp_path)
@@ -996,6 +1048,74 @@ def test_n09_unheld_versioned_lock_can_reconcile_but_legacy_empty_stays_blocked(
     with pytest.raises(claim_control.ClaimError):
         ctl.acquire(request)
     assert lock.read_bytes() == b"" and ctl.board_path.read_bytes() == before
+
+
+def test_legacy_record_lock_held_is_preserved_and_released_can_migrate(tmp_path):
+    ctl = controller(tmp_path)
+    request = claim(tmp_path)
+    owned = ctl.acquire(request)
+    lock = ctl.board_path.with_suffix(".json.lock")
+    legacy = {**json.loads(lock.read_text()), "schema": "AIOS_TASK_CLAIM_BOARD_LOCK.v1", "state": "HELD"}
+    lock.write_text(json.dumps(legacy))
+    before = lock.read_bytes()
+    with pytest.raises(claim_control.ClaimError, match="legacy"):
+        ctl.acquire(request)
+    assert lock.read_bytes() == before
+    lock.write_text(json.dumps({**legacy, "state": "RELEASED"}))
+    assert ctl.acquire(request) == owned
+    assert json.loads(lock.read_text())["schema"] == "AIOS_TASK_CLAIM_BOARD_LOCK.v2"
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="POSIX legacy lock compatibility")
+def test_changed_legacy_metadata_during_migration_is_preserved(tmp_path, monkeypatch):
+    ctl = controller(tmp_path)
+    ctl.acquire(claim(tmp_path))
+    lock = ctl.board_path.with_suffix(".json.lock")
+    legacy = {**json.loads(lock.read_text()), "schema": "AIOS_TASK_CLAIM_BOARD_LOCK.v1", "state": "RELEASED"}
+    lock.write_text(json.dumps(legacy))
+    original = claim_control._region_lock
+    def legacy_change(descriptor, *, unlock=False):
+        original(descriptor, unlock=unlock)
+        if not unlock:
+            claim_control._write_lock_record(descriptor, {**legacy, "state": "HELD"})
+    monkeypatch.setattr(claim_control, "_region_lock", legacy_change)
+    with pytest.raises(claim_control.ClaimError, match="legacy"):
+        with claim_control._exclusive_lock(ctl.board_path):
+            pytest.fail("changed legacy ownership was overwritten")
+    assert json.loads(lock.read_text()) == {**legacy, "state": "HELD"}
+
+
+@pytest.mark.skipif(sys.platform == "win32", reason="POSIX legacy lock compatibility")
+def test_legacy_acquisition_in_progress_prevents_migration(tmp_path):
+    import subprocess
+
+    ctl = controller(tmp_path)
+    ctl.acquire(claim(tmp_path))
+    lock = ctl.board_path.with_suffix(".json.lock")
+    legacy = {**json.loads(lock.read_text()), "schema": "AIOS_TASK_CLAIM_BOARD_LOCK.v1", "state": "RELEASED"}
+    lock.write_text(json.dumps(legacy))
+    before = lock.read_bytes()
+    script = """
+import fcntl, os, select, sys
+fd = os.open(sys.argv[1], os.O_RDWR)
+fcntl.lockf(fd, fcntl.LOCK_EX | fcntl.LOCK_NB, 1, 65536)
+print("held", flush=True)
+select.select([sys.stdin], [], [], 10)
+os.close(fd)
+"""
+    child = subprocess.Popen([sys.executable, "-c", script, str(lock)], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+    try:
+        assert child.stdout.readline().strip() == "held"
+        with pytest.raises(claim_control.ClaimError, match="legacy"):
+            with claim_control._exclusive_lock(ctl.board_path):
+                pytest.fail("migrated while legacy owner was acquiring")
+        assert lock.read_bytes() == before
+    finally:
+        child.communicate("release", timeout=10)
+    assert child.returncode == 0
+    with claim_control._exclusive_lock(ctl.board_path):
+        pass
+    assert json.loads(lock.read_text())["schema"] == "AIOS_TASK_CLAIM_BOARD_LOCK.v2"
 
 
 def test_n09_caller_progress_cannot_authorize_release(tmp_path):

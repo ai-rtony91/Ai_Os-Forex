@@ -679,7 +679,10 @@ def test_roadmap_selects_adapter_plan_approval_gate_when_replay_evidence_passes(
 def test_output_is_compatible_with_candidate_adapter_and_packet_queue_planner() -> None:
     adapter = load_module("aios_candidate_packet_evidence_adapter", ADAPTER_PATH)
     planner = load_module("aios_packet_queue_planner", PLANNER_PATH)
-    result = roadmap_result()
+    from automation.orchestration.aios_repo_state_evidence import collect_planner_repository_state
+    observed = collect_planner_repository_state(REPO_ROOT)
+    assert observed is not None
+    result = load_module("roadmap_state", MODULE_PATH).build_forex_builder_roadmap(repository_state=observed)
 
     adapter_result = adapter.build_candidate_packet_evidence(
         {"candidate_packets": result["roadmap_candidates"]}
@@ -690,6 +693,16 @@ def test_output_is_compatible_with_candidate_adapter_and_packet_queue_planner() 
     assert plan["queue_status"] == "selected"
     assert plan["selected_packet"]["packet_id"] == CANONICAL_SPEC_PACKET_ID
     assert plan["codex_ready_packet_preview"]["packet_ready"] is True
+    assert plan["selected_packet"]["repository_state"] == observed
+
+
+def test_roadmap_without_repository_observation_is_not_packet_ready() -> None:
+    adapter = load_module("adapter_missing_state", ADAPTER_PATH)
+    planner = load_module("planner_missing_state", PLANNER_PATH)
+    normalized = adapter.build_candidate_packet_evidence(roadmap_result())
+    preview = planner.build_packet_queue_planner(normalized)["codex_ready_packet_preview"]
+    assert preview["packet_ready"] is False
+    assert preview["reason_code"] == "repository_state_missing"
 
 
 def test_no_candidate_writes_to_broker_trading_credentials_order_webhook_paths() -> None:

@@ -33,6 +33,14 @@ def inventory(*packets: dict[str, object]) -> dict[str, object]:
     return {"authoritative_packet_inventory": True, "packets": list(packets)}
 
 
+def test_countdown_passes_repository_state_to_ready_packet() -> None:
+    state = {"worktree": "/owned/countdown", "branch": "lane/countdown"}
+    result = load_module().build_work_countdown(inventory(packet("READY", "ready")), repository_state=state)
+    preview = result["queue_plan"]["codex_ready_packet_preview"]
+    assert preview["packet_ready"] is True
+    assert preview["repository_state"] == state
+
+
 @pytest.fixture
 def packet_repo(tmp_path: Path) -> Path:
     for state in ("active", "blocked", "complete"):

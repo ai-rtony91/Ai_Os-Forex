@@ -45,6 +45,23 @@ def _clean_runner(root: Path):
     )
 
 
+def test_planner_identity_requires_observed_named_committed_branch(tmp_path):
+    m = _load()
+    root = tmp_path / "repo"
+    subprocess.run(["git", "init", "-b", "lane/observed", str(root)], check=True, capture_output=True)
+    assert m.collect_planner_repository_state(root) is None  # unborn
+    assert m.collect_planner_repository_state(tmp_path) is None  # no repository
+    subprocess.run(["git", "-C", str(root), "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+                    "commit", "--allow-empty", "-m", "offline fixture"], check=True, capture_output=True)
+    state = m.collect_planner_repository_state(root)
+    assert state["worktree"] == str(root)
+    assert state["branch"] == "lane/observed"
+    assert len(state["commit"]) == 40
+    assert "safe_for_apply" not in state and "is_clean" not in state
+    subprocess.run(["git", "-C", str(root), "checkout", "--detach"], check=True, capture_output=True)
+    assert m.collect_planner_repository_state(root) is None
+
+
 def test_repo_state_collector_emits_required_fields(tmp_path: Path) -> None:
     m = _load()
     report = m.collect_repo_state(tmp_path, generated_at_utc=FIXED_NOW, runner=_clean_runner(tmp_path))

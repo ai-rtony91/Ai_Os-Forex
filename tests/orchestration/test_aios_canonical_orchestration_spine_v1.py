@@ -43,6 +43,14 @@ def test_selection_filters_status_dependencies_cycles_and_approval():
     assert build_dependency_graph(cyclic)["cyclic_dependencies"] == ["A", "B"]
 
 
+def test_spine_queue_preserves_supplied_repository_state():
+    catalog = build_task_catalog([record("READY", "Ready")])
+    graph = build_dependency_graph(catalog)
+    state = {"worktree": "/owned/spine", "branch": "lane/spine"}
+    queue = build_queue_plan(catalog, graph, repository_state=state)
+    assert queue["selected_task"]["repository_state"] == state
+
+
 def test_state_is_safe_deterministic_and_schema_valid():
     state = build_orchestration_spine(ROOT, "2026-07-28T00:00:00Z")
     assert stable_json(state) == stable_json(json.loads(stable_json(state)))

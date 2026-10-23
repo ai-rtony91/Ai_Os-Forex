@@ -379,13 +379,18 @@ class OrchestrationPlatform:
         return resolve_execution_packet(queue_item, repository_state, existing_packets=existing_packets)
 
     def spine(self, *, as_of_utc: str | None = None) -> dict[str, Any]:
-        return build_orchestration_spine(self.repo_root, as_of_utc=as_of_utc)
+        from automation.orchestration.aios_repo_state_evidence import collect_planner_repository_state
+        return build_orchestration_spine(self.repo_root, as_of_utc=as_of_utc,
+            repository_state=collect_planner_repository_state(self.repo_root) or {})
 
     def report(self, state: dict[str, Any]) -> str:
         return render_orchestration_report(state)
 
     def countdown(self, evidence: Any | None = None, **options: Any) -> dict[str, Any]:
         source = evidence if evidence is not None else load_canonical_work_packet_inventory(self.repo_root)
+        from automation.orchestration.aios_repo_state_evidence import collect_planner_repository_state
+        if "repository_state" not in options:
+            options["repository_state"] = collect_planner_repository_state(self.repo_root) or {}
         return build_work_countdown(source, **options)
 
     def compound_work_braid(self, **options: Any) -> dict[str, Any]:

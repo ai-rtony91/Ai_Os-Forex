@@ -229,6 +229,59 @@ def test_required_approvals_are_preserved() -> None:
     assert candidate["required_approvals"] == ["Anthony approval for local apply"]
 
 
+def test_repository_state_survives_normalization_and_inherited_state() -> None:
+    adapter, planner = load_adapter(), load_planner()
+    state = {"worktree": "/owned/task-worktree", "branch": "lane/owned"}
+    for evidence in (
+        {"manual_candidates": [promoted_candidate(repository_state=state)]},
+        {"manual_candidates": [promoted_candidate()], "repository_state": state},
+    ):
+        result = adapter.build_candidate_packet_evidence(evidence)
+        preview = planner.build_packet_queue_planner(result)["codex_ready_packet_preview"]
+        assert preview["packet_ready"] is True
+        assert preview["repository_state"] == state
+
+
+def test_invalid_candidate_state_is_not_replaced_by_inherited_state() -> None:
+    result = load_adapter().build_candidate_packet_evidence({
+        "repository_state": {"worktree": "/owned", "branch": "lane/owned"},
+        "manual_candidates": [promoted_candidate(repository_state={})],
+    })
+    preview = load_planner().build_packet_queue_planner(result)["codex_ready_packet_preview"]
+    assert preview["packet_ready"] is False
+    assert preview["reason_code"] == "repository_state_missing"
+
+
+def test_explicit_observation_replaces_stale_candidate_state() -> None:
+    adapter, planner = load_adapter(), load_planner()
+    evidence = {"manual_candidates": [promoted_candidate(repository_state={"worktree": "/stale", "branch": "stale"})]}
+    state = {"worktree": "/observed", "branch": "lane/observed"}
+    result = adapter.build_candidate_packet_evidence(evidence, repository_state=state)
+    assert planner.build_packet_queue_planner(result)["codex_ready_packet_preview"]["repository_state"] == state
+    failed = adapter.build_candidate_packet_evidence(evidence, repository_state={})
+    assert planner.build_packet_queue_planner(failed)["codex_ready_packet_preview"]["packet_ready"] is False
+
+
+def test_cli_observes_git_and_refuses_unobserved_repository(tmp_path, capsys) -> None:
+    import json
+    import subprocess
+
+    root = tmp_path / "repo"
+    root.mkdir()
+    subprocess.run(["git", "init", "-b", "lane/observed", str(root)], check=True, capture_output=True)
+    subprocess.run(["git", "-C", str(root), "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+                    "commit", "--allow-empty", "-m", "offline fixture"], check=True, capture_output=True)
+    adapter, planner = load_adapter(), load_planner()
+    stale = {"worktree": "/stale", "branch": "stale"}
+    for target, ready in ((root, True), (tmp_path, False)):
+        adapter.main(["--repo-root", str(target), "--evidence", json.dumps({"manual_candidates": [promoted_candidate(repository_state=stale)]})])
+        result = json.loads(capsys.readouterr().out)
+        preview = planner.build_packet_queue_planner(result)["codex_ready_packet_preview"]
+        assert preview["packet_ready"] is ready
+        if ready:
+            assert preview["repository_state"] == {"worktree": str(root), "branch": "lane/observed"}
+
+
 def test_validators_are_preserved() -> None:
     adapter = load_adapter()
 
