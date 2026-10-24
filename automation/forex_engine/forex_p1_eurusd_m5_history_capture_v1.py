@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import json
 import math
-from datetime import datetime, timezone
+import re
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import Any, Mapping
 
 from automation.forex_engine.forex_p1_eurusd_market_history_signal_v1 import (
@@ -15,11 +17,18 @@ from automation.forex_engine.forex_p1_eurusd_market_history_signal_v1 import (
     INSTRUMENT,
     validate_market_history,
 )
-from automation.forex_engine.oanda_read_only_client import OandaReadOnlyClient
+from automation.forex_engine.oanda_practice_candle_history_transport_v1 import (
+    HOST, PATH, TIMEOUT_SECONDS, OandaPracticeCandleHistoryTransportV1,
+)
 
 MIN_COUNT = 3
-MAX_COUNT = 500
+MAX_COUNT = 50
 RUNTIME_PATH = ".aios/runtime/forex_market_history/EUR_USD_latest.json"
+APPROVAL_SCHEMA = "AIOS_OANDA_PRACTICE_CANDLE_SESSION_APPROVAL.v1"
+APPROVAL_ROOT = ".aios/runtime/forex_authorizations"
+APPROVAL_KEYS = frozenset({"schema", "approval_id", "packet_id", "owner_identity", "approved_at_utc",
+    "expires_at_utc", "environment", "method", "host", "path", "instrument", "granularity", "price",
+    "count", "timeout_seconds", "request_budget", "output_path", "stop_point"})
 RAW_CANDLE_KEYS = frozenset({"time", "complete", "volume", "mid"})
 MID_KEYS = frozenset({"o", "h", "l", "c"})
 
@@ -28,14 +37,53 @@ def stable_json(value: Any) -> str:
     return json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n"
 
 
-def resolve_canonical_practice_transport(client: OandaReadOnlyClient) -> OandaReadOnlyClient:
-    if not isinstance(client, OandaReadOnlyClient):
-        raise ValueError("canonical_oanda_client_required")
-    if client.environment != "practice":
-        raise ValueError("practice_environment_required")
-    if not callable(getattr(client, "candles", None)):
-        raise ValueError("canonical_candles_method_required")
+def resolve_canonical_practice_transport(client: OandaPracticeCandleHistoryTransportV1) -> OandaPracticeCandleHistoryTransportV1:
+    if type(client) is not OandaPracticeCandleHistoryTransportV1:
+        raise ValueError("dedicated_practice_candle_transport_required")
     return client
+
+
+def _approval_pairs(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate_approval_key")
+        result[key] = value
+    return result
+
+
+def load_and_validate_approval(path: Path, *, repository_root: Path, packet_id: str,
+                               now: datetime | None = None) -> dict[str, Any]:
+    if path.is_symlink():
+        raise ValueError("approval_symlink_rejected")
+    root = repository_root.resolve()
+    resolved = path.resolve()
+    allowed = (root / APPROVAL_ROOT).resolve()
+    if not resolved.is_relative_to(allowed) or not resolved.is_relative_to(root):
+        raise ValueError("unsafe_approval_path")
+    try:
+        approval = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_approval_pairs,
+            parse_constant=lambda _value: (_ for _ in ()).throw(ValueError("non_finite_approval")))
+    except OSError:
+        raise ValueError("approval_unavailable") from None
+    if not isinstance(approval, dict) or set(approval) != APPROVAL_KEYS:
+        raise ValueError("exact_approval_schema_required")
+    expected = {"schema": APPROVAL_SCHEMA, "packet_id": packet_id, "owner_identity": "Human Owner Anthony",
+        "environment": "practice", "method": "GET", "host": HOST, "path": PATH, "instrument": "EUR_USD",
+        "granularity": "M5", "price": "M", "count": 50, "timeout_seconds": TIMEOUT_SECONDS,
+        "request_budget": 1, "output_path": RUNTIME_PATH, "stop_point": "AFTER_ONE_SANITIZED_WRITE_OR_FAILURE"}
+    if any(approval.get(key) != value for key, value in expected.items()):
+        raise ValueError("approval_contract_mismatch")
+    if not isinstance(approval["approval_id"], str) or not re.fullmatch(r"[A-Za-z0-9_.:-]{1,80}", approval["approval_id"]):
+        raise ValueError("invalid_approval_id")
+    sensitive = {"token", "account_id", "accountid", "raw_payload", "order_id"}
+    if any(key.lower() in sensitive for key in approval):
+        raise ValueError("sensitive_approval_field")
+    approved, expires = _utc(approval["approved_at_utc"]), _utc(approval["expires_at_utc"])
+    current = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    if expires <= approved or expires - approved > timedelta(minutes=15) or current < approved or current >= expires:
+        raise ValueError("approval_time_window_rejected")
+    return dict(approval)
 
 
 def validate_runtime_capture_request(*, owner_local_runtime: bool, environment: str,
@@ -49,8 +97,8 @@ def validate_runtime_capture_request(*, owner_local_runtime: bool, environment: 
         raise ValueError("EUR_USD_required")
     if granularity != GRANULARITY:
         raise ValueError("M5_required")
-    if isinstance(count, bool) or not isinstance(count, int) or not MIN_COUNT <= count <= MAX_COUNT:
-        raise ValueError("count_out_of_bounds")
+    if isinstance(count, bool) or count != 50:
+        raise ValueError("count_must_equal_50")
     if output.replace("\\", "/") != RUNTIME_PATH:
         raise ValueError("canonical_runtime_path_required")
     return {"environment": environment, "instrument": instrument,
@@ -145,7 +193,7 @@ def build_capture_state(*, generated_at_utc: str, repository_root: str, branch: 
                         head: str) -> dict[str, Any]:
     return {"schema": "AIOS_P1_EURUSD_M5_HISTORY_CAPTURE_STATE.v1",
             "generated_at_utc": generated_at_utc, "repository_root": repository_root,
-            "branch": branch, "head": head, "canonical_transport": "OandaReadOnlyClient",
+            "branch": branch, "head": head, "canonical_transport": "OandaPracticeCandleHistoryTransportV1",
             "candles_method_available": True, "practice_only_enforced": True,
             "default_network_access_allowed": False, "owner_local_capture_supported": True,
             "runtime_history_path": RUNTIME_PATH, "freshness_seconds": FRESHNESS_SECONDS,

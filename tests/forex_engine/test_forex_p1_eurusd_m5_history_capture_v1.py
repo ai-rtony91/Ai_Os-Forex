@@ -18,6 +18,7 @@ from automation.forex_engine.forex_p1_eurusd_m5_history_capture_v1 import (
 )
 from automation.forex_engine.forex_p1_eurusd_market_history_signal_v1 import validate_market_history
 from automation.forex_engine.oanda_read_only_client import OandaReadOnlyClient
+from automation.forex_engine.oanda_practice_candle_history_transport_v1 import OandaPracticeCandleHistoryTransportV1
 
 
 def stamp(minutes: int) -> str:
@@ -47,16 +48,16 @@ def request(**changes):
 
 
 def test_canonical_client_discovery_and_practice_only():
-    client = OandaReadOnlyClient(api_token="x", account_id="", environment="practice")
+    client = OandaPracticeCandleHistoryTransportV1(api_token="x", opener=object())
     assert resolve_canonical_practice_transport(client) is client
-    with pytest.raises(ValueError, match="practice"):
-        resolve_canonical_practice_transport(OandaReadOnlyClient(api_token="x", account_id="", environment="live"))
+    with pytest.raises(ValueError, match="dedicated"):
+        resolve_canonical_practice_transport(OandaReadOnlyClient(api_token="x", account_id="", environment="practice"))
 
 
 @pytest.mark.parametrize("changes,reason", [
     ({"owner_local_runtime": False}, "owner_local"), ({"environment": "live"}, "practice"),
     ({"instrument": "GBP_USD"}, "EUR_USD"), ({"granularity": "M1"}, "M5"),
-    ({"count": 2}, "bounds"), ({"count": 501}, "bounds"),
+    ({"count": 2}, "equal_50"), ({"count": 501}, "equal_50"),
     ({"output": ".aios/runtime/other.json"}, "canonical_runtime"),
 ])
 def test_runtime_request_fail_closed(changes, reason):
