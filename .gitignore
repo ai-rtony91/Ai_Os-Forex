@@ -59,9 +59,11 @@ credentials/
 
 # Local workstation state
 .local_hold/
+.codex_worktrees/
 
-# Claude Code local/session state
-.claude/
+# Claude Code local/session state (exclude all except project hooks config)
+.claude/*
+!.claude/settings.json
 
 # Runtime logs
 *.log
