@@ -684,6 +684,66 @@ class HistoricalDatasetSummary:
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 
+class LargeDatasetBacktestStatus:
+    READY_FOR_LOCAL_BACKTEST = "READY_FOR_LOCAL_BACKTEST"
+    INSUFFICIENT_DATA = "INSUFFICIENT_DATA"
+    INVALID_DATASET = "INVALID_DATASET"
+    BACKTEST_COMPLETED = "BACKTEST_COMPLETED"
+    BACKTEST_SKIPPED = "BACKTEST_SKIPPED"
+    NEEDS_CLEANING = "NEEDS_CLEANING"
+
+
+@dataclass(frozen=True)
+class CandleGroupKey:
+    symbol: str
+    timeframe: str
+
+
+@dataclass
+class CandleGroupSummary:
+    mode: str
+    symbol: str
+    timeframe: str
+    candle_count: int
+    first_timestamp: str
+    last_timestamp: str
+    status: str
+    warnings: List[str] = field(default_factory=list)
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class LargeDatasetBacktestGroupResult:
+    mode: str
+    symbol: str
+    timeframe: str
+    candle_count: int
+    backtest_status: str
+    trades_opened: int
+    trades_closed: int
+    net_pnl_usd: float
+    win_rate_pct: float
+    profit_factor: Optional[float]
+    warnings: List[str] = field(default_factory=list)
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class LargeDatasetBacktestReport:
+    mode: str
+    dataset_name: str
+    readiness_status: str
+    adapter_status: str
+    group_count: int
+    total_candles: int
+    groups: List[CandleGroupSummary] = field(default_factory=list)
+    group_results: List[LargeDatasetBacktestGroupResult] = field(default_factory=list)
+    warnings: List[str] = field(default_factory=list)
+    recommendations: List[str] = field(default_factory=list)
+    summary_note: str = ""
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
 @dataclass
 class BacktestConfig:
     symbol: str
