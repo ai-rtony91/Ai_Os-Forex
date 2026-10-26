@@ -3241,3 +3241,14 @@ def test_identity_reader_still_refuses_observing_itself_as_emitter(identity_api,
     with pytest.raises(owner.RecorderUnavailable):
         _identity_reader(owner, _identity_context(api))(_identity_witness(api), deadline=11.0)
     assert api.opened == [] and api.closed == []
+
+
+def test_environment_block_uses_windows_name_order_for_underscores():
+    from automation.orchestration.aios_self_build_apply_result_verifier import (
+        build_windows_launch_environment_block,
+    )
+
+    environment = {"_X": "one", "a": "two", "A_Z": "three", "Aa": "four"}
+    expected = "a=two\0Aa=four\0A_Z=three\0_X=one\0\0".encode("utf-16-le")
+
+    assert build_windows_launch_environment_block(environment) == expected

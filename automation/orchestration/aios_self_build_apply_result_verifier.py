@@ -1903,7 +1903,7 @@ def build_windows_launch_environment_block(environment):
             _need(units <= 524288, 'launch_environment_invalid')
             seen.add(key.lower())
             entries.append((key, value))
-        entries.sort(key=lambda row: row[0].lower())
+        entries.sort(key=lambda row: row[0].upper())
         block = ''.join(key + '=' + value + '\0' for key, value in entries) + '\0'
         if not entries:
             block += '\0'
