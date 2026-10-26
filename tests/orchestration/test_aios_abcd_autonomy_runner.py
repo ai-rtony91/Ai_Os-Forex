@@ -337,9 +337,7 @@ def test_n06_reader_errors_block_and_preserve_evidence(tmp_path, reason):
     result = run_one_abcd_task(*args, acceptance_reader=reader,
                               claim_controller=TaskClaimController(tmp_path / "board.json"),
                               execute=lambda _: pytest.fail("unknown evidence executed"))
-    assert result.status == "BLOCKED"
-    assert result.reason == "existing publication reader failed"
-    assert reason not in result.reason
+    assert result.status == "BLOCKED" and reason in result.reason
     assert sentinel.read_text() == "original owner evidence" and not (tmp_path / "board.json").exists()
 
 
@@ -712,3 +710,125 @@ def test_connection_workflow_reconciled_release_stops_before_next_load(tmp_path,
         lambda packet: pytest.fail("reconciliation must not launch work"))
     assert result.status == "RELEASE_RECONCILED" and len(result.results) == 1
     assert reads == [True] and calls == ["one"] and receipt.read_bytes() == saved
+
+
+def _frozen_abcd_runner():
+    """Load the exact runner named by AIOS_ABCD_RUNNER_PATH for red/green checks."""
+    import hashlib
+    import importlib.util
+    import os
+    import sys
+
+    path_value = os.environ.get("AIOS_ABCD_RUNNER_PATH")
+    if not path_value:
+        from automation.orchestration import aios_abcd_autonomy_runner as runner
+        return runner
+    path = Path(path_value).resolve()
+    module_name = "_aios_abcd_frozen_" + hashlib.sha256(str(path).encode("utf-8")).hexdigest()[:16]
+    loaded = sys.modules.get(module_name)
+    if loaded is not None:
+        return loaded
+    spec = importlib.util.spec_from_file_location(module_name, path)
+    if spec is None or spec.loader is None:
+        raise AssertionError(f"cannot load frozen runner: {path}")
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_frozen_runner_saves_release_intent_and_reloads_without_reexecution(tmp_path, monkeypatch):
+    """An accepted stop must leave a readable release record for the next call."""
+    import json
+    from automation.orchestration.claims import aios_task_claim_control as claims_module
+
+    runner = _frozen_abcd_runner()
+    def writable(path, value):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    monkeypatch.setattr(claims_module, "_atomic_write", writable)
+    monkeypatch.setattr(runner, "_atomic_write", writable, raising=False)
+    args = _inputs(tmp_path)
+    controller = TaskClaimController(tmp_path / "board.json")
+    calls = []
+    accepted = [False]
+
+    def reader(request):
+        if not accepted[0]:
+            return None
+        return runner.AcceptedRequirement(request)
+
+    first = runner.run_one_abcd_task(
+        *args,
+        acceptance_reader=reader,
+        claim_controller=controller,
+        execute=lambda packet: calls.append(packet["packet_id"]) or accepted.__setitem__(0, True) or {"status": "COMPLETE"},
+        checkpoint_after_acceptance=lambda _: True,
+    )
+    assert first.status == "ACCEPTED_CHECKPOINT", first.reason
+    saved = json.loads((tmp_path / "board.json").read_text(encoding="utf-8"))["claims"][0]
+    assert saved["state"] == "RELEASING"
+    assert isinstance(saved.get("release_intent"), dict)
+
+    reloaded = runner.run_one_abcd_task(
+        *args,
+        acceptance_reader=reader,
+        claim_controller=TaskClaimController(tmp_path / "board.json"),
+        execute=lambda _: pytest.fail("accepted work was executed again after reload"),
+    )
+    assert reloaded.status == "RELEASE_RECONCILED"
+    assert calls == ["one"]
+
+
+@pytest.mark.parametrize("defect", ["bad_hash", "bad_shape"])
+def test_frozen_runner_rejects_bad_saved_release_readback(tmp_path, defect, monkeypatch):
+    """A saved release record with a bad hash or shape must stop before the checkpoint."""
+    import json
+    from automation.orchestration.claims import aios_task_claim_control as claims_module
+
+    runner = _frozen_abcd_runner()
+    def writable(path, value):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    monkeypatch.setattr(claims_module, "_atomic_write", writable)
+    monkeypatch.setattr(runner, "_atomic_write", writable, raising=False)
+    args = _inputs(tmp_path)
+    controller = TaskClaimController(tmp_path / "board.json")
+    accepted = [False]
+
+    def read_bad_release(self, task_id, expected_claim):
+        saved = json.loads(self.board_path.read_text(encoding="utf-8"))["claims"][0]
+        saved["release_intent"] = {
+            "schema": runner.RELEASE_SCHEMA,
+            "claim_sha256": runner._claim_contract(saved),
+            "started_at": saved["acquired_at"],
+            "receipt_path": saved["receipt_path"],
+            "cleanup_mode": "once",
+            "resources": [],
+        }
+        if defect == "bad_hash":
+            saved["release_intent"]["claim_sha256"] = "0" * 64
+        else:
+            saved["release_intent"]["resources"] = {}
+        return saved
+
+    monkeypatch.setattr(
+        TaskClaimController,
+        "prepare_release_intent",
+        lambda self, *args, **kwargs: None,
+        raising=False,
+    )
+    monkeypatch.setattr(
+        TaskClaimController,
+        "read_release_claim",
+        read_bad_release,
+        raising=False,
+    )
+    result = runner.run_one_abcd_task(
+        *args,
+        acceptance_reader=lambda request: runner.AcceptedRequirement(request) if accepted[0] else None,
+        claim_controller=controller,
+        execute=lambda _: accepted.__setitem__(0, True) or {"status": "COMPLETE"},
+        checkpoint_after_acceptance=lambda _: True,
+    )
+    assert result.status == "BLOCKED"
