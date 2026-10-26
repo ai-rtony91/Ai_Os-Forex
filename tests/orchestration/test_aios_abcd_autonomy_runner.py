@@ -337,7 +337,9 @@ def test_n06_reader_errors_block_and_preserve_evidence(tmp_path, reason):
     result = run_one_abcd_task(*args, acceptance_reader=reader,
                               claim_controller=TaskClaimController(tmp_path / "board.json"),
                               execute=lambda _: pytest.fail("unknown evidence executed"))
-    assert result.status == "BLOCKED" and reason in result.reason
+    assert result.status == "BLOCKED"
+    assert result.reason == "existing publication reader failed"
+    assert reason not in result.reason
     assert sentinel.read_text() == "original owner evidence" and not (tmp_path / "board.json").exists()
 
 
