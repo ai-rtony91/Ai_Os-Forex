@@ -1141,6 +1141,8 @@ Owner direction, 2026-10-31: conserve credits, time, storage, and operator effor
 
 ### Worker Model and Reasoning Assignment
 
+Use the existing [identity and lane governance role matrix](docs/governance/aios-identity-and-lane-governance.md#operating-role-responsibilities) for duties, limits, outputs, escalation, and completion. Role names do not grant execution authority or bind a current chat.
+
 These are operating requirements, not proof that worker controls are implemented:
 
 - BOSS approves workload priorities and budgets within existing owner authority. MAIN assigns the worker model and reasoning effort based on complexity, ambiguity, failure impact, and review needs. Neither role gains protected-action authority from this rule.
