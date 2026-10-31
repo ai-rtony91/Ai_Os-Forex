@@ -1130,6 +1130,13 @@ Owner direction, 2026-10-31: conserve credits, time, storage, and operator effor
 - Consolidate findings by their underlying failure mechanism, retain stable finding IDs and unfinished work, and distinguish a source-only concern from a reproduced failure. Claim actual execution, recovery, or autonomy only when observed evidence proves that claim; code checks alone do not.
 - Send one concise, plain-language owner report for the shared objective through its assigned reporting owner. Keep the current autonomy milestone separate from later Forex research and trading stages. Do not start excluded or separately controlled stages to keep workers busy.
 
+### Research Reuse Across Chats
+
+- Start from the existing [repo memory](docs/governance/AI_OS_REPO_MEMORY.md) and [canonical ownership map](docs/governance/source-of-truth-map.md). Read saved findings and current ownership before repeating research. Keep a discoverable entry link to the existing milestone, gap, defect, or checkpoint record; do not create a competing research tracker.
+- Save concise substantive findings, stable defect IDs, dependencies, decisions, evidence links or receipts, relevant code/data/configuration identity, date, status, and next action in those canonical records within approved write scope. Preserve expensive research conclusions rather than requiring another chat to reconstruct them.
+- Investigate only changed, uncertain, or unresolved portions when prior evidence remains valid. Label stale or superseded findings and preserve their history. Do not publish secrets, personal account details, private chat URLs, or raw private transcripts.
+- A new chat needs repo access and must read the entry record and relevant findings. Saving information alone does not give another chat automatic awareness or execution authority.
+
 ### Worker Model and Reasoning Assignment
 
 These are operating requirements, not proof that worker controls are implemented:
