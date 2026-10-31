@@ -181,12 +181,19 @@ Retention deletion remains separate. Recursion detection can block a run, but it
 
 Schedule creation is not approved by this document.
 
-Recommended schedule after a DRY_RUN helper proves safe:
+Owner direction, 2026-10-31: the planned default is twice-weekly backup of changed or newly saved work, with Telegram reminders and a clear alert when the approved backup drive is missing. Preserve needed unique files and compact recovery checkpoints; avoid backing up backups. This documentation update does not install schedules or approve blanket deletion, retention cleanup, or restore.
+
+Planned schedule after an incremental DRY_RUN helper proves safe:
 
 1. Manual DRY_RUN first.
 2. Manual APPLY backup second, with explicit operator approval.
-3. One daily scheduled backup after the work session ends, around 21:00 local time.
-4. Optional logon/startup check in report-only mode.
+3. Wednesday and Sunday at 20:00 `America/New_York`, using timezone rules that follow daylight saving time. Copy only changed or newly saved work within the approved source scope; do not create routine full copies.
+4. Send a Telegram reminder and report a missing destination drive; preserve the pending checkpoint and do not silently redirect the backup to another drive. Keep bot credentials and destination identifiers in approved private configuration, outside the public repo and logs.
+5. Prevent overlapping runs. Resume only from verified checkpoints, confirm copied files against the approved manifest or hashes, and record completion before advancing the checkpoint. Preserve incomplete work after an interruption. Do not perform automated deletion.
+
+Reported deployment status, 2026-10-31: a cloud reminder has been set. The local incremental backup job and Telegram delivery are **not verified installed or operational**. A cloud reminder is not evidence that files were backed up or that Telegram delivery works.
+
+Existing helper modes below describe current behavior, including `Auto` selecting a daily `Full` backup. They are not proof that this incremental schedule is implemented. Changing those modes, selecting eligible saved files, verifying recovery, and installing local jobs or Telegram delivery require separately scoped implementation and validation. No runtime, credential, or scheduling change is made by this policy update.
 
 No Task Scheduler registration may occur until a future APPLY lane explicitly authorizes:
 
