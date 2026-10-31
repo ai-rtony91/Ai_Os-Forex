@@ -39,6 +39,27 @@ Use existing canonical task, milestone, checkpoint, review, and approval records
 
 Preserve any existing SourceMap, Builder, Bridge, Custody, and other bounded specialties; this matrix neither reassigns nor activates them. Detailed path ownership still resolves through [the canonical worker profile map](WORKER_REGISTRY_CANONICAL_MAP.md), the active packet, and claims/locks. Role changes follow the versioned instruction and safe-boundary acknowledgement rules in `AGENTS.md`. No role may grant itself permissions or treat its own report, acceptance verdict, or completion status as owner approval.
 
+### If/Then Handoffs and Next Actions
+
+After a result or state change, return to this guidance and the current canonical task record before choosing the next action.
+
+| If | Responsible role and next action |
+|---|---|
+| A worker receives a valid task it owns | Read the current instruction revision, dependencies, acceptance criteria, and authority limits; acknowledge the handoff and execute only authorized scope. |
+| A worker finishes | Checkpoint the result and proof, report MAIN, and obtain handoff receipt acknowledgement. Completion is evidence, not permission to start unrelated work. |
+| A worker is blocked | Classify the cause, preserve progress, and report the exact actionable requirement to MAIN. Do not repeat the unchanged failure outside existing authorized bounded transient-retry rules. |
+| A worker is idle after completion | MAIN assigns eligible next work within current authority or records a dependency wait with the next review condition. Do not invent work, duplicate assignments, or poll endlessly. |
+| MAIN receives completion or a review verdict | Check current acceptance criteria and evidence, record acceptance or scoped rework, refresh the existing queue/goals, and hand off the next eligible job. Report milestone progress or a larger blocker to BOSS. |
+| MAIN has evidence of a stalled worker | Inspect last verified progress and the actual blocker. Clear only what current authority permits; send an explicit next step or escalate to BOSS. Quiet output alone does not prove a stall. |
+| BOSS reviews progress or priorities change | Check MAIN and project priorities, reconcile milestone dependencies, and resolve priority/scope conflicts. Send affected instruction revisions through MAIN; escalate owner-only decisions to the Human Owner. |
+| A reviewer completes checks | Save the supported verdict, evidence, limits, and actionable findings; hand back to MAIN for acceptance or bounded rework. Do not self-approve consequential own changes. |
+| DevOps receives readiness, milestone, backup, or release evidence | Verify status, coordinate dependencies under the existing workflow, and report the actionable result to BOSS. Eligibility or readiness alone does not authorize backup execution, release, or deployment. |
+| The Human Owner makes a reserved decision | BOSS records the exact approved scope, limits, and stop conditions in the existing authority record; MAIN routes only the affected authorized work. |
+
+Every pause or dependency wait must record its reason, accountable owner, resume condition, and next check or review trigger. Never automatically resume an intentional owner, safety, or budget hold. Handoffs require acknowledgement tied to the task and instruction revision in existing records; preserve still-valid work and prevent duplicate ownership.
+
+Use completion, blocker, and milestone events first, with bounded fallback monitoring for missed events or stalls. MAIN follows up with workers; BOSS follows up with MAIN and escalates only when needed. These instructions install no timers, create no new controller or tracker, and grant no automatic execution authority. Queue status remains governed by `docs/workflows/WORKER_TASK_LIFECYCLE_STANDARD.md`.
+
 ## Temporary Worker Identities
 
 Temporary workers must be assigned by packet and lane. They do not carry authority across packets.
