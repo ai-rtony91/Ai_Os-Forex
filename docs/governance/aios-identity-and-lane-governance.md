@@ -22,6 +22,52 @@ No packet means no work. No approval means no APPLY. No validator means no trust
 | `Codex East` | East Worksite Supervisor | Performs governed repo inspection, packet execution, packetized APPLY after approval, validator routing, and evidence reporting | Improvise architecture, expand scope, touch West-owned files without reassignment, or bypass approvals |
 | `Claude Code West` | West Worksite Supervisor | Performs bounded inspection, architecture implementation when assigned, governance refinement, UI/system refinement, documentation refinement, validator review, and evidence reporting | Become command layer, casually rewrite governance, touch East-owned files without reassignment, or bypass validators |
 
+## Operating Role Responsibilities
+
+The Human Owner remains above all operating roles. These responsibility profiles work within the permanent identities, approved packets, worker profiles, and lane boundaries already defined; they create no new controller, queue, or approval authority. `MAIN` below means the assigned manager role, not the human `Main Control` approval window.
+
+| Role | Key duties | Decision limits | Required outputs | Escalation/reporting destination | Completion expectation |
+|---|---|---|---|---|---|
+| Human Owner | Set direction, approve scope/resources and protected decisions, resolve reserved decisions. | Existing safety and protected-action rules remain effective; approval must match the exact action. | Explicit decision, scope, limits, and any stop condition in the existing authority record. | Receive protected decisions and unresolved priority/scope conflicts from BOSS. | The decision is clear, recorded, and communicated to the responsible role. |
+| BOSS | Set milestone priorities; align MAIN; resolve scope, priority, and escalation conflicts. | Stay within owner-approved mission and budgets; do not self-approve protected actions or bypass acceptance checks. | Prioritized milestone objective, scope/budget limits, versioned priority changes, and owner escalation when needed. | Human Owner for reserved or protected decisions; MAIN for bounded priorities. | Current priorities and dependencies are clear; acceptance evidence or unresolved work has an explicit disposition. |
+| MAIN | Maintain the existing queue, ownership/dependencies, model/reasoning assignments, goal refresh, and result acceptance against current criteria. | Dispatch only authorized bounded work; result acceptance is evidence review, not protected-action approval. No stale or duplicate ownership. | Versioned assignments and acknowledgements, acceptance decisions with evidence, finding updates, blockers, and next actions in existing records. | BOSS for priority/scope/resource conflicts; owner-controlled gates for protected actions. | Accepted outputs meet current criteria; unfinished work and dependencies are checkpointed with an owner and next action. |
+| Worker | Execute the assigned scope; record findings, blockers, progress, checkpoints, and handoff. | No scope/resource expansion, permission creation, competing edits, or unsupported execution. | Exact changed scope, input identity, receipts/check results, candidate findings, blocker or completion status, and resume action. | MAIN; use the assigned independent reviewer when required. | Deliver the bounded result and evidence, or preserve unfinished work with the exact blocker and next safe action. |
+| Reviewer | Independently check consequential changes in proportion to risk; reproduce or qualify concerns and inspect evidence. | No automatic permission to edit, publish, or approve protected actions. Do not self-approve consequential own changes. | Scoped verdict, checks performed, evidence, stable finding IDs, limitations, and acceptance/rework conditions. | MAIN for findings/rework; BOSS for conflicting scope or unresolved risk. | Required checks have a supported verdict; unresolved risks are explicit and assigned. |
+| DevOps | Oversee project readiness, coordinate backup/release dependencies, and provide the assigned consolidated owner report. | Coordinate only within actual delegated authority; no implied installation, scheduling, credentials, deployment, deletion, release, or protected publishing permission. | Verified readiness/backup/release status, pending dependencies, recovery/checkpoint references, and one concise report for the assigned objective. | BOSS for priorities/conflicts; Human Owner through existing gates for protected decisions. | Coordination evidence and handoff are saved; operational claims are verified or clearly marked unverified. |
+
+Use existing canonical task, milestone, checkpoint, review, and approval records for these outputs; do not create parallel trackers. Current chat-to-role mapping belongs in the existing private/runtime work record and must be verified before routing. A role title in this document is neither proof of a live assignment nor runtime enforcement.
+
+Preserve any existing SourceMap, Builder, Bridge, Custody, and other bounded specialties; this matrix neither reassigns nor activates them. Detailed path ownership still resolves through [the canonical worker profile map](WORKER_REGISTRY_CANONICAL_MAP.md), the active packet, and claims/locks. Role changes follow the versioned instruction and safe-boundary acknowledgement rules in `AGENTS.md`. No role may grant itself permissions or treat its own report, acceptance verdict, or completion status as owner approval.
+
+### If/Then Handoffs and Next Actions
+
+After a result or state change, return to this guidance and the current canonical task record before choosing the next action.
+
+| If | Responsible role and next action |
+|---|---|
+| A worker receives a valid task it owns | Read the current instruction revision, dependencies, acceptance criteria, and authority limits; acknowledge the handoff and execute only authorized scope. |
+| A worker finishes | Checkpoint the result and proof, report MAIN, and obtain handoff receipt acknowledgement. Completion is evidence, not permission to start unrelated work. |
+| A worker is blocked | Classify the cause, preserve progress, and report the exact actionable requirement to MAIN. Do not repeat the unchanged failure outside existing authorized bounded transient-retry rules. |
+| A worker is idle after completion | MAIN assigns eligible next work within current authority or records a dependency wait with the next review condition. Do not invent work, duplicate assignments, or poll endlessly. |
+| MAIN receives completion or a review verdict | Check current acceptance criteria and evidence, record acceptance or scoped rework, refresh the existing queue/goals, and hand off the next eligible job. Report milestone progress or a larger blocker to BOSS. |
+| MAIN has evidence of a stalled worker | Inspect last verified progress and the actual blocker. Clear only what current authority permits; send an explicit next step or escalate to BOSS. Quiet output alone does not prove a stall. |
+| BOSS reviews progress or priorities change | Check MAIN and project priorities, reconcile milestone dependencies, and resolve priority/scope conflicts. Send affected instruction revisions through MAIN; escalate owner-only decisions to the Human Owner. |
+| A reviewer completes checks | Save the supported verdict, evidence, limits, and actionable findings; hand back to MAIN for acceptance or bounded rework. Do not self-approve consequential own changes. |
+| DevOps receives readiness, milestone, backup, or release evidence | Verify status, coordinate dependencies under the existing workflow, and report the actionable result to BOSS. Eligibility or readiness alone does not authorize backup execution, release, or deployment. |
+| The Human Owner makes a reserved decision | BOSS records the exact approved scope, limits, and stop conditions in the existing authority record; MAIN routes only the affected authorized work. |
+
+Every pause or dependency wait must record its reason, accountable owner, resume condition, and next check or review trigger. Never automatically resume an intentional owner, safety, or budget hold. Handoffs require acknowledgement tied to the task and instruction revision in existing records; preserve still-valid work and prevent duplicate ownership.
+
+Use completion, blocker, and milestone events first, with bounded fallback monitoring for missed events or stalls. MAIN follows up with workers; BOSS follows up with MAIN and escalates only when needed. These instructions install no timers, create no new controller or tracker, and grant no automatic execution authority. Queue status remains governed by `docs/workflows/WORKER_TASK_LIFECYCLE_STANDARD.md`.
+
+### Owner-Decision Alerts
+
+Route owner-only blockers through the existing oversight workflow to the configured private Telegram destination. Include the stable job/milestone ID, reason, exact decision needed, consequence of waiting, and a safe evidence link or reference. Keep bot credentials, destination identifiers, secrets, and private payloads out of the repo and alert text.
+
+Deduplicate reminders by the decision and current instruction revision, and record delivery and acknowledgement status in the existing work record. A sent alert is not an acknowledgement or approval. Unverified Telegram replies grant no authority; sensitive approvals retain their required identity verification and approval form.
+
+The Telegram sender and private configuration are currently unconfigured or unverified. This requirement does not install notification delivery, expand credential access, or prove runtime operation. Pending owner decisions and protected holds remain explicit until their existing gates are satisfied.
+
 ## Temporary Worker Identities
 
 Temporary workers must be assigned by packet and lane. They do not carry authority across packets.

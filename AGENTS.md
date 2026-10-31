@@ -1115,6 +1115,54 @@ Bad:
 Good:
 - Git no longer lists the worktree, so close processes holding the folder, run `git worktree prune`, remove the leftover folder with `Remove-Item`, and verify with `Test-Path`.
 
+## Project-Wide Cost, Time, and Evidence Discipline
+
+Owner direction, 2026-10-31: conserve credits, time, storage, and operator effort across all AIOS development, maintenance, research, and future strategy testing.
+
+- Before a costly work batch, record its outcome, owner, dependencies, acceptance checks, stopping condition, time/resource budget, and any approved spending limit in the existing work record. Use a bounded batch when usage is unknown; do not invent billing telemetry, usage totals, or spending authority. Separate measured elapsed time and available usage from estimates.
+- Resume verified progress. Reuse accepted work and equivalent results only when relevant code, data, configuration, parameters, and acceptance scope still match. Record why changed inputs, uncertainty, or a governing requirement require new verification. Preserve valid failed experiments as well as successful results.
+- Run the smallest useful checks first. Expand for a named unresolved risk, affected dependency, integration boundary, or required gate. Independent review must match the consequence of the change. Efficiency never removes required safety, statistical, risk, or release checks.
+- Do not repeat an unchanged failure without a correction or a distinct testable hypothesis. Existing authorized, bounded retries for known transient failures may continue under their current rules. Integrity failures remain fail-closed. Save completed work before stopping an unproductive loop.
+- Check existing ownership and saved outcomes before starting workers, investigations, full scans, or reports. Keep one owner per deliverable, prevent competing edits, preserve unrelated dirty files and healthy jobs, and parallelize only independent work inside approved resource limits. Repair the responsible existing component before adding another system.
+- Use deterministic local tools for repeated calculations and bulk processing when suitable. Use AI where judgment or exceptions need it. Avoid per-file AI supervision and idle polling that cannot change a decision.
+- Keep experiments finite and resumable, with a hypothesis, input identity, budget, and acceptance/rejection conditions. For strategy tests, include code/data versions, parameters, fees/cost assumptions, and test splits. Screen candidates with small tests, then perform the required robustness and clean out-of-sample checks. Training results do not prove an edge; failed results must not be erased or reset to justify retries.
+- Save compact checkpoints in the existing canonical work record: completed, failed, and remaining work; hashes or receipt references; decisions; ownership/locks; next safe action; and whether owner action is needed. Use one authoritative resume entry rather than duplicate task lists or reports. Checkpoints remain evidence, never execution authority.
+- Consolidate findings by their underlying failure mechanism, retain stable finding IDs and unfinished work, and distinguish a source-only concern from a reproduced failure. Claim actual execution, recovery, or autonomy only when observed evidence proves that claim; code checks alone do not.
+- Send one concise, plain-language owner report for the shared objective through its assigned reporting owner. Keep the current autonomy milestone separate from later Forex research and trading stages. Do not start excluded or separately controlled stages to keep workers busy.
+
+### Research Reuse Across Chats
+
+- Start from the existing [repo memory](docs/governance/AI_OS_REPO_MEMORY.md) and [canonical ownership map](docs/governance/source-of-truth-map.md). Read saved findings and current ownership before repeating research. Keep a discoverable entry link to the existing milestone, gap, defect, or checkpoint record; do not create a competing research tracker.
+- Save concise substantive findings, stable defect IDs, dependencies, decisions, evidence links or receipts, relevant code/data/configuration identity, date, status, and next action in those canonical records within approved write scope. Preserve expensive research conclusions rather than requiring another chat to reconstruct them.
+- The discovering worker captures a candidate finding at discovery or a safe checkpoint before handoff or closure. A finding qualifies when it materially affects a milestone, task, decision, defect, or next action, or prevents costly repeat research. Include the finding owner and label unverified claims explicitly.
+- MAIN checks novelty against existing IDs, evidence and status, canonical ownership, relevance, and publication safety; it integrates routine accepted findings only within current permissions. BOSS resolves conflicting priorities or scope rather than approving every routine record. Local capture and commit/push remain separate authority gates; this rule grants no unlimited publication authority.
+- Investigate only changed, uncertain, or unresolved portions when prior evidence remains valid. Label stale or superseded findings and preserve their history. Do not publish secrets, personal account details, private chat URLs, or raw private transcripts.
+- A new chat needs repo access and must read the entry record and relevant findings. Saving information alone does not give another chat automatic awareness or execution authority.
+
+### Worker Model and Reasoning Assignment
+
+Use the existing [identity and lane governance role matrix](docs/governance/aios-identity-and-lane-governance.md#operating-role-responsibilities) for duties, limits, outputs, escalation, and completion. Role names do not grant execution authority or bind a current chat.
+
+These are operating requirements, not proof that worker controls are implemented:
+
+- BOSS approves workload priorities and budgets within existing owner authority. MAIN assigns the worker model and reasoning effort based on complexity, ambiguity, failure impact, and review needs. Neither role gains protected-action authority from this rule.
+- Record the assignment rationale, required access, acceptance checks, and resource limits in the existing task record. Use the least privilege and lowest-cost capable setting for simple bounded work. Use stronger reasoning or review for integration, security, or ambiguous failures when justified.
+- Escalate on demonstrated need; avoid expensive blanket settings. Configure between tasks or at safe checkpoints where supported. Preserve healthy in-flight jobs and verified progress.
+- Verify available models and supported controls before claiming an assignment was applied. Model availability and automatic selection are currently unverified. Actual credit limits require observed usage telemetry or an explicit owner budget; do not invent numbers.
+
+### Worker Goal Follow-Up and Refresh
+
+- Every goal must record its owner, version, scope, dependencies, finish condition, and next action in the existing task record. MAIN checks progress and blockers and refreshes assignments when milestone objectives or dependencies change. BOSS keeps MAIN priorities aligned within current authority.
+- When BOSS changes priorities, MAIN sends versioned instructions only to affected workers. Each affected worker checkpoints its current work and acknowledges the new version before adapting at a safe boundary. Preserve still-valid results; an older revision must not override a newer accepted revision. Record acknowledgement in the existing task record, without a new tracker or expanded authority.
+- Verify current acceptance criteria against saved evidence before declaring completion or advancing. If work is reprioritized, checkpoint unfinished work and its resume action; do not silently drop it or duplicate its owner.
+- Record explicit `continue`, `revise`, `pause`, `resume`, or `stop` transitions with the reason and applicable recovery trigger. A transition does not create execution authority or override an owner stop, claim, resource limit, or protected-action gate.
+- Use completion and blocker events for prompt handoff. Configure bounded timed fallback checks for missed events or stalls where supported; avoid needless polling. Exact intervals must come from verified configuration or the approved task. Do not claim timers or supervision are operational without evidence.
+- Keep follow-up updates compact and reference saved receipts, decisions, and the current goal version. Refresh stale assignments before further work and preserve healthy in-flight work when changing objectives.
+
+Backup scope, twice-weekly timing, and Telegram reminder guidance belong in the existing [T9 backup workflow](docs/workflows/AI_OS_T9_BACKUP_WORKFLOW.md); do not create a parallel backup policy.
+
+This rule supplements existing scope, continuation, ownership, validation, and protected-action rules. It grants no new execution, signing, resource, scheduler, broker, PAPER/LIVE, commit, push, merge, deletion, or deployment authority. Publishing the rule is not proof that existing workers or scheduled jobs have loaded or enforced it.
+
 ## Operator-Facing Response Formatting Rule
 
 When the operator says "make that a rule," AI workers must not treat it as chat memory only. They must identify the correct AI_OS repo location where the rule belongs, then propose or apply the smallest safe update to the active instruction source so the rule takes effect globally.

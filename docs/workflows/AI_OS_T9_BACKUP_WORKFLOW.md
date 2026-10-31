@@ -181,12 +181,27 @@ Retention deletion remains separate. Recursion detection can block a run, but it
 
 Schedule creation is not approved by this document.
 
-Recommended schedule after a DRY_RUN helper proves safe:
+Owner direction, 2026-10-31: the planned default is twice-weekly backup of changed or newly saved work, with Telegram reminders and a clear alert when the approved backup drive is missing. Preserve needed unique files and compact recovery checkpoints; avoid backing up backups. This documentation update does not install schedules or approve blanket deletion, retention cleanup, or restore.
+
+Planned schedule after an incremental DRY_RUN helper proves safe:
 
 1. Manual DRY_RUN first.
 2. Manual APPLY backup second, with explicit operator approval.
-3. One daily scheduled backup after the work session ends, around 21:00 local time.
-4. Optional logon/startup check in report-only mode.
+3. Wednesday and Sunday at 20:00 `America/New_York`, using timezone rules that follow daylight saving time. Copy only changed or newly saved work within the approved source scope; do not create routine full copies.
+4. Send a Telegram reminder and report a missing destination drive; preserve the pending checkpoint and do not silently redirect the backup to another drive. Keep bot credentials and destination identifiers in approved private configuration, outside the public repo and logs.
+5. Prevent overlapping runs. Resume only from verified checkpoints, confirm copied files against the approved manifest or hashes, and record completion before advancing the checkpoint. Preserve incomplete work after an interruption. Do not perform automated deletion.
+
+Milestone events supplement the twice-weekly schedule within the same backup workflow:
+
+- The current canonical milestone record must provide a stable ID, version, finish criteria, accepted completion proof, and the identity of changed/unbacked saved work. Verified milestone acceptance plus meaningful unbacked saved work makes an incremental backup eligible. Use that evidence and the difference from the last verified backup checkpoint, not raw line/file counts or invented investment or cost figures.
+- Future milestones use the same existing record and completion-event mechanism when registered; no separate milestone subsystem or advance enumeration of every future milestone is needed. Reconcile current remaining autonomy milestones and their acceptance proof before marking any complete. This policy update marks no milestone complete.
+- Reuse the existing backup checkpoint to coalesce milestone and scheduled events into one pending capture. If the identified approved T9 is absent, persist that pending event and send a deduplicated Telegram connection reminder; repeated checks must not create duplicate events or alerts.
+- On reconnection, validate the approved drive identity and run only an authorized incremental capture of new or changed saved files. Verify the capture, record success, and then clear the pending event. Reconnection alone grants no execution authority. Retain failed or pending state and preserve original files after any failure.
+- Serialize captures and coalesce overlapping triggers so a milestone and scheduled event do not back up the same work twice. Keep backup outputs excluded as sources and perform no automated deletion.
+
+Reported deployment status, 2026-10-31: a cloud reminder has been set. The local incremental backup job and Telegram delivery are **not verified installed or operational**. A cloud reminder is not evidence that files were backed up or that Telegram delivery works.
+
+Existing helper modes below describe current behavior, including `Auto` selecting a daily `Full` backup. They are not proof that this incremental schedule is implemented. A local installer, drive watcher, Telegram sender, and milestone event wiring are also unverified. Extend the existing helper and checkpoint only under separately scoped implementation and validation; do not create a competing backup subsystem. No runtime, credential, security, or scheduling change is made by this policy update.
 
 No Task Scheduler registration may occur until a future APPLY lane explicitly authorizes:
 
