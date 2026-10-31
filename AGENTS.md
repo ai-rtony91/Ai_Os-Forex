@@ -1139,6 +1139,14 @@ These are operating requirements, not proof that worker controls are implemented
 - Escalate on demonstrated need; avoid expensive blanket settings. Configure between tasks or at safe checkpoints where supported. Preserve healthy in-flight jobs and verified progress.
 - Verify available models and supported controls before claiming an assignment was applied. Model availability and automatic selection are currently unverified. Actual credit limits require observed usage telemetry or an explicit owner budget; do not invent numbers.
 
+### Worker Goal Follow-Up and Refresh
+
+- Every goal must record its owner, version, scope, dependencies, finish condition, and next action in the existing task record. MAIN checks progress and blockers and refreshes assignments when milestone objectives or dependencies change. BOSS keeps MAIN priorities aligned within current authority.
+- Verify current acceptance criteria against saved evidence before declaring completion or advancing. If work is reprioritized, checkpoint unfinished work and its resume action; do not silently drop it or duplicate its owner.
+- Record explicit `continue`, `revise`, `pause`, `resume`, or `stop` transitions with the reason and applicable recovery trigger. A transition does not create execution authority or override an owner stop, claim, resource limit, or protected-action gate.
+- Use completion and blocker events for prompt handoff. Configure bounded timed fallback checks for missed events or stalls where supported; avoid needless polling. Exact intervals must come from verified configuration or the approved task. Do not claim timers or supervision are operational without evidence.
+- Keep follow-up updates compact and reference saved receipts, decisions, and the current goal version. Refresh stale assignments before further work and preserve healthy in-flight work when changing objectives.
+
 Backup scope, twice-weekly timing, and Telegram reminder guidance belong in the existing [T9 backup workflow](docs/workflows/AI_OS_T9_BACKUP_WORKFLOW.md); do not create a parallel backup policy.
 
 This rule supplements existing scope, continuation, ownership, validation, and protected-action rules. It grants no new execution, signing, resource, scheduler, broker, PAPER/LIVE, commit, push, merge, deletion, or deployment authority. Publishing the rule is not proof that existing workers or scheduled jobs have loaded or enforced it.
