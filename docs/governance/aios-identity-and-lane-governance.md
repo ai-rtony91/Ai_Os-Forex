@@ -60,6 +60,14 @@ Every pause or dependency wait must record its reason, accountable owner, resume
 
 Use completion, blocker, and milestone events first, with bounded fallback monitoring for missed events or stalls. MAIN follows up with workers; BOSS follows up with MAIN and escalates only when needed. These instructions install no timers, create no new controller or tracker, and grant no automatic execution authority. Queue status remains governed by `docs/workflows/WORKER_TASK_LIFECYCLE_STANDARD.md`.
 
+### Owner-Decision Alerts
+
+Route owner-only blockers through the existing oversight workflow to the configured private Telegram destination. Include the stable job/milestone ID, reason, exact decision needed, consequence of waiting, and a safe evidence link or reference. Keep bot credentials, destination identifiers, secrets, and private payloads out of the repo and alert text.
+
+Deduplicate reminders by the decision and current instruction revision, and record delivery and acknowledgement status in the existing work record. A sent alert is not an acknowledgement or approval. Unverified Telegram replies grant no authority; sensitive approvals retain their required identity verification and approval form.
+
+The Telegram sender and private configuration are currently unconfigured or unverified. This requirement does not install notification delivery, expand credential access, or prove runtime operation. Pending owner decisions and protected holds remain explicit until their existing gates are satisfied.
+
 ## Temporary Worker Identities
 
 Temporary workers must be assigned by packet and lane. They do not carry authority across packets.
