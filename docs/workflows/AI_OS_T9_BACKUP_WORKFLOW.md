@@ -181,29 +181,33 @@ Retention deletion remains separate. Recursion detection can block a run, but it
 
 Schedule creation is not approved by this document.
 
-Owner direction, 2026-10-31: the planned default is twice-weekly backup of changed or newly saved work, with Telegram reminders and a clear alert when the approved backup drive is missing. Preserve needed unique files and compact recovery checkpoints; avoid backing up backups. This documentation update does not install schedules or approve blanket deletion, retention cleanup, or restore.
+Owner direction, 2026-10-31: twice-weekly backup covers changed or newly saved work, with a clear alert when the approved backup drive is missing. The current alert choice is Threema; live delivery awaits vendor approval and separately authorized private configuration. Preserve needed unique files and compact recovery checkpoints; avoid backing up backups. This documentation update does not install schedules or approve blanket deletion, retention cleanup, or restore.
 
 Planned schedule after an incremental DRY_RUN helper proves safe:
 
 1. Manual DRY_RUN first.
 2. Manual APPLY backup second, with explicit operator approval.
 3. Wednesday and Sunday at 20:00 `America/New_York`, using timezone rules that follow daylight saving time. Copy only changed or newly saved work within the approved source scope; do not create routine full copies.
-4. Send a Telegram reminder and report a missing destination drive; preserve the pending checkpoint and do not silently redirect the backup to another drive. Keep bot credentials and destination identifiers in approved private configuration, outside the public repo and logs.
+4. Preserve a missing-drive pending checkpoint and report the missing destination. Once Threema delivery is approved and verified, use the existing notifier for a deduplicated connection reminder. Until then, retain local pending status without claiming delivery or silently falling back to another channel/drive. Keep private keys, API secrets and destination identifiers outside the public repo and logs.
 5. Prevent overlapping runs. Resume only from verified checkpoints, confirm copied files against the approved manifest or hashes, and record completion before advancing the checkpoint. Preserve incomplete work after an interruption. Do not perform automated deletion.
 
 Milestone events supplement the twice-weekly schedule within the same backup workflow:
 
 - The current canonical milestone record must provide a stable ID, version, finish criteria, accepted completion proof, and the identity of changed/unbacked saved work. Verified milestone acceptance plus meaningful unbacked saved work makes an incremental backup eligible. Use that evidence and the difference from the last verified backup checkpoint, not raw line/file counts or invented investment or cost figures.
 - Future milestones use the same existing record and completion-event mechanism when registered; no separate milestone subsystem or advance enumeration of every future milestone is needed. Reconcile current remaining autonomy milestones and their acceptance proof before marking any complete. This policy update marks no milestone complete.
-- Reuse the existing backup checkpoint to coalesce milestone and scheduled events into one pending capture. If the identified approved T9 is absent, persist that pending event and send a deduplicated Telegram connection reminder; repeated checks must not create duplicate events or alerts.
+- Reuse the existing backup checkpoint to coalesce milestone and scheduled events into one pending capture. If the approved T9 is absent, persist that event; the verified private notifier may send a deduplicated Threema connection reminder when available. Repeated checks must not create duplicate events or alerts.
 - On reconnection, validate the approved drive identity and run only an authorized incremental capture of new or changed saved files. Verify the capture, record success, and then clear the pending event. Reconnection alone grants no execution authority. Retain failed or pending state and preserve original files after any failure.
 - Serialize captures and coalesce overlapping triggers so a milestone and scheduled event do not back up the same work twice. Keep backup outputs excluded as sources and perform no automated deletion.
 
-Reported deployment status, 2026-10-31: a cloud reminder has been set. The local incremental backup job and Telegram delivery are **not verified installed or operational**. A cloud reminder is not evidence that files were backed up or that Telegram delivery works.
+The milestone "bin" is staging-only: a manifest of eligible saved work and restore references within this workflow, not another full project copy or subsystem. A staging cleanup proposal must identify exact staging objects, a verified destination receipt and the retained restore manifest. It cannot remove live source, unique backup versions, credentials or recovery evidence. No automatic permanent deletion or staging cleanup implementation is authorized here.
 
-Existing helper modes below describe current behavior, including `Auto` selecting a daily `Full` backup. They are not proof that this incremental schedule is implemented. A local installer, drive watcher, Telegram sender, and milestone event wiring are also unverified. Extend the existing helper and checkpoint only under separately scoped implementation and validation; do not create a competing backup subsystem. No runtime, credential, security, or scheduling change is made by this policy update.
+Installation evidence, 2026-10-31 at 20:43 UTC: the owner-run receipt reports INSTALLED_NOT_RUN, task AIOS-T9-Saved-Work-Incremental, enabled and Ready. Readback shows floating local 20:00:00 with no offset/Z, Wednesday/Sunday day mask 9, weekly interval 1, IgnoreNew, a 65-minute limit and Interactive/Limited owner execution. Owner login is required; battery start is blocked, switching to battery stops the task, missed-run catch-up is disabled and a changed system timezone refuses runs. This proves installation/readback, not a completed backup or permanent live health.
 
-No Task Scheduler registration may occur until a future APPLY lane explicitly authorizes:
+The local invocation selects explicit saved-work Delta with verified scope/archive baseline and drive identity; it must not use legacy Auto selecting daily Full. Synthetic helper/recovery checks and local Preview passed, but no real scheduled capture is proven. The installed job/private configuration are local; newer helper source is not yet merged. Reuse accepted checks only while exact source/configuration identities and acceptance scope match.
+
+Milestone-event wiring, automatic staging-bin population, immediate reconnect capture, live Threema reminders and secure owner-decision routing remain unproved. Local ready-bin metadata is a proposal, not an accepted milestone or cleanup permission. Follow the existing [role acceptance requirements](../governance/aios-identity-and-lane-governance.md#operational-proof-and-single-dispatch-owner); preserve MAIN/M9 ownership and pending-drive state. This documentation update changes no runtime, credentials, security, schedules or deletion behavior.
+
+Any future Task Scheduler registration, replacement or configuration change requires a separately scoped APPLY lane explicitly authorizing:
 
 - exact script path
 - exact task name

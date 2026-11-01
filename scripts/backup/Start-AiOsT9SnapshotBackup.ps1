@@ -7,6 +7,12 @@ param(
     [switch]$OutputJson,
     [switch]$AllowDirty,
     [switch]$RetentionPreview,
+    [string[]]$SavedWorkFiles = @(),
+    [string]$ExpectedVolumeUniqueId = "",
+    [string]$VerifiedScopeCheckpointPath = "",
+    [string]$VerifiedArchiveManifestPath = "",
+    [string]$IncrementalStateRoot = "",
+    [string]$VerifiedPolicyReceiptPath = "",
     [string]$BackupTimeslotLabel = "manual",
     [string]$BackupWindowStart = "",
     [string]$BackupWindowEnd = ""
@@ -199,6 +205,8 @@ function Test-AiOsRelativePathExcluded {
 function Format-AiOsBytes {
     param([Parameter(Mandatory = $true)][double]$Bytes)
 
+    if ($Bytes -lt 0) { return 'UNKNOWN' }
+
     $units = @("B", "KB", "MB", "GB", "TB", "PB")
     $value = $Bytes
     $index = 0
@@ -367,14 +375,23 @@ function New-AiOsBackupLock {
         [Parameter(Mandatory = $true)][string]$SnapshotPath
     )
 
-    if (Test-Path -LiteralPath $BackupLockPath) {
-        throw "BACKUP_LOCK_EXISTS: $BackupLockPath"
-    }
-
     if (-not (Test-Path -LiteralPath $BackupReportRoot -PathType Container)) {
         New-Item -ItemType Directory -Path $BackupReportRoot | Out-Null
     }
 
+    $stream = [IO.File]::Open($BackupLockPath,[IO.FileMode]::OpenOrCreate,[IO.FileAccess]::ReadWrite,[IO.FileShare]::None)
+    try {
+    if ($stream.Length -gt 0) {
+        $buffer = New-Object byte[] ([int]$stream.Length)
+        [void]$stream.Read($buffer,0,$buffer.Length)
+        $prior = [Text.Encoding]::UTF8.GetString($buffer).TrimStart([char]0xFEFF) | ConvertFrom-Json -ErrorAction Stop
+        if ($prior.status -ne 'RELEASED') {
+            if ($prior.PSObject.Properties.Name -notcontains 'process_started_utc') { throw 'BACKUP_LOCK_OWNER_IDENTITY_UNKNOWN' }
+            $owner = $null
+            try { $owner = [Diagnostics.Process]::GetProcessById([int]$prior.process_id) } catch [ArgumentException] { }
+            if ($null -ne $owner -and $owner.StartTime.ToUniversalTime().ToString('o') -eq $prior.process_started_utc) { throw 'BACKUP_LOCK_OWNER_STILL_LIVE' }
+        }
+    }
     $lock = [ordered]@{
         schema = "AIOS_BACKUP_LOCK.v1"
         status = "IN_PROGRESS"
@@ -382,17 +399,22 @@ function New-AiOsBackupLock {
         source_path = $SourcePath
         snapshot_path = $SnapshotPath
         process_id = $PID
+        process_started_utc = ([Diagnostics.Process]::GetCurrentProcess()).StartTime.ToUniversalTime().ToString('o')
     }
 
-    $lock | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath $BackupLockPath -Encoding UTF8
+    $bytes = [Text.Encoding]::UTF8.GetBytes(($lock | ConvertTo-Json -Depth 4)+"`n")
+    $stream.Position=0;$stream.SetLength(0);$stream.Write($bytes,0,$bytes.Length);$stream.Flush($true)
+    if (-not (Get-Variable aiosBackupOwnedStreams -Scope Script -ErrorAction SilentlyContinue)) { $script:aiosBackupOwnedStreams=@{} }
+    $script:aiosBackupOwnedStreams[$BackupLockPath]=$stream
+    } catch { $stream.Dispose(); throw }
 }
 
 function Remove-AiOsBackupLock {
     param([Parameter(Mandatory = $true)][string]$BackupLockPath)
 
-    if (Test-Path -LiteralPath $BackupLockPath) {
-        Remove-Item -LiteralPath $BackupLockPath -Force
-    }
+    if (-not (Get-Variable aiosBackupOwnedStreams -Scope Script -ErrorAction SilentlyContinue) -or -not $script:aiosBackupOwnedStreams.ContainsKey($BackupLockPath)) { throw 'BACKUP_LOCK_NOT_OWNED' }
+    $stream=$script:aiosBackupOwnedStreams[$BackupLockPath]
+    try { $bytes=[Text.Encoding]::UTF8.GetBytes('{"status":"RELEASED"}');$stream.Position=0;$stream.SetLength(0);$stream.Write($bytes,0,$bytes.Length);$stream.Flush($true) } finally {$stream.Dispose();$script:aiosBackupOwnedStreams.Remove($BackupLockPath)}
 }
 
 function Get-AiOsRobocopyCounts {
@@ -486,6 +508,85 @@ function Test-AiOsSuccessfulBackupToday {
         } | Select-Object -First 1)
 
     return (@($match).Count -gt 0)
+}
+
+function Assert-AiOsBackupVolume {
+    param([string]$BackupRoot, [object]$Volume, [string]$ExpectedUniqueId = "")
+    $root = ConvertTo-AiOsFullPath -Path $BackupRoot
+    if ($root -notin @('D:\T9_FOB','T:\AIOS_BACKUPS')) { throw 'BACKUP_ROOT_NOT_APPROVED' }
+    if ($null -eq $Volume -or $Volume.FileSystemLabel -ne 'T9_FOB') { throw 'BACKUP_VOLUME_IDENTITY_UNVERIFIED' }
+    if ($root -eq 'T:\AIOS_BACKUPS' -and [string]::IsNullOrWhiteSpace($ExpectedUniqueId)) { throw 'BACKUP_VOLUME_UNIQUE_ID_REQUIRED' }
+    if ($ExpectedUniqueId -and $Volume.UniqueId -cne $ExpectedUniqueId) { throw 'BACKUP_VOLUME_IDENTITY_MISMATCH' }
+}
+
+function Get-AiOsSavedWorkDelta {
+    param([string]$RepoRoot, [Parameter(Mandatory=$true)][string[]]$RelativePaths, [hashtable]$PreviousHashes = @{})
+    $root = ConvertTo-AiOsFullPath -Path $RepoRoot
+    $copy = New-Object System.Collections.Generic.List[string]
+    $deleted = New-Object System.Collections.Generic.List[string]
+    $hashes = @{}
+    $seen = @{}
+    foreach ($relative in $RelativePaths) {
+        $key = $relative.Replace('\','/')
+        if ([string]::IsNullOrWhiteSpace($key) -or [IO.Path]::IsPathRooted($key) -or $key -match '(^|/)\.\.(/|$)' -or $seen.ContainsKey($key)) { throw 'SAVED_WORK_SCOPE_INVALID' }
+        $seen[$key] = $true
+        if (Test-AiOsRelativePathExcluded -RelativePath $key -ExcludedFolderNames @('.git','.aios','.codex','.agents','.venv','venv','node_modules','snapshots','current_mirror','AIOS_BACKUP*','secrets','credentials') -ExcludedFilePatterns @('.env','*.env','.env.*','*.local.json','*secret*','*credential*','*.key','*.pem','*.pfx','*.p12','id_rsa','id_ed25519')) { throw 'SAVED_WORK_PATH_EXCLUDED' }
+        $full = ConvertTo-AiOsFullPath -Path (Join-Path $root $key)
+        if (-not (Test-AiOsPathInside -ChildPath $full -ParentPath $root)) { throw 'SAVED_WORK_PATH_ESCAPED' }
+        $cursor = $full
+        while ($cursor -and $cursor -ne $root) {
+            if ((Test-Path -LiteralPath $cursor) -and ((Get-Item -LiteralPath $cursor -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw 'SAVED_WORK_REPARSE_POINT' }
+            $cursor = [IO.Path]::GetDirectoryName($cursor)
+        }
+        if (-not (Test-Path -LiteralPath $full -PathType Leaf)) {
+            if ($PreviousHashes.ContainsKey($key) -and -not (Test-Path -LiteralPath $full)) { $deleted.Add($key); continue }
+            throw 'SAVED_WORK_FILE_SCOPE_UNRESOLVED'
+        }
+        $hash = (Get-FileHash -LiteralPath $full -Algorithm SHA256 -ErrorAction Stop).Hash
+        $hashes[$key] = $hash
+        if (-not $PreviousHashes.ContainsKey($key) -or $PreviousHashes[$key] -cne $hash) { $copy.Add($key) }
+    }
+    return [pscustomobject]@{ copy_files=@($copy); deleted_files=@($deleted); file_hashes=$hashes }
+}
+
+function Write-AiOsPendingBackupDrive {
+    param([string]$Path, [string]$EventId, [string]$BackupRoot)
+    if ([string]::IsNullOrWhiteSpace($EventId)) { throw 'PENDING_BACKUP_EVENT_ID_REQUIRED' }
+    $revision = 1
+    if (Test-Path -LiteralPath $Path) {
+        $existing = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -ErrorAction Stop
+        if ($existing.event_id -eq $EventId -and $existing.status -eq 'PENDING_DRIVE') { return $existing }
+        if ($existing.event_id -ne $EventId -or $existing.status -ne 'COMPLETED') { throw 'PENDING_BACKUP_EVENT_REQUIRES_RECONCILIATION' }
+        $revision = [int]$existing.revision + 1
+    }
+    [IO.Directory]::CreateDirectory([IO.Path]::GetDirectoryName($Path)) | Out-Null
+    $record = [ordered]@{schema='AIOS_BACKUP_PENDING_DRIVE.v1';event_id=$EventId;revision=$revision;status='PENDING_DRIVE';backup_root=$BackupRoot;created_utc=[DateTime]::UtcNow.ToString('o');delivery_confirmed=$false;next_action='Connect and verify the approved T9; retain the last successful checkpoint.'}
+    $bytes = [Text.Encoding]::UTF8.GetBytes(($record | ConvertTo-Json)+"`n")
+    $temporary = $Path + '.' + [guid]::NewGuid().ToString('N') + '.pending'
+    $stream = [IO.File]::Open($temporary,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::None)
+    try { $stream.Write($bytes,0,$bytes.Length); $stream.Flush($true) } finally { $stream.Dispose() }
+    if (Test-Path -LiteralPath $Path) { [IO.File]::Replace($temporary,$Path,[NullString]::Value) } else { [IO.File]::Move($temporary,$Path) }
+    return [pscustomobject]$record
+}
+
+function Complete-AiOsPendingBackupDrive {
+    param([string]$Path, [string]$EventId, [string]$ManifestPath, [string]$AllowedBackupRoot = "")
+    if (-not (Test-Path -LiteralPath $Path)) { return }
+    $pending = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -ErrorAction Stop
+    if ($pending.event_id -ne $EventId -or $pending.status -notin @('PENDING_DRIVE','COMPLETED')) { throw 'PENDING_BACKUP_EVENT_REQUIRES_RECONCILIATION' }
+    $manifest = Get-Content -LiteralPath $ManifestPath -Raw | ConvertFrom-Json -ErrorAction Stop
+    if ($manifest.status -ne 'SUCCESS' -or @($manifest.saved_work_checkpoint).Count -eq 0) { throw 'SAVED_WORK_PROOF_MISSING' }
+    if (-not $AllowedBackupRoot) { $AllowedBackupRoot = [IO.Path]::GetDirectoryName($ManifestPath) }
+    foreach ($entry in $manifest.saved_work_checkpoint) {
+        if (-not (Test-AiOsPathInside -ChildPath (ConvertTo-AiOsFullPath $entry.backup_file) -ParentPath (ConvertTo-AiOsFullPath $AllowedBackupRoot)) -or (Get-FileHash -LiteralPath $entry.backup_file -Algorithm SHA256 -ErrorAction Stop).Hash -cne $entry.sha256) { throw 'SAVED_WORK_PROOF_INVALID' }
+    }
+    if ($pending.status -eq 'COMPLETED') { return }
+    $pending.status = 'COMPLETED'
+    $pending | Add-Member -NotePropertyName verified_manifest -NotePropertyValue $ManifestPath
+    $bytes = [Text.Encoding]::UTF8.GetBytes(($pending | ConvertTo-Json)+"`n")
+    $temporary = $Path + '.' + [guid]::NewGuid().ToString('N') + '.complete'
+    [IO.File]::WriteAllBytes($temporary,$bytes)
+    [IO.File]::Replace($temporary,$Path,[NullString]::Value)
 }
 
 function Get-AiOsGitDeltaFiles {
@@ -632,18 +733,26 @@ function Copy-AiOsDeltaFiles {
     param(
         [Parameter(Mandatory = $true)][string]$RepoRoot,
         [Parameter(Mandatory = $true)][string]$DestinationRoot,
-        [Parameter(Mandatory = $true)][string[]]$RelativePaths
+        [Parameter(Mandatory = $true)][string[]]$RelativePaths,
+        [hashtable]$ExpectedHashes = @{}
     )
 
     foreach ($relPath in $RelativePaths) {
         $source = Join-Path $RepoRoot $relPath
-        if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { continue }
+        if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw 'DELTA_SOURCE_MISSING' }
+        $sourceHash = (Get-FileHash -LiteralPath $source -Algorithm SHA256 -ErrorAction Stop).Hash
+        $key = $relPath.Replace('\','/')
+        if ($ExpectedHashes.Count -gt 0 -and (-not $ExpectedHashes.ContainsKey($key) -or $ExpectedHashes[$key] -cne $sourceHash)) { throw 'DELTA_SOURCE_CHANGED_AFTER_PLAN' }
         $destination = Join-Path $DestinationRoot $relPath
+        if (Test-Path -LiteralPath $destination) { throw 'DELTA_DESTINATION_EXISTS' }
         $destinationParent = Split-Path -Parent $destination
         if (-not (Test-Path -LiteralPath $destinationParent -PathType Container)) {
             New-Item -ItemType Directory -Path $destinationParent -Force | Out-Null
         }
-        Copy-Item -LiteralPath $source -Destination $destination -Force
+        $staging=$destination+'.partial.'+[guid]::NewGuid().ToString('N')
+        Copy-Item -LiteralPath $source -Destination $staging -ErrorAction Stop
+        if ((Get-FileHash -LiteralPath $staging -Algorithm SHA256).Hash -cne $sourceHash -or (Get-FileHash -LiteralPath $source -Algorithm SHA256).Hash -cne $sourceHash) { throw 'DELTA_COPY_HASH_MISMATCH' }
+        [IO.File]::Move($staging,$destination)
     }
 }
 
@@ -990,7 +1099,8 @@ function Write-AiOsBackupManifest {
         [bool]$RestoreRequiresFullBackup = $false,
         [string]$RetentionClass = "",
         [object[]]$RetentionPreviewCandidates = @(),
-        [Parameter(Mandatory = $true)][string]$Message
+        [Parameter(Mandatory = $true)][string]$Message,
+        [object[]]$SavedWorkCheckpoint = @()
     )
 
     $protectedLocksForManifest = if ($null -eq $ProtectedLocks) { @() } else { @($ProtectedLocks) }
@@ -1053,6 +1163,7 @@ function Write-AiOsBackupManifest {
         base_backup_id = $BaseBackupId
         base_backup_commit_hash = $BaseBackupCommitHash
         changed_files = @($ChangedFiles)
+        saved_work_checkpoint = @($SavedWorkCheckpoint)
         deleted_files = @($DeletedFiles)
         file_count_copied = $FileCountCopied
         delta_source_range = $DeltaSourceRange
@@ -1083,8 +1194,21 @@ function Write-AiOsBackupManifest {
     $manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $Path -Encoding UTF8
 }
 
+if ($VerifiedScopeCheckpointPath -or $VerifiedArchiveManifestPath) {
+    if ($BackupMode -ne 'Delta' -or -not $VerifiedScopeCheckpointPath -or -not $VerifiedArchiveManifestPath -or -not $IncrementalStateRoot -or -not $ExpectedVolumeUniqueId) { throw 'VERIFIED_ARCHIVE_DELTA_CONFIGURATION_REQUIRED' }
+    $archiveResult = Invoke-AiOsVerifiedArchiveIncremental -ScopeCheckpoint $VerifiedScopeCheckpointPath -ArchiveManifest $VerifiedArchiveManifestPath -BackupRoot $BackupRoot -VolumeUniqueId $ExpectedVolumeUniqueId -StateRoot $IncrementalStateRoot -PolicyReceipt $VerifiedPolicyReceiptPath -Preview:$Preview
+    $archiveResult | ConvertTo-Json -Depth 8
+    if ($archiveResult.status -in @('SUCCESS','PREVIEW')) { exit 0 } else { exit 2 }
+}
 $expectedSource = "C:\Dev\Ai.Os"
-$expectedBackupRoot = "D:\T9_FOB"
+$expectedBackupRoot = ConvertTo-AiOsFullPath -Path $BackupRoot
+if ($expectedBackupRoot -notin @('D:\T9_FOB','T:\AIOS_BACKUPS')) { throw 'BACKUP_ROOT_NOT_APPROVED' }
+$savedWorkMode = @($SavedWorkFiles).Count -gt 0
+$SavedWorkFiles = @($SavedWorkFiles | ForEach-Object { $_.Replace('\','/') })
+if ($savedWorkMode -and $BackupMode -ne 'Delta') { throw 'SAVED_WORK_REQUIRES_EXPLICIT_DELTA_NO_FULL_FALLBACK' }
+$savedWorkPlan = $null
+$savedWorkLocations = @{}
+$savedWorkCheckpoint = @()
 $normalizedSource = ConvertTo-AiOsFullPath -Path $SourceRepo
 $normalizedBackupRoot = ConvertTo-AiOsFullPath -Path $BackupRoot
 $backupWorkDelta = $null
@@ -1103,14 +1227,16 @@ $sourceFullPath = $normalizedSource
 $backupRootFullPath = $normalizedBackupRoot
 $timestamp = Get-Date -Format "yyyy-MM-dd_HHmmss"
 $snapshotName = "AIOS_BACKUP_$timestamp"
-$snapshotPath = ConvertTo-AiOsFullPath -Path (Join-Path $normalizedBackupRoot $snapshotName)
+$snapshotPath = ConvertTo-AiOsFullPath -Path ([IO.Path]::Combine($normalizedBackupRoot,$snapshotName))
 $snapshotPathFullPath = $snapshotPath
-$preferredBackupReportRoot = Join-Path $normalizedBackupRoot "backup_reports"
+$preferredBackupReportRoot = [IO.Path]::Combine($normalizedBackupRoot,"backup_reports")
 $fallbackBackupReportRoot = Join-Path ([System.IO.Path]::GetTempPath()) "AIOS_T9_BACKUP"
 $backupReportRoot = Resolve-AiOsBackupReportRoot -PreferredRoot $preferredBackupReportRoot -FallbackRoot $fallbackBackupReportRoot -SourceRoot $normalizedSource
-$backupLockPath = Join-Path $backupReportRoot "AIOS_BACKUP_IN_PROGRESS.lock"
-$robocopyLogPath = Join-Path $snapshotPath "AIOS_BACKUP_ROBOCOPY.log"
-$manifestPath = Join-Path $snapshotPath "AIOS_BACKUP_MANIFEST.json"
+$backupLockPath = [IO.Path]::Combine($backupReportRoot,"AIOS_BACKUP_IN_PROGRESS.lock")
+$robocopyLogPath = [IO.Path]::Combine($snapshotPath,"AIOS_BACKUP_ROBOCOPY.log")
+$manifestPath = [IO.Path]::Combine($snapshotPath,"AIOS_BACKUP_MANIFEST.json")
+$pendingDrivePath = [IO.Path]::Combine($fallbackBackupReportRoot,'PENDING_SAVED_WORK_BACKUP.json')
+$pendingDriveEvent = $normalizedSource + '|' + $normalizedBackupRoot + '|' + (@($SavedWorkFiles | Sort-Object) -join '|')
 $excludedFolderNames = @(
     ".git",
     "node_modules",
@@ -1221,22 +1347,21 @@ try {
         throw "Source repo does not exist: $normalizedSource"
     }
 
-    if (-not (Test-Path -LiteralPath $normalizedBackupRoot -PathType Container)) {
-        throw "Backup root does not exist: $normalizedBackupRoot"
+    $driveLetter = [IO.Path]::GetPathRoot($normalizedBackupRoot).Substring(0,1)
+    $volume = Get-Volume -DriveLetter $driveLetter -ErrorAction SilentlyContinue
+    if ($null -eq $volume -and $savedWorkMode) {
+        if ($Preview) { [pscustomobject]@{status='PENDING_DRIVE';mutation='NONE';telegram_delivery_verified=$false} | ConvertTo-Json; exit 2 }
+        Write-AiOsPendingBackupDrive -Path $pendingDrivePath -EventId $pendingDriveEvent -BackupRoot $normalizedBackupRoot | ConvertTo-Json
+        exit 2
     }
-
-    $volume = Get-Volume -DriveLetter D
-    if ($volume.FileSystemLabel -ne "T9_FOB") {
-        throw "Drive D: label must be T9_FOB. Actual label: $($volume.FileSystemLabel)"
-    }
+    Assert-AiOsBackupVolume -BackupRoot $normalizedBackupRoot -Volume $volume -ExpectedUniqueId $ExpectedVolumeUniqueId
+    if (-not (Test-Path -LiteralPath $normalizedBackupRoot -PathType Container)) { throw "Backup root does not exist: $normalizedBackupRoot" }
 
     if (Test-Path -LiteralPath $snapshotPath) {
         throw "Snapshot destination already exists: $snapshotPath"
     }
 
-    if (Test-Path -LiteralPath $backupLockPath) {
-        throw "BACKUP_LOCK_EXISTS: $backupLockPath"
-    }
+    # New-AiOsBackupLock owns the OS handle and validates any persisted prior owner.
 
     $gitStatus = Get-AiOsGitStatus -Path $normalizedSource
     $gitInfo = Get-AiOsGitInfo -Path $normalizedSource
@@ -1247,12 +1372,32 @@ try {
         $baseBackupId = if ($null -ne $previousManifest.manifest.backup_id) { [string]$previousManifest.manifest.backup_id } else { "" }
         $baseBackupCommitHash = if ($null -ne $previousManifest.manifest.commit_hash) { [string]$previousManifest.manifest.commit_hash } else { "" }
     }
-    $deltaInfo = Get-AiOsGitDeltaFiles -RepoRoot $normalizedSource -PreviousCommit $baseBackupCommitHash -CurrentCommit ([string]$gitInfo.commit_hash)
+    $deltaInfo = if ($savedWorkMode) { [pscustomobject]@{copy_files=@();deleted_files=@();source_range='EXPLICIT_SAVED_WORK_HASH_SCOPE'} } else { Get-AiOsGitDeltaFiles -RepoRoot $normalizedSource -PreviousCommit $baseBackupCommitHash -CurrentCommit ([string]$gitInfo.commit_hash) }
     $changedFiles = @($deltaInfo.copy_files | Where-Object {
         -not (Test-AiOsRelativePathExcluded -RelativePath $_ -ExcludedFolderNames $excludedFolderNames -ExcludedFilePatterns $excludedFilePatterns)
     })
     $deletedFiles = @($deltaInfo.deleted_files)
     $deltaSourceRange = [string]$deltaInfo.source_range
+    if ($savedWorkMode) {
+        $baselineHashes = @{}
+        if ($null -ne $previousManifest -and $previousManifest.manifest.PSObject.Properties.Name -contains 'saved_work_checkpoint') {
+            foreach ($entry in @($previousManifest.manifest.saved_work_checkpoint)) {
+                if ($entry.relative_path -notin $SavedWorkFiles) { continue }
+                if (-not (Test-AiOsPathInside -ChildPath (ConvertTo-AiOsFullPath $entry.backup_file) -ParentPath $normalizedBackupRoot) -or (Get-FileHash -LiteralPath $entry.backup_file -Algorithm SHA256 -ErrorAction Stop).Hash -cne $entry.sha256) { throw 'SAVED_WORK_BASELINE_UNVERIFIED' }
+                $baselineHashes[$entry.relative_path] = $entry.sha256
+                $savedWorkLocations[$entry.relative_path] = $entry.backup_file
+            }
+        }
+        $savedWorkPlan = Get-AiOsSavedWorkDelta -RepoRoot $normalizedSource -RelativePaths $SavedWorkFiles -PreviousHashes $baselineHashes
+        $changedFiles = @($savedWorkPlan.copy_files)
+        $deletedFiles = @($savedWorkPlan.deleted_files)
+        $deltaSourceRange = 'EXPLICIT_SAVED_WORK_HASH_SCOPE'
+        if ($changedFiles.Count -eq 0 -and $deletedFiles.Count -eq 0) {
+            if (-not $Preview -and $null -ne $previousManifest) { Complete-AiOsPendingBackupDrive -Path $pendingDrivePath -EventId $pendingDriveEvent -ManifestPath $previousManifest.path -AllowedBackupRoot $normalizedBackupRoot }
+            [pscustomobject]@{status='NO_CHANGES';backup_mode='Delta';files_copied=0;full_copy=$false} | ConvertTo-Json
+            exit 0
+        }
+    }
     $backupWorkDelta = Get-AiOsBackupWorkDeltaReport -RepoRoot $normalizedSource `
         -BaseCommit $baseBackupCommitHash `
         -CurrentCommit ([string]$gitInfo.commit_hash) `
@@ -1264,7 +1409,7 @@ try {
     $selection = Select-AiOsBackupMode -RequestedMode $BackupMode -PreviousManifest $previousManifest -HasSuccessfulBackupToday $hasSuccessfulBackupToday -GitInfo $gitInfo -ProductivityDelta $productivityDelta
     $selectedBackupMode = [string]$selection.mode
     $selectedBackupModeReason = [string]$selection.reason
-    $restoreRequiresFullBackup = ($selectedBackupMode -eq "Delta")
+    $restoreRequiresFullBackup = ($selectedBackupMode -eq "Delta" -and -not $savedWorkMode)
     $retentionClass = if ($selectedBackupMode -eq "Full") { "FULL_SNAPSHOT" } elseif ($selectedBackupMode -eq "Delta") { "DELTA_SNAPSHOT" } else { "MANIFEST_ONLY" }
     $retentionPreviewCandidates = if ($RetentionPreview) { @(Get-AiOsRetentionPreviewCandidates -BackupRoot $normalizedBackupRoot) } else { @() }
 
@@ -1295,7 +1440,7 @@ try {
         throw "RECURSIVE_BACKUP_BLOCKED: $($recursionGuard.recursive_backup_reason)"
     }
 
-    if ($selectedBackupMode -eq "Delta" -and [string]::IsNullOrWhiteSpace($baseBackupCommitHash)) {
+    if ($selectedBackupMode -eq "Delta" -and -not $savedWorkMode -and [string]::IsNullOrWhiteSpace($baseBackupCommitHash)) {
         throw "Delta mode requires a prior successful backup manifest with commit_hash."
     }
 
@@ -1461,17 +1606,23 @@ try {
         try {
             New-AiOsBackupLock -BackupReportRoot $backupReportRoot -BackupLockPath $backupLockPath -SourcePath $normalizedSource -SnapshotPath $snapshotPath
             $lockCreated = $true
-            $sourceBytes = Get-AiOsDirectorySize -Path $normalizedSource -ExcludeNames $excludeNames -ExcludeFilePatterns $excludedFilePatterns
-            $destBytesBefore = Get-AiOsDirectorySize -Path $normalizedBackupRoot
+            $sourceBytes = if ($savedWorkMode) { [long](($changedFiles | ForEach-Object { (Get-Item -LiteralPath (Join-Path $normalizedSource $_)).Length } | Measure-Object -Sum).Sum) } else { Get-AiOsDirectorySize -Path $normalizedSource -ExcludeNames $excludeNames -ExcludeFilePatterns $excludedFilePatterns }
+            $destBytesBefore = if ($savedWorkMode) { -1L } else { Get-AiOsDirectorySize -Path $normalizedBackupRoot }
             New-Item -ItemType Directory -Path $snapshotPath | Out-Null
-            Copy-AiOsDeltaFiles -RepoRoot $normalizedSource -DestinationRoot $snapshotPath -RelativePaths $changedFiles
+            $expectedHashes = if ($savedWorkMode) { $savedWorkPlan.file_hashes } else { @{} }
+            Copy-AiOsDeltaFiles -RepoRoot $normalizedSource -DestinationRoot $snapshotPath -RelativePaths $changedFiles -ExpectedHashes $expectedHashes
+            if ($savedWorkMode) {
+                foreach ($file in $changedFiles) { $savedWorkLocations[$file] = Join-Path $snapshotPath $file }
+                $savedWorkCheckpoint = @(foreach ($file in $savedWorkPlan.file_hashes.Keys | Sort-Object) { [pscustomobject]@{relative_path=$file;sha256=$savedWorkPlan.file_hashes[$file];backup_file=$savedWorkLocations[$file]} })
+            }
             $copiedBytes = Get-AiOsDirectorySize -Path $snapshotPath
-            $destBytesAfter = $destBytesBefore + $copiedBytes
+            $destBytesAfter = if ($savedWorkMode) { -1L } else { $destBytesBefore + $copiedBytes }
             $fileCountCopied = @($changedFiles).Count
             $copiedHuman = Format-AiOsBytes -Bytes $copiedBytes
-            $manifestMessage = "Delta snapshot created from tracked changed files only."
+            $manifestMessage = if ($savedWorkMode) { 'Explicit saved-work delta hash-verified; whole-project/destination sizes not scanned.' } else { 'Delta snapshot created from tracked changed files only.' }
 
-            Write-AiOsBackupManifest -Path $manifestPath -Status "SUCCESS" -RobocopyExitCode 0 -GitInfo $gitInfo -GitStatus $gitStatus -ProtectedLocks $protectedLocks -ProductivityDelta $productivityDelta -CopiedBytes ([long]$copiedBytes) -CopiedHuman $copiedHuman -ChangedFiles $changedFiles -DeletedFiles $deletedFiles -FileCountCopied $fileCountCopied -DeltaSourceRange $deltaSourceRange -BaseBackupId $baseBackupId -BaseBackupCommitHash $baseBackupCommitHash -RestoreRequiresFullBackup $true -RetentionClass $retentionClass -RetentionPreviewCandidates $retentionPreviewCandidates -Message $manifestMessage
+            Write-AiOsBackupManifest -Path $manifestPath -Status "SUCCESS" -RobocopyExitCode 0 -GitInfo $gitInfo -GitStatus $gitStatus -ProtectedLocks $protectedLocks -ProductivityDelta $productivityDelta -CopiedBytes ([long]$copiedBytes) -CopiedHuman $copiedHuman -ChangedFiles $changedFiles -DeletedFiles $deletedFiles -FileCountCopied $fileCountCopied -DeltaSourceRange $deltaSourceRange -BaseBackupId $baseBackupId -BaseBackupCommitHash $baseBackupCommitHash -RestoreRequiresFullBackup (-not $savedWorkMode) -RetentionClass $retentionClass -RetentionPreviewCandidates $retentionPreviewCandidates -Message $manifestMessage -SavedWorkCheckpoint $savedWorkCheckpoint
+            if ($savedWorkMode) { Complete-AiOsPendingBackupDrive -Path $pendingDrivePath -EventId $pendingDriveEvent -ManifestPath $manifestPath -AllowedBackupRoot $normalizedBackupRoot }
 
             $finalSnapshotBytes = Get-AiOsDirectorySize -Path $snapshotPath
             $result = New-AiOsBackupResult -Status "SUCCESS" -Message $manifestMessage -RobocopyExitCode 0 -ExitCode 0 -CopiedBytes ([long]$copiedBytes) -CopiedFilesCount $fileCountCopied -FullSnapshotOrIncremental $retentionClass
@@ -1502,7 +1653,7 @@ try {
                 Write-Host "Final snapshot size: $(Format-AiOsBytes -Bytes $finalSnapshotBytes)"
                 Write-Host "Manifest path: $manifestPath"
                 Write-Host "Lock path: $backupLockPath"
-                Write-AiOsBackupProductivityOutput -ProductivityDelta $productivityDelta -CopiedHuman $copiedHuman -ChangedCopied @($changedFiles).Count -DeletedRecorded @($deletedFiles).Count -RestoreRequiresFullBackup $true -RetentionCandidateCount @($retentionPreviewCandidates).Count
+                Write-AiOsBackupProductivityOutput -ProductivityDelta $productivityDelta -CopiedHuman $copiedHuman -ChangedCopied @($changedFiles).Count -DeletedRecorded @($deletedFiles).Count -RestoreRequiresFullBackup $restoreRequiresFullBackup -RetentionCandidateCount @($retentionPreviewCandidates).Count
                 Write-Host "Active repo mutation: NO"
                 Write-Host "active_repo_mutation = NO"
                 Write-Host "Scheduler behavior: NO"

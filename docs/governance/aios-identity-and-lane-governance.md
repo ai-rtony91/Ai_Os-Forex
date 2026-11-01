@@ -60,13 +60,28 @@ Every pause or dependency wait must record its reason, accountable owner, resume
 
 Use completion, blocker, and milestone events first, with bounded fallback monitoring for missed events or stalls. MAIN follows up with workers; BOSS follows up with MAIN and escalates only when needed. These instructions install no timers, create no new controller or tracker, and grant no automatic execution authority. Queue status remains governed by `docs/workflows/WORKER_TASK_LIFECYCLE_STANDARD.md`.
 
+### Operational Proof and Single Dispatch Owner
+
+Keep exactly one currently assigned MAIN dispatch owner in the existing runtime/ownership record. Native chat mappings belong in private runtime records, not hardcoded public policy. A role label, completed chat turn, or missing Goal does not prove that a runtime controller is bound or a former owner released. Preserve claims, healthy jobs and intentional holds; reconcile ownership before competing edits or dispatch.
+
+Before admitting work, associate its task/instruction version with the loaded canonical rule revision or hash and the affected worker's acknowledgement through the existing admission/handoff mechanism. Reject stale revisions and missing acknowledgements. Proving this requires observed admitted work and refusal cases, not merely publishing the requirement.
+
+These are acceptance requirements for existing work records, not another queue or new authority. BOSS prioritizes; MAIN maintains current assignments and dependencies. Current evidence as of 2026-10-31 does not establish end-to-end autonomous operation.
+
+| Connection | Existing owner and dependency | Finish evidence |
+|---|---|---|
+| Workers follow saved rules and hand off automatically | MAIN and the existing host/physical-connection owner; preserve M9 ownership and resolve real-host binding first. | One actual admitted bounded task records loaded rule/task revisions, worker acknowledgement, result acceptance and worker-to-MAIN-to-BOSS receipts. Stale revisions and protected holds refuse safely; no duplicate controller or worker. |
+| Accepted milestone enters the backup staging bin | MAIN supplies accepted completion evidence; DevOps extends the existing incremental workflow after the completion/handoff seam is bound. | Stable milestone ID/version, completion proof and changed/unbacked work identity produce one deduplicated staging manifest/pending capture. Correct-drive incremental verification precedes success; live sources and restore evidence remain intact. See the [T9 workflow](../workflows/AI_OS_T9_BACKUP_WORKFLOW.md#recommended-schedule). |
+| Threema alerts and secure owner-decision routing | DevOps reuses the notifier/approval path; vendor approval and separately authorized private API configuration must exist first. | An approved harmless delivery has provider evidence and separate owner acknowledgement. Protected decisions retain verified identity, exact action and the required approval surface; incoming replies alone execute nothing. |
+| Publish local backup implementation | DevOps owns the existing isolated backup lane; obtain exact protected-action gates for publication. | Review and relevant validation identify exact files/source pins; approved commit/branch/PR/checks/merge receipts match published and installed source. Exclude private configuration, credentials and personal records from Git. Installation proves neither publication nor a real backup. |
+
 ### Owner-Decision Alerts
 
-Route owner-only blockers through the existing oversight workflow to the configured private Telegram destination. Include the stable job/milestone ID, reason, exact decision needed, consequence of waiting, and a safe evidence link or reference. Keep bot credentials, destination identifiers, secrets, and private payloads out of the repo and alert text.
+The owner's selected channel is now Threema. Route owner-only blockers through the existing oversight/notifier workflow to the privately configured destination only after vendor approval, configuration and bounded delivery verification. Do not silently fall back to Telegram or WhatsApp. Include the stable job/milestone ID, reason, exact decision needed, consequence of waiting and a safe evidence reference. Keep private keys, API secrets, destination identifiers and private payloads out of the repo and alert text.
 
-Deduplicate reminders by the decision and current instruction revision, and record delivery and acknowledgement status in the existing work record. A sent alert is not an acknowledgement or approval. Unverified Telegram replies grant no authority; sensitive approvals retain their required identity verification and approval form.
+Deduplicate reminders by the decision and instruction revision; record provider delivery and owner acknowledgement separately. A sent alert is not acknowledgement or approval. Unverified replies grant no authority. Sensitive approvals retain the required originating identity, exact target/action, expiry or scope limits and approval form. Direct the owner to the actual supported protected confirmation surface; do not invent links or move native approval authority into chat.
 
-The Telegram sender and private configuration are currently unconfigured or unverified. This requirement does not install notification delivery, expand credential access, or prove runtime operation. Pending owner decisions and protected holds remain explicit until their existing gates are satisfied.
+Current status, 2026-10-31: the Gateway request awaits vendor review. Local key preparation does not prove live alerts, API configuration, an incoming callback or secure approval routing. Park that dependency without polling loops or API-secret access. No credential, ingress, security, messaging or execution authority is created here. Pending owner decisions and protected holds remain until their existing gates are satisfied.
 
 ## Temporary Worker Identities
 
