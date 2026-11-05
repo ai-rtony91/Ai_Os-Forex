@@ -16,6 +16,12 @@ $volume=[pscustomobject]@{FileSystemLabel='T9_FOB';UniqueId='synthetic-approved-
 Assert-AiOsBackupVolume -BackupRoot 'T:\AIOS_BACKUPS' -Volume $volume -ExpectedUniqueId 'synthetic-approved-volume'
 Assert-Refused {Assert-AiOsBackupVolume -BackupRoot 'T:\AIOS_BACKUPS' -Volume $volume -ExpectedUniqueId 'different-volume'} 'Wrong volume identity accepted.'
 Assert-Refused {Assert-AiOsBackupVolume -BackupRoot 'T:\AIOS_BACKUPS' -Volume $volume} 'Missing exact volume identity accepted.'
+Assert-Refused {Assert-AiOsBackupVolume -BackupRoot 'D:\T9_FOB' -Volume $volume} 'D: label alone was accepted without the approved volume identity.'
+Assert-Refused {Assert-AiOsBackupVolume -BackupRoot 'D:\T9_FOB' -Volume $volume -ExpectedUniqueId 'different-volume'} 'Wrong D: volume identity accepted.'
+Assert-AiOsBackupVolume -BackupRoot 'D:\T9_FOB' -Volume $volume -ExpectedUniqueId 'synthetic-approved-volume'
+$checkpointBlocked=$false
+try { & $helper -SourceRepo $source -BackupRoot 'T:\AIOS_BACKUPS' -BackupMode Delta -SavedWorkFiles @('changed.txt') -Preview -OutputJson } catch { $checkpointBlocked=$_.Exception.Message -eq 'SAVED_WORK_ARCHIVE_CHECKPOINT_REQUIRED' }
+Assert-True $checkpointBlocked 'Uncheckpointed saved-file route was accepted instead of requiring archive recovery state.'
 $modeBlocked=$false
 try { & $helper -SourceRepo $source -BackupRoot 'T:\AIOS_BACKUPS' -BackupMode Auto -SavedWorkFiles @('changed.txt') -Preview -OutputJson } catch { $modeBlocked=$_.Exception.Message -eq 'SAVED_WORK_REQUIRES_EXPLICIT_DELTA_NO_FULL_FALLBACK' }
 Assert-True $modeBlocked 'Saved work did not refuse Auto before capture.'

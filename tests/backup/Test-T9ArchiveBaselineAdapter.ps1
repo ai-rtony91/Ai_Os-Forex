@@ -111,5 +111,88 @@ Refused {Read-AiOsArchiveJournal -Path $bad}
 [IO.File]::WriteAllText($bad,$record+"`n{broken}`n",[Text.UTF8Encoding]::new($false))
 Refused {Read-AiOsArchiveJournal -Path $bad}
 Refused {Read-AiOsArchiveJournal -Path $journal -DeadlineUtc ([DateTime]::UtcNow.AddSeconds(-1))}
+# A root checkpoint cannot outlive the journal proof on which it depends.
+$boundaryJournal=Join-Path $fixture 'checkpoint-journal'
+[IO.Directory]::CreateDirectory($boundaryJournal)|Out-Null
+$boundaryPath=Join-Path $boundaryJournal 'verified-file-updates.jsonl'
+[IO.File]::WriteAllBytes($boundaryPath,([byte[]]($prefix+$prefix)))
+$boundaryState=[pscustomobject]@{next_root=1;journal_files=@('verified-file-updates.jsonl');journal_checkpoint=@([pscustomobject]@{file='verified-file-updates.jsonl';minimum_bytes=[long]($prefix.Length*2)})}
+Assert-AiOsArchiveJournalCheckpoint -State $boundaryState -StateRoot $boundaryJournal
+[IO.File]::AppendAllText($boundaryPath,$record+"`n",[Text.UTF8Encoding]::new($false))
+Assert-AiOsArchiveJournalCheckpoint -State $boundaryState -StateRoot $boundaryJournal
+[IO.File]::WriteAllBytes($boundaryPath,$prefix)
+Refused {Assert-AiOsArchiveJournalCheckpoint -State $boundaryState -StateRoot $boundaryJournal}
+[IO.File]::WriteAllBytes($boundaryPath,(New-Object byte[] 0))
+Refused {Assert-AiOsArchiveJournalCheckpoint -State $boundaryState -StateRoot $boundaryJournal}
+$missingRoot=Join-Path $fixture 'missing-journal'
+[IO.Directory]::CreateDirectory($missingRoot)|Out-Null
+Refused {Assert-AiOsArchiveJournalCheckpoint -State $boundaryState -StateRoot $missingRoot}
+Check (-not(Test-Path (Join-Path $missingRoot 'verified-file-updates.jsonl'))) 'Missing journal proof was recreated.'
+$legacy=[pscustomobject]@{next_root=1;journal_files=@('verified-file-updates.jsonl')}
+Refused {Assert-AiOsArchiveJournalCheckpoint -State $legacy -StateRoot $boundaryJournal}
+$legacy.next_root=0
+Assert-AiOsArchiveJournalCheckpoint -State $legacy -StateRoot $boundaryJournal
+$boundaryState.journal_checkpoint[0].minimum_bytes=-1
+Refused {Assert-AiOsArchiveJournalCheckpoint -State $boundaryState -StateRoot $boundaryJournal}
+# Exercise the real archive entry path using tiny local files. Only the physical
+# volume/archive observations are synthetic; no real T9 or large archive is read.
+& {
+    Set-StrictMode -Version Latest
+    $entryRoot=Join-Path $fixture 'entry-path'
+    $backup=Join-Path $entryRoot 'backup';$liveState=Join-Path $entryRoot 'state'
+    [IO.Directory]::CreateDirectory($backup)|Out-Null
+    $scopePath=Join-Path $entryRoot 'scope.json'
+    $manifestPath=Join-Path $entryRoot 'synthetic.manifest.tsv'
+    $archivePath=Join-Path $entryRoot 'synthetic-baseline.zip'
+    $mirror=[IO.Path]::Combine([IO.Path]::GetPathRoot($backup),'AIOS_VERIFIED_ARCHIVES_20261031','synthetic-baseline.zip')
+    $checks=@(foreach($number in 1..59){
+        $sourceRoot=Join-Path $entryRoot ('root-'+$number)
+        [IO.Directory]::CreateDirectory($sourceRoot)|Out-Null
+        [pscustomobject]@{Index=$number;Status='PASS';Source=$sourceRoot}
+    })
+    [IO.File]::WriteAllText($scopePath,([pscustomobject]@{Status='PASSED_59_CHECKS';Checks=$checks}|ConvertTo-Json -Depth 4))
+    [IO.File]::WriteAllText($manifestPath,'synthetic archive identity sentinel')
+    $receipt=[pscustomobject]@{Status='CONTENTS_HASH_VERIFIED';Manifest=$manifestPath;ManifestSHA256='12E9119132F01919FF2413F067F1DFEB463F7DAFBF1DEDF4041912DA4700F5AE';ArchiveBytes=179473954947L;Archive=$archivePath}
+    [IO.File]::WriteAllText(($manifestPath -replace '\.manifest\.tsv$','.VERIFIED.json'),($receipt|ConvertTo-Json))
+    function Get-Volume { [CmdletBinding()]param([string]$DriveLetter) [pscustomobject]@{FileSystemLabel='T9_FOB';UniqueId='fixture-volume'} }
+    function Assert-AiOsBackupVolume {
+        param($BackupRoot,$Volume,$ExpectedUniqueId)
+        Check ($BackupRoot -ceq $backup -and $ExpectedUniqueId -ceq 'fixture-volume') 'Entry fixture escaped its synthetic destination.'
+    }
+    function Get-Item {
+        [CmdletBinding()]param([Parameter(Position=0)][string]$LiteralPath,[switch]$Force)
+        if($LiteralPath -ceq $manifestPath){return [pscustomobject]@{Length=432773522L;LastWriteTimeUtc=[datetime]'2026-01-01'}}
+        if($LiteralPath -ceq $archivePath -or $LiteralPath -ceq $mirror){return [pscustomobject]@{Length=179473954947L}}
+        Microsoft.PowerShell.Management\Get-Item @PSBoundParameters
+    }
+    function Read-AiOsArchiveBaseline {
+        param($ManifestPath,$Roots,$ArchivePath,$DeadlineUtc)
+        return ,(New-Object 'System.Collections.Generic.Dictionary[string,object]' ([StringComparer]::OrdinalIgnoreCase))
+    }
+    $call=@{ScopeCheckpoint=$scopePath;ArchiveManifest=$manifestPath;BackupRoot=$backup;VolumeUniqueId='fixture-volume'}
+    $fresh=Invoke-AiOsVerifiedArchiveIncremental @call -StateRoot $liveState
+    Check ($fresh.status -eq 'SUCCESS') 'Fresh empty-scope entry fixture did not complete.'
+    $saved=Get-Content (Join-Path $liveState 'archive-incremental-state.json') -Raw|ConvertFrom-Json
+    Check ($saved.next_root -eq 59 -and $saved.journal_checkpoint.Count -eq 1 -and (Test-Path (Join-Path $liveState 'verified-file-updates.jsonl'))) 'Checkpoint was published without its empty journal/boundary.'
+    $scopeIdentity=(Get-FileHash $scopePath).Hash
+    foreach($fault in @('missing','truncated')){
+        $faultRoot=Join-Path $entryRoot $fault
+        [IO.Directory]::CreateDirectory($faultRoot)|Out-Null
+        $saved.status='STARTED';$saved.journal_checkpoint[0].minimum_bytes=2L
+        $stateFile=Join-Path $faultRoot 'archive-incremental-state.json'
+        [IO.File]::WriteAllText($stateFile,($saved|ConvertTo-Json -Depth 5))
+        $pendingFile=Join-Path $faultRoot 'pending-drive.json'
+        Write-AiOsPendingBackupDrive -Path $pendingFile -EventId $scopeIdentity -BackupRoot $backup|Out-Null
+        if($fault -eq 'truncated'){[IO.File]::WriteAllBytes((Join-Path $faultRoot 'verified-file-updates.jsonl'),(New-Object byte[] 0))}
+        $stateBefore=(Get-FileHash $stateFile).Hash;$pendingBefore=(Get-FileHash $pendingFile).Hash
+        $reason=''
+        try{Invoke-AiOsVerifiedArchiveIncremental @call -StateRoot $faultRoot|Out-Null}catch{$reason=$_.Exception.Message}
+        $expected=if($fault -eq 'missing'){'INCREMENTAL_JOURNAL_SEGMENT_MISSING'}else{'INCREMENTAL_JOURNAL_TRUNCATED'}
+        Check ($reason -ceq $expected) ('Entry-path refusal mismatch: '+$reason)
+        Check ((Get-FileHash $stateFile).Hash -ceq $stateBefore -and (Get-FileHash $pendingFile).Hash -ceq $pendingBefore) 'Failed resume advanced checkpoint or cleared pending work.'
+    }
+}
+Write-Host 'PASS: archive entry refuses missing/truncated proof without clearing pending work.'
+
 Write-Host 'PASS: archive mapping/reuse, saved-change discovery, exclusions, recovery leases, immutable resumed versions, preserved torn journal prefix, strict complete-record refusal and deadlines.'
 Write-Host ('Synthetic fixture retained: '+$fixture)

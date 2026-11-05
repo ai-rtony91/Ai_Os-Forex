@@ -506,6 +506,24 @@ function Get-AiOsArchiveChange {
     $entry = [pscustomobject]@{bytes=$File.bytes;ticks=$File.ticks;sha256=$hash;reference=$(if($same){$Baseline.reference}elseif($known){$VerifiedAdditionalReferences[$hash]}else{''})}
     return [pscustomobject]@{copy=(-not ($same -or $known));observation_changed=$true;entry=$entry}
 }
+function Assert-AiOsArchiveJournalCheckpoint {
+    param([object]$State,[string]$StateRoot)
+    # Progress never substitutes for its restore journal. A legacy state with
+    # skipped roots and no durable byte boundary needs explicit reconciliation.
+    $hasBoundary = $null -ne $State.PSObject.Properties['journal_checkpoint']
+    if (-not $hasBoundary -and $State.next_root -gt 0) { throw 'INCREMENTAL_JOURNAL_BOUNDARY_REQUIRED' }
+    if ($hasBoundary -and ($State.journal_checkpoint -isnot [array] -or $State.journal_checkpoint.Count -ne $State.journal_files.Count)) { throw 'INCREMENTAL_JOURNAL_BOUNDARY_INVALID' }
+    foreach ($name in $State.journal_files) {
+        $path = [IO.Path]::Combine($StateRoot,$name)
+        if (-not (Test-Path -LiteralPath $path -PathType Leaf)) { throw 'INCREMENTAL_JOURNAL_SEGMENT_MISSING' }
+        if ($hasBoundary) {
+            $proof = @($State.journal_checkpoint | Where-Object { $_.file -ceq $name })
+            if ($proof.Count -ne 1 -or ($proof[0].minimum_bytes -isnot [int] -and $proof[0].minimum_bytes -isnot [long]) -or $proof[0].minimum_bytes -lt 0) { throw 'INCREMENTAL_JOURNAL_BOUNDARY_INVALID' }
+            if ((Get-Item -LiteralPath $path -Force -ErrorAction Stop).Length -lt $proof[0].minimum_bytes) { throw 'INCREMENTAL_JOURNAL_TRUNCATED' }
+        }
+    }
+}
+
 function Invoke-AiOsVerifiedArchiveIncremental {
     param([string]$ScopeCheckpoint,[string]$ArchiveManifest,[string]$BackupRoot,[string]$VolumeUniqueId,[string]$StateRoot,[string]$PolicyReceipt='', [int]$MaximumMinutes=60,[switch]$Preview)
     $scope = Get-Content -LiteralPath $ScopeCheckpoint -Raw | ConvertFrom-Json
@@ -544,7 +562,8 @@ function Invoke-AiOsVerifiedArchiveIncremental {
         $destinationLock=[IO.Path]::Combine($BackupRoot,'backup_reports','AIOS_BACKUP_IN_PROGRESS.lock')
         New-AiOsBackupLock -BackupReportRoot ([IO.Path]::GetDirectoryName($destinationLock)) -BackupLockPath $destinationLock -SourcePath 'VERIFIED_59_ROOT_SCOPE' -SnapshotPath $BackupRoot
         $statePath=[IO.Path]::Combine($StateRoot,'archive-incremental-state.json')
-        $state=if(Test-Path -LiteralPath $statePath){Get-Content $statePath -Raw|ConvertFrom-Json}else{[pscustomobject]@{schema='AIOS_ARCHIVE_INCREMENTAL_STATE.v1';scope_sha256=$scopeHash;next_root=0;completed_roots=@();snapshot=('AIOS_BACKUP_'+(Get-Date -Format 'yyyyMMdd_HHmmss')+'_SAVED_WORK');status='STARTED'}}
+        $stateWasPersisted=Test-Path -LiteralPath $statePath
+        $state=if($stateWasPersisted){Get-Content $statePath -Raw|ConvertFrom-Json}else{[pscustomobject]@{schema='AIOS_ARCHIVE_INCREMENTAL_STATE.v1';scope_sha256=$scopeHash;next_root=0;completed_roots=@();snapshot=('AIOS_BACKUP_'+(Get-Date -Format 'yyyyMMdd_HHmmss')+'_SAVED_WORK');status='STARTED'}}
         Assert-AiOsArchiveRunState -State $state -ScopeHash $scopeHash -Roots $roots -BackupRoot $BackupRoot
         if($state.status -eq 'SUCCESS'){$state.next_root=0;$state.completed_roots=@();$state.snapshot='AIOS_BACKUP_'+(Get-Date -Format 'yyyyMMdd_HHmmss')+'_SAVED_WORK';$state.status='STARTED'}
         $deadline=[DateTime]::UtcNow.AddMinutes($MaximumMinutes)
@@ -568,6 +587,7 @@ function Invoke-AiOsVerifiedArchiveIncremental {
         if(-not $state.PSObject.Properties['journal_files']){$state|Add-Member -NotePropertyName journal_files -NotePropertyValue @('verified-file-updates.jsonl')}
         if(-not $state.PSObject.Properties['journal_reconciliations']){$state|Add-Member -NotePropertyName journal_reconciliations -NotePropertyValue @()}
         Assert-AiOsArchiveJournalState -State $state
+        if($stateWasPersisted){Assert-AiOsArchiveJournalCheckpoint -State $state -StateRoot $StateRoot}
         $journalSources=New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::OrdinalIgnoreCase)
         $archiveOriginals=@{}
         $rotateJournal=$false
@@ -575,8 +595,10 @@ function Invoke-AiOsVerifiedArchiveIncremental {
             $journalPath=[IO.Path]::Combine($StateRoot,$journalName)
             $preserved=@($state.journal_reconciliations|Where-Object {$_.file -ceq $journalName})
             if(-not(Test-Path -LiteralPath $journalPath)){
-                if($journalName -cne $state.journal_files[-1] -or $preserved.Count){throw 'INCREMENTAL_JOURNAL_SEGMENT_MISSING'}
-                continue # Active segment may not have received its first append yet.
+                if($stateWasPersisted -or $journalName -cne $state.journal_files[-1] -or $preserved.Count){throw 'INCREMENTAL_JOURNAL_SEGMENT_MISSING'}
+                # Publish even an empty active segment before any checkpoint can depend on it.
+                $newJournal=[IO.File]::Open($journalPath,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::None)
+                try{$newJournal.Flush($true)}finally{$newJournal.Dispose()}
             }
             Read-AiOsArchiveJournal -Path $journalPath -DeadlineUtc $deadline | ForEach-Object {
                 $record=$_
@@ -599,7 +621,11 @@ function Invoke-AiOsVerifiedArchiveIncremental {
         }
         foreach($source in $journalSources){$entry=$baseline[$source];Assert-AiOsArchiveJournalReference -Entry $entry -Original $(if($archiveOriginals.ContainsKey($source)){$archiveOriginals[$source]}else{$null}) -BackupRoot $BackupRoot}
         # Persist the verified-prefix reconciliation before any new append; never truncate/repair the old file.
-        if($rotateJournal){$state.journal_files+= 'verified-file-updates.'+[guid]::NewGuid().ToString('N')+'.jsonl'}
+        if($rotateJournal){
+            $state.journal_files+= 'verified-file-updates.'+[guid]::NewGuid().ToString('N')+'.jsonl'
+            $newJournal=[IO.File]::Open([IO.Path]::Combine($StateRoot,$state.journal_files[-1]),[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::None)
+            try{$newJournal.Flush($true)}finally{$newJournal.Dispose()}
+        }
         Assert-AiOsArchiveJournalState -State $state
         $journalPath=[IO.Path]::Combine($StateRoot,$state.journal_files[-1])
         $snapshot=[IO.Path]::Combine($BackupRoot,$state.snapshot)
@@ -607,6 +633,8 @@ function Invoke-AiOsVerifiedArchiveIncremental {
         $state|Add-Member -NotePropertyName ready_bin -NotePropertyValue ([pscustomobject]@{kind='PROPOSED_STAGING_ONLY';task_id=$scopeHash;accepted_milestone_id=$null;capture_status='PENDING';capture_checkpoint=$statePath;restore_journals=@($state.journal_files);cleanup_authorized=$false;cleanup_implemented=$false;live_sources_retained=$true;restore_manifests_retained=$true}) -Force
         $copied=0;$observed=0
         $saveState={
+            $boundaries=@(foreach($name in $state.journal_files){[pscustomobject]@{file=$name;minimum_bytes=[long](Get-Item -LiteralPath ([IO.Path]::Combine($StateRoot,$name)) -Force -ErrorAction Stop).Length}})
+            $state|Add-Member -NotePropertyName journal_checkpoint -NotePropertyValue $boundaries -Force
             $temporary=$statePath+'.'+[guid]::NewGuid().ToString('N')
             [IO.File]::WriteAllText($temporary,($state|ConvertTo-Json -Depth 5),[Text.UTF8Encoding]::new($false))
             if(Test-Path $statePath){[IO.File]::Replace($temporary,$statePath,[NullString]::Value)}else{[IO.File]::Move($temporary,$statePath)}

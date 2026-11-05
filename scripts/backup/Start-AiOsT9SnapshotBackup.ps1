@@ -515,7 +515,7 @@ function Assert-AiOsBackupVolume {
     $root = ConvertTo-AiOsFullPath -Path $BackupRoot
     if ($root -notin @('D:\T9_FOB','T:\AIOS_BACKUPS')) { throw 'BACKUP_ROOT_NOT_APPROVED' }
     if ($null -eq $Volume -or $Volume.FileSystemLabel -ne 'T9_FOB') { throw 'BACKUP_VOLUME_IDENTITY_UNVERIFIED' }
-    if ($root -eq 'T:\AIOS_BACKUPS' -and [string]::IsNullOrWhiteSpace($ExpectedUniqueId)) { throw 'BACKUP_VOLUME_UNIQUE_ID_REQUIRED' }
+    if ([string]::IsNullOrWhiteSpace($ExpectedUniqueId)) { throw 'BACKUP_VOLUME_UNIQUE_ID_REQUIRED' }
     if ($ExpectedUniqueId -and $Volume.UniqueId -cne $ExpectedUniqueId) { throw 'BACKUP_VOLUME_IDENTITY_MISMATCH' }
 }
 
@@ -1206,6 +1206,9 @@ if ($expectedBackupRoot -notin @('D:\T9_FOB','T:\AIOS_BACKUPS')) { throw 'BACKUP
 $savedWorkMode = @($SavedWorkFiles).Count -gt 0
 $SavedWorkFiles = @($SavedWorkFiles | ForEach-Object { $_.Replace('\','/') })
 if ($savedWorkMode -and $BackupMode -ne 'Delta') { throw 'SAVED_WORK_REQUIRES_EXPLICIT_DELTA_NO_FULL_FALLBACK' }
+# Finite-file manifests are not cumulative/resumable across changing scopes.
+# Saved work must use the verified archive route and its persistent journal above.
+if ($savedWorkMode) { throw 'SAVED_WORK_ARCHIVE_CHECKPOINT_REQUIRED' }
 $savedWorkPlan = $null
 $savedWorkLocations = @{}
 $savedWorkCheckpoint = @()
