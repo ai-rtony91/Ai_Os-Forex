@@ -12,6 +12,12 @@ updates:
     open-pull-requests-limit: 5
 
   - package-ecosystem: "npm"
+    directory: "/services"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "npm"
     directory: "/services/orchestrator"
     schedule:
       interval: "weekly"
@@ -19,6 +25,12 @@ updates:
 
   - package-ecosystem: "pip"
     directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "pip"
+    directory: "/apps/trading_lab"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
