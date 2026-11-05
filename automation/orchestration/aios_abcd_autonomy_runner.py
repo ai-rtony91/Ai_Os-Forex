@@ -11,13 +11,17 @@ import hashlib
 import json
 from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from automation.orchestration.claims.aios_task_claim_control import (
     ClaimError,
+    RELEASE_SCHEMA,
     TaskClaimController,
+    _atomic_write,
     _claim_contract,
+    _cleanup_plan,
     _exclusive_lock,
     _norm_path,
     _read_board,
@@ -140,6 +144,84 @@ def _read_acceptance(reader: Callable, request: RequirementReadRequest) -> bool:
     return True
 
 
+def _validate_saved_release_claim(selected: Any, expected_claim: Mapping[str, Any]) -> dict[str, Any]:
+    if not isinstance(selected, Mapping):
+        raise ClaimError("saved release claim is not an object")
+    normalized = normalize_claim(selected)
+    expected = normalize_claim(expected_claim)
+    intent = normalized.get("release_intent")
+    if (normalized.get("state") != "RELEASING" or _claim_contract(normalized) != _claim_contract(expected)
+            or not isinstance(intent, Mapping) or intent.get("schema") != RELEASE_SCHEMA
+            or intent.get("claim_sha256") != _claim_contract(normalized)):
+        raise ClaimError("saved release intent is not bound to the exact RELEASING claim")
+    return normalized
+
+
+def _read_saved_release_claim(claim_controller: TaskClaimController, task_id: str,
+                              expected_claim: Mapping[str, Any]) -> dict[str, Any]:
+    reader = getattr(claim_controller, "read_release_claim", None)
+    if callable(reader):
+        return _validate_saved_release_claim(reader(task_id, expected_claim=expected_claim), expected_claim)
+    board_path = getattr(claim_controller, "board_path", None)
+    if board_path is None:
+        raise ClaimError("release intent readback is unavailable")
+    with _exclusive_lock(board_path):
+        board = _read_board(board_path)
+        selected = _select_claim(board, task_id, expected_claim)
+        return _validate_saved_release_claim(selected, expected_claim)
+
+
+def _ensure_release_intent(claim_controller: TaskClaimController, task_id: str,
+                           expected_claim: Mapping[str, Any], *,
+                           owned_resources: Mapping[str, Sequence[Any]] | None,
+                           cleanup: Callable[[str, Any], None] | None,
+                           cleanup_idempotent: bool,
+                           reconcile_cleanup: Callable[[str, Any], str] | None) -> dict[str, Any]:
+    """Persist the controller's release intent before a checkpoint can stop.
+
+    A real controller may expose this small prepare operation. The fallback
+    uses the same claim owner lock and release-intent shape as its release
+    method, then reads the saved claim back before returning.
+    """
+    prepare = getattr(claim_controller, "prepare_release_intent", None)
+    if callable(prepare):
+        prepare(task_id, expected_claim=expected_claim, owned_resources=owned_resources,
+                cleanup=cleanup, cleanup_idempotent=cleanup_idempotent,
+                reconcile_cleanup=reconcile_cleanup)
+        return _read_saved_release_claim(claim_controller, task_id, expected_claim)
+    with _exclusive_lock(claim_controller.board_path):
+        board = _read_board(claim_controller.board_path)
+        claim = _select_claim(board, task_id, expected_claim)
+        if claim is None:
+            raise ClaimError("active task claim not found")
+        if claim.get("state") != "RELEASING":
+            raise ClaimError("task must be RELEASING before release intent")
+        if "release_intent" not in claim:
+            if type(cleanup_idempotent) is not bool:
+                raise ClaimError("cleanup idempotency must be explicit Boolean")
+            if cleanup is not None and not callable(cleanup):
+                raise ClaimError("cleanup callback is invalid")
+            if reconcile_cleanup is not None and not callable(reconcile_cleanup):
+                raise ClaimError("cleanup reconciliation callback is invalid")
+            normalized = normalize_claim(claim)
+            mode = "idempotent" if cleanup_idempotent else "reconcile" if reconcile_cleanup else "once"
+            plan = _cleanup_plan(normalized, owned_resources if owned_resources is not None else {})
+            if plan and cleanup is None:
+                raise ClaimError("owned cleanup requires an explicit callback")
+            claim["release_intent"] = {
+                "schema": RELEASE_SCHEMA,
+                "claim_sha256": _claim_contract(normalized),
+                "started_at": datetime.now(timezone.utc).isoformat(),
+                "receipt_path": normalized["receipt_path"],
+                "cleanup_mode": mode,
+                "resources": [{**item, "status": "NOT_STARTED"} for item in plan],
+            }
+            _atomic_write(claim_controller.board_path, board)
+        saved = _read_board(claim_controller.board_path)
+        selected = _select_claim(saved, task_id, expected_claim)
+        return _validate_saved_release_claim(selected, expected_claim)
+
+
 def _terminal_release(claim_controller: TaskClaimController, task_id: str, raw_claim: Mapping[str, Any]) -> Path | None:
     # Read through the existing claim owner's lock and validators. A receipt
     # written before board replacement is not terminal while ownership remains.
@@ -210,6 +292,7 @@ def run_one_abcd_task(
     cleanup: Callable[[str, Any], None] | None = None,
     cleanup_idempotent: bool = False,
     reconcile_cleanup: Callable[[str, Any], str] | None = None,
+    checkpoint_after_acceptance: Callable[[RequirementReadRequest], bool] | None = None,
 ) -> AutonomyRunResult:
     """Run one task using a qualified existing-owner reader, or explicit legacy mode.
 
@@ -222,6 +305,8 @@ def run_one_abcd_task(
     receipt_backed = acceptance_reader is not None
     if type(legacy_independent_tasks) is not bool or receipt_backed == legacy_independent_tasks:
         return AutonomyRunResult("BLOCKED", "select a publication reader or explicit independent-task compatibility")
+    if checkpoint_after_acceptance is not None and (not receipt_backed or not callable(checkpoint_after_acceptance)):
+        return AutonomyRunResult("BLOCKED", "accepted checkpoint requires a publication reader and callable host control")
     release_options = {"owned_resources": cleanup_resources, "cleanup": cleanup,
                        "cleanup_idempotent": cleanup_idempotent, "reconcile_cleanup": reconcile_cleanup}
     decision_view = queue_view
@@ -320,6 +405,31 @@ def run_one_abcd_task(
     claim_controller.transition(task_id, "INTEGRATING", expected_claim=acquired)
     claim_controller.transition(task_id, "RELEASING", expected_claim=acquired)
     try:
+        if checkpoint_after_acceptance is not None:
+            node = next(item for item in queue_view["items"] if item["id"] == task_id)
+            request = _acceptance_request(node, queue_item, raw_claim)
+            if not _read_acceptance(acceptance_reader, request):
+                _ensure_release_intent(
+                    claim_controller, task_id, acquired,
+                    owned_resources=cleanup_resources, cleanup=cleanup,
+                    cleanup_idempotent=cleanup_idempotent,
+                    reconcile_cleanup=reconcile_cleanup,
+                )
+                return AutonomyRunResult("AWAITING_ACCEPTANCE", "accepted checkpoint requires original requirement acceptance", task_id, packet)
+            _ensure_release_intent(
+                claim_controller, task_id, acquired,
+                owned_resources=cleanup_resources, cleanup=cleanup,
+                cleanup_idempotent=cleanup_idempotent,
+                reconcile_cleanup=reconcile_cleanup,
+            )
+            try:
+                checkpoint = checkpoint_after_acceptance(request)
+            except Exception as error:
+                raise ClaimError("accepted checkpoint host control failed") from error
+            if type(checkpoint) is not bool:
+                raise ClaimError("accepted checkpoint decision must be Boolean")
+            if checkpoint:
+                return AutonomyRunResult("ACCEPTED_CHECKPOINT", "original requirement accepted; terminal release remains pending", task_id, packet)
         receipt = claim_controller.release(task_id, expected_claim=acquired, **release_options)
         if receipt_backed:
             decision_view, states, _ = _dependency_view(queue_view, queue_items, claims, claim_controller, acceptance_reader)
@@ -355,7 +465,8 @@ def run_abcd_workflow(*, read_current_inputs: Callable, claim_controller: TaskCl
 
     results = []
     allowed = {"changed_paths", "cleanup_resources", "cleanup", "cleanup_idempotent",
-               "reconcile_cleanup", "packet_profile_reader", "campaign_admission_reader"}
+               "reconcile_cleanup", "packet_profile_reader", "campaign_admission_reader",
+               "checkpoint_after_acceptance"}
     def number(value):
         try:
             return type(value) in (int, float) and math.isfinite(value)
@@ -365,6 +476,8 @@ def run_abcd_workflow(*, read_current_inputs: Callable, claim_controller: TaskCl
             or not number(max_elapsed_seconds) or max_elapsed_seconds <= 0
             or not all(callable(item) for item in (read_current_inputs, execute, acceptance_reader, stop_requested))
             or set(single_task_options) - allowed
+            or (single_task_options.get("checkpoint_after_acceptance") is not None
+                and not callable(single_task_options["checkpoint_after_acceptance"]))
             or monotonic is not None and not callable(monotonic)):
         return AutonomyWorkflowResult("BLOCKED", "invalid workflow controls")
     clock = monotonic if monotonic is not None else time.monotonic
