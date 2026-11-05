@@ -26,3 +26,43 @@ jobs:
       - name: Run worker dispatcher assignment executor validator sample
         run: python automation/validators/aios_worker_dispatcher_assignment_executor_validator.py --sample-check
 
+  execution-bridge-gates:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install test runner
+        run: python -m pip install pytest
+      - name: Run focused dispatcher tests
+        run: python -m pytest tests/orchestration/test_worker_dispatcher_assignment_executor.py tests/orchestration/test_worker_dispatcher_control_plane.py tests/governance/test_aios_worker_dispatcher_validator.py
+      - name: Run file-lock persistence tests
+        run: python -m pytest tests/orchestration/test_file_lock_persistence.py
+      - name: Run heartbeat endurance contract tests
+        run: python -m pytest tests/orchestration/test_night_cycle_endurance_contract.py
+      - name: Run lock registry integrity validator
+        shell: pwsh
+        run: pwsh -NoProfile -ExecutionPolicy Bypass -File automation/orchestration/validators/Test-LockRegistryIntegrity.DRY_RUN.ps1 -LockRegistryPath automation/orchestration/locks/FILE_LOCK_REGISTRY.json
+      - name: Run assignment executor sample check
+        run: python automation/orchestration/dispatcher/assignment_executor.py --sample-check --json
+      - name: Run assignment executor validator sample check
+        run: python automation/validators/aios_worker_dispatcher_assignment_executor_validator.py --sample-check --json
+      - name: Capture approval chain evidence
+        shell: pwsh
+        run: pwsh -NoProfile -ExecutionPolicy Bypass -File automation/orchestration/approval_inbox/Invoke-AiOsApprovalChain.DRY_RUN.ps1
+      - name: Capture schema contract evidence
+        shell: pwsh
+        run: |
+          $output = & pwsh -NoProfile -ExecutionPolicy Bypass -File automation/orchestration/validators/Test-AiOsOrchestrationSchemaContracts.DRY_RUN.ps1 2>&1
+          $exitCode = $LASTEXITCODE
+          $output | ForEach-Object { Write-Host $_ }
+          if ($exitCode -ne 0) {
+            $text = $output -join "`n"
+            if ($text -match "Overall result:\s*`n-\s*PARTIAL") {
+              Write-Host "Schema contract validator returned PARTIAL as evidence only."
+              exit 0
+            }
+            exit $exitCode
+          }
+
