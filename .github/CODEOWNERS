@@ -1,0 +1,19 @@
+# AI_OS repository review ownership
+#
+# GitHub uses the final matching rule. Anthony remains the review owner for
+# every repository path, including external fork contributions.
+
+* @ai-rtony91
+
+# Explicit critical surfaces.
+/.github/ @ai-rtony91
+/.github/CODEOWNERS @ai-rtony91
+/AGENTS.md @ai-rtony91
+/RISK_POLICY.md @ai-rtony91
+/SECURITY.md @ai-rtony91
+/docs/governance/ @ai-rtony91
+/docs/security/ @ai-rtony91
+/automation/orchestration/ @ai-rtony91
+/automation/forex_engine/ @ai-rtony91
+/scripts/forex_delivery/ @ai-rtony91
+/services/ @ai-rtony91
