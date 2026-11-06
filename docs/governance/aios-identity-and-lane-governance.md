@@ -60,6 +60,12 @@ Every pause or dependency wait must record its reason, accountable owner, resume
 
 Use completion, blocker, and milestone events first, with bounded fallback monitoring for missed events or stalls. MAIN follows up with workers; BOSS follows up with MAIN and escalates only when needed. These instructions install no timers, create no new controller or tracker, and grant no automatic execution authority. Queue status remains governed by `docs/workflows/WORKER_TASK_LIFECYCLE_STANDARD.md`.
 
+### Independent Review and Integration Receipt Chain
+
+For each reviewable saved result, retain its existing task/instruction revision, author, exact result/source reference, one named independent reviewer, current responsible owner, delivery state and acknowledgement. MAIN collects the saved result; the reviewer records acceptance or rejection against that exact result; MAIN acknowledges the decision, integrates only within current authority, saves installation/check evidence, and selects the next eligible action. Reviewers and authors retain their scoped evidence responsibilities; MAIN retains orchestration work-record ownership. Do not create another queue, supervisor or dispatcher.
+
+If review or integration stalls, reconcile the current state and follow up through the existing route until resolved or genuinely escalated. Record the accountable owner, precise blocker and recovery trigger; do not infer failed delivery from silence or blindly resend an uncertain action. Technical review is not protected owner approval. Keep owner pauses, safety stops, claims, resource limits, historical outcomes and required action-specific approvals intact. A diagnostic observation or role label is not authenticated receipt collection or a running enforcement loop.
+
 ### Operational Proof and Single Dispatch Owner
 
 Keep exactly one currently assigned MAIN dispatch owner in the existing runtime/ownership record. Native chat mappings belong in private runtime records, not hardcoded public policy. A role label, completed chat turn, or missing Goal does not prove that a runtime controller is bound or a former owner released. Preserve claims, healthy jobs and intentional holds; reconcile ownership before competing edits or dispatch.

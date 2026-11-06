@@ -292,3 +292,7 @@ git status --short --branch
 ```
 
 Do not commit or push unless the user explicitly approves that action.
+
+## Lasting Project Milestone
+
+The owner's permanent guiding milestone is recorded in the [canonical product roadmap](docs/roadmap/aios-product-roadmap.md#permanent-guiding-milestone--owner-direction-2026-11-06). It joins reliable owner-controlled AIOS orchestration with verified Forex earnings evidence. The milestone is open, earnings are not guaranteed, and real-money risk requires explicit owner approval under the existing controls. Prior goals and history remain preserved.
