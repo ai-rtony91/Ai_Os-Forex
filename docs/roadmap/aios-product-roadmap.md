@@ -132,3 +132,17 @@ Blocked direction:
 - Whether productization should stay roadmap-only.
 - Which Trading Lab docs belong under active product roadmap versus archive.
 - How soon to introduce automation beyond documentation and operator runners.
+
+## Permanent Guiding Milestone — Owner Direction 2026-11-06
+
+Build and prove a reliable, owner-controlled AIOS workflow that develops, tests, and safely operates a Forex system until it earns its first verified dollar, without risking real money until you explicitly approve it.
+
+This is the owner's lasting guiding milestone for the project until the owner explicitly revises it. Status: OPEN / NOT PROVEN. It adds direction without erasing prior goals, accepted results, failed evidence, counters, budgets, deadlines, claims, checkpoints or owner pauses. This roadmap defines direction; AGENTS.md, RISK_POLICY.md, current contracts and required protected-action approvals still govern execution. The owner can stop the workflow. A goal statement, successful test, technical review or saved checkpoint is not financial-action authority.
+
+Progress must prove the actual BOSS -> MAIN -> named worker/reviewer -> MAIN workflow: verified starts, saved exact results, acknowledged independent decisions, governed integration and the next eligible action. Reuse the existing controller, owners and accepted work. Preserve stop and recovery behavior, and reconcile uncertain outcomes without replay. Private fixtures, prepared source and documentation are engineering progress, not proof of an operating autonomous system.
+
+Forex development must retain genuine data, strategy validation, costs, risk controls, original scientific failures and independent evidence. Complete eligible engineering and paper preparation without implying live readiness. Real-money risk remains blocked unless the owner explicitly approves the exact action under all applicable existing gates. This milestone grants no broker access, credentials, live orders, money movement, repeated attempts or expanded resource authority.
+
+The first verified dollar requires independently reviewed, sanitized evidence of actual realized net earnings of at least one US dollar after recorded costs, consistent with the existing [broker-verified profit-proof milestone](../trading_lab/FOREX_BROKER_VERIFIED_LIVE_PROFIT_PROOF_MILESTONE_V1.md). Preserve the PnL currency and document any required conversion evidence; unresolved costs, attribution or currency evidence keep the claim unproven. Demo, paper, simulated, unrealized, gross or manually asserted profits do not establish this final earnings claim. Obtain the existing owner-governed approval before any real-money attempt and review its outcome before any repeat. Do not upload secrets or private broker/account records.
+
+Profit is uncertain and is not guaranteed. A first verified dollar would not establish a durable trading edge, reliable future income, unrestricted live permission or permission to ignore an owner stop. Report progress against both workflow reliability and genuine earnings evidence; never substitute a convenient passing test count or sample for the full milestone.

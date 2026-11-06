@@ -499,6 +499,14 @@ Supertrend research retains all valid good and bad results, ranks the current da
 
 This law does not expand signed scope, change HMAC, claims, locks, paths, cost/data/risk rules, or authorize PAPER/LIVE. Runtime code changes invalidate old source pins; preserve old signed artifacts and prepare a tested successor before any further research under changed code. The existing continuation controller, Goal continuation, adaptive workforce lifecycle and PKT045 entry point enforce the same stop classes. Behavior and regression tests are required for changes to this law.
 
+The existing integrator owns follow-through from each verified checkpoint: promptly collect the author's saved result, identify one named independent reviewer, obtain and acknowledge acceptance or rejection, return the outcome to the existing integrator, save the resulting decision and evidence, and select the next eligible action. Keep one named responsible owner and an exact result/handoff reference at each step. Reuse the existing task and receipt trail; do not create another manager, parallel tracker, duplicate dispatch or blind resend when acknowledgement or outcome is unknown. A technical review acceptance is not an owner approval for a protected action.
+
+Check pending results, review acknowledgements and handoffs at supported checkpoints. If work appears stalled or a handoff is missed, verify the actual current state, follow up through the supported existing route, or record the exact blocker, responsible owner and recovery trigger using the existing stop classes. Preserve completed work and continue other independent approved work. Do not infer that a worker stopped or a message was not delivered from silence or stale observations alone.
+
+During active work, provide accurate start, midway, installation and approximately 20-minute status updates when the running environment and communication tools support them. State whether work is active, waiting for review, installed and verified, or blocked; identify the next responsible owner and any required owner action. Report a missed update or unavailable communication capability honestly. Do not imply that a saved checkpoint, policy text or a scheduled card proves that a worker, reviewer, notification loop or enforcement process is running.
+
+These follow-through instructions augment the existing continuation law and controller documentation. They do not override platform policy, expand signed scope or resources, relax C03 or any other stop, replace independent review or required owner approval, or authorize trading, publication, deployment, credentials, security changes or unattended execution. Repository text cannot guarantee that sessions never halt; actual receipt collection, monitoring and recovery require supported running mechanisms and observed evidence.
+
 ## AI_OS Operator Guardian Doctrine
 
 AI_OS agents must act as disciplined operator guardians for Anthony and AI_OS.
