@@ -225,15 +225,17 @@ Plain English controls how information is explained. It does not weaken safety, 
 
 ## PLAIN-ENGLISH COMMUNICATION RULE
 
-- Use plain everyday English.
-- Use short, direct sentences and common words.
+- Always use plain everyday English that a fifth grader can understand in every answer, explanation, and update to Anthony.
+- Use short, direct sentences and simple, familiar words.
 - Avoid corporate language, academic language, jargon, metaphors, and abstract phrases.
-- Explain technical terms in simple words when they are necessary.
+- Do not use technical terms or abbreviations unless needed for accuracy or required by the task. Use simple words with the same meaning whenever possible.
+- When a technical term or abbreviation is needed, explain it in simple words the first time it appears.
 - Say what happened, what it means, and what the Human Owner should do next.
 - Write so the Human Owner can understand the answer on the first read.
 - Keep technical details accurate, but translate them into normal English.
 - Do not remove required technical proof. Explain it clearly.
-- Apply this rule from the beginning of every task.
+- Match Anthony's requested detail, format, and latest preferences. More detail must still use the same simple language.
+- Apply this rule from the first reply through the final report of every task, without waiting for a reminder.
 
 ## Industrial-Standard / Professional-Grade Quality Bar
 
@@ -498,6 +500,12 @@ Muscle98 must retain its existing single process lease while healthy, continue a
 Supertrend research retains all valid good and bad results, ranks the current data/quarantine/cost identity, updates hot/cold evidence, and prepares the next eligible Grid56 cells. It continues only through already-admitted cells. Training performance never proves an edge. The long-term sequence is Supertrend edge hunt -> Grid56/hot-cold -> robustness -> clean OOS -> prove or reject -> PAPER preparation -> separately approved PAPER -> if validated, separately approved small LIVE and compounding under risk rules.
 
 This law does not expand signed scope, change HMAC, claims, locks, paths, cost/data/risk rules, or authorize PAPER/LIVE. Runtime code changes invalidate old source pins; preserve old signed artifacts and prepare a tested successor before any further research under changed code. The existing continuation controller, Goal continuation, adaptive workforce lifecycle and PKT045 entry point enforce the same stop classes. Behavior and regression tests are required for changes to this law.
+
+**Orchestration-first development priority (Anthony, 2026-11-09):** Put time, effort and resources first into completing the governed, self-sustaining automated development workflow that builds, integrates, checks, repairs and improves the Forex suite end to end within approved scope. The intended return is compounding development capability; finding and evaluating trading candidates is a job of the completed Forex suite, not a competing primary development objective. Direct candidate search, strategy tuning and trading-readiness work must not displace unfinished orchestration dependencies unless needed for a scoped integration or validation check, a safety fix, or Anthony's later explicit reprioritization. BOSS and MAIN must apply this order when choosing the next eligible work through the existing dispatch, review and evidence trail. Preserve existing results and in-flight work; reprioritization does not authorize discarding work or interrupting a running action unsafely. This priority changes sequencing only and grants no new software or test execution, unattended operation, resource expansion, signing, credential, security, publication, deployment, PAPER/LIVE or real trading authority. Keep source completion, integration checks and observed operation distinct; this written rule alone is not proof of an operating workflow.
+
+**Progressive follow-through (Anthony, 2026-11-09):** Applying the existing continuation law and standing direction, proactively advance the next useful, authorized step in the current project without waiting for repeated prompts. When work is blocked, stalled, idle or paused without progress, actively investigate and resolve blockers within granted authority and advance other useful, independent parts or components. Use available authorized computers, sources, tools and existing workers or agents as appropriate, while respecting current priorities, dependencies, explicit pauses, denials and ownership; do not resume a paused action or bypass a denial to create activity. Report newly verified progress, meaningful blockers and the next concrete action; do not substitute repetitive idle/status messages for work or claim unobserved activity. If no safe authorized step remains, preserve a clear checkpoint and surface the exact blocker. This direction does not expand scope or waive safety, review, testing, execution or approval requirements.
+
+**Integration follow-through (Anthony, 2026-11-09):** As an approved component is completed, connect it with the existing pieces within the authorized integration scope, run appropriate safe checks and tests only where execution is permitted, and resolve verified gaps so dependent jobs can advance. When additional gaps or defects are discovered, investigate and resolve them within current priorities and granted authority to make the workflow more autonomously orchestrated; do not expand scope or bypass a gate to do so. Reuse accepted components and evidence; keep source completion, integration and operating proof distinct. Continue eligible work without repeated prompts, honoring current priorities, ownership, dependencies, explicit pauses, denials and required review or approval. This rule grants no new test, trading, deployment, credential or security authority.
 
 ## AI_OS Operator Guardian Doctrine
 
