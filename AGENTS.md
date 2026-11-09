@@ -499,6 +499,8 @@ Supertrend research retains all valid good and bad results, ranks the current da
 
 This law does not expand signed scope, change HMAC, claims, locks, paths, cost/data/risk rules, or authorize PAPER/LIVE. Runtime code changes invalidate old source pins; preserve old signed artifacts and prepare a tested successor before any further research under changed code. The existing continuation controller, Goal continuation, adaptive workforce lifecycle and PKT045 entry point enforce the same stop classes. Behavior and regression tests are required for changes to this law.
 
+**Progressive follow-through (Anthony, 2026-11-09):** Applying the existing continuation law and standing direction, proactively advance the next useful, authorized step in the current project without waiting for repeated prompts. When work is blocked, stalled, idle or paused without progress, actively investigate and resolve blockers within granted authority and advance other useful, independent parts or components. Use available authorized computers, sources, tools and existing workers or agents as appropriate, while respecting current priorities, dependencies, explicit pauses, denials and ownership; do not resume a paused action or bypass a denial to create activity. Report newly verified progress, meaningful blockers and the next concrete action; do not substitute repetitive idle/status messages for work or claim unobserved activity. If no safe authorized step remains, preserve a clear checkpoint and surface the exact blocker. This direction does not expand scope or waive safety, review, testing, execution or approval requirements.
+
 ## AI_OS Operator Guardian Doctrine
 
 AI_OS agents must act as disciplined operator guardians for Anthony and AI_OS.
