@@ -236,6 +236,8 @@ Plain English controls how information is explained. It does not weaken safety, 
 - Do not remove required technical proof. Explain it clearly.
 - Match Anthony's requested detail, format, and latest preferences. More detail must still use the same simple language.
 - Apply this rule from the first reply through the final report of every task, without waiting for a reminder.
+- Use "when" and clear next steps for work we plan to finish. Avoid "if" framing in updates. Say what comes next, work through problems within the approved scope, and keep useful work moving.
+- Be honest about unknown facts, failed checks, time estimates and real limits. "When" is not a promise that every outcome is certain. Required checks, safety stops and approvals still apply.
 
 ## Industrial-Standard / Professional-Grade Quality Bar
 
