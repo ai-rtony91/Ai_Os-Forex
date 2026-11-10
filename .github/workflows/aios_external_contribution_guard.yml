@@ -1,0 +1,82 @@
+name: AIOS External Contribution Guard
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: external-contribution-guard-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  external-contribution-guard:
+    name: External contribution guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout pull-request merge commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Enforce owner-only critical paths
+        shell: bash
+        env:
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          OWNER_LOGIN: ai-rtony91
+        run: |
+          set -euo pipefail
+
+          mapfile -t changed_paths < <(git diff --name-only HEAD^1 HEAD^2)
+          printf 'Changed paths:\n'
+          printf '  %s\n' "${changed_paths[@]}"
+
+          if [[ "$PR_AUTHOR" == "$OWNER_LOGIN" ]]; then
+            echo "Owner-authored pull request; external critical-path restriction does not apply."
+            exit 0
+          fi
+
+          blocked_paths=()
+          for path in "${changed_paths[@]}"; do
+            case "$path" in
+              AGENTS.md|RISK_POLICY.md|SECURITY.md|.github/CODEOWNERS|.github/workflows/*|docs/governance/*|docs/security/*|secrets/*|credentials/*|.env|.env.*|*.pem|*.key|*.p12|*.pfx|broker/*|automation/forex_engine/*live*|automation/forex_engine/*oanda*|scripts/forex_delivery/*live*|scripts/forex_delivery/*order_execution*|*oanda*|*credential*|*live_order*|*live-trade*|*live_trade*|*withdraw*|*deposit*|*webhook*)
+                blocked_paths+=("$path")
+                ;;
+            esac
+          done
+
+          if (( ${#blocked_paths[@]} > 0 )); then
+            echo "::error::External pull requests may not directly modify owner-only authority, workflow, credential, broker, live-execution, or money-movement paths. Propose the change in an issue for owner implementation."
+            printf 'Blocked path: %s\n' "${blocked_paths[@]}"
+            exit 1
+          fi
+
+          echo "External contribution path boundary passed."
+
+      - name: Scan added lines for high-confidence secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          added_lines="$(git diff --unified=0 HEAD^1 HEAD^2 | grep '^+' | grep -v '^+++' || true)"
+
+          secret_pattern='-----BEGIN ([A-Z0-9 ]+ )?PRIVATE KEY-----|gh[pousr]_[A-Za-z0-9]{20,}|sk-(proj-)?[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|xox[baprs]-[0-9A-Za-z-]{10,}'
+
+          if printf '%s\n' "$added_lines" | grep -E --quiet -e "$secret_pattern"; then
+            echo "::error::High-confidence secret pattern detected in added lines. Remove and rotate the exposed credential before continuing."
+            exit 1
+          fi
+
+          echo "High-confidence added-line secret scan passed."
