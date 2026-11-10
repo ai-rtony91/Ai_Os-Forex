@@ -15,10 +15,12 @@ sys.path.insert(0, str(ROOT))
 
 from automation.forex_engine.forex_p1_eurusd_m5_history_capture_v1 import (  # noqa: E402
     RUNTIME_PATH, build_canonical_history_artifact, extract_canonical_completed_candles,
-    resolve_canonical_practice_transport, stable_json, validate_canonical_history_artifact,
-    validate_runtime_capture_request,
+    load_and_validate_approval, resolve_canonical_practice_transport, stable_json,
+    validate_canonical_history_artifact, validate_runtime_capture_request,
 )
-from automation.forex_engine.oanda_read_only_client import OandaReadOnlyClient  # noqa: E402
+from automation.forex_engine.oanda_practice_candle_history_transport_v1 import (  # noqa: E402
+    OandaPracticeCandleHistoryTransportV1,
+)
 
 STATE = ROOT / "Reports/forex_delivery/AIOS_FOREX_P1_EURUSD_M5_HISTORY_CAPTURE_V1_STATE.json"
 REPORT = ROOT / "Reports/forex_delivery/AIOS_FOREX_P1_EURUSD_M5_HISTORY_CAPTURE_V1_REPORT.md"
@@ -52,7 +54,7 @@ python --version
 if ([string]::IsNullOrWhiteSpace($env:OANDA_API_TOKEN)) { throw 'OANDA_API_TOKEN is not present in this process.' }
 Write-Host 'OANDA Practice token is present; its value will not be printed.'
 python scripts/forex_delivery/run_forex_p1_eurusd_m5_history_capture_v1.py preflight
-python scripts/forex_delivery/run_forex_p1_eurusd_m5_history_capture_v1.py capture --owner-local-runtime --environment practice --instrument EUR_USD --granularity M5 --count 50 --output .aios/runtime/forex_market_history/EUR_USD_latest.json
+python scripts/forex_delivery/run_forex_p1_eurusd_m5_history_capture_v1.py capture --owner-local-runtime --approval-file .aios/runtime/forex_authorizations/owner.json --packet-id AIOS-OANDA-PRACTICE-CANDLE-TRANSPORT-HARDENING-APPLY-V1 --environment practice --instrument EUR_USD --granularity M5 --count 50 --output .aios/runtime/forex_market_history/EUR_USD_latest.json
 python scripts/forex_delivery/run_forex_p1_eurusd_m5_history_capture_v1.py validate --output .aios/runtime/forex_market_history/EUR_USD_latest.json
 Write-Host '.aios/runtime/forex_market_history/EUR_USD_latest.json'
 $now = (Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ')
@@ -67,6 +69,8 @@ def parser() -> argparse.ArgumentParser:
     commands.add_parser("preflight")
     capture = commands.add_parser("capture")
     capture.add_argument("--owner-local-runtime", action="store_true")
+    capture.add_argument("--approval-file", required=True)
+    capture.add_argument("--packet-id", required=True)
     capture.add_argument("--environment", required=True)
     capture.add_argument("--instrument", required=True)
     capture.add_argument("--granularity", required=True)
@@ -105,14 +109,13 @@ def main(argv: list[str] | None = None) -> int:
             instrument=args.instrument, granularity=args.granularity, count=args.count,
             output=args.output,
         )
+        load_and_validate_approval(ROOT / args.approval_file, repository_root=ROOT,
+                                   packet_id=args.packet_id)
         token = os.environ.get("OANDA_API_TOKEN", "")
         if not token:
             raise ValueError("OANDA_API_TOKEN_required_in_owner_process")
-        client = resolve_canonical_practice_transport(
-            OandaReadOnlyClient(api_token=token, account_id="", environment="practice")
-        )
-        payload = client.candles(request["instrument"], granularity=request["granularity"],
-                                 count=request["count"])
+        client = resolve_canonical_practice_transport(OandaPracticeCandleHistoryTransportV1(token))
+        payload = client.fetch_eurusd_m5_midpoint_candles()
         candles = extract_canonical_completed_candles(payload)
         artifact = build_canonical_history_artifact(candles, requested_count=request["count"])
         validate_canonical_history_artifact(artifact, now=datetime.now(timezone.utc))
