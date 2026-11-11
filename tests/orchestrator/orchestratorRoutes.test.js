@@ -5,12 +5,14 @@ const childProcess = require('node:child_process');
 const { createRequire } = require('node:module');
 const { once } = require('node:events');
 const test = require('node:test');
+const { PassThrough } = require('node:stream');
 
 // Resolve the exact dependencies installed for this service, not a root copy.
 const serviceRequire = createRequire(require.resolve('../../services/orchestrator/package.json'));
 const express = serviceRequire('express');
 const qs = serviceRequire('qs');
 const proxyaddr = serviceRequire('proxy-addr');
+const multer = serviceRequire('multer');
 
 test('orchestrator HTTP routes stay display-only with the installed Express', async (t) => {
   // Node runs this file in its own test process. Never inherit broker settings.
@@ -178,4 +180,55 @@ test('proxy trust does not accept unrelated IPv4 peers for an IPv6 short prefix'
   const valid = proxyaddr.compile('::ffff:10.0.0.0/104');
   assert.equal(valid('10.1.2.3'), true);
   assert.equal(valid('203.0.113.10'), false);
+});
+
+// GHSA-q7qp-rjg7-q26m: exercise the service-installed parser without a server,
+// disk writes or broker code. A delayed filter must remain safe after teardown.
+test('Multer handles a delayed file filter after a truncated upload is rejected', { timeout: 2000 }, async () => {
+  const request = new PassThrough();
+  const rejection = new Error('offline fixture rejected');
+  const boundary = 'OfflineFilterBoundary';
+  const body = ['slow', 'reject'].map((name) =>
+    `--${boundary}\r\nContent-Disposition: form-data; name="${name}"; filename="${name}.txt"\r\nContent-Type: text/plain\r\n\r\nx`
+  ).join('\r\n'); // Intentionally omit the final boundary.
+  request.headers = {
+    'content-type': `multipart/form-data; boundary=${boundary}`,
+    'content-length': Buffer.byteLength(body)
+  };
+  let releaseFilter;
+  let parser;
+  let callbacks = 0;
+  const upload = multer({
+    fileHwm: 1,
+    streamHandler(req, multipartParser) {
+      parser = multipartParser;
+      req.pipe(parser);
+    },
+    fileFilter(req, file, callback) {
+      if (file.fieldname === 'slow') releaseFilter = callback;
+      else req.once('end', () => setImmediate(() => callback(rejection)));
+    }
+  }).any();
+
+  await new Promise((resolve, reject) => {
+    upload(request, null, (error) => {
+      callbacks += 1;
+      try {
+        assert.equal(error, rejection);
+        assert.equal(typeof releaseFilter, 'function');
+      } catch (failure) { reject(failure); return; }
+      setImmediate(() => {
+        // Do not add an error listener: it would hide the process-crash defect.
+        parser.once('close', () => {
+          try {
+            assert.equal(callbacks, 1);
+            assert.deepEqual(request.files, []);
+            resolve();
+          } catch (failure) { reject(failure); }
+        });
+        releaseFilter(null, true);
+      });
+    });
+    request.end(body);
+  });
 });
