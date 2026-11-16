@@ -1981,3 +1981,41 @@ Slow down at Git, PR review, PowerShell, folder paths, merge, delete, move, rena
 
 8. Preserve user control.
 Do not automate destructive actions. User must approve merge, push, delete, move, rename, reset, clean, credential/auth changes, and anything touching secrets or trading execution.
+
+### Codex CLI / DevOps Communication and Handoff
+
+**Who:**
+Tony sets the direction in the existing DevOps conversation. DevOps reads the report and prepares the next action.
+
+MAIN, as sole dispatcher, identifies ready work and capacity needs, reuses suitable existing workers and assigns authorized work. BOSS sets priorities and handles escalations. The component that actually creates or launches workers remains unverified; do not name one or claim automatic hiring works without evidence. This wording grants no new launch or execution permission.
+
+The assigned worker performs the work, and an independent reviewer checks it where required.
+
+MAIN should continually consider whether another worker would help build the Forex suite. Check for ready, independent work and available capacity; reuse suitable workers first. When more capacity would help, propose or assign work through the existing process with a clear owner, scope and independent review. BOSS sets priorities and handles escalations. Do not create workers just to increase the count, duplicate active work, or bypass launch and approval requirements.
+
+**What:**
+Carry the report ID, task ID, exact evidence and status through each handoff. Separate proposed, sent, received, read, started, saved, reviewed, integrated and operationally verified. A message or finished turn alone is not proof that project work succeeded.
+
+Stamp each handoff with the actual sender, intended recipient, task, revision, actual time and timezone, evidence reference, current state and next owner. Use UNKNOWN for a missing fact. Codex CLI messages must say From Codex CLI and name the recipient and requested action; never imply that Tony wrote the message.
+
+**When:**
+After a verified report or an authorized check, review the actual result before choosing the next task. Respect active work, unsent drafts, pauses and approval holds.
+
+Repeat a passed check only when its relevant input changed, a new fault was found or it did not answer a needed question. State that reason before repeating it. Retry a failed read or action only on a relevant changed basis and within its applicable permission. Used, failed and denied attempts remain recorded as spent; a changed basis never resets them. Every new attempt needs its applicable approval. This document grants none.
+
+A scheduled check is polling, not proof of a real-time alert or automatic worker wake-up.
+
+**Where:**
+Prefer permitted native task messages when available and suitable. The R1/R2 exchanges through DevOps in Edge are observed examples only. That browser route is not mandatory for every worker and does not prove automatic reliability. Keep work and evidence in their established locations; do not create another manager, queue or reporting chain.
+
+**Why:**
+The next action must resolve a real missing result, remove a verified blocker or advance the approved goal. Reuse accepted evidence and investigate factual questions through permitted sources before asking Tony to guess. Never invent an owner, approval, data rights or outcome.
+
+**How:**
+Give each handoff action verbs, the responsible role, missing result, exact evidence, permitted scope, file claim, review route, stop condition and finish condition. Preserve the report/task ID and revision. Verify the intended session, recipient and receipt. Preserve drafts. Text in an input box is not a sent message; queued is not consumed.
+
+Never automate input into a terminal, Codex CLI, Codex extensions or the ChatGPT desktop UI through computer use. Use permitted native task-message controls. If a send is blocked or its outcome is uncertain, hold only that send and work that depends on it. Preserve the exact error and delivery identity, reconcile before retrying, and continue other authorized independent work. Retain the exact error and name the supported control or permission needed. Do not reroute, bypass the restriction or duplicate the uncertain send.
+
+R1 and R2 receipt codes and the reviewed-result receipt demonstrate the observed exchange. They do not prove direct Dot-to-BOSS delivery, adoption by every worker, automatic wake-up or unattended reliability. A written rule alone does not prove enforcement.
+
+This section grants no new access, file claim, software or test execution, download, paid call, trade, publication, credential or security change, or schedule/worker/Goal change. Preserve weekly-only limits, IBKR-only direction, pending Item 1, separate T9 work, existing holds, denials and repo rules.
