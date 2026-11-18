@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "aios.forex.market_context_snapshot.v1",
+  "title": "AIOS Forex Market Context Snapshot V1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema", "pair", "timestamp", "timeframe", "completed", "ohlc", "available_history_bars"],
+  "properties": {
+    "schema": {"const": "AIOS_FOREX_MARKET_CONTEXT_SNAPSHOT_V1"},
+    "pair": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "minLength": 1},
+    "timeframe": {"type": "string", "minLength": 1},
+    "completed": {"const": true},
+    "ohlc": {"type": "object", "required": ["open", "high", "low", "close"]},
+    "setup_id": {"type": ["string", "null"]},
+    "rejection_reason": {},
+    "available_history_bars": {"type": "integer", "minimum": 1}
+  }
+}
