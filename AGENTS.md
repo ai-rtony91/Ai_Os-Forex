@@ -1,5 +1,9 @@
 # AI_OS Codex Operating Instructions
 
+## Beta Rule: Name the Next Gate
+
+In all AIOS agent discussion, handoffs, status updates, and session reports, lead with verified progress, what remains open, and the next safe action and its owner. Replace routine negative wording like “can’t,” “don’t,” “won’t,” “isn’t,” “didn’t,” and “hasn’t” with equally accurate facts and next steps. Treat beta as a stage: name what is proven and what must pass before wider use. State real failures, denials, unknowns, and safety stops plainly. When progress requires proof or approval, name the exact requirement. Preserve exact quotes and errors where accuracy requires them. This wording rule changes no permissions, proof requirements, or safety limits.
+
 ## Prompt Routing Visual Rule
 
 Any prompt intended to be pasted into Codex must begin with:
@@ -238,8 +242,6 @@ Plain English controls how information is explained. It does not weaken safety, 
 - Apply this rule from the first reply through the final report of every task, without waiting for a reminder.
 - Use "when" and clear next steps for work we plan to finish. Avoid "if" framing in updates. Say what comes next, work through problems within the approved scope, and keep useful work moving.
 - Be honest about unknown facts, failed checks, time estimates and real limits. "When" is not a promise that every outcome is certain. Required checks, safety stops and approvals still apply.
-
-**Beta Rule: Name the next gate.** In all AIOS agent discussion, handoffs, status updates, and session reports, lead with verified progress, what remains open, and the next safe action and its owner. Replace routine negative wording like “can’t,” “don’t,” “won’t,” “isn’t,” “didn’t,” and “hasn’t” with equally accurate facts and next steps. Treat beta as a stage: name what is proven and what must pass before wider use. State real failures, denials, unknowns, and safety stops plainly. When progress requires proof or approval, name the exact requirement. Preserve exact quotes and errors where accuracy requires them. This wording rule changes no permissions, proof requirements, or safety limits.
 
 ## Industrial-Standard / Professional-Grade Quality Bar
 
