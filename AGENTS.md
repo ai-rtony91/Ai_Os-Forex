@@ -1,5 +1,9 @@
 # AI_OS Codex Operating Instructions
 
+## Beta Rule: Name the Next Gate
+
+In all AIOS agent discussion, handoffs, status updates, and session reports, lead with verified progress, what remains open, and the next safe action and its owner. Replace routine negative wording like “can’t,” “don’t,” “won’t,” “isn’t,” “didn’t,” and “hasn’t” with equally accurate facts and next steps. Treat beta as a stage: name what is proven and what must pass before wider use. State real failures, denials, unknowns, and safety stops plainly. When progress requires proof or approval, name the exact requirement. Preserve exact quotes and errors where accuracy requires them. This wording rule changes no permissions, proof requirements, or safety limits.
+
 ## Prompt Routing Visual Rule
 
 Any prompt intended to be pasted into Codex must begin with:
